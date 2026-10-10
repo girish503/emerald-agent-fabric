@@ -1,10 +1,8 @@
+import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
 import { LeaseLostError } from "../domain/errors.js";
-import {
-  DeterministicOperation,
-  EchoOperation,
-  OperationContext,
-} from "../domain/operation.js";
+import { DeterministicOperation, EchoOperation } from "../domain/operation.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
+import { ExecutionProvider, ExecutionRequest } from "../ports/execution-provider.port.js";
 import { WorkerRecord } from "../ports/state-store.port.js";
 import { ClaimRunResult, RunCoordinator } from "./run-coordinator.js";
 
@@ -12,6 +10,8 @@ export type WorkerRunResult =
   | { readonly status: "IDLE" }
   | { readonly status: "COMPLETED"; readonly runId: string; readonly output: unknown }
   | { readonly status: "FAILED"; readonly runId: string; readonly error: unknown }
+  | { readonly status: "TIMED_OUT"; readonly runId: string; readonly error: unknown }
+  | { readonly status: "CANCELLED"; readonly runId: string; readonly error: unknown }
   | { readonly status: "FENCED"; readonly runId: string; readonly error: LeaseLostError };
 
 export interface WorkerRuntimeOptions {
@@ -21,13 +21,18 @@ export interface WorkerRuntimeOptions {
   readonly coordinator: RunCoordinator;
   readonly clock?: ClockPort;
   readonly leaseTtlMs?: number;
+  readonly executionProvider?: ExecutionProvider;
   readonly operations?: readonly DeterministicOperation[] | DeterministicOperation;
 }
 
 /**
  * WorkerRuntime is a single-worker deterministic execution unit.
- * It claims runs, executes registered deterministic operations, manages leases,
- * handles fencing token validation, and records completion or failure.
+ *
+ * Boundary Responsibilities:
+ * - Owns run claiming, worker lease heartbeats, and lifecycle state transitions.
+ * - Delegates actual computation to an ExecutionProvider.
+ * - Translates execution results into RunCoordinator transitions (complete, fail, timeout).
+ * - Enforces fencing tokens and safely handles lease theft / loss.
  */
 export class WorkerRuntime {
   readonly workerId: string;
@@ -36,8 +41,7 @@ export class WorkerRuntime {
   private readonly coordinator: RunCoordinator;
   private readonly clock: ClockPort;
   private readonly leaseTtlMs: number;
-  private readonly operationMap: Map<string, DeterministicOperation> = new Map();
-  private defaultOperation: DeterministicOperation = new EchoOperation();
+  private readonly executionProvider: ExecutionProvider;
 
   constructor(options: WorkerRuntimeOptions) {
     this.workerId = options.workerId ?? crypto.randomUUID();
@@ -47,28 +51,20 @@ export class WorkerRuntime {
     this.clock = options.clock ?? new SystemClock();
     this.leaseTtlMs = options.leaseTtlMs ?? 10000;
 
-    if (options.operations) {
-      const ops = options.operations;
-      if (Array.isArray(ops)) {
-        for (const op of ops) {
-          this.operationMap.set(op.name, op);
-        }
-        if (ops.length > 0) {
-          this.defaultOperation = ops[0];
-        }
-      } else {
-        const singleOp = ops as DeterministicOperation;
-        this.operationMap.set(singleOp.name, singleOp);
-        this.defaultOperation = singleOp;
-      }
+    if (options.executionProvider) {
+      this.executionProvider = options.executionProvider;
+    } else {
+      this.executionProvider = new InProcessExecutionProvider(
+        options.operations ?? [new EchoOperation()]
+      );
     }
   }
 
   /**
-   * Registers a deterministic operation that the worker can execute.
+   * Reference to the configured execution provider.
    */
-  registerOperation(operation: DeterministicOperation): void {
-    this.operationMap.set(operation.name, operation);
+  get provider(): ExecutionProvider {
+    return this.executionProvider;
   }
 
   /**
@@ -125,50 +121,77 @@ export class WorkerRuntime {
       throw new Error(`Task '${run.taskId}' not found for run '${run.runId}'`);
     }
 
-    // Select operation: by task title match, or default operation
-    const operation = this.operationMap.get(task.title) ?? this.defaultOperation;
-
-    const opContext: OperationContext = {
+    // Construct ExecutionRequest
+    const request: ExecutionRequest = {
       runId: run.runId,
       taskId: task.taskId,
+      operationName: task.title,
+      inputPayload: task.inputPayload,
       idempotencyToken: run.idempotencyKey ?? run.runId,
-      timestamp: this.clock.nowIso(),
+      attemptNumber: run.attemptCount,
+      timeoutMs: run.timeoutMs,
     };
 
-    try {
-      const result = await operation.execute(task.inputPayload, opContext);
+    // Delegate to ExecutionProvider
+    const executionResult = await this.executionProvider.execute(request);
 
-      // Transition RUNNING -> COMPLETED
-      this.coordinator.completeRun(run.runId, this.workerId, lease.leaseId, result.output);
-      return {
-        status: "COMPLETED",
-        runId: run.runId,
-        output: result.output,
-      };
+    // Translate ExecutionResult to RunCoordinator state transitions
+    try {
+      switch (executionResult.status) {
+        case "SUCCESS": {
+          this.coordinator.completeRun(
+            run.runId,
+            this.workerId,
+            lease.leaseId,
+            executionResult.output
+          );
+          return {
+            status: "COMPLETED",
+            runId: run.runId,
+            output: executionResult.output,
+          };
+        }
+
+        case "TIMED_OUT": {
+          const reason =
+            executionResult.error?.message ?? `Operation exceeded timeout of ${run.timeoutMs}ms`;
+          this.coordinator.timeoutRun(run.runId, reason);
+          return {
+            status: "TIMED_OUT",
+            runId: run.runId,
+            error: executionResult.error,
+          };
+        }
+
+        case "CANCELLED": {
+          const reason = executionResult.error?.message ?? "Operation cancelled by provider";
+          this.coordinator.cancelRun(run.runId, reason);
+          return {
+            status: "CANCELLED",
+            runId: run.runId,
+            error: executionResult.error,
+          };
+        }
+
+        case "FAILED":
+        default: {
+          const errorPayload = executionResult.error ?? {
+            code: "EXECUTION_FAILED",
+            message: "Execution provider reported unhandled failure",
+          };
+          this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
+          return {
+            status: "FAILED",
+            runId: run.runId,
+            error: errorPayload,
+          };
+        }
+      }
     } catch (err: unknown) {
       if (err instanceof LeaseLostError) {
         return { status: "FENCED", runId: run.runId, error: err };
       }
-
-      // Record operation failure in state store
-      try {
-        const errorPayload =
-          err instanceof Error
-            ? { name: err.name, message: err.message, stack: err.stack }
-            : { message: String(err) };
-
-        this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
-        return {
-          status: "FAILED",
-          runId: run.runId,
-          error: errorPayload,
-        };
-      } catch (failErr: unknown) {
-        if (failErr instanceof LeaseLostError) {
-          return { status: "FENCED", runId: run.runId, error: failErr };
-        }
-        throw failErr;
-      }
+      throw err;
     }
   }
 }
