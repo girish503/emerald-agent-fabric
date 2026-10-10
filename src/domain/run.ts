@@ -10,8 +10,15 @@ import {
   RunTimedOutEvent,
   WorkerClaimedEvent,
 } from "./events.js";
-import { RunSnapshot, validateRunInvariants } from "./invariants.js";
+import {
+  ContractBinding,
+  createContractBinding,
+  RunSnapshot,
+  validateRunInvariants,
+} from "./invariants.js";
 import { applyTransition, RunCommand } from "./state-machine.js";
+
+export { ContractBinding, createContractBinding } from "./invariants.js";
 
 export interface CreateRunParams {
   readonly runId: string;
@@ -21,6 +28,8 @@ export interface CreateRunParams {
   readonly idempotencyKey?: string | null;
   readonly now?: string;
   readonly eventIdGenerator?: () => string;
+  readonly contractBinding?: ContractBinding | null;
+  readonly maxOutputBytes?: number | null;
 }
 
 /**
@@ -34,7 +43,13 @@ export class Run {
 
   private constructor(snapshot: RunSnapshot, eventIdGenerator: () => string) {
     validateRunInvariants(snapshot);
-    this._snapshot = Object.freeze({ ...snapshot });
+    this._snapshot = Object.freeze({
+      ...snapshot,
+      contractBinding: snapshot.contractBinding
+        ? Object.freeze({ ...snapshot.contractBinding })
+        : null,
+      maxOutputBytes: snapshot.maxOutputBytes ?? null,
+    });
     this._eventIdGenerator = eventIdGenerator;
   }
 
@@ -47,6 +62,12 @@ export class Run {
     const maxAttempts = params.maxAttempts ?? 3;
     const timeoutMs = params.timeoutMs ?? 30000;
     const idempotencyKey = params.idempotencyKey ?? null;
+
+    let contractBinding: ContractBinding | null = null;
+    if (params.contractBinding !== undefined && params.contractBinding !== null) {
+      contractBinding = createContractBinding(params.contractBinding);
+    }
+    const maxOutputBytes = params.maxOutputBytes ?? null;
 
     const snapshot: RunSnapshot = {
       runId: params.runId,
@@ -64,6 +85,8 @@ export class Run {
       errorPayload: null,
       createdAt: now,
       updatedAt: now,
+      contractBinding,
+      maxOutputBytes,
     };
 
     validateRunInvariants(snapshot);
@@ -80,6 +103,8 @@ export class Run {
         maxAttempts,
         timeoutMs,
         idempotencyKey,
+        ...(contractBinding ? { contractBinding: { ...contractBinding } } : {}),
+        ...(maxOutputBytes !== null ? { maxOutputBytes } : {}),
       },
     };
 
@@ -147,6 +172,14 @@ export class Run {
 
   get errorPayload(): unknown | null {
     return this._snapshot.errorPayload;
+  }
+
+  get contractBinding(): ContractBinding | null {
+    return this._snapshot.contractBinding ?? null;
+  }
+
+  get maxOutputBytes(): number | null {
+    return this._snapshot.maxOutputBytes ?? null;
   }
 
   private executeCommand<TEvent>(command: RunCommand): TEvent {

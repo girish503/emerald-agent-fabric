@@ -18,6 +18,12 @@ export interface RunCreatedPayload {
   readonly maxAttempts: number;
   readonly timeoutMs: number;
   readonly idempotencyKey: string | null;
+  readonly contractBinding?: {
+    readonly contractId: string;
+    readonly version: number;
+    readonly contentHash: string;
+  } | null;
+  readonly maxOutputBytes?: number | null;
 }
 
 export type RunCreatedEvent = DomainEvent<RunCreatedPayload> & {

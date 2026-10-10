@@ -1,4 +1,4 @@
-import { InvalidRunError } from "./errors.js";
+import { InvalidContractBindingError, InvalidRunError } from "./errors.js";
 
 export type RunStatus =
   | "CREATED"
@@ -24,6 +24,61 @@ export function isTerminalState(status: RunStatus): boolean {
   return TERMINAL_STATES.has(status);
 }
 
+/**
+ * Exact governance/integrity identity binding a Run to a specific MissionContract.
+ * (contractId, version, contentHash).
+ * Strictly immutable domain value object.
+ */
+export interface ContractBinding {
+  readonly contractId: string;
+  readonly version: number;
+  readonly contentHash: string;
+}
+
+/**
+ * Validates a ContractBinding and returns a list of violation messages.
+ */
+export function getContractBindingViolations(binding: unknown): string[] {
+  const violations: string[] = [];
+
+  if (!binding || typeof binding !== "object") {
+    return ["contractBinding must be a valid object"];
+  }
+
+  const b = binding as Record<string, unknown>;
+
+  if (typeof b.contractId !== "string" || b.contractId.trim().length === 0) {
+    violations.push("contractId must be a non-empty string");
+  }
+
+  if (typeof b.version !== "number" || !Number.isInteger(b.version) || b.version < 1) {
+    violations.push(`version must be an integer >= 1, received ${String(b.version)}`);
+  }
+
+  if (typeof b.contentHash !== "string" || !/^[0-9a-f]{64}$/.test(b.contentHash)) {
+    violations.push("contentHash must be exactly 64 lowercase hexadecimal characters");
+  }
+
+  return violations;
+}
+
+/**
+ * Validates and freezes an immutable ContractBinding value object.
+ * Throws InvalidContractBindingError if validation fails.
+ */
+export function createContractBinding(binding: ContractBinding): ContractBinding {
+  const violations = getContractBindingViolations(binding);
+  if (violations.length > 0) {
+    throw new InvalidContractBindingError(violations.join("; "), violations);
+  }
+
+  return Object.freeze({
+    contractId: binding.contractId.trim(),
+    version: binding.version,
+    contentHash: binding.contentHash,
+  });
+}
+
 export interface RunSnapshot {
   readonly runId: string;
   readonly taskId: string;
@@ -40,6 +95,8 @@ export interface RunSnapshot {
   readonly errorPayload: unknown | null;
   readonly createdAt: string;
   readonly updatedAt: string;
+  readonly contractBinding?: ContractBinding | null;
+  readonly maxOutputBytes?: number | null;
 }
 
 /**
@@ -104,6 +161,30 @@ export function validateRunInvariants(snapshot: RunSnapshot): void {
   }
   if (!Number.isNaN(created) && !Number.isNaN(updated) && updated < created) {
     violations.push("updatedAt cannot be earlier than createdAt");
+  }
+
+  // Contract binding and operational output limit invariants
+  const binding = snapshot.contractBinding ?? null;
+  const maxOutputBytes = snapshot.maxOutputBytes ?? null;
+
+  if (binding !== null) {
+    const bindingViolations = getContractBindingViolations(binding);
+    violations.push(...bindingViolations);
+
+    if (
+      maxOutputBytes === null ||
+      typeof maxOutputBytes !== "number" ||
+      !Number.isInteger(maxOutputBytes) ||
+      maxOutputBytes < 1
+    ) {
+      violations.push(
+        `Governed Run requires maxOutputBytes to be an integer >= 1, received ${String(maxOutputBytes)}`
+      );
+    }
+  } else {
+    if (maxOutputBytes !== null) {
+      violations.push("Legacy unbound Run (contractBinding is null) must have null maxOutputBytes");
+    }
   }
 
   if (violations.length > 0) {

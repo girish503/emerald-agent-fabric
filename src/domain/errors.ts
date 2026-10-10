@@ -81,3 +81,33 @@ export class InvalidRunError extends DomainError {
     );
   }
 }
+
+export class InvalidMissionContractError extends DomainError {
+  readonly code = "INVALID_MISSION_CONTRACT";
+
+  constructor(
+    readonly reason: string,
+    readonly violations?: readonly string[]
+  ) {
+    super(
+      `Invalid mission contract: ${reason}${
+        violations && violations.length > 0 ? ` (${violations.join("; ")})` : ""
+      }`
+    );
+  }
+}
+
+export class InvalidContractBindingError extends DomainError {
+  readonly code = "INVALID_CONTRACT_BINDING";
+
+  constructor(
+    readonly reason: string,
+    readonly violations?: readonly string[]
+  ) {
+    super(
+      `Invalid contract binding: ${reason}${
+        violations && violations.length > 0 ? ` (${violations.join("; ")})` : ""
+      }`
+    );
+  }
+}

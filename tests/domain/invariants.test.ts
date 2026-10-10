@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { InvalidRunError } from "../../src/domain/errors.js";
-import { RunSnapshot, validateRunInvariants } from "../../src/domain/invariants.js";
+import { InvalidContractBindingError, InvalidRunError } from "../../src/domain/errors.js";
+import {
+  ContractBinding,
+  createContractBinding,
+  RunSnapshot,
+  validateRunInvariants,
+} from "../../src/domain/invariants.js";
 
 function createValidSnapshot(): RunSnapshot {
   return {
@@ -19,6 +24,8 @@ function createValidSnapshot(): RunSnapshot {
     errorPayload: null,
     createdAt: "2026-10-10T12:00:00.000Z",
     updatedAt: "2026-10-10T12:00:00.000Z",
+    contractBinding: null,
+    maxOutputBytes: null,
   };
 }
 
@@ -113,6 +120,156 @@ describe("Run Invariants", () => {
         createdAt: "not-a-date",
       };
       expect(() => validateRunInvariants(badDate)).toThrow(InvalidRunError);
+    });
+  });
+
+  describe("ContractBinding Invariants", () => {
+    const validBinding: ContractBinding = {
+      contractId: "contract-test-01",
+      version: 1,
+      contentHash: "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
+    };
+
+    it("accepts a valid ContractBinding and deeply freezes it", () => {
+      const binding = createContractBinding(validBinding);
+      expect(binding.contractId).toBe("contract-test-01");
+      expect(binding.version).toBe(1);
+      expect(binding.contentHash).toBe(validBinding.contentHash);
+      expect(Object.isFrozen(binding)).toBe(true);
+    });
+
+    it("rejects empty or whitespace-only contractId", () => {
+      expect(() =>
+        createContractBinding({ ...validBinding, contractId: "" })
+      ).toThrow(InvalidContractBindingError);
+      expect(() =>
+        createContractBinding({ ...validBinding, contractId: "   " })
+      ).toThrow(InvalidContractBindingError);
+    });
+
+    it("rejects zero version", () => {
+      expect(() =>
+        createContractBinding({ ...validBinding, version: 0 })
+      ).toThrow(InvalidContractBindingError);
+    });
+
+    it("rejects negative version", () => {
+      expect(() =>
+        createContractBinding({ ...validBinding, version: -1 })
+      ).toThrow(InvalidContractBindingError);
+    });
+
+    it("rejects non-integer version", () => {
+      expect(() =>
+        createContractBinding({ ...validBinding, version: 1.5 })
+      ).toThrow(InvalidContractBindingError);
+    });
+
+    it("rejects incorrect hash length (not 64 characters)", () => {
+      expect(() =>
+        createContractBinding({ ...validBinding, contentHash: "a".repeat(63) })
+      ).toThrow(InvalidContractBindingError);
+      expect(() =>
+        createContractBinding({ ...validBinding, contentHash: "a".repeat(65) })
+      ).toThrow(InvalidContractBindingError);
+    });
+
+    it("rejects uppercase hexadecimal characters in contentHash", () => {
+      expect(() =>
+        createContractBinding({
+          ...validBinding,
+          contentHash: "A".repeat(64),
+        })
+      ).toThrow(InvalidContractBindingError);
+      expect(() =>
+        createContractBinding({
+          ...validBinding,
+          contentHash: validBinding.contentHash.toUpperCase(),
+        })
+      ).toThrow(InvalidContractBindingError);
+    });
+
+    it("rejects non-hexadecimal characters in contentHash", () => {
+      expect(() =>
+        createContractBinding({
+          ...validBinding,
+          contentHash: "g".repeat(64),
+        })
+      ).toThrow(InvalidContractBindingError);
+    });
+
+    it("guarantees ContractBinding cannot be mutated after creation", () => {
+      const binding = createContractBinding(validBinding);
+      expect(() => {
+        // @ts-expect-error mutating frozen object
+        binding.contractId = "tampered";
+      }).toThrow();
+    });
+  });
+
+  describe("Run Governance & Operational Output Limit Invariants", () => {
+    const validBinding: ContractBinding = {
+      contractId: "contract-test-01",
+      version: 1,
+      contentHash: "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
+    };
+
+    function createGovernedSnapshot(): RunSnapshot {
+      return {
+        ...createValidSnapshot(),
+        contractBinding: validBinding,
+        maxOutputBytes: 1048576,
+      };
+    }
+
+    it("passes validation for a governed Run with valid contractBinding and maxOutputBytes", () => {
+      const snapshot = createGovernedSnapshot();
+      expect(() => validateRunInvariants(snapshot)).not.toThrow();
+    });
+
+    it("accepts maxOutputBytes = 1 for a governed Run", () => {
+      const snapshot = { ...createGovernedSnapshot(), maxOutputBytes: 1 };
+      expect(() => validateRunInvariants(snapshot)).not.toThrow();
+    });
+
+    it("rejects maxOutputBytes = 0 for a governed Run", () => {
+      const snapshot = { ...createGovernedSnapshot(), maxOutputBytes: 0 };
+      expect(() => validateRunInvariants(snapshot)).toThrow(InvalidRunError);
+    });
+
+    it("rejects negative maxOutputBytes for a governed Run", () => {
+      const snapshot = { ...createGovernedSnapshot(), maxOutputBytes: -1 };
+      expect(() => validateRunInvariants(snapshot)).toThrow(InvalidRunError);
+    });
+
+    it("rejects non-integer maxOutputBytes for a governed Run", () => {
+      const snapshot = { ...createGovernedSnapshot(), maxOutputBytes: 1024.5 };
+      expect(() => validateRunInvariants(snapshot)).toThrow(InvalidRunError);
+    });
+
+    it("rejects governed Run with null maxOutputBytes", () => {
+      const snapshot = { ...createGovernedSnapshot(), maxOutputBytes: null };
+      expect(() => validateRunInvariants(snapshot)).toThrow(InvalidRunError);
+    });
+
+    it("rejects legacy unbound Run with non-null maxOutputBytes", () => {
+      const snapshot = {
+        ...createValidSnapshot(),
+        contractBinding: null,
+        maxOutputBytes: 1024,
+      };
+      expect(() => validateRunInvariants(snapshot)).toThrow(InvalidRunError);
+    });
+
+    it("rejects governed Run with invalid contractBinding fields via validateRunInvariants", () => {
+      const badBindingSnapshot = {
+        ...createGovernedSnapshot(),
+        contractBinding: {
+          ...validBinding,
+          contractId: "",
+        },
+      };
+      expect(() => validateRunInvariants(badBindingSnapshot)).toThrow(InvalidRunError);
     });
   });
 });

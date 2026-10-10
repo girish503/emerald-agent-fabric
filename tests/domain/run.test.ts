@@ -101,4 +101,152 @@ describe("Run Aggregate Root", () => {
     expect(run.status).toBe("LEASED");
     expect(run.version).toBe(5);
   });
+
+  describe("Governed Run Creation & Contract Binding", () => {
+    const validBinding = {
+      contractId: "contract-gov-01",
+      version: 2,
+      contentHash: "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    };
+
+    it("creates a governed run with exact contract binding and operational output limit", () => {
+      const { run, event } = Run.create({
+        runId: "run-gov-001",
+        taskId: "task-gov-001",
+        contractBinding: validBinding,
+        maxOutputBytes: 1048576,
+        now,
+        eventIdGenerator: mockEventIdGen,
+      });
+
+      expect(run.runId).toBe("run-gov-001");
+      expect(run.status).toBe("CREATED");
+      expect(run.contractBinding).toEqual(validBinding);
+      expect(run.maxOutputBytes).toBe(1048576);
+
+      // Event contains exact binding and output limit
+      expect(event.eventType).toBe("run.created");
+      expect(event.payload.contractBinding).toEqual(validBinding);
+      expect(event.payload.maxOutputBytes).toBe(1048576);
+    });
+
+    it("accepts maxOutputBytes = 1 for a governed run", () => {
+      const { run, event } = Run.create({
+        runId: "run-gov-min-output",
+        taskId: "task-gov-min-output",
+        contractBinding: validBinding,
+        maxOutputBytes: 1,
+        now,
+        eventIdGenerator: mockEventIdGen,
+      });
+
+      expect(run.maxOutputBytes).toBe(1);
+      expect(event.payload.maxOutputBytes).toBe(1);
+    });
+
+    it("preserves contract binding and output limit across aggregate transitions", () => {
+      const { run } = Run.create({
+        runId: "run-gov-lifecycle",
+        taskId: "task-gov-lifecycle",
+        contractBinding: validBinding,
+        maxOutputBytes: 65536,
+        now,
+        eventIdGenerator: mockEventIdGen,
+      });
+
+      run.queue(now);
+      expect(run.contractBinding).toEqual(validBinding);
+      expect(run.maxOutputBytes).toBe(65536);
+
+      run.claim("worker-gamma", "lease-gamma-1", "2026-10-10T12:05:00.000Z", now);
+      expect(run.contractBinding).toEqual(validBinding);
+      expect(run.maxOutputBytes).toBe(65536);
+
+      run.start("worker-gamma", "lease-gamma-1", now);
+      expect(run.contractBinding).toEqual(validBinding);
+      expect(run.maxOutputBytes).toBe(65536);
+
+      run.complete("worker-gamma", "lease-gamma-1", { data: "ok" }, now);
+      expect(run.contractBinding).toEqual(validBinding);
+      expect(run.maxOutputBytes).toBe(65536);
+    });
+
+    it("reconstitutes a legacy run snapshot where contractBinding and maxOutputBytes are null", () => {
+      const legacySnapshot = {
+        runId: "run-legacy-001",
+        taskId: "task-legacy-001",
+        status: "QUEUED" as const,
+        version: 2,
+        attemptCount: 0,
+        maxAttempts: 3,
+        timeoutMs: 30000,
+        idempotencyKey: null,
+        currentWorkerId: null,
+        leaseId: null,
+        leaseExpiresAt: null,
+        resultPayload: null,
+        errorPayload: null,
+        createdAt: now,
+        updatedAt: now,
+        contractBinding: null,
+        maxOutputBytes: null,
+      };
+
+      const run = Run.reconstitute(legacySnapshot, mockEventIdGen);
+      expect(run.contractBinding).toBeNull();
+      expect(run.maxOutputBytes).toBeNull();
+      expect(run.snapshot.contractBinding).toBeNull();
+      expect(run.snapshot.maxOutputBytes).toBeNull();
+    });
+
+    it("reconstitutes a governed run snapshot with exact contractBinding and maxOutputBytes", () => {
+      const governedSnapshot = {
+        runId: "run-gov-reconst-001",
+        taskId: "task-gov-reconst-001",
+        status: "RUNNING" as const,
+        version: 3,
+        attemptCount: 0,
+        maxAttempts: 3,
+        timeoutMs: 30000,
+        idempotencyKey: null,
+        currentWorkerId: "w1",
+        leaseId: "l1",
+        leaseExpiresAt: "2026-10-10T12:05:00.000Z",
+        resultPayload: null,
+        errorPayload: null,
+        createdAt: now,
+        updatedAt: now,
+        contractBinding: validBinding,
+        maxOutputBytes: 2048,
+      };
+
+      const run = Run.reconstitute(governedSnapshot, mockEventIdGen);
+      expect(run.contractBinding).toEqual(validBinding);
+      expect(run.maxOutputBytes).toBe(2048);
+    });
+
+    it("enforces deep immutability on run snapshot and contract binding", () => {
+      const { run } = Run.create({
+        runId: "run-gov-immut",
+        taskId: "task-gov-immut",
+        contractBinding: validBinding,
+        maxOutputBytes: 4096,
+        now,
+        eventIdGenerator: mockEventIdGen,
+      });
+
+      expect(Object.isFrozen(run.snapshot)).toBe(true);
+      expect(Object.isFrozen(run.snapshot.contractBinding)).toBe(true);
+
+      expect(() => {
+        // @ts-expect-error mutating frozen object
+        run.snapshot.version = 999;
+      }).toThrow();
+
+      expect(() => {
+        // @ts-expect-error mutating frozen object
+        run.snapshot.contractBinding!.contractId = "tampered";
+      }).toThrow();
+    });
+  });
 });
