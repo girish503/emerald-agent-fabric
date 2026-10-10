@@ -54,14 +54,13 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       coordinator,
       clock,
       executionProvider: spyProvider,
-      policy,
     });
 
     const task = coordinator.createTask({
       title: "echo",
       inputPayload: { msg: "hello" },
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { policy });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -105,14 +104,13 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       coordinator,
       clock,
       executionProvider: spyProvider,
-      policy,
     });
 
     const task = coordinator.createTask({
       title: "echo", // Not permitted!
       inputPayload: null,
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { policy });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -169,7 +167,6 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       coordinator,
       clock,
       executionProvider: spyDockerProvider,
-      policy,
       // Simulate Docker daemon down / unreachable
       isIsolationAvailable: false,
     });
@@ -178,7 +175,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: { test: true },
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { policy });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -213,14 +210,13 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       coordinator,
       clock,
       executionProvider: spyProvider,
-      policy: createDenyAllPolicy(),
     });
 
     const task = coordinator.createTask({
       title: "echo",
       inputPayload: null,
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { policy: createDenyAllPolicy() });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -244,14 +240,13 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       coordinator,
       clock,
       executionProvider: spyProvider,
-      policy: createDenyAllPolicy(),
     });
 
     const task = coordinator.createTask({
       title: "echo",
       inputPayload: null,
     });
-    createAndActivateContract(store, task.taskId, { maxAttempts: 5 });
+    createAndActivateContract(store, task.taskId, { maxAttempts: 5, policy: createDenyAllPolicy() });
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,
@@ -292,14 +287,13 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       coordinator,
       clock,
       executionProvider: spyInProcessProvider,
-      policy,
     });
 
     const task = coordinator.createTask({
       title: "echo",
       inputPayload: { test: true },
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { policy });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -323,22 +317,22 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
     store.close();
   });
 
-  it("Backward Compatibility: WorkerRuntime without policy executes normally without policy evaluation", async () => {
+  it("WorkerRuntime derives policy authority from MissionContract when constructor options omit policy", async () => {
     const clock = new SettableClock();
     const store = new SqliteStateStore();
     const coordinator = new RunCoordinator(store, clock);
     const spyProvider = new SpyExecutionProvider("in-process", { default: "ok" });
 
-    // No policy provided
+    // No ephemeral policy in WorkerRuntime constructor options
     const worker = new WorkerRuntime({
-      workerId: "legacy-worker",
+      workerId: "contract-policy-worker",
       coordinator,
       clock,
       executionProvider: spyProvider,
     });
 
     const task = coordinator.createTask({
-      title: "arbitrary-task-title",
+      title: "echo",
       inputPayload: { foo: "bar" },
     });
     createAndActivateContract(store, task.taskId);
@@ -353,7 +347,8 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
 
     const events = coordinator.getEventsForRun(run.runId);
     const policyEvents = events.filter((e) => e.eventType === "policy.evaluated");
-    expect(policyEvents).toHaveLength(0); // Zero policy events emitted
+    expect(policyEvents).toHaveLength(1);
+    expect((policyEvents[0]!.payload as { allowed: boolean }).allowed).toBe(true);
 
     store.close();
   });

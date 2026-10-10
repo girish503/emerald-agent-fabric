@@ -37,7 +37,7 @@ class ExplodingOperation implements DeterministicOperation<unknown, never> {
 }
 
 class TrackingMockProvider implements ExecutionProvider {
-  readonly name = "tracking-mock";
+  readonly name = "in-process";
   readonly receivedRequests: ExecutionRequest[] = [];
 
   constructor(private readonly fixedOutput: unknown = "mock-result") {}
@@ -126,7 +126,7 @@ describe("Execution Provider Boundary", () => {
     });
 
     const task = coordinator.createTask({
-      title: "any-arbitrary-operation",
+      title: "echo",
       inputPayload: { payload: 999 },
     });
     createAndActivateContract(store, task.taskId);
@@ -149,7 +149,7 @@ describe("Execution Provider Boundary", () => {
     const captured = mockProvider.receivedRequests[0]!;
     expect(captured.runId).toBe(run.runId);
     expect(captured.taskId).toBe(task.taskId);
-    expect(captured.operationName).toBe("any-arbitrary-operation");
+    expect(captured.operationName).toBe("echo");
     expect(captured.inputPayload).toEqual({ payload: 999 });
     expect(captured.idempotencyToken).toBe("test-idempotency-token-xyz");
     expect(captured.attemptNumber).toBe(0);
@@ -273,7 +273,7 @@ describe("Execution Provider Boundary", () => {
     });
 
     const task = coordinator.createTask({
-      title: "test-task",
+      title: "echo",
       inputPayload: { attemptData: true },
     });
     createAndActivateContract(store, task.taskId);

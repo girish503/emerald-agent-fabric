@@ -106,6 +106,8 @@ export function createDefaultInProcessPolicy(policyId: string = "default-in-proc
       "sum",
       "slow",
       "fail",
+      "failing",
+      "exploding",
       "output-flood",
       "execution.echo",
       "execution.sum",

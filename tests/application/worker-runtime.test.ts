@@ -85,15 +85,16 @@ describe("Application Runtime & Lease Coordination", () => {
 
     // 7. Verify gapless event sequence
     const events = coordinator.getEventsForRun(createResult.run.runId);
-    expect(events).toHaveLength(5);
+    expect(events).toHaveLength(6);
     expect(events.map((e) => e.eventType)).toEqual([
       "run.created",
       "run.queued",
       "worker.claimed",
       "run.started",
+      "policy.evaluated",
       "run.completed",
     ]);
-    expect(events.map((e) => e.sequence)).toEqual([1, 2, 3, 4, 5]);
+    expect(events.map((e) => e.sequence)).toEqual([1, 2, 3, 4, 5, 6]);
 
     store.close();
   });
@@ -172,6 +173,7 @@ describe("Application Runtime & Lease Coordination", () => {
       "run.queued",
       "worker.claimed",
       "run.started",
+      "policy.evaluated",
       "run.failed",
     ]);
 

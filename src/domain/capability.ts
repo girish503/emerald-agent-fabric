@@ -92,6 +92,8 @@ export function operationNameToCapabilityName(operationName: string): string | n
     case "slow":
       return "execution.slow";
     case "fail":
+    case "failing":
+    case "exploding":
       return "execution.fail";
     case "output-flood":
       return "execution.echo"; // Evaluated under deterministic execution primitive

@@ -19,6 +19,7 @@ import {
   createContractBinding,
   RunSnapshot,
 } from "../domain/invariants.js";
+import { MissionContract } from "../domain/mission-contract.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import {
   LeaseRecord,
@@ -640,5 +641,9 @@ export class RunCoordinator {
 
   getLease(leaseId: string): LeaseRecord | null {
     return this.stateStore.getLease(leaseId);
+  }
+
+  getContract(contractId: string, version: number): MissionContract | null {
+    return this.stateStore.getContract(contractId, version);
   }
 }

@@ -5,6 +5,7 @@ import { DockerExecutionProvider } from "../../src/adapters/execution/docker-exe
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
 import { LeaseLostError } from "../../src/domain/errors.js";
+import { createDefaultDockerPolicy } from "../../src/domain/policy.js";
 import { createVerificationSpec } from "../../src/domain/verification.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionRequest } from "../../src/ports/execution-provider.port.js";
@@ -242,7 +243,9 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "sum",
         inputPayload: [100, 200, 300],
       });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        policy: createDefaultDockerPolicy(`docker-policy-${task.taskId}`),
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -265,6 +268,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         "run.queued",
         "worker.claimed",
         "run.started",
+        "policy.evaluated",
         "run.completed",
       ]);
 
@@ -290,7 +294,9 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "fail",
         inputPayload: null,
       });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        policy: createDefaultDockerPolicy(`docker-policy-${task.taskId}`),
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -324,7 +330,9 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "slow",
         inputPayload: null,
       });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        policy: createDefaultDockerPolicy(`docker-policy-${task.taskId}`),
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId, timeoutMs: 1500 });
       coordinator.queueRun(run.runId);
@@ -371,7 +379,9 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "sum",
         inputPayload: [7, 14, 21],
       });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        policy: createDefaultDockerPolicy(`docker-policy-${task.taskId}`),
+      });
 
       const { run } = coordinator.createRun({
         taskId: task.taskId,
@@ -450,7 +460,9 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "echo",
         inputPayload: { fenced: true },
       });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        policy: createDefaultDockerPolicy(`docker-policy-${task.taskId}`),
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -509,7 +521,9 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "echo",
         inputPayload: "exhaust-test",
       });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        policy: createDefaultDockerPolicy(`docker-policy-${task.taskId}`),
+      });
 
       // Max attempts = 1
       const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 1 });
@@ -558,14 +572,16 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         coordinator,
         clock,
         executionProvider: dockerProvider,
-        verificationSpec,
       });
 
       const task = coordinator.createTask({
         title: "sum",
         inputPayload: [7, 8],
       });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        policy: createDefaultDockerPolicy(`docker-policy-${task.taskId}`),
+        verificationSpecs: [verificationSpec],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);

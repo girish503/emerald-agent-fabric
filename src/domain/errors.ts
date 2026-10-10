@@ -172,3 +172,59 @@ export class ResourceLimitExceededError extends DomainError {
   }
 }
 
+export class MissingBoundContractError extends DomainError {
+  readonly code = "MISSING_BOUND_CONTRACT";
+
+  constructor(
+    readonly contractId: string,
+    readonly version?: number,
+    message?: string
+  ) {
+    super(
+      message ??
+        `Exact bound MissionContract ('${contractId}', v${version ?? "unknown"}) not found`
+    );
+  }
+}
+
+export class ContractNotActiveError extends DomainError {
+  readonly code = "CONTRACT_NOT_ACTIVE";
+
+  constructor(
+    readonly contractId: string,
+    readonly version: number,
+    readonly status: string
+  ) {
+    super(
+      `Bound MissionContract '${contractId}' v${version} is not ACTIVE (status: '${status}')`
+    );
+  }
+}
+
+export class ContractRevokedError extends DomainError {
+  readonly code = "CONTRACT_REVOKED";
+
+  constructor(
+    readonly contractId: string,
+    readonly version: number,
+    readonly revocationReason?: string | null
+  ) {
+    super(
+      `Bound MissionContract '${contractId}' v${version} has been REVOKED${
+        revocationReason ? `: ${revocationReason}` : ""
+      }`
+    );
+  }
+}
+
+export class EphemeralOverrideRejectedError extends DomainError {
+  readonly code = "EPHEMERAL_OVERRIDE_REJECTED";
+
+  constructor(readonly reason: string) {
+    super(
+      `Ephemeral worker options are rejected for governed Runs: ${reason}`
+    );
+  }
+}
+
+

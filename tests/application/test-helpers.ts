@@ -2,14 +2,17 @@ import {
   createDefaultInProcessPolicy,
   createMissionContract,
   createResourceLimits,
-  createVerificationSpec,
+  ExecutionPolicy,
   MissionContract,
+  VerificationSpec,
 } from "../../src/domain/index.js";
 import { StateStorePort } from "../../src/ports/state-store.port.js";
 
 export interface CreateAndActivateContractOptions {
   readonly contractId?: string;
   readonly version?: number;
+  readonly policy?: ExecutionPolicy;
+  readonly verificationSpecs?: readonly VerificationSpec[];
   readonly timeoutMs?: number;
   readonly maxAttempts?: number;
   readonly maxOutputBytes?: number;
@@ -27,19 +30,15 @@ export function createAndActivateContract(
   const maxAttempts = options.maxAttempts ?? 3;
   const maxOutputBytes = options.maxOutputBytes ?? 1048576;
   const scopes = options.scopes ?? ["test:scope"];
+  const policy = options.policy ?? createDefaultInProcessPolicy(`policy-${taskId}`);
+  const verificationSpecs = options.verificationSpecs ? [...options.verificationSpecs] : [];
 
   const contract = createMissionContract({
     contractId,
     version,
     taskId,
-    policy: createDefaultInProcessPolicy(`policy-${taskId}`),
-    verificationSpecs: [
-      createVerificationSpec({
-        specId: `vspec-${taskId}`,
-        ruleKind: "EXACT_OUTPUT_MATCH",
-        expectedValue: { status: "success" },
-      }),
-    ],
+    policy,
+    verificationSpecs,
     resourceLimits: createResourceLimits({
       timeoutMs,
       maxAttempts,

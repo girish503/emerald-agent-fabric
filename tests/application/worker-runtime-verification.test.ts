@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
 import { createAndActivateContract } from "./test-helpers.js";
-import { createDefaultInProcessPolicy } from "../../src/domain/policy.js";
+import { computeCanonicalHash } from "../../src/domain/canonical-hash.js";
 import { createVerificationSpec } from "../../src/domain/verification.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import {
@@ -64,15 +64,13 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       coordinator,
       clock,
       executionProvider: mockProvider,
-      policy: createDefaultInProcessPolicy(),
-      verificationSpec,
     });
 
     const task = coordinator.createTask({
       title: "sum",
       inputPayload: [2, 3],
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { verificationSpecs: [verificationSpec] });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -123,15 +121,13 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       coordinator,
       clock,
       executionProvider: mockProvider,
-      policy: createDefaultInProcessPolicy(),
-      verificationSpec,
     });
 
     const task = coordinator.createTask({
       title: "sum",
       inputPayload: [2, 3],
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { verificationSpecs: [verificationSpec] });
 
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3 });
     coordinator.queueRun(run.runId);
@@ -189,16 +185,19 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
 
     const mockProvider = new MockExecutionProvider("in-process", secretOutput);
 
+    const expectedRedacted = {
+      result: 42,
+      api_token: "[REDACTED]",
+      credentials: {
+        password: "[REDACTED]",
+      },
+    };
+    const { contentHash: expectedHash } = computeCanonicalHash(expectedRedacted);
+
     const verificationSpec = createVerificationSpec({
       specId: "spec-redacted",
-      ruleKind: "EXACT_OUTPUT_MATCH",
-      expectedValue: {
-        result: 42,
-        api_token: "[REDACTED]",
-        credentials: {
-          password: "[REDACTED]",
-        },
-      },
+      ruleKind: "OUTPUT_HASH_MATCH",
+      expectedHash,
     });
 
     const worker = new WorkerRuntime({
@@ -206,15 +205,13 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       coordinator,
       clock,
       executionProvider: mockProvider,
-      policy: createDefaultInProcessPolicy(),
-      verificationSpec,
     });
 
     const task = coordinator.createTask({
       title: "echo",
       inputPayload: secretOutput,
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { verificationSpecs: [verificationSpec] });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -264,15 +261,13 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       coordinator,
       clock,
       executionProvider: mockProvider,
-      policy: createDefaultInProcessPolicy(),
-      verificationSpec,
     });
 
     const task = coordinator.createTask({
       title: "echo",
       inputPayload: null,
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { verificationSpecs: [verificationSpec] });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -289,35 +284,30 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
     store.close();
   });
 
-  it("Dynamic VerificationSpec resolver per execution request", async () => {
+  it("Authoritative VerificationSpec from MissionContract governs verification", async () => {
     const clock = new SettableClock();
     const store = new SqliteStateStore();
     const coordinator = new RunCoordinator(store, clock);
     const mockProvider = new MockExecutionProvider("in-process", { sum: 10 });
 
+    const contractVerificationSpec = createVerificationSpec({
+      specId: "contract-sum-10",
+      ruleKind: "EXACT_OUTPUT_MATCH",
+      expectedValue: { sum: 10 },
+    });
+
     const worker = new WorkerRuntime({
-      workerId: "dynamic-resolver-worker",
+      workerId: "governed-verifier-worker",
       coordinator,
       clock,
       executionProvider: mockProvider,
-      policy: createDefaultInProcessPolicy(),
-      verificationSpec: (req) => {
-        if (req.operationName === "sum") {
-          return createVerificationSpec({
-            specId: "dynamic-sum-10",
-            ruleKind: "EXACT_OUTPUT_MATCH",
-            expectedValue: { sum: 10 },
-          });
-        }
-        return undefined;
-      },
     });
 
     const task = coordinator.createTask({
       title: "sum",
       inputPayload: [5, 5],
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, { verificationSpecs: [contractVerificationSpec] });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);

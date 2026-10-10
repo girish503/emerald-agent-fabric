@@ -1,11 +1,18 @@
 import { DockerExecutionProvider } from "../adapters/execution/docker-execution-provider.js";
 import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
-import { LeaseLostError } from "../domain/errors.js";
+import { computeCanonicalHash } from "../domain/canonical-hash.js";
+import {
+  ContractIntegrityError,
+  InvalidMissionContractError,
+  InvalidRunError,
+  LeaseLostError,
+} from "../domain/errors.js";
 import {
   createOutputPayloadEvidence,
   createProcessExitEvidence,
   Evidence,
 } from "../domain/evidence.js";
+import { MissionContract } from "../domain/mission-contract.js";
 import { DeterministicOperation, EchoOperation } from "../domain/operation.js";
 import {
   ExecutionPolicy,
@@ -35,13 +42,16 @@ export interface WorkerRuntimeOptions {
   readonly leaseTtlMs?: number;
   readonly executionProvider?: ExecutionProvider;
   readonly operations?: readonly DeterministicOperation[] | DeterministicOperation;
+  /**
+   * @deprecated Non-authoritative for governed Runs.
+   * Supplying ephemeral policy options on a governed Run is rejected.
+   */
   readonly policy?: ExecutionPolicy;
   readonly policyEvaluator?: PolicyEvaluator;
   readonly isIsolationAvailable?: boolean | (() => Promise<boolean>);
   /**
-   * Optional verification specification or resolver.
-   * If provided, execution outputs are verified against this specification
-   * before the run can transition to COMPLETED.
+   * @deprecated Non-authoritative for governed Runs.
+   * Supplying ephemeral verificationSpec options on a governed Run is rejected.
    */
   readonly verificationSpec?:
     | VerificationSpec
@@ -53,7 +63,7 @@ export interface WorkerRuntimeOptions {
  *
  * Boundary Responsibilities:
  * - Owns run claiming, worker lease heartbeats, and lifecycle state transitions.
- * - Enforces ExecutionPolicy and Capability checks before dispatch.
+ * - Enforces MissionContract governance, authorization, and integrity before dispatch.
  * - Delegates actual computation to an ExecutionProvider only when authorized.
  * - Translates execution results into RunCoordinator transitions (complete, fail, timeout).
  * - Enforces fencing tokens and safely handles lease theft / loss.
@@ -66,12 +76,12 @@ export class WorkerRuntime {
   private readonly clock: ClockPort;
   private readonly leaseTtlMs: number;
   private readonly executionProvider: ExecutionProvider;
-  private readonly policy?: ExecutionPolicy;
-  private readonly policyEvaluator: PolicyEvaluator;
-  private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
-  private readonly verificationSpec?:
+  private readonly ephemeralPolicy?: ExecutionPolicy;
+  private readonly ephemeralVerificationSpec?:
     | VerificationSpec
     | ((request: ExecutionRequest) => VerificationSpec | undefined);
+  private readonly policyEvaluator: PolicyEvaluator;
+  private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
 
   constructor(options: WorkerRuntimeOptions) {
     this.workerId = options.workerId ?? crypto.randomUUID();
@@ -82,7 +92,8 @@ export class WorkerRuntime {
     this.leaseTtlMs = options.leaseTtlMs ?? 10000;
     this.policyEvaluator = options.policyEvaluator ?? new PolicyEvaluator();
     this.isIsolationAvailableProbe = options.isIsolationAvailable;
-    this.verificationSpec = options.verificationSpec;
+    this.ephemeralPolicy = options.policy;
+    this.ephemeralVerificationSpec = options.verificationSpec;
 
     if (options.executionProvider) {
       this.executionProvider = options.executionProvider;
@@ -91,8 +102,6 @@ export class WorkerRuntime {
         options.operations ?? [new EchoOperation()]
       );
     }
-
-    this.policy = options.policy;
   }
 
   /**
@@ -128,14 +137,63 @@ export class WorkerRuntime {
 
     let claimResult: ClaimRunResult;
 
-    if (targetRunId) {
-      claimResult = this.coordinator.claimRun(targetRunId, this.workerId, this.leaseTtlMs);
-    } else {
-      const nextRun = this.coordinator.getNextQueuedRun();
-      if (!nextRun) {
-        return { status: "IDLE" };
+    try {
+      if (targetRunId) {
+        claimResult = this.coordinator.claimRun(targetRunId, this.workerId, this.leaseTtlMs);
+      } else {
+        const nextRun = this.coordinator.getNextQueuedRun();
+        if (!nextRun) {
+          return { status: "IDLE" };
+        }
+        claimResult = this.coordinator.claimRun(nextRun.runId, this.workerId, this.leaseTtlMs);
       }
-      claimResult = this.coordinator.claimRun(nextRun.runId, this.workerId, this.leaseTtlMs);
+    } catch (err: unknown) {
+      if (err instanceof ContractIntegrityError) {
+        return {
+          status: "FAILED",
+          runId: err.runId,
+          error: {
+            code: "CONTRACT_INTEGRITY_MISMATCH",
+            message: err.message,
+            details: {
+              runId: err.runId,
+              expectedHash: err.expectedHash,
+              actualHash: err.actualHash,
+            },
+          },
+        };
+      }
+      if (err instanceof InvalidRunError) {
+        if (err.message.includes("not found")) {
+          return {
+            status: "FAILED",
+            runId: err.runId,
+            error: {
+              code: "MISSING_BOUND_CONTRACT",
+              message: err.message,
+            },
+          };
+        }
+        return {
+          status: "FAILED",
+          runId: err.runId,
+          error: {
+            code: "CONTRACT_INTEGRITY_MISMATCH",
+            message: err.message,
+          },
+        };
+      }
+      if (err instanceof InvalidMissionContractError) {
+        return {
+          status: "FAILED",
+          runId: targetRunId ?? "unknown",
+          error: {
+            code: "CONTRACT_INTEGRITY_MISMATCH",
+            message: err.message,
+          },
+        };
+      }
+      throw err;
     }
 
     const { run, lease } = claimResult;
@@ -148,6 +206,162 @@ export class WorkerRuntime {
         return { status: "FENCED", runId: run.runId, error: err };
       }
       throw err;
+    }
+
+    const failRunSafely = (errorPayload: {
+      code: string;
+      message: string;
+      details?: unknown;
+    }): WorkerRunResult => {
+      try {
+        this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
+      } catch (err: unknown) {
+        if (err instanceof LeaseLostError) {
+          return { status: "FENCED", runId: run.runId, error: err };
+        }
+        throw err;
+      }
+      return { status: "FAILED", runId: run.runId, error: errorPayload };
+    };
+
+    // 1. Ephemeral options rejection for governed Runs (Section 7)
+    if (run.contractBinding) {
+      if (this.ephemeralPolicy !== undefined || this.ephemeralVerificationSpec !== undefined) {
+        return failRunSafely({
+          code: "EPHEMERAL_OVERRIDE_REJECTED",
+          message:
+            "Ephemeral worker options (policy / verificationSpec) cannot be applied to governed Runs. The bound MissionContract is authoritative.",
+          details: {
+            hasPolicyOption: this.ephemeralPolicy !== undefined,
+            hasVerificationSpecOption: this.ephemeralVerificationSpec !== undefined,
+          },
+        });
+      }
+    }
+
+    // 2. Exact Contract Resolution & Existence (Sections 2, 3)
+    if (!run.contractBinding) {
+      return failRunSafely({
+        code: "MISSING_BOUND_CONTRACT",
+        message: `Run '${run.runId}' has no bound MissionContract`,
+        details: { runId: run.runId },
+      });
+    }
+
+    const { contractId, version, contentHash: boundContentHash } = run.contractBinding;
+    let contract: MissionContract | null = null;
+    try {
+      contract = this.coordinator.getContract(contractId, version);
+    } catch (err: unknown) {
+      return failRunSafely({
+        code: "CONTRACT_INTEGRITY_MISMATCH",
+        message: err instanceof Error ? err.message : String(err),
+        details: { contractId, version, boundContentHash },
+      });
+    }
+
+    if (!contract) {
+      return failRunSafely({
+        code: "MISSING_BOUND_CONTRACT",
+        message: `Exact bound MissionContract ('${contractId}', v${version}) not found`,
+        details: { contractId, version },
+      });
+    }
+
+    // 3. Contract Identity & Integrity Verification (Section 4)
+    let recomputedHash: string;
+    try {
+      const hashResult = computeCanonicalHash(contract.spec);
+      recomputedHash = hashResult.contentHash;
+    } catch (err: unknown) {
+      return failRunSafely({
+        code: "CONTRACT_INTEGRITY_MISMATCH",
+        message: `Failed to compute canonical hash for contract '${contractId}' v${version}: ${
+          err instanceof Error ? err.message : String(err)
+        }`,
+        details: { contractId, version, boundContentHash },
+      });
+    }
+
+    if (
+      contract.spec.contractId !== contractId ||
+      contract.spec.version !== version ||
+      contract.contentHash !== boundContentHash ||
+      recomputedHash !== boundContentHash ||
+      recomputedHash !== contract.contentHash
+    ) {
+      return failRunSafely({
+        code: "CONTRACT_INTEGRITY_MISMATCH",
+        message: `Content hash integrity mismatch for run '${run.runId}': bound hash '${boundContentHash}', contract hash '${contract.contentHash}', recomputed '${recomputedHash}'`,
+        details: {
+          runId: run.runId,
+          boundContentHash,
+          contractContentHash: contract.contentHash,
+          recomputedHash,
+          expectedContractId: contractId,
+          actualContractId: contract.spec.contractId,
+          expectedVersion: version,
+          actualVersion: contract.spec.version,
+        },
+      });
+    }
+
+    // 4. Task Association Verification (Section 5)
+    if (contract.spec.taskId !== run.taskId) {
+      return failRunSafely({
+        code: "MISSION_CONTRACT_TASK_MISMATCH",
+        message: `Mission contract '${contract.spec.contractId}' belongs to task '${contract.spec.taskId}', not run task '${run.taskId}'`,
+        details: {
+          expectedTaskId: run.taskId,
+          actualTaskId: contract.spec.taskId,
+          contractId: contract.spec.contractId,
+        },
+      });
+    }
+
+    // 5. Lifecycle Authorization Verification (Section 6)
+    if (contract.lifecycle.status === "REVOKED") {
+      return failRunSafely({
+        code: "CONTRACT_REVOKED",
+        message: `Bound MissionContract '${contract.spec.contractId}' v${contract.spec.version} has been REVOKED${
+          contract.lifecycle.revocationReason ? `: ${contract.lifecycle.revocationReason}` : ""
+        }`,
+        details: {
+          contractId: contract.spec.contractId,
+          version: contract.spec.version,
+          status: contract.lifecycle.status,
+          revocationReason: contract.lifecycle.revocationReason,
+        },
+      });
+    }
+
+    if (contract.lifecycle.status !== "ACTIVE") {
+      return failRunSafely({
+        code: "CONTRACT_NOT_ACTIVE",
+        message: `Bound MissionContract '${contract.spec.contractId}' v${contract.spec.version} is not ACTIVE (status: '${contract.lifecycle.status}')`,
+        details: {
+          contractId: contract.spec.contractId,
+          version: contract.spec.version,
+          status: contract.lifecycle.status,
+        },
+      });
+    }
+
+    // 6. Operational Resource Limits Verification (Section 11)
+    if (
+      run.maxOutputBytes !== null &&
+      run.maxOutputBytes !== undefined &&
+      run.maxOutputBytes > contract.spec.resourceLimits.maxOutputBytes
+    ) {
+      return failRunSafely({
+        code: "RESOURCE_LIMIT_EXCEEDED",
+        message: `Run maxOutputBytes (${run.maxOutputBytes}) exceeds contract ceiling (${contract.spec.resourceLimits.maxOutputBytes})`,
+        details: {
+          limitName: "maxOutputBytes",
+          requestedValue: run.maxOutputBytes,
+          ceilingValue: contract.spec.resourceLimits.maxOutputBytes,
+        },
+      });
     }
 
     // Resolve task and input payload
@@ -167,125 +381,116 @@ export class WorkerRuntime {
       timeoutMs: run.timeoutMs,
     };
 
-    // 1. Evaluate Policy BEFORE invoking ExecutionProvider (if policy configured)
-    if (this.policy) {
-      const policyDecision = this.policyEvaluator.evaluate(request, this.policy);
+    // 7. Evaluate Policy from MissionContract (Sections 8, 10)
+    const policy = contract.spec.policy;
+    const policyDecision = this.policyEvaluator.evaluate(request, policy);
 
-      // If policy denies capability: fail run immediately and release lease WITHOUT calling provider
-      if (policyDecision.status === "DENIED") {
-        this.coordinator.recordPolicyDecision(run.runId, {
-          taskId: task.taskId,
-          operationName: task.title,
-          capabilityName: policyDecision.capabilityName,
-          policyId: policyDecision.policyId,
-          allowed: false,
-          isolationRequirement: policyDecision.isolationRequirement,
-          reasonCode: policyDecision.reasonCode,
-          providerName: this.executionProvider.name,
-        });
-
-        const errorPayload = {
-          code: "POLICY_DENIED",
-          message: policyDecision.message,
-          details: {
-            reasonCode: policyDecision.reasonCode,
-            capabilityName: policyDecision.capabilityName,
-            isolationRequirement: policyDecision.isolationRequirement,
-            policyId: policyDecision.policyId,
-            providerName: this.executionProvider.name,
-          },
-        };
-
-        try {
-          this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
-        } catch (err: unknown) {
-          if (err instanceof LeaseLostError) {
-            return { status: "FENCED", runId: run.runId, error: err };
-          }
-          throw err;
-        }
-
-        return {
-          status: "FAILED",
-          runId: run.runId,
-          error: errorPayload,
-        };
-      }
-
-      // 2. Policy authorized the capability. Now verify whether execution infrastructure
-      // can satisfy the required isolation posture.
-      const isolationSatisfaction = await this.verifyIsolationSatisfaction(
-        policyDecision.isolationRequirement
-      );
-
-      if (!isolationSatisfaction.satisfied) {
-        // Record denied audit event due to isolation requirement failure
-        this.coordinator.recordPolicyDecision(run.runId, {
-          taskId: task.taskId,
-          operationName: task.title,
-          capabilityName: policyDecision.capabilityName,
-          policyId: policyDecision.policyId,
-          allowed: false,
-          isolationRequirement: policyDecision.isolationRequirement,
-          reasonCode: "ISOLATION_REQUIREMENT_NOT_MET",
-          providerName: this.executionProvider.name,
-        });
-
-        const errorPayload = {
-          code: "POLICY_DENIED",
-          message: isolationSatisfaction.reason,
-          details: {
-            reasonCode: "ISOLATION_REQUIREMENT_NOT_MET",
-            capabilityName: policyDecision.capabilityName,
-            isolationRequirement: policyDecision.isolationRequirement,
-            policyId: policyDecision.policyId,
-            providerName: this.executionProvider.name,
-          },
-        };
-
-        try {
-          this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
-        } catch (err: unknown) {
-          if (err instanceof LeaseLostError) {
-            return { status: "FENCED", runId: run.runId, error: err };
-          }
-          throw err;
-        }
-
-        return {
-          status: "FAILED",
-          runId: run.runId,
-          error: errorPayload,
-        };
-      }
-
-      // Record successful policy evaluation event
+    // If policy denies capability: fail run immediately WITHOUT calling provider
+    if (policyDecision.status === "DENIED") {
       this.coordinator.recordPolicyDecision(run.runId, {
         taskId: task.taskId,
         operationName: task.title,
         capabilityName: policyDecision.capabilityName,
         policyId: policyDecision.policyId,
-        allowed: true,
+        allowed: false,
         isolationRequirement: policyDecision.isolationRequirement,
+        reasonCode: policyDecision.reasonCode,
         providerName: this.executionProvider.name,
+      });
+
+      return failRunSafely({
+        code: "POLICY_DENIED",
+        message: policyDecision.message,
+        details: {
+          reasonCode: policyDecision.reasonCode,
+          capabilityName: policyDecision.capabilityName,
+          isolationRequirement: policyDecision.isolationRequirement,
+          policyId: policyDecision.policyId,
+          providerName: this.executionProvider.name,
+        },
       });
     }
 
-    // 4. Delegate to ExecutionProvider ONLY when policy is ALLOWED
+    // 8. Verify Required Isolation Posture (Section 9)
+    const isolationSatisfaction = await this.verifyIsolationSatisfaction(
+      policyDecision.isolationRequirement
+    );
+
+    if (!isolationSatisfaction.satisfied) {
+      this.coordinator.recordPolicyDecision(run.runId, {
+        taskId: task.taskId,
+        operationName: task.title,
+        capabilityName: policyDecision.capabilityName,
+        policyId: policyDecision.policyId,
+        allowed: false,
+        isolationRequirement: policyDecision.isolationRequirement,
+        reasonCode: "ISOLATION_REQUIREMENT_NOT_MET",
+        providerName: this.executionProvider.name,
+      });
+
+      return failRunSafely({
+        code: "POLICY_DENIED",
+        message: isolationSatisfaction.reason,
+        details: {
+          reasonCode: "ISOLATION_REQUIREMENT_NOT_MET",
+          capabilityName: policyDecision.capabilityName,
+          isolationRequirement: policyDecision.isolationRequirement,
+          policyId: policyDecision.policyId,
+          providerName: this.executionProvider.name,
+        },
+      });
+    }
+
+    // Record successful policy evaluation event
+    this.coordinator.recordPolicyDecision(run.runId, {
+      taskId: task.taskId,
+      operationName: task.title,
+      capabilityName: policyDecision.capabilityName,
+      policyId: policyDecision.policyId,
+      allowed: true,
+      isolationRequirement: policyDecision.isolationRequirement,
+      providerName: this.executionProvider.name,
+    });
+
+    // 9. Delegate to ExecutionProvider ONLY NOW (Sections 1, 15)
     const executionResult = await this.executionProvider.execute(request);
 
-    // Translate ExecutionResult to RunCoordinator state transitions
+    // 10. Process ExecutionResult and apply governed verification (Section 12)
     try {
       switch (executionResult.status) {
         case "SUCCESS": {
-          // Resolve VerificationSpec if configured
-          const spec =
-            typeof this.verificationSpec === "function"
-              ? this.verificationSpec(request)
-              : this.verificationSpec;
+          // Output limit enforcement (Section 11)
+          if (
+            run.maxOutputBytes !== null &&
+            run.maxOutputBytes !== undefined &&
+            executionResult.output !== undefined &&
+            executionResult.output !== null
+          ) {
+            let outputBytes: number;
+            if (typeof executionResult.output === "string") {
+              outputBytes = Buffer.byteLength(executionResult.output, "utf8");
+            } else if (Buffer.isBuffer(executionResult.output)) {
+              outputBytes = executionResult.output.length;
+            } else {
+              try {
+                outputBytes = Buffer.byteLength(JSON.stringify(executionResult.output), "utf8");
+              } catch {
+                outputBytes = 0;
+              }
+            }
+            if (outputBytes > run.maxOutputBytes) {
+              const errorPayload = {
+                code: "OUTPUT_LIMIT_EXCEEDED",
+                message: `Execution output of ${outputBytes} bytes exceeded governed budget of ${run.maxOutputBytes} bytes`,
+                details: { outputBytes, maxOutputBytes: run.maxOutputBytes },
+              };
+              return failRunSafely(errorPayload);
+            }
+          }
 
-          if (spec) {
-            // 1. Capture observation and construct immutable evidence
+          // Authoritative verification specifications from MissionContract (Section 12)
+          const vSpecs = contract.spec.verificationSpecs;
+          if (vSpecs && vSpecs.length > 0) {
             const evidenceList: Evidence[] = [
               createOutputPayloadEvidence(run.runId, executionResult.output),
             ];
@@ -299,37 +504,29 @@ export class WorkerRuntime {
               );
             }
 
-            // 2. Record evidence events in append-only run event store
             for (const evidence of evidenceList) {
               this.coordinator.recordEvidence(run.runId, evidence);
             }
 
-            // 3. Evaluate verification deterministically
-            const verificationResult = DeterministicVerifier.verify(evidenceList, spec);
+            for (const spec of vSpecs) {
+              const verificationResult = DeterministicVerifier.verify(evidenceList, spec);
+              this.coordinator.recordVerificationResult(run.runId, verificationResult);
 
-            // 4. Record verification event in append-only run event store
-            this.coordinator.recordVerificationResult(run.runId, verificationResult);
+              if (verificationResult.status !== "VERIFIED") {
+                const errorPayload = {
+                  code: "VERIFICATION_FAILED",
+                  message: verificationResult.message,
+                  details: {
+                    specId: spec.specId,
+                    reasonCode: verificationResult.reasonCode,
+                    details: verificationResult.details,
+                    evidenceIds: verificationResult.evidenceIds,
+                    verifierId: verificationResult.verifierId,
+                  },
+                };
 
-            // 5. Fail closed if verification did not succeed
-            if (verificationResult.status !== "VERIFIED") {
-              const errorPayload = {
-                code: "VERIFICATION_FAILED",
-                message: verificationResult.message,
-                details: {
-                  specId: spec.specId,
-                  reasonCode: verificationResult.reasonCode,
-                  details: verificationResult.details,
-                  evidenceIds: verificationResult.evidenceIds,
-                  verifierId: verificationResult.verifierId,
-                },
-              };
-
-              this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
-              return {
-                status: "FAILED",
-                runId: run.runId,
-                error: errorPayload,
-              };
+                return failRunSafely(errorPayload);
+              }
             }
           }
 
