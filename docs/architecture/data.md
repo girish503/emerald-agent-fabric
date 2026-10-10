@@ -21,6 +21,13 @@ PRAGMA busy_timeout = 5000;
 PRAGMA temp_store = MEMORY;
 ```
 
+### Durability Characteristics of `synchronous = NORMAL` in WAL Mode
+- **Process Crash** (e.g. Node.js uncaught exception, SIGKILL): 100% durable. Committed WAL frames in OS page cache survive application crashes.
+- **OS Failure** (e.g. Kernel Panic): Transactions committed since the last OS flush or WAL checkpoint may be lost if not yet written to physical disk. Database file remains uncorrupted via WAL frame checksums.
+- **Machine Power Loss**: Recent transactions in volatile OS disk cache before power loss may not be recovered.
+- **Storage Failure**: Hardware-level drive destruction requires backups/replication.
+- **Stronger Durability**: Environments requiring per-commit power-loss guarantees should configure `synchronous = FULL`.
+
 ### Division of Responsibilities
 | Responsibility | SQLite Layer | Application / Domain Layer |
 | :--- | :--- | :--- |

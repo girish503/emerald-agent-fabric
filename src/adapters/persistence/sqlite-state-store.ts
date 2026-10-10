@@ -275,6 +275,22 @@ export class SqliteStorageTransaction implements StorageTransaction {
     return mapRunRowToSnapshot(row);
   }
 
+  findQueuedRuns(limit: number = 10): readonly RunSnapshot[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM runs WHERE status = 'QUEUED' ORDER BY created_at ASC LIMIT ?`
+    );
+    const rows = stmt.all(limit) as unknown as DbRunRow[];
+    return rows.map(mapRunRowToSnapshot);
+  }
+
+  findExpiredRuns(nowIso: string): readonly RunSnapshot[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM runs WHERE (status = 'RUNNING' OR status = 'LEASED') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ? ORDER BY lease_expires_at ASC`
+    );
+    const rows = stmt.all(nowIso) as unknown as DbRunRow[];
+    return rows.map(mapRunRowToSnapshot);
+  }
+
   appendEvent(event: DomainEvent): PersistedEvent {
     // Calculate gapless sequence inside BEGIN IMMEDIATE transaction
     const seqStmt = this.db.prepare(
@@ -387,6 +403,16 @@ export class SqliteStorageTransaction implements StorageTransaction {
     const stmt = this.db.prepare(`UPDATE leases SET state = ?, released_at = ? WHERE lease_id = ?`);
     stmt.run(state, releasedAt ?? null, leaseId);
   }
+
+  updateLeaseExpiresAt(leaseId: string, expiresAt: string): void {
+    const stmt = this.db.prepare(`UPDATE leases SET expires_at = ? WHERE lease_id = ?`);
+    stmt.run(expiresAt, leaseId);
+  }
+
+  updateRunLeaseExpiresAt(runId: string, leaseExpiresAt: string): void {
+    const stmt = this.db.prepare(`UPDATE runs SET lease_expires_at = ? WHERE run_id = ?`);
+    stmt.run(leaseExpiresAt, runId);
+  }
 }
 
 export class SqliteStateStore implements StateStorePort {
@@ -425,6 +451,16 @@ export class SqliteStateStore implements StateStorePort {
   getRunByIdempotencyKey(key: string): RunSnapshot | null {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.getRunByIdempotencyKey(key);
+  }
+
+  findQueuedRuns(limit: number = 10): readonly RunSnapshot[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findQueuedRuns(limit);
+  }
+
+  findExpiredRuns(nowIso: string): readonly RunSnapshot[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findExpiredRuns(nowIso);
   }
 
   getEventsForRun(runId: string): readonly PersistedEvent[] {

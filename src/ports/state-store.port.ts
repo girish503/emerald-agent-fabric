@@ -68,6 +68,8 @@ export interface StorageTransaction {
 
   getRun(runId: string): RunSnapshot | null;
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
+  findQueuedRuns(limit?: number): readonly RunSnapshot[];
+  findExpiredRuns(nowIso: string): readonly RunSnapshot[];
 
   appendEvent(event: DomainEvent): PersistedEvent;
   getEventsForRun(runId: string): readonly PersistedEvent[];
@@ -79,6 +81,8 @@ export interface StorageTransaction {
   insertLease(lease: LeaseRecord): void;
   getLease(leaseId: string): LeaseRecord | null;
   updateLeaseState(leaseId: string, state: LeaseState, releasedAt?: string): void;
+  updateLeaseExpiresAt(leaseId: string, expiresAt: string): void;
+  updateRunLeaseExpiresAt(runId: string, leaseExpiresAt: string): void;
 }
 
 /**
@@ -93,6 +97,8 @@ export interface StateStorePort {
 
   getRun(runId: string): RunSnapshot | null;
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
+  findQueuedRuns(limit?: number): readonly RunSnapshot[];
+  findExpiredRuns(nowIso: string): readonly RunSnapshot[];
   getEventsForRun(runId: string): readonly PersistedEvent[];
   getTask(taskId: string): TaskRecord | null;
   getWorker(workerId: string): WorkerRecord | null;

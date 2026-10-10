@@ -23,7 +23,7 @@ describe("SQLite Configuration & Schema Initialization", () => {
   });
 
   it("configures WAL mode, foreign keys, and busy timeout on file-based databases", () => {
-    const db = createSqliteClient({ location: dbPath, synchronous: "NORMAL", busyTimeoutMs: 3000 });
+    const db = createSqliteClient({ location: dbPath, synchronous: "NORMAL", busyTimeoutMs: 5000 });
 
     try {
       // Verify journal_mode is WAL
@@ -34,9 +34,9 @@ describe("SQLite Configuration & Schema Initialization", () => {
       const fkRow = db.prepare("PRAGMA foreign_keys;").get() as { foreign_keys: number };
       expect(fkRow.foreign_keys).toBe(1);
 
-      // Verify busy_timeout is 3000
+      // Verify busy_timeout is 5000
       const timeoutRow = db.prepare("PRAGMA busy_timeout;").get() as { timeout: number };
-      expect(timeoutRow.timeout).toBe(3000);
+      expect(timeoutRow.timeout).toBe(5000);
     } finally {
       db.close();
     }
