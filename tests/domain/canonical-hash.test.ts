@@ -27,6 +27,8 @@ describe("Canonical Hashing & Deterministic Redaction", () => {
       expect(isSensitiveKey("idempotencyKey")).toBe(false);
       expect(isSensitiveKey("status")).toBe(false);
       expect(isSensitiveKey("output")).toBe(false);
+      expect(isSensitiveKey("credentialScopes")).toBe(false);
+      expect(isSensitiveKey("credential_scopes")).toBe(false);
     });
   });
 

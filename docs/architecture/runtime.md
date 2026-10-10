@@ -304,5 +304,50 @@ complete   failRun(VERIFICATION_FAILED)
 - **Architecturally Supported**: Deterministic content hashing and immutable evidence recording provide the foundation for deterministic audit and replay.
 - **Scope Qualification**: Full execution replay and counterfactual evaluation engines are future research capabilities (Emerald Reflex); Task 1.7 implements the durable evidence schema and deterministic verification primitives.
 
+---
+
+## 14. Mission Contract Persistence & Reconstitution Architecture (Task 1.8B)
+
+### 14.1 Storage Schema
+Mission Contracts are persisted in the `mission_contracts` table:
+```sql
+CREATE TABLE IF NOT EXISTS mission_contracts (
+  contract_id TEXT NOT NULL,
+  version INTEGER NOT NULL CHECK (version >= 1),
+  task_id TEXT NOT NULL REFERENCES tasks(task_id),
+  status TEXT NOT NULL CHECK (status IN ('DRAFT', 'ACTIVE', 'REVOKED')),
+  content_hash TEXT NOT NULL,
+  canonical_spec TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  activated_at TEXT,
+  revoked_at TEXT,
+  revocation_reason TEXT,
+  PRIMARY KEY (contract_id, version)
+);
+
+CREATE INDEX IF NOT EXISTS idx_contracts_task_status ON mission_contracts(task_id, status);
+CREATE INDEX IF NOT EXISTS idx_contracts_contract_hash ON mission_contracts(contract_id, content_hash);
+CREATE INDEX IF NOT EXISTS idx_contracts_hash ON mission_contracts(content_hash);
+```
+
+### 14.2 Immutability vs Lifecycle Mutability
+- **Governance Specification (`canonical_spec`)**: Completely immutable once inserted. Contains the execution policy, resource limits, verification specifications, and credential scopes.
+- **Cryptographic Content Hash (`content_hash`)**: 64-character lowercase SHA-256 digest computed exclusively over the canonicalized, sorted specification. Remains identical across the entire contract lifecycle (`DRAFT`, `ACTIVE`, `REVOKED`).
+- **Mutable Lifecycle Metadata**: Stored as distinct relational columns (`status`, `activated_at`, `revoked_at`, `revocation_reason`). Mutations execute through atomic domain transition guards (`activateMissionContract`, `revokeMissionContract`) and atomic SQL updates.
+
+### 14.3 Fail-Closed Reconstitution
+Reconstitution (`getContract`, `findContractsByHash`, `findContractsByTaskId`) does not trust stored database content blindly:
+1. `canonical_spec` JSON is parsed and re-validated through `createMissionContractSpec`.
+2. Any secret-bearing fields (`apiKey`, `password`, `secret`, `token`, `bearer`) trigger immediate rejection.
+3. Cryptographic digest of the parsed specification is re-computed on the fly.
+4. If computed hash differs from the stored `content_hash`, reconstitution throws `InvalidMissionContractError` immediately without repairing or fallback.
+5. Reconstituted aggregates are deeply frozen (`deepFreeze`) before returning to the application layer.
+
+### 14.4 Atomic Transitions & Referential Integrity
+- Contracts reference tasks via `task_id REFERENCES tasks(task_id)`. SQLite foreign key constraints prevent orphan contracts.
+- Transitions (`activateContract`, `revokeContract`) execute within `BEGIN IMMEDIATE` transactions, verifying current status (`WHERE status = 'DRAFT'` or `WHERE status = 'ACTIVE'`) to prevent concurrency races.
+- The repository port `MissionContractStorePort` is integrated directly into `StateStorePort` and `StorageTransaction`, ensuring that contract updates can participate atomically in larger transaction boundaries.
+
+
 
 

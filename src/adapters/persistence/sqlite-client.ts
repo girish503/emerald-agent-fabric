@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 import type { DatabaseSync } from "node:sqlite";
-import { INITIAL_SCHEMA_SQL } from "./schema.js";
+import { INITIAL_SCHEMA_SQL, migrateDatabase } from "./schema.js";
 
 const require = createRequire(import.meta.url);
 const { DatabaseSync: NodeDatabaseSync } = require("node:sqlite") as { DatabaseSync: typeof DatabaseSync };
@@ -33,6 +33,9 @@ export function createSqliteClient(config: SqliteClientConfig = {}): DatabaseSyn
 
   // Initialize schema
   db.exec(INITIAL_SCHEMA_SQL);
+
+  // Apply idempotent migrations for existing databases
+  migrateDatabase(db);
 
   return db;
 }

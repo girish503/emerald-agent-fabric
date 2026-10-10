@@ -1,5 +1,6 @@
 import { DomainEvent } from "../domain/events.js";
 import { RunSnapshot } from "../domain/invariants.js";
+import { MissionContractStorePort } from "./mission-contract-store.port.js";
 
 export interface TaskRecord {
   readonly taskId: string;
@@ -53,7 +54,7 @@ export interface LeaseFencingCheck {
  * StorageTransaction encapsulates operations executed within an atomic database transaction.
  * Guarantee: state mutations and event appends commit or roll back together.
  */
-export interface StorageTransaction {
+export interface StorageTransaction extends MissionContractStorePort {
   insertTask(task: TaskRecord): void;
   getTask(taskId: string): TaskRecord | null;
 
@@ -89,7 +90,7 @@ export interface StorageTransaction {
  * StateStorePort defines the persistence contract for runtime state and event streams.
  * Free of any infrastructure or SQLite details.
  */
-export interface StateStorePort {
+export interface StateStorePort extends MissionContractStorePort {
   /**
    * Executes a series of operations atomically inside a single ACID transaction.
    */

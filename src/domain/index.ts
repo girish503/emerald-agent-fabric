@@ -9,4 +9,5 @@ export * from "./policy.js";
 export * from "./run.js";
 export * from "./state-machine.js";
 export * from "./verification.js";
+export * from "./mission-contract.js";
 

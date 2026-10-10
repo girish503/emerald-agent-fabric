@@ -111,3 +111,17 @@ export class InvalidContractBindingError extends DomainError {
     );
   }
 }
+
+export class ContractIntegrityError extends DomainError {
+  readonly code = "CONTRACT_INTEGRITY_MISMATCH";
+
+  constructor(
+    readonly runId: string,
+    readonly expectedHash: string,
+    readonly actualHash: string
+  ) {
+    super(
+      `Content hash integrity mismatch for run '${runId}': expected '${expectedHash}', got '${actualHash}'`
+    );
+  }
+}

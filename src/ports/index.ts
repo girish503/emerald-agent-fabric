@@ -1,4 +1,5 @@
 export * from "./clock.port.js";
 export * from "./execution-provider.port.js";
 export * from "./state-store.port.js";
+export * from "./mission-contract-store.port.js";
 

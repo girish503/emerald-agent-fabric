@@ -23,6 +23,10 @@ export function isSensitiveKey(key: string): boolean {
   if (typeof key !== "string") {
     return false;
   }
+  // Authority scope list identifiers (e.g. credentialScopes) are non-secret governance metadata
+  if (/^credential[_-]?scopes?$/i.test(key)) {
+    return false;
+  }
   return SENSITIVE_KEY_PATTERNS.some((pattern) => pattern.test(key));
 }
 

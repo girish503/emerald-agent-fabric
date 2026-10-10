@@ -1,7 +1,29 @@
 import type { DatabaseSync } from "node:sqlite";
-import { LeaseLostError, VersionConflictError } from "../../domain/errors.js";
+import {
+  activateMissionContract,
+  canonicalJsonStringify,
+  ContractStatus,
+  InvalidMissionContractError,
+  MissionContract,
+  MissionContractLifecycle,
+  MissionContractSpec,
+  reconstituteMissionContract,
+  revokeMissionContract,
+} from "../../domain/index.js";
+import {
+  ContractIntegrityError,
+  InvalidRunError,
+  LeaseLostError,
+  VersionConflictError,
+} from "../../domain/errors.js";
 import { DomainEvent } from "../../domain/events.js";
-import { RunSnapshot, RunStatus } from "../../domain/invariants.js";
+import {
+  ContractBinding,
+  createContractBinding,
+  RunSnapshot,
+  RunStatus,
+  validateRunInvariants,
+} from "../../domain/invariants.js";
 import {
   LeaseFencingCheck,
   LeaseRecord,
@@ -40,6 +62,10 @@ interface DbRunRow {
   version: number;
   created_at: string;
   updated_at: string;
+  contract_id: string | null;
+  contract_version: number | null;
+  contract_hash: string | null;
+  max_output_bytes: number | null;
 }
 
 interface DbEventRow {
@@ -72,8 +98,90 @@ interface DbLeaseRow {
   state: string;
 }
 
-function mapRunRowToSnapshot(row: DbRunRow): RunSnapshot {
-  return {
+function mapRunRowToSnapshot(row: DbRunRow, db?: DatabaseSync): RunSnapshot {
+  let contractBinding: ContractBinding | null = null;
+  let maxOutputBytes: number | null = null;
+
+  if (row.contract_id !== null) {
+    // Governed Run: all 4 fields must be present and valid
+    if (
+      row.contract_version === null ||
+      row.contract_hash === null ||
+      row.max_output_bytes === null
+    ) {
+      throw new InvalidRunError(row.run_id, [
+        "Malformed partial contract binding in database: all 4 governance columns must be non-null for a governed Run.",
+      ]);
+    }
+
+    if (!Number.isInteger(row.contract_version) || row.contract_version < 1) {
+      throw new InvalidRunError(row.run_id, [
+        `Invalid contract_version in database: expected integer >= 1, received ${String(row.contract_version)}.`,
+      ]);
+    }
+
+    if (typeof row.contract_hash !== "string" || !/^[0-9a-f]{64}$/.test(row.contract_hash)) {
+      throw new InvalidRunError(row.run_id, [
+        `Invalid contract_hash in database: expected 64 lowercase hexadecimal characters, received '${String(row.contract_hash)}'.`,
+      ]);
+    }
+
+    if (!Number.isInteger(row.max_output_bytes) || row.max_output_bytes < 1) {
+      throw new InvalidRunError(row.run_id, [
+        `Invalid max_output_bytes in database: expected integer >= 1, received ${String(row.max_output_bytes)}.`,
+      ]);
+    }
+
+    // Content Hash Integrity Check (Requirement 9)
+    if (db) {
+      const contractStmt = db.prepare(
+        `SELECT * FROM mission_contracts WHERE contract_id = ? AND version = ?`
+      );
+      const contractRow = contractStmt.get(row.contract_id, row.contract_version) as
+        | DbMissionContractRow
+        | undefined;
+
+      if (!contractRow) {
+        throw new InvalidRunError(row.run_id, [
+          `Referenced MissionContract '${row.contract_id}' v${row.contract_version} not found in database.`,
+        ]);
+      }
+
+      // mapRowToMissionContract parses canonical_spec and reconstitutes the contract
+      // reconstituteMissionContract verifies that computed hash matches contractRow.content_hash
+      const contract = mapRowToMissionContract(contractRow);
+
+      if (contract.contentHash.toLowerCase() !== row.contract_hash.toLowerCase()) {
+        throw new ContractIntegrityError(
+          row.run_id,
+          row.contract_hash,
+          contract.contentHash
+        );
+      }
+    }
+
+    contractBinding = createContractBinding({
+      contractId: row.contract_id,
+      version: row.contract_version,
+      contentHash: row.contract_hash,
+    });
+    maxOutputBytes = row.max_output_bytes;
+  } else {
+    // Legacy Run: all 4 fields must be NULL
+    if (
+      row.contract_version !== null ||
+      row.contract_hash !== null ||
+      row.max_output_bytes !== null
+    ) {
+      throw new InvalidRunError(row.run_id, [
+        "Malformed partial contract binding in database: legacy Run with null contract_id must have null version, hash, and max_output_bytes.",
+      ]);
+    }
+    contractBinding = null;
+    maxOutputBytes = null;
+  }
+
+  const snapshot: RunSnapshot = {
     runId: row.run_id,
     taskId: row.task_id,
     status: row.status as RunStatus,
@@ -89,7 +197,12 @@ function mapRunRowToSnapshot(row: DbRunRow): RunSnapshot {
     errorPayload: row.error_payload !== null ? JSON.parse(row.error_payload) : null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    contractBinding,
+    maxOutputBytes,
   };
+
+  validateRunInvariants(snapshot);
+  return snapshot;
 }
 
 function mapEventRowToPersistedEvent(row: DbEventRow): PersistedEvent {
@@ -103,6 +216,45 @@ function mapEventRowToPersistedEvent(row: DbEventRow): PersistedEvent {
     producer: row.producer,
     payload: JSON.parse(row.payload),
   };
+}
+
+interface DbMissionContractRow {
+  contract_id: string;
+  version: number;
+  task_id: string;
+  status: string;
+  content_hash: string;
+  canonical_spec: string;
+  created_at: string;
+  activated_at: string | null;
+  revoked_at: string | null;
+  revocation_reason: string | null;
+}
+
+function mapRowToMissionContract(row: DbMissionContractRow): MissionContract {
+  let parsedSpec: unknown;
+  try {
+    parsedSpec = JSON.parse(row.canonical_spec);
+  } catch {
+    throw new InvalidMissionContractError(
+      `Corrupted canonical_spec JSON in database for contract '${row.contract_id}' v${row.version}`
+    );
+  }
+
+  const lifecycle: MissionContractLifecycle = {
+    status: row.status as ContractStatus,
+    createdAt: row.created_at,
+    activatedAt: row.activated_at,
+    revokedAt: row.revoked_at,
+    revocationReason: row.revocation_reason,
+  };
+
+  // Fail-closed reconstitution with content hash verification
+  return reconstituteMissionContract(
+    parsedSpec as MissionContractSpec,
+    row.content_hash,
+    lifecycle
+  );
 }
 
 export class SqliteStorageTransaction implements StorageTransaction {
@@ -150,12 +302,27 @@ export class SqliteStorageTransaction implements StorageTransaction {
       }
     }
 
+    const contractId = snapshot.contractBinding?.contractId ?? null;
+    const contractVersion = snapshot.contractBinding?.version ?? null;
+    const contractHash = snapshot.contractBinding?.contentHash ?? null;
+    const maxOutputBytes = snapshot.maxOutputBytes ?? null;
+
+    if (
+      (contractId !== null || contractVersion !== null || contractHash !== null || maxOutputBytes !== null) &&
+      (contractId === null || contractVersion === null || contractHash === null || maxOutputBytes === null)
+    ) {
+      throw new InvalidRunError(snapshot.runId, [
+        "Cannot persist partial contract binding: all 4 governance columns must be non-null for governed runs, or all null for legacy runs.",
+      ]);
+    }
+
     const stmt = this.db.prepare(
       `INSERT INTO runs (
          run_id, task_id, status, idempotency_key, current_worker_id,
          lease_id, lease_expires_at, attempt_count, max_attempts, timeout_ms,
-         result_payload, error_payload, version, created_at, updated_at
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+         result_payload, error_payload, version, created_at, updated_at,
+         contract_id, contract_version, contract_hash, max_output_bytes
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     );
 
     stmt.run(
@@ -173,7 +340,11 @@ export class SqliteStorageTransaction implements StorageTransaction {
       snapshot.errorPayload !== null ? JSON.stringify(snapshot.errorPayload) : null,
       snapshot.version,
       snapshot.createdAt,
-      snapshot.updatedAt
+      snapshot.updatedAt,
+      contractId,
+      contractVersion,
+      contractHash,
+      maxOutputBytes
     );
 
     return this.appendEvent(event);
@@ -188,12 +359,27 @@ export class SqliteStorageTransaction implements StorageTransaction {
   ): PersistedEvent {
     let result: { changes: number };
 
+    const contractId = nextSnapshot.contractBinding?.contractId ?? null;
+    const contractVersion = nextSnapshot.contractBinding?.version ?? null;
+    const contractHash = nextSnapshot.contractBinding?.contentHash ?? null;
+    const maxOutputBytes = nextSnapshot.maxOutputBytes ?? null;
+
+    if (
+      (contractId !== null || contractVersion !== null || contractHash !== null || maxOutputBytes !== null) &&
+      (contractId === null || contractVersion === null || contractHash === null || maxOutputBytes === null)
+    ) {
+      throw new InvalidRunError(nextSnapshot.runId, [
+        "Cannot persist partial contract binding: all 4 governance columns must be non-null for governed runs, or all null for legacy runs.",
+      ]);
+    }
+
     if (fencing) {
       const stmt = this.db.prepare(
         `UPDATE runs SET
            status = ?, current_worker_id = ?, lease_id = ?, lease_expires_at = ?,
            attempt_count = ?, max_attempts = ?, timeout_ms = ?, result_payload = ?,
-           error_payload = ?, version = ?, updated_at = ?
+           error_payload = ?, version = ?, updated_at = ?,
+           contract_id = ?, contract_version = ?, contract_hash = ?, max_output_bytes = ?
          WHERE run_id = ? AND version = ? AND lease_id = ? AND current_worker_id = ?`
       );
       result = stmt.run(
@@ -208,6 +394,10 @@ export class SqliteStorageTransaction implements StorageTransaction {
         nextSnapshot.errorPayload !== null ? JSON.stringify(nextSnapshot.errorPayload) : null,
         nextSnapshot.version,
         nextSnapshot.updatedAt,
+        contractId,
+        contractVersion,
+        contractHash,
+        maxOutputBytes,
         runId,
         expectedVersion,
         fencing.leaseId,
@@ -218,7 +408,8 @@ export class SqliteStorageTransaction implements StorageTransaction {
         `UPDATE runs SET
            status = ?, current_worker_id = ?, lease_id = ?, lease_expires_at = ?,
            attempt_count = ?, max_attempts = ?, timeout_ms = ?, result_payload = ?,
-           error_payload = ?, version = ?, updated_at = ?
+           error_payload = ?, version = ?, updated_at = ?,
+           contract_id = ?, contract_version = ?, contract_hash = ?, max_output_bytes = ?
          WHERE run_id = ? AND version = ?`
       );
       result = stmt.run(
@@ -233,6 +424,10 @@ export class SqliteStorageTransaction implements StorageTransaction {
         nextSnapshot.errorPayload !== null ? JSON.stringify(nextSnapshot.errorPayload) : null,
         nextSnapshot.version,
         nextSnapshot.updatedAt,
+        contractId,
+        contractVersion,
+        contractHash,
+        maxOutputBytes,
         runId,
         expectedVersion
       ) as { changes: number };
@@ -265,14 +460,14 @@ export class SqliteStorageTransaction implements StorageTransaction {
     const stmt = this.db.prepare(`SELECT * FROM runs WHERE run_id = ?`);
     const row = stmt.get(runId) as DbRunRow | undefined;
     if (!row) return null;
-    return mapRunRowToSnapshot(row);
+    return mapRunRowToSnapshot(row, this.db);
   }
 
   getRunByIdempotencyKey(key: string): RunSnapshot | null {
     const stmt = this.db.prepare(`SELECT * FROM runs WHERE idempotency_key = ?`);
     const row = stmt.get(key) as DbRunRow | undefined;
     if (!row) return null;
-    return mapRunRowToSnapshot(row);
+    return mapRunRowToSnapshot(row, this.db);
   }
 
   findQueuedRuns(limit: number = 10): readonly RunSnapshot[] {
@@ -280,7 +475,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
       `SELECT * FROM runs WHERE status = 'QUEUED' ORDER BY created_at ASC LIMIT ?`
     );
     const rows = stmt.all(limit) as unknown as DbRunRow[];
-    return rows.map(mapRunRowToSnapshot);
+    return rows.map((r) => mapRunRowToSnapshot(r, this.db));
   }
 
   findExpiredRuns(nowIso: string): readonly RunSnapshot[] {
@@ -288,7 +483,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
       `SELECT * FROM runs WHERE (status = 'RUNNING' OR status = 'LEASED') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ? ORDER BY lease_expires_at ASC`
     );
     const rows = stmt.all(nowIso) as unknown as DbRunRow[];
-    return rows.map(mapRunRowToSnapshot);
+    return rows.map((r) => mapRunRowToSnapshot(r, this.db));
   }
 
   appendEvent(event: DomainEvent): PersistedEvent {
@@ -413,6 +608,162 @@ export class SqliteStorageTransaction implements StorageTransaction {
     const stmt = this.db.prepare(`UPDATE runs SET lease_expires_at = ? WHERE run_id = ?`);
     stmt.run(leaseExpiresAt, runId);
   }
+
+  insertContract(contract: MissionContract): void {
+    const existing = this.getContract(contract.spec.contractId, contract.spec.version);
+    if (existing) {
+      throw new InvalidMissionContractError(
+        `Mission contract '${contract.spec.contractId}' version ${contract.spec.version} already exists.`
+      );
+    }
+
+    const canonicalSpec = canonicalJsonStringify(contract.spec);
+
+    const stmt = this.db.prepare(
+      `INSERT INTO mission_contracts (
+         contract_id, version, task_id, status, content_hash, canonical_spec,
+         created_at, activated_at, revoked_at, revocation_reason
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+
+    stmt.run(
+      contract.spec.contractId,
+      contract.spec.version,
+      contract.spec.taskId,
+      contract.lifecycle.status,
+      contract.contentHash,
+      canonicalSpec,
+      contract.lifecycle.createdAt,
+      contract.lifecycle.activatedAt,
+      contract.lifecycle.revokedAt,
+      contract.lifecycle.revocationReason
+    );
+  }
+
+  getContract(contractId: string, version: number): MissionContract | null {
+    const stmt = this.db.prepare(
+      `SELECT * FROM mission_contracts WHERE contract_id = ? AND version = ?`
+    );
+    const row = stmt.get(contractId, version) as DbMissionContractRow | undefined;
+    if (!row) return null;
+    return mapRowToMissionContract(row);
+  }
+
+  findContractsByHash(contentHash: string): readonly MissionContract[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM mission_contracts WHERE content_hash = ? ORDER BY version ASC`
+    );
+    const rows = stmt.all(contentHash) as unknown as DbMissionContractRow[];
+    return rows.map((row) => mapRowToMissionContract(row));
+  }
+
+  findContractsByTaskId(taskId: string, status?: ContractStatus): readonly MissionContract[] {
+    let stmt;
+    let rows: DbMissionContractRow[];
+    if (status) {
+      stmt = this.db.prepare(
+        `SELECT * FROM mission_contracts WHERE task_id = ? AND status = ? ORDER BY version ASC`
+      );
+      rows = stmt.all(taskId, status) as unknown as DbMissionContractRow[];
+    } else {
+      stmt = this.db.prepare(
+        `SELECT * FROM mission_contracts WHERE task_id = ? ORDER BY version ASC`
+      );
+      rows = stmt.all(taskId) as unknown as DbMissionContractRow[];
+    }
+    return rows.map((row) => mapRowToMissionContract(row));
+  }
+
+  activateContract(contractId: string, version: number, activatedAt?: string): MissionContract {
+    const existing = this.getContract(contractId, version);
+    if (!existing) {
+      throw new InvalidMissionContractError(
+        `Cannot activate contract '${contractId}' v${version}: contract not found.`
+      );
+    }
+
+    const activated = activateMissionContract(existing, activatedAt);
+
+    const stmt = this.db.prepare(
+      `UPDATE mission_contracts
+       SET status = ?, activated_at = ?
+       WHERE contract_id = ? AND version = ? AND status = 'DRAFT'`
+    );
+    const result = stmt.run(
+      activated.lifecycle.status,
+      activated.lifecycle.activatedAt,
+      contractId,
+      version
+    );
+
+    if (result.changes === 0) {
+      throw new InvalidMissionContractError(
+        `Failed to activate contract '${contractId}' v${version}: status was modified concurrently.`
+      );
+    }
+
+    return activated;
+  }
+
+  revokeContract(
+    contractId: string,
+    version: number,
+    reason?: string,
+    revokedAt?: string
+  ): MissionContract {
+    const existing = this.getContract(contractId, version);
+    if (!existing) {
+      throw new InvalidMissionContractError(
+        `Cannot revoke contract '${contractId}' v${version}: contract not found.`
+      );
+    }
+
+    const revoked = revokeMissionContract(existing, reason, revokedAt);
+
+    const stmt = this.db.prepare(
+      `UPDATE mission_contracts
+       SET status = ?, revoked_at = ?, revocation_reason = ?
+       WHERE contract_id = ? AND version = ? AND status = 'ACTIVE'`
+    );
+    const result = stmt.run(
+      revoked.lifecycle.status,
+      revoked.lifecycle.revokedAt,
+      revoked.lifecycle.revocationReason,
+      contractId,
+      version
+    );
+
+    if (result.changes === 0) {
+      throw new InvalidMissionContractError(
+        `Failed to revoke contract '${contractId}' v${version}: status was modified concurrently.`
+      );
+    }
+
+    return revoked;
+  }
+
+  updateContractLifecycle(contract: MissionContract): void {
+    const stmt = this.db.prepare(
+      `UPDATE mission_contracts
+       SET status = ?, activated_at = ?, revoked_at = ?, revocation_reason = ?
+       WHERE contract_id = ? AND version = ? AND content_hash = ?`
+    );
+    const result = stmt.run(
+      contract.lifecycle.status,
+      contract.lifecycle.activatedAt,
+      contract.lifecycle.revokedAt,
+      contract.lifecycle.revocationReason,
+      contract.spec.contractId,
+      contract.spec.version,
+      contract.contentHash
+    );
+
+    if (result.changes === 0) {
+      throw new InvalidMissionContractError(
+        `Failed to update lifecycle for contract '${contract.spec.contractId}' v${contract.spec.version}: contract not found or specification hash mismatch.`
+      );
+    }
+  }
 }
 
 export class SqliteStateStore implements StateStorePort {
@@ -481,6 +832,37 @@ export class SqliteStateStore implements StateStorePort {
   getLease(leaseId: string): LeaseRecord | null {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.getLease(leaseId);
+  }
+
+  insertContract(contract: MissionContract): void {
+    this.transaction((tx) => tx.insertContract(contract));
+  }
+
+  getContract(contractId: string, version: number): MissionContract | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getContract(contractId, version);
+  }
+
+  findContractsByHash(contentHash: string): readonly MissionContract[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findContractsByHash(contentHash);
+  }
+
+  findContractsByTaskId(taskId: string, status?: ContractStatus): readonly MissionContract[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findContractsByTaskId(taskId, status);
+  }
+
+  activateContract(contractId: string, version: number, activatedAt?: string): MissionContract {
+    return this.transaction((tx) => tx.activateContract(contractId, version, activatedAt));
+  }
+
+  revokeContract(contractId: string, version: number, reason?: string, revokedAt?: string): MissionContract {
+    return this.transaction((tx) => tx.revokeContract(contractId, version, reason, revokedAt));
+  }
+
+  updateContractLifecycle(contract: MissionContract): void {
+    this.transaction((tx) => tx.updateContractLifecycle(contract));
   }
 
   close(): void {
