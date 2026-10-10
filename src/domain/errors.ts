@@ -125,3 +125,50 @@ export class ContractIntegrityError extends DomainError {
     );
   }
 }
+
+export class NoActiveMissionContractError extends DomainError {
+  readonly code = "NO_ACTIVE_MISSION_CONTRACT";
+
+  constructor(readonly taskId: string) {
+    super(`No ACTIVE mission contract found for task '${taskId}'`);
+  }
+}
+
+export class AmbiguousContractAuthorityError extends DomainError {
+  readonly code = "AMBIGUOUS_CONTRACT_AUTHORITY";
+
+  constructor(readonly taskId: string, readonly activeContractIds: readonly string[]) {
+    super(
+      `Multiple ACTIVE mission contracts found for task '${taskId}': ${activeContractIds.join(", ")}. Contract authority is ambiguous.`
+    );
+  }
+}
+
+export class MissionContractTaskMismatchError extends DomainError {
+  readonly code = "MISSION_CONTRACT_TASK_MISMATCH";
+
+  constructor(
+    readonly expectedTaskId: string,
+    readonly actualTaskId: string,
+    readonly contractId: string
+  ) {
+    super(
+      `Mission contract '${contractId}' belongs to task '${actualTaskId}', not requested task '${expectedTaskId}'`
+    );
+  }
+}
+
+export class ResourceLimitExceededError extends DomainError {
+  readonly code = "RESOURCE_LIMIT_EXCEEDED";
+
+  constructor(
+    readonly limitName: string,
+    readonly requestedValue: number,
+    readonly ceilingValue: number
+  ) {
+    super(
+      `Requested ${limitName} (${requestedValue}) exceeds contract ceiling (${ceilingValue})`
+    );
+  }
+}
+

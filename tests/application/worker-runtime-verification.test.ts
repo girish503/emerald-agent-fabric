@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
+import { createAndActivateContract } from "./test-helpers.js";
 import { createDefaultInProcessPolicy } from "../../src/domain/policy.js";
 import { createVerificationSpec } from "../../src/domain/verification.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
@@ -71,6 +72,7 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       title: "sum",
       inputPayload: [2, 3],
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -129,6 +131,7 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       title: "sum",
       inputPayload: [2, 3],
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3 });
     coordinator.queueRun(run.runId);
@@ -211,6 +214,7 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       title: "echo",
       inputPayload: secretOutput,
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -268,6 +272,7 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       title: "echo",
       inputPayload: null,
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -312,6 +317,7 @@ describe("WorkerRuntime — Evidence & Verification Boundary", () => {
       title: "sum",
       inputPayload: [5, 5],
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);

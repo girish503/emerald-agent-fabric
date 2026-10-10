@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { InProcessExecutionProvider } from "../../src/adapters/execution/in-process-execution-provider.js";
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
+import { createAndActivateContract } from "./test-helpers.js";
 import {
   DeterministicOperation,
   EchoOperation,
@@ -128,6 +129,7 @@ describe("Execution Provider Boundary", () => {
       title: "any-arbitrary-operation",
       inputPayload: { payload: 999 },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,
@@ -197,6 +199,7 @@ describe("Execution Provider Boundary", () => {
       title: "exploding",
       inputPayload: null,
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -235,6 +238,7 @@ describe("Execution Provider Boundary", () => {
       title: "slow",
       inputPayload: null,
     });
+    createAndActivateContract(store, task.taskId);
 
     // Run configured with 10ms timeout
     const { run } = coordinator.createRun({ taskId: task.taskId, timeoutMs: 10 });
@@ -272,6 +276,7 @@ describe("Execution Provider Boundary", () => {
       title: "test-task",
       inputPayload: { attemptData: true },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,
@@ -351,6 +356,7 @@ describe("Execution Provider Boundary", () => {
       title: "sum",
       inputPayload: [5, 15, 25],
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,

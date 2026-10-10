@@ -8,6 +8,7 @@ import { LeaseLostError } from "../../src/domain/errors.js";
 import { createVerificationSpec } from "../../src/domain/verification.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionRequest } from "../../src/ports/execution-provider.port.js";
+import { createAndActivateContract } from "../application/test-helpers.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -241,6 +242,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "sum",
         inputPayload: [100, 200, 300],
       });
+      createAndActivateContract(store, task.taskId);
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -288,6 +290,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "fail",
         inputPayload: null,
       });
+      createAndActivateContract(store, task.taskId);
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -321,6 +324,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "slow",
         inputPayload: null,
       });
+      createAndActivateContract(store, task.taskId);
 
       const { run } = coordinator.createRun({ taskId: task.taskId, timeoutMs: 1500 });
       coordinator.queueRun(run.runId);
@@ -367,6 +371,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "sum",
         inputPayload: [7, 14, 21],
       });
+      createAndActivateContract(store, task.taskId);
 
       const { run } = coordinator.createRun({
         taskId: task.taskId,
@@ -445,6 +450,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "echo",
         inputPayload: { fenced: true },
       });
+      createAndActivateContract(store, task.taskId);
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -503,6 +509,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "echo",
         inputPayload: "exhaust-test",
       });
+      createAndActivateContract(store, task.taskId);
 
       // Max attempts = 1
       const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 1 });
@@ -558,6 +565,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         title: "sum",
         inputPayload: [7, 8],
       });
+      createAndActivateContract(store, task.taskId);
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);

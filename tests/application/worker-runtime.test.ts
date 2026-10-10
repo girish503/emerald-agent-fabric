@@ -5,6 +5,7 @@ import {
   WorkerRuntime,
 } from "../../src/application/index.js";
 import { LeaseLostError } from "../../src/domain/errors.js";
+import { createAndActivateContract } from "./test-helpers.js";
 import {
   DeterministicOperation,
   EchoOperation,
@@ -42,6 +43,7 @@ describe("Application Runtime & Lease Coordination", () => {
       inputPayload: { message: "Deterministic hello world", count: 42 },
     });
     expect(task.taskId).toBeDefined();
+    createAndActivateContract(store, task.taskId);
 
     // 2. Create run
     const createResult = coordinator.createRun({
@@ -111,6 +113,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "sum",
       inputPayload: [10, 20, 30, 40],
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -143,6 +146,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "failing",
       inputPayload: { foo: "bar" },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -199,6 +203,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "echo",
       inputPayload: "payload",
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -256,6 +261,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "echo",
       inputPayload: "test",
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3 });
     coordinator.queueRun(run.runId);
@@ -311,6 +317,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "echo",
       inputPayload: "budget-test",
     });
+    createAndActivateContract(store, task.taskId);
 
     // Max attempts = 1
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 1 });
@@ -369,6 +376,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "echo",
       inputPayload: "timeout-payload",
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId, timeoutMs: 5000 });
     coordinator.queueRun(run.runId);
@@ -404,6 +412,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "echo",
       inputPayload: "cancel-payload",
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -446,6 +455,7 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "echo",
       inputPayload: { resilient: true },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3 });
     coordinator.queueRun(run.runId);
@@ -511,6 +521,7 @@ describe("Application Runtime & Lease Coordination", () => {
     worker.ensureRegistered();
 
     const task = coordinator.createTask({ title: "echo", inputPayload: 1 });
+    createAndActivateContract(store, task.taskId);
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
 

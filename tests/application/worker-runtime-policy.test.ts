@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
+import { createAndActivateContract } from "./test-helpers.js";
 import {
   createDenyAllPolicy,
   createExecutionPolicy,
@@ -60,6 +61,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: { msg: "hello" },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -110,6 +112,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo", // Not permitted!
       inputPayload: null,
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -175,6 +178,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: { test: true },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -216,6 +220,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: null,
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -246,6 +251,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: null,
     });
+    createAndActivateContract(store, task.taskId, { maxAttempts: 5 });
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,
@@ -293,6 +299,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: { test: true },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -334,6 +341,7 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "arbitrary-task-title",
       inputPayload: { foo: "bar" },
     });
+    createAndActivateContract(store, task.taskId);
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);

@@ -1,4 +1,12 @@
 import {
+  AmbiguousContractAuthorityError,
+  InvalidMissionContractError,
+  InvalidRunError,
+  MissionContractTaskMismatchError,
+  NoActiveMissionContractError,
+  ResourceLimitExceededError,
+} from "../domain/errors.js";
+import {
   DomainEvent,
   EvidenceRecordedPayload,
   PolicyEvaluatedPayload,
@@ -7,7 +15,10 @@ import {
 import { Evidence } from "../domain/evidence.js";
 import { VerificationResult } from "../domain/verification.js";
 import { Run } from "../domain/run.js";
-import { RunSnapshot } from "../domain/invariants.js";
+import {
+  createContractBinding,
+  RunSnapshot,
+} from "../domain/invariants.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import {
   LeaseRecord,
@@ -30,6 +41,7 @@ export interface CreateRunParams {
   readonly taskId: string;
   readonly maxAttempts?: number;
   readonly timeoutMs?: number;
+  readonly maxOutputBytes?: number;
   readonly idempotencyKey?: string | null;
 }
 
@@ -130,18 +142,114 @@ export class RunCoordinator {
         throw new Error(`Task '${params.taskId}' not found`);
       }
 
+      // 1. Resolve ACTIVE MissionContracts for task
+      const activeContracts = tx.findContractsByTaskId(params.taskId, "ACTIVE");
+      if (activeContracts.length === 0) {
+        throw new NoActiveMissionContractError(params.taskId);
+      }
+      if (activeContracts.length > 1) {
+        throw new AmbiguousContractAuthorityError(
+          params.taskId,
+          activeContracts.map((c) => c.spec.contractId)
+        );
+      }
+
+      const contract = activeContracts[0]!;
+
+      // 2. Task association check
+      if (contract.spec.taskId !== params.taskId) {
+        throw new MissionContractTaskMismatchError(
+          params.taskId,
+          contract.spec.taskId,
+          contract.spec.contractId
+        );
+      }
+
+      // 3. Contract integrity verification
+      if (
+        typeof contract.contentHash !== "string" ||
+        !/^[0-9a-f]{64}$/.test(contract.contentHash)
+      ) {
+        throw new InvalidMissionContractError(
+          `Corrupted or invalid content hash for contract '${contract.spec.contractId}'`
+        );
+      }
+
       const runId = params.runId ?? crypto.randomUUID();
       const now = this.clock.nowIso();
 
+      // 4. Validate requested resource limits against contract ceilings
+      const limits = contract.spec.resourceLimits;
+
+      if (params.timeoutMs !== undefined) {
+        if (!Number.isInteger(params.timeoutMs) || params.timeoutMs < 1) {
+          throw new InvalidRunError(runId, [
+            `timeoutMs must be an integer >= 1, received ${params.timeoutMs}`,
+          ]);
+        }
+        if (params.timeoutMs > limits.timeoutMs) {
+          throw new ResourceLimitExceededError(
+            "timeoutMs",
+            params.timeoutMs,
+            limits.timeoutMs
+          );
+        }
+      }
+
+      if (params.maxAttempts !== undefined) {
+        if (!Number.isInteger(params.maxAttempts) || params.maxAttempts < 1) {
+          throw new InvalidRunError(runId, [
+            `maxAttempts must be an integer >= 1, received ${params.maxAttempts}`,
+          ]);
+        }
+        if (params.maxAttempts > limits.maxAttempts) {
+          throw new ResourceLimitExceededError(
+            "maxAttempts",
+            params.maxAttempts,
+            limits.maxAttempts
+          );
+        }
+      }
+
+      if (params.maxOutputBytes !== undefined) {
+        if (!Number.isInteger(params.maxOutputBytes) || params.maxOutputBytes < 1) {
+          throw new InvalidRunError(runId, [
+            `maxOutputBytes must be an integer >= 1, received ${params.maxOutputBytes}`,
+          ]);
+        }
+        if (params.maxOutputBytes > limits.maxOutputBytes) {
+          throw new ResourceLimitExceededError(
+            "maxOutputBytes",
+            params.maxOutputBytes,
+            limits.maxOutputBytes
+          );
+        }
+      }
+
+      const timeoutMs = params.timeoutMs ?? limits.timeoutMs;
+      const maxAttempts = params.maxAttempts ?? limits.maxAttempts;
+      const maxOutputBytes = params.maxOutputBytes ?? limits.maxOutputBytes;
+
+      // 5. Bind exact contract identity
+      const contractBinding = createContractBinding({
+        contractId: contract.spec.contractId,
+        version: contract.spec.version,
+        contentHash: contract.contentHash,
+      });
+
+      // 6. Construct Run aggregate
       const { run, event } = Run.create({
         runId,
         taskId: params.taskId,
-        maxAttempts: params.maxAttempts,
-        timeoutMs: params.timeoutMs,
+        maxAttempts,
+        timeoutMs,
+        contractBinding,
+        maxOutputBytes,
         idempotencyKey: params.idempotencyKey,
         now,
       });
 
+      // 7. Persist Run and run.created event atomically
       const persistedEvent = tx.insertRun(run.snapshot, event);
       return { run: run.snapshot, event: persistedEvent };
     });
