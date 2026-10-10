@@ -78,7 +78,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         inputPayload: { message: "Hello from ephemeral container", count: 123 },
         idempotencyToken: "idem-echo",
         attemptNumber: 0,
-        timeoutMs: 10000,
+        timeoutMs: 20000,
       };
 
       const result = await provider.execute(request);

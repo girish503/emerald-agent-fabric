@@ -111,6 +111,22 @@ export type RunRecoveredEvent = DomainEvent<RunRecoveredPayload> & {
   readonly eventType: "run.recovered";
 };
 
+export interface PolicyEvaluatedPayload {
+  readonly runId: string;
+  readonly taskId: string;
+  readonly operationName: string;
+  readonly capabilityName: string;
+  readonly policyId: string;
+  readonly allowed: boolean;
+  readonly isolationRequirement: string;
+  readonly reasonCode?: string;
+  readonly providerName?: string;
+}
+
+export type PolicyEvaluatedEvent = DomainEvent<PolicyEvaluatedPayload> & {
+  readonly eventType: "policy.evaluated";
+};
+
 export type AnyRunEvent =
   | RunCreatedEvent
   | RunQueuedEvent
@@ -121,4 +137,5 @@ export type AnyRunEvent =
   | RunTimedOutEvent
   | RunCancelledEvent
   | LeaseExpiredEvent
-  | RunRecoveredEvent;
+  | RunRecoveredEvent
+  | PolicyEvaluatedEvent;

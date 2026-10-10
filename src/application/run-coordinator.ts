@@ -1,3 +1,4 @@
+import { DomainEvent, PolicyEvaluatedPayload } from "../domain/events.js";
 import { Run } from "../domain/run.js";
 import { RunSnapshot } from "../domain/invariants.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
@@ -39,6 +40,17 @@ export interface TransitionResult {
 export interface RecoverExpiredResult {
   readonly recoveredCount: number;
   readonly runs: readonly RunSnapshot[];
+}
+
+export interface RecordPolicyDecisionParams {
+  readonly capabilityName: string;
+  readonly policyId: string;
+  readonly allowed: boolean;
+  readonly isolationRequirement: string;
+  readonly reasonCode?: string;
+  readonly providerName?: string;
+  readonly taskId?: string;
+  readonly operationName?: string;
 }
 
 /**
@@ -296,6 +308,35 @@ export class RunCoordinator {
       }
 
       return { run: run.snapshot, event: persistedEvent };
+    });
+  }
+
+  /**
+   * Records an auditable policy evaluation decision into the run event stream.
+   */
+  recordPolicyDecision(runId: string, params: RecordPolicyDecisionParams): PersistedEvent {
+    return this.stateStore.transaction((tx) => {
+      const event: DomainEvent<PolicyEvaluatedPayload> = {
+        eventId: crypto.randomUUID(),
+        runId,
+        timestamp: this.clock.nowIso(),
+        eventType: "policy.evaluated",
+        schemaVersion: 1,
+        producer: "application.policy_evaluator",
+        payload: {
+          runId,
+          taskId: params.taskId ?? "",
+          operationName: params.operationName ?? "",
+          capabilityName: params.capabilityName,
+          policyId: params.policyId,
+          allowed: params.allowed,
+          isolationRequirement: params.isolationRequirement,
+          reasonCode: params.reasonCode,
+          providerName: params.providerName,
+        },
+      };
+
+      return tx.appendEvent(event);
     });
   }
 

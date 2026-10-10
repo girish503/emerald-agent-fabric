@@ -114,3 +114,49 @@ FAIL CLOSED
 - In-process execution must **NOT** be treated or described as an automatic fallback for untrusted operations.
 - In-process execution remains available exclusively for explicitly trusted deterministic operations within the runtime.
 
+---
+
+## 5. Policy & Capability Authorization Boundary (Task 1.6)
+
+### 5.1 Authorization vs Execution Separation
+```text
+Request
+   ↓
+Policy Evaluator (Domain: Is capability granted? What isolation is required?)
+   ↓
+Isolation Verification (WorkerRuntime: Can configured provider satisfy isolation?)
+   ↓
+ExecutionProvider (Infrastructure Adapter: Mechanical execution)
+   ↓
+Isolation / Sandbox
+   ↓
+Result
+```
+- **PolicyEvaluator (Domain)** answers: *"Is this capability allowed under this policy, and what isolation level is required?"* Pure domain logic with ZERO provider or Docker dependencies.
+- **WorkerRuntime (Application)** verifies: Can the configured execution provider satisfy the required isolation level? Fails closed immediately if unsatisfied.
+- **ExecutionProvider (Infrastructure)** answers: *"How do I mechanically execute this?"*
+- Execution providers are mechanical execution engines and do NOT evaluate security policies.
+- Policy enforcement occurs strictly upstream in `WorkerRuntime` prior to calling any `ExecutionProvider`. Providers cannot be called to bypass policy.
+
+### 5.2 Core Security Invariants
+1. **Deny-by-Default**:
+   - Any capability not explicitly present in `policy.allowedCapabilities` is immediately denied (`CAPABILITY_NOT_GRANTED`).
+2. **Explicit Vocabulary & Unknown Capability Rejection**:
+   - Capabilities represent explicitly named, immutable classes of action (`execution.echo`, `execution.sum`, `execution.slow`, `execution.fail`).
+   - Dynamic capabilities, wildcard grants, and unrecognized operations are strictly rejected (`UNKNOWN_CAPABILITY`).
+3. **No Self-Authorization**:
+   - All execution requests, operation names, and input payload contents are treated as untrusted.
+   - An agent or operation cannot grant itself capabilities, elevate its permissions, or alter frozen policy objects via payload injection or prototype pollution.
+4. **Isolation is Distinct from Capability Authorization**:
+   - Capability authorization grants *what* action can be executed.
+   - Isolation requirements (`IN_PROCESS` vs `ISOLATED`) govern *where* the action may execute.
+   - Docker isolation reduces blast radius but is **NOT** an authorization mechanism.
+5. **In-Process Execution Restrictions**:
+   - `IN_PROCESS` execution is permitted exclusively when the operation is classified as trusted deterministic execution and explicitly granted in `trustedInProcessOperations`.
+6. **Fail-Closed Isolation (Zero Downgrade)**:
+   - When policy mandates `ISOLATED` execution and the isolated environment is unavailable or an in-process provider is selected, the policy evaluator **fails closed (FAIL CLOSED)** with `ISOLATION_REQUIREMENT_NOT_MET`.
+   - The runtime never silently downgrades an isolated workload to in-process execution.
+7. **Observable & Auditable**:
+   - Every authorization decision is immutably logged into the run event stream via `policy.evaluated`.
+   - Denied executions are transitioned to terminal `FAILED` status with structured error code `POLICY_DENIED`, releasing leases and preventing unsafe retry loops.
+

@@ -199,3 +199,38 @@ Every state mutation and its associated event insertion MUST execute within a si
   - **Latency Observation**: Container startup latency of $\approx 1.2\text{s} - 2.5\text{s}$ per operation is an **initial local observation on the development environment** (Windows 11 host with Docker Desktop 29.8.0, image `node:22-alpine`, 15 test executions of deterministic echo/sum scripts). It is not a production benchmark.
   - **Threat Model**: Host OS kernel is shared with the container via WSL2. Container escape vulnerabilities, kernel bugs, and Docker daemon bugs remain part of the threat model. Multi-tenant untrusted execution requires dedicated microVM isolation (e.g. Firecracker/gVisor).
 
+---
+
+## 12. Policy & Capability Enforcement Boundary (Task 1.6)
+
+### 12.1 Execution Pipeline
+```text
+Request
+   ↓
+Policy Evaluation
+   ↓
+Capability Check
+   ↓
+ExecutionProvider
+   ↓
+Sandbox / Execution Environment
+   ↓
+Result
+```
+
+### 12.2 Separation of Concerns
+- **PolicyEvaluator (Domain)**: Pure domain function answering *"Is this capability permitted under this policy, and what isolation level is required?"* It has ZERO knowledge of Docker, execution providers, or daemon availability.
+- **WorkerRuntime (Application Orchestrator)**: Evaluates policy upstream and verifies whether the configured execution provider satisfies the required isolation level. Fails closed with `ISOLATION_REQUIREMENT_NOT_MET` if unsatisfied.
+- **ExecutionProvider (Infrastructure Adapter)**: Answers *"How do I mechanically execute this?"* Executes authorized code in the designated environment.
+- Providers do not evaluate security policy, and callers/providers cannot bypass policy enforcement.
+
+### 12.3 Core Policy Invariants
+1. **Deny-by-Default**: Any capability not explicitly granted in `allowedCapabilities` is rejected (`CAPABILITY_NOT_GRANTED`).
+2. **Explicit, Tiny Vocabulary**: Confined strictly to deterministic primitives (`execution.echo`, `execution.sum`, `execution.slow`, `execution.fail`). Unrecognized operations are rejected (`UNKNOWN_CAPABILITY`).
+3. **Orthogonal Isolation Requirement**: Capability authorization and isolation requirements are independent dimensions.
+   - `IN_PROCESS`: Permitted solely when the operation is explicitly classified as trusted deterministic execution in `trustedInProcessOperations`.
+   - `ISOLATED`: Execution must take place in an isolated execution environment.
+4. **Fail-Closed Isolation**: If `ISOLATED` execution is required and the isolated environment is unavailable, policy evaluation yields `DENIED` with `ISOLATION_REQUIREMENT_NOT_MET`. No silent in-process downgrade is ever permitted.
+5. **No Self-Authorization**: Execution requests and payload data are treated as untrusted. Agents cannot grant themselves capabilities or modify frozen policy objects.
+6. **Auditability**: Every policy decision produces structured audit data (`policy.evaluated` event) and on denial transitions the run to `FAILED` with `POLICY_DENIED`, releasing leases without triggering retry loops.
+

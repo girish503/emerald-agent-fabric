@@ -1,6 +1,12 @@
+import { DockerExecutionProvider } from "../adapters/execution/docker-execution-provider.js";
 import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
 import { LeaseLostError } from "../domain/errors.js";
 import { DeterministicOperation, EchoOperation } from "../domain/operation.js";
+import {
+  ExecutionPolicy,
+  IsolationRequirement,
+  PolicyEvaluator,
+} from "../domain/policy.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest } from "../ports/execution-provider.port.js";
 import { WorkerRecord } from "../ports/state-store.port.js";
@@ -23,6 +29,9 @@ export interface WorkerRuntimeOptions {
   readonly leaseTtlMs?: number;
   readonly executionProvider?: ExecutionProvider;
   readonly operations?: readonly DeterministicOperation[] | DeterministicOperation;
+  readonly policy?: ExecutionPolicy;
+  readonly policyEvaluator?: PolicyEvaluator;
+  readonly isIsolationAvailable?: boolean | (() => Promise<boolean>);
 }
 
 /**
@@ -30,7 +39,8 @@ export interface WorkerRuntimeOptions {
  *
  * Boundary Responsibilities:
  * - Owns run claiming, worker lease heartbeats, and lifecycle state transitions.
- * - Delegates actual computation to an ExecutionProvider.
+ * - Enforces ExecutionPolicy and Capability checks before dispatch.
+ * - Delegates actual computation to an ExecutionProvider only when authorized.
  * - Translates execution results into RunCoordinator transitions (complete, fail, timeout).
  * - Enforces fencing tokens and safely handles lease theft / loss.
  */
@@ -42,6 +52,9 @@ export class WorkerRuntime {
   private readonly clock: ClockPort;
   private readonly leaseTtlMs: number;
   private readonly executionProvider: ExecutionProvider;
+  private readonly policy?: ExecutionPolicy;
+  private readonly policyEvaluator: PolicyEvaluator;
+  private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
 
   constructor(options: WorkerRuntimeOptions) {
     this.workerId = options.workerId ?? crypto.randomUUID();
@@ -50,6 +63,8 @@ export class WorkerRuntime {
     this.coordinator = options.coordinator;
     this.clock = options.clock ?? new SystemClock();
     this.leaseTtlMs = options.leaseTtlMs ?? 10000;
+    this.policyEvaluator = options.policyEvaluator ?? new PolicyEvaluator();
+    this.isIsolationAvailableProbe = options.isIsolationAvailable;
 
     if (options.executionProvider) {
       this.executionProvider = options.executionProvider;
@@ -58,6 +73,8 @@ export class WorkerRuntime {
         options.operations ?? [new EchoOperation()]
       );
     }
+
+    this.policy = options.policy;
   }
 
   /**
@@ -132,7 +149,111 @@ export class WorkerRuntime {
       timeoutMs: run.timeoutMs,
     };
 
-    // Delegate to ExecutionProvider
+    // 1. Evaluate Policy BEFORE invoking ExecutionProvider (if policy configured)
+    if (this.policy) {
+      const policyDecision = this.policyEvaluator.evaluate(request, this.policy);
+
+      // If policy denies capability: fail run immediately and release lease WITHOUT calling provider
+      if (policyDecision.status === "DENIED") {
+        this.coordinator.recordPolicyDecision(run.runId, {
+          taskId: task.taskId,
+          operationName: task.title,
+          capabilityName: policyDecision.capabilityName,
+          policyId: policyDecision.policyId,
+          allowed: false,
+          isolationRequirement: policyDecision.isolationRequirement,
+          reasonCode: policyDecision.reasonCode,
+          providerName: this.executionProvider.name,
+        });
+
+        const errorPayload = {
+          code: "POLICY_DENIED",
+          message: policyDecision.message,
+          details: {
+            reasonCode: policyDecision.reasonCode,
+            capabilityName: policyDecision.capabilityName,
+            isolationRequirement: policyDecision.isolationRequirement,
+            policyId: policyDecision.policyId,
+            providerName: this.executionProvider.name,
+          },
+        };
+
+        try {
+          this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
+        } catch (err: unknown) {
+          if (err instanceof LeaseLostError) {
+            return { status: "FENCED", runId: run.runId, error: err };
+          }
+          throw err;
+        }
+
+        return {
+          status: "FAILED",
+          runId: run.runId,
+          error: errorPayload,
+        };
+      }
+
+      // 2. Policy authorized the capability. Now verify whether execution infrastructure
+      // can satisfy the required isolation posture.
+      const isolationSatisfaction = await this.verifyIsolationSatisfaction(
+        policyDecision.isolationRequirement
+      );
+
+      if (!isolationSatisfaction.satisfied) {
+        // Record denied audit event due to isolation requirement failure
+        this.coordinator.recordPolicyDecision(run.runId, {
+          taskId: task.taskId,
+          operationName: task.title,
+          capabilityName: policyDecision.capabilityName,
+          policyId: policyDecision.policyId,
+          allowed: false,
+          isolationRequirement: policyDecision.isolationRequirement,
+          reasonCode: "ISOLATION_REQUIREMENT_NOT_MET",
+          providerName: this.executionProvider.name,
+        });
+
+        const errorPayload = {
+          code: "POLICY_DENIED",
+          message: isolationSatisfaction.reason,
+          details: {
+            reasonCode: "ISOLATION_REQUIREMENT_NOT_MET",
+            capabilityName: policyDecision.capabilityName,
+            isolationRequirement: policyDecision.isolationRequirement,
+            policyId: policyDecision.policyId,
+            providerName: this.executionProvider.name,
+          },
+        };
+
+        try {
+          this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
+        } catch (err: unknown) {
+          if (err instanceof LeaseLostError) {
+            return { status: "FENCED", runId: run.runId, error: err };
+          }
+          throw err;
+        }
+
+        return {
+          status: "FAILED",
+          runId: run.runId,
+          error: errorPayload,
+        };
+      }
+
+      // Record successful policy evaluation event
+      this.coordinator.recordPolicyDecision(run.runId, {
+        taskId: task.taskId,
+        operationName: task.title,
+        capabilityName: policyDecision.capabilityName,
+        policyId: policyDecision.policyId,
+        allowed: true,
+        isolationRequirement: policyDecision.isolationRequirement,
+        providerName: this.executionProvider.name,
+      });
+    }
+
+    // 4. Delegate to ExecutionProvider ONLY when policy is ALLOWED
     const executionResult = await this.executionProvider.execute(request);
 
     // Translate ExecutionResult to RunCoordinator state transitions
@@ -194,4 +315,65 @@ export class WorkerRuntime {
       throw err;
     }
   }
+
+  /**
+   * Probes whether the required isolation environment is available.
+   */
+  private async checkIsolationAvailability(): Promise<boolean | undefined> {
+    if (this.isIsolationAvailableProbe !== undefined) {
+      if (typeof this.isIsolationAvailableProbe === "function") {
+        return this.isIsolationAvailableProbe();
+      }
+      return this.isIsolationAvailableProbe;
+    }
+
+    if (this.executionProvider.name === "docker") {
+      const probe = await DockerExecutionProvider.isAvailable();
+      return probe.available;
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Verifies whether the configured execution provider can satisfy the required isolation posture.
+   * Isolates provider capabilities and availability checks strictly to runtime infrastructure.
+   */
+  private async verifyIsolationSatisfaction(
+    required: IsolationRequirement
+  ): Promise<{ satisfied: boolean; reason: string }> {
+    if (required === "ISOLATED") {
+      // Must not be an in-process provider
+      if (this.executionProvider.name === "in-process") {
+        return {
+          satisfied: false,
+          reason: "Policy requires ISOLATED execution, but provider is 'in-process' (no silent in-process downgrade permitted).",
+        };
+      }
+
+      // Check whether isolated execution environment is operational
+      const isAvailable = await this.checkIsolationAvailability();
+      if (isAvailable === false) {
+        return {
+          satisfied: false,
+          reason: "Policy requires ISOLATED execution, but isolated environment (Docker) is unavailable (FAIL CLOSED).",
+        };
+      }
+
+      return { satisfied: true, reason: "" };
+    }
+
+    if (required === "IN_PROCESS") {
+      if (this.executionProvider.name !== "in-process") {
+        return {
+          satisfied: false,
+          reason: `Policy requires IN_PROCESS execution, but provider is '${this.executionProvider.name}'.`,
+        };
+      }
+      return { satisfied: true, reason: "" };
+    }
+
+    return { satisfied: false, reason: `Unknown isolation requirement: ${required}` };
+  }
 }
+
