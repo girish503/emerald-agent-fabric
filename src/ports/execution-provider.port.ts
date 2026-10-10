@@ -5,6 +5,37 @@
  *
  * Owned by the application/ports layer. Free of any infrastructure, container,
  * or database dependencies.
+ *
+ * Key Architectural Contracts:
+ *
+ * 1. Provider Lifecycle Responsibility:
+ *    - The ExecutionProvider reports execution outcomes ONLY.
+ *    - It does NOT own run lifecycle, lease state, worker ownership, retry policy,
+ *      or run state transitions.
+ *    - The application runtime maps provider outcomes into run state transitions.
+ *
+ * 2. Logical Timeout vs Physical Termination:
+ *    - Current provider timeout is a LOGICAL runtime timeout.
+ *    - Promise.race() causes the runtime to stop waiting for an operation, but does
+ *      NOT physically terminate the underlying asynchronous execution or thread.
+ *    - Physical process termination belongs to a future out-of-process provider.
+ *
+ * 3. Run Idempotency vs Operation Idempotency:
+ *    - A run-level idempotency key protects creation/recovery semantics for the run.
+ *    - It must NOT automatically be treated as sufficient operation-level idempotency
+ *      for arbitrary future multi-step agent actions.
+ *    - Future architecture may explicitly distinguish: run_id, execution_id,
+ *      operation_id, attempt_number, and operation idempotency token.
+ *
+ * 4. Operation Registry vs Authorization:
+ *    - Selecting an operation by operationName is an execution routing lookup, NOT
+ *      an authorization mechanism.
+ *    - Future operation execution must pass through policy/capability authorization
+ *      before execution.
+ *
+ * 5. Minimal Abstraction:
+ *    - The ExecutionProvider contract is intentionally small and focused.
+ *    - It must not be expanded merely to anticipate speculative future requirements.
  */
 
 export interface ExecutionRequest<TInput = unknown> {
@@ -53,3 +84,4 @@ export interface ExecutionProvider {
     request: ExecutionRequest<TInput>
   ): Promise<ExecutionResult<TOutput>>;
 }
+

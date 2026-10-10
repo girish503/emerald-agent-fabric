@@ -107,24 +107,33 @@ Every state mutation and its associated event insertion MUST execute within a si
 ---
 
 ## 8. Idempotency Model (Three Tiers)
-1. **Request Idempotency**:
-   - `runs.idempotency_key` with unique constraint.
+1. **Request / Run Idempotency**:
+   - `runs.idempotency_key` with unique constraint protects creation and recovery semantics for the run.
    - Duplicate `createRun` calls with identical key return the existing `run_id` without duplicating tasks.
+   - *Boundary Constraint*: A run-level idempotency key protects run creation/recovery. It must **NOT** automatically be treated as sufficient operation-level idempotency for arbitrary future multi-step agent actions.
 2. **State Transition Idempotency**:
    - Commands verify current state before transition. Re-requesting an already-attained state (e.g. `queueRun` on `QUEUED` run) safely returns current snapshot without redundant event generation.
-3. **Operation Idempotency**:
+3. **Operation Idempotency vs Granular Execution Tracking**:
    - Operations receive an `idempotencyToken`.
    - In Capability 1, deterministic operations are pure functions: $f(\text{input}) = \text{output}$. Re-executing an operation produces identical results without cumulative side effects.
+   - *Future Architectural Entity Separation*: Multi-step agent actions in future phases will distinguish:
+     - `run_id` (overall user task run)
+     - `execution_id` (worker execution cycle)
+     - `operation_id` (specific step or action identity)
+     - `attempt_number` (attempt count within retry budget)
+     - `operation_idempotency_token` (token supplied to external systems/providers)
+     These fields are not introduced prematurely in Capability 1.
 
 ---
 
 ## 9. Timeout Semantics: Logical vs Physical
-- **Logical Timeout (Guaranteed by Capability 1)**:
-  - Wall-clock execution is monitored via timer / `AbortController`.
+- **Logical Timeout (Guaranteed by Capability 1 & InProcessExecutionProvider)**:
+  - Wall-clock execution is monitored via timers and `Promise.race()`.
   - When duration exceeds `timeout_ms`, the runtime transitions status to `TIMED_OUT`, revokes the lease, and emits `run.timed_out`.
-- **Physical Process Termination (Deferred to Phase 3)**:
-  - Node.js cannot forcibly interrupt synchronous blocking code (`while(true) {}`) on the main event loop.
-  - Hard physical preemption, memory ceiling enforcement, and `SIGKILL` belong strictly to the Docker/OCI container sandbox layer (Phase 3). Capability 1 relies on cooperative asynchronous promises.
+  - *Non-Preemption Guarantee*: `Promise.race()` causes the runtime to stop waiting for an operation and drop late results, but it does **NOT** physically terminate underlying asynchronous operations or worker threads.
+- **Physical Process Termination (Deferred to Container / Process Boundaries)**:
+  - Single-process Node.js cannot forcibly interrupt or kill arbitrary running JavaScript threads.
+  - Hard physical termination, memory ceiling enforcement, and `SIGKILL` belong strictly to future out-of-process execution providers (containers or worker subprocesses).
 
 ---
 
@@ -141,3 +150,29 @@ Every state mutation and its associated event insertion MUST execute within a si
 | `WORKER_CRASH` | Node Failure | Recovered by Sweeper | `RECOVERING` → `QUEUED` or `FAILED` | Worker stopped heartbeats mid-execution. |
 | `POLICY_DENIED` | Security Gate | No Retry | `FAILED` | Reserved for security policy rejections (Phase 4). |
 | `INTERNAL_ERROR` | Runtime Panic | No Retry | `FAILED` | Unhandled runtime exception or invariant breach. |
+
+---
+
+## 11. Execution Provider Boundary & Performance Protocol
+
+### 11.1 Lifecycle Responsibility Division
+- **ExecutionProvider**:
+  - Owns execution mechanics ONLY (in-process, container, subprocess).
+  - Reports raw execution outcomes (`SUCCESS`, `FAILED`, `TIMED_OUT`, `CANCELLED`).
+  - Does **NOT** own: run lifecycle, lease state, worker ownership, retry policy, or run state transitions.
+- **Application Runtime (`WorkerRuntime` & `RunCoordinator`)**:
+  - Owns run lifecycle, leases, fencing verification, retry decisions, and state persistence.
+  - Maps provider execution outcomes into atomic state machine transitions.
+
+### 11.2 Operation Registry vs Authorization Gate
+- Looking up an operation by `operationName` in a provider registry is mechanical dispatch, **NOT** an authorization mechanism.
+- Future operation execution must pass through an outer policy and capability authorization gate before dispatch. Authorization is not implemented at the provider execution layer.
+
+### 11.3 Performance Evaluation Protocol
+- Early microbenchmark observations (e.g. `<0.01 ms/op` provider abstraction overhead) represent **initial local microbenchmark observations only**, NOT production performance guarantees.
+- Future rigorous performance evaluations must report at minimum:
+  - `p50` latency
+  - `p95` latency
+  - `p99` latency
+  and include explicit workload patterns, host hardware, and OS environment specifications.
+

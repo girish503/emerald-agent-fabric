@@ -10,9 +10,14 @@ import {
  * the current Node.js process.
  *
  * Boundary Guarantees:
- * - Owns execution mechanics (calling the pure operation implementation).
- * - Has ZERO dependencies on SQLite, database transactions, leases, or run lifecycle.
- * - Supports logical timeout detection (without claiming physical process kill).
+ * - Owns execution mechanics ONLY (calling the pure operation implementation).
+ * - Reports execution outcomes to the application runtime; does NOT manage leases,
+ *   run lifecycles, retries, or database state.
+ * - Selecting an operation by operationName is mechanical execution routing, NOT
+ *   an authorization mechanism (authorization must occur at an outer policy gate).
+ * - Implements LOGICAL timeout detection via Promise.race(); this causes the runtime
+ *   to stop waiting, but does NOT physically terminate the underlying asynchronous
+ *   execution. Hard process termination belongs to future out-of-process providers.
  * - Pure deterministic operations f(input) = output are safe for replay.
  */
 export class InProcessExecutionProvider implements ExecutionProvider {

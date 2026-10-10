@@ -61,3 +61,9 @@ The architecture treats the following boundaries as untrusted:
 ### 3.5 Secret Redaction & Log Hygiene
 - Permanent credentials are never stored in `tasks`, `runs`, or `run_events`.
 - Payloads are checked against a recursive redaction filter (`apiKey`, `password`, `token`, `secret`) before any JSON string is written to diagnostic stdout/stderr streams.
+
+### 3.6 Operation Dispatch vs Authorization Gate
+- Resolving an operation by `operationName` within an `ExecutionProvider` is mechanical execution routing, **NOT** an authorization mechanism.
+- Future tool execution and agent capabilities must pass through policy and capability authorization gates before being dispatched to any execution provider.
+- Execution providers report mechanical outcomes only and do not evaluate security policy.
+

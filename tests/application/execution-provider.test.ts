@@ -410,7 +410,11 @@ describe("Execution Provider Boundary", () => {
     store.close();
   });
 
-  it("Performance & Overhead: Measure provider execution latency and boundary overhead", async () => {
+  it("Performance & Overhead: Initial local microbenchmark observation of provider overhead", async () => {
+    // Note: This test captures an initial local microbenchmark observation only,
+    // NOT a production performance guarantee. Production performance evaluations
+    // must report at least p50, p95, and p99 percentiles along with explicit
+    // workload, hardware, and environment specifications.
     const provider = new InProcessExecutionProvider([new EchoOperation()]);
     const request: ExecutionRequest = {
       runId: "bench-run",
@@ -425,7 +429,7 @@ describe("Execution Provider Boundary", () => {
     // Warmup
     await provider.execute(request);
 
-    // Benchmark 100 in-process iterations
+    // Microbenchmark iterations
     const iterations = 100;
     const start = performance.now();
     for (let i = 0; i < iterations; i++) {
@@ -445,7 +449,8 @@ describe("Execution Provider Boundary", () => {
 
     const overheadMs = Math.max(0, avgLatencyMs - avgDirectLatencyMs);
 
-    expect(avgLatencyMs).toBeLessThan(1.0); // Sub-millisecond latency per execution
-    expect(overheadMs).toBeLessThan(1.0); // Sub-millisecond abstraction overhead
+    // Initial local observation assertion: boundary does not introduce unexpected gross stalls
+    expect(avgLatencyMs).toBeLessThan(1.0);
+    expect(overheadMs).toBeLessThan(1.0);
   });
 });
