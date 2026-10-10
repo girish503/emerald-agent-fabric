@@ -160,3 +160,52 @@ Result
    - Every authorization decision is immutably logged into the run event stream via `policy.evaluated`.
    - Denied executions are transitioned to terminal `FAILED` status with structured error code `POLICY_DENIED`, releasing leases and preventing unsafe retry loops.
 
+---
+
+## 6. Evidence & Verification Security Boundary (Task 1.7)
+
+### 6.1 Execution Claim vs Verifiable Evidence
+```text
+ExecutionProvider Claim (SUCCESS)
+               ≠
+     Verified Outcome
+```
+- A compromised, faulty, or hallucinating execution mechanism or agent may self-report `status = SUCCESS` with corrupted or fabricated outputs.
+- Emerald rejects self-reported claims as proof of success. Success requires corroboration via structured, canonicalized `Evidence` evaluated by a pure `DeterministicVerifier`.
+
+### 6.2 V1 Boundary Qualification
+- **V1 Qualification**: V1 does **NOT** provide out-of-band independent observation.
+- Current evidence is derived from provider outputs (`source: "PROVIDER_REPORTED"`).
+- Independent out-of-band observation (external filesystem audits, out-of-process probes) is deferred to future sandbox milestones.
+
+### 6.3 Secret Redaction & Content Hashing Pipeline
+Execution outputs must never be persisted blindly into immutable event logs.
+```text
+Raw Observation
+       ↓
+Deterministic Redaction (token, secret, password, credential, authorization)
+       ↓
+Canonical JSON Serialization (lexicographically sorted keys, original array order)
+       ↓
+SHA-256 Content Digest (lowercase hex)
+       ↓
+Durable Event Persistence (evidence.recorded)
+```
+- **Integrity Rule**: The persisted `contentHash` represents the *persisted redacted representation*, ensuring mathematical correspondence between the digest and stored data.
+- **Size Boundary**: Embedded summaries are capped at 64 KB. Payloads exceeding this limit omit raw content and transition to `CONTENT_HASH` to prevent event log bloat.
+
+### 6.4 Verifier Security & Execution Safety
+- **Zero Dynamic Execution**: The verifier treats all evidence as untrusted passive data. It never executes shell commands, never calls `eval()`, never performs dynamic imports, and makes no network or database calls.
+- **Fail-Closed on Verification Failure**:
+  ```text
+  ExecutionProvider: SUCCESS
+             ↓
+  Verification: FAILED
+             ↓
+  FAIL CLOSED (error: VERIFICATION_FAILED)
+             ↓
+  ZERO run.completed events
+  ```
+- **Deterministic Terminal Failure**: Verification failure on deterministic operations represents a semantic violation. It transitions immediately to terminal `FAILED` without retrying.
+
+

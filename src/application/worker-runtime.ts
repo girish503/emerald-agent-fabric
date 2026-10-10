@@ -1,12 +1,18 @@
 import { DockerExecutionProvider } from "../adapters/execution/docker-execution-provider.js";
 import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
 import { LeaseLostError } from "../domain/errors.js";
+import {
+  createOutputPayloadEvidence,
+  createProcessExitEvidence,
+  Evidence,
+} from "../domain/evidence.js";
 import { DeterministicOperation, EchoOperation } from "../domain/operation.js";
 import {
   ExecutionPolicy,
   IsolationRequirement,
   PolicyEvaluator,
 } from "../domain/policy.js";
+import { DeterministicVerifier, VerificationSpec } from "../domain/verification.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest } from "../ports/execution-provider.port.js";
 import { WorkerRecord } from "../ports/state-store.port.js";
@@ -32,6 +38,14 @@ export interface WorkerRuntimeOptions {
   readonly policy?: ExecutionPolicy;
   readonly policyEvaluator?: PolicyEvaluator;
   readonly isIsolationAvailable?: boolean | (() => Promise<boolean>);
+  /**
+   * Optional verification specification or resolver.
+   * If provided, execution outputs are verified against this specification
+   * before the run can transition to COMPLETED.
+   */
+  readonly verificationSpec?:
+    | VerificationSpec
+    | ((request: ExecutionRequest) => VerificationSpec | undefined);
 }
 
 /**
@@ -55,6 +69,9 @@ export class WorkerRuntime {
   private readonly policy?: ExecutionPolicy;
   private readonly policyEvaluator: PolicyEvaluator;
   private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
+  private readonly verificationSpec?:
+    | VerificationSpec
+    | ((request: ExecutionRequest) => VerificationSpec | undefined);
 
   constructor(options: WorkerRuntimeOptions) {
     this.workerId = options.workerId ?? crypto.randomUUID();
@@ -65,6 +82,7 @@ export class WorkerRuntime {
     this.leaseTtlMs = options.leaseTtlMs ?? 10000;
     this.policyEvaluator = options.policyEvaluator ?? new PolicyEvaluator();
     this.isIsolationAvailableProbe = options.isIsolationAvailable;
+    this.verificationSpec = options.verificationSpec;
 
     if (options.executionProvider) {
       this.executionProvider = options.executionProvider;
@@ -260,6 +278,61 @@ export class WorkerRuntime {
     try {
       switch (executionResult.status) {
         case "SUCCESS": {
+          // Resolve VerificationSpec if configured
+          const spec =
+            typeof this.verificationSpec === "function"
+              ? this.verificationSpec(request)
+              : this.verificationSpec;
+
+          if (spec) {
+            // 1. Capture observation and construct immutable evidence
+            const evidenceList: Evidence[] = [
+              createOutputPayloadEvidence(run.runId, executionResult.output),
+            ];
+
+            if (typeof executionResult.providerMetadata?.exitCode === "number") {
+              evidenceList.push(
+                createProcessExitEvidence(run.runId, {
+                  exitCode: executionResult.providerMetadata.exitCode as number,
+                  signal: (executionResult.providerMetadata?.signal as string) ?? null,
+                })
+              );
+            }
+
+            // 2. Record evidence events in append-only run event store
+            for (const evidence of evidenceList) {
+              this.coordinator.recordEvidence(run.runId, evidence);
+            }
+
+            // 3. Evaluate verification deterministically
+            const verificationResult = DeterministicVerifier.verify(evidenceList, spec);
+
+            // 4. Record verification event in append-only run event store
+            this.coordinator.recordVerificationResult(run.runId, verificationResult);
+
+            // 5. Fail closed if verification did not succeed
+            if (verificationResult.status !== "VERIFIED") {
+              const errorPayload = {
+                code: "VERIFICATION_FAILED",
+                message: verificationResult.message,
+                details: {
+                  specId: spec.specId,
+                  reasonCode: verificationResult.reasonCode,
+                  details: verificationResult.details,
+                  evidenceIds: verificationResult.evidenceIds,
+                  verifierId: verificationResult.verifierId,
+                },
+              };
+
+              this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
+              return {
+                status: "FAILED",
+                runId: run.runId,
+                error: errorPayload,
+              };
+            }
+          }
+
           this.coordinator.completeRun(
             run.runId,
             this.workerId,

@@ -1,4 +1,11 @@
-import { DomainEvent, PolicyEvaluatedPayload } from "../domain/events.js";
+import {
+  DomainEvent,
+  EvidenceRecordedPayload,
+  PolicyEvaluatedPayload,
+  VerificationCompletedPayload,
+} from "../domain/events.js";
+import { Evidence } from "../domain/evidence.js";
+import { VerificationResult } from "../domain/verification.js";
 import { Run } from "../domain/run.js";
 import { RunSnapshot } from "../domain/invariants.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
@@ -333,6 +340,62 @@ export class RunCoordinator {
           isolationRequirement: params.isolationRequirement,
           reasonCode: params.reasonCode,
           providerName: params.providerName,
+        },
+      };
+
+      return tx.appendEvent(event);
+    });
+  }
+
+  /**
+   * Records an immutable evidence artifact into the run event stream.
+   */
+  recordEvidence(runId: string, evidence: Evidence): PersistedEvent {
+    return this.stateStore.transaction((tx) => {
+      const event: DomainEvent<EvidenceRecordedPayload> = {
+        eventId: crypto.randomUUID(),
+        runId,
+        timestamp: this.clock.nowIso(),
+        eventType: "evidence.recorded",
+        schemaVersion: 1,
+        producer: "application.evidence_collector",
+        payload: {
+          evidenceId: evidence.evidenceId,
+          runId,
+          source: evidence.source,
+          kind: evidence.kind,
+          contentHash: evidence.contentHash,
+          summary: evidence.summary ? { ...evidence.summary } : undefined,
+          observedAt: evidence.observedAt,
+        },
+      };
+
+      return tx.appendEvent(event);
+    });
+  }
+
+  /**
+   * Records a deterministic verification result into the run event stream.
+   */
+  recordVerificationResult(runId: string, result: VerificationResult): PersistedEvent {
+    return this.stateStore.transaction((tx) => {
+      const event: DomainEvent<VerificationCompletedPayload> = {
+        eventId: crypto.randomUUID(),
+        runId,
+        timestamp: this.clock.nowIso(),
+        eventType: "verification.completed",
+        schemaVersion: 1,
+        producer: "application.verifier",
+        payload: {
+          runId,
+          verifierId: result.verifierId,
+          specId: result.specId,
+          status: result.status,
+          evidenceIds: [...result.evidenceIds],
+          reasonCode: result.reasonCode,
+          message: result.message,
+          details: result.details ? { ...result.details } : undefined,
+          verifiedAt: result.verifiedAt,
         },
       };
 

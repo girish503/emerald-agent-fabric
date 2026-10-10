@@ -127,6 +127,36 @@ export type PolicyEvaluatedEvent = DomainEvent<PolicyEvaluatedPayload> & {
   readonly eventType: "policy.evaluated";
 };
 
+export interface EvidenceRecordedPayload {
+  readonly evidenceId: string;
+  readonly runId: string;
+  readonly source: "PROVIDER_REPORTED" | "INDEPENDENT_OBSERVER";
+  readonly kind: string;
+  readonly contentHash: string;
+  readonly summary?: Record<string, unknown>;
+  readonly observedAt: string;
+}
+
+export type EvidenceRecordedEvent = DomainEvent<EvidenceRecordedPayload> & {
+  readonly eventType: "evidence.recorded";
+};
+
+export interface VerificationCompletedPayload {
+  readonly runId: string;
+  readonly verifierId: string;
+  readonly specId: string;
+  readonly status: "VERIFIED" | "FAILED";
+  readonly evidenceIds: readonly string[];
+  readonly reasonCode?: string;
+  readonly message: string;
+  readonly details?: Record<string, unknown>;
+  readonly verifiedAt: string;
+}
+
+export type VerificationCompletedEvent = DomainEvent<VerificationCompletedPayload> & {
+  readonly eventType: "verification.completed";
+};
+
 export type AnyRunEvent =
   | RunCreatedEvent
   | RunQueuedEvent
@@ -138,4 +168,7 @@ export type AnyRunEvent =
   | RunCancelledEvent
   | LeaseExpiredEvent
   | RunRecoveredEvent
-  | PolicyEvaluatedEvent;
+  | PolicyEvaluatedEvent
+  | EvidenceRecordedEvent
+  | VerificationCompletedEvent;
+

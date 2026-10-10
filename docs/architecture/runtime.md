@@ -234,3 +234,75 @@ Result
 5. **No Self-Authorization**: Execution requests and payload data are treated as untrusted. Agents cannot grant themselves capabilities or modify frozen policy objects.
 6. **Auditability**: Every policy decision produces structured audit data (`policy.evaluated` event) and on denial transitions the run to `FAILED` with `POLICY_DENIED`, releasing leases without triggering retry loops.
 
+---
+
+## 13. Evidence & Verification Boundary (Task 1.7)
+
+### 13.1 Execution Claim vs Verified Outcome
+Emerald strictly distinguishes between an **execution claim** and **verified success**:
+```text
+ExecutionProvider: status = SUCCESS  ≠  Verified Outcome
+```
+- The `ExecutionProvider` reports execution outcomes from its mechanical execution perspective (`ExecutionResult`). This is a self-reported claim.
+- The `DeterministicVerifier` evaluates immutable, structured `Evidence` against an explicit `VerificationSpec` independently of the provider's claimed success.
+
+### 13.2 V1 Qualification: Provider-Reported Evidence
+- **V1 Qualification**: V1 does **NOT** provide out-of-band independent observation.
+- V1 establishes:
+  ```text
+  Provider-produced observation
+          ↓
+  Structured evidence (source: PROVIDER_REPORTED)
+          ↓
+  Independent deterministic verification logic
+  ```
+- True independent observation (external filesystem probes, out-of-band monitors) is explicitly deferred to future sandbox iterations.
+
+### 13.3 Execution & Verification Pipeline
+```text
+ExecutionProvider
+      ↓
+ExecutionResult (claim: status, output, duration)
+      ↓
+Observation
+      ↓
+Evidence (source: PROVIDER_REPORTED, SHA-256 digest, bounded summary)
+      ↓
+DeterministicVerifier  <───  VerificationSpec (rule: EXACT_OUTPUT_MATCH, OUTPUT_HASH_MATCH, EXIT_CODE_ZERO)
+      ↓
+VerificationResult (VERIFIED | FAILED)
+ ┌────┴────┐
+ ▼         ▼
+VERIFIED   FAILED
+ ↓         ↓
+complete   failRun(VERIFICATION_FAILED)
+```
+
+### 13.4 Core Verification Invariants
+1. **No Blind Trust**: `ExecutionResult.status === "SUCCESS"` never triggers `completeRun()` when a `VerificationSpec` is present until `DeterministicVerifier` returns `VERIFIED`.
+2. **Canonical Hashing & Integrity**:
+   - Observations are sanitized via deterministic key-based redaction (`token`, `secret`, `password`, `credential`, `authorization`).
+   - Redacted payloads are serialized with deterministic canonical JSON (lexicographically sorted keys, original array order preserved).
+   - Content digest is computed as lowercase hexadecimal SHA-256 over the canonical, redacted string.
+   - The persisted `contentHash` corresponds strictly to the persisted redacted representation.
+3. **Bounded Summary (64 KB)**:
+   - Initial experimental V1 limit of 64 KB for embedded summaries in the event store.
+   - Payloads exceeding 64 KB omit raw content and transition `kind` to `CONTENT_HASH` to prevent SQLite WAL blob bloat.
+4. **Pure, Deterministic Evaluation**:
+   - `DeterministicVerifier` has zero I/O, zero network, zero Docker dependencies, and zero time-dependent decision logic.
+   - Identical evidence + spec + verifier version yields identical verdicts.
+5. **Decoupled Retry Responsibility**:
+   - The verifier reports semantic verdicts (`VERIFIED` or `FAILED`) only.
+   - The application runtime owns retry decisions. For deterministic operations, a verification failure indicates a logic violation rather than a transient fault, failing closed to terminal `FAILED` without retrying.
+6. **State Machine: Dormant `VERIFYING` State**:
+   - The `VERIFYING` state remains dormant in V1 to avoid write amplification and complex lease-handling for sub-millisecond CPU-bound checks.
+   - Verification executes synchronously within the active `RUNNING` lease window before committing `run.completed` or `run.failed`.
+7. **VerificationSpec Ownership**:
+   - Durable ownership of verification specifications is intentionally deferred until Mission Contract design. In V1, specifications are passed via `WorkerRuntimeOptions.verificationSpec`.
+
+### 13.5 Replay Architecture (Future Capability)
+- **Architecturally Supported**: Deterministic content hashing and immutable evidence recording provide the foundation for deterministic audit and replay.
+- **Scope Qualification**: Full execution replay and counterfactual evaluation engines are future research capabilities (Emerald Reflex); Task 1.7 implements the durable evidence schema and deterministic verification primitives.
+
+
+

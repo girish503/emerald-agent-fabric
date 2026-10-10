@@ -5,6 +5,7 @@ import { DockerExecutionProvider } from "../../src/adapters/execution/docker-exe
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
 import { LeaseLostError } from "../../src/domain/errors.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionRequest } from "../../src/ports/execution-provider.port.js";
 
@@ -527,6 +528,56 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
       const exhaustedRun = coordinator.getRun(run.runId);
       expect(exhaustedRun!.status).toBe("FAILED");
       expect((exhaustedRun!.errorPayload as { code: string }).code).toBe("RETRIES_EXHAUSTED");
+
+      store.close();
+    });
+
+    it("verifies container execution output through WorkerRuntime against VerificationSpec", async () => {
+      if (!isDockerAvailable) return;
+
+      const clock = new SettableClock();
+      const store = new SqliteStateStore();
+      const coordinator = new RunCoordinator(store, clock);
+      const dockerProvider = new DockerExecutionProvider();
+
+      const verificationSpec = createVerificationSpec({
+        specId: "docker-verify-sum-15",
+        ruleKind: "EXACT_OUTPUT_MATCH",
+        expectedValue: 15,
+      });
+
+      const worker = new WorkerRuntime({
+        workerId: "docker-verifier-worker",
+        coordinator,
+        clock,
+        executionProvider: dockerProvider,
+        verificationSpec,
+      });
+
+      const task = coordinator.createTask({
+        title: "sum",
+        inputPayload: [7, 8],
+      });
+
+      const { run } = coordinator.createRun({ taskId: task.taskId });
+      coordinator.queueRun(run.runId);
+
+      const result = await worker.runOnce();
+
+      expect(result.status).toBe("COMPLETED");
+      if (result.status === "COMPLETED") {
+        expect(result.output).toBe(15);
+      }
+
+      const events = coordinator.getEventsForRun(run.runId);
+      const eventTypes = events.map((e) => e.eventType);
+
+      expect(eventTypes).toContain("evidence.recorded");
+      expect(eventTypes).toContain("verification.completed");
+      expect(eventTypes).toContain("run.completed");
+
+      const verifEvent = events.find((e) => e.eventType === "verification.completed");
+      expect((verifEvent!.payload as { status: string }).status).toBe("VERIFIED");
 
       store.close();
     });
