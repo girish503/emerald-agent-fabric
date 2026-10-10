@@ -66,7 +66,7 @@ export class InProcessExecutionProvider implements ExecutionProvider {
   ): Promise<ExecutionResult<TOutput>> {
     const startTime = performance.now();
 
-    // 1. Resolve operation by requested name or fallback
+    // 1. Resolve operation by requested name or default operation
     let operation = this.operationMap.get(request.operationName);
     if (!operation && !request.operationName) {
       operation = this.defaultOperation;

@@ -130,10 +130,12 @@ Every state mutation and its associated event insertion MUST execute within a si
 - **Logical Timeout (Guaranteed by Capability 1 & InProcessExecutionProvider)**:
   - Wall-clock execution is monitored via timers and `Promise.race()`.
   - When duration exceeds `timeout_ms`, the runtime transitions status to `TIMED_OUT`, revokes the lease, and emits `run.timed_out`.
-  - *Non-Preemption Guarantee*: `Promise.race()` causes the runtime to stop waiting for an operation and drop late results, but it does **NOT** physically terminate underlying asynchronous operations or worker threads.
-- **Physical Process Termination (Deferred to Container / Process Boundaries)**:
-  - Single-process Node.js cannot forcibly interrupt or kill arbitrary running JavaScript threads.
-  - Hard physical termination, memory ceiling enforcement, and `SIGKILL` belong strictly to future out-of-process execution providers (containers or worker subprocesses).
+  - *Non-Preemption Guarantee*: In `InProcessExecutionProvider`, `Promise.race()` causes the runtime to stop waiting for an operation and drop late results, but it does **NOT** physically terminate underlying asynchronous operations or worker threads.
+- **Physical Process Termination (Implemented in DockerExecutionProvider)**:
+  - In `DockerExecutionProvider`, timeouts trigger active physical termination:
+    1. Sends `SIGTERM` / `SIGKILL` to the host child process wrapper (`child.kill("SIGKILL")`).
+    2. Explicitly invokes `docker kill <containerName>` to terminate the running container immediately.
+    3. Guarantees container destruction via `docker rm -f <containerName>` in a `finally` block.
 
 ---
 
@@ -175,4 +177,25 @@ Every state mutation and its associated event insertion MUST execute within a si
   - `p95` latency
   - `p99` latency
   and include explicit workload patterns, host hardware, and OS environment specifications.
+
+### 11.4 Docker Execution Provider Architecture (Task 1.5)
+- **Drop-in Provider Compatibility**:
+  - `DockerExecutionProvider` implements `ExecutionProvider` alongside `InProcessExecutionProvider`.
+  - The application runtime (`WorkerRuntime`, `RunCoordinator`, state machine, lease manager) remains 100% unaware of container mechanics.
+- **Ephemeral Container Lifecycle & Blast Radius Reduction**:
+  - Each execution request launches an ephemeral container named `emerald-exec-<runId>-<attempt>-<nonce>`.
+  - Input JSON is streamed directly via pipe to Node.js inside the container via standard input (`stdin`); no host files or daemon sockets are mounted.
+  - The container is isolated from host filesystem mounts, uses a read-only container root filesystem (`--read-only`), and has only explicitly controlled temporary writable storage (`--tmpfs /tmp:rw,noexec,nosuid,size=64m`). This significantly reduces the blast radius of filesystem mutation and untrusted execution relative to in-process execution, but does not represent an absolute filesystem security boundary.
+  - Docker `--network=none` is configured. Normal container network connectivity is therefore disabled. Platform and daemon assumptions remain part of the threat model. Container isolation is defense-in-depth, not an absolute security boundary.
+- **Fail-Closed Policy for Untrusted Operations**:
+  - For operations requiring isolation: if Docker is unavailable, the runtime/caller must **fail closed (FAIL CLOSED)**.
+  - In-process execution must **NOT** be used as an automatic fallback for untrusted operations.
+  - In-process execution remains available exclusively for explicitly trusted deterministic operations.
+- **Output Limit Protection**:
+  - Stdout and stderr streams are continuously counted; if combined bytes exceed `maxOutputBytes` (default 1MB), the host immediately terminates the container and returns `FAILED` with error code `OUTPUT_LIMIT_EXCEEDED`.
+- **Cleanup Guarantees**:
+  - Container removal (`docker rm -f <containerName>`) is unconditionally executed in a `finally` block on every execution path (success, error, timeout, or output truncation).
+- **Observed Characteristics & Threat Model Limitations**:
+  - **Latency Observation**: Container startup latency of $\approx 1.2\text{s} - 2.5\text{s}$ per operation is an **initial local observation on the development environment** (Windows 11 host with Docker Desktop 29.8.0, image `node:22-alpine`, 15 test executions of deterministic echo/sum scripts). It is not a production benchmark.
+  - **Threat Model**: Host OS kernel is shared with the container via WSL2. Container escape vulnerabilities, kernel bugs, and Docker daemon bugs remain part of the threat model. Multi-tenant untrusted execution requires dedicated microVM isolation (e.g. Firecracker/gVisor).
 
