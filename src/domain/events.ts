@@ -3,7 +3,7 @@
  * Pure definitions of state changes and lifecycle occurrences.
  */
 
-export interface DomainEvent<T = Record<string, unknown>> {
+export interface DomainEvent<T = unknown> {
   readonly eventId: string;
   readonly runId: string;
   readonly timestamp: string; // ISO 8601 UTC
