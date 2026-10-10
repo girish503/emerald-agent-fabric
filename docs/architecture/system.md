@@ -3,33 +3,66 @@
 ## 1. Architectural Boundaries and Dependency Inversion
 
 ```
-UI (Next.js / Web Console)
+Transport (Fastify HTTP / IPC / CLI / Test Harness)
         │
         ▼
-Transport (Fastify HTTP / WebSocket / IPC)
+Application (RunCoordinator, LeaseManager, SweeperService)
         │
         ▼
-Application (Run Orchestration, Lease Management, Workflow Engine)
+Domain (RunAggregate, RunStateMachine, Invariants, Events, Errors)
         │
         ▼
-Domain (Agent Loop, State Machine, Reflex Engine, Policies, Event Schema)
+Ports (StateStorePort, EventStorePort, OperationPort, ClockPort, IdGeneratorPort)
+        │
+        ▲
+Adapters (SqliteStateStore, SqliteEventStore, PureOperationAdapter, SystemClock)
         │
         ▼
-Ports (ModelProvider, SandboxProvider, EventStore, StateStore, ToolRegistry)
-        │
-        ▼
-Adapters (OpenAI, Anthropic, Gemini, Docker/OCI, SQLite-WAL, OpenTelemetry)
-        │
-        ▼
-Infrastructure (OS, CPU, Network, FileSystem)
+Infrastructure (SQLite WAL Database, OS FileSystem, Node.js Runtime)
 ```
 
-**Key Invariant**: Domain logic depends ONLY on ports. Adapters implement ports. No external framework or provider leaks into the domain.
+### Invariants:
+1. **Dependencies Point Inward**: The Domain layer depends only on language primitives and domain-defined ports. It contains zero imports from SQLite, Fastify, Docker, or external SDKs.
+2. **Ports as Abstractions**: Infrastructure and database drivers are adapters implementing domain ports.
+3. **Pluggable Execution Engine**: The execution boundary (`OperationPort`) allows swapping deterministic test operations for Docker sandboxes or tool runners without modifying the state machine.
+
+---
 
 ## 2. Core Subsystems
-1. **Durable State Machine**: Enforces valid run lifecycle transitions (`CREATED` through `COMPLETED`/`FAILED`).
-2. **Event Fabric**: Append-only typed event streams with schema versions.
-3. **Execution Runtime**: Coordinates the agent observe-plan-execute loop with timeout bounds and failure recovery.
-4. **Policy & Reflex Layer**: Decoupled gatekeeper evaluating safety, confidence, action necessity, and capability permissions.
-5. **Sandbox Isolation Layer**: CPU-first containerized environment running non-root with dropped capabilities and restricted network.
-6. **Telemetry & Latency Engine**: OpenTelemetry integration measuring every phase of the task latency decomposition.
+
+### 2.1 Durable State Machine
+- Manages explicit lifecycle states: `CREATED`, `QUEUED`, `LEASED`, `RUNNING`, `COMPLETED`, `FAILED`, `CANCELLED`, `TIMED_OUT`, `RECOVERING`.
+- Pure domain validation via `canTransition(from, command)` and `applyTransition(state, command)`.
+- Enforces Optimistic Concurrency Control (`version`) and lease fencing.
+
+### 2.2 Append-Only Event Store
+- Captures fine-grained lifecycle transitions and operational milestones.
+- Strictly ordered, gapless integer sequence ($1, 2, 3, \dots, N$) per `run_id`.
+- Committed in the exact same ACID transaction as the state mutation.
+
+### 2.3 Lease Coordination & Sweeper
+- Provides time-bounded exclusive ownership of runs by active workers.
+- Leases are fenced via unique `lease_id` tokens, preventing stale workers from corrupting recovered runs.
+- Background sweeper detects lapsed heartbeats (`lease_expires_at < now`) and transitions runs to `RECOVERING` for retry or terminal failure.
+
+### 2.4 Execution Boundary & Ports
+- `DeterministicOperationPort` provides a clean abstraction for unit and integration testing without invoking shell processes or containers.
+- Enforces logical timeouts via cooperative abort signals.
+
+---
+
+## 3. Module Layout (Single Package Modularity)
+To satisfy the **Minimal Complexity** and **No Speculative Architecture** principles, Capability 1 avoids premature monorepo tooling in favor of a strictly modular single-package structure:
+```
+src/
+├── domain/            # Pure entities, state machine, invariants, events, errors
+│   ├── models/
+│   ├── state-machine/
+│   └── events/
+├── application/       # Use cases, coordination, lease management, sweeper
+├── ports/             # Domain port interfaces (storage, operations, clock)
+├── adapters/          # SQLite storage adapters, operation adapters, clock
+│   ├── persistence/
+│   └── operations/
+└── infrastructure/    # Database initialization, SQLite PRAGMA configuration
+```

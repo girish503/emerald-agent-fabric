@@ -1,39 +1,63 @@
 # Emerald Agent Fabric: Security Architecture
 
 ## 1. Threat Model & Untrusted Boundaries
-1. **Model Output**: Assumed untrusted. Can generate malicious commands, path traversals, or exploit attempts.
-2. **Repository Files**: Assumed potentially hostile. Can contain indirect prompt injections, adversarial config files, or malicious build scripts.
-3. **External Network**: Restrictive egress only. Default deny.
-4. **Agent Sandbox**: Assume potential container escape attempts; harden with layered OS controls.
+The architecture treats the following boundaries as untrusted:
+1. **Task Input & Operation Parameters**: Can contain malformed data, schema-breaking keys, or attempted prototype pollution.
+2. **Worker Identifiers**: Must be validated against the worker registry; rogue or stale workers must not forge lease renewals.
+3. **Future Model & Tool Outputs**: Treated as untrusted payload strings subject to strict schema validation.
+4. **Execution Runtime**: Host OS privileges must be isolated; Capability 1 uses pure in-process function execution, with OS isolation deferred to Phase 3.
 
-## 2. Defense-in-Depth Pipeline
+---
+
+## 2. Layered Trust Boundaries (Capability 1)
+
 ```
-Model Output
-     │
-     ▼
-Typed Schema Validation (Zod)
-     │
-     ▼
-Reflex Risk Check (Anomaly & Risk Scoring)
-     │
-     ▼
-Security Policy Gate (Command blacklists, Path traversal checks)
-     │
-     ▼
-Capability Grant (Token-bounded ephemeral permissions)
-     │
-     ▼
-Sandbox Execution (OCI container, non-root, read-only rootfs, dropped caps, seccomp)
-     │
-     ▼
-Network Firewall (Strict outbound rules, no secret access)
-     │
-     ▼
-Human Approval Gate (Triggered if policy detects high-risk action)
+[ Untrusted Client / External Inputs ]
+                  │
+                  ▼
+         [ Input Validation Gate ]
+     Strict Zod Schemas / Property Stripping
+                  │
+                  ▼
+         [ Domain State Machine ]
+     Pure Invariant Checks / State Transition Validation
+                  │
+                  ▼
+         [ Persistence Boundary ]
+     100% Parameterized SQL Statements (SQLite Prepared)
+                  │
+                  ▼
+         [ Worker / Lease Gate ]
+     Fencing Token Verification (`lease_id`, `version`)
+                  │
+                  ▼
+         [ Execution Boundary ]
+     Isolated `OperationPort` (Pure Functions in Capability 1)
 ```
 
-## 3. Secret and Credential Handling
-- Zero permanent credentials inside the sandbox.
-- Ephemeral tokens with scoped access where necessary.
-- Secret redaction filter applied to all stdout/stderr streams before events are persisted.
-- Audit logs are immutable and tamper-evident.
+---
+
+## 3. Core Security Controls
+
+### 3.1 Input Validation & Schema Sanitization
+- All task inputs and operation parameters are passed through strict Zod schemas with unknown key stripping (`z.object(...).strict()`).
+- Prevents object prototype pollution and schema drift before data touches the database.
+
+### 3.2 SQL Injection Defense
+- 100% of SQLite database queries use prepared parameterized statements (`better-sqlite3` or typed SQLite bindings).
+- Dynamic SQL string concatenation is strictly forbidden by repository lint rules.
+
+### 3.3 Lease Fencing & Worker Isolation
+- Workers cannot mutate a run unless they present the active, unexpired `lease_id` and matching `version`.
+- Stale workers that stall past their lease expiration are fenced off; updates fail with 0 rows affected.
+
+### 3.4 Event Log Integrity (Application-Level Append-Only)
+- We explicitly do NOT claim that SQLite files are "cryptographically tamper-proof." An operator or attacker with raw OS filesystem write access could alter SQLite bytes directly.
+- Instead, the architecture guarantees **application-level append-only immutability**:
+  - The persistence repository exposes only an `appendEvent` method.
+  - No `UPDATE` or `DELETE` SQL queries exist for `run_events` in the codebase.
+  - Foreign key constraints and unique sequence constraints prevent sequence forgery through application APIs.
+
+### 3.5 Secret Redaction & Log Hygiene
+- Permanent credentials are never stored in `tasks`, `runs`, or `run_events`.
+- Payloads are checked against a recursive redaction filter (`apiKey`, `password`, `token`, `secret`) before any JSON string is written to diagnostic stdout/stderr streams.
