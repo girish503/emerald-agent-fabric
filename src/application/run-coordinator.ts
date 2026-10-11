@@ -30,6 +30,7 @@ import {
   TaskRecord,
   WorkerRecord,
 } from "../ports/state-store.port.js";
+import { WorkspacePort } from "../ports/workspace.port.js";
 import { LeaseManager } from "./lease-manager.js";
 
 export interface CreateTaskParams {
@@ -85,9 +86,36 @@ export class RunCoordinator {
   constructor(
     private readonly stateStore: StateStorePort,
     private readonly clock: ClockPort = new SystemClock(),
-    leaseManager?: LeaseManager
+    leaseManager?: LeaseManager,
+    private readonly workspacePort?: WorkspacePort
   ) {
     this.leaseManager = leaseManager ?? new LeaseManager(this.clock);
+  }
+
+  private readonly activeWorkspaceIds = new Set<string>();
+
+  /**
+   * Records a workspace lifecycle event transactionally into the event stream.
+   */
+  recordWorkspaceEvent(event: DomainEvent): PersistedEvent {
+    const wsId = (event.payload as { workspaceId?: string })?.workspaceId;
+    if (wsId) {
+      if (
+        event.eventType === "workspace.provisioning" ||
+        event.eventType === "workspace.ready" ||
+        event.eventType === "workspace.leased"
+      ) {
+        this.activeWorkspaceIds.add(wsId);
+      } else if (
+        event.eventType === "workspace.disposed" ||
+        event.eventType === "workspace.failed"
+      ) {
+        this.activeWorkspaceIds.delete(wsId);
+      }
+    }
+    return this.stateStore.transaction((tx) => {
+      return tx.appendEvent(event);
+    });
   }
 
   /**
@@ -586,11 +614,43 @@ export class RunCoordinator {
         const expireEvent = run.expireLease(nowIso);
         tx.updateRun(snapshot.runId, versionBeforeExpire, run.snapshot, expireEvent);
 
+        const cleanupCrashedWorkspace = (): void => {
+          if (!this.workspacePort) return;
+          try {
+            const events = tx.getEventsForRun(snapshot.runId);
+            const wsEvents = events.filter((e) => e.eventType.startsWith("workspace."));
+            const lastWs = wsEvents[wsEvents.length - 1];
+            if (
+              lastWs &&
+              lastWs.eventType !== "workspace.disposed" &&
+              lastWs.eventType !== "workspace.failed"
+            ) {
+              const wsId = (lastWs.payload as { workspaceId?: string })?.workspaceId;
+              if (wsId && this.workspacePort.disposeWorkspaceSync) {
+                this.workspacePort.disposeWorkspaceSync(wsId);
+                const disposedEvent: DomainEvent = {
+                  eventId: crypto.randomUUID(),
+                  runId: snapshot.runId,
+                  timestamp: nowIso,
+                  eventType: "workspace.disposed",
+                  schemaVersion: 1,
+                  producer: "coordinator.sweeper",
+                  payload: { workspaceId: wsId, runId: snapshot.runId },
+                };
+                tx.appendEvent(disposedEvent);
+              }
+            }
+          } catch {
+            // Quarantine / log
+          }
+        };
+
         const failGovernanceClosed = (errorPayload: {
           code: string;
           message: string;
           details?: unknown;
         }): void => {
+          cleanupCrashedWorkspace();
           const versionBeforeFail = run.version;
           const failEvent = run.fail(errorPayload, undefined, undefined, nowIso);
           tx.updateRun(snapshot.runId, versionBeforeFail, run.snapshot, failEvent);
@@ -735,6 +795,7 @@ export class RunCoordinator {
         }
 
         // 6. Valid Active Contract: Existing Retry Semantics (Section 2, 9)
+        cleanupCrashedWorkspace();
         if (run.attemptCount < run.maxAttempts) {
           // Transition: RECOVERING -> QUEUED (increments attemptCount)
           const versionBeforeRetry = run.version;
@@ -761,6 +822,38 @@ export class RunCoordinator {
       recoveredCount: recoveredRuns.length,
       runs: recoveredRuns,
     };
+  }
+
+  /**
+   * Safely cleans up orphaned workspaces using authoritative state store ownership.
+   * Workspaces belonging to any active/queued runs are protected.
+   */
+  async cleanupOrphanedWorkspacesSafely(): Promise<readonly string[]> {
+    if (!this.workspacePort) {
+      return [];
+    }
+    const activeWorkspaceIds = this.getAuthoritativeActiveWorkspaceIds();
+    return this.workspacePort.cleanupOrphanedWorkspaces(activeWorkspaceIds);
+  }
+
+  /**
+   * Computes the authoritative set of active workspace IDs across non-terminal runs.
+   */
+  getAuthoritativeActiveWorkspaceIds(): ReadonlySet<string> {
+    const activeWsIds = new Set<string>(this.activeWorkspaceIds);
+    const queued = this.stateStore.findQueuedRuns(1000);
+    for (const run of queued) {
+      const events = this.stateStore.getEventsForRun(run.runId);
+      for (const e of events) {
+        if (e.eventType.startsWith("workspace.")) {
+          const wsId = (e.payload as { workspaceId?: string })?.workspaceId;
+          if (wsId) {
+            activeWsIds.add(wsId);
+          }
+        }
+      }
+    }
+    return activeWsIds;
   }
 
   /**

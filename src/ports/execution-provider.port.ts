@@ -38,6 +38,12 @@
  *    - It must not be expanded merely to anticipate speculative future requirements.
  */
 
+export interface ExecutionWorkspaceMount {
+  readonly workspaceId?: string;
+  readonly hostPath: string;
+  readonly containerMountPath?: string;
+}
+
 export interface ExecutionRequest<TInput = unknown> {
   readonly runId: string;
   readonly taskId: string;
@@ -46,6 +52,7 @@ export interface ExecutionRequest<TInput = unknown> {
   readonly idempotencyToken: string;
   readonly attemptNumber: number;
   readonly timeoutMs: number;
+  readonly workspace?: ExecutionWorkspaceMount;
 }
 
 export type ExecutionStatus = "SUCCESS" | "FAILED" | "TIMED_OUT" | "CANCELLED";

@@ -1,4 +1,6 @@
 import { execFile, spawn } from "node:child_process";
+import * as os from "node:os";
+import * as path from "node:path";
 import { promisify } from "node:util";
 import {
   ExecutionProvider,
@@ -48,6 +50,33 @@ process.stdin.on('end', () => {
         process.stdout.write('X'.repeat(100));
       }
       return;
+    } else if (op === 'workspace-write') {
+      const fs = require('fs');
+      const p = require('path');
+      const filename = (payload && payload.filename) || 'test.txt';
+      const content = (payload && payload.content !== undefined) ? payload.content : 'hello workspace';
+      const targetPath = p.join('/workspace', filename);
+      fs.writeFileSync(targetPath, content, 'utf8');
+      result = { written: true, path: '/workspace/' + filename, content };
+    } else if (op === 'workspace-read') {
+      const fs = require('fs');
+      const p = require('path');
+      const filename = (payload && payload.filename) || 'test.txt';
+      const targetPath = p.join('/workspace', filename);
+      const content = fs.readFileSync(targetPath, 'utf8');
+      result = { content, path: '/workspace/' + filename };
+    } else if (op === 'workspace-assert-confinement') {
+      const fs = require('fs');
+      let rootWritable = false;
+      try {
+        fs.writeFileSync('/root_probe.txt', 'fail');
+        rootWritable = true;
+      } catch (e) {
+        rootWritable = false;
+      }
+      const hasDockerSock = fs.existsSync('/var/run/docker.sock');
+      const workspaceExists = fs.existsSync('/workspace');
+      result = { rootWritable, hasDockerSock, workspaceExists };
     } else {
       throw new Error('Unsupported operation: ' + op);
     }
@@ -60,7 +89,16 @@ process.stdin.on('end', () => {
 });
 `.trim();
 
-const SUPPORTED_OPERATIONS = new Set(["echo", "sum", "fail", "slow", "output-flood"]);
+const SUPPORTED_OPERATIONS = new Set([
+  "echo",
+  "sum",
+  "fail",
+  "slow",
+  "output-flood",
+  "workspace-write",
+  "workspace-read",
+  "workspace-assert-confinement",
+]);
 
 /**
  * DockerExecutionProvider executes deterministic operations within an isolated,
@@ -160,6 +198,29 @@ export class DockerExecutionProvider implements ExecutionProvider {
     const containerId = crypto.randomUUID().slice(0, 12);
     const containerName = `emerald-run-${containerId}`;
 
+    // Validate workspace mount if present
+    if (request.workspace) {
+      try {
+        this.validateWorkspaceMount(request.workspace.hostPath);
+      } catch (err: unknown) {
+        return {
+          status: "FAILED",
+          error: {
+            code: "EXECUTION_FAILED",
+            message: err instanceof Error ? err.message : String(err),
+          },
+          durationMs: Math.round(performance.now() - startTime),
+          providerMetadata: {
+            provider: this.name,
+            operation: request.operationName,
+            workspaceMountFailure: true,
+          },
+        };
+      }
+    }
+
+    const containerMountPath = request.workspace?.containerMountPath ?? "/workspace";
+
     // 4. Construct container run arguments
     const args: string[] = [
       "run",
@@ -172,6 +233,14 @@ export class DockerExecutionProvider implements ExecutionProvider {
       `--pids-limit=${this.config.pidsLimit}`,
       "--cap-drop=ALL",
       "--security-opt=no-new-privileges",
+      ...(request.workspace
+        ? [
+            "-v",
+            `${request.workspace.hostPath}:${containerMountPath}:rw`,
+            "-w",
+            containerMountPath,
+          ]
+        : []),
       "-i", // Connect container stdin
       this.config.image,
       "node",
@@ -319,6 +388,14 @@ export class DockerExecutionProvider implements ExecutionProvider {
           memoryLimit: this.config.memoryLimit,
           cpuLimit: this.config.cpuLimit,
           networkDisabled: this.config.networkDisabled,
+          ...(request.workspace
+            ? {
+                workspaceMount: {
+                  hostPath: request.workspace.hostPath,
+                  containerMountPath: request.workspace.containerMountPath ?? "/workspace",
+                },
+              }
+            : {}),
         },
       };
     } catch (err: unknown) {
@@ -371,6 +448,37 @@ export class DockerExecutionProvider implements ExecutionProvider {
     } finally {
       // Unconditional container cleanup: ensure no ephemeral containers are left running or stopped
       await this.cleanupContainer(containerName);
+    }
+  }
+
+  /**
+   * Validates workspace mount against forbidden host paths.
+   */
+  private validateWorkspaceMount(hostPath: string): void {
+    if (!hostPath || typeof hostPath !== "string" || hostPath.trim().length === 0) {
+      throw new Error("Invalid workspace mount: hostPath must be a non-empty string");
+    }
+    const resolved = path.resolve(hostPath);
+    const root = path.parse(resolved).root;
+    if (resolved === root) {
+      throw new Error("Security violation: Refusing to mount host root directory");
+    }
+    const home = os.homedir();
+    if (resolved === path.resolve(home)) {
+      throw new Error("Security violation: Refusing to mount host user home directory");
+    }
+    const cwd = process.cwd();
+    if (resolved === path.resolve(cwd)) {
+      throw new Error("Security violation: Refusing to mount current working directory");
+    }
+    const lower = resolved.toLowerCase();
+    if (
+      lower.includes(".ssh") ||
+      lower.includes(".aws") ||
+      lower.includes(".docker") ||
+      lower.includes("docker.sock")
+    ) {
+      throw new Error("Security violation: Refusing to mount sensitive host directory");
     }
   }
 

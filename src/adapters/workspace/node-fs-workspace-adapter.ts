@@ -36,6 +36,7 @@
  * ============================================================================
  */
 
+import * as syncFs from "node:fs";
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -406,6 +407,90 @@ export class NodeFsWorkspaceAdapter implements WorkspacePort {
     // Recursive removal
     await fs.rm(canonicalTarget, { recursive: true, force: true });
     this.workspaces.delete(workspaceId);
+  }
+
+  /**
+   * Synchronously disposes of an allocated workspace for synchronous recovery paths.
+   */
+  disposeWorkspaceSync(workspaceId: string): void {
+    if (!workspaceId || typeof workspaceId !== "string" || workspaceId.trim().length === 0) {
+      throw new InvalidWorkspaceError(String(workspaceId), [
+        "workspaceId must be a non-empty string",
+      ]);
+    }
+
+    if (!/^[a-zA-Z0-9_\-\.]+$/.test(workspaceId) || workspaceId.includes("..")) {
+      throw new InvalidWorkspaceError(workspaceId, [
+        "workspaceId contains invalid characters for directory naming",
+      ]);
+    }
+
+    if (!this.canonicalWorkspaceRoot) {
+      syncFs.mkdirSync(this.workspaceRoot, { recursive: true, mode: 0o700 });
+      this.canonicalWorkspaceRoot = syncFs.realpathSync(this.workspaceRoot);
+    }
+    const root = this.canonicalWorkspaceRoot;
+    const targetDir = path.join(root, workspaceId);
+
+    if (!this.isContainedInRoot(root, targetDir)) {
+      throw new WorkspacePathOutsideBoundaryError(
+        targetDir,
+        "Target workspace directory escapes workspace root"
+      );
+    }
+
+    let stat: syncFs.Stats;
+    try {
+      stat = syncFs.lstatSync(targetDir);
+    } catch (err: unknown) {
+      if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+        this.workspaces.delete(workspaceId);
+        return;
+      }
+      throw err;
+    }
+
+    if (stat.isSymbolicLink()) {
+      syncFs.unlinkSync(targetDir);
+      this.workspaces.delete(workspaceId);
+      return;
+    }
+
+    const canonicalTarget = syncFs.realpathSync(targetDir);
+    if (!this.isContainedInRoot(root, canonicalTarget) || canonicalTarget === root) {
+      throw new WorkspacePathOutsideBoundaryError(
+        canonicalTarget,
+        "Refusing to delete directory outside workspace root or workspace root itself"
+      );
+    }
+
+    this.ensureWritableRecursiveSync(canonicalTarget);
+    syncFs.rmSync(canonicalTarget, { recursive: true, force: true });
+    this.workspaces.delete(workspaceId);
+  }
+
+  private ensureWritableRecursiveSync(targetDir: string): void {
+    try {
+      syncFs.chmodSync(targetDir, 0o700);
+    } catch {}
+
+    let entries: syncFs.Dirent[] = [];
+    try {
+      entries = syncFs.readdirSync(targetDir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+
+    for (const entry of entries) {
+      const fullPath = path.join(targetDir, entry.name);
+      if (entry.isDirectory() && !entry.isSymbolicLink()) {
+        this.ensureWritableRecursiveSync(fullPath);
+      } else {
+        try {
+          syncFs.chmodSync(fullPath, 0o600);
+        } catch {}
+      }
+    }
   }
 
   /**

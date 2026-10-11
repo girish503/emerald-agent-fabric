@@ -20,9 +20,11 @@ import {
   PolicyEvaluator,
 } from "../domain/policy.js";
 import { DeterministicVerifier, VerificationSpec } from "../domain/verification.js";
+import { Workspace } from "../domain/workspace.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
-import { ExecutionProvider, ExecutionRequest } from "../ports/execution-provider.port.js";
+import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../ports/execution-provider.port.js";
 import { WorkerRecord } from "../ports/state-store.port.js";
+import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { ClaimRunResult, RunCoordinator } from "./run-coordinator.js";
 
 export type WorkerRunResult =
@@ -42,6 +44,7 @@ export interface WorkerRuntimeOptions {
   readonly leaseTtlMs?: number;
   readonly executionProvider?: ExecutionProvider;
   readonly operations?: readonly DeterministicOperation[] | DeterministicOperation;
+  readonly workspacePort?: WorkspacePort;
   /**
    * @deprecated Non-authoritative for governed Runs.
    * Supplying ephemeral policy options on a governed Run is rejected.
@@ -76,6 +79,7 @@ export class WorkerRuntime {
   private readonly clock: ClockPort;
   private readonly leaseTtlMs: number;
   private readonly executionProvider: ExecutionProvider;
+  private readonly workspacePort?: WorkspacePort;
   private readonly ephemeralPolicy?: ExecutionPolicy;
   private readonly ephemeralVerificationSpec?:
     | VerificationSpec
@@ -92,6 +96,7 @@ export class WorkerRuntime {
     this.leaseTtlMs = options.leaseTtlMs ?? 10000;
     this.policyEvaluator = options.policyEvaluator ?? new PolicyEvaluator();
     this.isIsolationAvailableProbe = options.isIsolationAvailable;
+    this.workspacePort = options.workspacePort;
     this.ephemeralPolicy = options.policy;
     this.ephemeralVerificationSpec = options.verificationSpec;
 
@@ -109,6 +114,13 @@ export class WorkerRuntime {
    */
   get provider(): ExecutionProvider {
     return this.executionProvider;
+  }
+
+  /**
+   * Reference to the configured workspace port.
+   */
+  get workspace(): WorkspacePort | undefined {
+    return this.workspacePort;
   }
 
   /**
@@ -371,7 +383,7 @@ export class WorkerRuntime {
     }
 
     // Construct ExecutionRequest
-    const request: ExecutionRequest = {
+    let request: ExecutionRequest = {
       runId: run.runId,
       taskId: task.taskId,
       operationName: task.title,
@@ -452,10 +464,145 @@ export class WorkerRuntime {
       providerName: this.executionProvider.name,
     });
 
-    // 9. Delegate to ExecutionProvider ONLY NOW (Sections 1, 15)
-    const executionResult = await this.executionProvider.execute(request);
+    // 9. Workspace Provisioning & Sandbox Boundary (if WorkspacePort is configured)
+    let workspace: Workspace | undefined;
+    let workspaceHandle: WorkspaceHandle | undefined;
 
-    // 10. Process ExecutionResult and apply governed verification (Section 12)
+    if (this.workspacePort) {
+      // 9a. Workspace identity: distinct from runId
+      const workspaceId = `ws-${run.runId.slice(0, 8)}-${crypto.randomUUID().slice(0, 8)}`;
+
+      // 9b. Verify workspace limits against MissionContract authority
+      const contractMaxOutput = contract.spec.resourceLimits.maxOutputBytes;
+      const maxFileSizeBytes = Math.min(10 * 1024 * 1024, contractMaxOutput);
+
+      const { workspace: wsAggregate, event: provisioningEvent } = Workspace.create({
+        workspaceId,
+        runId: run.runId,
+        taskId: task.taskId,
+        maxWorkspaceBytes: 500 * 1024 * 1024,
+        maxFileSizeBytes,
+        now: this.clock.nowIso(),
+      });
+      workspace = wsAggregate;
+      this.coordinator.recordWorkspaceEvent(provisioningEvent);
+
+      // 9c. Provision isolated filesystem directory in adapter
+      try {
+        workspaceHandle = await this.workspacePort.provisionWorkspace(workspace.spec);
+      } catch (err: unknown) {
+        const failedEvent = workspace.markFailed({
+          errorMessage: err instanceof Error ? err.message : String(err),
+          now: this.clock.nowIso(),
+        });
+        this.coordinator.recordWorkspaceEvent(failedEvent);
+        return failRunSafely({
+          code: "WORKSPACE_PROVISIONING_FAILED",
+          message: `Workspace provisioning failed for run '${run.runId}': ${
+            err instanceof Error ? err.message : String(err)
+          }`,
+          details: { workspaceId, error: err instanceof Error ? err.message : String(err) },
+        });
+      }
+
+      // 9d. Validate WorkspaceHandle boundary & ownership
+      if (
+        !workspaceHandle ||
+        workspaceHandle.runId !== run.runId ||
+        workspaceHandle.workspaceId !== workspaceId ||
+        !workspaceHandle.hostPath
+      ) {
+        const failedEvent = workspace.markFailed({
+          errorMessage: "Invalid workspace handle returned by workspace adapter",
+          now: this.clock.nowIso(),
+        });
+        this.coordinator.recordWorkspaceEvent(failedEvent);
+        await this.workspacePort.disposeWorkspace(workspaceId).catch(() => {});
+        return failRunSafely({
+          code: "WORKSPACE_BOUNDARY_FAILURE",
+          message: "Workspace handle returned by adapter failed containment or identity check",
+          details: { workspaceId },
+        });
+      }
+
+      // 9e. Transition domain aggregate: READY and LEASED
+      const readyEvent = workspace.markReady({
+        hostPath: workspaceHandle.hostPath,
+        containerMountPath: workspaceHandle.containerMountPath,
+        now: this.clock.nowIso(),
+      });
+      this.coordinator.recordWorkspaceEvent(readyEvent);
+
+      const leasedEvent = workspace.claimLease({
+        workerId: this.workerId,
+        leaseId: lease.leaseId,
+        now: this.clock.nowIso(),
+      });
+      this.coordinator.recordWorkspaceEvent(leasedEvent);
+
+      // 9f. Attach workspace mount to ExecutionRequest
+      request = {
+        ...request,
+        workspace: {
+          workspaceId: workspaceHandle.workspaceId,
+          hostPath: workspaceHandle.hostPath,
+          containerMountPath: workspaceHandle.containerMountPath,
+        },
+      };
+    }
+
+    let workspaceDisposed = false;
+    const disposeWorkspaceSafely = async (reason?: string): Promise<void> => {
+      if (!this.workspacePort || !workspace || workspaceDisposed) {
+        return;
+      }
+      try {
+        const cleaningEvent = workspace.startCleaning({
+          reason,
+          workerId: this.workerId,
+          leaseId: lease.leaseId,
+          now: this.clock.nowIso(),
+        });
+        this.coordinator.recordWorkspaceEvent(cleaningEvent);
+      } catch {
+        // State machine guard: continue to attempt physical disposal
+      }
+      try {
+        await this.workspacePort.disposeWorkspace(workspace.workspaceId);
+        workspaceDisposed = true;
+        const disposedEvent = workspace.markDisposed({ now: this.clock.nowIso() });
+        this.coordinator.recordWorkspaceEvent(disposedEvent);
+      } catch (err: unknown) {
+        const failedEvent = workspace.markFailed({
+          errorMessage: `Workspace disposal failed: ${err instanceof Error ? err.message : String(err)}`,
+          now: this.clock.nowIso(),
+        });
+        this.coordinator.recordWorkspaceEvent(failedEvent);
+        throw err;
+      }
+    };
+
+    // 10. Delegate to ExecutionProvider ONLY NOW
+    let executionResult: ExecutionResult;
+    try {
+      executionResult = await this.executionProvider.execute(request);
+    } catch (providerError: unknown) {
+      await disposeWorkspaceSafely("Execution provider threw unexpected exception").catch(() => {});
+      throw providerError;
+    }
+
+    // 11. Post-execution Revocation Check (Section 11)
+    const postExecutionContract = this.coordinator.getContract(contractId, version);
+    if (postExecutionContract?.lifecycle.status === "REVOKED") {
+      await disposeWorkspaceSafely("MissionContract was REVOKED during execution").catch(() => {});
+      return failRunSafely({
+        code: "CONTRACT_REVOKED",
+        message: `Bound MissionContract '${contractId}' v${version} was REVOKED during execution`,
+        details: { contractId, version },
+      });
+    }
+
+    // 12. Process ExecutionResult and apply governed verification
     try {
       switch (executionResult.status) {
         case "SUCCESS": {
@@ -479,6 +626,7 @@ export class WorkerRuntime {
               }
             }
             if (outputBytes > run.maxOutputBytes) {
+              await disposeWorkspaceSafely("Output limit exceeded").catch(() => {});
               const errorPayload = {
                 code: "OUTPUT_LIMIT_EXCEEDED",
                 message: `Execution output of ${outputBytes} bytes exceeded governed budget of ${run.maxOutputBytes} bytes`,
@@ -513,6 +661,7 @@ export class WorkerRuntime {
               this.coordinator.recordVerificationResult(run.runId, verificationResult);
 
               if (verificationResult.status !== "VERIFIED") {
+                await disposeWorkspaceSafely("Verification failed").catch(() => {});
                 const errorPayload = {
                   code: "VERIFICATION_FAILED",
                   message: verificationResult.message,
@@ -530,6 +679,19 @@ export class WorkerRuntime {
             }
           }
 
+          // Safe workspace cleanup before completing run
+          try {
+            await disposeWorkspaceSafely("Run completed successfully");
+          } catch (cleanupErr: unknown) {
+            return failRunSafely({
+              code: "WORKSPACE_CLEANUP_FAILED",
+              message: `Workspace cleanup failed after execution: ${
+                cleanupErr instanceof Error ? cleanupErr.message : String(cleanupErr)
+              }`,
+              details: { workspaceId: workspace?.workspaceId },
+            });
+          }
+
           this.coordinator.completeRun(
             run.runId,
             this.workerId,
@@ -544,6 +706,7 @@ export class WorkerRuntime {
         }
 
         case "TIMED_OUT": {
+          await disposeWorkspaceSafely("Run timed out").catch(() => {});
           const reason =
             executionResult.error?.message ?? `Operation exceeded timeout of ${run.timeoutMs}ms`;
           this.coordinator.timeoutRun(run.runId, reason);
@@ -555,6 +718,7 @@ export class WorkerRuntime {
         }
 
         case "CANCELLED": {
+          await disposeWorkspaceSafely("Run cancelled").catch(() => {});
           const reason = executionResult.error?.message ?? "Operation cancelled by provider";
           this.coordinator.cancelRun(run.runId, reason);
           return {
@@ -566,6 +730,7 @@ export class WorkerRuntime {
 
         case "FAILED":
         default: {
+          await disposeWorkspaceSafely("Execution failed").catch(() => {});
           const errorPayload = executionResult.error ?? {
             code: "EXECUTION_FAILED",
             message: "Execution provider reported unhandled failure",

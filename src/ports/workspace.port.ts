@@ -41,6 +41,11 @@ export interface WorkspacePort {
   disposeWorkspace(workspaceId: string): Promise<void>;
 
   /**
+   * Optional synchronous workspace disposal for synchronous transactional recovery paths.
+   */
+  disposeWorkspaceSync?(workspaceId: string): void;
+
+  /**
    * Scans the workspace root and cleans up orphaned workspace directories
    * whose leases are no longer active in persistence.
    */
