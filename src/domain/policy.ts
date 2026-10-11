@@ -317,6 +317,89 @@ export class PolicyEvaluator {
   }
 
   /**
+   * Pure evaluator for a capability string against an ExecutionPolicy.
+   * Answers strictly: Is this capability granted under this policy?
+   */
+  static evaluateCapability(
+    capabilityName: string,
+    policy: ExecutionPolicy | unknown
+  ): PolicyDecision {
+    const evaluatedAt = new Date().toISOString();
+
+    if (
+      typeof capabilityName !== "string" ||
+      capabilityName.trim().length === 0 ||
+      !isValidCapabilityName(capabilityName.trim())
+    ) {
+      return {
+        status: "DENIED",
+        allowed: false,
+        capabilityName: capabilityName ?? "unknown",
+        isolationRequirement: "ISOLATED",
+        reasonCode: "UNKNOWN_CAPABILITY",
+        message: `Capability '${capabilityName}' is invalid or unparseable.`,
+        evaluatedAt,
+        policyId: "unknown",
+      };
+    }
+
+    const normalizedCapability = capabilityName.trim();
+
+    if (!policy || typeof policy !== "object") {
+      return {
+        status: "DENIED",
+        allowed: false,
+        capabilityName: normalizedCapability,
+        isolationRequirement: "ISOLATED",
+        reasonCode: "INVALID_POLICY",
+        message: "Execution policy is undefined or invalid.",
+        evaluatedAt,
+        policyId: "unknown",
+      };
+    }
+
+    const execPolicy = policy as Partial<ExecutionPolicy>;
+    const isolationRequirement = execPolicy.isolationRequirement ?? "ISOLATED";
+    const policyId = execPolicy.policyId ?? "unknown";
+
+    if (!Array.isArray(execPolicy.allowedCapabilities)) {
+      return {
+        status: "DENIED",
+        allowed: false,
+        capabilityName: normalizedCapability,
+        isolationRequirement,
+        reasonCode: "INVALID_POLICY",
+        message: "Execution policy missing valid 'allowedCapabilities' array.",
+        evaluatedAt,
+        policyId,
+      };
+    }
+
+    if (!execPolicy.allowedCapabilities.includes(normalizedCapability)) {
+      return {
+        status: "DENIED",
+        allowed: false,
+        capabilityName: normalizedCapability,
+        isolationRequirement,
+        reasonCode: "CAPABILITY_NOT_GRANTED",
+        message: `Capability '${normalizedCapability}' is not granted by policy '${policyId}'.`,
+        evaluatedAt,
+        policyId,
+      };
+    }
+
+    return {
+      status: "ALLOWED",
+      allowed: true,
+      capabilityName: normalizedCapability,
+      isolationRequirement,
+      message: `Capability '${normalizedCapability}' authorized for execution under policy '${policyId}'.`,
+      evaluatedAt,
+      policyId,
+    };
+  }
+
+  /**
    * Instance evaluate wrapper delegating to static evaluator.
    */
   evaluate(
@@ -324,5 +407,15 @@ export class PolicyEvaluator {
     policy: ExecutionPolicy | unknown
   ): PolicyDecision {
     return PolicyEvaluator.evaluate(request, policy);
+  }
+
+  /**
+   * Instance evaluateCapability wrapper delegating to static evaluator.
+   */
+  evaluateCapability(
+    capabilityName: string,
+    policy: ExecutionPolicy | unknown
+  ): PolicyDecision {
+    return PolicyEvaluator.evaluateCapability(capabilityName, policy);
   }
 }

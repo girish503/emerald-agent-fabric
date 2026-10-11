@@ -4,4 +4,5 @@ export * from "./state-store.port.js";
 export * from "./mission-contract-store.port.js";
 export * from "./workspace.port.js";
 export * from "./tool-registry.port.js";
+export * from "./tool-adapter.port.js";
 
