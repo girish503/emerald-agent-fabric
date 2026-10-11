@@ -1,17 +1,17 @@
-# Emerald Agent Fabric: Typed Tool System & Multi-Step Execution Architecture
+﻿# Emerald Agent Fabric: Typed Tool System & Multi-Step Execution Architecture
 
 ## Document Information
-- **Status**: Architecture Specification — Phase 4 Baseline
+- **Status**: Architecture Specification â€” Phase 4 Baseline
 - **Governing Constitution**: [GEMINI.md](../../GEMINI.md) (Master Engineering Constitution Version 1.0)
 - **Layer**: Architecture Specification
-- **Related ADR**: [ADR-0003: Workspace Sandbox Boundary and Typed Tool System Architecture](../adr/ADR-0003-workspace-and-typed-tools.md)
+- **Related ADR**: [ADR-0003: Workspace Sandbox Boundary and Typed Tool System Architecture](../adr/ADR-0003-workspace-and-typed-tools.md), [ADR-0004: Tool Execution Gateway, Adapter Boundary, and Multi-Step Action Lifecycle](../adr/ADR-0004-tool-execution-gateway-and-adapter-boundary.md)
 - **Upstream Dependencies**: [Workspace Sandbox Architecture](./workspace-sandbox.md), [Runtime Architecture](./runtime.md), [Security Architecture](./security.md)
 
 ---
 
 ## 1. Context & Background
 
-In Capability 1 (Tasks 1.1–1.8C), Emerald established a deterministic, crash-recoverable execution substrate. Operations are currently restricted to four toy mathematical primitives (`execution.echo`, `execution.sum`, `execution.slow`, `execution.fail`) dispatched as a single monolithic execution per `Run`.
+In Capability 1 (Tasks 1.1â€“1.8C), Emerald established a deterministic, crash-recoverable execution substrate. Operations are currently restricted to four toy mathematical primitives (`execution.echo`, `execution.sum`, `execution.slow`, `execution.fail`) dispatched as a single monolithic execution per `Run`.
 
 Real software engineering agents cannot solve GitHub issues or write code with synthetic echo/sum scripts. To operate on real repositories, the fabric requires a **Typed Tool System**. 
 
@@ -58,23 +58,23 @@ Autonomous agent frameworks frequently fail in production due to unstructured, o
 Emerald defines six primary tool primitives. Each tool belongs to a strict functional category:
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                      EMERALD TYPED TOOL SUITE                          │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Read-Only Workspace Tools (Safe, Idempotent)                        │
-│    - read_file    (Inspect file contents with line/offset bounding)     │
-│    - search_code  (Workspace-wide regex/text search with limit cap)    │
-│                                                                        │
-│ 2. Git Inspection Tools (Read-Only, Deterministic)                     │
-│    - git_status   (Parse clean vs modified working tree state)         │
-│    - git_diff     (Inspect unstaged/staged code modifications)          │
-│                                                                        │
-│ 3. Mutating Workspace Tools (State-Mutating, Path-Sanitized)           │
-│    - write_file   (Atomic file write/overwrite with size limits)       │
-│                                                                        │
-│ 4. Isolated Process Execution Tools (High Risk, Hard-Bounded)          │
-│    - run_command  (Execute specific non-interactive command in sandbox)│
-└────────────────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                      EMERALD TYPED TOOL SUITE                          â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚ 1. Read-Only Workspace Tools (Safe, Idempotent)                        â”‚
+â”‚    - read_file    (Inspect file contents with line/offset bounding)     â”‚
+â”‚    - search_code  (Workspace-wide regex/text search with limit cap)    â”‚
+â”‚                                                                        â”‚
+â”‚ 2. Git Inspection Tools (Read-Only, Deterministic)                     â”‚
+â”‚    - git_status   (Parse clean vs modified working tree state)         â”‚
+â”‚    - git_diff     (Inspect unstaged/staged code modifications)          â”‚
+â”‚                                                                        â”‚
+â”‚ 3. Mutating Workspace Tools (State-Mutating, Path-Sanitized)           â”‚
+â”‚    - write_file   (Atomic file write/overwrite with size limits)       â”‚
+â”‚                                                                        â”‚
+â”‚ 4. Isolated Process Execution Tools (High Risk, Hard-Bounded)          â”‚
+â”‚    - run_command  (Execute specific non-interactive command in sandbox)â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -300,73 +300,73 @@ export const RunCommandOutputSchema = z.object({
 Every tool invocation follows an explicit, unskippable 9-stage pipeline:
 
 ```text
-               ┌────────────────────────┐
-               │    Proposed Action     │ (Tool name, Input arguments)
-               └───────────┬────────────┘
-                           │
-    Stage 1: Policy Gate   ▼
-        ┌──────────────────────────────────────┐
-        │ PolicyEvaluator.evaluatePolicy()     │
-        │ - Is capability in contract.policy?  │ ──(DENIED)──► Terminal FAILED
-        │ - What isolation is required?        │               (POLICY_DENIED)
-        └──────────────────┬───────────────────┘
-                           │ ALLOWED
-    Stage 2: Tool Registry ▼
-        ┌──────────────────────────────────────┐
-        │ ToolRegistry.getTool(toolName)       │
-        │ - Validate Input against Zod Schema  │ ──(INVALID)─► Action FAILED
-        └──────────────────┬───────────────────┘               (SCHEMA_VIOLATION)
-                           │ VALID
-    Stage 3: Path Gate     ▼
-        ┌──────────────────────────────────────┐
-        │ WorkspaceManager.resolvePath()       │
-        │ - Resolve lexical & symlink paths    │ ──(ESCAPE)──► Action FAILED
-        │ - Assert within workspace root       │               (PATH_TRAVERSAL)
-        └──────────────────┬───────────────────┘
-                           │ CONTAINED
-    Stage 4: Isolation Gate▼
-        ┌──────────────────────────────────────┐
-        │ WorkerRuntime Isolation Assertion    │
-        │ - Does provider satisfy requirement? │ ──(FAIL)────► Terminal FAILED
-        └──────────────────┬───────────────────┘               (ISOLATION_NOT_MET)
-                           │ SATISFIED
-    Stage 5: Resource Gate ▼
-        ┌──────────────────────────────────────┐
-        │ Resource Authority Validation        │
-        │ - IF requested > contract ceiling:   │ ──(EXCEEDED)► Action REJECTED
-        │   REJECT (ResourceLimitExceededError)│               (Zero Execution)
-        │ - IF requested <= ceiling: ACCEPT    │
-        │ - effective = min(requested, safety) │
-        └──────────────────┬───────────────────┘
-                           │ AUTHORIZED
-    Stage 6: Execution     ▼
-        ┌──────────────────────────────────────┐
-        │ ExecutionProvider.execute()          │
-        │ - Run inside isolated container      │
-        │ - Enforce output streaming caps      │
-        └──────────────────┬───────────────────┘
-                           │ RESULT
-    Stage 7: Output Guard  ▼
-        ┌──────────────────────────────────────┐
-        │ WorkerRuntime Output Limit Check     │
-        │ - Discard if payload > maxOutputBytes│ ──(EXCESS)──► Terminal FAILED
-        └──────────────────┬───────────────────┘               (OUTPUT_OVERFLOW)
-                           │ BOUNDED
-    Stage 8: Evidence Gate ▼
-        ┌──────────────────────────────────────┐
-        │ createEvidence()                     │
-        │ - Redact secrets, sort keys          │
-        │ - Compute SHA-256 content digest     │
-        │ - Append evidence.recorded event     │
-        └──────────────────┬───────────────────┘
-                           │ EVIDENCE
-    Stage 9: Verifier Gate ▼
-        ┌──────────────────────────────────────┐
-        │ DeterministicVerifier.verify()       │
-        │ - Corroborate evidence against spec  │ ──(FAIL)────► Terminal FAILED
-        └──────────────────┬───────────────────┘               (VERIFY_FAILED)
-                           │ VERIFIED
-                           ▼
+               â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+               â”‚    Proposed Action     â”‚ (Tool name, Input arguments)
+               â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                           â”‚
+    Stage 1: Policy Gate   â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ PolicyEvaluator.evaluatePolicy()     â”‚
+        â”‚ - Is capability in contract.policy?  â”‚ â”€â”€(DENIED)â”€â”€â–º Terminal FAILED
+        â”‚ - What isolation is required?        â”‚               (POLICY_DENIED)
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                           â”‚ ALLOWED
+    Stage 2: Tool Registry â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ ToolRegistry.getTool(toolName)       â”‚
+        â”‚ - Validate Input against Zod Schema  â”‚ â”€â”€(INVALID)â”€â–º Action FAILED
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜               (SCHEMA_VIOLATION)
+                           â”‚ VALID
+    Stage 3: Path Gate     â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ WorkspaceManager.resolvePath()       â”‚
+        â”‚ - Resolve lexical & symlink paths    â”‚ â”€â”€(ESCAPE)â”€â”€â–º Action FAILED
+        â”‚ - Assert within workspace root       â”‚               (PATH_TRAVERSAL)
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                           â”‚ CONTAINED
+    Stage 4: Isolation Gateâ–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ WorkerRuntime Isolation Assertion    â”‚
+        â”‚ - Does provider satisfy requirement? â”‚ â”€â”€(FAIL)â”€â”€â”€â”€â–º Terminal FAILED
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜               (ISOLATION_NOT_MET)
+                           â”‚ SATISFIED
+    Stage 5: Resource Gate â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ Resource Authority Validation        â”‚
+        â”‚ - IF requested > contract ceiling:   â”‚ â”€â”€(EXCEEDED)â–º Action REJECTED
+        â”‚   REJECT (ResourceLimitExceededError)â”‚               (Zero Execution)
+        â”‚ - IF requested <= ceiling: ACCEPT    â”‚
+        â”‚ - effective = min(requested, safety) â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                           â”‚ AUTHORIZED
+    Stage 6: Execution     â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ ExecutionProvider.execute()          â”‚
+        â”‚ - Run inside isolated container      â”‚
+        â”‚ - Enforce output streaming caps      â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                           â”‚ RESULT
+    Stage 7: Output Guard  â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ WorkerRuntime Output Limit Check     â”‚
+        â”‚ - Discard if payload > maxOutputBytesâ”‚ â”€â”€(EXCESS)â”€â”€â–º Terminal FAILED
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜               (OUTPUT_OVERFLOW)
+                           â”‚ BOUNDED
+    Stage 8: Evidence Gate â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ createEvidence()                     â”‚
+        â”‚ - Redact secrets, sort keys          â”‚
+        â”‚ - Compute SHA-256 content digest     â”‚
+        â”‚ - Append evidence.recorded event     â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                           â”‚ EVIDENCE
+    Stage 9: Verifier Gate â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ DeterministicVerifier.verify()       â”‚
+        â”‚ - Corroborate evidence against spec  â”‚ â”€â”€(FAIL)â”€â”€â”€â”€â–º Terminal FAILED
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜               (VERIFY_FAILED)
+                           â”‚ VERIFIED
+                           â–¼
                   [ ACTION COMPLETED ]
 ```
 
@@ -377,31 +377,31 @@ Every tool invocation follows an explicit, unskippable 9-stage pipeline:
 To support iterative autonomous agent loops without compromising durability, Emerald decomposes execution into four distinct entities:
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│ RUN (Durable Orchestration Boundary)                                   │
-│  - Identity: runId (UUIDv7)                                            │
-│  - Governed by: MissionContract (contractId, version, contentHash)     │
-│  - Lifecycle: CREATED → QUEUED → LEASED → RUNNING → COMPLETED / FAILED │
-│                                                                        │
-│   ┌──────────────────────────────────────────────────────────────────┐ │
-│   │ EXECUTION (Worker Lease Turn)                                    │ │
-│   │  - Identity: executionId = runId + attemptCount                  │ │
-│   │  - Held by: workerId with active leaseId                         │ │
-│   │                                                                  │ │
-│   │   ┌────────────────────────────────────────────────────────────┐ │ │
-│   │   │ ACTION (Discrete Semantic Step)                            │ │ │
-│   │   │  - Identity: actionId (UUIDv7), sequence (1..N)            │ │ │
-│   │   │  - Target: Tool name + Sanitized input                     │ │ │
-│   │   │  - Status: PROPOSED → AUTHORIZED → EXECUTED → COMPLETED    │ │ │
-│   │   │                                                            │ │ │
-│   │   │   ┌──────────────────────────────────────────────────────┐ │ │ │
-│   │   │   │ ATTEMPT (Provider Invocation)                        │ │ │ │
-│   │   │   │  - Identity: attemptId (actionId + attemptNumber)    │ │ │ │
-│   │   │   │  - Captured: stdout, stderr, exitCode, duration      │ │ │ │
-│   │   │   └──────────────────────────────────────────────────────┘ │ │ │
-│   │   └────────────────────────────────────────────────────────────┘ │ │
-│   └──────────────────────────────────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ RUN (Durable Orchestration Boundary)                                   â”‚
+â”‚  - Identity: runId (UUIDv7)                                            â”‚
+â”‚  - Governed by: MissionContract (contractId, version, contentHash)     â”‚
+â”‚  - Lifecycle: CREATED â†’ QUEUED â†’ LEASED â†’ RUNNING â†’ COMPLETED / FAILED â”‚
+â”‚                                                                        â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+â”‚   â”‚ EXECUTION (Worker Lease Turn)                                    â”‚ â”‚
+â”‚   â”‚  - Identity: executionId = runId + attemptCount                  â”‚ â”‚
+â”‚   â”‚  - Held by: workerId with active leaseId                         â”‚ â”‚
+â”‚   â”‚                                                                  â”‚ â”‚
+â”‚   â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚
+â”‚   â”‚   â”‚ ACTION (Discrete Semantic Step)                            â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚  - Identity: actionId (UUIDv7), sequence (1..N)            â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚  - Target: Tool name + Sanitized input                     â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚  - Status: PROPOSED â†’ AUTHORIZED â†’ EXECUTED â†’ COMPLETED    â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚                                                            â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚   â”‚ ATTEMPT (Provider Invocation)                        â”‚ â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚   â”‚  - Identity: attemptId (actionId + attemptNumber)    â”‚ â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚   â”‚  - Captured: stdout, stderr, exitCode, duration      â”‚ â”‚ â”‚ â”‚
+â”‚   â”‚   â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ â”‚
+â”‚   â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ### 7.1 Entity Responsibility Matrix
@@ -454,17 +454,17 @@ Tool execution operates under strict governance boundaries, distinguishing betwe
 
 ```text
 MissionContract ceiling (Authoritative Governance Bound)
-        ↓
+        â†“
 requested operational value (Tool action / Run creation)
-        ↓
-        ├── requested > ceiling
-        │       ↓
-        │     REJECT (ResourceLimitExceededError — Zero Execution)
-        │
-        └── requested <= ceiling
-                ↓
+        â†“
+        â”œâ”€â”€ requested > ceiling
+        â”‚       â†“
+        â”‚     REJECT (ResourceLimitExceededError â€” Zero Execution)
+        â”‚
+        â””â”€â”€ requested <= ceiling
+                â†“
              ACCEPT
-                ↓
+                â†“
         effective operational limit = min(requested, provider/tool safety limit)
 ```
 
@@ -484,13 +484,13 @@ We distinguish strictly between:
 Example:
 ```text
 Contract timeout ceiling = 30s
-Action requested timeout = 20s                     → ACCEPT (within authority)
-Action requested timeout = 30s                     → ACCEPT (within authority)
-Action requested timeout = 40s                     → REJECT (ResourceLimitExceededError — zero execution)
+Action requested timeout = 20s                     â†’ ACCEPT (within authority)
+Action requested timeout = 30s                     â†’ ACCEPT (within authority)
+Action requested timeout = 40s                     â†’ REJECT (ResourceLimitExceededError â€” zero execution)
 
 If provider imposes an internal safety maximum = 10s:
-Contract ceiling = 30s, Request = 20s, Provider max = 10s → Effective limit = 10s (Narrowing authorized request is permitted)
-Contract ceiling = 30s, Request = 40s, Provider max = 10s → MUST NOT silently become 10s → MUST REJECT
+Contract ceiling = 30s, Request = 20s, Provider max = 10s â†’ Effective limit = 10s (Narrowing authorized request is permitted)
+Contract ceiling = 30s, Request = 40s, Provider max = 10s â†’ MUST NOT silently become 10s â†’ MUST REJECT
 ```
 
 #### 3. Resource Terminology Mapping
@@ -526,9 +526,9 @@ The governance boundary enforces strict fail-closed lifecycle handling:
 
 ```text
 MissionContract ACTIVE
-        ↓
+        â†“
 Action authorization
-        ↓
+        â†“
 Tool execution
 ```
 
@@ -536,11 +536,11 @@ If the contract becomes `REVOKED`:
 
 ```text
 current action
-     ↓
+     â†“
 finish / terminate according to defined semantics
-     ↓
+     â†“
 NO NEXT ACTION
-     ↓
+     â†“
 workspace cleanup
 ```
 
@@ -614,17 +614,17 @@ To satisfy Constitution Section 18 (*Latency Model*), every step of tool and wor
 
 ```text
 total_run_latency
-  ├── queue_wait_ms            (T_leased - T_queued)
-  ├── contract_resolution_ms   (Time to resolve and verify MissionContract)
-  ├── workspace_provision_ms   (Time to create directory and set permissions)
-  ├── repository_setup_ms      (Time to checkout immutable revision SHA)
-  ├── sandbox_start_ms         (Time to initialize container process)
-  ├── multi_step_execution_ms  (Sum of all action execution times)
-  │     ├── action_policy_eval_ms
-  │     ├── tool_validation_ms
-  │     └── tool_execution_ms
-  ├── verification_ms          (DeterministicVerifier evaluation time)
-  └── workspace_cleanup_ms     (Time to dispose container and unmount/delete workspace)
+  â”œâ”€â”€ queue_wait_ms            (T_leased - T_queued)
+  â”œâ”€â”€ contract_resolution_ms   (Time to resolve and verify MissionContract)
+  â”œâ”€â”€ workspace_provision_ms   (Time to create directory and set permissions)
+  â”œâ”€â”€ repository_setup_ms      (Time to checkout immutable revision SHA)
+  â”œâ”€â”€ sandbox_start_ms         (Time to initialize container process)
+  â”œâ”€â”€ multi_step_execution_ms  (Sum of all action execution times)
+  â”‚     â”œâ”€â”€ action_policy_eval_ms
+  â”‚     â”œâ”€â”€ tool_validation_ms
+  â”‚     â””â”€â”€ tool_execution_ms
+  â”œâ”€â”€ verification_ms          (DeterministicVerifier evaluation time)
+  â””â”€â”€ workspace_cleanup_ms     (Time to dispose container and unmount/delete workspace)
 ```
 
 No heuristic optimization may be promoted in Reflex (Phase 11) without attributing latency reductions to one of these measured components.
@@ -687,4 +687,129 @@ Task 4.1 establishes the pure, strongly typed domain contracts for tools without
    - Tool Adapters (filesystem, git CLI, Docker spawn)
    - Multi-step Action / Attempt persistence
    - LLM / Agent reasoning loops
+
+---
+
+## 14. Task 4.2 Architecture Specification: Tool Execution Gateway, Adapter Boundary & Multi-Step Lifecycle
+
+Task 4.2 establishes the architectural design for executing typed tools within the Emerald Agent Fabric. It defines how untrusted `ToolRequest` payloads safely transition into governed, contained operations without bypassing Mission Contract authority or compromising the hardened workspace boundary.
+
+### 14.1 Architecture Decision: Hexagonal Alternative C
+We formally adopt **Alternative C (Modular Hexagonal Architecture)**:
+1. **ToolExecutionGateway**: Trusted application coordinator orchestrating tool lookup, schema validation, capability checks against `PolicyEvaluator`, non-clamping resource ceiling checks, and adapter dispatch.
+2. **Tool Adapters**: Pluggable adapters implementing `ToolAdapterPort` that encapsulate specific execution mechanics without leaking governance logic or acquiring unnecessary system authorities.
+3. **ExecutionProvider**: Low-level container runtime (`DockerExecutionProvider`) reserved strictly for high-risk process isolation (`run_command`), never bypassed.
+4. **WorkspacePort**: Authoritative boundary for canonical filesystem containment and directory lifecycle management.
+
+### 14.2 The 11-Stage Tool Execution Pipeline
+Every tool invocation dispatches through an unskippable 11-stage pipeline:
+```text
+Stage 1:  Tool Resolution          â”€â”€â–º ToolRegistryPort.getTool(toolName)
+Stage 2:  Contract Status Check    â”€â”€â–º Verify contract.lifecycle.status === "ACTIVE"
+Stage 3:  Capability Policy Gate   â”€â”€â–º PolicyEvaluator.evaluate(requiredCapability)
+Stage 4:  Resource Authority Gate  â”€â”€â–º Reject if requested > contract ceiling (Zero Execution)
+Stage 5:  Input Schema Validation  â”€â”€â–º Zod .parse(input) (strict, rejects unknown keys)
+Stage 6:  Lexical Path Sanitize    â”€â”€â–º sanitizeWorkspacePath(path) (blocks traversal/UNC)
+Stage 7:  Adapter Dispatch         â”€â”€â–º ToolAdapter.execute(context, validatedInput)
+Stage 8:  Physical Execution       â”€â”€â–º WorkspacePort (fs) or ExecutionProvider (Docker)
+Stage 9:  Output Schema & Caps     â”€â”€â–º Zod .parse(output) + maxOutputBytes bounding
+Stage 10: Canonical Evidence       â”€â”€â–º Secret redaction, key sorting, SHA-256 digest
+Stage 11: Audit Event Commit       â”€â”€â–º Append-only event store commit under OCC lease fence
+```
+
+### 14.3 Trust Boundary & Untrusted Request Model
+- **Untrusted External Domain**: Model-proposed `toolName`, `input` parameters, repository files, subprocess stdout/stderr, git metadata.
+- **Trusted Internal Domain**: `runId`, `taskId`, `workerId`, `leaseId`, bound `MissionContract`, `workspaceHandle`, resource ceilings, capability policy, system clock.
+- **Transition Boundary**: The `ToolRequest` carries only `requestId`, `toolName`, and `input`. The Gateway injects the ambient, trusted `ToolExecutionContext` held by `WorkerRuntime`. Models cannot forge authority or mutate governance identity.
+
+### 14.4 Capability Authorization & Exact Contract Binding
+- **Deterministic Mapping**:
+  - `read_file` $\rightarrow$ `workspace.file.read`
+  - `write_file` $\rightarrow$ `workspace.file.write`
+  - `search_code` $\rightarrow$ `workspace.code.search`
+  - `git_status` $\rightarrow$ `git.read`
+  - `git_diff` $\rightarrow$ `git.read`
+  - `run_command` $\rightarrow$ `process.execute`
+- **Exact Binding Invariant**: The Gateway verifies the exact `(contractId, version)` bound to the active `Run`. Dynamic lookups for "latest" contracts or synthetic fallbacks are strictly prohibited.
+- **Fail-Closed Gate**: Capability denial halts execution immediately with `CAPABILITY_DENIED` (`FORBIDDEN`); zero adapter code and zero physical processes are invoked.
+
+### 14.5 Resource Authority: Non-Clamping Rejection Model
+Resource authorization strictly enforces the frozen governance invariant:
+```text
+requested > contract ceiling   â”€â”€â–º REJECT (ResourceLimitExceededError â€” Zero Execution)
+requested <= contract ceiling  â”€â”€â–º ACCEPT (effective = min(requested, providerSafetyLimit))
+```
+Silent clamping of unauthorized requests is strictly prohibited. Lower provider safety limits may narrow an authorized request, but can never legitimize an unauthorized broader request.
+
+### 14.6 Tool Adapter Boundary & Interface Specification
+Adapters implement the narrow `ToolAdapter` port and receive minimal execution authority:
+```typescript
+export interface ToolExecutionContext {
+  readonly runId: string;
+  readonly taskId: string;
+  readonly workerId: string;
+  readonly leaseId: string;
+  readonly workspace: {
+    readonly workspaceId: string;
+    readonly hostPath: string;
+    readonly containerMountPath?: string;
+  };
+  readonly resourceLimits: {
+    readonly timeoutMs: number;
+    readonly maxOutputBytes: number;
+  };
+  readonly abortSignal: AbortSignal;
+}
+
+export interface ToolAdapter<TName extends ToolName = ToolName> {
+  readonly toolName: TName;
+  execute(
+    context: ToolExecutionContext,
+    input: ToolInputMap[TName]
+  ): Promise<ToolOutputMap[TName]>;
+}
+```
+
+#### Four Dedicated Adapter Implementations:
+1. **`LocalFilesystemToolAdapter`**: Handles `read_file` and `write_file` through `WorkspacePort` with atomic temp-file renames and realpath canonicalization.
+2. **`WorkspaceSearchToolAdapter`**: Handles `search_code` via timeout-bounded regex scanning confined strictly to the workspace root.
+3. **`WorkspaceGitToolAdapter`**: Handles `git_status` and `git_diff` via read-only queries executed inside the workspace root.
+4. **`SandboxedCommandToolAdapter`**: Handles `run_command` via mandatory delegation to `ExecutionProvider` in Docker container with dropped capabilities and `--network none`.
+
+### 14.7 Hierarchical Multi-Step Execution Abstractions
+Emerald establishes five discrete execution concepts:
+
+| Concept | Purpose | Created By | Trust Level | Persistence | Retry Semantics | Identity | Lifecycle |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`ToolRequest`** | Model-proposed single tool call. | Model / Agent Loop | Untrusted | Not persisted directly; logged in audit stream. | None. | `requestId` | Proposed $\rightarrow$ Authorized / Denied |
+| **`Action`** | Logical sequential step in a plan. | `WorkerRuntime` / Controller | Trusted Domain Entity | Persisted in event store (`action.started`, `action.completed`). | Retried across attempts if transient. | `actionId`, `sequence` ($1..N$) | Proposed $\rightarrow$ Authorized $\rightarrow$ Executing $\rightarrow$ Done |
+| **`Attempt`** | Single physical execution of an action. | `ToolExecutionGateway` | Trusted Runtime Entity | Recorded in attempt evidence metadata. | Fails individually; retries create attempt $N+1$. | `attemptId` (`actionId:attemptNumber`) | Started $\rightarrow$ Succeeded / Failed / Timed Out |
+| **`ExecutionRequest`** | Low-level sandbox execution payload. | `SandboxedCommandToolAdapter` | Internal System Port | Ephemeral provider argument. | Provider executes once; reports outcome. | `runId`, `taskId`, `idempotencyToken` | Dispatched $\rightarrow$ Finished |
+| **`ExecutionResult`** | Raw physical outcome from provider. | `ExecutionProvider` | Physical Environment | Captured in Attempt evidence. | Immutable result record. | Correlated to `ExecutionRequest` | Completed (Exit code, stdout, stderr) |
+
+### 14.8 Formal Resolutions to the Six Critical Architectural Questions
+1. **Action/Attempt Domain Introduction**: Pure domain contracts and value types are introduced in Task 4.2 architecture; SQLite schema migrations and persistent database tables are deferred to Task 4.4 when the multi-step runtime loop is implemented.
+2. **Authorization Ownership**: The Gateway coordinates authorization by invoking the existing pure domain `PolicyEvaluator` against the bound `MissionContract`. A redundant "AuthorizationService" is rejected.
+3. **Crash Consistency & Event Ordering**: Strict causal sequence:
+   `action.proposed` $\rightarrow$ `tool.authorized` $\rightarrow$ `action.started` $\rightarrow$ physical execution $\rightarrow$ `action.completed` / `action.failed` $\rightarrow$ `tool.completed` / `tool.failed`. Completion is never emitted before side effects and state are durable.
+4. **Abstraction Differentiation Matrix**: Fully codified in the comparison matrix above (Section 14.7).
+5. **Authoritative Retry Owner**: Exclusively owned by `WorkerRuntime` / Action Controller. Adapters and ExecutionProviders fail closed immediately and never retry autonomously. Non-idempotent tools (`write_file`, `run_command`) are never automatically retried.
+6. **LLM ExecutionProvider Direct Bypass Prevention**: `ExecutionProvider` is an internal port in `src/ports/` accessible only by trusted adapters. The LLM only interacts via the `ToolRequest` API mediated by `ToolExecutionGateway`, which strictly validates tool names against `StaticToolRegistry`.
+
+### 14.9 Error Taxonomy & Sanitization Boundary
+- Mapped across 9 deterministic codes: `TOOL_NOT_FOUND`, `INVALID_TOOL_INPUT`, `CAPABILITY_DENIED`, `WORKSPACE_BOUNDARY_VIOLATION`, `TOOL_TIMEOUT`, `TOOL_OUTPUT_LIMIT_EXCEEDED`, `TOOL_EXECUTION_FAILED`, `TOOL_CANCELLED`, `TOOL_PROVIDER_UNAVAILABLE`.
+- Output sanitization strips host filesystem paths and redacts environment credentials before errors or results are exposed to LLM reasoning loops or external logs.
+
+### 14.10 Security Threat Model (24 Threat Vectors)
+Comprehensive analysis completed and documented in [ADR-0004](../adr/ADR-0004-tool-execution-gateway-and-adapter-boundary.md#14-comprehensive-security-threat-model-24-threat-vectors). Dual-boundary filesystem protection, discrete `argv` token execution, strict Zod validation, lease fencing tokens, and container capability dropping prevent path traversal, shell injection, privilege escalation, and cross-run contamination.
+
+### 14.11 Observability & Latency Decomposition Contract
+Exposes 11 discrete measurement intervals across the execution pipeline (`stage1_registry_lookup_ms` through `stage11_event_commit_ms`), ensuring complete latency attribution for future Reflex (Phase 11) optimizations.
+
+### 14.12 Implementation Roadmap (Next Sub-Tasks)
+- **Task 4.2-A**: Tool Execution Gateway Core & Boundary Interfaces (`ToolAdapterPort`, `ToolExecutionContext`, in-memory gateway tests).
+- **Task 4.2-B**: Read-Only Workspace Tool Adapters (`LocalFilesystemToolAdapter` for `read_file`, `WorkspaceSearchToolAdapter` for `search_code`).
+- **Task 4.2-C**: Git & Mutating Workspace Tool Adapters (`write_file`, `git_status`, `git_diff`).
+- **Task 4.2-D**: Sandboxed Command Tool Adapter & Docker Provider Mount Binding (`run_command`).
+- **Task 4.2-E**: Multi-Step Action Loop & WorkerRuntime Integration (`Run` $\rightarrow$ `Actions 1..N` $\rightarrow$ `VerificationSpec`).
 
