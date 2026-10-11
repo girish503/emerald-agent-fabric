@@ -27,6 +27,10 @@ export function isSensitiveKey(key: string): boolean {
   if (/^credential[_-]?scopes?$/i.test(key)) {
     return false;
   }
+  // LLM token count metrics (e.g. contextEstimatedTokens, totalTokens, promptTokens, inputTokens, outputTokens) are non-secret execution metrics
+  if (/(?:estimated|prompt|input|output|total|eval)[_-]?tokens?$/i.test(key)) {
+    return false;
+  }
   return SENSITIVE_KEY_PATTERNS.some((pattern) => pattern.test(key));
 }
 

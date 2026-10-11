@@ -532,6 +532,7 @@ export async function executeEvaluationRun(
       metrics,
       evidenceReferences: Object.freeze(evidenceReferencesList),
       reflexEvidence: capturedReflexEvidence.length > 0 ? Object.freeze(capturedReflexEvidence) : undefined,
+      transcript: Object.freeze([...stepResult.transcript]),
       startedAt,
       completedAt,
     });

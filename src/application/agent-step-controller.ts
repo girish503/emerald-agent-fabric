@@ -116,6 +116,7 @@ export interface StepTranscriptEntry {
   readonly proposalId?: string;
   readonly toolName?: ToolName;
   readonly inputHash?: string;
+  readonly inputPayload?: unknown;
   readonly rationale?: string;
   readonly finishReason?: BrainFinishReason;
   readonly proposalValid: boolean;
@@ -555,6 +556,7 @@ export class AgentStepController {
             contextObservationsCount: contextSnapshot.observations.length,
             proposalId: (brainResult.proposal as any)?.proposalId,
             toolName: (brainResult.proposal as any)?.toolName,
+            inputPayload: (brainResult.proposal as any)?.inputPayload,
             rationale: (brainResult.proposal as any)?.rationale,
             finishReason: brainResult.finishReason,
             proposalValid: false,
@@ -653,6 +655,7 @@ export class AgentStepController {
             contextObservationsCount: contextSnapshot.observations.length,
             proposalId: validationResult.proposal.proposalId,
             toolName: validationResult.proposal.toolName,
+            inputPayload: validationResult.proposal.inputPayload,
             rationale: validationResult.proposal.rationale,
             finishReason: brainResult.finishReason,
             proposalValid: true,
@@ -678,6 +681,7 @@ export class AgentStepController {
             contextObservationsCount: contextSnapshot.observations.length,
             proposalId: validationResult.proposal.proposalId,
             toolName: validationResult.proposal.toolName,
+            inputPayload: validationResult.proposal.inputPayload,
             rationale: validationResult.proposal.rationale,
             finishReason: brainResult.finishReason,
             proposalValid: true,
@@ -704,6 +708,7 @@ export class AgentStepController {
             contextObservationsCount: contextSnapshot.observations.length,
             proposalId: validationResult.proposal.proposalId,
             toolName: validationResult.proposal.toolName,
+            inputPayload: validationResult.proposal.inputPayload,
             rationale: validationResult.proposal.rationale,
             finishReason: brainResult.finishReason,
             proposalValid: true,
@@ -817,6 +822,7 @@ export class AgentStepController {
           proposalId: validationResult.proposal.proposalId,
           toolName: validationResult.proposal.toolName,
           inputHash: action.inputHash,
+          inputPayload: action.inputPayload,
           rationale: validationResult.proposal.rationale,
           finishReason: brainResult.finishReason,
           proposalValid: true,

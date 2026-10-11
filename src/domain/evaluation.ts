@@ -604,6 +604,7 @@ export interface EvaluationRunResult {
   readonly metrics: EvaluationMetrics;
   readonly evidenceReferences: readonly string[];
   readonly reflexEvidence?: readonly ReflexEvidence[];
+  readonly transcript?: readonly any[];
   readonly startedAt: string;
   readonly completedAt: string;
 }
@@ -801,6 +802,7 @@ export interface EvaluationTrial {
   readonly executionMode?: EvaluationExecutionMode;
   readonly ruleConfigurationHash?: string;
   readonly reflexEvidence?: readonly ReflexEvidence[];
+  readonly transcript?: readonly any[];
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
@@ -877,6 +879,7 @@ export const EvaluationTrialSchema = z
       .regex(/^[a-f0-9]{64}$/, "ruleConfigurationHash must be a 64-char hex string")
       .optional(),
     reflexEvidence: z.array(ReflexEvidenceSchema).optional(),
+    transcript: z.array(z.any()).optional(),
     errorDetails: z.string().optional(),
     startedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "startedAt must be a valid ISO 8601 timestamp"),
     completedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "completedAt must be a valid ISO 8601 timestamp"),
@@ -961,6 +964,9 @@ export function validateEvaluationTrial(def: unknown): EvaluationTrial {
     ruleConfigurationHash: data.ruleConfigurationHash,
     reflexEvidence: data.reflexEvidence
       ? (Object.freeze([...data.reflexEvidence]) as readonly ReflexEvidence[])
+      : undefined,
+    transcript: data.transcript
+      ? Object.freeze(data.transcript.map((t: any) => Object.freeze({ ...t })))
       : undefined,
     errorDetails: data.errorDetails,
     startedAt: data.startedAt,
@@ -1102,6 +1108,7 @@ export function createEvaluationTrialFromRunResult(
     executionMode: runResult.executionMode ?? "BASELINE",
     ruleConfigurationHash,
     reflexEvidence: runResult.reflexEvidence,
+    transcript: runResult.transcript,
     errorDetails:
       options?.errorDetails ??
       (runResult.status === "ERROR" || runResult.status === "BLOCKED"

@@ -861,3 +861,27 @@ export class ReflexExecutionError extends DomainError {
   }
 }
 
+export class ArtifactIntegrityError extends DomainError {
+  readonly code = "ARTIFACT_INTEGRITY_VIOLATION";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class ArtifactBoundsExceededError extends DomainError {
+  readonly code = "ARTIFACT_SERIALIZATION_FAILED";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class ArtifactSecurityError extends DomainError {
+  readonly code = "ARTIFACT_SECURITY_VIOLATION";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
