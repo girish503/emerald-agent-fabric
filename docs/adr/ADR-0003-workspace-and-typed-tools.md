@@ -153,13 +153,90 @@ The Typed Tool System integrates with Mission Contract governance through existi
      - `git_diff` $\rightarrow$ `git.read`
      - `run_command` $\rightarrow$ `process.execute`
    - Before any tool invocation, `PolicyEvaluator.evaluate()` checks the cached `MissionContract.spec.capabilities`. If the required capability is absent or denied, execution fails immediately with `CAPABILITY_DENIED` and error code `FORBIDDEN`.
-2. **Resource Clamping**:
-   - The tool system clamps its operational limits to the contract:
-     - `timeout_ms` = $\min(\text{tool\_requested\_timeout}, \text{contract.spec.resourceLimits.maxExecutionTimeoutMs})$.
-     - Output size = $\min(\text{tool\_requested\_output}, \text{contract.spec.resourceLimits.maxOutputSizeBytes})$.
-     - Disk quota = $\min(\text{workspace\_requested\_bytes}, \text{contract.spec.resourceLimits.maxDiskBytes} \text{ [default 1GB]})$.
-3. **Revocation Semantics**:
-   - Between every action step in a multi-step Run, the `WorkerRuntime` verifies the active contract status. If the contract has been revoked (`REVOKED`), the runtime terminates execution immediately with `CONTRACT_REVOKED`, tears down the workspace, and marks the Run `FAILED`.
+2. **Resource Authority Ceilings vs Operational Limits**:
+   - The system distinguishes strictly between:
+     1. **Authorization Ceiling**: The maximum immutable value permitted by `MissionContract.spec.resourceLimits` (`timeoutMs`, `maxAttempts`, `maxOutputBytes`).
+     2. **Requested Operational Value**: The value explicitly requested by the caller, agent, or tool action parameter.
+     3. **Effective Operational Limit**: A value equal to or narrower than the authorized ceiling. The effective value must **NEVER** be used to hide an unauthorized broader request.
+   - **The Governance Rejection Model**:
+     ```text
+     MissionContract ceiling
+             ↓
+     requested operational value
+             ↓
+             ├── requested > ceiling
+             │       ↓
+             │     REJECT (ResourceLimitExceededError — Zero Execution)
+             │
+             └── requested <= ceiling
+                     ↓
+                  ACCEPT
+                     ↓
+             effective operational limit = min(requested, provider/tool safety limit)
+     ```
+   - **Required Architecture Rule**:
+     > **A lower operational limit MAY narrow authorized execution.**
+     >
+     > **A requested limit above MissionContract authority MUST be rejected.**
+     >
+     > **No layer may silently convert an unauthorized request into an authorized narrower request.**
+   - Example:
+     - Contract timeout ceiling = 30s.
+       - Request = 20s $\rightarrow$ ACCEPT (within authority).
+       - Request = 30s $\rightarrow$ ACCEPT (within authority).
+       - Request = 40s $\rightarrow$ REJECT $\rightarrow$ Zero execution.
+     - If provider imposes an internal safety maximum = 10s:
+       - Request = 20s $\rightarrow$ Effective execution = 10s (allowed because system narrowed an already-authorized request).
+       - Request = 40s $\rightarrow$ MUST NOT silently become 10s $\rightarrow$ MUST REJECT.
+   - **Resource Terminology Mapping**:
+     | Layer / Entity | Property Name | Governance Category | Semantics & Authority |
+     | :--- | :--- | :--- | :--- |
+     | **MissionContract** (`contract.spec.resourceLimits`) | `timeoutMs` | Authorization Ceiling | Authoritative ceiling on total Run execution wall-clock time. |
+     | | `maxAttempts` | Authorization Ceiling | Authoritative ceiling on total Run retry attempts. |
+     | | `maxOutputBytes` | Authorization Ceiling | Authoritative ceiling on output bytes across execution and tool operations. |
+     | **Run Aggregate** (`RunSnapshot`) | `run.timeoutMs` | Operational Snapshot | Effective Run timeout; rejected if `> contract.spec.resourceLimits.timeoutMs`. |
+     | | `run.maxAttempts` | Operational Snapshot | Effective attempt count; rejected if `> contract.spec.resourceLimits.maxAttempts`. |
+     | | `run.maxOutputBytes` | Operational Snapshot | Effective output size; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+     | **Tool Action Request** (`ToolInput`) | `toolInput.timeoutMs` | Requested Operational Value | Requested tool execution timeout; rejected if `> run.timeoutMs` or contract ceiling. |
+     | | `toolInput.maxBytes` | Requested Operational Value | Requested file read or patch size; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+     | | `toolInput.maxLines` | Requested Operational Value | Requested window lines; bounded by tool-level safety limits. |
+     | | `toolInput.maxResults` | Requested Operational Value | Requested search results; bounded by tool-level safety limits (e.g. 100). |
+     | **Workspace Sandbox** (`WorkspaceSpec`) | `maxWorkspaceBytes` | Provider Safety Limit | Host directory storage quota (default 500 MB). *Provider/host safety limit (not in contract schema)*. |
+     | | `maxFileSizeBytes` | Effective Limit | Single file write limit; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+     | | `maxFileCount` | Provider Safety Limit | Host inode quota (default 50,000 files). *Provider safety limit against disk exhaustion*. |
+     | **Provider Execution** (`DockerExecutionConfig`) | `timeoutMs` | Execution Guard | Container execution timer; must be <= authorized `run.timeoutMs`. |
+     | | `maxOutputBytes` | Execution Guard | Stdout streaming truncation limit; must be <= authorized `run.maxOutputBytes`. |
+     | | `memoryLimit` | Provider Safety Limit | Linux cgroup memory limit (default 256m). *Provider safety limit*. |
+     | | `cpuLimit` | Provider Safety Limit | Linux cgroup CPU limit (default 0.5). *Provider safety limit*. |
+     | | `pidsLimit` | Provider Safety Limit | Linux cgroup pid limit (default 64). *Provider safety limit*. |
+
+     *Where a resource (such as workspace disk bytes, memory limit, or process count) is not currently part of the `MissionContract.spec.resourceLimits` schema, it is explicitly classified as a provider/tool safety limit rather than contract authority.*
+
+3. **Honest Revocation Semantics & Process Termination Guarantees**:
+   - Lifecycle progression:
+     ```text
+     MissionContract ACTIVE
+             ↓
+     Action authorization
+             ↓
+     Tool execution
+     ```
+   - If the contract becomes `REVOKED`:
+     ```text
+     current action
+          ↓
+     finish / terminate according to defined semantics
+          ↓
+     NO NEXT ACTION
+          ↓
+     workspace cleanup
+     ```
+   - **Exact Process Termination Guarantees**:
+     - *Pre-Action Synchronous Boundary*: `WorkerRuntime` verifies `contract.lifecycle.status === "ACTIVE"` before authorizing each tool action. If revoked, execution is blocked immediately with `CONTRACT_REVOKED`, and **`NO NEXT ACTION`** is executed.
+     - *In-Flight Action Termination*:
+       - Container isolation (`DockerExecutionProvider`): The provider issues a best-effort physical container termination attempt (`docker kill <containerName>` and `docker rm -f <containerName>`). However, because external OS and daemon process termination is inherently asynchronous, instant sub-millisecond preemption cannot be guaranteed.
+       - In-process operations (Node.js runtime): Single-threaded execution cannot asynchronously preempt synchronous CPU-bound operations or blocking file I/O calls until control yields to the event loop.
+     - *Guaranteed Post-Revocation Cleanup*: Once the in-flight attempt terminates or yields, the runtime guarantees that no subsequent action will ever execute (`NO NEXT ACTION`). The workspace sandbox is unconditionally destroyed via `WorkspaceManager.disposeWorkspace()`, and the `Run` transitions to terminal `FAILED` with error code `CONTRACT_REVOKED`.
 
 ### 3.3 Multi-Step Execution Model: Run $\rightarrow$ Execution $\rightarrow$ Action $\rightarrow$ Attempt
 
@@ -246,7 +323,7 @@ Phase 3: Workspace Sandbox & Filesystem Isolation
 Phase 4: Typed Tool System & Multi-Step Execution
  ├── Task 4.1: Tool Domain Contracts, Schemas, & Error Taxonomy
  ├── Task 4.2: In-Memory / Local Tool Adapter Implementation (6 Core Tools)
- ├── Task 4.3: Capability Policy Mapping & Contract Clamping
+ ├── Task 4.3: Capability Policy Mapping & Resource Authority Gate
  ├── Task 4.4: Tool Execution Gateway & WorkerRuntime Multi-Step Action Loop
  └── Task 4.5: Deterministic Evidence Recording & Verification Binding
 ```

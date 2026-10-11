@@ -330,13 +330,15 @@ Every tool invocation follows an explicit, unskippable 9-stage pipeline:
         │ - Does provider satisfy requirement? │ ──(FAIL)────► Terminal FAILED
         └──────────────────┬───────────────────┘               (ISOLATION_NOT_MET)
                            │ SATISFIED
-    Stage 5: Ceiling Clamp ▼
+    Stage 5: Resource Gate ▼
         ┌──────────────────────────────────────┐
-        │ Resource Clamping Gate               │
-        │ - Clamp timeoutMs & maxOutputBytes   │
-        │   to contract.spec.resourceLimits    │
+        │ Resource Authority Validation        │
+        │ - IF requested > contract ceiling:   │ ──(EXCEEDED)► Action REJECTED
+        │   REJECT (ResourceLimitExceededError)│               (Zero Execution)
+        │ - IF requested <= ceiling: ACCEPT    │
+        │ - effective = min(requested, safety) │
         └──────────────────┬───────────────────┘
-                           │ CLAMPED
+                           │ AUTHORIZED
     Stage 6: Execution     ▼
         ┌──────────────────────────────────────┐
         │ ExecutionProvider.execute()          │
@@ -444,17 +446,111 @@ export type ToolCapability = (typeof TOOL_CAPABILITIES)[number];
 - If a contract contains `workspace.file.read`, `read_file` is permitted.
 - If a contract omits `process.execute`, any call to `run_command` is rejected by [`PolicyEvaluator`](../../src/domain/policy.ts) with `CAPABILITY_NOT_GRANTED`.
 
-### 8.2 Resource Ceiling Inheritance
-- `MissionContract.spec.resourceLimits.timeoutMs` acts as the global ceiling for the entire Run. Tool-level timeouts (`action.timeoutMs`) can narrow the ceiling but cannot exceed it:
-  $$\text{effectiveTimeoutMs} = \min(\text{toolRequest.timeoutMs}, \text{contract.resourceLimits.timeoutMs})$$
-- `MissionContract.spec.resourceLimits.maxOutputBytes` enforces a hard ceiling across all tool actions.
+### 8.2 Resource Ceiling Authority & Operational Limits
 
-### 8.3 Revocation Invariant
-If an administrator revokes a `MissionContract` (`status = 'REVOKED'`):
-1. **Next Action Blocked**: `WorkerRuntime` verifies contract status before authorizing each action. If revoked, execution halts immediately with `CONTRACT_REVOKED`.
-2. **In-Flight Action Termination**: The active container is destroyed via `docker kill`.
-3. **No Recovery**: Sweeper refuses to re-queue the run, transitioning it to terminal `FAILED`.
-4. **Historical Evidence Preserved**: Evidence produced by prior actions remains immutable in `run_events`.
+Tool execution operates under strict governance boundaries, distinguishing between authoritative governance ceilings, requested operational values, and effective execution limits:
+
+#### 1. Resource Authorization Hierarchy
+
+```text
+MissionContract ceiling (Authoritative Governance Bound)
+        ↓
+requested operational value (Tool action / Run creation)
+        ↓
+        ├── requested > ceiling
+        │       ↓
+        │     REJECT (ResourceLimitExceededError — Zero Execution)
+        │
+        └── requested <= ceiling
+                ↓
+             ACCEPT
+                ↓
+        effective operational limit = min(requested, provider/tool safety limit)
+```
+
+We distinguish strictly between:
+1. **Authorization Ceiling**: The maximum immutable limit permitted by the governing `MissionContract.spec.resourceLimits`.
+2. **Requested Operational Value**: The value explicitly requested by the caller, agent, or tool action parameter.
+3. **Effective Operational Limit**: A value equal to or narrower than the authorized ceiling, optionally constrained by provider/tool safety limits. The effective value must **NEVER** be used to hide an unauthorized broader request.
+
+#### 2. Required Architecture Rule
+
+> **A lower operational limit MAY narrow authorized execution.**
+>
+> **A requested limit above MissionContract authority MUST be rejected.**
+>
+> **No layer may silently convert an unauthorized request into an authorized narrower request.**
+
+Example:
+```text
+Contract timeout ceiling = 30s
+Action requested timeout = 20s                     → ACCEPT (within authority)
+Action requested timeout = 30s                     → ACCEPT (within authority)
+Action requested timeout = 40s                     → REJECT (ResourceLimitExceededError — zero execution)
+
+If provider imposes an internal safety maximum = 10s:
+Contract ceiling = 30s, Request = 20s, Provider max = 10s → Effective limit = 10s (Narrowing authorized request is permitted)
+Contract ceiling = 30s, Request = 40s, Provider max = 10s → MUST NOT silently become 10s → MUST REJECT
+```
+
+#### 3. Resource Terminology Mapping
+
+The repository's established resource terminology is strictly preserved without schema mutation:
+
+| Layer / Entity | Property Name | Governance Category | Semantics & Authority |
+| :--- | :--- | :--- | :--- |
+| **MissionContract** (`contract.spec.resourceLimits`) | `timeoutMs` | Authorization Ceiling | Authoritative ceiling on total Run execution wall-clock time. |
+| | `maxAttempts` | Authorization Ceiling | Authoritative ceiling on total Run retry attempts. |
+| | `maxOutputBytes` | Authorization Ceiling | Authoritative ceiling on output bytes across execution and tool operations. |
+| **Run Aggregate** (`RunSnapshot`) | `run.timeoutMs` | Operational Snapshot | Effective Run timeout; rejected if `> contract.spec.resourceLimits.timeoutMs`. |
+| | `run.maxAttempts` | Operational Snapshot | Effective attempt count; rejected if `> contract.spec.resourceLimits.maxAttempts`. |
+| | `run.maxOutputBytes` | Operational Snapshot | Effective output size; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+| **Tool Action Request** (`ToolInput`) | `toolInput.timeoutMs` | Requested Operational Value | Requested tool execution timeout; rejected if `> run.timeoutMs` or contract ceiling. |
+| | `toolInput.maxBytes` | Requested Operational Value | Requested file read or patch size; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+| | `toolInput.maxLines` | Requested Operational Value | Requested window lines; bounded by tool-level safety limits. |
+| | `toolInput.maxResults` | Requested Operational Value | Requested search results; bounded by tool-level safety limits (e.g. 100). |
+| **Workspace Sandbox** (`WorkspaceSpec`) | `maxWorkspaceBytes` | Provider Safety Limit | Host directory storage quota (default 500 MB). *Provider/host safety limit (not in contract schema)*. |
+| | `maxFileSizeBytes` | Effective Limit | Single file write limit; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+| | `maxFileCount` | Provider Safety Limit | Host inode quota (default 50,000 files). *Provider safety limit against disk exhaustion*. |
+| **Provider Execution** (`DockerExecutionConfig`) | `timeoutMs` | Execution Guard | Container execution timer; must be <= authorized `run.timeoutMs`. |
+| | `maxOutputBytes` | Execution Guard | Stdout streaming truncation limit; must be <= authorized `run.maxOutputBytes`. |
+| | `memoryLimit` | Provider Safety Limit | Linux cgroup memory limit (default 256m). *Provider safety limit*. |
+| | `cpuLimit` | Provider Safety Limit | Linux cgroup CPU limit (default 0.5). *Provider safety limit*. |
+| | `pidsLimit` | Provider Safety Limit | Linux cgroup pid limit (default 64). *Provider safety limit*. |
+
+Where a resource (such as workspace disk bytes, memory limit, or process count) is not currently part of the `MissionContract.spec.resourceLimits` schema, it is explicitly classified as a **provider/tool safety limit** rather than contract authority.
+
+### 8.3 Honest Revocation Invariant & Process Termination Semantics
+
+The governance boundary enforces strict fail-closed lifecycle handling:
+
+```text
+MissionContract ACTIVE
+        ↓
+Action authorization
+        ↓
+Tool execution
+```
+
+If the contract becomes `REVOKED`:
+
+```text
+current action
+     ↓
+finish / terminate according to defined semantics
+     ↓
+NO NEXT ACTION
+     ↓
+workspace cleanup
+```
+
+**Exact Process Termination Guarantees**:
+1. **Pre-Action Synchronous Boundary**: `WorkerRuntime` verifies `contract.lifecycle.status === "ACTIVE"` before authorizing each tool action. If revoked, execution is blocked immediately with `CONTRACT_REVOKED`, and **`NO NEXT ACTION`** is executed.
+2. **In-Flight Action Termination**:
+   - *Container Isolation (`DockerExecutionProvider`)*: When revocation occurs mid-action, the provider initiates a physical container termination attempt (`docker kill <containerName>` and `docker rm -f <containerName>`). However, because external OS and daemon process termination is inherently asynchronous, instant sub-millisecond preemption cannot be guaranteed.
+   - *In-Process Operations (Node.js runtime)*: Node.js single-threaded execution cannot asynchronously preempt synchronous CPU-bound operations or blocking file I/O calls until control returns to the event loop.
+3. **Guaranteed Post-Revocation Cleanup**: Once the in-flight attempt terminates or yields, the runtime guarantees that no subsequent action will ever execute (`NO NEXT ACTION`). The workspace directory is unconditionally unlinked via `WorkspaceManager.disposeWorkspace()`, and the `Run` transitions to terminal `FAILED` with error code `CONTRACT_REVOKED`.
+4. **Historical Evidence Preserved**: Evidence payloads recorded for prior completed actions remain immutable in `run_events`. Sweepers will not recover or re-queue revoked runs.
 
 ---
 

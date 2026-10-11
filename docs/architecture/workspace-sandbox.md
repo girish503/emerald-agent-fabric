@@ -38,7 +38,7 @@ Allowing an untrusted agent or language model to interact with a filesystem intr
 - **Hard Filesystem Boundary**: Guarantee that no tool invocation can read, write, stat, or list paths outside the designated workspace root, even in the presence of `../`, absolute paths, or nested symlinks.
 - **Container Volume Encapsulation**: Mount the isolated workspace into [`DockerExecutionProvider`](../../src/adapters/execution/docker-execution-provider.ts) at a fixed container mount path (`/workspace`) while keeping the container rootfs read-only (`--read-only`) and dropping all Linux capabilities.
 - **Fail-Closed Teardown & Sweeper Cleanup**: Unconditionally destroy workspace storage upon run completion, failure, timeout, or cancellation. Sweeper recovers and cleans orphaned workspaces left by dead workers.
-- **Resource & Quota Bounding**: Enforce maximum workspace disk bytes and file size limits clamped by the governing [`MissionContract`](../../src/domain/mission-contract.ts).
+- **Resource & Quota Bounding**: Enforce maximum workspace disk bytes and file size limits governed by [`MissionContract`](../../src/domain/mission-contract.ts) authority (strictly rejecting requests exceeding contract ceilings) and bounded by provider/tool safety limits.
 
 ### Non-Goals
 - **No Cloud / Distributed Storage**: Zero dependency on S3, NFS, Ceph, Kubernetes PersistentVolumes, or remote cloud daemons in Phase 3. Initial implementation is local CPU-first.
@@ -53,7 +53,7 @@ Allowing an untrusted agent or language model to interact with a filesystem intr
 The Workspace Sandbox directly inherits and preserves all existing runtime invariants:
 1. **Hexagonal Dependency Inversion**: Pure domain models (`Run`, `Policy`, `MissionContract`) depend only on ports. Filesystem I/O and Docker volume mounting belong strictly to adapters.
 2. **Fail-Closed Security**: If workspace provisioning fails, path validation detects traversal, or Docker volume mounting fails, execution fails closed (`FAILED`). No fallback to un-isolated host execution is permitted.
-3. **Mission Contract Authority**: Workspace disk limits and timeouts cannot exceed limits defined in the pinned `MissionContract.spec.resourceLimits`.
+3. **Mission Contract Authority & Resource Ceilings**: Requested resource limits above the authoritative `MissionContract.spec.resourceLimits` MUST be rejected (`ResourceLimitExceededError`), never silently clamped. An operational limit may narrow an already-authorized value, but no layer may silently convert an unauthorized request into an authorized narrower request.
 4. **Deterministic Auditability**: Every significant workspace lifecycle event (`workspace.provisioned`, `workspace.disposed`, `workspace.cleanup_failed`) is emitted into the append-only `run_events` log.
 
 ---
@@ -97,8 +97,8 @@ export interface WorkspaceSpec {
   readonly runId: string;
   readonly taskId: string;
   readonly repositorySource?: RepositorySource;
-  readonly maxWorkspaceBytes: number; // Defaults to Contract limit (e.g. 500 MB)
-  readonly maxFileSizeBytes: number;    // Defaults to Contract limit (e.g. 10 MB)
+  readonly maxWorkspaceBytes: number; // Provider safety limit (default 500 MB; cannot exceed contract authority if governed)
+  readonly maxFileSizeBytes: number;    // Effective limit: rejected if exceeds contract maxOutputBytes; bounded by provider safety limit (e.g. 10 MB)
 }
 
 export interface RepositorySource {
@@ -292,19 +292,79 @@ Untrusted Input Path (e.g. "../../etc/passwd" or "symlink_to_root/secret")
 
 ---
 
-## 11. Resource Limits & Disk Quotas
+## 11. Resource Limits & Authority Model
 
-Workspaces are subject to hard resource limits derived from the governing [`MissionContract`](../../src/domain/mission-contract.ts):
+Workspace execution operates under strict governance boundaries, distinguishing between authoritative governance ceilings, requested operational values, and effective execution limits:
 
-| Parameter | Default Constraint | Hard Governance Ceiling | Enforcement Point |
+### 11.1 Resource Authorization Hierarchy
+
+```text
+MissionContract ceiling (Authoritative Governance Bound)
+        ↓
+requested operational value (Run creation / Tool action)
+        ↓
+        ├── requested > ceiling
+        │       ↓
+        │     REJECT (ResourceLimitExceededError — No Execution)
+        │
+        └── requested <= ceiling
+                ↓
+             ACCEPT
+                ↓
+        effective operational limit = min(requested, provider/tool safety limit)
+```
+
+We distinguish strictly between:
+1. **Authorization Ceiling**: The maximum immutable value permitted by the governing `MissionContract.spec.resourceLimits`.
+2. **Requested Operational Value**: The value explicitly requested by the caller, agent, or tool action.
+3. **Effective Operational Limit**: A value that is equal to or narrower than the authorized ceiling, optionally tightened by provider/tool safety limits. The effective value must **NEVER** be used to hide an unauthorized broader request.
+
+### 11.2 Required Architecture Rule
+
+> **A lower operational limit MAY narrow authorized execution.**
+>
+> **A requested limit above MissionContract authority MUST be rejected.**
+>
+> **No layer may silently convert an unauthorized request into an authorized narrower request.**
+
+Example:
+```text
+Contract timeout ceiling = 30s
+Request = 20s                     → ACCEPT (within authority)
+Request = 30s                     → ACCEPT (within authority)
+Request = 40s                     → REJECT (ResourceLimitExceededError — zero execution)
+
+If provider imposes an internal safety maximum = 10s:
+Contract ceiling = 30s, Request = 20s, Provider max = 10s → Effective limit = 10s (Narrowing authorized request is permitted)
+Contract ceiling = 30s, Request = 40s, Provider max = 10s → MUST NOT silently become 10s → MUST REJECT
+```
+
+### 11.3 Resource Terminology Mapping
+
+The repository's established resource terminology is strictly preserved without schema mutation:
+
+| Layer / Entity | Property Name | Governance Category | Semantics & Authority |
 | :--- | :--- | :--- | :--- |
-| **Max Workspace Size** | 500 MB | Derived from Contract `resourceLimits` | Host disk monitoring / Container storage quota |
-| **Max Single File Size** | 10 MB | Derived from Contract `maxOutputBytes` (clamped) | Pre-write validation in `write_file` tool |
-| **Max File Count (Inodes)** | 50,000 files | 100,000 files | Post-acquisition & tool execution check |
-| **Max Process Count** | 64 pids | `--pids-limit=64` | Linux cgroups in Docker provider |
-| **Max Memory Overhead** | 256 MB | `--memory=256m` | Linux cgroups in Docker provider |
+| **MissionContract** (`contract.spec.resourceLimits`) | `timeoutMs` | Authorization Ceiling | Authoritative ceiling on total Run execution wall-clock time. |
+| | `maxAttempts` | Authorization Ceiling | Authoritative ceiling on total Run retry attempts. |
+| | `maxOutputBytes` | Authorization Ceiling | Authoritative ceiling on output bytes across execution and tool operations. |
+| **Run Aggregate** (`RunSnapshot`) | `run.timeoutMs` | Operational Snapshot | Effective Run timeout; rejected if `> contract.spec.resourceLimits.timeoutMs`. |
+| | `run.maxAttempts` | Operational Snapshot | Effective attempt count; rejected if `> contract.spec.resourceLimits.maxAttempts`. |
+| | `run.maxOutputBytes` | Operational Snapshot | Effective output size; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+| **Tool Action Request** (`ToolInput`) | `toolInput.timeoutMs` | Requested Operational Value | Requested tool execution timeout; rejected if `> run.timeoutMs` or contract ceiling. |
+| | `toolInput.maxBytes` | Requested Operational Value | Requested file read or patch size; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+| | `toolInput.maxLines` | Requested Operational Value | Requested window lines; bounded by tool-level safety limits. |
+| | `toolInput.maxResults` | Requested Operational Value | Requested search results; bounded by tool-level safety limits (e.g. 100). |
+| **Workspace Sandbox** (`WorkspaceSpec`) | `maxWorkspaceBytes` | Provider Safety Limit | Host directory storage quota (default 500 MB). *Provider/host safety limit (not in contract schema)*. |
+| | `maxFileSizeBytes` | Effective Limit | Single file write limit; rejected if `> contract.spec.resourceLimits.maxOutputBytes`. |
+| | `maxFileCount` | Provider Safety Limit | Host inode quota (default 50,000 files). *Provider safety limit against disk exhaustion*. |
+| **Provider Execution** (`DockerExecutionConfig`) | `timeoutMs` | Execution Guard | Container execution timer; must be <= authorized `run.timeoutMs`. |
+| | `maxOutputBytes` | Execution Guard | Stdout streaming truncation limit; must be <= authorized `run.maxOutputBytes`. |
+| | `memoryLimit` | Provider Safety Limit | Linux cgroup memory limit (default 256m). *Provider safety limit*. |
+| | `cpuLimit` | Provider Safety Limit | Linux cgroup CPU limit (default 0.5). *Provider safety limit*. |
+| | `pidsLimit` | Provider Safety Limit | Linux cgroup pid limit (default 64). *Provider safety limit*. |
 
-If a tool execution or build script generates output exceeding `maxWorkspaceBytes`, the runtime immediately aborts the run with `WORKSPACE_DISK_QUOTA_EXCEEDED` and initiates teardown.
+Where a resource (such as workspace disk bytes, memory limit, or process count) is not currently part of the `MissionContract.spec.resourceLimits` schema, it is explicitly classified as a **provider/workspace safety limit** rather than contract authority.
 
 ---
 
@@ -338,42 +398,72 @@ If a worker crashes abruptly (SIGKILL, host reboot) before reaching the `finally
 ## 13. Interaction with Existing Execution & Governance Boundaries
 
 ```text
-MissionContract
-      │  (Governs allowedCapabilities, maxWorkspaceBytes, isolationRequirement)
-      ▼
-WorkerRuntime.runOnce()
+MissionContract (ACTIVE)
       │
-      ├── 1. Authorize contract & resolve capabilities
+      ├── 1. Authorize contract & verify ACTIVE lifecycle status
       │
-      ├── 2. Provision workspace:
+      ├── 2. Verify requested operational values <= contract resourceLimits:
+      │      - IF requested > ceiling: REJECT (ResourceLimitExceededError)
+      │      - IF requested <= ceiling: ACCEPT
+      │
+      ├── 3. Provision workspace:
       │      workspace = workspaceManager.provisionWorkspace(spec)
       │
-      ├── 3. Execute tool action via ExecutionProvider:
-      │      provider.execute({
-      │        workspaceHandle: workspace,
-      │        operation: toolOperation,
-      │        parameters: sanitizedParams
-      │      })
+      ├── 4. Tool Action Execution Loop (while ACTIVE):
+      │      - Pre-Action Check: verify contract still ACTIVE
+      │      - IF REVOKED: ABORT -> finish in-flight / terminate -> NO NEXT ACTION -> Teardown
+      │      - Execute action via ExecutionProvider inside container
       │
-      ├── 4. Collect Observation & Record Evidence:
+      ├── 5. Collect Observation & Record Evidence:
       │      evidence = createEvidence(providerResult)
       │
-      ├── 5. Deterministic Verification:
+      ├── 6. Deterministic Verification:
       │      verifier.verify(evidence, contract.verificationSpecs)
       │
-      └── 6. Finally:
+      └── 7. Finally:
              workspaceManager.disposeWorkspace(workspace.workspaceId)
 ```
 
-The workspace sandbox integrates cleanly into the existing execution pipeline without mutating the frozen [`MissionContract`](../../src/domain/mission-contract.ts) aggregate.
+### 13.1 Honest Revocation & Process Termination Semantics
+
+The governance boundary guarantees the following lifecycle behavior upon contract revocation:
+
+```text
+MissionContract ACTIVE
+        ↓
+Action authorization
+        ↓
+Tool execution
+```
+
+If the contract becomes `REVOKED`:
+
+```text
+current action
+     ↓
+finish / terminate according to defined semantics
+     ↓
+NO NEXT ACTION
+     ↓
+workspace cleanup
+```
+
+**Exact Process Termination Guarantees**:
+1. **Pre-Action Synchronous Boundary**: The runtime verifies `contract.lifecycle.status === "ACTIVE"` before authorizing each tool action. If revoked, dispatch is aborted immediately with `CONTRACT_REVOKED`, and **`NO NEXT ACTION`** is executed.
+2. **In-Flight Action Termination**:
+   - *Container Isolation (`DockerExecutionProvider`)*: When revocation occurs while a container is executing, the provider attempts physical termination via `docker kill <containerName>` and `docker rm -f <containerName>`. However, because external OS and daemon process termination is inherently asynchronous, instant sub-millisecond preemption cannot be guaranteed.
+   - *In-Process Operations (Node.js runtime)*: Node.js executes on a single-threaded event loop. Pure synchronous CPU loops or blocking file system calls cannot be asynchronously interrupted from within the same thread. Execution terminates only when the in-flight synchronous call yields or completes.
+3. **Guaranteed Post-Revocation Cleanup**: Once the in-flight attempt finishes or terminates, the runtime guarantees that no subsequent action is ever authorized (`NO NEXT ACTION`). The workspace sandbox is unconditionally destroyed via `disposeWorkspace()`, and the `Run` transitions to terminal `FAILED` with error code `CONTRACT_REVOKED`.
 
 ---
 
 ## 14. Explicit Invariants
 
 1. **Path Containment Invariant**: Every resolved filesystem path must strictly satisfy `resolvedPath.startsWith(workspaceRoot + path.sep)`. Zero paths outside the workspace root are ever touched.
-2. **Zero Socket Invariant**: The host Docker socket (`/var/run/docker.sock`) is never mounted, exposed, or referenced inside any workspace or container.
-3. **Immutable Revision Invariant**: Repository acquisition requires an immutable revision (commit SHA). Mutable branch refs fail closed.
-4. **Single-Lease Ownership**: Exactly one active worker lease owns a workspace at any time. Workspaces are never shared across concurrent runs.
-5. **Guaranteed Teardown Invariant**: Every allocated workspace is guaranteed to be deleted either by the executing worker or by the crash-recovery sweeper.
-6. **No Silent Downgrade**: If container isolation is required for workspace operations, execution cannot downgrade to un-isolated host filesystem operations if Docker is unavailable.
+2. **Resource Authority Invariant**: A lower operational limit MAY narrow authorized execution. A requested limit above MissionContract authority MUST be rejected (`ResourceLimitExceededError`). No layer may silently convert an unauthorized request into an authorized narrower request.
+3. **Zero Socket Invariant**: The host Docker socket (`/var/run/docker.sock`) is never mounted, exposed, or referenced inside any workspace or container.
+4. **Immutable Revision Invariant**: Repository acquisition requires an immutable revision (commit SHA). Mutable branch refs fail closed.
+5. **Single-Lease Ownership**: Exactly one active worker lease owns a workspace at any time. Workspaces are never shared across concurrent runs.
+6. **Guaranteed Teardown Invariant**: Every allocated workspace is guaranteed to be deleted either by the executing worker or by the crash-recovery sweeper.
+7. **No Silent Downgrade**: If container isolation is required for workspace operations, execution cannot downgrade to un-isolated host filesystem operations if Docker is unavailable.
+8. **Revocation Fail-Closed Invariant**: Upon contract revocation, zero subsequent actions are authorized (`NO NEXT ACTION`), in-flight execution termination is attempted, and workspace storage is unconditionally destroyed.
