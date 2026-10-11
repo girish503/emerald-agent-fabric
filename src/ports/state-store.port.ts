@@ -68,6 +68,7 @@ export interface StorageTransaction extends MissionContractStorePort {
   ): PersistedEvent;
 
   getRun(runId: string): RunSnapshot | null;
+  getRunRaw?(runId: string): RunSnapshot | null;
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
   findQueuedRuns(limit?: number): readonly RunSnapshot[];
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];
@@ -97,6 +98,7 @@ export interface StateStorePort extends MissionContractStorePort {
   transaction<T>(operation: (tx: StorageTransaction) => T): T;
 
   getRun(runId: string): RunSnapshot | null;
+  getRunRaw?(runId: string): RunSnapshot | null;
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
   findQueuedRuns(limit?: number): readonly RunSnapshot[];
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];

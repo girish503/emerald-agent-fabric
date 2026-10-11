@@ -378,8 +378,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
         `UPDATE runs SET
            status = ?, current_worker_id = ?, lease_id = ?, lease_expires_at = ?,
            attempt_count = ?, max_attempts = ?, timeout_ms = ?, result_payload = ?,
-           error_payload = ?, version = ?, updated_at = ?,
-           contract_id = ?, contract_version = ?, contract_hash = ?, max_output_bytes = ?
+           error_payload = ?, version = ?, updated_at = ?
          WHERE run_id = ? AND version = ? AND lease_id = ? AND current_worker_id = ?`
       );
       result = stmt.run(
@@ -394,10 +393,6 @@ export class SqliteStorageTransaction implements StorageTransaction {
         nextSnapshot.errorPayload !== null ? JSON.stringify(nextSnapshot.errorPayload) : null,
         nextSnapshot.version,
         nextSnapshot.updatedAt,
-        contractId,
-        contractVersion,
-        contractHash,
-        maxOutputBytes,
         runId,
         expectedVersion,
         fencing.leaseId,
@@ -408,8 +403,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
         `UPDATE runs SET
            status = ?, current_worker_id = ?, lease_id = ?, lease_expires_at = ?,
            attempt_count = ?, max_attempts = ?, timeout_ms = ?, result_payload = ?,
-           error_payload = ?, version = ?, updated_at = ?,
-           contract_id = ?, contract_version = ?, contract_hash = ?, max_output_bytes = ?
+           error_payload = ?, version = ?, updated_at = ?
          WHERE run_id = ? AND version = ?`
       );
       result = stmt.run(
@@ -424,10 +418,6 @@ export class SqliteStorageTransaction implements StorageTransaction {
         nextSnapshot.errorPayload !== null ? JSON.stringify(nextSnapshot.errorPayload) : null,
         nextSnapshot.version,
         nextSnapshot.updatedAt,
-        contractId,
-        contractVersion,
-        contractHash,
-        maxOutputBytes,
         runId,
         expectedVersion
       ) as { changes: number };
@@ -463,6 +453,13 @@ export class SqliteStorageTransaction implements StorageTransaction {
     return mapRunRowToSnapshot(row, this.db);
   }
 
+  getRunRaw(runId: string): RunSnapshot | null {
+    const stmt = this.db.prepare(`SELECT * FROM runs WHERE run_id = ?`);
+    const row = stmt.get(runId) as DbRunRow | undefined;
+    if (!row) return null;
+    return mapRunRowToSnapshot(row, undefined);
+  }
+
   getRunByIdempotencyKey(key: string): RunSnapshot | null {
     const stmt = this.db.prepare(`SELECT * FROM runs WHERE idempotency_key = ?`);
     const row = stmt.get(key) as DbRunRow | undefined;
@@ -475,7 +472,15 @@ export class SqliteStorageTransaction implements StorageTransaction {
       `SELECT * FROM runs WHERE status = 'QUEUED' ORDER BY created_at ASC LIMIT ?`
     );
     const rows = stmt.all(limit) as unknown as DbRunRow[];
-    return rows.map((r) => mapRunRowToSnapshot(r, this.db));
+    const result: RunSnapshot[] = [];
+    for (const r of rows) {
+      try {
+        result.push(mapRunRowToSnapshot(r, this.db));
+      } catch {
+        result.push(mapRunRowToSnapshot(r, undefined));
+      }
+    }
+    return result;
   }
 
   findExpiredRuns(nowIso: string): readonly RunSnapshot[] {
@@ -483,7 +488,15 @@ export class SqliteStorageTransaction implements StorageTransaction {
       `SELECT * FROM runs WHERE (status = 'RUNNING' OR status = 'LEASED') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ? ORDER BY lease_expires_at ASC`
     );
     const rows = stmt.all(nowIso) as unknown as DbRunRow[];
-    return rows.map((r) => mapRunRowToSnapshot(r, this.db));
+    const result: RunSnapshot[] = [];
+    for (const r of rows) {
+      try {
+        result.push(mapRunRowToSnapshot(r, this.db));
+      } catch {
+        result.push(mapRunRowToSnapshot(r, undefined));
+      }
+    }
+    return result;
   }
 
   appendEvent(event: DomainEvent): PersistedEvent {
@@ -797,6 +810,11 @@ export class SqliteStateStore implements StateStorePort {
   getRun(runId: string): RunSnapshot | null {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.getRun(runId);
+  }
+
+  getRunRaw(runId: string): RunSnapshot | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getRunRaw(runId);
   }
 
   getRunByIdempotencyKey(key: string): RunSnapshot | null {

@@ -1,5 +1,7 @@
+import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   AmbiguousContractAuthorityError,
+  ContractIntegrityError,
   InvalidMissionContractError,
   InvalidRunError,
   MissionContractTaskMismatchError,
@@ -547,7 +549,22 @@ export class RunCoordinator {
 
     for (const candidate of expiredCandidates) {
       this.stateStore.transaction((tx) => {
-        const snapshot = tx.getRun(candidate.runId);
+        let snapshot: RunSnapshot | null = null;
+        let reconstitutionError: Error | null = null;
+        try {
+          snapshot = tx.getRun(candidate.runId);
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            reconstitutionError = err;
+          } else {
+            throw err;
+          }
+        }
+
+        if (!snapshot && reconstitutionError) {
+          snapshot = tx.getRunRaw ? tx.getRunRaw(candidate.runId) : null;
+        }
+
         if (
           !snapshot ||
           (snapshot.status !== "RUNNING" && snapshot.status !== "LEASED") ||
@@ -569,6 +586,155 @@ export class RunCoordinator {
         const expireEvent = run.expireLease(nowIso);
         tx.updateRun(snapshot.runId, versionBeforeExpire, run.snapshot, expireEvent);
 
+        const failGovernanceClosed = (errorPayload: {
+          code: string;
+          message: string;
+          details?: unknown;
+        }): void => {
+          const versionBeforeFail = run.version;
+          const failEvent = run.fail(errorPayload, undefined, undefined, nowIso);
+          tx.updateRun(snapshot.runId, versionBeforeFail, run.snapshot, failEvent);
+          recoveredRuns.push(run.snapshot);
+        };
+
+        // If reconstitution threw an integrity or missing error
+        if (reconstitutionError) {
+          const isMissing = reconstitutionError.message.includes("not found");
+          failGovernanceClosed({
+            code: isMissing ? "MISSING_BOUND_CONTRACT" : "CONTRACT_INTEGRITY_MISMATCH",
+            message: reconstitutionError.message,
+            details: {
+              runId: snapshot.runId,
+              contractId: snapshot.contractBinding?.contractId,
+              version: snapshot.contractBinding?.version,
+            },
+          });
+          return;
+        }
+
+        // 1. Unbound Legacy Run Check (Section 7)
+        if (!snapshot.contractBinding) {
+          failGovernanceClosed({
+            code: "UNBOUND_RUN_EXECUTION_DISALLOWED",
+            message: `Recovery of unbound legacy Run '${snapshot.runId}' is disallowed. Governed execution requires an authoritative MissionContract binding.`,
+            details: { runId: snapshot.runId },
+          });
+          return;
+        }
+
+        const binding = snapshot.contractBinding;
+
+        // 2. Exact Contract Resolution (Section 1, 2, 4, 11)
+        let contract: MissionContract | null = null;
+        let contractFetchError: Error | null = null;
+        try {
+          contract = tx.getContract(binding.contractId, binding.version);
+        } catch (err: unknown) {
+          if (
+            err instanceof ContractIntegrityError ||
+            err instanceof InvalidMissionContractError
+          ) {
+            contractFetchError = err as Error;
+          } else {
+            throw err;
+          }
+        }
+
+        if (contractFetchError) {
+          failGovernanceClosed({
+            code: "CONTRACT_INTEGRITY_MISMATCH",
+            message: contractFetchError.message,
+            details: {
+              contractId: binding.contractId,
+              version: binding.version,
+              runId: snapshot.runId,
+            },
+          });
+          return;
+        }
+
+        if (!contract) {
+          failGovernanceClosed({
+            code: "MISSING_BOUND_CONTRACT",
+            message: `Exact bound MissionContract ('${binding.contractId}', v${binding.version}) not found during recovery`,
+            details: {
+              contractId: binding.contractId,
+              version: binding.version,
+              runId: snapshot.runId,
+            },
+          });
+          return;
+        }
+
+        // 3. Contract Integrity Verification (Section 5)
+        const { contentHash: recomputedHash } = computeCanonicalHash(contract.spec);
+        if (
+          recomputedHash !== contract.contentHash ||
+          contract.contentHash !== binding.contentHash
+        ) {
+          failGovernanceClosed({
+            code: "CONTRACT_INTEGRITY_MISMATCH",
+            message: `Contract content hash integrity mismatch during recovery: run bound '${binding.contentHash}', contract hash '${contract.contentHash}', recomputed hash '${recomputedHash}'`,
+            details: {
+              contractId: binding.contractId,
+              version: binding.version,
+              boundHash: binding.contentHash,
+              contractHash: contract.contentHash,
+              recomputedHash,
+              runId: snapshot.runId,
+            },
+          });
+          return;
+        }
+
+        // 4. Task Association Verification (Section 6)
+        if (contract.spec.taskId !== snapshot.taskId) {
+          failGovernanceClosed({
+            code: "MISSION_CONTRACT_TASK_MISMATCH",
+            message: `Mission contract '${contract.spec.contractId}' belongs to task '${contract.spec.taskId}', not run task '${snapshot.taskId}'`,
+            details: {
+              expectedTaskId: snapshot.taskId,
+              actualTaskId: contract.spec.taskId,
+              contractId: contract.spec.contractId,
+              runId: snapshot.runId,
+            },
+          });
+          return;
+        }
+
+        // 5. Lifecycle Authorization Verification (Section 3, 14)
+        if (contract.lifecycle.status === "REVOKED") {
+          failGovernanceClosed({
+            code: "CONTRACT_REVOKED",
+            message: `Bound MissionContract '${contract.spec.contractId}' v${contract.spec.version} has been REVOKED${
+              contract.lifecycle.revocationReason ? `: ${contract.lifecycle.revocationReason}` : ""
+            }`,
+            details: {
+              contractId: contract.spec.contractId,
+              version: contract.spec.version,
+              status: contract.lifecycle.status,
+              revocationReason: contract.lifecycle.revocationReason,
+              runId: snapshot.runId,
+            },
+          });
+          return;
+        }
+
+        if (contract.lifecycle.status !== "ACTIVE") {
+          failGovernanceClosed({
+            code: "CONTRACT_NOT_ACTIVE",
+            message: `Bound MissionContract '${contract.spec.contractId}' v${contract.spec.version} is not ACTIVE (status: '${contract.lifecycle.status}')`,
+            details: {
+              contractId: contract.spec.contractId,
+              version: contract.spec.version,
+              status: contract.lifecycle.status,
+              runId: snapshot.runId,
+            },
+          });
+          return;
+        }
+
+        // 6. Valid Active Contract: Existing Retry Semantics (Section 2, 9)
         if (run.attemptCount < run.maxAttempts) {
           // Transition: RECOVERING -> QUEUED (increments attemptCount)
           const versionBeforeRetry = run.version;
@@ -621,6 +787,10 @@ export class RunCoordinator {
 
   getRun(runId: string): RunSnapshot | null {
     return this.stateStore.getRun(runId);
+  }
+
+  getRunRaw(runId: string): RunSnapshot | null {
+    return this.stateStore.getRunRaw ? this.stateStore.getRunRaw(runId) : this.stateStore.getRun(runId);
   }
 
   getRunByIdempotencyKey(key: string): RunSnapshot | null {

@@ -227,4 +227,14 @@ export class EphemeralOverrideRejectedError extends DomainError {
   }
 }
 
+export class UnboundRunExecutionDisallowedError extends DomainError {
+  readonly code = "UNBOUND_RUN_EXECUTION_DISALLOWED";
+
+  constructor(readonly runId: string) {
+    super(
+      `Execution or recovery of unbound legacy Run '${runId}' is disallowed. Governed execution requires an authoritative MissionContract binding.`
+    );
+  }
+}
+
 

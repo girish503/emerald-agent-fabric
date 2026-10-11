@@ -242,8 +242,8 @@ export class WorkerRuntime {
     // 2. Exact Contract Resolution & Existence (Sections 2, 3)
     if (!run.contractBinding) {
       return failRunSafely({
-        code: "MISSING_BOUND_CONTRACT",
-        message: `Run '${run.runId}' has no bound MissionContract`,
+        code: "UNBOUND_RUN_EXECUTION_DISALLOWED",
+        message: `Execution of unbound legacy Run '${run.runId}' is disallowed. Governed execution requires an authoritative MissionContract binding.`,
         details: { runId: run.runId },
       });
     }
