@@ -10,4 +10,6 @@ export * from "./run.js";
 export * from "./state-machine.js";
 export * from "./verification.js";
 export * from "./mission-contract.js";
+export * from "./workspace.js";
+export * from "./workspace-path.js";
 

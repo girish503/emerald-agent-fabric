@@ -237,4 +237,89 @@ export class UnboundRunExecutionDisallowedError extends DomainError {
   }
 }
 
+export class InvalidWorkspaceError extends DomainError {
+  readonly code = "INVALID_WORKSPACE";
+
+  constructor(
+    readonly workspaceId: string,
+    readonly violations: readonly string[]
+  ) {
+    super(
+      `Workspace '${workspaceId}' invariant violation(s): ${violations.join("; ")}`
+    );
+  }
+}
+
+export class InvalidWorkspaceTransitionError extends DomainError {
+  readonly code = "INVALID_WORKSPACE_TRANSITION";
+
+  constructor(
+    readonly workspaceId: string,
+    readonly fromState: string,
+    readonly toState: string,
+    readonly reason?: string
+  ) {
+    super(
+      `Cannot transition workspace '${workspaceId}' from '${fromState}' to '${toState}'${
+        reason ? `: ${reason}` : ""
+      }`
+    );
+  }
+}
+
+export class WorkspaceStateError extends DomainError {
+  readonly code = "WORKSPACE_STATE_ERROR";
+
+  constructor(
+    readonly workspaceId: string,
+    readonly currentState: string,
+    readonly requiredState: string,
+    readonly operation?: string
+  ) {
+    super(
+      `Workspace '${workspaceId}' is in state '${currentState}' but '${requiredState}' is required${
+        operation ? ` for operation '${operation}'` : ""
+      }`
+    );
+  }
+}
+
+export class WorkspaceLeaseError extends DomainError {
+  readonly code = "WORKSPACE_LEASE_ERROR";
+
+  constructor(
+    readonly workspaceId: string,
+    readonly reason: string
+  ) {
+    super(`Workspace lease error for '${workspaceId}': ${reason}`);
+  }
+}
+
+export class InvalidWorkspacePathError extends DomainError {
+  readonly code = "INVALID_WORKSPACE_PATH";
+
+  constructor(
+    readonly path: string,
+    readonly reason: string
+  ) {
+    super(`Invalid workspace path '${path}': ${reason}`);
+  }
+}
+
+export class WorkspacePathOutsideBoundaryError extends DomainError {
+  readonly code = "WORKSPACE_PATH_OUTSIDE_BOUNDARY";
+
+  constructor(
+    readonly path: string,
+    readonly reason?: string
+  ) {
+    super(
+      `Path '${path}' resolves outside workspace boundary${
+        reason ? `: ${reason}` : ""
+      }`
+    );
+  }
+}
+
+
 

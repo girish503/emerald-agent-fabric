@@ -163,6 +163,82 @@ export type VerificationCompletedEvent = DomainEvent<VerificationCompletedPayloa
   readonly eventType: "verification.completed";
 };
 
+export interface WorkspaceProvisioningPayload {
+  readonly workspaceId: string;
+  readonly runId: string;
+  readonly taskId: string;
+  readonly repositorySource?: {
+    readonly type: "git" | "archive" | "local_template";
+    readonly location: string;
+    readonly revision: string;
+  };
+  readonly maxWorkspaceBytes: number;
+}
+
+export type WorkspaceProvisioningEvent = DomainEvent<WorkspaceProvisioningPayload> & {
+  readonly eventType: "workspace.provisioning";
+};
+
+export interface WorkspaceReadyPayload {
+  readonly workspaceId: string;
+  readonly runId: string;
+  readonly hostPath?: string;
+  readonly containerMountPath?: string;
+}
+
+export type WorkspaceReadyEvent = DomainEvent<WorkspaceReadyPayload> & {
+  readonly eventType: "workspace.ready";
+};
+
+export interface WorkspaceLeasedPayload {
+  readonly workspaceId: string;
+  readonly runId: string;
+  readonly workerId: string;
+  readonly leaseId: string;
+}
+
+export type WorkspaceLeasedEvent = DomainEvent<WorkspaceLeasedPayload> & {
+  readonly eventType: "workspace.leased";
+};
+
+export interface WorkspaceCleaningPayload {
+  readonly workspaceId: string;
+  readonly runId: string;
+  readonly reason?: string;
+}
+
+export type WorkspaceCleaningEvent = DomainEvent<WorkspaceCleaningPayload> & {
+  readonly eventType: "workspace.cleaning";
+};
+
+export interface WorkspaceDisposedPayload {
+  readonly workspaceId: string;
+  readonly runId: string;
+}
+
+export type WorkspaceDisposedEvent = DomainEvent<WorkspaceDisposedPayload> & {
+  readonly eventType: "workspace.disposed";
+};
+
+export interface WorkspaceFailedPayload {
+  readonly workspaceId: string;
+  readonly runId: string;
+  readonly fromState: string;
+  readonly errorMessage: string;
+}
+
+export type WorkspaceFailedEvent = DomainEvent<WorkspaceFailedPayload> & {
+  readonly eventType: "workspace.failed";
+};
+
+export type AnyWorkspaceEvent =
+  | WorkspaceProvisioningEvent
+  | WorkspaceReadyEvent
+  | WorkspaceLeasedEvent
+  | WorkspaceCleaningEvent
+  | WorkspaceDisposedEvent
+  | WorkspaceFailedEvent;
+
 export type AnyRunEvent =
   | RunCreatedEvent
   | RunQueuedEvent
@@ -176,5 +252,7 @@ export type AnyRunEvent =
   | RunRecoveredEvent
   | PolicyEvaluatedEvent
   | EvidenceRecordedEvent
-  | VerificationCompletedEvent;
+  | VerificationCompletedEvent
+  | AnyWorkspaceEvent;
+
 
