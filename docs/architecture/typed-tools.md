@@ -640,3 +640,51 @@ No heuristic optimization may be promoted in Reflex (Phase 11) without attributi
 5. **Multi-Step Binding Invariant**: Every action in a multi-step execution remains permanently bound to the original MissionContract version and hash.
 6. **Fail-Closed Revocation Invariant**: A revoked MissionContract halts multi-step execution prior to the next action and fails closed during recovery.
 7. **Auditable Evidence Invariant**: Every mutating tool action produces canonical, redacted, content-hashed evidence.
+
+---
+
+## 13. Task 4.1 Domain Contracts, Schemas & Error Taxonomy Status
+
+Task 4.1 establishes the pure, strongly typed domain contracts for tools without implementing adapters, execution gateways, or agent loops.
+
+### 13.1 Tool Domain Boundary
+1. **Initial Tool Primitives**: Exactly six stable tools: `read_file`, `write_file`, `search_code`, `git_status`, `git_diff`, `run_command`.
+2. **Capability Mapping**:
+   - `read_file` $\rightarrow$ `workspace.file.read`
+   - `write_file` $\rightarrow$ `workspace.file.write`
+   - `search_code` $\rightarrow$ `workspace.code.search`
+   - `git_status` $\rightarrow$ `git.read`
+   - `git_diff` $\rightarrow$ `git.read`
+   - `run_command` $\rightarrow$ `process.execute`
+3. **Idempotency Classification**:
+   - `read_file`, `search_code`, `git_status`, `git_diff` are declared `IDEMPOTENT`.
+   - `write_file`, `run_command` are declared `NON_IDEMPOTENT`.
+4. **Isolation Classification**:
+   - `read_file`, `write_file`, `search_code`, `git_status`, `git_diff` require `WORKSPACE` isolation.
+   - `run_command` requires `SANDBOX` isolation.
+5. **Resource Semantics**:
+   - Resources (`maxBytes`, `timeoutMs`, `maxResults`, `maxOutputBytes`) are explicitly typed and validated.
+   - Schemas never perform silent clamping. Any requested limit above MissionContract ceilings must be rejected by future governance/gateway enforcement.
+6. **run_command Security Boundary**:
+   - Strict `argv: string[]` discrete token array with non-empty executable `argv[0]`.
+   - Raw shell strings (`bash -c`, command interpolation) are categorically rejected.
+7. **Trust Boundary**:
+   - Tool requests are untrusted inputs proposing `toolName` and `input`.
+   - Authority (MissionContract binding, capability authorization, workspace containment, provider dispatch) remains strictly external and enforced by trusted runtime layers.
+8. **Error Taxonomy**:
+   - Nine deterministic error codes categorized across `validation`, `authorization`, `workspace`, `resource`, `execution`, `cancellation`, and `provider`:
+     - `TOOL_NOT_FOUND` (`provider`)
+     - `INVALID_TOOL_INPUT` (`validation`)
+     - `CAPABILITY_DENIED` (`authorization`)
+     - `WORKSPACE_BOUNDARY_VIOLATION` (`workspace`)
+     - `TOOL_TIMEOUT` (`resource`)
+     - `TOOL_OUTPUT_LIMIT_EXCEEDED` (`resource`)
+     - `TOOL_EXECUTION_FAILED` (`execution`)
+     - `TOOL_CANCELLED` (`cancellation`)
+     - `TOOL_PROVIDER_UNAVAILABLE` (`provider`)
+9. **Scope Exclusions (What Task 4.1 Intentionally Does Not Implement)**:
+   - Tool Execution Gateway (Task 4.2+)
+   - Tool Adapters (filesystem, git CLI, Docker spawn)
+   - Multi-step Action / Attempt persistence
+   - LLM / Agent reasoning loops
+

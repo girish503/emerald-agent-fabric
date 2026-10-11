@@ -12,4 +12,6 @@ export * from "./verification.js";
 export * from "./mission-contract.js";
 export * from "./workspace.js";
 export * from "./workspace-path.js";
+export * from "./tool-schemas.js";
+export * from "./tool.js";
 

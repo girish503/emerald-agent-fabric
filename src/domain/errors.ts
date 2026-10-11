@@ -321,5 +321,194 @@ export class WorkspacePathOutsideBoundaryError extends DomainError {
   }
 }
 
+// ============================================================================
+// Tool Error Taxonomy (Phase 4 / Task 4.1)
+// ============================================================================
+
+export const TOOL_ERROR_CODES = [
+  "TOOL_NOT_FOUND",
+  "INVALID_TOOL_INPUT",
+  "CAPABILITY_DENIED",
+  "WORKSPACE_BOUNDARY_VIOLATION",
+  "TOOL_TIMEOUT",
+  "TOOL_OUTPUT_LIMIT_EXCEEDED",
+  "TOOL_EXECUTION_FAILED",
+  "TOOL_CANCELLED",
+  "TOOL_PROVIDER_UNAVAILABLE",
+] as const;
+
+export type ToolErrorCode = (typeof TOOL_ERROR_CODES)[number];
+
+export type ToolErrorCategory =
+  | "validation"
+  | "authorization"
+  | "workspace"
+  | "resource"
+  | "execution"
+  | "cancellation"
+  | "provider";
+
+export const TOOL_ERROR_CATEGORY_MAP: Readonly<Record<ToolErrorCode, ToolErrorCategory>> = {
+  TOOL_NOT_FOUND: "provider",
+  INVALID_TOOL_INPUT: "validation",
+  CAPABILITY_DENIED: "authorization",
+  WORKSPACE_BOUNDARY_VIOLATION: "workspace",
+  TOOL_TIMEOUT: "resource",
+  TOOL_OUTPUT_LIMIT_EXCEEDED: "resource",
+  TOOL_EXECUTION_FAILED: "execution",
+  TOOL_CANCELLED: "cancellation",
+  TOOL_PROVIDER_UNAVAILABLE: "provider",
+};
+
+export interface ToolErrorPayload {
+  readonly code: ToolErrorCode;
+  readonly category: ToolErrorCategory;
+  readonly message: string;
+  readonly details?: unknown;
+}
+
+export abstract class ToolDomainError extends DomainError {
+  abstract override readonly code: ToolErrorCode;
+  abstract readonly category: ToolErrorCategory;
+  readonly details?: unknown;
+
+  constructor(message: string, details?: unknown) {
+    super(message);
+    this.details = details;
+  }
+
+  toPayload(): ToolErrorPayload {
+    return {
+      code: this.code,
+      category: this.category,
+      message: this.message,
+      details: this.details,
+    };
+  }
+}
+
+export class ToolNotFoundError extends ToolDomainError {
+  readonly code = "TOOL_NOT_FOUND";
+  readonly category = "provider";
+
+  constructor(readonly toolName: string) {
+    super(`Tool '${toolName}' is not registered`);
+  }
+}
+
+export class InvalidToolInputError extends ToolDomainError {
+  readonly code = "INVALID_TOOL_INPUT";
+  readonly category = "validation";
+
+  constructor(
+    readonly toolName: string,
+    readonly reason: string,
+    details?: unknown
+  ) {
+    super(`Invalid input for tool '${toolName}': ${reason}`, details);
+  }
+}
+
+export class ToolCapabilityDeniedError extends ToolDomainError {
+  readonly code = "CAPABILITY_DENIED";
+  readonly category = "authorization";
+
+  constructor(
+    readonly toolName: string,
+    readonly capability: string,
+    readonly reason?: string
+  ) {
+    super(
+      `Capability '${capability}' required by tool '${toolName}' was denied${
+        reason ? `: ${reason}` : ""
+      }`
+    );
+  }
+}
+
+export class ToolWorkspaceBoundaryViolationError extends ToolDomainError {
+  readonly code = "WORKSPACE_BOUNDARY_VIOLATION";
+  readonly category = "workspace";
+
+  constructor(
+    readonly toolName: string,
+    readonly path: string,
+    readonly reason?: string
+  ) {
+    super(
+      `Path '${path}' in tool '${toolName}' violates workspace boundary${
+        reason ? `: ${reason}` : ""
+      }`
+    );
+  }
+}
+
+export class ToolTimeoutError extends ToolDomainError {
+  readonly code = "TOOL_TIMEOUT";
+  readonly category = "resource";
+
+  constructor(
+    readonly toolName: string,
+    readonly timeoutMs: number
+  ) {
+    super(`Tool '${toolName}' timed out after ${timeoutMs}ms`);
+  }
+}
+
+export class ToolOutputLimitExceededError extends ToolDomainError {
+  readonly code = "TOOL_OUTPUT_LIMIT_EXCEEDED";
+  readonly category = "resource";
+
+  constructor(
+    readonly toolName: string,
+    readonly maxBytes: number,
+    readonly actualBytes?: number
+  ) {
+    super(
+      `Tool '${toolName}' exceeded output limit of ${maxBytes} bytes${
+        actualBytes ? ` (got ${actualBytes} bytes)` : ""
+      }`
+    );
+  }
+}
+
+export class ToolExecutionFailedError extends ToolDomainError {
+  readonly code = "TOOL_EXECUTION_FAILED";
+  readonly category = "execution";
+
+  constructor(
+    readonly toolName: string,
+    message: string,
+    details?: unknown
+  ) {
+    super(`Tool '${toolName}' execution failed: ${message}`, details);
+  }
+}
+
+export class ToolCancelledError extends ToolDomainError {
+  readonly code = "TOOL_CANCELLED";
+  readonly category = "cancellation";
+
+  constructor(
+    readonly toolName: string,
+    readonly reason?: string
+  ) {
+    super(`Tool '${toolName}' was cancelled${reason ? `: ${reason}` : ""}`);
+  }
+}
+
+export class ToolProviderUnavailableError extends ToolDomainError {
+  readonly code = "TOOL_PROVIDER_UNAVAILABLE";
+  readonly category = "provider";
+
+  constructor(
+    readonly toolName: string,
+    message: string
+  ) {
+    super(`Provider unavailable for tool '${toolName}': ${message}`);
+  }
+}
+
+
 
 
