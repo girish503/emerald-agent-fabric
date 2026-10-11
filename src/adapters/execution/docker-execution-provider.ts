@@ -130,6 +130,12 @@ export class DockerExecutionProvider implements ExecutionProvider {
   readonly config: Required<DockerExecutionConfig>;
 
   constructor(config: DockerExecutionConfig = {}) {
+    if (config.networkDisabled === false) {
+      throw new Error(
+        "Network access is not available: Phase 3 enforces network = NONE without explicit governance capability architecture."
+      );
+    }
+
     this.config = {
       image: config.image ?? "node:22-alpine",
       memoryLimit: config.memoryLimit ?? "256m",
@@ -137,7 +143,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
       pidsLimit: config.pidsLimit ?? 64,
       tmpfsSize: config.tmpfsSize ?? "64m",
       maxOutputBytes: config.maxOutputBytes ?? 1024 * 1024,
-      networkDisabled: config.networkDisabled ?? true,
+      networkDisabled: true,
       readOnlyRootfs: config.readOnlyRootfs ?? true,
       dockerBinary: config.dockerBinary ?? "docker",
     };
@@ -220,12 +226,27 @@ export class DockerExecutionProvider implements ExecutionProvider {
     }
 
     const containerMountPath = request.workspace?.containerMountPath ?? "/workspace";
+    if (containerMountPath !== "/workspace" && !containerMountPath.startsWith("/workspace/")) {
+      return {
+        status: "FAILED",
+        error: {
+          code: "EXECUTION_FAILED",
+          message: "Security violation: Container mount path must be /workspace or a subpath of /workspace",
+        },
+        durationMs: Math.round(performance.now() - startTime),
+        providerMetadata: {
+          provider: this.name,
+          operation: request.operationName,
+          workspaceMountFailure: true,
+        },
+      };
+    }
 
     // 4. Construct container run arguments
     const args: string[] = [
       "run",
       "--name", containerName,
-      ...(this.config.networkDisabled ? ["--network=none"] : []),
+      "--network=none",
       ...(this.config.readOnlyRootfs ? ["--read-only"] : []),
       `--tmpfs=/tmp:rw,noexec,nosuid,size=${this.config.tmpfsSize}`,
       `--memory=${this.config.memoryLimit}`,
@@ -479,6 +500,16 @@ export class DockerExecutionProvider implements ExecutionProvider {
       lower.includes("docker.sock")
     ) {
       throw new Error("Security violation: Refusing to mount sensitive host directory");
+    }
+
+    const sensitiveSystemDirs = [
+      "/etc", "/var", "/usr", "/bin", "/sbin", "/lib", "/dev", "/proc", "/sys",
+      "c:\\windows", "c:\\program files", "c:\\program files (x86)", "c:\\programdata"
+    ];
+    for (const sysDir of sensitiveSystemDirs) {
+      if (lower === sysDir || lower.startsWith(sysDir + path.sep)) {
+        throw new Error(`Security violation: Refusing to mount system directory '${sysDir}'`);
+      }
     }
   }
 

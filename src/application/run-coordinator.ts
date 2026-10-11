@@ -4,6 +4,7 @@ import {
   ContractIntegrityError,
   InvalidMissionContractError,
   InvalidRunError,
+  LeaseLostError,
   MissionContractTaskMismatchError,
   NoActiveMissionContractError,
   ResourceLimitExceededError,
@@ -24,13 +25,14 @@ import {
 import { MissionContract } from "../domain/mission-contract.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import {
+  LeaseFencingCheck,
   LeaseRecord,
   PersistedEvent,
   StateStorePort,
   TaskRecord,
   WorkerRecord,
 } from "../ports/state-store.port.js";
-import { WorkspacePort } from "../ports/workspace.port.js";
+import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { LeaseManager } from "./lease-manager.js";
 
 export interface CreateTaskParams {
@@ -96,8 +98,9 @@ export class RunCoordinator {
 
   /**
    * Records a workspace lifecycle event transactionally into the event stream.
+   * If fencing is provided, verifies that the worker and lease still hold current authority.
    */
-  recordWorkspaceEvent(event: DomainEvent): PersistedEvent {
+  recordWorkspaceEvent(event: DomainEvent, fencing?: LeaseFencingCheck): PersistedEvent {
     const wsId = (event.payload as { workspaceId?: string })?.workspaceId;
     if (wsId) {
       if (
@@ -114,7 +117,75 @@ export class RunCoordinator {
       }
     }
     return this.stateStore.transaction((tx) => {
+      if (fencing && event.runId) {
+        const run = tx.getRun(event.runId);
+        if (run && (run.leaseId !== fencing.leaseId || run.currentWorkerId !== fencing.workerId)) {
+          throw new LeaseLostError(event.runId, fencing.leaseId, run.leaseId);
+        }
+      }
       return tx.appendEvent(event);
+    });
+  }
+
+  /**
+   * Asserts that a specific lease is currently held by the specified worker for the run.
+   */
+  assertLeaseHeld(runId: string, workerId: string, leaseId: string): void {
+    const run = this.stateStore.getRun(runId);
+    if (!run || run.leaseId !== leaseId || run.currentWorkerId !== workerId) {
+      throw new LeaseLostError(runId, leaseId, run?.leaseId ?? null);
+    }
+    const lease = this.stateStore.getLease(leaseId);
+    if (!lease || lease.state !== "ACTIVE" || lease.expiresAt <= this.clock.nowIso()) {
+      throw new LeaseLostError(runId, leaseId, run?.leaseId ?? null);
+    }
+  }
+
+  /**
+   * Returns true if the lease is currently active and held by the specified worker.
+   */
+  isLeaseActive(runId: string, workerId: string, leaseId: string): boolean {
+    try {
+      this.assertLeaseHeld(runId, workerId, leaseId);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Safely disposes of a workspace owned by an active run with lease fencing check.
+   */
+  disposeRunWorkspace(params: {
+    runId: string;
+    workerId: string;
+    leaseId: string;
+    workspaceId: string;
+    reason?: string;
+  }): void {
+    this.stateStore.transaction((tx) => {
+      const snapshot = tx.getRun(params.runId);
+      if (!snapshot) {
+        throw new Error(`Run '${params.runId}' not found`);
+      }
+      if (snapshot.leaseId !== params.leaseId || snapshot.currentWorkerId !== params.workerId) {
+        throw new LeaseLostError(params.runId, params.leaseId, snapshot.leaseId);
+      }
+      if (this.workspacePort) {
+        if (this.workspacePort.disposeWorkspaceSync) {
+          this.workspacePort.disposeWorkspaceSync(params.workspaceId);
+        }
+      }
+      const disposedEvent: DomainEvent = {
+        eventId: crypto.randomUUID(),
+        runId: params.runId,
+        timestamp: this.clock.nowIso(),
+        eventType: "workspace.disposed",
+        schemaVersion: 1,
+        producer: `worker.${params.workerId}`,
+        payload: { workspaceId: params.workspaceId, runId: params.runId, reason: params.reason },
+      };
+      tx.appendEvent(disposedEvent);
     });
   }
 
@@ -620,27 +691,59 @@ export class RunCoordinator {
             const events = tx.getEventsForRun(snapshot.runId);
             const wsEvents = events.filter((e) => e.eventType.startsWith("workspace."));
             const lastWs = wsEvents[wsEvents.length - 1];
+            let wsId: string | undefined;
             if (
               lastWs &&
               lastWs.eventType !== "workspace.disposed" &&
               lastWs.eventType !== "workspace.failed"
             ) {
-              const wsId = (lastWs.payload as { workspaceId?: string })?.workspaceId;
-              if (wsId && this.workspacePort.disposeWorkspaceSync) {
-                this.workspacePort.disposeWorkspaceSync(wsId);
-                const disposedEvent: DomainEvent = {
-                  eventId: crypto.randomUUID(),
-                  runId: snapshot.runId,
-                  timestamp: nowIso,
-                  eventType: "workspace.disposed",
-                  schemaVersion: 1,
-                  producer: "coordinator.sweeper",
-                  payload: { workspaceId: wsId, runId: snapshot.runId },
-                };
-                tx.appendEvent(disposedEvent);
+              wsId = (lastWs.payload as { workspaceId?: string })?.workspaceId;
+            }
+
+            if (!wsId && (this.workspacePort as any)?.workspaces instanceof Map) {
+              for (const [id, ws] of (this.workspacePort as any).workspaces.entries()) {
+                if (
+                  ws?.spec?.runId === snapshot.runId &&
+                  ws?.lifecycle?.status !== "DISPOSED" &&
+                  ws?.lifecycle?.status !== "FAILED"
+                ) {
+                  wsId = id;
+                  break;
+                }
               }
             }
-          } catch {
+
+            if (wsId && this.workspacePort.disposeWorkspaceSync) {
+                try {
+                  this.workspacePort.disposeWorkspaceSync(wsId);
+                  const disposedEvent: DomainEvent = {
+                    eventId: crypto.randomUUID(),
+                    runId: snapshot.runId,
+                    timestamp: nowIso,
+                    eventType: "workspace.disposed",
+                    schemaVersion: 1,
+                    producer: "coordinator.sweeper",
+                    payload: { workspaceId: wsId, runId: snapshot.runId },
+                  };
+                  tx.appendEvent(disposedEvent);
+                } catch (err: unknown) {
+                  const failedEvent: DomainEvent = {
+                    eventId: crypto.randomUUID(),
+                    runId: snapshot.runId,
+                    timestamp: nowIso,
+                    eventType: "workspace.failed",
+                    schemaVersion: 1,
+                    producer: "coordinator.sweeper",
+                    payload: {
+                      workspaceId: wsId,
+                      runId: snapshot.runId,
+                      error: err instanceof Error ? err.message : String(err),
+                    },
+                  };
+                  tx.appendEvent(failedEvent);
+                }
+              }
+            } catch {
             // Quarantine / log
           }
         };
@@ -825,32 +928,109 @@ export class RunCoordinator {
   }
 
   /**
+   * Resolves the owning Run for a discovered workspace.
+   * Checks adapter tracking, disk metadata, and state store queries.
+   */
+  resolveOwningRunForWorkspace(workspaceId: string): RunSnapshot | null {
+    // 1. Adapter in-memory handle
+    if (this.workspacePort && "getWorkspaceHandle" in this.workspacePort) {
+      const handle = (this.workspacePort as any).getWorkspaceHandle(workspaceId) as WorkspaceHandle | null;
+      if (handle?.runId) {
+        const run = this.stateStore.getRun(handle.runId);
+        if (run) return run;
+      }
+    }
+    // 2. Adapter disk metadata
+    if (this.workspacePort && "getWorkspaceMetadataSync" in this.workspacePort) {
+      const meta = (this.workspacePort as any).getWorkspaceMetadataSync(workspaceId);
+      if (meta?.runId) {
+        const run = this.stateStore.getRun(meta.runId);
+        if (run) return run;
+      }
+    }
+    // 3. State store query
+    if (this.stateStore.findRunIdForWorkspace) {
+      const runId = this.stateStore.findRunIdForWorkspace(workspaceId);
+      if (runId) {
+        const run = this.stateStore.getRun(runId);
+        if (run) return run;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Authoritatively determines whether a workspace is currently active based on
+   * current durable run state, lease validity, and workspace ownership.
+   *
+   * Invariant: Audit history ≠ Current authority.
+   * A workspace is active IF AND ONLY IF:
+   * 1. A valid owning Run exists in durable state.
+   * 2. The owning Run is in an active (non-terminal) state.
+   * 3. If in LEASED or RUNNING state, the Run holds an unexpired, ACTIVE lease.
+   */
+  isWorkspaceAuthoritativelyActive(workspaceId: string): boolean {
+    const owningRun = this.resolveOwningRunForWorkspace(workspaceId);
+    if (!owningRun) {
+      // Unknown workspace or unlinked
+      return false;
+    }
+
+    // Terminal runs never have active workspaces
+    const terminalStatuses = new Set([
+      "COMPLETED",
+      "FAILED",
+      "TIMED_OUT",
+      "CANCELLED",
+      "CONTRACT_REVOKED",
+    ]);
+    if (terminalStatuses.has(owningRun.status)) {
+      return false;
+    }
+
+    // Queued or Created runs have valid pending ownership
+    if (owningRun.status === "CREATED" || owningRun.status === "QUEUED") {
+      return true;
+    }
+
+    // Leased or Running runs must hold a valid, unexpired active lease
+    if (owningRun.status === "LEASED" || owningRun.status === "RUNNING") {
+      const nowIso = this.clock.nowIso();
+      if (!owningRun.leaseId || !owningRun.leaseExpiresAt || owningRun.leaseExpiresAt <= nowIso) {
+        // Lease has expired
+        return false;
+      }
+      const lease = this.stateStore.getLease(owningRun.leaseId);
+      if (!lease || lease.state !== "ACTIVE" || lease.expiresAt <= nowIso) {
+        return false;
+      }
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Safely cleans up orphaned workspaces using authoritative state store ownership.
-   * Workspaces belonging to any active/queued runs are protected.
+   * Evaluates each discovered workspace on disk against current durable run and lease state.
    */
   async cleanupOrphanedWorkspacesSafely(): Promise<readonly string[]> {
     if (!this.workspacePort) {
       return [];
     }
-    const activeWorkspaceIds = this.getAuthoritativeActiveWorkspaceIds();
-    return this.workspacePort.cleanupOrphanedWorkspaces(activeWorkspaceIds);
+    return this.workspacePort.cleanupOrphanedWorkspaces((wsId) => {
+      return this.isWorkspaceAuthoritativelyActive(wsId);
+    });
   }
 
   /**
-   * Computes the authoritative set of active workspace IDs across non-terminal runs.
+   * Computes the authoritative set of active workspace IDs across all active runs.
    */
   getAuthoritativeActiveWorkspaceIds(): ReadonlySet<string> {
-    const activeWsIds = new Set<string>(this.activeWorkspaceIds);
-    const queued = this.stateStore.findQueuedRuns(1000);
-    for (const run of queued) {
-      const events = this.stateStore.getEventsForRun(run.runId);
-      for (const e of events) {
-        if (e.eventType.startsWith("workspace.")) {
-          const wsId = (e.payload as { workspaceId?: string })?.workspaceId;
-          if (wsId) {
-            activeWsIds.add(wsId);
-          }
-        }
+    const activeWsIds = new Set<string>();
+    for (const wsId of this.activeWorkspaceIds) {
+      if (this.isWorkspaceAuthoritativelyActive(wsId)) {
+        activeWsIds.add(wsId);
       }
     }
     return activeWsIds;

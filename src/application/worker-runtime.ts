@@ -556,6 +556,23 @@ export class WorkerRuntime {
       if (!this.workspacePort || !workspace || workspaceDisposed) {
         return;
       }
+
+      const fencing = { workerId: this.workerId, leaseId: lease.leaseId };
+
+      // Lease fencing check: if this worker lost the lease, do NOT delete or mutate!
+      try {
+        const currentRun = this.coordinator.getRun(run.runId);
+        if (
+          currentRun &&
+          (currentRun.leaseId !== lease.leaseId || currentRun.currentWorkerId !== this.workerId)
+        ) {
+          // Stale worker is fenced!
+          return;
+        }
+      } catch {
+        // Continue
+      }
+
       try {
         const cleaningEvent = workspace.startCleaning({
           reason,
@@ -563,16 +580,23 @@ export class WorkerRuntime {
           leaseId: lease.leaseId,
           now: this.clock.nowIso(),
         });
-        this.coordinator.recordWorkspaceEvent(cleaningEvent);
-      } catch {
-        // State machine guard: continue to attempt physical disposal
+        this.coordinator.recordWorkspaceEvent(cleaningEvent, fencing);
+      } catch (fencingErr: unknown) {
+        if (fencingErr instanceof LeaseLostError) {
+          return;
+        }
+        // State machine guard: continue to attempt physical disposal if not fenced
       }
+
       try {
         await this.workspacePort.disposeWorkspace(workspace.workspaceId);
         workspaceDisposed = true;
         const disposedEvent = workspace.markDisposed({ now: this.clock.nowIso() });
-        this.coordinator.recordWorkspaceEvent(disposedEvent);
+        this.coordinator.recordWorkspaceEvent(disposedEvent, fencing);
       } catch (err: unknown) {
+        if (err instanceof LeaseLostError) {
+          return;
+        }
         const failedEvent = workspace.markFailed({
           errorMessage: `Workspace disposal failed: ${err instanceof Error ? err.message : String(err)}`,
           now: this.clock.nowIso(),

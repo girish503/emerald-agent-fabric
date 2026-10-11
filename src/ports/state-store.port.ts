@@ -72,6 +72,7 @@ export interface StorageTransaction extends MissionContractStorePort {
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
   findQueuedRuns(limit?: number): readonly RunSnapshot[];
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];
+  findRunIdForWorkspace?(workspaceId: string): string | null;
 
   appendEvent(event: DomainEvent): PersistedEvent;
   getEventsForRun(runId: string): readonly PersistedEvent[];
@@ -102,6 +103,7 @@ export interface StateStorePort extends MissionContractStorePort {
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
   findQueuedRuns(limit?: number): readonly RunSnapshot[];
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];
+  findRunIdForWorkspace?(workspaceId: string): string | null;
   getEventsForRun(runId: string): readonly PersistedEvent[];
   getTask(taskId: string): TaskRecord | null;
   getWorker(workerId: string): WorkerRecord | null;

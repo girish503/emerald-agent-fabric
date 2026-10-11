@@ -49,7 +49,15 @@ export interface WorkspacePort {
    * Scans the workspace root and cleans up orphaned workspace directories
    * whose leases are no longer active in persistence.
    */
-  cleanupOrphanedWorkspaces(activeWorkspaceIds: ReadonlySet<string>): Promise<readonly string[]>;
+  cleanupOrphanedWorkspaces(
+    activeFilter: ReadonlySet<string> | ((workspaceId: string) => boolean | Promise<boolean>)
+  ): Promise<readonly string[]>;
+
+  /**
+   * Optional helper to retrieve stored workspace metadata.
+   */
+  getWorkspaceMetadata?(workspaceId: string): Promise<{ runId?: string; taskId?: string } | null>;
+  getWorkspaceMetadataSync?(workspaceId: string): { runId?: string; taskId?: string } | null;
 }
 
 /**

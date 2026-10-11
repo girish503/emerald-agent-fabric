@@ -499,6 +499,14 @@ export class SqliteStorageTransaction implements StorageTransaction {
     return result;
   }
 
+  findRunIdForWorkspace(workspaceId: string): string | null {
+    const stmt = this.db.prepare(
+      `SELECT run_id FROM run_events WHERE payload LIKE ? ORDER BY sequence DESC LIMIT 1`
+    );
+    const row = stmt.get(`%"workspaceId":"${workspaceId}"%`) as { run_id: string } | undefined;
+    return row?.run_id ?? null;
+  }
+
   appendEvent(event: DomainEvent): PersistedEvent {
     // Calculate gapless sequence inside BEGIN IMMEDIATE transaction
     const seqStmt = this.db.prepare(
@@ -830,6 +838,11 @@ export class SqliteStateStore implements StateStorePort {
   findExpiredRuns(nowIso: string): readonly RunSnapshot[] {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.findExpiredRuns(nowIso);
+  }
+
+  findRunIdForWorkspace(workspaceId: string): string | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findRunIdForWorkspace(workspaceId);
   }
 
   getEventsForRun(runId: string): readonly PersistedEvent[] {

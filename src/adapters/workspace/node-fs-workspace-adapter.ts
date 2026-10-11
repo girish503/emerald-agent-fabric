@@ -211,6 +211,23 @@ export class NodeFsWorkspaceAdapter implements WorkspacePort {
     }
 
     const now = new Date().toISOString();
+    // Persist workspace metadata on disk
+    try {
+      const meta = {
+        workspaceId: spec.workspaceId,
+        runId: spec.runId,
+        taskId: spec.taskId,
+        createdAt: now,
+      };
+      await fs.writeFile(
+        path.join(canonicalHostPath, ".emerald-workspace.json"),
+        JSON.stringify(meta),
+        { mode: 0o600 }
+      );
+    } catch {
+      // Best-effort metadata persistence
+    }
+
     const handle: WorkspaceHandle = Object.freeze({
       workspaceId: spec.workspaceId,
       runId: spec.runId,
@@ -498,7 +515,7 @@ export class NodeFsWorkspaceAdapter implements WorkspacePort {
    * whose leases are no longer active in persistence.
    */
   async cleanupOrphanedWorkspaces(
-    activeWorkspaceIds: ReadonlySet<string>
+    activeFilter: ReadonlySet<string> | ((workspaceId: string) => boolean | Promise<boolean>)
   ): Promise<readonly string[]> {
     const root = await this.getCanonicalWorkspaceRoot();
     const entries = await fs.readdir(root, { withFileTypes: true });
@@ -512,13 +529,21 @@ export class NodeFsWorkspaceAdapter implements WorkspacePort {
 
       const dirName = entry.name;
 
-      // Skip active workspaces
-      if (activeWorkspaceIds.has(dirName)) {
+      // Skip invalid or hidden directory names (e.g. .git, .tmp)
+      if (!/^[a-zA-Z0-9_\-\.]+$/.test(dirName) || dirName.startsWith(".")) {
         continue;
       }
 
-      // Skip invalid or hidden directory names (e.g. .git, .tmp)
-      if (!/^[a-zA-Z0-9_\-\.]+$/.test(dirName) || dirName.startsWith(".")) {
+      // Check if authoritatively active
+      let isActive = false;
+      if (typeof activeFilter === "function") {
+        isActive = await activeFilter(dirName);
+      } else if (activeFilter instanceof Set || "has" in activeFilter) {
+        isActive = activeFilter.has(dirName);
+      }
+
+      // If active, NEVER delete!
+      if (isActive) {
         continue;
       }
 
@@ -531,6 +556,42 @@ export class NodeFsWorkspaceAdapter implements WorkspacePort {
     }
 
     return Object.freeze(reclaimed);
+  }
+
+  /**
+   * Helper to retrieve stored workspace metadata asynchronously.
+   */
+  async getWorkspaceMetadata(workspaceId: string): Promise<{ runId?: string; taskId?: string } | null> {
+    const active = this.workspaces.get(workspaceId);
+    if (active) {
+      return { runId: active.spec.runId, taskId: active.spec.taskId };
+    }
+    try {
+      const root = await this.getCanonicalWorkspaceRoot();
+      const metaPath = path.join(root, workspaceId, ".emerald-workspace.json");
+      const content = await fs.readFile(metaPath, "utf8");
+      return JSON.parse(content);
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Helper to retrieve stored workspace metadata synchronously.
+   */
+  getWorkspaceMetadataSync(workspaceId: string): { runId?: string; taskId?: string } | null {
+    const active = this.workspaces.get(workspaceId);
+    if (active) {
+      return { runId: active.spec.runId, taskId: active.spec.taskId };
+    }
+    try {
+      const root = this.canonicalWorkspaceRoot ?? this.workspaceRoot;
+      const metaPath = path.join(root, workspaceId, ".emerald-workspace.json");
+      const content = syncFs.readFileSync(metaPath, "utf8");
+      return JSON.parse(content);
+    } catch {
+      return null;
+    }
   }
 
   /**
