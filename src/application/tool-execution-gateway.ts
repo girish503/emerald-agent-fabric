@@ -24,6 +24,7 @@ import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   ContractIntegrityError,
   ContractNotActiveError,
+  ContractRevokedError,
   DomainError,
   InvalidContractBindingError,
   InvalidRunError,
@@ -419,7 +420,11 @@ export class ToolExecutionGateway {
 
     // Lifecycle status verification
     if (contract.lifecycle.status === "REVOKED") {
-      const error = new ContractNotActiveError(contractId, version, "REVOKED");
+      const error = new ContractRevokedError(
+        contractId,
+        version,
+        contract.lifecycle.revocationReason
+      );
       return {
         status: "DENIED",
         toolName: toolDef.name,
@@ -477,7 +482,10 @@ export class ToolExecutionGateway {
     if (rawInput && typeof rawInput === "object") {
       // 1. maxBytes checks
       if (typeof rawInput.maxBytes === "number") {
-        const byteCeiling = contract.spec.resourceLimits.maxOutputBytes;
+        const byteCeiling = Math.min(
+          run.maxOutputBytes ?? contract.spec.resourceLimits.maxOutputBytes,
+          contract.spec.resourceLimits.maxOutputBytes
+        );
         if (rawInput.maxBytes > byteCeiling) {
           const error = new ResourceLimitExceededError("maxBytes", rawInput.maxBytes, byteCeiling);
           return {
@@ -496,7 +504,10 @@ export class ToolExecutionGateway {
       // 2. write_file content size check
       if (toolDef.name === "write_file" && typeof rawInput.content === "string") {
         const contentBytes = Buffer.byteLength(rawInput.content, "utf8");
-        const byteCeiling = contract.spec.resourceLimits.maxOutputBytes;
+        const byteCeiling = Math.min(
+          run.maxOutputBytes ?? contract.spec.resourceLimits.maxOutputBytes,
+          contract.spec.resourceLimits.maxOutputBytes
+        );
         if (contentBytes > byteCeiling) {
           const error = new ResourceLimitExceededError("maxOutputBytes", contentBytes, byteCeiling);
           return {

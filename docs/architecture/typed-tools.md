@@ -809,8 +809,9 @@ Exposes 11 discrete measurement intervals across the execution pipeline (`stage1
 ### 14.12 Implementation Roadmap (Next Sub-Tasks)
 - **Task 4.2-A**: Tool Execution Gateway Core & Boundary Interfaces (`ToolAdapterPort`, `ToolExecutionContext`, in-memory gateway tests) — *Completed in commit `3c51ab4`*.
 - **Task 4.2-B**: Deterministic Workspace Tool Adapters (`read_file`, `write_file`, `search_code`, `git_status`, `git_diff`, `createWorkspaceToolAdapterRegistry`) — *Completed in commit `bfe4da8`*.
-- **Task 4.2-C**: Sandboxed Command Tool Adapter & Docker Provider Mount Binding (`run_command`, `SandboxedCommandToolAdapter`, `DockerExecutionProvider`) — *Completed in current increment*.
-- **Task 4.2-D**: Multi-Step Action Loop & WorkerRuntime Integration (`Run` $\rightarrow$ `Actions 1..N` $\rightarrow$ `VerificationSpec`).
+- **Task 4.2-C**: Sandboxed Command Tool Adapter & Docker Provider Mount Binding (`run_command`, `SandboxedCommandToolAdapter`, `DockerExecutionProvider`) — *Completed in commit `0209d47`*.
+- **Task 4.3**: Capability Policy Mapping & Mission Contract Resource Enforcement — *Completed in current increment*.
+- **Task 4.4**: Multi-Step Action Loop & WorkerRuntime Integration (`Run` $\rightarrow$ `Actions 1..N` $\rightarrow$ `VerificationSpec`).
 
 ---
 
@@ -879,3 +880,67 @@ Task 4.2-C introduces the first controlled process-execution capability: `run_co
    - Non-zero command exit codes (e.g. `exitCode: 1`) are captured as valid command results with full stdout and stderr preserved.
    - Failures map to deterministic domain errors: `ToolTimeoutError`, `ToolOutputLimitExceededError`, `ToolCancelledError`, `ToolProviderUnavailableError`, `ToolExecutionFailedError`.
    - Output includes deterministic SHA-256 `commandHash` computed over the canonical discrete arguments.
+
+---
+
+## 17. Task 4.3 Implementation Specification — Capability Policy Mapping & Mission Contract Resource Enforcement
+
+### 17.1 Capability Policy Authorization Model
+Capability authorization enforces explicit, deterministic mapping between typed tools and Mission Contract execution policies:
+
+| Tool Name | Required Capability | Policy Evaluation Rule | Fail-Closed Error |
+| :--- | :--- | :--- | :--- |
+| `read_file` | `workspace.file.read` | Evaluated against `MissionContract.spec.policy.allowedCapabilities` | `ToolCapabilityDeniedError` (`CAPABILITY_DENIED`) |
+| `write_file` | `workspace.file.write` | Evaluated against `MissionContract.spec.policy.allowedCapabilities` | `ToolCapabilityDeniedError` (`CAPABILITY_DENIED`) |
+| `search_code` | `workspace.code.search` | Evaluated against `MissionContract.spec.policy.allowedCapabilities` | `ToolCapabilityDeniedError` (`CAPABILITY_DENIED`) |
+| `git_status` | `git.read` | Evaluated against `MissionContract.spec.policy.allowedCapabilities` | `ToolCapabilityDeniedError` (`CAPABILITY_DENIED`) |
+| `git_diff` | `git.read` | Evaluated against `MissionContract.spec.policy.allowedCapabilities` | `ToolCapabilityDeniedError` (`CAPABILITY_DENIED`) |
+| `run_command` | `process.execute` | Evaluated against `MissionContract.spec.policy.allowedCapabilities` | `ToolCapabilityDeniedError` (`CAPABILITY_DENIED`) |
+
+**Security Invariants**:
+1. **Explicit Grant Required**: Any capability not explicitly present in `allowedCapabilities` is DENIED (deny-by-default).
+2. **Zero Wildcards**: Wildcard patterns (`*`) or dynamic privilege escalation are strictly forbidden and rejected.
+3. **Untrusted Request Boundary**: Tool inputs cannot grant or alter capabilities (e.g. injecting `"capability"` into request payload is ignored during authorization and rejected by schema validation). Authoritative capability is derived strictly from the immutable `ToolDefinition`.
+4. **Malformed Policy Defense**: If `allowedCapabilities` is missing or contains non-strings, or if `isolationRequirement` is unrecognized, evaluation fails closed with `INVALID_POLICY`.
+
+### 17.2 Exact Mission Contract Binding Invariants
+Tool execution evaluates authority strictly against the exact Mission Contract bound to the active Run:
+- **Binding Identity**: `(contractId, version, contentHash)` must match the Run's persisted `contractBinding`. Dynamic resolution of "latest" or "active" contracts during tool dispatch is forbidden.
+- **Content Hash Verification**: Recomputes SHA-256 canonical hash over `MissionContract.spec` to verify zero tampering.
+- **Task Association**: Contract `taskId` must match the Run's `taskId`.
+- **Active Lifecycle Status**: Contract status must be `ACTIVE`. If `REVOKED`, dispatch fails closed immediately with `ContractRevokedError` (`CONTRACT_REVOKED`); if `DRAFT`, fails with `ContractNotActiveError`.
+
+### 17.3 Non-Clamping Resource Authority Invariant
+Resource limits requested in tool payloads are evaluated against authoritative Mission Contract ceilings before adapter dispatch:
+```text
+Mission Contract ceiling
+        ↓
+requested operational value
+        │
+        ├── requested > ceiling ────► REJECT (ResourceLimitExceededError ──► ZERO Execution)
+        │
+        └── requested <= ceiling ───► ACCEPT (effective = min(requested, default/safetyLimit))
+```
+- **Strict Non-Clamping Rule**: Requests exceeding contract ceilings are rejected, never silently clamped to authorized values. Clamping unauthorized requests conceals governance violations and is strictly forbidden.
+- **Dimensions Enforced**:
+  - `timeoutMs`: `requested <= contract.spec.resourceLimits.timeoutMs`
+  - `maxOutputBytes`: `requested <= contract.spec.resourceLimits.maxOutputBytes`
+  - `maxBytes`: `requested <= contract.spec.resourceLimits.maxOutputBytes` (for `read_file`, `write_file`, `search_code`, `git_diff`)
+  - `write_file` payload bytes: `contentBytes <= contract.spec.resourceLimits.maxOutputBytes`
+
+### 17.4 Separation of Contract Ceilings vs Provider Physical Safety Limits
+- **Mission Contract Authorization**: Answers *"Is this requested operation authorized for this mission?"*
+- **Provider Safety Limits**: Answers *"What is physically safe for this execution environment?"*
+- **Relationship**: `requested <= contract ceiling` is necessary for authorization. Lower provider safety limits (e.g. Docker daemon memory/CPU/PIDs limits or maximum output truncation buffers) may narrow an authorized request during physical execution, but can never legitimize an unauthorized request that exceeded contract limits.
+
+### 17.5 Mandatory Zero-Execution Invariant on Governance Failure
+For all governance rejections:
+- `CAPABILITY_DENIED`
+- `RESOURCE_LIMIT_EXCEEDED`
+- `CONTRACT_REVOKED`
+- `CONTRACT_INTEGRITY_FAILURE`
+- `CONTRACT_ASSOCIATION_FAILURE`
+- `INVALID_RUN`
+- `LEASE_LOST`
+
+The ExecutionProvider invocation count is strictly zero (`providerInvocationCount === 0`). Physical adapter and container execution never occur on unauthorized requests.

@@ -362,7 +362,27 @@ export class PolicyEvaluator {
     const isolationRequirement = execPolicy.isolationRequirement ?? "ISOLATED";
     const policyId = execPolicy.policyId ?? "unknown";
 
-    if (!Array.isArray(execPolicy.allowedCapabilities)) {
+    if (
+      execPolicy.isolationRequirement !== undefined &&
+      execPolicy.isolationRequirement !== "IN_PROCESS" &&
+      execPolicy.isolationRequirement !== "ISOLATED"
+    ) {
+      return {
+        status: "DENIED",
+        allowed: false,
+        capabilityName: normalizedCapability,
+        isolationRequirement: "ISOLATED",
+        reasonCode: "INVALID_POLICY",
+        message: `Execution policy has invalid isolation requirement: '${String(execPolicy.isolationRequirement)}'.`,
+        evaluatedAt,
+        policyId,
+      };
+    }
+
+    if (
+      !Array.isArray(execPolicy.allowedCapabilities) ||
+      !execPolicy.allowedCapabilities.every((c) => typeof c === "string")
+    ) {
       return {
         status: "DENIED",
         allowed: false,

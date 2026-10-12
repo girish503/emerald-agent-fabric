@@ -170,6 +170,18 @@ export class ResourceLimitExceededError extends DomainError {
       `Requested ${limitName} (${requestedValue}) exceeds contract ceiling (${ceilingValue})`
     );
   }
+
+  get resource(): string {
+    return this.limitName;
+  }
+
+  get requested(): number {
+    return this.requestedValue;
+  }
+
+  get ceiling(): number {
+    return this.ceilingValue;
+  }
 }
 
 export class MissingBoundContractError extends DomainError {
@@ -188,7 +200,7 @@ export class MissingBoundContractError extends DomainError {
 }
 
 export class ContractNotActiveError extends DomainError {
-  readonly code = "CONTRACT_NOT_ACTIVE";
+  readonly code: string = "CONTRACT_NOT_ACTIVE";
 
   constructor(
     readonly contractId: string,
@@ -201,19 +213,18 @@ export class ContractNotActiveError extends DomainError {
   }
 }
 
-export class ContractRevokedError extends DomainError {
-  readonly code = "CONTRACT_REVOKED";
+export class ContractRevokedError extends ContractNotActiveError {
+  override readonly code = "CONTRACT_REVOKED";
 
   constructor(
-    readonly contractId: string,
-    readonly version: number,
+    contractId: string,
+    version: number,
     readonly revocationReason?: string | null
   ) {
-    super(
-      `Bound MissionContract '${contractId}' v${version} has been REVOKED${
-        revocationReason ? `: ${revocationReason}` : ""
-      }`
-    );
+    super(contractId, version, "REVOKED");
+    this.message = `Bound MissionContract '${contractId}' v${version} has been REVOKED${
+      revocationReason ? `: ${revocationReason}` : ""
+    }`;
   }
 }
 
