@@ -944,3 +944,37 @@ For all governance rejections:
 - `LEASE_LOST`
 
 The ExecutionProvider invocation count is strictly zero (`providerInvocationCount === 0`). Physical adapter and container execution never occur on unauthorized requests.
+
+---
+
+## 18. Task 4.4-B Implementation Specification — Action & Attempt Pure Domain Contracts & Invariants
+
+### 18.1 Semantic Separation: Logical Intention vs Physical Execution Trial
+Task 4.4-B introduces the pure domain models distinguishing **Action** from **Attempt**:
+
+$$\text{Action} \ne \text{Attempt}$$
+
+- **Action (Logical Intention)**: Represents one discrete operation intended by the reasoning agent (e.g. `run_command` with `argv: ["npm", "test"]`). It encapsulates the validated input, canonical `inputHash`, monotonic sequence number per Run ($1..N$), immutable contract authority binding, and aggregate outcome across retries.
+- **Attempt (Physical Trial)**: Represents one concrete execution try of an Action. It is bound to an active worker lease (`workerId`, `leaseId`), carries a unique deterministic `idempotencyToken` (`${runId}:${actionId}:${attemptNumber}`), and captures physical execution metadata, duration, exit code, and evidence produced.
+
+### 18.2 Invariants & Cardinality
+1. **$1..N$ Relationship**: An Action may have 0 attempts upon creation, 1 attempt in standard execution, or multiple attempts ($N$) during bounded retries.
+2. **Strictly Serial Execution per Run**: Exactly one Action may be active (`RUNNING` or `RETRYING`) per Run at a time, and an Action may have at most one active Attempt. Concurrent execution within the same workspace is prohibited to prevent filesystem race conditions and Git index corruption.
+3. **Immutability of Intent**: Intent fields (`actionId`, `runId`, `sequenceNumber`, `toolName`, `inputPayload`, `inputHash`, `idempotency`, `contractBinding`, `maxAttempts`, `createdAt`) are frozen upon Action creation. Only lifecycle states and result fields mutate through pure deterministic transitions.
+4. **Attempt Single-Shot Semantics**: An Attempt cannot be retried or resumed. Once an Attempt terminates (`SUCCEEDED`, `FAILED`, `TIMED_OUT`, `CANCELLED`, `UNKNOWN`), its state is final. Retrying an Action creates a fresh Attempt ($N+1$).
+
+### 18.3 Critical UNKNOWN Semantics & Fail-Closed Defense
+- **Definition**: The `UNKNOWN` state represents **execution uncertainty** during crash windows (e.g., worker crashes or lease expires while container execution or filesystem writes were in-flight).
+- **Semantics**:
+  - `UNKNOWN` does NOT mean `FAILED`.
+  - `UNKNOWN` does NOT mean `SUCCEEDED`.
+  - `UNKNOWN` does NOT imply side effects did not occur.
+  - `UNKNOWN` is strictly terminal. An Attempt in `UNKNOWN` cannot transition to `RUNNING`, `SUCCEEDED`, or `FAILED`.
+- **Fail-Closed Idempotency Rule**:
+  - **NON_IDEMPOTENT tools (`write_file`, `run_command`)**: If an attempt outcome is `UNKNOWN`, the system **MUST FAIL CLOSED** (`NON_IDEMPOTENT_UNKNOWN`). Automated retry is strictly prohibited because unobserved destructive side effects may have occurred. Recovery requires explicit workspace reclamation or rollback.
+  - **IDEMPOTENT tools (`read_file`, `search_code`, `git_status`, `git_diff`)**: Read-only queries leave no side effects and are potentially eligible for retry across crashes, bounded by `maxAttempts`.
+
+### 18.4 Ownership and Pure Domain Boundary
+1. **Retry Ownership**: Authoritative retry decisions belong exclusively to top-level orchestration (`WorkerRuntime` / Action Controller). Lower layers (tool adapters, `WorkspacePort`, `ExecutionProvider`) are forbidden from autonomous retries.
+2. **Lease Ownership**: Every Attempt carries explicit execution context (`workerId`, `leaseId`). Physical execution and state mutations require active lease ownership.
+3. **Pure Domain Boundary**: The Action and Attempt domain layer contains ZERO calls to Docker, ExecutionProvider, child processes, filesystem I/O, or SQLite persistence. Invariants are pure, deterministic, and testable in memory.

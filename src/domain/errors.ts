@@ -520,6 +520,60 @@ export class ToolProviderUnavailableError extends ToolDomainError {
   }
 }
 
+export class InvalidActionError extends DomainError {
+  readonly code = "INVALID_ACTION_INVARIANT";
 
+  constructor(
+    readonly actionId: string,
+    readonly violations: readonly string[]
+  ) {
+    super(
+      `Invariant violation(s) for action '${actionId}': ${violations.join("; ")}`
+    );
+  }
+}
 
+export class InvalidAttemptError extends DomainError {
+  readonly code = "INVALID_ATTEMPT_INVARIANT";
 
+  constructor(
+    readonly attemptId: string,
+    readonly violations: readonly string[]
+  ) {
+    super(
+      `Invariant violation(s) for attempt '${attemptId}': ${violations.join("; ")}`
+    );
+  }
+}
+
+export class InvalidActionTransitionError extends DomainError {
+  readonly code = "INVALID_ACTION_STATE_TRANSITION";
+
+  constructor(
+    readonly fromState: string,
+    readonly command: string,
+    readonly reason?: string
+  ) {
+    super(
+      `Cannot execute command '${command}' on action from state '${fromState}'${
+        reason ? `: ${reason}` : ""
+      }`
+    );
+  }
+}
+
+export class InvalidAttemptTransitionError extends DomainError {
+  readonly code = "INVALID_ATTEMPT_STATE_TRANSITION";
+
+  constructor(
+    readonly fromState: string,
+    readonly command: string,
+    readonly reason?: string
+  ) {
+    super(
+      `Cannot execute command '${command}' on attempt from state '${fromState}'${
+        reason ? `: ${reason}` : ""
+      }`
+    );
+  }
+}
