@@ -808,8 +808,8 @@ Exposes 11 discrete measurement intervals across the execution pipeline (`stage1
 
 ### 14.12 Implementation Roadmap (Next Sub-Tasks)
 - **Task 4.2-A**: Tool Execution Gateway Core & Boundary Interfaces (`ToolAdapterPort`, `ToolExecutionContext`, in-memory gateway tests) — *Completed in commit `3c51ab4`*.
-- **Task 4.2-B**: Deterministic Workspace Tool Adapters (`read_file`, `write_file`, `search_code`, `git_status`, `git_diff`, `createWorkspaceToolAdapterRegistry`) — *Completed in current increment*.
-- **Task 4.2-C**: Sandboxed Command Tool Adapter & Docker Provider Mount Binding (`run_command`) — *Deferred to Task 4.2-C/D*.
+- **Task 4.2-B**: Deterministic Workspace Tool Adapters (`read_file`, `write_file`, `search_code`, `git_status`, `git_diff`, `createWorkspaceToolAdapterRegistry`) — *Completed in commit `bfe4da8`*.
+- **Task 4.2-C**: Sandboxed Command Tool Adapter & Docker Provider Mount Binding (`run_command`, `SandboxedCommandToolAdapter`, `DockerExecutionProvider`) — *Completed in current increment*.
 - **Task 4.2-D**: Multi-Step Action Loop & WorkerRuntime Integration (`Run` $\rightarrow$ `Actions 1..N` $\rightarrow$ `VerificationSpec`).
 
 ---
@@ -831,8 +831,51 @@ Task 4.2-B establishes the concrete implementation of the five deterministic, wo
 Under Task 4.2-B:
 1. **Zero External Shell Commands**: No use of `child_process`, `exec`, `spawn`, `execSync`, `spawnSync`, `sh`, `bash`, `cmd`, or `powershell`.
 2. **Zero Provider / Docker Invocations**: All five adapters execute strictly in-process within the worker daemon's contained workspace filesystem boundary. `ExecutionProvider` invocation count is strictly zero (`providerInvocationCount === 0`).
-3. **Run Command Deferred**: `run_command` is explicitly excluded from `createWorkspaceToolAdapterRegistry()`. Requests for `run_command` fail closed with `TOOL_PROVIDER_UNAVAILABLE` unless a dedicated sandbox adapter is configured in subsequent tasks.
+3. **Run Command Deferred**: `run_command` is explicitly excluded from `createWorkspaceToolAdapterRegistry()` unless an `ExecutionProvider` is explicitly supplied.
 
 ### 15.3 Path Containment and Privacy Invariants
 1. **Dual-Boundary Enforcement**: All filesystem access delegates to `WorkspacePort.resolvePath()`, preventing symlink escapes, parent directory traversal (`..`), directory junctions, and Windows volume root escapes.
 2. **Path Privacy**: Host absolute paths are never disclosed in tool outputs, error payloads, or logs. All paths returned in payloads are strictly relative to the workspace root using normalized forward slashes (`/`).
+
+---
+
+## 16. Task 4.2-C Implementation Specification — Sandboxed Command Tool Adapter & Docker Workspace Mount Binding
+
+### 16.1 Bounded Operational Scope
+Task 4.2-C introduces the first controlled process-execution capability: `run_command`. The implementation establishes a hardened, containerized execution pipeline with defense-in-depth isolation and strict anti-shell-injection architecture.
+
+| Tool Name | Adapter Class | Execution Mode | Subprocess Invariant | Security Boundary |
+| :--- | :--- | :--- | :--- | :--- |
+| `run_command` | `SandboxedCommandToolAdapter` | Hardened Docker Container | Zero Subprocesses in Adapter | `ExecutionProvider.execute()`, Docker `--network=none`, `--read-only`, tmpfs `/tmp`, dropped capabilities, no-new-privileges, workspace mount confinement |
+
+### 16.2 Architectural Invariants & Guarantees
+1. **Zero Host Subprocess Execution**:
+   - The tool adapter layer contains ZERO references to `child_process`, `exec`, `spawn`, `fork`, `sh`, `bash`, `cmd`, or `powershell`.
+   - Host process execution is strictly prohibited. All process dispatch occurs exclusively through `ExecutionProvider.execute()` targeting ephemeral Docker containers.
+2. **Strict Anti-Shell Injection (Discrete `argv` Tokens Only)**:
+   - Command inputs are parsed and validated as discrete argument arrays (`argv: string[]`, `min(1)`).
+   - Arguments are NEVER concatenated into shell strings (e.g. `"${argv.join(' ')}"`) or invoked via `/bin/sh -c` or `/bin/bash -c`.
+   - Discrete tokens are passed directly to the container runtime via `--entrypoint ""` and Linux kernel `execve()`. Shell metacharacters (`;`, `|`, `&`, `>`, `$VAR`, backticks) are treated as literal arguments without interpretation.
+3. **Working Directory (`cwd`) Workspace Containment**:
+   - The requested `cwd` is validated against the assigned workspace sandbox using `WorkspacePort.resolvePath()`.
+   - Directory traversal attempts (`../`) and absolute paths outside the workspace boundary fail closed immediately with `ToolWorkspaceBoundaryViolationError`.
+   - In-container working directory is mapped relative to `/workspace` (e.g. `/workspace/${normalizedCwd}`).
+4. **Pre-Execution Authorization & Governance Invariants**:
+   - Authorization failures (missing capability `process.execute`, revoked MissionContract, requested ceilings exceeding contract limits, invalid schema) fail closed before execution dispatch.
+   - For all pre-execution failures, `providerInvocationCount === 0` is strictly guaranteed.
+5. **Non-Clamping Resource Ceilings**:
+   - Requests exceeding contract ceilings are rejected, never silently clamped.
+   - Execution timeout (`timeoutMs`) and output volume (`maxOutputBytes`) are strictly bounded by `ToolExecutionContext.resourceLimits`.
+6. **Container Security & Confinement**:
+   - Network isolation: `--network=none` disabled entirely.
+   - Root filesystem: `--read-only` rootfs prevents modification of system binaries or libraries.
+   - Temporary storage: `--tmpfs=/tmp:rw,noexec,nosuid,size=64m`.
+   - Privilege mitigation: `--cap-drop=ALL` and `--security-opt=no-new-privileges`.
+   - Workspace mount: `-v ${hostPath}:/workspace:rw` confines filesystem mutations strictly to the active workspace.
+   - Docker daemon socket (`/var/run/docker.sock`) is strictly inaccessible.
+7. **Fail-Closed Provider Policy**:
+   - If Docker is unavailable or the daemon cannot be reached, the adapter fails closed with `TOOL_PROVIDER_UNAVAILABLE`. Host process downgrade is strictly forbidden.
+8. **Deterministic Output & Error Taxonomy**:
+   - Non-zero command exit codes (e.g. `exitCode: 1`) are captured as valid command results with full stdout and stderr preserved.
+   - Failures map to deterministic domain errors: `ToolTimeoutError`, `ToolOutputLimitExceededError`, `ToolCancelledError`, `ToolProviderUnavailableError`, `ToolExecutionFailedError`.
+   - Output includes deterministic SHA-256 `commandHash` computed over the canonical discrete arguments.

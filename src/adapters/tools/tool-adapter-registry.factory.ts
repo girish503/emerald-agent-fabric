@@ -8,9 +8,11 @@
  * - git_status
  * - git_diff
  *
- * Invariant: run_command is intentionally deferred and NOT registered.
+ * And when ExecutionProvider is provided:
+ * - run_command (SandboxedCommandToolAdapter)
  */
 
+import { ExecutionProvider } from "../../ports/execution-provider.port.js";
 import {
   StaticToolAdapterRegistry,
   ToolAdapterRegistryPort,
@@ -19,14 +21,17 @@ import { WorkspacePort } from "../../ports/workspace.port.js";
 import { GitDiffToolAdapter } from "./git-diff.tool-adapter.js";
 import { GitStatusToolAdapter } from "./git-status.tool-adapter.js";
 import { ReadFileToolAdapter } from "./read-file.tool-adapter.js";
+import { SandboxedCommandToolAdapter } from "./sandboxed-command.tool-adapter.js";
 import { SearchCodeToolAdapter } from "./search-code.tool-adapter.js";
 import { WriteFileToolAdapter } from "./write-file.tool-adapter.js";
 
 /**
- * Creates and initializes a tool adapter registry containing all workspace tools.
+ * Creates and initializes a tool adapter registry containing workspace tools.
+ * If an ExecutionProvider is provided, also registers the SandboxedCommandToolAdapter.
  */
 export function createWorkspaceToolAdapterRegistry(
-  workspacePort: WorkspacePort
+  workspacePort: WorkspacePort,
+  executionProvider?: ExecutionProvider
 ): ToolAdapterRegistryPort {
   const registry = new StaticToolAdapterRegistry();
 
@@ -35,6 +40,10 @@ export function createWorkspaceToolAdapterRegistry(
   registry.register(new SearchCodeToolAdapter(workspacePort));
   registry.register(new GitStatusToolAdapter(workspacePort));
   registry.register(new GitDiffToolAdapter(workspacePort));
+
+  if (executionProvider) {
+    registry.register(new SandboxedCommandToolAdapter(executionProvider, workspacePort));
+  }
 
   return registry;
 }

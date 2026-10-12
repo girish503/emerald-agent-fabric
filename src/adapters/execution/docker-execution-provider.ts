@@ -1,12 +1,20 @@
 import { execFile, spawn } from "node:child_process";
+import * as crypto from "node:crypto";
 import * as os from "node:os";
 import * as path from "node:path";
 import { promisify } from "node:util";
+import { RunCommandOutput } from "../../domain/tool-schemas.js";
 import {
   ExecutionProvider,
   ExecutionRequest,
   ExecutionResult,
 } from "../../ports/execution-provider.port.js";
+
+export interface RunCommandExecutionPayload {
+  readonly argv: readonly string[];
+  readonly cwd?: string;
+  readonly maxOutputBytes?: number;
+}
 
 const execFileAsync = promisify(execFile);
 
@@ -98,6 +106,7 @@ const SUPPORTED_OPERATIONS = new Set([
   "workspace-write",
   "workspace-read",
   "workspace-assert-confinement",
+  "run_command",
 ]);
 
 /**
@@ -184,20 +193,45 @@ export class DockerExecutionProvider implements ExecutionProvider {
       };
     }
 
-    // 2. Validate input payload serializability
-    let inputJson: string;
-    try {
-      inputJson = JSON.stringify(request.inputPayload ?? null);
-    } catch (err: unknown) {
-      return {
-        status: "FAILED",
-        error: {
-          code: "EXECUTION_FAILED",
-          message: `Failed to serialize input payload: ${err instanceof Error ? err.message : String(err)}`,
-        },
-        durationMs: Math.round(performance.now() - startTime),
-        providerMetadata: { provider: this.name, operation: request.operationName },
-      };
+    const isRunCommand = request.operationName === "run_command";
+    const runCommandPayload = isRunCommand
+      ? (request.inputPayload as RunCommandExecutionPayload | undefined)
+      : undefined;
+
+    // 2. Validate input payload
+    let inputJson = "";
+    if (isRunCommand) {
+      if (
+        !runCommandPayload ||
+        !Array.isArray(runCommandPayload.argv) ||
+        runCommandPayload.argv.length === 0 ||
+        typeof runCommandPayload.argv[0] !== "string" ||
+        runCommandPayload.argv[0].trim().length === 0
+      ) {
+        return {
+          status: "FAILED",
+          error: {
+            code: "EXECUTION_FAILED",
+            message: "Invalid run_command payload: argv must be a non-empty array of strings with non-empty argv[0]",
+          },
+          durationMs: Math.round(performance.now() - startTime),
+          providerMetadata: { provider: this.name, operation: request.operationName },
+        };
+      }
+    } else {
+      try {
+        inputJson = JSON.stringify(request.inputPayload ?? null);
+      } catch (err: unknown) {
+        return {
+          status: "FAILED",
+          error: {
+            code: "EXECUTION_FAILED",
+            message: `Failed to serialize input payload: ${err instanceof Error ? err.message : String(err)}`,
+          },
+          durationMs: Math.round(performance.now() - startTime),
+          providerMetadata: { provider: this.name, operation: request.operationName },
+        };
+      }
     }
 
     // 3. Ephemeral container identity
@@ -242,6 +276,28 @@ export class DockerExecutionProvider implements ExecutionProvider {
       };
     }
 
+    let containerWorkDir = containerMountPath;
+    if (isRunCommand && runCommandPayload?.cwd && runCommandPayload.cwd !== ".") {
+      const norm = path.posix.normalize(runCommandPayload.cwd.replace(/\\/g, "/"));
+      if (norm.startsWith("..") || path.posix.isAbsolute(norm)) {
+        return {
+          status: "FAILED",
+          error: {
+            code: "EXECUTION_FAILED",
+            message: "Security violation: Working directory must be within workspace",
+          },
+          durationMs: Math.round(performance.now() - startTime),
+          providerMetadata: { provider: this.name, operation: request.operationName },
+        };
+      }
+      containerWorkDir = path.posix.join(containerMountPath, norm);
+    }
+
+    const effectiveMaxOutputBytes =
+      isRunCommand && typeof runCommandPayload?.maxOutputBytes === "number"
+        ? Math.min(runCommandPayload.maxOutputBytes, this.config.maxOutputBytes)
+        : this.config.maxOutputBytes;
+
     // 4. Construct container run arguments
     const args: string[] = [
       "run",
@@ -259,15 +315,24 @@ export class DockerExecutionProvider implements ExecutionProvider {
             "-v",
             `${request.workspace.hostPath}:${containerMountPath}:rw`,
             "-w",
-            containerMountPath,
+            containerWorkDir,
           ]
         : []),
-      "-i", // Connect container stdin
-      this.config.image,
-      "node",
-      "-e",
-      IN_CONTAINER_RUNNER_SCRIPT,
-      request.operationName,
+      ...(isRunCommand
+        ? [
+            "--entrypoint",
+            "",
+            this.config.image,
+            ...runCommandPayload!.argv,
+          ]
+        : [
+            "-i", // Connect container stdin
+            this.config.image,
+            "node",
+            "-e",
+            IN_CONTAINER_RUNNER_SCRIPT,
+            request.operationName,
+          ]),
     ];
 
     let timedOut = false;
@@ -290,7 +355,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
 
           child.stdout.on("data", (chunk: Buffer) => {
             totalBytesReceived += chunk.length;
-            if (totalBytesReceived > this.config.maxOutputBytes) {
+            if (totalBytesReceived > effectiveMaxOutputBytes) {
               outputLimitExceeded = true;
               this.killContainer(containerName).catch(() => {});
               child.kill("SIGKILL");
@@ -301,7 +366,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
 
           child.stderr.on("data", (chunk: Buffer) => {
             totalBytesReceived += chunk.length;
-            if (totalBytesReceived > this.config.maxOutputBytes) {
+            if (totalBytesReceived > effectiveMaxOutputBytes) {
               outputLimitExceeded = true;
               this.killContainer(containerName).catch(() => {});
               child.kill("SIGKILL");
@@ -317,8 +382,12 @@ export class DockerExecutionProvider implements ExecutionProvider {
       );
 
       // Write payload to container stdin and close stream
-      child.stdin.write(inputJson);
-      child.stdin.end();
+      if (isRunCommand) {
+        child.stdin.end();
+      } else {
+        child.stdin.write(inputJson);
+        child.stdin.end();
+      }
 
       // Configure timeout and physical termination
       let timeoutPromise: Promise<never> | undefined;
@@ -334,7 +403,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
         });
       }
 
-      const { exitCode } = timeoutPromise
+      const { exitCode, signal } = timeoutPromise
         ? await Promise.race([executionPromise, timeoutPromise])
         : await executionPromise;
 
@@ -349,7 +418,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
           status: "FAILED",
           error: {
             code: "EXECUTION_FAILED",
-            message: `Output limit of ${this.config.maxOutputBytes} bytes exceeded by container`,
+            message: `Output limit of ${effectiveMaxOutputBytes} bytes exceeded by container`,
           },
           durationMs,
           providerMetadata: {
@@ -357,6 +426,89 @@ export class DockerExecutionProvider implements ExecutionProvider {
             operation: request.operationName,
             containerName,
             outputLimitExceeded: true,
+          },
+        };
+      }
+
+      if (isRunCommand) {
+        const isDockerDaemonError =
+          stderrBuffer.includes("Cannot connect to the Docker daemon") ||
+          stderrBuffer.includes("daemon is not running") ||
+          stderrBuffer.includes("dockerDesktopLinuxEngine") ||
+          stderrBuffer.includes("error during connect") ||
+          stderrBuffer.includes("Is the docker daemon running");
+
+        if (isDockerDaemonError) {
+          return {
+            status: "FAILED",
+            error: {
+              code: "PROVIDER_UNAVAILABLE",
+              message: stderrBuffer.trim(),
+            },
+            durationMs,
+            providerMetadata: {
+              provider: this.name,
+              operation: request.operationName,
+              containerName,
+              errorType: "DOCKER_UNAVAILABLE",
+            },
+          };
+        }
+
+        if (exitCode === 125) {
+          return {
+            status: "FAILED",
+            error: {
+              code: "EXECUTION_FAILED",
+              message: stderrBuffer.trim() || "Docker daemon failed to launch container",
+              details: { exitCode, stderr: stderrBuffer },
+            },
+            durationMs,
+            providerMetadata: {
+              provider: this.name,
+              operation: request.operationName,
+              containerName,
+              exitCode,
+            },
+          };
+        }
+
+        const runOutput: RunCommandOutput = {
+          exitCode: exitCode ?? (signal ? 128 : 0),
+          stdout: stdoutBuffer,
+          stderr: stderrBuffer,
+          durationMs,
+          outputTruncated: false,
+          commandHash: crypto
+            .createHash("sha256")
+            .update(JSON.stringify(runCommandPayload!.argv), "utf8")
+            .digest("hex"),
+        };
+
+        return {
+          status: "SUCCESS",
+          output: runOutput as unknown as TOutput,
+          durationMs,
+          providerMetadata: {
+            provider: this.name,
+            operation: request.operationName,
+            containerName,
+            exitCode,
+            signal,
+            attemptNumber: request.attemptNumber,
+            idempotencyToken: request.idempotencyToken,
+            memoryLimit: this.config.memoryLimit,
+            cpuLimit: this.config.cpuLimit,
+            networkDisabled: this.config.networkDisabled,
+            ...(request.workspace
+              ? {
+                  workspaceMount: {
+                    hostPath: request.workspace.hostPath,
+                    containerMountPath,
+                    containerWorkDir,
+                  },
+                }
+              : {}),
           },
         };
       }
@@ -449,7 +601,10 @@ export class DockerExecutionProvider implements ExecutionProvider {
         msg.includes("ENOENT") ||
         msg.includes("docker API") ||
         msg.includes("dockerDesktopLinuxEngine") ||
-        msg.includes("daemon is not running");
+        msg.includes("daemon is not running") ||
+        msg.includes("Cannot connect to the Docker daemon") ||
+        msg.includes("error during connect") ||
+        msg.includes("Is the docker daemon running");
 
       return {
         status: "FAILED",
