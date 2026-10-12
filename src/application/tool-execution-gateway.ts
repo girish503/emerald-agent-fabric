@@ -233,7 +233,7 @@ export class ToolExecutionGateway {
       }
       if (err instanceof InvalidRunError) {
         const match = /Referenced MissionContract '([^']+)' v(\d+) not found/.exec(
-          err.reasons?.join(" ") ?? err.message
+          err.violations?.join(" ") ?? err.message
         );
         if (match) {
           const missingError = new MissingBoundContractError(match[1]!, Number(match[2]!));

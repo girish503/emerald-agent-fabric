@@ -1,4 +1,4 @@
-﻿# Emerald Agent Fabric: Typed Tool System & Multi-Step Execution Architecture
+# Emerald Agent Fabric: Typed Tool System & Multi-Step Execution Architecture
 
 ## Document Information
 - **Status**: Architecture Specification â€” Phase 4 Baseline
@@ -807,9 +807,32 @@ Comprehensive analysis completed and documented in [ADR-0004](../adr/ADR-0004-to
 Exposes 11 discrete measurement intervals across the execution pipeline (`stage1_registry_lookup_ms` through `stage11_event_commit_ms`), ensuring complete latency attribution for future Reflex (Phase 11) optimizations.
 
 ### 14.12 Implementation Roadmap (Next Sub-Tasks)
-- **Task 4.2-A**: Tool Execution Gateway Core & Boundary Interfaces (`ToolAdapterPort`, `ToolExecutionContext`, in-memory gateway tests).
-- **Task 4.2-B**: Read-Only Workspace Tool Adapters (`LocalFilesystemToolAdapter` for `read_file`, `WorkspaceSearchToolAdapter` for `search_code`).
-- **Task 4.2-C**: Git & Mutating Workspace Tool Adapters (`write_file`, `git_status`, `git_diff`).
-- **Task 4.2-D**: Sandboxed Command Tool Adapter & Docker Provider Mount Binding (`run_command`).
-- **Task 4.2-E**: Multi-Step Action Loop & WorkerRuntime Integration (`Run` $\rightarrow$ `Actions 1..N` $\rightarrow$ `VerificationSpec`).
+- **Task 4.2-A**: Tool Execution Gateway Core & Boundary Interfaces (`ToolAdapterPort`, `ToolExecutionContext`, in-memory gateway tests) — *Completed in commit `3c51ab4`*.
+- **Task 4.2-B**: Deterministic Workspace Tool Adapters (`read_file`, `write_file`, `search_code`, `git_status`, `git_diff`, `createWorkspaceToolAdapterRegistry`) — *Completed in current increment*.
+- **Task 4.2-C**: Sandboxed Command Tool Adapter & Docker Provider Mount Binding (`run_command`) — *Deferred to Task 4.2-C/D*.
+- **Task 4.2-D**: Multi-Step Action Loop & WorkerRuntime Integration (`Run` $\rightarrow$ `Actions 1..N` $\rightarrow$ `VerificationSpec`).
 
+---
+
+## 15. Task 4.2-B Implementation Specification — Deterministic Workspace Tool Adapters
+
+### 15.1 Bounded Operational Scope
+Task 4.2-B establishes the concrete implementation of the five deterministic, workspace-contained tool adapters. External command execution (`run_command`) remains strictly deferred.
+
+| Tool Name | Adapter Class | Execution Mode | Subprocess Invariant | Security Boundary |
+| :--- | :--- | :--- | :--- | :--- |
+| `read_file` | `ReadFileToolAdapter` | In-Process Node FS | Zero Subprocesses | `WorkspacePort.resolvePath()`, offset/limit line windowing, byte ceiling truncation, stable SHA-256 digest |
+| `write_file` | `WriteFileToolAdapter` | In-Process Node FS | Zero Subprocesses | `WorkspacePort.resolvePath()`, atomic in-workspace staging file (`.${name}.tmp.${ts}.${rand}`) + rename, symlink target write rejection, overwrite protection |
+| `search_code` | `SearchCodeToolAdapter` | In-Process Traversal | Zero Subprocesses | `WorkspacePort.resolvePath()`, deterministic sort (file ASC, line ASC), glob filter, ignores `.git`/`.emerald-workspace.json`/staging, skips binary files (null-byte probe), ReDoS mitigation |
+| `git_status` | `GitStatusToolAdapter` | In-Process Git Parsing | Zero Subprocesses | Pure in-process inspection of `.git/HEAD`, `.git/index` (DIRC v2/v3), tree/loose/packed objects, scans working tree without git CLI, computes `clean`, `currentCommit`, `modified`, `added`, `deleted`, `untracked` |
+| `git_diff` | `GitDiffToolAdapter` | In-Process Diff Engine | Zero Subprocesses | Pure in-process unified diff generator (Myers/LCS line edits), staged (`Index` vs `HEAD`) and unstaged (`WorkTree` vs `Index`), file/insertions/deletions counts, SHA-256 diffHash, maxBytes truncation |
+
+### 15.2 Non-Negotiable Subprocess and Provider Invocation Ban
+Under Task 4.2-B:
+1. **Zero External Shell Commands**: No use of `child_process`, `exec`, `spawn`, `execSync`, `spawnSync`, `sh`, `bash`, `cmd`, or `powershell`.
+2. **Zero Provider / Docker Invocations**: All five adapters execute strictly in-process within the worker daemon's contained workspace filesystem boundary. `ExecutionProvider` invocation count is strictly zero (`providerInvocationCount === 0`).
+3. **Run Command Deferred**: `run_command` is explicitly excluded from `createWorkspaceToolAdapterRegistry()`. Requests for `run_command` fail closed with `TOOL_PROVIDER_UNAVAILABLE` unless a dedicated sandbox adapter is configured in subsequent tasks.
+
+### 15.3 Path Containment and Privacy Invariants
+1. **Dual-Boundary Enforcement**: All filesystem access delegates to `WorkspacePort.resolvePath()`, preventing symlink escapes, parent directory traversal (`..`), directory junctions, and Windows volume root escapes.
+2. **Path Privacy**: Host absolute paths are never disclosed in tool outputs, error payloads, or logs. All paths returned in payloads are strictly relative to the workspace root using normalized forward slashes (`/`).
