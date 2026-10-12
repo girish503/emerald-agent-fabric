@@ -978,3 +978,105 @@ $$\text{Action} \ne \text{Attempt}$$
 1. **Retry Ownership**: Authoritative retry decisions belong exclusively to top-level orchestration (`WorkerRuntime` / Action Controller). Lower layers (tool adapters, `WorkspacePort`, `ExecutionProvider`) are forbidden from autonomous retries.
 2. **Lease Ownership**: Every Attempt carries explicit execution context (`workerId`, `leaseId`). Physical execution and state mutations require active lease ownership.
 3. **Pure Domain Boundary**: The Action and Attempt domain layer contains ZERO calls to Docker, ExecutionProvider, child processes, filesystem I/O, or SQLite persistence. Invariants are pure, deterministic, and testable in memory.
+
+---
+
+## 19. Task 4.4-C Implementation Specification — Action & Attempt State Machines & Domain Events
+
+### 19.1 Authoritative Domain Event Vocabulary
+
+Task 4.4-C establishes the strongly typed domain events for the Action and Attempt lifecycles. Every legal state transition produces exactly one immutable domain event conforming to the foundational `DomainEvent<TPayload>` contract.
+
+#### 19.1.1 Action Domain Events (`producer: "domain.action_aggregate"`, `schemaVersion: 1`)
+- **`action.created`**: Emitted upon Action creation. Payload captures frozen logical intent:
+  - `actionId`, `runId`, `sequenceNumber`, `toolName`, `inputHash`, `idempotency`, `contractBinding`, `maxAttempts`.
+  - *Payload Safety Ceilings*: The event payload records the SHA-256 canonical `inputHash` and strictly excludes the raw `inputPayload` to prevent multi-megabyte blowup of the audit trail.
+- **`action.authorized`**: Emitted when governance stages (Mission Contract, capability policy, and non-clamping resource ceilings) authorize the Action:
+  - `actionId`, `runId`, `sequenceNumber`, `toolName`.
+- **`action.started`**: Emitted when a physical trial starts executing for this Action:
+  - `actionId`, `runId`, `attemptNumber`.
+- **`action.completed`**: Emitted upon successful completion of the Action (passing tool output validation and deterministic post-condition verification):
+  - `actionId`, `runId`, `totalAttempts`, `resultPayload`.
+- **`action.failed`**: Emitted upon terminal failure of the Action (unauthorized, retries exhausted, non-idempotent failure, or terminal error):
+  - `actionId`, `runId`, `totalAttempts`, `error`.
+- **`action.timed_out`**: Emitted when cumulative action execution deadline expires:
+  - `actionId`, `runId`, `totalAttempts`, `reason`.
+- **`action.cancelled`**: Emitted when execution is aborted prior to or during execution:
+  - `actionId`, `runId`, `reason`.
+- **`action.retrying`**: Emitted when an attempt fails and the Action prepares for a subsequent trial:
+  - `actionId`, `runId`, `attemptNumber`, `nextAttemptNumber`, `maxAttempts`, `error`.
+
+#### 19.1.2 Attempt Domain Events (`producer: "domain.attempt_aggregate"`, `schemaVersion: 1`)
+- **`attempt.created`**: Emitted when a physical execution instance is initialized:
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`, `workerId`, `leaseId`, `idempotencyToken`.
+- **`attempt.dispatched`**: Emitted when the attempt is dispatched to the tool adapter / provider:
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`, `workerId`, `leaseId`.
+- **`attempt.started`**: Emitted when physical execution begins (e.g. Docker container launched):
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`.
+- **`attempt.completed`**: Emitted when the physical trial exits with zero exit code and validated output:
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`, `exitCode`, `durationMs`, `evidenceIds`.
+- **`attempt.failed`**: Emitted when the physical trial exits with non-zero exit code or adapter error:
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`, `exitCode`, `durationMs`, `evidenceIds`, `error`.
+- **`attempt.timed_out`**: Emitted when attempt wall-clock duration exceeds allocated budget:
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`, `durationMs`, `reason`.
+- **`attempt.cancelled`**: Emitted when the attempt is aborted or worker preempted:
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`, `reason`.
+- **`attempt.unknown`**: Emitted when execution outcome is indeterminate due to worker crash, lease expiry, or unobserved termination:
+  - `attemptId`, `actionId`, `runId`, `attemptNumber`, `reasonCode`, `details`.
+
+### 19.2 Critical UNKNOWN Semantics & Reason Code Taxonomy
+The `AttemptUnknownReason` closed enum captures physical execution uncertainty:
+```ts
+export type AttemptUnknownReason =
+  | "LEASE_EXPIRED_DURING_EXECUTION"
+  | "WORKER_CRASHED"
+  | "PROCESS_TERMINATION_BEFORE_PERSISTENCE"
+  | "PROVIDER_RESULT_UNAVAILABLE"
+  | "UNSPECIFIED_EXECUTION_UNCERTAINTY";
+```
+- **Execution Uncertainty Defense**: An event carrying `attempt.unknown` explicitly signals that container or process side effects may have executed without observation.
+- For `NON_IDEMPOTENT` operations (`write_file`, `run_command`), receiving `attempt.unknown` permanently triggers fail-closed execution termination (`NON_IDEMPOTENT_UNKNOWN`). Automated retries are strictly prohibited.
+
+### 19.3 Causal Ordering & Aggregate Invariants
+The causal relationship between Action and Attempt events follows a deterministic sequence:
+
+```text
+Action Created     (action.created)
+      ↓
+Action Authorized  (action.authorized)
+      ↓
+Attempt 1 Created  (attempt.created [runId:actId:1])
+      ↓
+Action Started     (action.started [attempt 1])
+      ↓
+Attempt 1 Disp.    (attempt.dispatched)
+      ↓
+Attempt 1 Exec.    (attempt.started)
+      ↓
+Attempt 1 Failed   (attempt.failed [exitCode: 1])
+      ↓
+Action Retrying    (action.retrying [attempt 1 -> 2])
+      ↓
+Attempt 2 Created  (attempt.created [runId:actId:2])
+      ↓
+Action Started     (action.started [attempt 2])
+      ↓
+Attempt 2 Disp.    (attempt.dispatched)
+      ↓
+Attempt 2 Exec.    (attempt.started)
+      ↓
+Attempt 2 Succeeded(attempt.completed [exitCode: 0, durationMs: 40])
+      ↓
+Action Completed   (action.completed [totalAttempts: 2])
+```
+
+- **Strict Identity Invariance**: Across all attempts, `actionId` and `sequenceNumber` remain immutable.
+- **Idempotency Token Uniqueness**: Each Attempt trial receives a distinct, deterministic `idempotencyToken` (`${runId}:${actionId}:${attemptNumber}`), preventing stale result caching or duplicate physical invocation.
+
+### 19.4 Operational State vs Event History Separation
+In accordance with Emerald Architecture Principle:
+$$\text{Operational State} \ne \text{Event History}$$
+1. **Durable Tables Own Operational Authority**: Authoritative lifecycle state lives in ACID SQLite tables (`runs`, `leases`, `actions`, `attempts`).
+2. **Events Are Immutable Fact Records**: Domain events represent immutable facts describing state transitions that were accepted and validated by domain invariant engines.
+3. **Sequence Numbering Ownership**: Domain events do NOT include monotonic database log sequence numbers (`sequence`); global monotonically increasing event log sequences are assigned exclusively by SQLite transactions in `run_events` during atomic persistence (deferred to Task 4.4-D).
+

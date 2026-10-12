@@ -15,7 +15,7 @@ import {
 describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
   describe("1. Attempt Construction & Identity", () => {
     it("creates a valid Attempt with default values and deterministic idempotency token", () => {
-      const attempt = Attempt.create({
+      const { attempt, event } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -40,10 +40,15 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
       expect(attempt.errorPayload).toBeNull();
       expect(attempt.evidenceIds).toEqual([]);
       expect(attempt.providerMetadata).toBeNull();
+
+      expect(event.eventType).toBe("attempt.created");
+      expect(event.runId).toBe("run-202");
+      expect(event.payload.attemptId).toBe(attempt.attemptId);
+      expect(event.payload.idempotencyToken).toBe("run-202:act-101:1");
     });
 
     it("accepts custom attemptId and custom idempotencyToken", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         attemptId: "att-custom-99",
         actionId: "act-101",
         runId: "run-202",
@@ -143,7 +148,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("2. Immutability of Attempt Snapshot", () => {
     it("ensures attempt snapshot is deeply frozen", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -163,7 +168,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("3. Attempt State Machine Transitions", () => {
     it("executes standard happy path: CREATED -> DISPATCHED -> RUNNING -> SUCCEEDED", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -200,7 +205,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes quick completion directly from DISPATCHED (synchronous in-memory adapter)", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -221,7 +226,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes failure from RUNNING with error details and non-zero exit code", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -247,7 +252,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes timeout transition from RUNNING", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -269,7 +274,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes cancellation from CREATED, DISPATCHED, or RUNNING", () => {
-      const att1 = Attempt.create({
+      const { attempt: att1 } = Attempt.create({
         actionId: "act-1",
         runId: "run-1",
         attemptNumber: 1,
@@ -280,7 +285,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
       expect(att1.status).toBe("CANCELLED");
       expect(att1.errorPayload).toBe("Aborted before dispatch");
 
-      const att2 = Attempt.create({
+      const { attempt: att2 } = Attempt.create({
         actionId: "act-2",
         runId: "run-1",
         attemptNumber: 1,
@@ -291,7 +296,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
       att2.cancel({ reason: "Aborted while dispatched" });
       expect(att2.status).toBe("CANCELLED");
 
-      const att3 = Attempt.create({
+      const { attempt: att3 } = Attempt.create({
         actionId: "act-3",
         runId: "run-1",
         attemptNumber: 1,
@@ -307,7 +312,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("4. Critical UNKNOWN State & Crash Semantics", () => {
     it("transitions from DISPATCHED to UNKNOWN when marked by crash sweeper", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -324,6 +329,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
       expect(attempt.status).toBe("UNKNOWN");
       expect(attempt.errorPayload).toEqual({
         code: "EXECUTION_UNCERTAIN",
+        reasonCode: "UNSPECIFIED_EXECUTION_UNCERTAINTY",
         reason: "Worker lease expired while attempt was dispatched",
       });
       expect(attempt.completedAt).toBe("2026-10-12T10:05:00Z");
@@ -331,7 +337,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("transitions from RUNNING to UNKNOWN when worker crashes mid-execution", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -350,7 +356,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("strictly prohibits resuming or transitioning an UNKNOWN attempt to any state", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -373,7 +379,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("prohibits transitions from all terminal states", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-101",
         runId: "run-202",
         attemptNumber: 1,
@@ -393,7 +399,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("5. Reconstitution", () => {
     it("reconstitutes an Attempt accurately from a valid snapshot", () => {
-      const original = Attempt.create({
+      const { attempt: original } = Attempt.create({
         attemptId: "att-orig-1",
         actionId: "act-1",
         runId: "run-1",
@@ -437,7 +443,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("directly invokes validateAttemptInvariants and applyAttemptTransition", () => {
-      const attempt = Attempt.create({
+      const { attempt } = Attempt.create({
         actionId: "act-1",
         runId: "run-1",
         attemptNumber: 1,
@@ -449,7 +455,7 @@ describe("Attempt Domain Aggregate & State Machine (Task 4.4-B)", () => {
       expect(() => validateAttemptInvariants(attempt.snapshot)).not.toThrow();
 
       // applyAttemptTransition should transition purely without mutating original
-      const dispatchedSnapshot = applyAttemptTransition(attempt.snapshot, {
+      const { nextSnapshot: dispatchedSnapshot } = applyAttemptTransition(attempt.snapshot, {
         type: "DISPATCH",
         now: "2026-10-12T10:00:00Z",
       });

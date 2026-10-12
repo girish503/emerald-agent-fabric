@@ -13,6 +13,17 @@
 
 import { computeCanonicalHash } from "./canonical-hash.js";
 import {
+  ActionAuthorizedEvent,
+  ActionCancelledEvent,
+  ActionCompletedEvent,
+  ActionCreatedEvent,
+  ActionFailedEvent,
+  ActionRetryingEvent,
+  ActionStartedEvent,
+  ActionTimedOutEvent,
+  AnyActionEvent,
+} from "./events.js";
+import {
   InvalidActionError,
   InvalidActionTransitionError,
 } from "./errors.js";
@@ -259,11 +270,13 @@ export type ActionCommand =
 
 /**
  * Pure state machine transition function for Action.
+ * Evaluates state transitions and returns the next snapshot along with the corresponding Domain Event.
  */
 export function applyActionTransition(
   snapshot: ActionSnapshot,
-  command: ActionCommand
-): ActionSnapshot {
+  command: ActionCommand,
+  eventIdGenerator: () => string = () => crypto.randomUUID()
+): { nextSnapshot: ActionSnapshot; event: AnyActionEvent } {
   if (isTerminalActionStatus(snapshot.status)) {
     throw new InvalidActionTransitionError(
       snapshot.status,
@@ -272,32 +285,80 @@ export function applyActionTransition(
     );
   }
 
+  const now = command.now;
+  const eventId = eventIdGenerator();
+
   switch (snapshot.status) {
     case "CREATED": {
       if (command.type === "AUTHORIZE") {
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "AUTHORIZED",
           updatedAt: command.now,
         });
+        const event: ActionAuthorizedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.authorized",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            sequenceNumber: snapshot.sequenceNumber,
+            toolName: snapshot.toolName,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "FAIL") {
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "FAILED",
           errorPayload: command.errorPayload,
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionFailedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.failed",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            totalAttempts: 0,
+            error: command.errorPayload,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "CANCEL") {
-        return deepFreeze({
+        const reason = command.reason ?? "Action cancelled before authorization";
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "CANCELLED",
-          errorPayload: command.reason ?? "Action cancelled before authorization",
+          errorPayload: reason,
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionCancelledEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.cancelled",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       throw new InvalidActionTransitionError(snapshot.status, command.type);
     }
@@ -311,38 +372,82 @@ export function applyActionTransition(
             `Initial attempt from AUTHORIZED state must have attemptNumber 1, received ${command.attemptNumber}`
           );
         }
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "RUNNING",
           activeAttemptNumber: 1,
           totalAttempts: 1,
           updatedAt: command.now,
         });
+        const event: ActionStartedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.started",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: 1,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "FAIL") {
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "FAILED",
           errorPayload: command.errorPayload,
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionFailedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.failed",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            totalAttempts: 0,
+            error: command.errorPayload,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "CANCEL") {
-        return deepFreeze({
+        const reason = command.reason ?? "Action cancelled before attempt";
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "CANCELLED",
-          errorPayload: command.reason ?? "Action cancelled before attempt",
+          errorPayload: reason,
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionCancelledEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.cancelled",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       throw new InvalidActionTransitionError(snapshot.status, command.type);
     }
 
     case "RUNNING": {
       if (command.type === "SUCCEED") {
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "SUCCEEDED",
           resultPayload: command.resultPayload,
@@ -351,9 +456,24 @@ export function applyActionTransition(
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionCompletedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.completed",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            totalAttempts: snapshot.totalAttempts,
+            resultPayload: command.resultPayload,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "FAIL") {
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "FAILED",
           errorPayload: command.errorPayload,
@@ -361,26 +481,72 @@ export function applyActionTransition(
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionFailedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.failed",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            totalAttempts: snapshot.totalAttempts,
+            error: command.errorPayload,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "TIMEOUT") {
-        return deepFreeze({
+        const reason = command.reason ?? "Action execution timed out";
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "TIMED_OUT",
-          errorPayload: command.reason ?? "Action execution timed out",
+          errorPayload: reason,
           activeAttemptNumber: null,
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionTimedOutEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.timed_out",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            totalAttempts: snapshot.totalAttempts,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "CANCEL") {
-        return deepFreeze({
+        const reason = command.reason ?? "Action cancelled during execution";
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "CANCELLED",
-          errorPayload: command.reason ?? "Action cancelled during execution",
+          errorPayload: reason,
           activeAttemptNumber: null,
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionCancelledEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.cancelled",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "PREPARE_RETRY") {
         if (snapshot.totalAttempts >= snapshot.maxAttempts) {
@@ -390,13 +556,30 @@ export function applyActionTransition(
             `Cannot retry: totalAttempts (${snapshot.totalAttempts}) reached maxAttempts ceiling (${snapshot.maxAttempts})`
           );
         }
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "RETRYING",
           activeAttemptNumber: null,
           errorPayload: command.errorPayload ?? null,
           updatedAt: command.now,
         });
+        const event: ActionRetryingEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.retrying",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.totalAttempts,
+            nextAttemptNumber: snapshot.totalAttempts + 1,
+            maxAttempts: snapshot.maxAttempts,
+            error: command.errorPayload ?? null,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       throw new InvalidActionTransitionError(snapshot.status, command.type);
     }
@@ -418,16 +601,30 @@ export function applyActionTransition(
             `Cannot start attempt ${command.attemptNumber}: exceeds maxAttempts (${snapshot.maxAttempts})`
           );
         }
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "RUNNING",
           activeAttemptNumber: command.attemptNumber,
           totalAttempts: command.attemptNumber,
           updatedAt: command.now,
         });
+        const event: ActionStartedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.started",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: command.attemptNumber,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "FAIL") {
-        return deepFreeze({
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "FAILED",
           errorPayload: command.errorPayload,
@@ -435,16 +632,46 @@ export function applyActionTransition(
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionFailedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.failed",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            totalAttempts: snapshot.totalAttempts,
+            error: command.errorPayload,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "CANCEL") {
-        return deepFreeze({
+        const reason = command.reason ?? "Action cancelled during retry wait";
+        const nextSnapshot: ActionSnapshot = deepFreeze({
           ...snapshot,
           status: "CANCELLED",
-          errorPayload: command.reason ?? "Action cancelled during retry wait",
+          errorPayload: reason,
           activeAttemptNumber: null,
           completedAt: command.now,
           updatedAt: command.now,
         });
+        const event: ActionCancelledEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "action.cancelled",
+          schemaVersion: 1,
+          producer: "domain.action_aggregate",
+          payload: deepFreeze({
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       throw new InvalidActionTransitionError(snapshot.status, command.type);
     }
@@ -575,16 +802,25 @@ export interface CreateActionParams {
  */
 export class Action {
   private _snapshot: ActionSnapshot;
+  private readonly _eventIdGenerator: () => string;
 
-  private constructor(snapshot: ActionSnapshot) {
+  private constructor(
+    snapshot: ActionSnapshot,
+    eventIdGenerator: () => string = () => crypto.randomUUID()
+  ) {
     validateActionInvariants(snapshot);
     this._snapshot = deepFreeze({ ...snapshot });
+    this._eventIdGenerator = eventIdGenerator;
   }
 
   /**
    * Factory method to create a new Action aggregate in CREATED state.
+   * Returns both the new Action aggregate and its ActionCreatedEvent.
    */
-  static create(params: CreateActionParams): Action {
+  static create(
+    params: CreateActionParams,
+    eventIdGenerator: () => string = () => crypto.randomUUID()
+  ): { action: Action; event: ActionCreatedEvent } {
     const now = params.now ?? new Date().toISOString();
     const actionId = params.actionId ?? crypto.randomUUID();
     const contractBinding = createContractBinding(params.contractBinding);
@@ -620,14 +856,38 @@ export class Action {
     };
 
     validateActionInvariants(snapshot);
-    return new Action(snapshot);
+
+    const event: ActionCreatedEvent = deepFreeze({
+      eventId: eventIdGenerator(),
+      runId: params.runId,
+      timestamp: now,
+      eventType: "action.created",
+      schemaVersion: 1,
+      producer: "domain.action_aggregate",
+      payload: deepFreeze({
+        actionId,
+        runId: params.runId,
+        sequenceNumber: params.sequenceNumber,
+        toolName: params.toolName,
+        inputHash,
+        idempotency,
+        contractBinding: { ...contractBinding },
+        maxAttempts,
+      }),
+    });
+
+    const action = new Action(snapshot, eventIdGenerator);
+    return { action, event };
   }
 
   /**
    * Reconstitutes an Action aggregate from a persisted snapshot.
    */
-  static reconstitute(snapshot: ActionSnapshot): Action {
-    return new Action(snapshot);
+  static reconstitute(
+    snapshot: ActionSnapshot,
+    eventIdGenerator: () => string = () => crypto.randomUUID()
+  ): Action {
+    return new Action(snapshot, eventIdGenerator);
   }
 
   get snapshot(): ActionSnapshot {
@@ -702,61 +962,62 @@ export class Action {
     return this._snapshot.completedAt;
   }
 
-  private dispatchCommand(command: ActionCommand): void {
-    const nextSnapshot = applyActionTransition(this._snapshot, command);
-    validateActionInvariants(nextSnapshot);
-    this._snapshot = nextSnapshot;
+  private executeCommand<TEvent extends AnyActionEvent>(command: ActionCommand): TEvent {
+    const result = applyActionTransition(this._snapshot, command, this._eventIdGenerator);
+    validateActionInvariants(result.nextSnapshot);
+    this._snapshot = result.nextSnapshot;
+    return result.event as TEvent;
   }
 
-  authorize(now?: string): void {
-    this.dispatchCommand({
+  authorize(now?: string): ActionAuthorizedEvent {
+    return this.executeCommand<ActionAuthorizedEvent>({
       type: "AUTHORIZE",
       now: now ?? new Date().toISOString(),
     });
   }
 
-  startAttempt(attemptNumber: number, now?: string): void {
-    this.dispatchCommand({
+  startAttempt(attemptNumber: number, now?: string): ActionStartedEvent {
+    return this.executeCommand<ActionStartedEvent>({
       type: "START_ATTEMPT",
       attemptNumber,
       now: now ?? new Date().toISOString(),
     });
   }
 
-  succeed(resultPayload: unknown, now?: string): void {
-    this.dispatchCommand({
+  succeed(resultPayload: unknown, now?: string): ActionCompletedEvent {
+    return this.executeCommand<ActionCompletedEvent>({
       type: "SUCCEED",
       resultPayload,
       now: now ?? new Date().toISOString(),
     });
   }
 
-  fail(errorPayload: unknown, now?: string): void {
-    this.dispatchCommand({
+  fail(errorPayload: unknown, now?: string): ActionFailedEvent {
+    return this.executeCommand<ActionFailedEvent>({
       type: "FAIL",
       errorPayload,
       now: now ?? new Date().toISOString(),
     });
   }
 
-  timeout(reason?: unknown, now?: string): void {
-    this.dispatchCommand({
+  timeout(reason?: unknown, now?: string): ActionTimedOutEvent {
+    return this.executeCommand<ActionTimedOutEvent>({
       type: "TIMEOUT",
       reason,
       now: now ?? new Date().toISOString(),
     });
   }
 
-  cancel(reason?: unknown, now?: string): void {
-    this.dispatchCommand({
+  cancel(reason?: unknown, now?: string): ActionCancelledEvent {
+    return this.executeCommand<ActionCancelledEvent>({
       type: "CANCEL",
       reason,
       now: now ?? new Date().toISOString(),
     });
   }
 
-  prepareRetry(errorPayload?: unknown, now?: string): void {
-    this.dispatchCommand({
+  prepareRetry(errorPayload?: unknown, now?: string): ActionRetryingEvent {
+    return this.executeCommand<ActionRetryingEvent>({
       type: "PREPARE_RETRY",
       errorPayload,
       now: now ?? new Date().toISOString(),

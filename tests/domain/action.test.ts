@@ -26,7 +26,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("1. Action Construction & Invariants", () => {
     it("creates a valid Action with computed canonical hash and default values", () => {
-      const action = Action.create({
+      const { action, event } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -51,10 +51,15 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
       expect(action.completedAt).toBeNull();
       expect(action.createdAt).toBeDefined();
       expect(action.updatedAt).toBe(action.createdAt);
+
+      expect(event.eventType).toBe("action.created");
+      expect(event.runId).toBe("run-001");
+      expect(event.payload.toolName).toBe("read_file");
+      expect(event.payload.inputHash).toBe(samplePayloadHash);
     });
 
     it("accepts an explicit matching inputHash", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         actionId: "act-custom-id",
         runId: "run-001",
         sequenceNumber: 2,
@@ -172,7 +177,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("2. Immutability of Intent & Snapshot", () => {
     it("ensures snapshot and its objects are deeply frozen", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -191,7 +196,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("retains immutable intent across state transitions", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         actionId: "act-immutable-1",
         runId: "run-001",
         sequenceNumber: 1,
@@ -223,7 +228,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("3. Deterministic State Machine Transitions", () => {
     it("executes standard happy-path lifecycle: CREATED -> AUTHORIZED -> RUNNING -> SUCCEEDED", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -250,7 +255,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes failure transition from CREATED", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -265,7 +270,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes cancellation from CREATED or AUTHORIZED", () => {
-      const action1 = Action.create({
+      const { action: action1 } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -276,7 +281,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
       expect(action1.status).toBe("CANCELLED");
       expect(action1.errorPayload).toBe("User cancelled");
 
-      const action2 = Action.create({
+      const { action: action2 } = Action.create({
         runId: "run-001",
         sequenceNumber: 2,
         toolName: "read_file",
@@ -289,7 +294,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes timeout from RUNNING", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "run_command",
@@ -307,7 +312,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("executes retry loop: RUNNING -> RETRYING -> RUNNING -> SUCCEEDED", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -342,7 +347,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("rejects preparing retry when maxAttempts ceiling is already reached", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -359,7 +364,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("rejects starting attempt with invalid attempt number from AUTHORIZED or RETRYING", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -387,7 +392,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("prohibits any transitions from terminal states", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -410,7 +415,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("4. Retry Eligibility Semantics (evaluateRetryEligibility)", () => {
     it("evaluates IDEMPOTENT + FAILED as eligible when attempts remain", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -428,7 +433,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("evaluates IDEMPOTENT + UNKNOWN as eligible when attempts remain", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "search_code",
@@ -446,7 +451,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("evaluates NON_IDEMPOTENT + FAILED as NOT eligible (fails closed)", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "write_file",
@@ -464,7 +469,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("evaluates NON_IDEMPOTENT + UNKNOWN as NOT eligible (fails closed on uncertainty)", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "run_command",
@@ -483,7 +488,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("evaluates retry as ineligible when maxAttempts are exhausted", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -500,7 +505,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("evaluates retry as ineligible when action is already terminal", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -517,7 +522,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("evaluates retry as ineligible when an attempt is still running", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -535,7 +540,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
 
   describe("5. Reconstitution", () => {
     it("reconstitutes an Action accurately from a valid snapshot", () => {
-      const original = Action.create({
+      const { action: original } = Action.create({
         actionId: "act-orig",
         runId: "run-orig",
         sequenceNumber: 4,
@@ -577,7 +582,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
     });
 
     it("directly invokes validateActionInvariants and applyActionTransition", () => {
-      const action = Action.create({
+      const { action } = Action.create({
         runId: "run-001",
         sequenceNumber: 1,
         toolName: "read_file",
@@ -589,7 +594,7 @@ describe("Action Domain Aggregate & State Machine (Task 4.4-B)", () => {
       expect(() => validateActionInvariants(action.snapshot)).not.toThrow();
 
       // applyActionTransition should transition purely without mutating original
-      const authorizedSnapshot = applyActionTransition(action.snapshot, {
+      const { nextSnapshot: authorizedSnapshot } = applyActionTransition(action.snapshot, {
         type: "AUTHORIZE",
         now: "2026-10-12T10:00:00Z",
       });

@@ -1,3 +1,6 @@
+import { ContractBinding } from "./invariants.js";
+import { ToolIdempotency, ToolName } from "./tool.js";
+
 /**
  * Domain Events for Emerald Agent Fabric.
  * Pure definitions of state changes and lifecycle occurrences.
@@ -239,6 +242,238 @@ export type AnyWorkspaceEvent =
   | WorkspaceDisposedEvent
   | WorkspaceFailedEvent;
 
+// ============================================================================
+// Action Domain Events (Phase 4 / Task 4.4-C)
+// ============================================================================
+
+export interface ActionCreatedPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly sequenceNumber: number;
+  readonly toolName: ToolName;
+  readonly inputHash: string;
+  readonly idempotency: ToolIdempotency;
+  readonly contractBinding: ContractBinding;
+  readonly maxAttempts: number;
+}
+
+export type ActionCreatedEvent = DomainEvent<ActionCreatedPayload> & {
+  readonly eventType: "action.created";
+};
+
+export interface ActionAuthorizedPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly sequenceNumber: number;
+  readonly toolName: ToolName;
+}
+
+export type ActionAuthorizedEvent = DomainEvent<ActionAuthorizedPayload> & {
+  readonly eventType: "action.authorized";
+};
+
+export interface ActionStartedPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+}
+
+export type ActionStartedEvent = DomainEvent<ActionStartedPayload> & {
+  readonly eventType: "action.started";
+};
+
+export interface ActionCompletedPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly totalAttempts: number;
+  readonly resultPayload?: unknown;
+}
+
+export type ActionCompletedEvent = DomainEvent<ActionCompletedPayload> & {
+  readonly eventType: "action.completed";
+};
+
+export interface ActionFailedPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly totalAttempts: number;
+  readonly error: unknown;
+}
+
+export type ActionFailedEvent = DomainEvent<ActionFailedPayload> & {
+  readonly eventType: "action.failed";
+};
+
+export interface ActionTimedOutPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly totalAttempts: number;
+  readonly reason?: unknown;
+}
+
+export type ActionTimedOutEvent = DomainEvent<ActionTimedOutPayload> & {
+  readonly eventType: "action.timed_out";
+};
+
+export interface ActionCancelledPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly reason?: unknown;
+}
+
+export type ActionCancelledEvent = DomainEvent<ActionCancelledPayload> & {
+  readonly eventType: "action.cancelled";
+};
+
+export interface ActionRetryingPayload {
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly nextAttemptNumber: number;
+  readonly maxAttempts: number;
+  readonly error?: unknown;
+}
+
+export type ActionRetryingEvent = DomainEvent<ActionRetryingPayload> & {
+  readonly eventType: "action.retrying";
+};
+
+export type AnyActionEvent =
+  | ActionCreatedEvent
+  | ActionAuthorizedEvent
+  | ActionStartedEvent
+  | ActionCompletedEvent
+  | ActionFailedEvent
+  | ActionTimedOutEvent
+  | ActionCancelledEvent
+  | ActionRetryingEvent;
+
+// ============================================================================
+// Attempt Domain Events (Phase 4 / Task 4.4-C)
+// ============================================================================
+
+export interface AttemptCreatedPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly workerId: string;
+  readonly leaseId: string;
+  readonly idempotencyToken: string;
+}
+
+export type AttemptCreatedEvent = DomainEvent<AttemptCreatedPayload> & {
+  readonly eventType: "attempt.created";
+};
+
+export interface AttemptDispatchedPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly workerId: string;
+  readonly leaseId: string;
+}
+
+export type AttemptDispatchedEvent = DomainEvent<AttemptDispatchedPayload> & {
+  readonly eventType: "attempt.dispatched";
+};
+
+export interface AttemptStartedPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+}
+
+export type AttemptStartedEvent = DomainEvent<AttemptStartedPayload> & {
+  readonly eventType: "attempt.started";
+};
+
+export interface AttemptCompletedPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly exitCode: number | null;
+  readonly durationMs: number | null;
+  readonly evidenceIds: readonly string[];
+}
+
+export type AttemptCompletedEvent = DomainEvent<AttemptCompletedPayload> & {
+  readonly eventType: "attempt.completed";
+};
+
+export interface AttemptFailedPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly exitCode: number | null;
+  readonly durationMs: number | null;
+  readonly evidenceIds: readonly string[];
+  readonly error: unknown;
+}
+
+export type AttemptFailedEvent = DomainEvent<AttemptFailedPayload> & {
+  readonly eventType: "attempt.failed";
+};
+
+export interface AttemptTimedOutPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly durationMs: number | null;
+  readonly reason?: unknown;
+}
+
+export type AttemptTimedOutEvent = DomainEvent<AttemptTimedOutPayload> & {
+  readonly eventType: "attempt.timed_out";
+};
+
+export interface AttemptCancelledPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly reason?: unknown;
+}
+
+export type AttemptCancelledEvent = DomainEvent<AttemptCancelledPayload> & {
+  readonly eventType: "attempt.cancelled";
+};
+
+export type AttemptUnknownReason =
+  | "LEASE_EXPIRED_DURING_EXECUTION"
+  | "WORKER_CRASHED"
+  | "PROCESS_TERMINATION_BEFORE_PERSISTENCE"
+  | "PROVIDER_RESULT_UNAVAILABLE"
+  | "UNSPECIFIED_EXECUTION_UNCERTAINTY";
+
+export interface AttemptUnknownPayload {
+  readonly attemptId: string;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptNumber: number;
+  readonly reasonCode: AttemptUnknownReason;
+  readonly details?: string;
+}
+
+export type AttemptUnknownEvent = DomainEvent<AttemptUnknownPayload> & {
+  readonly eventType: "attempt.unknown";
+};
+
+export type AnyAttemptEvent =
+  | AttemptCreatedEvent
+  | AttemptDispatchedEvent
+  | AttemptStartedEvent
+  | AttemptCompletedEvent
+  | AttemptFailedEvent
+  | AttemptTimedOutEvent
+  | AttemptCancelledEvent
+  | AttemptUnknownEvent;
+
 export type AnyRunEvent =
   | RunCreatedEvent
   | RunQueuedEvent
@@ -253,6 +488,8 @@ export type AnyRunEvent =
   | PolicyEvaluatedEvent
   | EvidenceRecordedEvent
   | VerificationCompletedEvent
-  | AnyWorkspaceEvent;
+  | AnyWorkspaceEvent
+  | AnyActionEvent
+  | AnyAttemptEvent;
 
 

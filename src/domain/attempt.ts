@@ -13,6 +13,18 @@
  */
 
 import {
+  AnyAttemptEvent,
+  AttemptCancelledEvent,
+  AttemptCompletedEvent,
+  AttemptCreatedEvent,
+  AttemptDispatchedEvent,
+  AttemptFailedEvent,
+  AttemptStartedEvent,
+  AttemptTimedOutEvent,
+  AttemptUnknownEvent,
+  AttemptUnknownReason,
+} from "./events.js";
+import {
   InvalidAttemptError,
   InvalidAttemptTransitionError,
 } from "./errors.js";
@@ -263,16 +275,40 @@ export type AttemptCommand =
   | {
       readonly type: "MARK_UNKNOWN";
       readonly reason: string;
+      readonly reasonCode?: AttemptUnknownReason;
       readonly now: string;
     };
 
+const VALID_ATTEMPT_UNKNOWN_REASONS: readonly AttemptUnknownReason[] = [
+  "LEASE_EXPIRED_DURING_EXECUTION",
+  "WORKER_CRASHED",
+  "PROCESS_TERMINATION_BEFORE_PERSISTENCE",
+  "PROVIDER_RESULT_UNAVAILABLE",
+  "UNSPECIFIED_EXECUTION_UNCERTAINTY",
+];
+
+function resolveAttemptUnknownReason(
+  reasonString: string,
+  explicitReasonCode?: AttemptUnknownReason
+): AttemptUnknownReason {
+  if (explicitReasonCode && VALID_ATTEMPT_UNKNOWN_REASONS.includes(explicitReasonCode)) {
+    return explicitReasonCode;
+  }
+  if (VALID_ATTEMPT_UNKNOWN_REASONS.includes(reasonString as AttemptUnknownReason)) {
+    return reasonString as AttemptUnknownReason;
+  }
+  return "UNSPECIFIED_EXECUTION_UNCERTAINTY";
+}
+
 /**
  * Pure state machine transition function for Attempt.
+ * Evaluates state transitions and returns the next snapshot along with the corresponding Domain Event.
  */
 export function applyAttemptTransition(
   snapshot: AttemptSnapshot,
-  command: AttemptCommand
-): AttemptSnapshot {
+  command: AttemptCommand,
+  eventIdGenerator: () => string = () => crypto.randomUUID()
+): { nextSnapshot: AttemptSnapshot; event: AnyAttemptEvent } {
   if (isTerminalAttemptStatus(snapshot.status)) {
     throw new InvalidAttemptTransitionError(
       snapshot.status,
@@ -281,136 +317,382 @@ export function applyAttemptTransition(
     );
   }
 
+  const now = command.now;
+  const eventId = eventIdGenerator();
+
   switch (snapshot.status) {
     case "CREATED": {
       if (command.type === "DISPATCH") {
-        return deepFreeze({
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "DISPATCHED",
           startedAt: command.now,
         });
+        const event: AttemptDispatchedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.dispatched",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            workerId: snapshot.workerId,
+            leaseId: snapshot.leaseId,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "CANCEL") {
-        return deepFreeze({
+        const reason = command.reason ?? "Attempt cancelled before dispatch";
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "CANCELLED",
-          errorPayload: command.reason ?? "Attempt cancelled before dispatch",
+          errorPayload: reason,
           completedAt: command.now,
         });
+        const event: AttemptCancelledEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.cancelled",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       throw new InvalidAttemptTransitionError(snapshot.status, command.type);
     }
 
     case "DISPATCHED": {
       if (command.type === "START") {
-        return deepFreeze({
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "RUNNING",
         });
+        const event: AttemptStartedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.started",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "COMPLETE") {
-        return deepFreeze({
+        const exitCode = command.exitCode ?? 0;
+        const durationMs = command.durationMs ?? null;
+        const evidenceIds = command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds;
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "SUCCEEDED",
           outputPayload: command.outputPayload ?? null,
           errorPayload: null,
-          exitCode: command.exitCode ?? 0,
-          evidenceIds: command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds,
+          exitCode,
+          evidenceIds,
           providerMetadata: command.providerMetadata ? deepFreeze({ ...command.providerMetadata }) : snapshot.providerMetadata,
-          durationMs: command.durationMs ?? null,
+          durationMs,
           completedAt: command.now,
         });
+        const event: AttemptCompletedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.completed",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            exitCode,
+            durationMs,
+            evidenceIds: [...evidenceIds],
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "FAIL") {
-        return deepFreeze({
+        const exitCode = command.exitCode ?? null;
+        const durationMs = command.durationMs ?? null;
+        const evidenceIds = command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds;
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "FAILED",
           errorPayload: command.errorPayload,
-          exitCode: command.exitCode ?? null,
-          evidenceIds: command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds,
+          exitCode,
+          evidenceIds,
           providerMetadata: command.providerMetadata ? deepFreeze({ ...command.providerMetadata }) : snapshot.providerMetadata,
-          durationMs: command.durationMs ?? null,
+          durationMs,
           completedAt: command.now,
         });
+        const event: AttemptFailedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.failed",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            exitCode,
+            durationMs,
+            evidenceIds: [...evidenceIds],
+            error: command.errorPayload,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "TIMEOUT") {
-        return deepFreeze({
+        const reason = command.errorPayload ?? "Execution timed out";
+        const durationMs = command.durationMs ?? null;
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "TIMED_OUT",
-          errorPayload: command.errorPayload ?? "Execution timed out",
-          durationMs: command.durationMs ?? null,
+          errorPayload: reason,
+          durationMs,
           completedAt: command.now,
         });
+        const event: AttemptTimedOutEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.timed_out",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            durationMs,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "CANCEL") {
-        return deepFreeze({
+        const reason = command.reason ?? "Attempt cancelled";
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "CANCELLED",
-          errorPayload: command.reason ?? "Attempt cancelled",
+          errorPayload: reason,
           completedAt: command.now,
         });
+        const event: AttemptCancelledEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.cancelled",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "MARK_UNKNOWN") {
-        return deepFreeze({
+        const reasonCode = resolveAttemptUnknownReason(command.reason, command.reasonCode);
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "UNKNOWN",
-          errorPayload: { code: "EXECUTION_UNCERTAIN", reason: command.reason },
+          errorPayload: { code: "EXECUTION_UNCERTAIN", reasonCode, reason: command.reason },
           completedAt: command.now,
         });
+        const event: AttemptUnknownEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.unknown",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            reasonCode,
+            details: command.reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       throw new InvalidAttemptTransitionError(snapshot.status, command.type);
     }
 
     case "RUNNING": {
       if (command.type === "COMPLETE") {
-        return deepFreeze({
+        const exitCode = command.exitCode ?? 0;
+        const durationMs = command.durationMs ?? null;
+        const evidenceIds = command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds;
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "SUCCEEDED",
           outputPayload: command.outputPayload ?? null,
           errorPayload: null,
-          exitCode: command.exitCode ?? 0,
-          evidenceIds: command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds,
+          exitCode,
+          evidenceIds,
           providerMetadata: command.providerMetadata ? deepFreeze({ ...command.providerMetadata }) : snapshot.providerMetadata,
-          durationMs: command.durationMs ?? null,
+          durationMs,
           completedAt: command.now,
         });
+        const event: AttemptCompletedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.completed",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            exitCode,
+            durationMs,
+            evidenceIds: [...evidenceIds],
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "FAIL") {
-        return deepFreeze({
+        const exitCode = command.exitCode ?? null;
+        const durationMs = command.durationMs ?? null;
+        const evidenceIds = command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds;
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "FAILED",
           errorPayload: command.errorPayload,
-          exitCode: command.exitCode ?? null,
-          evidenceIds: command.evidenceIds ? Object.freeze([...command.evidenceIds]) : snapshot.evidenceIds,
+          exitCode,
+          evidenceIds,
           providerMetadata: command.providerMetadata ? deepFreeze({ ...command.providerMetadata }) : snapshot.providerMetadata,
-          durationMs: command.durationMs ?? null,
+          durationMs,
           completedAt: command.now,
         });
+        const event: AttemptFailedEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.failed",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            exitCode,
+            durationMs,
+            evidenceIds: [...evidenceIds],
+            error: command.errorPayload,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "TIMEOUT") {
-        return deepFreeze({
+        const reason = command.errorPayload ?? "Execution timed out";
+        const durationMs = command.durationMs ?? null;
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "TIMED_OUT",
-          errorPayload: command.errorPayload ?? "Execution timed out",
-          durationMs: command.durationMs ?? null,
+          errorPayload: reason,
+          durationMs,
           completedAt: command.now,
         });
+        const event: AttemptTimedOutEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.timed_out",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            durationMs,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "CANCEL") {
-        return deepFreeze({
+        const reason = command.reason ?? "Execution cancelled";
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "CANCELLED",
-          errorPayload: command.reason ?? "Execution cancelled",
+          errorPayload: reason,
           completedAt: command.now,
         });
+        const event: AttemptCancelledEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.cancelled",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       if (command.type === "MARK_UNKNOWN") {
-        return deepFreeze({
+        const reasonCode = resolveAttemptUnknownReason(command.reason, command.reasonCode);
+        const nextSnapshot: AttemptSnapshot = deepFreeze({
           ...snapshot,
           status: "UNKNOWN",
-          errorPayload: { code: "EXECUTION_UNCERTAIN", reason: command.reason },
+          errorPayload: { code: "EXECUTION_UNCERTAIN", reasonCode, reason: command.reason },
           completedAt: command.now,
         });
+        const event: AttemptUnknownEvent = deepFreeze({
+          eventId,
+          runId: snapshot.runId,
+          timestamp: now,
+          eventType: "attempt.unknown",
+          schemaVersion: 1,
+          producer: "domain.attempt_aggregate",
+          payload: deepFreeze({
+            attemptId: snapshot.attemptId,
+            actionId: snapshot.actionId,
+            runId: snapshot.runId,
+            attemptNumber: snapshot.attemptNumber,
+            reasonCode,
+            details: command.reason,
+          }),
+        });
+        return { nextSnapshot, event };
       }
       throw new InvalidAttemptTransitionError(snapshot.status, command.type);
     }
@@ -437,16 +719,25 @@ export interface CreateAttemptParams {
  */
 export class Attempt {
   private _snapshot: AttemptSnapshot;
+  private readonly _eventIdGenerator: () => string;
 
-  private constructor(snapshot: AttemptSnapshot) {
+  private constructor(
+    snapshot: AttemptSnapshot,
+    eventIdGenerator: () => string = () => crypto.randomUUID()
+  ) {
     validateAttemptInvariants(snapshot);
     this._snapshot = deepFreeze({ ...snapshot });
+    this._eventIdGenerator = eventIdGenerator;
   }
 
   /**
    * Factory method to create a new Attempt aggregate in CREATED state.
+   * Returns both the new Attempt aggregate and its AttemptCreatedEvent.
    */
-  static create(params: CreateAttemptParams): Attempt {
+  static create(
+    params: CreateAttemptParams,
+    eventIdGenerator: () => string = () => crypto.randomUUID()
+  ): { attempt: Attempt; event: AttemptCreatedEvent } {
     const now = params.now ?? new Date().toISOString();
     const attemptId = params.attemptId ?? crypto.randomUUID();
     const idempotencyToken =
@@ -473,14 +764,37 @@ export class Attempt {
     };
 
     validateAttemptInvariants(snapshot);
-    return new Attempt(snapshot);
+
+    const event: AttemptCreatedEvent = deepFreeze({
+      eventId: eventIdGenerator(),
+      runId: params.runId,
+      timestamp: now,
+      eventType: "attempt.created",
+      schemaVersion: 1,
+      producer: "domain.attempt_aggregate",
+      payload: deepFreeze({
+        attemptId,
+        actionId: params.actionId,
+        runId: params.runId,
+        attemptNumber: params.attemptNumber,
+        workerId: params.workerId,
+        leaseId: params.leaseId,
+        idempotencyToken,
+      }),
+    });
+
+    const attempt = new Attempt(snapshot, eventIdGenerator);
+    return { attempt, event };
   }
 
   /**
    * Reconstitutes an Attempt aggregate from a persisted snapshot.
    */
-  static reconstitute(snapshot: AttemptSnapshot): Attempt {
-    return new Attempt(snapshot);
+  static reconstitute(
+    snapshot: AttemptSnapshot,
+    eventIdGenerator: () => string = () => crypto.randomUUID()
+  ): Attempt {
+    return new Attempt(snapshot, eventIdGenerator);
   }
 
   get snapshot(): AttemptSnapshot {
@@ -551,21 +865,22 @@ export class Attempt {
     return this._snapshot.providerMetadata;
   }
 
-  private dispatchCommand(command: AttemptCommand): void {
-    const nextSnapshot = applyAttemptTransition(this._snapshot, command);
-    validateAttemptInvariants(nextSnapshot);
-    this._snapshot = nextSnapshot;
+  private executeCommand<TEvent extends AnyAttemptEvent>(command: AttemptCommand): TEvent {
+    const result = applyAttemptTransition(this._snapshot, command, this._eventIdGenerator);
+    validateAttemptInvariants(result.nextSnapshot);
+    this._snapshot = result.nextSnapshot;
+    return result.event as TEvent;
   }
 
-  dispatch(now?: string): void {
-    this.dispatchCommand({
+  dispatch(now?: string): AttemptDispatchedEvent {
+    return this.executeCommand<AttemptDispatchedEvent>({
       type: "DISPATCH",
       now: now ?? new Date().toISOString(),
     });
   }
 
-  start(now?: string): void {
-    this.dispatchCommand({
+  start(now?: string): AttemptStartedEvent {
+    return this.executeCommand<AttemptStartedEvent>({
       type: "START",
       now: now ?? new Date().toISOString(),
     });
@@ -578,8 +893,8 @@ export class Attempt {
     providerMetadata?: Record<string, unknown>;
     durationMs?: number | null;
     now?: string;
-  } = {}): void {
-    this.dispatchCommand({
+  } = {}): AttemptCompletedEvent {
+    return this.executeCommand<AttemptCompletedEvent>({
       type: "COMPLETE",
       outputPayload: params.outputPayload,
       exitCode: params.exitCode,
@@ -597,8 +912,8 @@ export class Attempt {
     providerMetadata?: Record<string, unknown>;
     durationMs?: number | null;
     now?: string;
-  }): void {
-    this.dispatchCommand({
+  }): AttemptFailedEvent {
+    return this.executeCommand<AttemptFailedEvent>({
       type: "FAIL",
       errorPayload: params.errorPayload,
       exitCode: params.exitCode,
@@ -613,8 +928,8 @@ export class Attempt {
     errorPayload?: unknown;
     durationMs?: number | null;
     now?: string;
-  } = {}): void {
-    this.dispatchCommand({
+  } = {}): AttemptTimedOutEvent {
+    return this.executeCommand<AttemptTimedOutEvent>({
       type: "TIMEOUT",
       errorPayload: params.errorPayload,
       durationMs: params.durationMs,
@@ -625,8 +940,8 @@ export class Attempt {
   cancel(params: {
     reason?: unknown;
     now?: string;
-  } = {}): void {
-    this.dispatchCommand({
+  } = {}): AttemptCancelledEvent {
+    return this.executeCommand<AttemptCancelledEvent>({
       type: "CANCEL",
       reason: params.reason,
       now: params.now ?? new Date().toISOString(),
@@ -635,11 +950,13 @@ export class Attempt {
 
   markUnknown(params: {
     reason: string;
+    reasonCode?: AttemptUnknownReason;
     now?: string;
-  }): void {
-    this.dispatchCommand({
+  }): AttemptUnknownEvent {
+    return this.executeCommand<AttemptUnknownEvent>({
       type: "MARK_UNKNOWN",
       reason: params.reason,
+      reasonCode: params.reasonCode,
       now: params.now ?? new Date().toISOString(),
     });
   }
