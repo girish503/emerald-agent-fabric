@@ -1080,3 +1080,82 @@ $$\text{Operational State} \ne \text{Event History}$$
 2. **Events Are Immutable Fact Records**: Domain events represent immutable facts describing state transitions that were accepted and validated by domain invariant engines.
 3. **Sequence Numbering Ownership**: Domain events do NOT include monotonic database log sequence numbers (`sequence`); global monotonically increasing event log sequences are assigned exclusively by SQLite transactions in `run_events` during atomic persistence (deferred to Task 4.4-D).
 
+---
+
+## 20. Action and Attempt SQLite Persistence, Event Atomicity, and Lease Fencing (Task 4.4-D)
+
+### 20.1 Operational Tables & Invariant Storage Design
+Operational persistence introduces two dedicated, highly indexed SQLite tables strictly partitioned by `run_id` and bounded by relational constraints:
+
+```sql
+CREATE TABLE IF NOT EXISTS actions (
+  action_id TEXT PRIMARY KEY,
+  run_id TEXT NOT NULL,
+  sequence_number INTEGER NOT NULL,
+  tool_name TEXT NOT NULL,
+  status TEXT NOT NULL,
+  idempotency_type TEXT NOT NULL,
+  input_hash TEXT NOT NULL,
+  input_payload TEXT NOT NULL,
+  result_payload TEXT,
+  error_payload TEXT,
+  contract_id TEXT NOT NULL,
+  contract_version INTEGER NOT NULL,
+  contract_hash TEXT NOT NULL,
+  active_attempt_number INTEGER,
+  total_attempts INTEGER NOT NULL DEFAULT 0,
+  max_attempts INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  completed_at TEXT,
+  FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE CASCADE,
+  UNIQUE (run_id, sequence_number)
+);
+
+CREATE TABLE IF NOT EXISTS attempts (
+  attempt_id TEXT PRIMARY KEY,
+  action_id TEXT NOT NULL,
+  run_id TEXT NOT NULL,
+  attempt_number INTEGER NOT NULL,
+  worker_id TEXT NOT NULL,
+  lease_id TEXT NOT NULL,
+  status TEXT NOT NULL,
+  idempotency_token TEXT NOT NULL UNIQUE,
+  started_at TEXT NOT NULL,
+  completed_at TEXT,
+  duration_ms INTEGER,
+  exit_code INTEGER,
+  output_payload TEXT,
+  error_payload TEXT,
+  evidence_ids TEXT NOT NULL,
+  provider_metadata TEXT,
+  FOREIGN KEY (action_id) REFERENCES actions(action_id) ON DELETE CASCADE,
+  FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE CASCADE,
+  UNIQUE (action_id, attempt_number)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_attempts_action_active
+  ON attempts(action_id)
+  WHERE status IN ('CREATED', 'DISPATCHED', 'RUNNING');
+```
+
+### 20.2 Invariant Constraints & Operational Guarantees
+1. **Single Active Attempt Invariant**:
+   - The partial unique index `idx_attempts_action_active` guarantees at the database engine level that no more than one Attempt for any given Action can exist concurrently in an active status (`CREATED`, `DISPATCHED`, `RUNNING`).
+   - A concurrent insert attempt while an active attempt exists immediately throws `ActiveAttemptConflictError`.
+2. **Intent Immutability**:
+   - For `actions`, intent fields (`runId`, `sequenceNumber`, `toolName`, `inputHash`, `contractBinding`, `maxAttempts`, `createdAt`) are permanently frozen upon initial creation. Any modification raises `InvalidActionError`.
+   - For `attempts`, physical identity fields (`attemptId`, `actionId`, `runId`, `attemptNumber`, `workerId`, `leaseId`, `idempotencyToken`) are permanently frozen upon dispatch.
+3. **Terminal Immutability**:
+   - Actions in terminal states (`SUCCEEDED`, `FAILED`, `TIMED_OUT`, `CANCELLED`) and Attempts in terminal states (`SUCCEEDED`, `FAILED`, `TIMED_OUT`, `CANCELLED`, `UNKNOWN`) cannot be modified or re-transitioned; any mutation attempt throws `TerminalStateError`.
+4. **Gapless Monotonic Sequencing**:
+   - Action sequence numbers within a run are verified gapless (`expectedSeq = max_seq + 1`).
+   - Attempt numbers within an action are verified gapless (`expectedAtt = max_att + 1`).
+5. **Database-Level Lease Fencing**:
+   - Every mutating transaction on Actions and Attempts is verified against the governing `runs` table lease state (`runs.current_worker_id` and `runs.lease_id`). If the lease is expired or owned by another worker, mutation is rejected and `LeaseLostError` is raised.
+6. **Atomic Dual-Write Guarantee**:
+   - Every mutation to operational Action/Attempt tables and the corresponding append-only domain event in `run_events` occur inside a single atomic SQLite `BEGIN IMMEDIATE` transaction (`withTransaction` / `transaction`). A failure in event persistence unconditionally rolls back the state change, preventing split-brain states.
+7. **Payload Bounds & Key-Based Secret Redaction**:
+   - Serialized payloads are strictly bounded (`MAX_PERSISTED_PAYLOAD_BYTES = 1,048,576` bytes / 1 MB) to protect against memory exhaustion.
+   - Payloads are passed through `redactSensitiveData` before persistence, redacting known secret key patterns (`token`, `secret`, `password`, `api_key`, `authorization`, etc.) with `[REDACTED]`.
+

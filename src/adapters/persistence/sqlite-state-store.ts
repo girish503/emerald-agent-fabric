@@ -9,14 +9,42 @@ import {
   MissionContractSpec,
   reconstituteMissionContract,
   revokeMissionContract,
+  ActionCommand,
+  ActionSnapshot,
+  ActionStatus,
+  applyActionTransition,
+  isTerminalActionStatus,
+  validateActionInvariants,
+  AttemptCommand,
+  AttemptSnapshot,
+  AttemptStatus,
+  applyAttemptTransition,
+  isTerminalAttemptStatus,
+  validateAttemptInvariants,
+  ToolName,
+  ToolIdempotency,
+  redactSensitiveData,
 } from "../../domain/index.js";
 import {
+  ActionNotFoundError,
+  ActiveAttemptConflictError,
+  AttemptNotFoundError,
   ContractIntegrityError,
+  DuplicateActionSequenceError,
+  DuplicateAttemptError,
+  DuplicateAttemptTokenError,
+  InvalidActionError,
+  InvalidActionTransitionError,
+  InvalidAttemptError,
+  InvalidAttemptTransitionError,
+  InvalidContractBindingError,
   InvalidRunError,
   LeaseLostError,
+  PayloadLimitExceededError,
+  TerminalStateError,
   VersionConflictError,
 } from "../../domain/errors.js";
-import { DomainEvent } from "../../domain/events.js";
+import { AnyActionEvent, AnyAttemptEvent, DomainEvent } from "../../domain/events.js";
 import {
   ContractBinding,
   createContractBinding,
@@ -36,6 +64,7 @@ import {
   WorkerStatus,
 } from "../../ports/state-store.port.js";
 import { createSqliteClient, SqliteClientConfig } from "./sqlite-client.js";
+
 
 interface DbTaskRow {
   task_id: string;
@@ -97,6 +126,139 @@ interface DbLeaseRow {
   released_at: string | null;
   state: string;
 }
+
+interface DbActionRow {
+  action_id: string;
+  run_id: string;
+  sequence_number: number;
+  tool_name: string;
+  status: string;
+  idempotency_type: string;
+  input_hash: string;
+  input_payload: string;
+  result_payload: string | null;
+  error_payload: string | null;
+  contract_id: string;
+  contract_version: number;
+  contract_hash: string;
+  active_attempt_number: number | null;
+  total_attempts: number;
+  max_attempts: number;
+  created_at: string;
+  updated_at: string;
+  completed_at: string | null;
+}
+
+interface DbAttemptRow {
+  attempt_id: string;
+  action_id: string;
+  run_id: string;
+  attempt_number: number;
+  worker_id: string;
+  lease_id: string;
+  status: string;
+  idempotency_token: string;
+  started_at: string;
+  completed_at: string | null;
+  duration_ms: number | null;
+  exit_code: number | null;
+  output_payload: string | null;
+  error_payload: string | null;
+  evidence_ids: string;
+  provider_metadata: string | null;
+}
+
+export const MAX_PERSISTED_PAYLOAD_BYTES = 1024 * 1024; // 1 MB boundary
+
+function serializeBoundedPayload(val: unknown, fieldName: string): string | null {
+  if (val === null || val === undefined) return null;
+  const redacted = redactSensitiveData(val);
+  const json = JSON.stringify(redacted);
+  const byteLength = Buffer.byteLength(json, "utf8");
+  if (byteLength > MAX_PERSISTED_PAYLOAD_BYTES) {
+    throw new PayloadLimitExceededError(fieldName, byteLength, MAX_PERSISTED_PAYLOAD_BYTES);
+  }
+  return json;
+}
+
+function mapActionRowToSnapshot(row: DbActionRow, db?: DatabaseSync): ActionSnapshot {
+  if (db) {
+    const contractStmt = db.prepare(
+      `SELECT content_hash FROM mission_contracts WHERE contract_id = ? AND version = ?`
+    );
+    const contractRow = contractStmt.get(row.contract_id, row.contract_version) as
+      | { content_hash: string }
+      | undefined;
+
+    if (!contractRow) {
+      throw new InvalidActionError(row.action_id, [
+        `Referenced MissionContract '${row.contract_id}' v${row.contract_version} not found in database.`,
+      ]);
+    }
+
+    if (contractRow.content_hash.toLowerCase() !== row.contract_hash.toLowerCase()) {
+      throw new ContractIntegrityError(
+        row.run_id,
+        row.contract_hash,
+        contractRow.content_hash
+      );
+    }
+  }
+
+  const contractBinding = createContractBinding({
+    contractId: row.contract_id,
+    version: row.contract_version,
+    contentHash: row.contract_hash,
+  });
+
+  const snapshot: ActionSnapshot = {
+    actionId: row.action_id,
+    runId: row.run_id,
+    sequenceNumber: row.sequence_number,
+    toolName: row.tool_name as ToolName,
+    inputPayload: JSON.parse(row.input_payload),
+    inputHash: row.input_hash,
+    idempotency: row.idempotency_type as ToolIdempotency,
+    contractBinding,
+    maxAttempts: row.max_attempts,
+    createdAt: row.created_at,
+    status: row.status as ActionStatus,
+    activeAttemptNumber: row.active_attempt_number,
+    totalAttempts: row.total_attempts,
+    resultPayload: row.result_payload !== null ? JSON.parse(row.result_payload) : null,
+    errorPayload: row.error_payload !== null ? JSON.parse(row.error_payload) : null,
+    updatedAt: row.updated_at,
+    completedAt: row.completed_at,
+  };
+
+  validateActionInvariants(snapshot);
+  return snapshot;
+}
+
+function mapAttemptRowToSnapshot(row: DbAttemptRow): AttemptSnapshot {
+  const snapshot: AttemptSnapshot = {
+    attemptId: row.attempt_id,
+    actionId: row.action_id,
+    runId: row.run_id,
+    attemptNumber: row.attempt_number,
+    workerId: row.worker_id,
+    leaseId: row.lease_id,
+    idempotencyToken: row.idempotency_token,
+    status: row.status as AttemptStatus,
+    startedAt: row.started_at,
+    completedAt: row.completed_at,
+    durationMs: row.duration_ms,
+    exitCode: row.exit_code,
+    outputPayload: row.output_payload !== null ? JSON.parse(row.output_payload) : null,
+    errorPayload: row.error_payload !== null ? JSON.parse(row.error_payload) : null,
+    evidenceIds: JSON.parse(row.evidence_ids ?? "[]"),
+    providerMetadata: row.provider_metadata !== null ? JSON.parse(row.provider_metadata) : null,
+  };
+
+  validateAttemptInvariants(snapshot);
+  return snapshot;
+}
+
 
 function mapRunRowToSnapshot(row: DbRunRow, db?: DatabaseSync): RunSnapshot {
   let contractBinding: ContractBinding | null = null;
@@ -785,6 +947,489 @@ export class SqliteStorageTransaction implements StorageTransaction {
       );
     }
   }
+
+  // Action Operations
+  insertAction(snapshot: ActionSnapshot, event: AnyActionEvent, fencing?: LeaseFencingCheck): PersistedEvent {
+    validateActionInvariants(snapshot);
+
+    const runStmt = this.db.prepare(
+      `SELECT current_worker_id, lease_id, contract_id, contract_version, contract_hash, status FROM runs WHERE run_id = ?`
+    );
+    const runRow = runStmt.get(snapshot.runId) as {
+      current_worker_id: string | null;
+      lease_id: string | null;
+      contract_id: string | null;
+      contract_version: number | null;
+      contract_hash: string | null;
+      status: string;
+    } | undefined;
+
+    if (!runRow) {
+      throw new Error(`Run '${snapshot.runId}' not found`);
+    }
+
+    if (
+      runRow.contract_id === null ||
+      runRow.contract_version === null ||
+      runRow.contract_hash === null
+    ) {
+      throw new InvalidContractBindingError(
+        `Cannot create Action on legacy run '${snapshot.runId}': Action requires governed Run with active Mission Contract`
+      );
+    }
+
+    if (
+      runRow.contract_id !== snapshot.contractBinding.contractId ||
+      runRow.contract_version !== snapshot.contractBinding.version ||
+      runRow.contract_hash.toLowerCase() !== snapshot.contractBinding.contentHash.toLowerCase()
+    ) {
+      throw new InvalidContractBindingError(
+        `Action contract binding (${snapshot.contractBinding.contractId} v${snapshot.contractBinding.version}) does not match Run contract binding (${runRow.contract_id} v${runRow.contract_version})`
+      );
+    }
+
+    if (fencing) {
+      if (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId) {
+        throw new LeaseLostError(snapshot.runId, fencing.leaseId, runRow.lease_id);
+      }
+    }
+
+    const seqStmt = this.db.prepare(
+      `SELECT COALESCE(MAX(sequence_number), 0) AS max_seq FROM actions WHERE run_id = ?`
+    );
+    const seqRow = seqStmt.get(snapshot.runId) as { max_seq: number };
+    const expectedSeq = seqRow.max_seq + 1;
+    if (snapshot.sequenceNumber !== expectedSeq) {
+      throw new InvalidActionError(snapshot.actionId, [
+        `Sequence gap or non-monotonic sequence for run '${snapshot.runId}': expected ${expectedSeq}, received ${snapshot.sequenceNumber}`,
+      ]);
+    }
+
+    const serializedInput = serializeBoundedPayload(snapshot.inputPayload, "inputPayload")!;
+    const serializedResult = serializeBoundedPayload(snapshot.resultPayload, "resultPayload");
+    const serializedError = serializeBoundedPayload(snapshot.errorPayload, "errorPayload");
+
+    try {
+      const stmt = this.db.prepare(
+        `INSERT INTO actions (
+           action_id, run_id, sequence_number, tool_name, status,
+           idempotency_type, input_hash, input_payload, result_payload,
+           error_payload, contract_id, contract_version, contract_hash,
+           active_attempt_number, total_attempts, max_attempts,
+           created_at, updated_at, completed_at
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      );
+      stmt.run(
+        snapshot.actionId,
+        snapshot.runId,
+        snapshot.sequenceNumber,
+        snapshot.toolName,
+        snapshot.status,
+        snapshot.idempotency,
+        snapshot.inputHash,
+        serializedInput,
+        serializedResult,
+        serializedError,
+        snapshot.contractBinding.contractId,
+        snapshot.contractBinding.version,
+        snapshot.contractBinding.contentHash,
+        snapshot.activeAttemptNumber,
+        snapshot.totalAttempts,
+        snapshot.maxAttempts,
+        snapshot.createdAt,
+        snapshot.updatedAt,
+        snapshot.completedAt
+      );
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.includes("actions.run_id, actions.sequence_number") || (msg.includes("UNIQUE constraint failed") && msg.includes("sequence_number"))) {
+        throw new DuplicateActionSequenceError(snapshot.runId, snapshot.sequenceNumber);
+      }
+      throw err;
+    }
+
+    return this.appendEvent(event);
+  }
+
+  updateAction(
+    actionId: string,
+    nextSnapshot: ActionSnapshot,
+    event: AnyActionEvent,
+    fencing?: LeaseFencingCheck
+  ): PersistedEvent {
+    const current = this.getAction(actionId);
+    if (!current) {
+      throw new ActionNotFoundError(actionId);
+    }
+
+    if (isTerminalActionStatus(current.status)) {
+      throw new TerminalStateError(current.status, `updateAction to '${nextSnapshot.status}'`);
+    }
+
+    validateActionInvariants(nextSnapshot);
+
+    if (fencing) {
+      const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
+      const runRow = runStmt.get(nextSnapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
+      if (!runRow) {
+        throw new Error(`Run '${nextSnapshot.runId}' not found`);
+      }
+      if (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId) {
+        throw new LeaseLostError(nextSnapshot.runId, fencing.leaseId, runRow.lease_id);
+      }
+    }
+
+    // Intent immutability check
+    if (
+      current.runId !== nextSnapshot.runId ||
+      current.sequenceNumber !== nextSnapshot.sequenceNumber ||
+      current.toolName !== nextSnapshot.toolName ||
+      current.inputHash !== nextSnapshot.inputHash ||
+      current.contractBinding.contractId !== nextSnapshot.contractBinding.contractId ||
+      current.contractBinding.version !== nextSnapshot.contractBinding.version ||
+      current.contractBinding.contentHash !== nextSnapshot.contractBinding.contentHash ||
+      current.maxAttempts !== nextSnapshot.maxAttempts ||
+      current.createdAt !== nextSnapshot.createdAt
+    ) {
+      throw new InvalidActionError(actionId, ["Intent fields of Action are immutable and cannot be modified"]);
+    }
+
+    const serializedResult = serializeBoundedPayload(nextSnapshot.resultPayload, "resultPayload");
+    const serializedError = serializeBoundedPayload(nextSnapshot.errorPayload, "errorPayload");
+
+    const stmt = this.db.prepare(
+      `UPDATE actions SET
+         status = ?, active_attempt_number = ?, total_attempts = ?,
+         result_payload = ?, error_payload = ?, updated_at = ?, completed_at = ?
+       WHERE action_id = ? AND status = ?`
+    );
+    const result = stmt.run(
+      nextSnapshot.status,
+      nextSnapshot.activeAttemptNumber,
+      nextSnapshot.totalAttempts,
+      serializedResult,
+      serializedError,
+      nextSnapshot.updatedAt,
+      nextSnapshot.completedAt,
+      actionId,
+      current.status
+    ) as { changes: number };
+
+    if (result.changes === 0) {
+      const fresh = this.getAction(actionId);
+      if (!fresh) {
+        throw new ActionNotFoundError(actionId);
+      }
+      if (fresh.status !== current.status) {
+        throw new InvalidActionTransitionError(
+          fresh.status,
+          `updateAction to '${nextSnapshot.status}'`,
+          "Concurrent status modification detected"
+        );
+      }
+      throw new Error(`Optimistic update failed unexpectedly for action '${actionId}'`);
+    }
+
+    return this.appendEvent(event);
+  }
+
+  getAction(actionId: string): ActionSnapshot | null {
+    const stmt = this.db.prepare(`SELECT * FROM actions WHERE action_id = ?`);
+    const row = stmt.get(actionId) as DbActionRow | undefined;
+    if (!row) return null;
+    return mapActionRowToSnapshot(row, this.db);
+  }
+
+  getActionsForRun(runId: string): readonly ActionSnapshot[] {
+    const stmt = this.db.prepare(`SELECT * FROM actions WHERE run_id = ? ORDER BY sequence_number ASC`);
+    const rows = stmt.all(runId) as unknown as DbActionRow[];
+    return rows.map((r) => mapActionRowToSnapshot(r, this.db));
+  }
+
+  getActionBySequence(runId: string, sequenceNumber: number): ActionSnapshot | null {
+    const stmt = this.db.prepare(`SELECT * FROM actions WHERE run_id = ? AND sequence_number = ?`);
+    const row = stmt.get(runId, sequenceNumber) as DbActionRow | undefined;
+    if (!row) return null;
+    return mapActionRowToSnapshot(row, this.db);
+  }
+
+  transitionAction(
+    actionId: string,
+    command: ActionCommand,
+    eventIdGenerator: () => string,
+    fencing?: LeaseFencingCheck
+  ): { snapshot: ActionSnapshot; event: PersistedEvent } {
+    const current = this.getAction(actionId);
+    if (!current) {
+      throw new ActionNotFoundError(actionId);
+    }
+    const { nextSnapshot, event } = applyActionTransition(current, command, eventIdGenerator);
+    const persistedEvent = this.updateAction(actionId, nextSnapshot, event, fencing);
+    return { snapshot: nextSnapshot, event: persistedEvent };
+  }
+
+  // Attempt Operations
+  insertAttempt(snapshot: AttemptSnapshot, event: AnyAttemptEvent, fencing?: LeaseFencingCheck): PersistedEvent {
+    validateAttemptInvariants(snapshot);
+
+    const actionStmt = this.db.prepare(
+      `SELECT action_id, run_id, status, max_attempts, total_attempts FROM actions WHERE action_id = ?`
+    );
+    const actionRow = actionStmt.get(snapshot.actionId) as {
+      action_id: string;
+      run_id: string;
+      status: string;
+      max_attempts: number;
+      total_attempts: number;
+    } | undefined;
+
+    if (!actionRow) {
+      throw new ActionNotFoundError(snapshot.actionId);
+    }
+
+    if (actionRow.run_id !== snapshot.runId) {
+      throw new InvalidAttemptError(snapshot.attemptId, [
+        `Attempt runId '${snapshot.runId}' does not match action runId '${actionRow.run_id}'`,
+      ]);
+    }
+
+    if (isTerminalActionStatus(actionRow.status as ActionStatus)) {
+      throw new TerminalStateError(
+        actionRow.status,
+        `Cannot create attempt '${snapshot.attemptId}' for terminal action '${snapshot.actionId}'`
+      );
+    }
+
+    if (actionRow.status === "CREATED") {
+      throw new InvalidActionTransitionError(
+        actionRow.status,
+        "createAttempt",
+        "Action must be AUTHORIZED or RETRYING before creating attempts"
+      );
+    }
+
+    if (snapshot.attemptNumber > actionRow.max_attempts) {
+      throw new InvalidAttemptError(snapshot.attemptId, [
+        `Attempt number ${snapshot.attemptNumber} exceeds max_attempts ceiling ${actionRow.max_attempts} for action '${snapshot.actionId}'`,
+      ]);
+    }
+
+    const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
+    const runRow = runStmt.get(snapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
+    if (!runRow) {
+      throw new Error(`Run '${snapshot.runId}' not found`);
+    }
+
+    const effectiveFencing = fencing ?? { workerId: snapshot.workerId, leaseId: snapshot.leaseId };
+    if (runRow.current_worker_id !== effectiveFencing.workerId || runRow.lease_id !== effectiveFencing.leaseId) {
+      throw new LeaseLostError(snapshot.runId, effectiveFencing.leaseId, runRow.lease_id);
+    }
+
+    // Gapless attempt numbering check
+    const attSeqStmt = this.db.prepare(
+      `SELECT COALESCE(MAX(attempt_number), 0) AS max_att FROM attempts WHERE action_id = ?`
+    );
+    const attSeqRow = attSeqStmt.get(snapshot.actionId) as { max_att: number };
+    const expectedAtt = attSeqRow.max_att + 1;
+    if (snapshot.attemptNumber !== expectedAtt) {
+      throw new InvalidAttemptError(snapshot.attemptId, [
+        `Attempt number gap or non-monotonic sequence for action '${snapshot.actionId}': expected ${expectedAtt}, received ${snapshot.attemptNumber}`,
+      ]);
+    }
+
+    // Active attempt check
+    const activeCheckStmt = this.db.prepare(
+      `SELECT attempt_id FROM attempts WHERE action_id = ? AND status IN ('CREATED', 'DISPATCHED', 'RUNNING')`
+    );
+    const activeRow = activeCheckStmt.get(snapshot.actionId) as { attempt_id: string } | undefined;
+    if (activeRow) {
+      throw new ActiveAttemptConflictError(snapshot.actionId);
+    }
+
+    const serializedOutput = serializeBoundedPayload(snapshot.outputPayload, "outputPayload");
+    const serializedError = serializeBoundedPayload(snapshot.errorPayload, "errorPayload");
+    const serializedMetadata = serializeBoundedPayload(snapshot.providerMetadata, "providerMetadata");
+
+    try {
+      const stmt = this.db.prepare(
+        `INSERT INTO attempts (
+           attempt_id, action_id, run_id, attempt_number, worker_id, lease_id,
+           status, idempotency_token, started_at, completed_at, duration_ms,
+           exit_code, output_payload, error_payload, evidence_ids, provider_metadata
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      );
+      stmt.run(
+        snapshot.attemptId,
+        snapshot.actionId,
+        snapshot.runId,
+        snapshot.attemptNumber,
+        snapshot.workerId,
+        snapshot.leaseId,
+        snapshot.status,
+        snapshot.idempotencyToken,
+        snapshot.startedAt,
+        snapshot.completedAt,
+        snapshot.durationMs,
+        snapshot.exitCode,
+        serializedOutput,
+        serializedError,
+        JSON.stringify(snapshot.evidenceIds ?? []),
+        serializedMetadata
+      );
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.includes("attempts.action_id, attempts.attempt_number") || (msg.includes("UNIQUE constraint failed") && msg.includes("attempt_number"))) {
+        throw new DuplicateAttemptError(snapshot.actionId, snapshot.attemptNumber);
+      }
+      if (msg.includes("attempts.idempotency_token") || (msg.includes("UNIQUE constraint failed") && msg.includes("idempotency_token"))) {
+        throw new DuplicateAttemptTokenError(snapshot.idempotencyToken);
+      }
+      if (msg.includes("idx_attempts_action_active") || (msg.includes("UNIQUE constraint failed") && msg.includes("attempts.action_id"))) {
+        throw new ActiveAttemptConflictError(snapshot.actionId);
+      }
+      throw err;
+    }
+
+    return this.appendEvent(event);
+  }
+
+  updateAttempt(
+    attemptId: string,
+    nextSnapshot: AttemptSnapshot,
+    event: AnyAttemptEvent,
+    fencing?: LeaseFencingCheck
+  ): PersistedEvent {
+    const current = this.getAttempt(attemptId);
+    if (!current) {
+      throw new AttemptNotFoundError(attemptId);
+    }
+
+    if (isTerminalAttemptStatus(current.status)) {
+      throw new TerminalStateError(current.status, `updateAttempt to '${nextSnapshot.status}'`);
+    }
+
+    validateAttemptInvariants(nextSnapshot);
+
+    const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
+    const runRow = runStmt.get(nextSnapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
+    if (!runRow) {
+      throw new Error(`Run '${nextSnapshot.runId}' not found`);
+    }
+
+    const effectiveFencing = fencing ?? { workerId: current.workerId, leaseId: current.leaseId };
+    if (runRow.current_worker_id !== effectiveFencing.workerId || runRow.lease_id !== effectiveFencing.leaseId) {
+      throw new LeaseLostError(nextSnapshot.runId, effectiveFencing.leaseId, runRow.lease_id);
+    }
+
+    // Identity immutability check
+    if (
+      current.actionId !== nextSnapshot.actionId ||
+      current.runId !== nextSnapshot.runId ||
+      current.attemptNumber !== nextSnapshot.attemptNumber ||
+      current.workerId !== nextSnapshot.workerId ||
+      current.leaseId !== nextSnapshot.leaseId ||
+      current.idempotencyToken !== nextSnapshot.idempotencyToken
+    ) {
+      throw new InvalidAttemptError(attemptId, ["Core identity fields of Attempt are immutable and cannot be modified"]);
+    }
+
+    const serializedOutput = serializeBoundedPayload(nextSnapshot.outputPayload, "outputPayload");
+    const serializedError = serializeBoundedPayload(nextSnapshot.errorPayload, "errorPayload");
+    const serializedMetadata = serializeBoundedPayload(nextSnapshot.providerMetadata, "providerMetadata");
+
+    const stmt = this.db.prepare(
+      `UPDATE attempts SET
+         status = ?, started_at = ?, completed_at = ?, duration_ms = ?, exit_code = ?,
+         output_payload = ?, error_payload = ?, evidence_ids = ?, provider_metadata = ?
+       WHERE attempt_id = ? AND status = ? AND lease_id = ? AND worker_id = ?`
+    );
+    const result = stmt.run(
+      nextSnapshot.status,
+      nextSnapshot.startedAt,
+      nextSnapshot.completedAt,
+      nextSnapshot.durationMs,
+      nextSnapshot.exitCode,
+      serializedOutput,
+      serializedError,
+      JSON.stringify(nextSnapshot.evidenceIds ?? []),
+      serializedMetadata,
+      attemptId,
+      current.status,
+      effectiveFencing.leaseId,
+      effectiveFencing.workerId
+    ) as { changes: number };
+
+    if (result.changes === 0) {
+      const fresh = this.getAttempt(attemptId);
+      if (!fresh) {
+        throw new AttemptNotFoundError(attemptId);
+      }
+      if (fresh.leaseId !== effectiveFencing.leaseId || fresh.workerId !== effectiveFencing.workerId) {
+        throw new LeaseLostError(fresh.runId, effectiveFencing.leaseId, fresh.leaseId);
+      }
+      if (fresh.status !== current.status) {
+        throw new InvalidAttemptTransitionError(
+          fresh.status,
+          `updateAttempt to '${nextSnapshot.status}'`,
+          "Concurrent status modification detected"
+        );
+      }
+      throw new Error(`Optimistic update failed unexpectedly for attempt '${attemptId}'`);
+    }
+
+    return this.appendEvent(event);
+  }
+
+  getAttempt(attemptId: string): AttemptSnapshot | null {
+    const stmt = this.db.prepare(`SELECT * FROM attempts WHERE attempt_id = ?`);
+    const row = stmt.get(attemptId) as DbAttemptRow | undefined;
+    if (!row) return null;
+    return mapAttemptRowToSnapshot(row);
+  }
+
+  getAttemptsForAction(actionId: string): readonly AttemptSnapshot[] {
+    const stmt = this.db.prepare(`SELECT * FROM attempts WHERE action_id = ? ORDER BY attempt_number ASC`);
+    const rows = stmt.all(actionId) as unknown as DbAttemptRow[];
+    return rows.map(mapAttemptRowToSnapshot);
+  }
+
+  getAttemptByNumber(actionId: string, attemptNumber: number): AttemptSnapshot | null {
+    const stmt = this.db.prepare(`SELECT * FROM attempts WHERE action_id = ? AND attempt_number = ?`);
+    const row = stmt.get(actionId, attemptNumber) as DbAttemptRow | undefined;
+    if (!row) return null;
+    return mapAttemptRowToSnapshot(row);
+  }
+
+  getAttemptByIdempotencyToken(token: string): AttemptSnapshot | null {
+    const stmt = this.db.prepare(`SELECT * FROM attempts WHERE idempotency_token = ?`);
+    const row = stmt.get(token) as DbAttemptRow | undefined;
+    if (!row) return null;
+    return mapAttemptRowToSnapshot(row);
+  }
+
+  getActiveAttemptForAction(actionId: string): AttemptSnapshot | null {
+    const stmt = this.db.prepare(
+      `SELECT * FROM attempts WHERE action_id = ? AND status IN ('CREATED', 'DISPATCHED', 'RUNNING')`
+    );
+    const row = stmt.get(actionId) as DbAttemptRow | undefined;
+    if (!row) return null;
+    return mapAttemptRowToSnapshot(row);
+  }
+
+  transitionAttempt(
+    attemptId: string,
+    command: AttemptCommand,
+    eventIdGenerator: () => string,
+    fencing?: LeaseFencingCheck
+  ): { snapshot: AttemptSnapshot; event: PersistedEvent } {
+    const current = this.getAttempt(attemptId);
+    if (!current) {
+      throw new AttemptNotFoundError(attemptId);
+    }
+    const { nextSnapshot, event } = applyAttemptTransition(current, command, eventIdGenerator);
+    const persistedEvent = this.updateAttempt(attemptId, nextSnapshot, event, fencing);
+    return { snapshot: nextSnapshot, event: persistedEvent };
+  }
 }
 
 export class SqliteStateStore implements StateStorePort {
@@ -894,6 +1539,46 @@ export class SqliteStateStore implements StateStorePort {
 
   updateContractLifecycle(contract: MissionContract): void {
     this.transaction((tx) => tx.updateContractLifecycle(contract));
+  }
+
+  getAction(actionId: string): ActionSnapshot | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getAction(actionId);
+  }
+
+  getActionsForRun(runId: string): readonly ActionSnapshot[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getActionsForRun(runId);
+  }
+
+  getActionBySequence(runId: string, sequenceNumber: number): ActionSnapshot | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getActionBySequence(runId, sequenceNumber);
+  }
+
+  getAttempt(attemptId: string): AttemptSnapshot | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getAttempt(attemptId);
+  }
+
+  getAttemptsForAction(actionId: string): readonly AttemptSnapshot[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getAttemptsForAction(actionId);
+  }
+
+  getAttemptByNumber(actionId: string, attemptNumber: number): AttemptSnapshot | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getAttemptByNumber(actionId, attemptNumber);
+  }
+
+  getAttemptByIdempotencyToken(token: string): AttemptSnapshot | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getAttemptByIdempotencyToken(token);
+  }
+
+  getActiveAttemptForAction(actionId: string): AttemptSnapshot | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getActiveAttemptForAction(actionId);
   }
 
   close(): void {

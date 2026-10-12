@@ -577,3 +577,65 @@ export class InvalidAttemptTransitionError extends DomainError {
     );
   }
 }
+
+export class DuplicateActionSequenceError extends DomainError {
+  readonly code = "DUPLICATE_ACTION_SEQUENCE";
+
+  constructor(readonly runId: string, readonly sequenceNumber: number) {
+    super(`Action with sequence number ${sequenceNumber} already exists for run '${runId}'`);
+  }
+}
+
+export class DuplicateAttemptError extends DomainError {
+  readonly code = "DUPLICATE_ATTEMPT_NUMBER";
+
+  constructor(readonly actionId: string, readonly attemptNumber: number) {
+    super(`Attempt number ${attemptNumber} already exists for action '${actionId}'`);
+  }
+}
+
+export class DuplicateAttemptTokenError extends DomainError {
+  readonly code = "DUPLICATE_ATTEMPT_TOKEN";
+
+  constructor(readonly token: string) {
+    super(`Attempt with idempotency token '${token}' already exists`);
+  }
+}
+
+export class ActiveAttemptConflictError extends DomainError {
+  readonly code = "ACTIVE_ATTEMPT_CONFLICT";
+
+  constructor(readonly actionId: string) {
+    super(`Action '${actionId}' already has an active attempt in non-terminal state`);
+  }
+}
+
+export class ActionNotFoundError extends DomainError {
+  readonly code = "ACTION_NOT_FOUND";
+
+  constructor(readonly actionId: string) {
+    super(`Action '${actionId}' not found`);
+  }
+}
+
+export class AttemptNotFoundError extends DomainError {
+  readonly code = "ATTEMPT_NOT_FOUND";
+
+  constructor(readonly attemptId: string) {
+    super(`Attempt '${attemptId}' not found`);
+  }
+}
+
+export class PayloadLimitExceededError extends DomainError {
+  readonly code = "PAYLOAD_LIMIT_EXCEEDED";
+
+  constructor(
+    readonly fieldName: string,
+    readonly byteLength: number,
+    readonly maxBytes: number
+  ) {
+    super(
+      `Payload for field '${fieldName}' (${byteLength} bytes) exceeds persistence limit of ${maxBytes} bytes`
+    );
+  }
+}

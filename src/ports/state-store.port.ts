@@ -1,5 +1,7 @@
-import { DomainEvent } from "../domain/events.js";
+import { AnyActionEvent, AnyAttemptEvent, DomainEvent } from "../domain/events.js";
 import { RunSnapshot } from "../domain/invariants.js";
+import { ActionCommand, ActionSnapshot } from "../domain/action.js";
+import { AttemptCommand, AttemptSnapshot } from "../domain/attempt.js";
 import { MissionContractStorePort } from "./mission-contract-store.port.js";
 
 export interface TaskRecord {
@@ -74,6 +76,44 @@ export interface StorageTransaction extends MissionContractStorePort {
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];
   findRunIdForWorkspace?(workspaceId: string): string | null;
 
+  // Action Operations
+  insertAction(snapshot: ActionSnapshot, event: AnyActionEvent, fencing?: LeaseFencingCheck): PersistedEvent;
+  updateAction(
+    actionId: string,
+    nextSnapshot: ActionSnapshot,
+    event: AnyActionEvent,
+    fencing?: LeaseFencingCheck
+  ): PersistedEvent;
+  getAction(actionId: string): ActionSnapshot | null;
+  getActionsForRun(runId: string): readonly ActionSnapshot[];
+  getActionBySequence(runId: string, sequenceNumber: number): ActionSnapshot | null;
+  transitionAction(
+    actionId: string,
+    command: ActionCommand,
+    eventIdGenerator: () => string,
+    fencing?: LeaseFencingCheck
+  ): { snapshot: ActionSnapshot; event: PersistedEvent };
+
+  // Attempt Operations
+  insertAttempt(snapshot: AttemptSnapshot, event: AnyAttemptEvent, fencing?: LeaseFencingCheck): PersistedEvent;
+  updateAttempt(
+    attemptId: string,
+    nextSnapshot: AttemptSnapshot,
+    event: AnyAttemptEvent,
+    fencing?: LeaseFencingCheck
+  ): PersistedEvent;
+  getAttempt(attemptId: string): AttemptSnapshot | null;
+  getAttemptsForAction(actionId: string): readonly AttemptSnapshot[];
+  getAttemptByNumber(actionId: string, attemptNumber: number): AttemptSnapshot | null;
+  getAttemptByIdempotencyToken(token: string): AttemptSnapshot | null;
+  getActiveAttemptForAction(actionId: string): AttemptSnapshot | null;
+  transitionAttempt(
+    attemptId: string,
+    command: AttemptCommand,
+    eventIdGenerator: () => string,
+    fencing?: LeaseFencingCheck
+  ): { snapshot: AttemptSnapshot; event: PersistedEvent };
+
   appendEvent(event: DomainEvent): PersistedEvent;
   getEventsForRun(runId: string): readonly PersistedEvent[];
 
@@ -104,6 +144,17 @@ export interface StateStorePort extends MissionContractStorePort {
   findQueuedRuns(limit?: number): readonly RunSnapshot[];
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];
   findRunIdForWorkspace?(workspaceId: string): string | null;
+
+  getAction(actionId: string): ActionSnapshot | null;
+  getActionsForRun(runId: string): readonly ActionSnapshot[];
+  getActionBySequence(runId: string, sequenceNumber: number): ActionSnapshot | null;
+
+  getAttempt(attemptId: string): AttemptSnapshot | null;
+  getAttemptsForAction(actionId: string): readonly AttemptSnapshot[];
+  getAttemptByNumber(actionId: string, attemptNumber: number): AttemptSnapshot | null;
+  getAttemptByIdempotencyToken(token: string): AttemptSnapshot | null;
+  getActiveAttemptForAction(actionId: string): AttemptSnapshot | null;
+
   getEventsForRun(runId: string): readonly PersistedEvent[];
   getTask(taskId: string): TaskRecord | null;
   getWorker(workerId: string): WorkerRecord | null;

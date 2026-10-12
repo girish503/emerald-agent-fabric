@@ -108,6 +108,59 @@ CREATE TABLE IF NOT EXISTS leases (
 );
 
 CREATE INDEX IF NOT EXISTS idx_leases_run_active ON leases(run_id, state);
+
+CREATE TABLE IF NOT EXISTS actions (
+    action_id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES runs(run_id),
+    sequence_number INTEGER NOT NULL,
+    tool_name TEXT NOT NULL,
+    status TEXT NOT NULL,
+    idempotency_type TEXT NOT NULL,
+    input_hash TEXT NOT NULL,
+    input_payload TEXT NOT NULL,
+    result_payload TEXT,
+    error_payload TEXT,
+    contract_id TEXT NOT NULL,
+    contract_version INTEGER NOT NULL,
+    contract_hash TEXT NOT NULL,
+    active_attempt_number INTEGER,
+    total_attempts INTEGER NOT NULL DEFAULT 0,
+    max_attempts INTEGER NOT NULL DEFAULT 3,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    completed_at TEXT,
+    FOREIGN KEY(contract_id, contract_version) REFERENCES mission_contracts(contract_id, version),
+    UNIQUE(run_id, sequence_number)
+);
+
+CREATE INDEX IF NOT EXISTS idx_actions_run_seq ON actions(run_id, sequence_number);
+CREATE INDEX IF NOT EXISTS idx_actions_status ON actions(status);
+CREATE INDEX IF NOT EXISTS idx_actions_contract ON actions(contract_id, contract_version);
+
+CREATE TABLE IF NOT EXISTS attempts (
+    attempt_id TEXT PRIMARY KEY,
+    action_id TEXT NOT NULL REFERENCES actions(action_id),
+    run_id TEXT NOT NULL REFERENCES runs(run_id),
+    attempt_number INTEGER NOT NULL,
+    worker_id TEXT NOT NULL REFERENCES workers(worker_id),
+    lease_id TEXT NOT NULL REFERENCES leases(lease_id),
+    status TEXT NOT NULL,
+    idempotency_token TEXT NOT NULL UNIQUE,
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    duration_ms INTEGER,
+    exit_code INTEGER,
+    output_payload TEXT,
+    error_payload TEXT,
+    evidence_ids TEXT NOT NULL DEFAULT '[]',
+    provider_metadata TEXT,
+    UNIQUE(action_id, attempt_number)
+);
+
+CREATE INDEX IF NOT EXISTS idx_attempts_action_num ON attempts(action_id, attempt_number);
+CREATE INDEX IF NOT EXISTS idx_attempts_run_lease ON attempts(run_id, lease_id);
+CREATE INDEX IF NOT EXISTS idx_attempts_status ON attempts(status);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_attempts_action_active ON attempts(action_id) WHERE status IN ('CREATED', 'DISPATCHED', 'RUNNING');
 `;
 
 /**
@@ -181,4 +234,63 @@ export function migrateDatabase(db: DatabaseSync): void {
       ON runs(contract_hash);
     `);
   }
+
+  // Step 4: Ensure actions table and its indexes exist
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS actions (
+        action_id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL REFERENCES runs(run_id),
+        sequence_number INTEGER NOT NULL,
+        tool_name TEXT NOT NULL,
+        status TEXT NOT NULL,
+        idempotency_type TEXT NOT NULL,
+        input_hash TEXT NOT NULL,
+        input_payload TEXT NOT NULL,
+        result_payload TEXT,
+        error_payload TEXT,
+        contract_id TEXT NOT NULL,
+        contract_version INTEGER NOT NULL,
+        contract_hash TEXT NOT NULL,
+        active_attempt_number INTEGER,
+        total_attempts INTEGER NOT NULL DEFAULT 0,
+        max_attempts INTEGER NOT NULL DEFAULT 3,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        completed_at TEXT,
+        FOREIGN KEY(contract_id, contract_version) REFERENCES mission_contracts(contract_id, version),
+        UNIQUE(run_id, sequence_number)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_actions_run_seq ON actions(run_id, sequence_number);
+    CREATE INDEX IF NOT EXISTS idx_actions_status ON actions(status);
+    CREATE INDEX IF NOT EXISTS idx_actions_contract ON actions(contract_id, contract_version);
+  `);
+
+  // Step 5: Ensure attempts table and its indexes exist
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS attempts (
+        attempt_id TEXT PRIMARY KEY,
+        action_id TEXT NOT NULL REFERENCES actions(action_id),
+        run_id TEXT NOT NULL REFERENCES runs(run_id),
+        attempt_number INTEGER NOT NULL,
+        worker_id TEXT NOT NULL REFERENCES workers(worker_id),
+        lease_id TEXT NOT NULL REFERENCES leases(lease_id),
+        status TEXT NOT NULL,
+        idempotency_token TEXT NOT NULL UNIQUE,
+        started_at TEXT NOT NULL,
+        completed_at TEXT,
+        duration_ms INTEGER,
+        exit_code INTEGER,
+        output_payload TEXT,
+        error_payload TEXT,
+        evidence_ids TEXT NOT NULL DEFAULT '[]',
+        provider_metadata TEXT,
+        UNIQUE(action_id, attempt_number)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_attempts_action_num ON attempts(action_id, attempt_number);
+    CREATE INDEX IF NOT EXISTS idx_attempts_run_lease ON attempts(run_id, lease_id);
+    CREATE INDEX IF NOT EXISTS idx_attempts_status ON attempts(status);
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_attempts_action_active ON attempts(action_id) WHERE status IN ('CREATED', 'DISPATCHED', 'RUNNING');
+  `);
 }
