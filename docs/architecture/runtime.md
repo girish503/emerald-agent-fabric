@@ -566,3 +566,26 @@ If mismatched, the proposal is rejected with `CONTEXT_HASH_MISMATCH`, preventing
 
 ### 18.6 Zero Database Mutation on Rejection
 Rejected proposals never create or persist `Action` or `Attempt` records in durable persistence.
+
+---
+
+## 19. Governed Autonomous Agent Reasoning Loop & Step Controller (Task 5.3)
+
+Section 19 establishes the autonomous reasoning and action loop integrating the Context Engine, Agent Brain Port, Action Proposal Validator, and WorkerRuntime:
+
+$$\text{ContextEngine} \longrightarrow \text{AgentBrainPort} \longrightarrow \text{ProposalValidator} \longrightarrow \text{WorkerRuntime} \longrightarrow \text{ToolExecutionGateway}$$
+
+### 19.1 Core Research Question & Guarantees
+Can an autonomous agent operate over multiple execution steps while remaining bounded, observable, cancellable, lease-fenced, contract-governed, policy-governed, resource-bounded, recoverable, deterministic at the orchestration layer, incapable of directly executing tools, and incapable of escalating authority?
+
+`AgentStepController` guarantees:
+1. **Zero Provider Invocation Invariant**: The controller never invokes tool adapters or execution providers directly ($\text{providerInvocationCount} = 0$). All physical execution dispatches through `WorkerRuntime.executeAction(...)`.
+2. **Untrusted Agent Brain**: External models or planning systems interface strictly through `AgentBrainPort`. Model output is strictly untrusted.
+3. **Double Lease Fencing**: Checked before context building and model reasoning, and re-verified immediately prior to physical action dispatch. If lease ownership is lost or expired, the controller halts with `LEASE_LOST`.
+4. **Active Mission Contract Fencing**: Verified pre-step, during proposal validation Stage 6, and pre-execution. If the contract is revoked, the controller halts immediately with `CONTRACT_REVOKED`.
+5. **Multi-Dimensional Step Budgets**: Bounded by `maxSteps`, `maxWallClockMs`, `maxActions`, `maxConsecutiveFailures`, and `maxProposalRejections`.
+6. **Serial Execution Only**: Strictly at most one active Action per Run; parallel actions are prohibited.
+7. **Fail-Closed UNKNOWN Stop**: If an execution results in `UNKNOWN`, the controller halts with `UNKNOWN_EXECUTION`. The agent is never permitted to guess or retry uncertainty.
+8. **Ephemeral Proposal Rejections**: Rejected proposals create zero `Action` and zero `Attempt` rows in persistence. Feedback is routed into the subsequent context snapshot.
+9. **In-Memory Structured Step Transcript**: Every step produces an immutable transcript entry tracking context hash, proposal, validation, and action outcome for post-run audit and evidence bundling.
+10. **Deterministic Terminal Reason Taxonomy**: Terminal reasons are drawn strictly from `StepControllerTerminalReason` (`COMPLETED`, `NO_ACTION`, `MAX_STEPS`, `MAX_WALL_CLOCK`, `MAX_ACTIONS`, `MAX_FAILURES`, `MAX_PROPOSAL_REJECTIONS`, `CANCELLED`, `LEASE_LOST`, `CONTRACT_REVOKED`, `UNKNOWN_EXECUTION`, `CONTEXT_BUDGET_EXCEEDED`, `BRAIN_FAILURE`).

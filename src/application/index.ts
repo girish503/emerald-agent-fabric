@@ -4,3 +4,4 @@ export * from "./worker-runtime.js";
 export * from "./tool-execution-gateway.js";
 export * from "./context/index.js";
 export * from "./proposal-validator.js";
+export * from "./agent-step-controller.js";
