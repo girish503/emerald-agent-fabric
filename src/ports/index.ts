@@ -6,4 +6,5 @@ export * from "./workspace.port.js";
 export * from "./tool-registry.port.js";
 export * from "./tool-adapter.port.js";
 export * from "./context-source.port.js";
+export * from "./agent-brain.port.js";
 

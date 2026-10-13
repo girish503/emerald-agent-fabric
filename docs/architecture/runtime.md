@@ -496,3 +496,73 @@ Within categories, freshness boosts priority: `CURRENT` (+15), `RECENT` (+5), `S
 ### 17.5 Universal Secret Redaction & Replay Integrity
 - All observation contents undergo key-based redaction (`redactSensitiveData`) before content hashing, budgeting, or snapshot inclusion.
 - Snapshots produce a deterministic cryptographic `contextHash` (SHA-256 over canonical JSON of selected observations, budget, and policy), ensuring identical hashes across replay and verification.
+
+---
+
+## 18. Agent Brain Interface & Governed Action Proposal Boundary
+
+### 18.1 Architectural Principle: Untrusted Proposal Boundary
+The Agent Brain Interface establishes the strict trust boundary between model generation and runtime execution:
+```text
+ContextSnapshot
+      ↓
+AgentBrainPort (Provider-Independent Interface)
+      ↓
+untrusted ActionProposal
+      ↓
+ProposalValidator (11-Stage Governance Pipeline)
+      ↓
+trusted Action aggregate (Action.create)
+      ↓
+WorkerRuntime ↔ ToolExecutionGateway Execution
+```
+
+Model output is strictly **UNTRUSTED**. A model is never granted direct execution authority.
+
+### 18.2 Zero Provider Invocation Invariant
+Generating an `ActionProposal` via `AgentBrainPort.proposeAction(...)` and validating it via `ProposalValidator.validate(...)` touches zero tool adapters and zero execution providers:
+$$\text{providerInvocationCount} = 0$$
+
+### 18.3 Forbidden Authority Fields (Fail-Closed)
+Models may only propose:
+- `proposalId`: string (unique generation identity)
+- `toolName`: valid registered tool name
+- `inputPayload`: discrete tool arguments
+- `contextSnapshotHash`: 64-char hex SHA-256 hash of active ContextSnapshot
+- `rationale`?: bounded explanation ($\le 4096$ chars)
+- `sequenceHint`?: optional positive integer hint
+
+Models are strictly prohibited from proposing or controlling runtime authority:
+- `workerId`, `leaseId`
+- `contractId`, `contractVersion`, `contractHash`, `contractBinding`
+- `capability`, `capabilities`, `requiredCapability`
+- `resourceCeilings`, `resourceLimits`, `limits`
+- `isolationLevel`, `isolationRequirement`, `workspaceRoot`, `hostPath`, `mountPath`
+- `provider`, `image`, `container`, `network`
+- `credentials`, `secret`, `token`
+- `retry`, `maxAttempts`, `attemptNumber`, `totalAttempts`
+- `executionStatus`, `status`, `executionResult`, `result`, `resultPayload`, `errorPayload`, `exitCode`
+- `evidence`, `verification`, `verificationResult`
+
+Any presence of these fields causes immediate rejection with `FORBIDDEN_AUTHORITY_FIELD`.
+
+### 18.4 Cryptographic Context Binding
+Every proposal must declare `contextSnapshotHash`. The validator asserts:
+$$\text{proposal.contextSnapshotHash} = \text{contextSnapshot.contextHash}$$
+If mismatched, the proposal is rejected with `CONTEXT_HASH_MISMATCH`, preventing stale proposal replays.
+
+### 18.5 The 11-Stage Proposal Validation Pipeline
+1. **Stage 1 (Payload Size)**: Rejects proposals $> 65536$ bytes (`PROPOSAL_SIZE_EXCEEDED`).
+2. **Stage 2 (Structure & Authority)**: Rejects non-objects and forbidden authority keys (`MALFORMED_PROPOSAL` / `FORBIDDEN_AUTHORITY_FIELD`).
+3. **Stage 3 (Schema & Rationale)**: Validates with `ActionProposalSchema.strict()` and enforces rationale $\le 4096$ chars (`RATIONALE_TOO_LONG`).
+4. **Stage 4 (Context Hash)**: Asserts hash equality with active `ContextSnapshot` (`CONTEXT_HASH_MISMATCH`).
+5. **Stage 5 (Run & Lease)**: Verifies active `RUNNING` status and lease/worker fencing (`RUN_NOT_ACTIVE` / `LEASE_INVALID`).
+6. **Stage 6 (Mission Contract)**: Verifies active contract binding, contentHash match, and `ACTIVE` status (`CONTRACT_REVOKED`).
+7. **Stage 7 (Tool Registry)**: Resolves tool in `ToolRegistry` (`UNKNOWN_TOOL`).
+8. **Stage 8 (Policy & Capability)**: Verifies tool required capability is granted by policy (`UNAUTHORIZED_CAPABILITY`).
+9. **Stage 9 (Tool Input Schema)**: Strict Zod validation and lexical path traversal defense (`INVALID_TOOL_INPUT`).
+10. **Stage 10 (Resource Ceilings)**: Asserts tool-requested `timeoutMs`, `maxOutputBytes`, and `maxBytes` do not exceed contract limits (`RESOURCE_LIMIT_EXCEEDED`).
+11. **Stage 11 (Success & Action Factory)**: Constructs immutable `ProposalValidationSuccess` and instantiates authoritative `Action` aggregate via `createActionFromProposal`.
+
+### 18.6 Zero Database Mutation on Rejection
+Rejected proposals never create or persist `Action` or `Attempt` records in durable persistence.

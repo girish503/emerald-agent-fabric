@@ -674,3 +674,19 @@ export class InvalidContextBudgetError extends DomainError {
     super(`Invalid context budget: ${reason}`);
   }
 }
+
+export class ActionProposalRejectedError extends DomainError {
+  readonly code = "ACTION_PROPOSAL_REJECTED";
+
+  constructor(
+    readonly reason: string,
+    readonly rejectionMessage: string,
+    readonly violations?: readonly string[]
+  ) {
+    super(
+      `Action proposal rejected [${reason}]: ${rejectionMessage}${
+        violations && violations.length > 0 ? ` (${violations.join("; ")})` : ""
+      }`
+    );
+  }
+}
