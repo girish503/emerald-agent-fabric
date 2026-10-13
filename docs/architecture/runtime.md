@@ -628,3 +628,23 @@ $$\text{AgentStepController} \longrightarrow \text{AgentBrainPort} \longrightarr
 5. **Single-Attempt Guarantee**: Exactly one `ModelProviderPort.generate(...)` invocation per `proposeAction()` call. Zero internal retries, zero exponential backoff loops, zero hidden correction calls.
 6. **Cooperative Cancellation**: `request.abortSignal` is verified pre-dispatch and passed through to `ModelProviderRequest`. If aborted, it fails immediately with `ModelRequestCancelledError`.
 7. **Zero Side Effects**: `LiveAgentBrain` executes zero tools, touches zero execution providers, and mutates zero persistence records ($\text{providerInvocationCount} = 0$).
+
+---
+
+## 22. OpenAI Model Provider Adapter (Task 6.3)
+
+Section 22 establishes the first concrete provider adapter connecting `ModelProviderPort` to the OpenAI Chat Completions API:
+
+$$\text{LiveAgentBrain} \longrightarrow \text{ModelProviderPort} \longrightarrow \text{OpenAIModelProvider} \longrightarrow \text{OpenAI API}$$
+
+### 22.1 Core Architectural Principles
+1. **Single Concrete Adapter Discipline**: Only OpenAI is implemented in this phase. No fallback cascades, model routing, or speculative provider adapters exist.
+2. **SDK Isolation**: The official `openai` SDK dependency is 100% contained within `src/adapters/models/openai-model-provider.ts`. No OpenAI SDK types leak into domain, port, or application layers.
+3. **Single-Attempt Non-Negotiable Guarantee**:
+   $$\text{maxRetries} = 0$$
+   The client is configured with `maxRetries: 0` and every call enforces `maxRetries: 0`. The adapter performs exactly one API invocation per `generate(...)` call. Zero internal retry or backoff loops exist.
+4. **Secret Safety & Fail-Closed Credentials**: API keys are read strictly from `options.apiKey` or `process.env.OPENAI_API_KEY`. If unconfigured and no client is injected, execution fails closed with `ModelProviderUnavailableError`. Error messages are scrubbed to redact `sk-...` keys and bearer tokens. Credentials are never logged or stored.
+5. **Deterministic Error Mapping**: Provider errors map to Emerald's Phase 6.1 domain error taxonomy (`ModelRequestCancelledError`, `ModelRequestTimeoutError`, `ModelRateLimitedError`, `ModelRequestInvalidError`, `ModelProviderUnavailableError`, `ModelOutputLimitExceededError`, `ModelResponseInvalidError`).
+6. **Structured Output Translation**: Translates provider-neutral `ModelStructuredOutputSchema` to OpenAI `response_format: { type: "json_schema", ... }` and verifies JSON syntax before returning.
+7. **100% Hermetic Offline Test Suite**: Dependency injection of `OpenAIClientLike` enables fully offline, deterministic testing of request translation, error handling, structured outputs, and governance loop integration. Live network tests are isolated behind `LIVE_MODEL_TESTS === "true"`.
+8. **Zero Execution Authority**: The provider possesses zero execution authority, runs zero tools, touches zero execution providers, and makes zero database changes.
