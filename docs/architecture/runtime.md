@@ -853,3 +853,58 @@ EvaluationExperiment
 
 7. **Explicit Non-Goals (No Statistical Inference)**:
    This reporting layer explicitly omits statistical inference (variance, standard deviation, confidence intervals, p-values, hypothesis tests, effect sizes, statistical power, or causal claims). Reports describe observed empirical evidence without making unverified statistical generalizations.
+
+---
+
+## 28. Statistical Evaluation Analysis (Task 7.5)
+
+Section 28 establishes the mathematical evaluation analysis layer that derives sample statistics, uncertainty estimates, and directional differences from immutable evaluation records:
+
+```text
+EvaluationExperiment
+        │
+        ▼
+EvaluationTrial[]
+        │
+        ▼
+EvaluationReport
+        │
+        ▼
+StatisticalAnalysisConfig
+        │
+        ▼
+StatisticalAnalysis
+        │
+   ┌────┴─────┐
+   ▼          ▼
+Point      Uncertainty
+Estimate   Interval
+   │          │
+   └────┬─────┘
+        ▼
+Baseline / Candidate
+      Comparison
+```
+
+> **StatisticalAnalysis is a pure evaluation-layer computation and has no execution authority.**
+
+### 28.1 Architectural Role and Invariants
+
+1. **Pure Research-Analysis Computation**:
+   `StatisticalAnalysis` is an immutable, derived research artifact. It does NOT invoke the AgentBrain, execute model providers, issue worker leases, mutate `MissionContract` boundaries, or interact with Docker. It operates strictly over in-memory domain evaluation records.
+
+2. **Numerically Stable Sample Statistics (Welford's Algorithm)**:
+   Sample variance ($s^2$) and standard deviation ($s$) for continuous numeric observations are computed via Welford's one-pass recurrence, eliminating catastrophic cancellation and floating-point variance underflow. Non-finite inputs (`NaN`, `Infinity`) fail closed immediately.
+
+3. **Explicit Uncertainty Intervals**:
+   - **Student's t Confidence Intervals**: Continuous metrics use Student's t intervals ($\bar{x} \pm t_{\text{crit}} \times SE$) with degrees of freedom $\nu = n - 1$. The system does not assume known population variance. For $n < 2$, uncertainty intervals remain unavailable.
+   - **Wilson Score Intervals**: Binary success rates use Wilson score intervals rather than naive Wald intervals, guaranteeing non-zero bounds at extreme success counts ($k = 0$ or $k = n$) and ensuring the point estimate strictly resides within $[\text{lower}, \text{upper}]$. For $n = 0$, intervals remain unavailable.
+
+4. **Independent Observations by Default**:
+   Observations across conditions are treated as independent samples unless paired semantics are explicitly declared in the experiment. No implicit pairing or dependent t-tests are implemented.
+
+5. **Analysis Quantifies Observations, Not Causality**:
+   Statistical analysis quantifies observed differences under declared experimental conditions. It does not establish causality, superiority, or statistical significance by itself.
+
+6. **Transparent Methodological Limitations**:
+   Small samples ($n < 2$), missing data, zero baselines, unequal sample counts, and wide confidence intervals are explicitly exposed as `StatisticalWarning` objects, providing observable boundaries on evidence strength.
