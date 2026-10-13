@@ -417,6 +417,17 @@ export interface EvaluationConfigFingerprint {
   readonly fingerprintHash: string;
 }
 
+export const EvaluationConfigFingerprintSchema = z
+  .object({
+    modelProvider: z.string().min(1, "modelProvider must be non-empty"),
+    model: z.string().min(1, "model must be non-empty"),
+    harnessVersion: z.string().min(1, "harnessVersion must be non-empty"),
+    taskVersion: z.number().int().positive("taskVersion must be a positive integer >= 1"),
+    generationConfig: z.record(z.string(), z.unknown()).optional(),
+    fingerprintHash: z.string().regex(/^[a-f0-9]{64}$/, "fingerprintHash must be a 64-char hex string"),
+  })
+  .strict();
+
 export interface CreateConfigFingerprintParams {
   readonly modelProvider: string;
   readonly model: string;
@@ -718,4 +729,384 @@ export async function evaluateObjectiveCriteria(
   }
 
   return Object.freeze(results);
+}
+
+// ============================================================================
+// 13. Evaluation Trial Contracts & Identity
+// ============================================================================
+
+export const MAX_TRIAL_ORDINAL = 10000;
+export const MAX_TRIAL_ID_LENGTH = 128;
+
+export interface EvaluationTrial {
+  readonly trialId: string;
+  readonly trialOrdinal: number;
+  readonly taskId: string;
+  readonly taskVersion: number;
+  readonly taskContentHash: string;
+  readonly configFingerprint: EvaluationConfigFingerprint;
+  readonly trialIdentityHash: string;
+  readonly runtimeRunId: string;
+  readonly outcome: EvaluationStatus;
+  readonly statusMessage: string;
+  readonly verificationPassed: boolean;
+  readonly agentClaimedGoal: boolean;
+  readonly criteriaResults: readonly EvaluationCriterionResult[];
+  readonly metrics: EvaluationMetrics;
+  readonly evidenceReferences: readonly string[];
+  readonly errorDetails?: string;
+  readonly startedAt: string;
+  readonly completedAt: string;
+}
+
+export interface EvaluationTrialIdentityParams {
+  readonly taskId: string;
+  readonly taskVersion: number;
+  readonly taskContentHash: string;
+  readonly configFingerprintHash?: string;
+  readonly configFingerprint?: { readonly fingerprintHash: string };
+  readonly trialOrdinal: number;
+}
+
+export function computeEvaluationTrialIdentityHash(params: EvaluationTrialIdentityParams): string {
+  const configFingerprintHash =
+    params.configFingerprintHash ?? params.configFingerprint?.fingerprintHash;
+  if (!configFingerprintHash) {
+    throw new Error("Missing configFingerprintHash or configFingerprint for trial identity hash calculation");
+  }
+  const canonicalPayload = {
+    configFingerprintHash,
+    taskId: params.taskId,
+    taskContentHash: params.taskContentHash,
+    taskVersion: params.taskVersion,
+    trialOrdinal: params.trialOrdinal,
+  };
+  return computeCanonicalHash(canonicalPayload).contentHash;
+}
+
+export const EvaluationTrialSchema = z
+  .object({
+    trialId: z
+      .string()
+      .min(1, "trialId cannot be empty")
+      .max(MAX_TRIAL_ID_LENGTH, `trialId cannot exceed ${MAX_TRIAL_ID_LENGTH} characters`)
+      .regex(/^[a-zA-Z0-9_\-]+$/, "trialId must contain only alphanumeric characters, underscores, and hyphens"),
+    trialOrdinal: z
+      .number()
+      .int("trialOrdinal must be an integer")
+      .min(1, "trialOrdinal must be a positive integer >= 1")
+      .max(MAX_TRIAL_ORDINAL, `trialOrdinal cannot exceed ${MAX_TRIAL_ORDINAL}`),
+    taskId: z
+      .string()
+      .min(1, "taskId cannot be empty")
+      .max(MAX_EVALUATION_TASK_ID_LENGTH, `taskId cannot exceed ${MAX_EVALUATION_TASK_ID_LENGTH} characters`)
+      .regex(/^[a-zA-Z0-9_\-]+$/, "taskId must contain only alphanumeric characters, underscores, and hyphens"),
+    taskVersion: z
+      .number()
+      .int("taskVersion must be a positive integer >= 1")
+      .positive("taskVersion must be a positive integer >= 1"),
+    taskContentHash: z.string().regex(/^[a-f0-9]{64}$/, "taskContentHash must be a 64-char hex string"),
+    configFingerprint: EvaluationConfigFingerprintSchema,
+    trialIdentityHash: z.string().regex(/^[a-f0-9]{64}$/, "trialIdentityHash must be a 64-char hex string"),
+    runtimeRunId: z.string().min(1, "runtimeRunId cannot be empty"),
+    outcome: z.enum(EVALUATION_STATUSES),
+    statusMessage: z.string(),
+    verificationPassed: z.boolean(),
+    agentClaimedGoal: z.boolean(),
+    criteriaResults: z.array(z.any()),
+    metrics: EvaluationMetricsSchema,
+    evidenceReferences: z.array(z.string()),
+    errorDetails: z.string().optional(),
+    startedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "startedAt must be a valid ISO 8601 timestamp"),
+    completedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "completedAt must be a valid ISO 8601 timestamp"),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    // 1. Task version consistency
+    if (val.taskVersion !== val.configFingerprint.taskVersion) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Inconsistent taskVersion: trial specifies ${val.taskVersion} but configFingerprint specifies ${val.configFingerprint.taskVersion}`,
+      });
+    }
+
+    // 2. Trial identity consistency
+    const expectedTrialIdentityHash = computeEvaluationTrialIdentityHash({
+      taskId: val.taskId,
+      taskVersion: val.taskVersion,
+      taskContentHash: val.taskContentHash,
+      configFingerprintHash: val.configFingerprint.fingerprintHash,
+      trialOrdinal: val.trialOrdinal,
+    });
+    if (val.trialIdentityHash !== expectedTrialIdentityHash) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `trialIdentityHash mismatch. Expected '${expectedTrialIdentityHash}', received '${val.trialIdentityHash}'`,
+      });
+    }
+
+    // 3. Configuration identity consistency
+    const expectedConfigHash = createEvaluationConfigFingerprint({
+      modelProvider: val.configFingerprint.modelProvider,
+      model: val.configFingerprint.model,
+      taskVersion: val.configFingerprint.taskVersion,
+      harnessVersion: val.configFingerprint.harnessVersion,
+      generationConfig: val.configFingerprint.generationConfig,
+    }).fingerprintHash;
+    if (val.configFingerprint.fingerprintHash !== expectedConfigHash) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Inconsistent configFingerprint: fingerprintHash mismatch. Expected '${expectedConfigHash}', received '${val.configFingerprint.fingerprintHash}'`,
+      });
+    }
+
+    // 4. Security / Sensitive Key Check
+    if (isSensitiveKey(val.trialId)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "trialId contains a sensitive or secret keyword",
+      });
+    }
+  });
+
+export function validateEvaluationTrial(def: unknown): EvaluationTrial {
+  const result = EvaluationTrialSchema.safeParse(def);
+  if (!result.success) {
+    const issues = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+    throw new Error(`Malformed EvaluationTrial: ${issues}`);
+  }
+
+  const data = result.data;
+
+  return Object.freeze({
+    trialId: data.trialId,
+    trialOrdinal: data.trialOrdinal,
+    taskId: data.taskId,
+    taskVersion: data.taskVersion,
+    taskContentHash: data.taskContentHash,
+    configFingerprint: Object.freeze({ ...data.configFingerprint }),
+    trialIdentityHash: data.trialIdentityHash,
+    runtimeRunId: data.runtimeRunId,
+    outcome: data.outcome,
+    statusMessage: data.statusMessage,
+    verificationPassed: data.verificationPassed,
+    agentClaimedGoal: data.agentClaimedGoal,
+    criteriaResults: Object.freeze(data.criteriaResults.map((c: any) => Object.freeze({ ...c }))),
+    metrics: createEvaluationMetrics(data.metrics),
+    evidenceReferences: Object.freeze([...data.evidenceReferences]),
+    errorDetails: data.errorDetails,
+    startedAt: data.startedAt,
+    completedAt: data.completedAt,
+  });
+}
+
+export interface CreateEvaluationTrialParams {
+  readonly trialId?: string;
+  readonly trialOrdinal: number;
+  readonly taskId: string;
+  readonly taskVersion: number;
+  readonly taskContentHash: string;
+  readonly configFingerprint: EvaluationConfigFingerprint;
+  readonly trialIdentityHash?: string;
+  readonly runtimeRunId: string;
+  readonly outcome: EvaluationStatus;
+  readonly statusMessage: string;
+  readonly verificationPassed: boolean;
+  readonly agentClaimedGoal: boolean;
+  readonly criteriaResults?: readonly EvaluationCriterionResult[];
+  readonly metrics: EvaluationMetrics;
+  readonly evidenceReferences?: readonly string[];
+  readonly errorDetails?: string;
+  readonly startedAt: string;
+  readonly completedAt: string;
+}
+
+export function createEvaluationTrial(params: CreateEvaluationTrialParams): EvaluationTrial {
+  if (
+    typeof params.trialOrdinal !== "number" ||
+    !Number.isInteger(params.trialOrdinal) ||
+    params.trialOrdinal < 1 ||
+    params.trialOrdinal > MAX_TRIAL_ORDINAL
+  ) {
+    throw new Error(
+      `trialOrdinal must be a positive integer between 1 and ${MAX_TRIAL_ORDINAL}`
+    );
+  }
+
+  const expectedTrialIdentityHash = computeEvaluationTrialIdentityHash({
+    taskId: params.taskId,
+    taskVersion: params.taskVersion,
+    taskContentHash: params.taskContentHash,
+    configFingerprintHash: params.configFingerprint?.fingerprintHash,
+    trialOrdinal: params.trialOrdinal,
+  });
+
+  const trialIdentityHash = params.trialIdentityHash ?? expectedTrialIdentityHash;
+
+  const sanitizedVersion = String(params.taskVersion).replace(/[^a-zA-Z0-9_\-]/g, "_");
+  const trialId =
+    params.trialId ??
+    `eval-trial-${params.taskId}-v${sanitizedVersion}-t${params.trialOrdinal}-${trialIdentityHash.slice(0, 12)}`;
+
+  const raw = {
+    trialId,
+    trialOrdinal: params.trialOrdinal,
+    taskId: params.taskId,
+    taskVersion: params.taskVersion,
+    taskContentHash: params.taskContentHash,
+    configFingerprint: params.configFingerprint,
+    trialIdentityHash,
+    runtimeRunId: params.runtimeRunId,
+    outcome: params.outcome,
+    statusMessage: params.statusMessage,
+    verificationPassed: params.verificationPassed,
+    agentClaimedGoal: params.agentClaimedGoal,
+    criteriaResults: params.criteriaResults ?? [],
+    metrics: params.metrics,
+    evidenceReferences: params.evidenceReferences ?? [],
+    errorDetails: params.errorDetails,
+    startedAt: params.startedAt,
+    completedAt: params.completedAt,
+  };
+
+  return validateEvaluationTrial(raw);
+}
+
+export function createEvaluationTrialFromRunResult(
+  runResult: EvaluationRunResult,
+  trialOrdinal: number,
+  options?: {
+    trialId?: string;
+    errorDetails?: string;
+  }
+): EvaluationTrial {
+  if (
+    typeof trialOrdinal !== "number" ||
+    !Number.isInteger(trialOrdinal) ||
+    trialOrdinal < 1 ||
+    trialOrdinal > MAX_TRIAL_ORDINAL
+  ) {
+    throw new Error(
+      `trialOrdinal must be a positive integer between 1 and ${MAX_TRIAL_ORDINAL}`
+    );
+  }
+
+  const trialIdentityHash = computeEvaluationTrialIdentityHash({
+    taskId: runResult.taskId,
+    taskVersion: runResult.taskVersion,
+    taskContentHash: runResult.taskContentHash,
+    configFingerprintHash: runResult.configFingerprint.fingerprintHash,
+    trialOrdinal,
+  });
+
+  const trialId =
+    options?.trialId ??
+    `eval-trial-${runResult.taskId}-v${runResult.taskVersion}-t${trialOrdinal}-${trialIdentityHash.slice(0, 12)}`;
+
+  const raw = {
+    trialId,
+    trialOrdinal,
+    taskId: runResult.taskId,
+    taskVersion: runResult.taskVersion,
+    taskContentHash: runResult.taskContentHash,
+    configFingerprint: runResult.configFingerprint,
+    trialIdentityHash,
+    runtimeRunId: runResult.runId,
+    outcome: runResult.status,
+    statusMessage: runResult.statusMessage,
+    verificationPassed: runResult.verificationPassed,
+    agentClaimedGoal: runResult.agentClaimedGoal,
+    criteriaResults: runResult.criteriaResults,
+    metrics: runResult.metrics,
+    evidenceReferences: runResult.evidenceReferences,
+    errorDetails:
+      options?.errorDetails ??
+      (runResult.status === "ERROR" || runResult.status === "BLOCKED"
+        ? runResult.statusMessage
+        : undefined),
+    startedAt: runResult.startedAt,
+    completedAt: runResult.completedAt,
+  };
+
+  return validateEvaluationTrial(raw);
+}
+
+// ============================================================================
+// 14. Trial Comparability & Collections
+// ============================================================================
+
+export function areTrialsComparable(
+  trialA: EvaluationTrial,
+  trialB: EvaluationTrial
+): boolean {
+  return (
+    trialA.taskId === trialB.taskId &&
+    trialA.taskVersion === trialB.taskVersion &&
+    trialA.taskContentHash === trialB.taskContentHash &&
+    trialA.configFingerprint.fingerprintHash === trialB.configFingerprint.fingerprintHash
+  );
+}
+
+export function assertTrialsComparable(trials: readonly EvaluationTrial[]): void {
+  if (trials.length <= 1) return;
+  const first = trials[0]!;
+  for (let i = 1; i < trials.length; i++) {
+    const trial = trials[i]!;
+    if (trial.taskId !== first.taskId) {
+      throw new Error(
+        `Trials are not comparable: taskId mismatch ('${first.taskId}' vs '${trial.taskId}')`
+      );
+    }
+    if (trial.taskVersion !== first.taskVersion) {
+      throw new Error(
+        `Trials are not comparable: taskVersion mismatch (${first.taskVersion} vs ${trial.taskVersion})`
+      );
+    }
+    if (trial.taskContentHash !== first.taskContentHash) {
+      throw new Error(
+        `Trials are not comparable: taskContentHash mismatch ('${first.taskContentHash}' vs '${trial.taskContentHash}')`
+      );
+    }
+    if (trial.configFingerprint.fingerprintHash !== first.configFingerprint.fingerprintHash) {
+      throw new Error(
+        `Trials are not comparable: configFingerprint mismatch ('${first.configFingerprint.fingerprintHash}' vs '${trial.configFingerprint.fingerprintHash}')`
+      );
+    }
+  }
+}
+
+export interface EvaluationTrialCollection {
+  readonly taskId: string;
+  readonly taskVersion: number;
+  readonly taskContentHash: string;
+  readonly configFingerprint: EvaluationConfigFingerprint;
+  readonly trials: readonly EvaluationTrial[];
+}
+
+export function createEvaluationTrialCollection(
+  trials: readonly EvaluationTrial[]
+): EvaluationTrialCollection {
+  if (trials.length === 0) {
+    throw new Error("Cannot create EvaluationTrialCollection from empty trials array");
+  }
+  assertTrialsComparable(trials);
+
+  const seenOrdinals = new Set<number>();
+  for (const t of trials) {
+    if (seenOrdinals.has(t.trialOrdinal)) {
+      throw new Error(`Duplicate trialOrdinal ${t.trialOrdinal} in trial collection`);
+    }
+    seenOrdinals.add(t.trialOrdinal);
+  }
+
+  const sortedTrials = [...trials].sort((a, b) => a.trialOrdinal - b.trialOrdinal);
+  const first = sortedTrials[0]!;
+
+  return Object.freeze({
+    taskId: first.taskId,
+    taskVersion: first.taskVersion,
+    taskContentHash: first.taskContentHash,
+    configFingerprint: first.configFingerprint,
+    trials: Object.freeze(sortedTrials),
+  });
 }

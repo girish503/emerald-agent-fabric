@@ -42,6 +42,7 @@ import {
   computeEvaluationTaskHash,
   createEvaluationConfigFingerprint,
   createEvaluationMetrics,
+  createEvaluationTrialFromRunResult,
   createExecutionPolicy,
   createMissionContract,
   createResourceLimits,
@@ -51,9 +52,11 @@ import {
   EvaluationRunResult,
   EvaluationStatus,
   EvaluationTaskDefinition,
+  EvaluationTrial,
   validateEvaluationTask,
   CriteriaReader,
   CURRENT_HARNESS_VERSION,
+  MAX_TRIAL_ORDINAL,
 } from "../../domain/index.js";
 import {
   ModelProviderPort,
@@ -71,6 +74,17 @@ export interface ExecuteEvaluationRunOptions {
   readonly modelProvider: ModelProviderPort;
   readonly model: string;
   readonly trialNumber?: number;
+  readonly harnessVersion?: string;
+  readonly generationConfig?: Readonly<Record<string, unknown>>;
+  readonly abortSignal?: AbortSignal;
+}
+
+export interface ExecuteEvaluationTrialOptions {
+  readonly task: EvaluationTaskDefinition;
+  readonly modelProvider: ModelProviderPort;
+  readonly model: string;
+  readonly trialOrdinal: number;
+  readonly trialId?: string;
   readonly harnessVersion?: string;
   readonly generationConfig?: Readonly<Record<string, unknown>>;
   readonly abortSignal?: AbortSignal;
@@ -391,4 +405,41 @@ export async function executeEvaluationRun(
       // Best effort
     }
   }
+}
+
+// ============================================================================
+// 4. Evaluation Trial Runner Implementation
+// ============================================================================
+
+export async function executeEvaluationTrial(
+  options: ExecuteEvaluationTrialOptions
+): Promise<EvaluationTrial> {
+  if (
+    typeof options.trialOrdinal !== "number" ||
+    !Number.isInteger(options.trialOrdinal) ||
+    options.trialOrdinal < 1 ||
+    options.trialOrdinal > MAX_TRIAL_ORDINAL
+  ) {
+    throw new Error(
+      `trialOrdinal must be a positive integer between 1 and ${MAX_TRIAL_ORDINAL}`
+    );
+  }
+
+  const runResult = await executeEvaluationRun({
+    task: options.task,
+    modelProvider: options.modelProvider,
+    model: options.model,
+    trialNumber: options.trialOrdinal,
+    harnessVersion: options.harnessVersion,
+    generationConfig: options.generationConfig,
+    abortSignal: options.abortSignal,
+  });
+
+  return createEvaluationTrialFromRunResult(runResult, options.trialOrdinal, {
+    trialId: options.trialId,
+    errorDetails:
+      runResult.status === "ERROR" || runResult.status === "BLOCKED"
+        ? runResult.statusMessage
+        : undefined,
+  });
 }

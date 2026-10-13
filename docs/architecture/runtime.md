@@ -685,3 +685,57 @@ $$\text{EvaluationTaskDefinition} \longrightarrow \text{EvaluationRunner} \longr
 6. **Explicit Outcome Taxonomy**: Evaluation runs conclude in one of six explicit states (`PASSED`, `FAILED`, `ERROR`, `TIMED_OUT`, `CANCELLED`, `BLOCKED`), clearly distinguishing assertion failures from environment errors or governance fencing.
 7. **Strict Metric Semantics**: `EvaluationMetrics` measures steps, actions, attempts, model/tool calls, failures, wall-clock time, and token counts. Metrics that are unsupported or not reported by the provider are preserved as `undefined`, strictly distinct from observed zero (`0`), and are never fabricated.
 8. **Decoupled Trial and Run Identity**: `evaluationRunId` identifies the scientific evaluation trial, which references the authoritative runtime kernel `runId` and causal event IDs without duplicating state.
+
+---
+
+## 25. Evaluation Trial Architecture (Task 7.2)
+
+Section 25 establishes the domain model and application-layer execution primitive for repeated, comparable evaluation trials:
+
+```text
+EvaluationTaskDefinition
+        │
+        ├── taskId
+        ├── version
+        └── taskContentHash
+                 │
+                 ▼
+      EvaluationConfigFingerprint
+                 │
+                 ▼
+          Evaluation Trial
+                 │
+                 ├── trialOrdinal
+                 ├── trialId
+                 └── runtimeRunId
+                         │
+                         ▼
+                Evaluation Runner
+                         │
+                         ▼
+                AgentStepController
+                         │
+                         ▼
+                 Governed Runtime
+                         │
+                         ▼
+               Objective Evaluation
+```
+
+### 25.1 Architectural Role and Invariants
+1. **EvaluationTrial $\ne$ Runtime Run**:
+   `EvaluationTrial` is NOT a replacement for the Runtime Run and does not grant execution authority. The Runtime Run (`runId`) remains the sole authoritative execution state machine managed by `RunCoordinator` with durable SQLite persistence, lease fencing, and crash recovery. `EvaluationTrial` is an immutable evaluation-layer record describing: *"This evaluation task and configuration was executed once (trial ordinal $N$), producing this objective outcome and metrics."*
+2. **Canonical Deterministic Trial Identity**:
+   Trial semantic identity is deterministically computed via canonical hashing over:
+   $$\text{trialIdentityHash} = \text{SHA-256}(\text{canonical}(\text{configFingerprintHash}, \text{taskId}, \text{taskContentHash}, \text{taskVersion}, \text{trialOrdinal}))$$
+   Timestamps and ephemeral IDs do not define semantic trial identity.
+3. **Explicit Trial Ordinal Semantics**:
+   `trialOrdinal` is an explicit, positive bounded integer ($1, 2, \dots, N$) where $1 \le \text{trialOrdinal} \le 10{,}000$. Ordinals are immutable once assigned and included in canonical trial identity.
+4. **Pristine Workspace Isolation**:
+   Every trial execution receives a freshly provisioned, isolated workspace initialized with task fixtures. Workspaces are never shared or reused across trials, eliminating cross-trial contamination.
+5. **Rigid Comparability Contract**:
+   Two trials are comparable (`areTrialsComparable`) if and only if their evaluation identity matches:
+   $$\text{taskId}_A = \text{taskId}_B \quad\land\quad \text{version}_A = \text{version}_B \quad\land\quad \text{taskContentHash}_A = \text{taskContentHash}_B \quad\land\quad \text{fingerprintHash}_A = \text{fingerprintHash}_B$$
+   Differing `trialOrdinal` is the expected distinction between comparable repeated runs. Trials from different task versions, altered content hashes, or differing model/harness configurations cannot be silently compared or batched.
+6. **No Premature Persistence or Statistical Conflation**:
+   `EvaluationTrial` remains an in-memory, JSON-serializable domain record. No SQLite evaluation tables or statistical aggregations (mean, variance, confidence intervals) are introduced in this phase.
