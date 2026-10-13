@@ -739,3 +739,46 @@ EvaluationTaskDefinition
    Differing `trialOrdinal` is the expected distinction between comparable repeated runs. Trials from different task versions, altered content hashes, or differing model/harness configurations cannot be silently compared or batched.
 6. **No Premature Persistence or Statistical Conflation**:
    `EvaluationTrial` remains an in-memory, JSON-serializable domain record. No SQLite evaluation tables or statistical aggregations (mean, variance, confidence intervals) are introduced in this phase.
+
+---
+
+## 26. Controlled Evaluation Experiments (Task 7.3)
+
+Section 26 establishes the provider- and model-neutral domain contracts for controlled evaluation experiments comparing alternative agent configurations across identical evaluation tasks:
+
+```text
+EvaluationTaskDefinition
+          │
+          ▼
+EvaluationExperiment
+          │
+     ┌────┴────┐
+     ▼         ▼
+Condition A  Condition B
+     │         │
+     ▼         ▼
+ EvaluationTrial records
+     │         │
+     └────┬────┘
+          ▼
+     Runtime Runs
+```
+
+### 26.1 Architectural Role and Invariants
+1. **Experiment as Research Scope & Metadata**:
+   `EvaluationExperiment` defines what is being compared, why (human-readable `hypothesis`), which task is targeted (`taskRef`), and under what controlled conditions (`conditions`). It is descriptive research metadata, NOT an execution engine or policy arbiter.
+2. **Zero Execution Authority**:
+   The experiment layer:
+   - Does NOT execute tools.
+   - Does NOT authorize capabilities or issue capability grants.
+   - Does NOT mutate or bypass `MissionContract` boundaries.
+   - Does NOT replace or alter the authoritative `Run` state machine.
+   - Does NOT compute statistical conclusions or significance tests.
+3. **Canonical Deterministic Experiment Hashing**:
+   Experiment definitions are versioned $(experimentId, version, experimentContentHash)$ where the hash is computed canonically over:
+   $$\text{experimentContentHash} = \text{SHA-256}(\text{canonical}(\text{conditions}, \text{description}, \text{experimentId}, \text{harnessVersion}, \text{hypothesis}, \text{plannedTrialCount}, \text{taskRef}, \text{title}, \text{version}))$$
+   Condition ordering is canonically sorted by `conditionId`, guaranteeing key-order independence. Ephemeral lifecycle state (`status`) and runtime execution timestamps are excluded from the semantic hash.
+4. **Fenced Condition & Trial Membership**:
+   Each `EvaluationExperimentCondition` binds strictly to an immutable `EvaluationConfigFingerprint`. An `EvaluationTrial` can belong to an experiment condition only when its `taskId`, `taskVersion`, `taskContentHash`, and `configFingerprint.fingerprintHash` match the experiment's declared task and condition configuration. Mismatched or incomparable trials are rejected fail-closed.
+5. **Planned Trial Count vs. Statistical Power**:
+   `plannedTrialCount` indicates the intended number of trials the experiment aims to run. It does not dictate, enforce, or compute statistical sample sizes or statistical power.

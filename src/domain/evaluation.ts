@@ -1110,3 +1110,541 @@ export function createEvaluationTrialCollection(
     trials: Object.freeze(sortedTrials),
   });
 }
+
+// ============================================================================
+// 15. Controlled Evaluation Experiment Conditions & Task Scope
+// ============================================================================
+
+export const MAX_EXPERIMENT_ID_LENGTH = 128;
+export const MAX_EXPERIMENT_TITLE_LENGTH = 256;
+export const MAX_EXPERIMENT_HYPOTHESIS_LENGTH = 4096;
+export const MAX_CONDITIONS_PER_EXPERIMENT = 32;
+export const MAX_PLANNED_TRIAL_COUNT = 1000;
+
+export const EXPERIMENT_STATUSES = [
+  "DRAFT",
+  "READY",
+  "RUNNING",
+  "COMPLETED",
+  "CANCELLED",
+  "FAILED",
+] as const;
+
+export type ExperimentStatus = (typeof EXPERIMENT_STATUSES)[number];
+
+export function isValidExperimentStatus(status: unknown): status is ExperimentStatus {
+  return typeof status === "string" && (EXPERIMENT_STATUSES as readonly string[]).includes(status);
+}
+
+export interface EvaluationTaskReference {
+  readonly taskId: string;
+  readonly taskVersion: number;
+  readonly taskContentHash: string;
+}
+
+export const EvaluationTaskReferenceSchema = z
+  .object({
+    taskId: z
+      .string()
+      .min(1, "taskId cannot be empty")
+      .max(MAX_EVALUATION_TASK_ID_LENGTH, `taskId cannot exceed ${MAX_EVALUATION_TASK_ID_LENGTH} characters`)
+      .regex(/^[a-zA-Z0-9_\-]+$/, "taskId must contain only alphanumeric characters, underscores, and hyphens"),
+    taskVersion: z
+      .number()
+      .int("taskVersion must be a positive integer >= 1")
+      .positive("taskVersion must be a positive integer >= 1"),
+    taskContentHash: z.string().regex(/^[a-f0-9]{64}$/, "taskContentHash must be a 64-char hex string"),
+  })
+  .strict();
+
+export function createTaskReference(task: EvaluationTaskDefinition): EvaluationTaskReference {
+  return Object.freeze({
+    taskId: task.taskId,
+    taskVersion: task.version,
+    taskContentHash: computeEvaluationTaskHash(task),
+  });
+}
+
+export interface EvaluationExperimentCondition {
+  readonly conditionId: string;
+  readonly name: string;
+  readonly description?: string;
+  readonly configFingerprint: EvaluationConfigFingerprint;
+  readonly conditionHash: string;
+}
+
+export function computeConditionHash(params: {
+  readonly conditionId: string;
+  readonly configFingerprintHash: string;
+}): string {
+  const canonicalPayload = {
+    conditionId: params.conditionId,
+    configFingerprintHash: params.configFingerprintHash,
+  };
+  return computeCanonicalHash(canonicalPayload).contentHash;
+}
+
+export const EvaluationExperimentConditionSchema = z
+  .object({
+    conditionId: z
+      .string()
+      .min(1, "conditionId cannot be empty")
+      .max(128, "conditionId cannot exceed 128 characters")
+      .regex(/^[a-zA-Z0-9_\-]+$/, "conditionId must contain only alphanumeric characters, underscores, and hyphens"),
+    name: z
+      .string()
+      .min(1, "condition name cannot be empty")
+      .max(256, "condition name cannot exceed 256 characters"),
+    description: z.string().max(4096, "condition description cannot exceed 4096 characters").optional(),
+    configFingerprint: EvaluationConfigFingerprintSchema,
+    conditionHash: z.string().regex(/^[a-f0-9]{64}$/, "conditionHash must be a 64-char hex string"),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    // 1. Condition hash consistency
+    const expectedHash = computeConditionHash({
+      conditionId: val.conditionId,
+      configFingerprintHash: val.configFingerprint.fingerprintHash,
+    });
+    if (val.conditionHash !== expectedHash) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `conditionHash mismatch. Expected '${expectedHash}', received '${val.conditionHash}'`,
+      });
+    }
+
+    // 2. Security firewall: sensitive key check
+    if (isSensitiveKey(val.conditionId)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `conditionId '${val.conditionId}' contains sensitive keyword`,
+      });
+    }
+    if (isSensitiveKey(val.name)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `condition name '${val.name}' contains sensitive keyword`,
+      });
+    }
+
+    // 3. Security firewall: authority keyword check
+    for (const forbidden of FORBIDDEN_AUTHORITY_KEYS) {
+      if (val.conditionId.toLowerCase().includes(forbidden.toLowerCase())) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `conditionId '${val.conditionId}' contains forbidden authority keyword '${forbidden}'`,
+        });
+      }
+      if (val.name.toLowerCase().includes(forbidden.toLowerCase())) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `condition name '${val.name}' contains forbidden authority keyword '${forbidden}'`,
+        });
+      }
+    }
+  });
+
+export function validateExperimentCondition(def: unknown): EvaluationExperimentCondition {
+  const result = EvaluationExperimentConditionSchema.safeParse(def);
+  if (!result.success) {
+    const issues = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+    throw new Error(`Malformed EvaluationExperimentCondition: ${issues}`);
+  }
+  return Object.freeze({
+    conditionId: result.data.conditionId,
+    name: result.data.name,
+    description: result.data.description,
+    configFingerprint: Object.freeze({ ...result.data.configFingerprint }),
+    conditionHash: result.data.conditionHash,
+  });
+}
+
+export interface CreateExperimentConditionParams {
+  readonly conditionId: string;
+  readonly name: string;
+  readonly description?: string;
+  readonly configFingerprint: EvaluationConfigFingerprint;
+  readonly conditionHash?: string;
+}
+
+export function createExperimentCondition(
+  params: CreateExperimentConditionParams
+): EvaluationExperimentCondition {
+  const conditionHash =
+    params.conditionHash ??
+    computeConditionHash({
+      conditionId: params.conditionId,
+      configFingerprintHash: params.configFingerprint?.fingerprintHash,
+    });
+
+  const raw = {
+    conditionId: params.conditionId,
+    name: params.name,
+    description: params.description,
+    configFingerprint: params.configFingerprint,
+    conditionHash,
+  };
+
+  return validateExperimentCondition(raw);
+}
+
+// ============================================================================
+// 16. Controlled Evaluation Experiment Contracts & Deterministic Hashing
+// ============================================================================
+
+export interface EvaluationExperiment {
+  readonly experimentId: string;
+  readonly version: number;
+  readonly title: string;
+  readonly description: string;
+  readonly hypothesis: string;
+  readonly taskRef: EvaluationTaskReference;
+  readonly conditions: readonly EvaluationExperimentCondition[];
+  readonly plannedTrialCount: number;
+  readonly harnessVersion: string;
+  readonly status: ExperimentStatus;
+  readonly experimentContentHash: string;
+}
+
+export function computeEvaluationExperimentHash(params: {
+  readonly experimentId: string;
+  readonly version: number;
+  readonly title: string;
+  readonly description: string;
+  readonly hypothesis: string;
+  readonly taskRef: EvaluationTaskReference;
+  readonly conditions: readonly EvaluationExperimentCondition[];
+  readonly plannedTrialCount: number;
+  readonly harnessVersion: string;
+}): string {
+  const sortedConditions = [...params.conditions]
+    .sort((a, b) => a.conditionId.localeCompare(b.conditionId))
+    .map((c) => ({
+      conditionHash: c.conditionHash,
+      conditionId: c.conditionId,
+      configFingerprintHash: c.configFingerprint.fingerprintHash,
+      name: c.name,
+    }));
+
+  const canonicalPayload = {
+    conditions: sortedConditions,
+    description: params.description,
+    experimentId: params.experimentId,
+    harnessVersion: params.harnessVersion,
+    hypothesis: params.hypothesis,
+    plannedTrialCount: params.plannedTrialCount,
+    taskRef: {
+      taskId: params.taskRef.taskId,
+      taskVersion: params.taskRef.taskVersion,
+      taskContentHash: params.taskRef.taskContentHash,
+    },
+    title: params.title,
+    version: params.version,
+  };
+
+  return computeCanonicalHash(canonicalPayload).contentHash;
+}
+
+export const EvaluationExperimentSchema = z
+  .object({
+    experimentId: z
+      .string()
+      .min(1, "experimentId cannot be empty")
+      .max(MAX_EXPERIMENT_ID_LENGTH, `experimentId cannot exceed ${MAX_EXPERIMENT_ID_LENGTH} characters`)
+      .regex(/^[a-zA-Z0-9_\-]+$/, "experimentId must contain only alphanumeric characters, underscores, and hyphens"),
+    version: z
+      .number()
+      .int("version must be a positive integer >= 1")
+      .positive("version must be a positive integer >= 1"),
+    title: z
+      .string()
+      .min(1, "title cannot be empty")
+      .max(MAX_EXPERIMENT_TITLE_LENGTH, `title cannot exceed ${MAX_EXPERIMENT_TITLE_LENGTH} characters`),
+    description: z
+      .string()
+      .min(1, "description cannot be empty")
+      .max(MAX_EVALUATION_DESCRIPTION_LENGTH, `description cannot exceed ${MAX_EVALUATION_DESCRIPTION_LENGTH} characters`),
+    hypothesis: z
+      .string()
+      .min(1, "hypothesis cannot be empty")
+      .max(MAX_EXPERIMENT_HYPOTHESIS_LENGTH, `hypothesis cannot exceed ${MAX_EXPERIMENT_HYPOTHESIS_LENGTH} characters`),
+    taskRef: EvaluationTaskReferenceSchema,
+    conditions: z
+      .array(EvaluationExperimentConditionSchema)
+      .min(1, "Experiment must define at least one condition")
+      .max(MAX_CONDITIONS_PER_EXPERIMENT, `conditions cannot exceed ${MAX_CONDITIONS_PER_EXPERIMENT}`),
+    plannedTrialCount: z
+      .number()
+      .int("plannedTrialCount must be a positive integer >= 1")
+      .min(1, "plannedTrialCount must be a positive integer >= 1")
+      .max(MAX_PLANNED_TRIAL_COUNT, `plannedTrialCount cannot exceed ${MAX_PLANNED_TRIAL_COUNT}`),
+    harnessVersion: z.string().min(1, "harnessVersion cannot be empty"),
+    status: z.enum(EXPERIMENT_STATUSES),
+    experimentContentHash: z.string().regex(/^[a-f0-9]{64}$/, "experimentContentHash must be a 64-char hex string"),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    // 1. Content hash consistency
+    const expectedHash = computeEvaluationExperimentHash({
+      experimentId: val.experimentId,
+      version: val.version,
+      title: val.title,
+      description: val.description,
+      hypothesis: val.hypothesis,
+      taskRef: val.taskRef,
+      conditions: val.conditions,
+      plannedTrialCount: val.plannedTrialCount,
+      harnessVersion: val.harnessVersion,
+    });
+    if (val.experimentContentHash !== expectedHash) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `experimentContentHash mismatch. Expected '${expectedHash}', received '${val.experimentContentHash}'`,
+      });
+    }
+
+    // 2. Condition ID uniqueness
+    const seenConditionIds = new Set<string>();
+    for (const condition of val.conditions) {
+      if (seenConditionIds.has(condition.conditionId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Duplicate conditionId '${condition.conditionId}' in experiment conditions`,
+        });
+      }
+      seenConditionIds.add(condition.conditionId);
+
+      // 3. Condition taskVersion consistency with taskRef
+      if (condition.configFingerprint.taskVersion !== val.taskRef.taskVersion) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Condition '${condition.conditionId}' taskVersion (${condition.configFingerprint.taskVersion}) does not match experiment taskRef version (${val.taskRef.taskVersion})`,
+        });
+      }
+
+      // 4. Condition harnessVersion consistency with experiment harnessVersion
+      if (condition.configFingerprint.harnessVersion !== val.harnessVersion) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Condition '${condition.conditionId}' harnessVersion ('${condition.configFingerprint.harnessVersion}') does not match experiment harnessVersion ('${val.harnessVersion}')`,
+        });
+      }
+    }
+
+    // 5. Security firewall: sensitive key check
+    if (isSensitiveKey(val.experimentId)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `experimentId '${val.experimentId}' contains sensitive keyword`,
+      });
+    }
+    if (isSensitiveKey(val.title)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `title '${val.title}' contains sensitive keyword`,
+      });
+    }
+
+    // 6. Security firewall: authority keyword check
+    for (const forbidden of FORBIDDEN_AUTHORITY_KEYS) {
+      if (val.experimentId.toLowerCase().includes(forbidden.toLowerCase())) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `experimentId '${val.experimentId}' contains forbidden authority keyword '${forbidden}'`,
+        });
+      }
+      if (val.title.toLowerCase().includes(forbidden.toLowerCase())) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `title '${val.title}' contains forbidden authority keyword '${forbidden}'`,
+        });
+      }
+    }
+  });
+
+export function validateEvaluationExperiment(def: unknown): EvaluationExperiment {
+  const result = EvaluationExperimentSchema.safeParse(def);
+  if (!result.success) {
+    const issues = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+    throw new Error(`Malformed EvaluationExperiment: ${issues}`);
+  }
+  return Object.freeze({
+    experimentId: result.data.experimentId,
+    version: result.data.version,
+    title: result.data.title,
+    description: result.data.description,
+    hypothesis: result.data.hypothesis,
+    taskRef: Object.freeze({ ...result.data.taskRef }),
+    conditions: Object.freeze(result.data.conditions.map((c) => validateExperimentCondition(c))),
+    plannedTrialCount: result.data.plannedTrialCount,
+    harnessVersion: result.data.harnessVersion,
+    status: result.data.status,
+    experimentContentHash: result.data.experimentContentHash,
+  });
+}
+
+export interface CreateEvaluationExperimentParams {
+  readonly experimentId: string;
+  readonly version: number;
+  readonly title: string;
+  readonly description: string;
+  readonly hypothesis: string;
+  readonly taskRef: EvaluationTaskReference | EvaluationTaskDefinition;
+  readonly conditions: readonly (EvaluationExperimentCondition | CreateExperimentConditionParams)[];
+  readonly plannedTrialCount: number;
+  readonly harnessVersion?: string;
+  readonly status?: ExperimentStatus;
+  readonly experimentContentHash?: string;
+}
+
+export function createEvaluationExperiment(
+  params: CreateEvaluationExperimentParams
+): EvaluationExperiment {
+  const harnessVersion = params.harnessVersion ?? CURRENT_HARNESS_VERSION;
+  const status = params.status ?? "DRAFT";
+
+  const taskRef: EvaluationTaskReference =
+    "fixture" in params.taskRef
+      ? createTaskReference(params.taskRef as EvaluationTaskDefinition)
+      : Object.freeze({
+          taskId: params.taskRef.taskId,
+          taskVersion: params.taskRef.taskVersion,
+          taskContentHash: params.taskRef.taskContentHash,
+        });
+
+  const conditions = params.conditions.map((c) =>
+    "conditionHash" in c && typeof c.conditionHash === "string"
+      ? validateExperimentCondition(c)
+      : createExperimentCondition(c as CreateExperimentConditionParams)
+  );
+
+  const experimentContentHash =
+    params.experimentContentHash ??
+    computeEvaluationExperimentHash({
+      experimentId: params.experimentId,
+      version: params.version,
+      title: params.title,
+      description: params.description,
+      hypothesis: params.hypothesis,
+      taskRef,
+      conditions,
+      plannedTrialCount: params.plannedTrialCount,
+      harnessVersion,
+    });
+
+  const raw = {
+    experimentId: params.experimentId,
+    version: params.version,
+    title: params.title,
+    description: params.description,
+    hypothesis: params.hypothesis,
+    taskRef,
+    conditions,
+    plannedTrialCount: params.plannedTrialCount,
+    harnessVersion,
+    status,
+    experimentContentHash,
+  };
+
+  return validateEvaluationExperiment(raw);
+}
+
+// ============================================================================
+// 17. Experiment Trial Compatibility & Membership Fencing
+// ============================================================================
+
+export function isTrialCompatibleWithCondition(
+  trial: EvaluationTrial,
+  experiment: EvaluationExperiment,
+  conditionId: string
+): boolean {
+  const condition = experiment.conditions.find((c) => c.conditionId === conditionId);
+  if (!condition) {
+    return false;
+  }
+
+  return (
+    trial.taskId === experiment.taskRef.taskId &&
+    trial.taskVersion === experiment.taskRef.taskVersion &&
+    trial.taskContentHash === experiment.taskRef.taskContentHash &&
+    trial.configFingerprint.fingerprintHash === condition.configFingerprint.fingerprintHash
+  );
+}
+
+export function assertTrialCompatibleWithCondition(
+  trial: EvaluationTrial,
+  experiment: EvaluationExperiment,
+  conditionId: string
+): void {
+  const condition = experiment.conditions.find((c) => c.conditionId === conditionId);
+  if (!condition) {
+    throw new Error(
+      `Condition '${conditionId}' not found in experiment '${experiment.experimentId}'`
+    );
+  }
+
+  if (trial.taskId !== experiment.taskRef.taskId) {
+    throw new Error(
+      `Trial task mismatch: experiment requires taskId '${experiment.taskRef.taskId}', received '${trial.taskId}'`
+    );
+  }
+
+  if (trial.taskVersion !== experiment.taskRef.taskVersion) {
+    throw new Error(
+      `Trial task version mismatch: experiment requires version ${experiment.taskRef.taskVersion}, received ${trial.taskVersion}`
+    );
+  }
+
+  if (trial.taskContentHash !== experiment.taskRef.taskContentHash) {
+    throw new Error(
+      `Trial task content hash mismatch: experiment requires '${experiment.taskRef.taskContentHash}', received '${trial.taskContentHash}'`
+    );
+  }
+
+  if (trial.configFingerprint.fingerprintHash !== condition.configFingerprint.fingerprintHash) {
+    throw new Error(
+      `Trial configuration fingerprint mismatch for condition '${conditionId}': condition requires '${condition.configFingerprint.fingerprintHash}', received '${trial.configFingerprint.fingerprintHash}'`
+    );
+  }
+}
+
+export interface EvaluationExperimentConditionTrials {
+  readonly conditionId: string;
+  readonly condition: EvaluationExperimentCondition;
+  readonly trials: readonly EvaluationTrial[];
+}
+
+export function validateExperimentConditionTrials(
+  experiment: EvaluationExperiment,
+  conditionId: string,
+  trials: readonly EvaluationTrial[]
+): EvaluationExperimentConditionTrials {
+  const condition = experiment.conditions.find((c) => c.conditionId === conditionId);
+  if (!condition) {
+    throw new Error(
+      `Condition '${conditionId}' not found in experiment '${experiment.experimentId}'`
+    );
+  }
+
+  for (const trial of trials) {
+    assertTrialCompatibleWithCondition(trial, experiment, conditionId);
+  }
+
+  const seenOrdinals = new Set<number>();
+  for (const trial of trials) {
+    if (seenOrdinals.has(trial.trialOrdinal)) {
+      throw new Error(
+        `Duplicate trialOrdinal ${trial.trialOrdinal} in condition '${conditionId}' trials`
+      );
+    }
+    seenOrdinals.add(trial.trialOrdinal);
+  }
+
+  const sortedTrials = [...trials].sort((a, b) => a.trialOrdinal - b.trialOrdinal);
+
+  return Object.freeze({
+    conditionId,
+    condition,
+    trials: Object.freeze(sortedTrials),
+  });
+}
