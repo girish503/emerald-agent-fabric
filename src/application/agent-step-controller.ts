@@ -32,6 +32,13 @@ import { ContextSnapshot } from "../domain/context.js";
 import { ContextBudgetExceededError } from "../domain/errors.js";
 import { ProposalRejectionReason } from "../domain/action-proposal.js";
 import { staticToolRegistry, ToolName } from "../domain/tool.js";
+import {
+  computeReflexContextHash,
+  validateReflexDecision,
+  type ReflexContext,
+  type ReflexDecisionKind,
+  type ReflexReasonCode,
+} from "../domain/reflex.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { StateStorePort } from "../ports/state-store.port.js";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
@@ -42,6 +49,8 @@ import {
   AgentBrainResult,
   BrainFinishReason,
 } from "../ports/agent-brain.port.js";
+import type { ReflexPort } from "../ports/reflex.port.js";
+import { NoopReflex } from "../adapters/reflex/noop-reflex.js";
 import { RunCoordinator } from "./run-coordinator.js";
 import { WorkerActionStatus, WorkerRuntime } from "./worker-runtime.js";
 import { ProposalValidator } from "./proposal-validator.js";
@@ -90,7 +99,8 @@ export type StepControllerTerminalReason =
   | "CONTRACT_REVOKED"
   | "UNKNOWN_EXECUTION"
   | "CONTEXT_BUDGET_EXCEEDED"
-  | "BRAIN_FAILURE";
+  | "BRAIN_FAILURE"
+  | "DEFERRED";
 
 export interface StepTranscriptEntry {
   readonly stepNumber: number;
@@ -106,6 +116,9 @@ export interface StepTranscriptEntry {
   readonly proposalValid: boolean;
   readonly proposalRejectionReason?: ProposalRejectionReason;
   readonly proposalRejectionMessage?: string;
+  readonly reflexDecision?: ReflexDecisionKind;
+  readonly reflexReasonCode?: ReflexReasonCode;
+  readonly reflexRationale?: string;
   readonly actionId?: string;
   readonly actionStatus?: WorkerActionStatus;
   readonly actionOutput?: unknown;
@@ -142,7 +155,9 @@ export interface AgentStepControllerOptions {
   readonly contextSource?: ContextSourcePort;
   readonly clock?: ClockPort;
   readonly defaultBudget?: Partial<StepControllerBudget>;
+  readonly reflex?: ReflexPort;
 }
+
 
 export interface RunStepLoopParams {
   readonly runId: string;
@@ -172,6 +187,7 @@ export class AgentStepController {
   private readonly contextSource: ContextSourcePort;
   private readonly clock: ClockPort;
   private readonly defaultBudget: StepControllerBudget;
+  private readonly reflex: ReflexPort;
 
   constructor(options: AgentStepControllerOptions) {
     this.coordinator = options.coordinator;
@@ -180,6 +196,7 @@ export class AgentStepController {
     this.agentBrain = options.agentBrain;
     this.toolRegistry = options.toolRegistry ?? staticToolRegistry;
     this.clock = options.clock ?? new SystemClock();
+    this.reflex = options.reflex ?? new NoopReflex();
 
     this.proposalValidator =
       options.proposalValidator ??
@@ -198,6 +215,7 @@ export class AgentStepController {
       ...options.defaultBudget,
     });
   }
+
 
   /**
    * Executes the bounded autonomous step loop for an actively leased Run.
@@ -543,6 +561,123 @@ export class AgentStepController {
         continue;
       }
 
+      // Step D.2: Evaluate Validated Proposal via Governed Reflex Interceptor
+      const rawReflexContext: ReflexContext = {
+        runId,
+        taskId,
+        stepNumber: stepCount,
+        taskDescription: activeContract.spec.taskId,
+        failureCount: consecutiveFailures,
+        recentActionHistory: transcript
+          .filter((t) => t.toolName)
+          .slice(-5)
+          .map((t) => ({
+            toolName: t.toolName!,
+            status: t.actionStatus ?? "UNKNOWN",
+          })),
+        workspacePath: params.workspace?.hostPath,
+        resourceUsage: {
+          elapsedWallClockMs: elapsedMs,
+          actionsExecuted: actionCount,
+          stepsExecuted: stepCount,
+        },
+      };
+      const reflexContextHash = computeReflexContextHash(rawReflexContext);
+      const reflexContext: ReflexContext = Object.freeze({
+        ...rawReflexContext,
+        contextHash: reflexContextHash,
+      });
+
+      let reflexDecisionResult;
+      try {
+        const unvalidatedDecision = await this.reflex.evaluate(
+          validationResult.proposal,
+          reflexContext
+        );
+        reflexDecisionResult = validateReflexDecision(unvalidatedDecision);
+      } catch (err: unknown) {
+        proposalRejections++;
+        transcript.push(
+          Object.freeze({
+            stepNumber: stepCount,
+            contextSnapshotId: contextSnapshot.snapshotId,
+            contextHash: contextSnapshot.contextHash,
+            contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+            contextBytes: contextSnapshot.totalBytes,
+            contextObservationsCount: contextSnapshot.observations.length,
+            proposalId: validationResult.proposal.proposalId,
+            toolName: validationResult.proposal.toolName,
+            rationale: validationResult.proposal.rationale,
+            finishReason: brainResult.finishReason,
+            proposalValid: true,
+            reflexDecision: "REJECT",
+            reflexReasonCode: "UNSUPPORTED_ACTION",
+            reflexRationale: `Reflex evaluation threw error: ${
+              err instanceof Error ? err.message : String(err)
+            }`,
+            durationMs: this.clock.now().getTime() - stepStartTime,
+            timestamp: stepTimestamp,
+          })
+        );
+        continue;
+      }
+
+      if (reflexDecisionResult.decision === "REJECT") {
+        proposalRejections++;
+        transcript.push(
+          Object.freeze({
+            stepNumber: stepCount,
+            contextSnapshotId: contextSnapshot.snapshotId,
+            contextHash: contextSnapshot.contextHash,
+            contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+            contextBytes: contextSnapshot.totalBytes,
+            contextObservationsCount: contextSnapshot.observations.length,
+            proposalId: validationResult.proposal.proposalId,
+            toolName: validationResult.proposal.toolName,
+            rationale: validationResult.proposal.rationale,
+            finishReason: brainResult.finishReason,
+            proposalValid: true,
+            reflexDecision: "REJECT",
+            reflexReasonCode: reflexDecisionResult.reasonCode,
+            reflexRationale: reflexDecisionResult.rationale,
+            durationMs: this.clock.now().getTime() - stepStartTime,
+            timestamp: stepTimestamp,
+          })
+        );
+        continue;
+      }
+
+      if (reflexDecisionResult.decision === "DEFER") {
+        transcript.push(
+          Object.freeze({
+            stepNumber: stepCount,
+            contextSnapshotId: contextSnapshot.snapshotId,
+            contextHash: contextSnapshot.contextHash,
+            contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+            contextBytes: contextSnapshot.totalBytes,
+            contextObservationsCount: contextSnapshot.observations.length,
+            proposalId: validationResult.proposal.proposalId,
+            toolName: validationResult.proposal.toolName,
+            rationale: validationResult.proposal.rationale,
+            finishReason: brainResult.finishReason,
+            proposalValid: true,
+            reflexDecision: "DEFER",
+            reflexReasonCode: reflexDecisionResult.reasonCode,
+            reflexRationale: reflexDecisionResult.rationale,
+            durationMs: this.clock.now().getTime() - stepStartTime,
+            timestamp: stepTimestamp,
+          })
+        );
+        return assembleResult(
+          "DEFERRED",
+          `Reflex deferred proposal execution [${reflexDecisionResult.reasonCode}]: ${
+            reflexDecisionResult.rationale ?? reflexDecisionResult.reasonCode
+          }`,
+          taskId
+        );
+
+      }
+
       // Step E: Create Authoritative Domain Action Aggregate
       const { action } = this.proposalValidator.createActionFromProposal(
         validationResult,
@@ -637,6 +772,9 @@ export class AgentStepController {
           rationale: validationResult.proposal.rationale,
           finishReason: brainResult.finishReason,
           proposalValid: true,
+          reflexDecision: reflexDecisionResult.decision,
+          reflexReasonCode: reflexDecisionResult.reasonCode,
+          reflexRationale: reflexDecisionResult.rationale,
           actionId: action.actionId,
           actionStatus: actionResult.status,
           actionOutput: actionResult.output,
@@ -645,6 +783,7 @@ export class AgentStepController {
           timestamp: stepTimestamp,
         })
       );
+
 
       // Step G: Process Action Execution Outcome
       if (actionResult.status === "UNKNOWN") {

@@ -998,3 +998,81 @@ Section 29 establishes the architectural condition boundary for evaluating Emera
 8. **Scientific Limitations**:
    - **Association vs. Causation**: Observed performance differences between `BASELINE` and `REFLEX` constitute empirical associations within the trial dataset. Strong causal attribution requires controlled experimental isolation and replication.
    - **Model Non-Determinism**: Identical declared configuration does not guarantee identical inference outputs, hardware conditions, or runtime scheduling across repeated trials.
+
+---
+
+## 30. Reflex Proposal Interceptor
+
+The Reflex layer operates as an untrusted control recommendation interceptor strictly positioned between proposal validation and policy governance.
+
+```text
+                    AgentBrain
+                        │
+                        ▼
+                 ActionProposal
+                        │
+                        ▼
+                ProposalValidator
+                        │
+                  validated
+                        ▼
+                 ┌────────────┐
+                 │   Reflex   │
+                 │    Port    │
+                 └─────┬──────┘
+                       │
+                ReflexDecision
+                       │
+                       ▼
+                PolicyEvaluator
+                       │
+                       ▼
+              ToolExecutionGateway
+                       │
+                       ▼
+                Workspace/Sandbox
+```
+
+### 1. Architectural Boundary Separation
+Reflex is NOT an authorization layer:
+- **Upstream Fencing**: Operates exclusively on proposals that have passed the complete 11-stage `ProposalValidator` pipeline. Untrusted, malformed, or oversized model output never enters Reflex.
+- **Downstream Fencing**: Decisions emitted by Reflex are untrusted recommendations (`ALLOW`, `REJECT`, `DEFER`). They do NOT authorize tool execution and can never override `PolicyEvaluator` denials (`CAPABILITY_DENIED`).
+
+### 2. Decision Taxonomy
+1. `ALLOW`: Recommends that the proposal proceed through the normal governance and execution pipeline without additional constraints.
+2. `REJECT`: Recommends that the proposal be halted immediately. No physical domain Action attempt is created or dispatched to WorkerRuntime.
+3. `DEFER`: Indicates that execution cannot be safely recommended at the current step and safely terminates loop execution under a fail-closed `DEFERRED` terminal status.
+
+### 3. Permanent Security Invariant: Monotonic Authority Reduction
+> **Reflex authority is monotonically non-expanding.**
+
+Formally:
+$$\text{EffectiveAuthorityAfterReflex} \subseteq \text{EffectiveAuthorityBeforeReflex}$$
+
+- Reflex may reduce the set of possible actions.
+- Reflex may reject or defer actions.
+- Reflex may eventually recommend safer alternative actions (subject to full pipeline validation).
+- Reflex must NEVER grant authority that did not already exist:
+  - Cannot add or modify capabilities (`workspace.file.read`, `process.execute`, etc.).
+  - Cannot alter MissionContract identifiers, versions, or content hashes.
+  - Cannot expand resource ceilings (timeout, attempts, output bytes).
+  - Cannot alter isolation levels (IN_PROCESS, ISOLATED).
+  - Cannot select or inject credentials or API tokens.
+  - Cannot alter worker or lease ownership.
+  - Cannot bypass `ProposalValidator`, `PolicyEvaluator`, or `ToolExecutionGateway`.
+
+### 4. Pure Observational Context & Deterministic Hashing
+Reflex evaluation consumes an immutable `ReflexContext` containing only observational facts:
+- `runId`, `taskId`, `stepNumber`, `taskDescription`, `failureCount`
+- Read-only action audit history and verification status
+- Workspace root path and resource usage metrics
+- Canonical SHA-256 fingerprint computed via `canonicalJsonStringify` and `redactSensitiveData`
+
+The context contains zero credentials, zero provider clients, zero filesystem handles, zero database handles, and zero mutating methods.
+
+### 5. Deterministic No-Op Adapter (`NoopReflex`)
+A deterministic no-op implementation serves as the default adapter:
+- Reliably returns `ALLOW` with reason code `NO_INTERVENTION`.
+- Validates context immutability without altering proposals or state.
+- Invokes zero model providers, tools, or containers.
+- Guarantees zero synthetic optimization or metrics manipulation in baseline trials.

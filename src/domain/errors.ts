@@ -812,3 +812,35 @@ export class ReflexNotImplementedError extends DomainError {
     super(message);
   }
 }
+
+export class InvalidReflexDecisionError extends DomainError {
+  readonly code = "INVALID_REFLEX_DECISION";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class InvalidReflexContextError extends DomainError {
+  readonly code = "INVALID_REFLEX_CONTEXT";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class ReflexAuthorityExpansionError extends DomainError {
+  readonly code = "REFLEX_AUTHORITY_EXPANSION";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class ReflexExecutionDeferredError extends DomainError {
+  readonly code = "REFLEX_EXECUTION_DEFERRED";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
