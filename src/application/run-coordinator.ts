@@ -17,8 +17,13 @@ import {
 } from "../domain/events.js";
 import { Evidence } from "../domain/evidence.js";
 import { VerificationResult } from "../domain/verification.js";
-import { ActionSnapshot } from "../domain/action.js";
-import { AttemptSnapshot } from "../domain/attempt.js";
+import {
+  ActionSnapshot,
+  ActionStatus,
+  evaluateRetryEligibility,
+  isTerminalActionStatus,
+} from "../domain/action.js";
+import { AttemptSnapshot, isTerminalAttemptStatus } from "../domain/attempt.js";
 import { Run } from "../domain/run.js";
 import {
   createContractBinding,
@@ -31,6 +36,7 @@ import {
   LeaseRecord,
   PersistedEvent,
   StateStorePort,
+  StorageTransaction,
   TaskRecord,
   WorkerRecord,
 } from "../ports/state-store.port.js";
@@ -67,6 +73,33 @@ export interface TransitionResult {
 export interface RecoverExpiredResult {
   readonly recoveredCount: number;
   readonly runs: readonly RunSnapshot[];
+}
+
+export interface StaleExecutionRecoveryOptions {
+  readonly runId?: string;
+  readonly nowIso?: string;
+  readonly maxRuns?: number;
+  readonly workerId?: string;
+  readonly leaseId?: string;
+}
+
+export interface ReconciledExecutionDetail {
+  readonly runId: string;
+  readonly actionId: string;
+  readonly attemptId?: string;
+  readonly priorAttemptStatus?: string;
+  readonly resultingAttemptStatus?: string;
+  readonly priorActionStatus: string;
+  readonly resultingActionStatus: string;
+  readonly retryEligible: boolean;
+  readonly reason: string;
+}
+
+export interface StaleExecutionRecoveryResult {
+  readonly recoveredRuns: number;
+  readonly reconciledAttempts: number;
+  readonly reconciledActions: number;
+  readonly details: readonly ReconciledExecutionDetail[];
 }
 
 export interface RecordPolicyDecisionParams {
@@ -687,6 +720,9 @@ export class RunCoordinator {
         const expireEvent = run.expireLease(nowIso);
         tx.updateRun(snapshot.runId, versionBeforeExpire, run.snapshot, expireEvent);
 
+        // Reconcile in-flight actions and attempts for this crashed run atomically
+        this.reconcileStaleActionsAndAttemptsForRun(tx, snapshot.runId, nowIso);
+
         const cleanupCrashedWorkspace = (): void => {
           if (!this.workspacePort) return;
           try {
@@ -926,6 +962,296 @@ export class RunCoordinator {
     return {
       recoveredCount: recoveredRuns.length,
       runs: recoveredRuns,
+    };
+  }
+
+  /**
+   * Reconciles in-flight Actions and Attempts for a specific run whose worker lease expired or crashed.
+   * Guarantees:
+   * 1. Stale in-flight Attempts (CREATED, DISPATCHED, RUNNING) transition safely:
+   *    - CREATED -> CANCELLED (never dispatched, no physical side effects)
+   *    - DISPATCHED / RUNNING -> UNKNOWN (fail-closed execution uncertainty)
+   * 2. Action states reconcile deterministically:
+   *    - UNKNOWN attempt + NON_IDEMPOTENT tool -> Action FAILED (NO AUTOMATIC RETRY)
+   *    - UNKNOWN attempt + IDEMPOTENT tool -> Action FAILED (fail-closed on execution uncertainty)
+   *    - FAILED attempt + IDEMPOTENT tool + attemptsRemaining -> Action RETRYING
+   *    - Terminal attempt + RUNNING Action (Window G) -> Action reconciles to match attempt outcome
+   * 3. Completely idempotent: repeated calls produce no duplicate transitions or events.
+   */
+  private reconcileStaleActionsAndAttemptsForRun(
+    tx: StorageTransaction,
+    runId: string,
+    nowIso: string,
+    fencing?: LeaseFencingCheck
+  ): ReconciledExecutionDetail[] {
+    const details: ReconciledExecutionDetail[] = [];
+    const actions = tx.getActionsForRun(runId);
+
+    for (const action of actions) {
+      if (isTerminalActionStatus(action.status)) {
+        continue;
+      }
+
+      const attempts = tx.getAttemptsForAction(action.actionId);
+      const activeAttempt =
+        tx.getActiveAttemptForAction(action.actionId) ??
+        attempts.find((a: AttemptSnapshot) => !isTerminalAttemptStatus(a.status));
+      const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
+
+      // Case 1: In-flight attempt exists (Window C, D, E, F)
+      if (activeAttempt) {
+        let reconciledAttemptStatus = activeAttempt.status;
+        let resultingActionStatus: ActionStatus = action.status;
+
+        if (activeAttempt.status === "CREATED") {
+          // Window C: Attempt created but never dispatched -> CANCEL
+          const attRes = tx.transitionAttempt(
+            activeAttempt.attemptId,
+            { type: "CANCEL", reason: "Worker crashed before dispatch", now: nowIso },
+            () => crypto.randomUUID(),
+            fencing
+          );
+          reconciledAttemptStatus = attRes.snapshot.status;
+
+          // Reconcile Action:
+          if (action.idempotency === "IDEMPOTENT" && action.totalAttempts < action.maxAttempts) {
+            const actRes = tx.transitionAction(
+              action.actionId,
+              { type: "PREPARE_RETRY", errorPayload: "Worker crashed before dispatch", now: nowIso },
+              () => crypto.randomUUID(),
+              fencing
+            );
+            resultingActionStatus = actRes.snapshot.status;
+          } else {
+            const actRes = tx.transitionAction(
+              action.actionId,
+              {
+                type: "FAIL",
+                errorPayload: { code: "WORKER_CRASHED", message: "Worker crashed before dispatch" },
+                now: nowIso,
+              },
+              () => crypto.randomUUID(),
+              fencing
+            );
+            resultingActionStatus = actRes.snapshot.status;
+          }
+
+          details.push({
+            runId,
+            actionId: action.actionId,
+            attemptId: activeAttempt.attemptId,
+            priorAttemptStatus: activeAttempt.status,
+            resultingAttemptStatus: reconciledAttemptStatus,
+            priorActionStatus: action.status,
+            resultingActionStatus,
+            retryEligible: resultingActionStatus === "RETRYING",
+            reason: "Attempt cancelled before dispatch",
+          });
+        } else if (activeAttempt.status === "DISPATCHED" || activeAttempt.status === "RUNNING") {
+          // Windows D, E, F: Physical outcome uncertain -> MARK_UNKNOWN
+          const attRes = tx.transitionAttempt(
+            activeAttempt.attemptId,
+            {
+              type: "MARK_UNKNOWN",
+              reason: "Worker crashed or lease expired during execution",
+              reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+              now: nowIso,
+            },
+            () => crypto.randomUUID(),
+            fencing
+          );
+          reconciledAttemptStatus = attRes.snapshot.status;
+
+          // Action: UNKNOWN is fail-closed!
+          // Non-idempotent MUST NEVER be automatically retried.
+          // Idempotent with uncertain outcome is fail-closed against blind auto-retry.
+          const actRes = tx.transitionAction(
+            action.actionId,
+            {
+              type: "FAIL",
+              errorPayload: {
+                code: "EXECUTION_UNCERTAIN",
+                reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+                message: "Physical execution uncertain: worker crashed or lease expired during execution",
+              },
+              now: nowIso,
+            },
+            () => crypto.randomUUID(),
+            fencing
+          );
+          resultingActionStatus = actRes.snapshot.status;
+
+          details.push({
+            runId,
+            actionId: action.actionId,
+            attemptId: activeAttempt.attemptId,
+            priorAttemptStatus: activeAttempt.status,
+            resultingAttemptStatus: reconciledAttemptStatus,
+            priorActionStatus: action.status,
+            resultingActionStatus,
+            retryEligible: false,
+            reason:
+              "Attempt marked UNKNOWN due to lease expiration during execution; action failed closed",
+          });
+        }
+      } else if (
+        action.status === "RUNNING" &&
+        latestAttempt &&
+        isTerminalAttemptStatus(latestAttempt.status)
+      ) {
+        // Case 2: Window G: Attempt reached terminal state, but worker crashed before Action was updated!
+        let resultingActionStatus: ActionStatus = action.status;
+        if (latestAttempt.status === "SUCCEEDED") {
+          const actRes = tx.transitionAction(
+            action.actionId,
+            { type: "SUCCEED", resultPayload: latestAttempt.outputPayload, now: nowIso },
+            () => crypto.randomUUID(),
+            fencing
+          );
+          resultingActionStatus = actRes.snapshot.status;
+        } else if (latestAttempt.status === "FAILED") {
+          if (action.idempotency === "IDEMPOTENT" && action.totalAttempts < action.maxAttempts) {
+            const actRes = tx.transitionAction(
+              action.actionId,
+              { type: "PREPARE_RETRY", errorPayload: latestAttempt.errorPayload, now: nowIso },
+              () => crypto.randomUUID(),
+              fencing
+            );
+            resultingActionStatus = actRes.snapshot.status;
+          } else {
+            const actRes = tx.transitionAction(
+              action.actionId,
+              { type: "FAIL", errorPayload: latestAttempt.errorPayload, now: nowIso },
+              () => crypto.randomUUID(),
+              fencing
+            );
+            resultingActionStatus = actRes.snapshot.status;
+          }
+        } else if (latestAttempt.status === "TIMED_OUT") {
+          const actRes = tx.transitionAction(
+            action.actionId,
+            { type: "TIMEOUT", reason: latestAttempt.errorPayload, now: nowIso },
+            () => crypto.randomUUID(),
+            fencing
+          );
+          resultingActionStatus = actRes.snapshot.status;
+        } else if (latestAttempt.status === "CANCELLED") {
+          const actRes = tx.transitionAction(
+            action.actionId,
+            { type: "CANCEL", reason: latestAttempt.errorPayload, now: nowIso },
+            () => crypto.randomUUID(),
+            fencing
+          );
+          resultingActionStatus = actRes.snapshot.status;
+        } else if (latestAttempt.status === "UNKNOWN") {
+          const actRes = tx.transitionAction(
+            action.actionId,
+            { type: "FAIL", errorPayload: latestAttempt.errorPayload, now: nowIso },
+            () => crypto.randomUUID(),
+            fencing
+          );
+          resultingActionStatus = actRes.snapshot.status;
+        }
+
+        details.push({
+          runId,
+          actionId: action.actionId,
+          attemptId: latestAttempt.attemptId,
+          priorAttemptStatus: latestAttempt.status,
+          resultingAttemptStatus: latestAttempt.status,
+          priorActionStatus: action.status,
+          resultingActionStatus,
+          retryEligible: resultingActionStatus === "RETRYING",
+          reason: "Action reconciled from durable terminal attempt state",
+        });
+      } else if (action.status === "RETRYING") {
+        // Case 3: Action already in RETRYING state (Window H)
+        const eligibility = evaluateRetryEligibility(action);
+        details.push({
+          runId,
+          actionId: action.actionId,
+          priorActionStatus: action.status,
+          resultingActionStatus: action.status,
+          retryEligible: eligibility.eligible,
+          reason: "Action is awaiting retry attempt creation",
+        });
+      }
+    }
+
+    return details;
+  }
+
+  /**
+   * Deterministic sweeper/reconciliation operation for stale Actions and Attempts.
+   * Can be called periodically or on recovery to ensure all orphaned or uncertain
+   * in-flight executions reach durable, safe terminal/retry states.
+   */
+  recoverStaleExecutions(options: StaleExecutionRecoveryOptions = {}): StaleExecutionRecoveryResult {
+    const nowIso = options.nowIso ?? this.clock.nowIso();
+    const candidateRunIds = new Set<string>();
+
+    if (options.runId) {
+      candidateRunIds.add(options.runId);
+    } else {
+      const expiredRuns = this.stateStore.findExpiredRuns(nowIso);
+      for (const r of expiredRuns) {
+        candidateRunIds.add(r.runId);
+      }
+      if (this.stateStore.findInFlightAttempts) {
+        const inFlightAttempts = this.stateStore.findInFlightAttempts(options.maxRuns ?? 100);
+        for (const att of inFlightAttempts) {
+          candidateRunIds.add(att.runId);
+        }
+      }
+      if (this.stateStore.findInFlightActions) {
+        const inFlightActions = this.stateStore.findInFlightActions(options.maxRuns ?? 100);
+        for (const act of inFlightActions) {
+          candidateRunIds.add(act.runId);
+        }
+      }
+    }
+
+    let recoveredRuns = 0;
+    let reconciledAttempts = 0;
+    let reconciledActions = 0;
+    const allDetails: ReconciledExecutionDetail[] = [];
+
+    const fencing: LeaseFencingCheck | undefined =
+      options.workerId && options.leaseId ? { workerId: options.workerId, leaseId: options.leaseId } : undefined;
+
+    for (const runId of candidateRunIds) {
+      this.stateStore.transaction((tx) => {
+        const runSnapshot = tx.getRun(runId);
+        if (!runSnapshot) return;
+
+        // Fencing check if caller supplied workerId and leaseId
+        if (fencing) {
+          if (runSnapshot.currentWorkerId !== fencing.workerId || runSnapshot.leaseId !== fencing.leaseId) {
+            throw new LeaseLostError(runId, fencing.leaseId, runSnapshot.leaseId);
+          }
+        }
+
+        const details = this.reconcileStaleActionsAndAttemptsForRun(tx, runId, nowIso, fencing);
+        if (details.length > 0) {
+          recoveredRuns++;
+          for (const d of details) {
+            if (d.priorAttemptStatus && d.priorAttemptStatus !== d.resultingAttemptStatus) {
+              reconciledAttempts++;
+            }
+            if (d.priorActionStatus !== d.resultingActionStatus) {
+              reconciledActions++;
+            }
+            allDetails.push(d);
+          }
+        }
+      });
+    }
+
+    return {
+      recoveredRuns,
+      reconciledAttempts,
+      reconciledActions,
+      details: allDetails,
     };
   }
 

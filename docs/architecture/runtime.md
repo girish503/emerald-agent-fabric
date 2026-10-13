@@ -402,7 +402,42 @@ Every Action and Attempt mutation is lease-fenced via `LeaseFencingCheck { worke
 ### 15.5 Execution Uncertainty (UNKNOWN Semantics)
 If the outcome of physical execution is indeterminate (such as `PROVIDER_RESULT_UNAVAILABLE`, `WORKER_CRASHED`, `LEASE_EXPIRED_DURING_EXECUTION`, or `PROCESS_TERMINATION_BEFORE_PERSISTENCE`), the Attempt status is preserved strictly as `UNKNOWN` with the preserved reason code. The runtime does NOT convert execution uncertainty into `FAILED`, nor does it attempt automated retries. The parent Action transitions to `FAILED` to reflect terminal outcome of the trial.
 
-### 15.6 Strict Boundaries: No Automatic Retries & Deferred Recovery
-- **No Automatic Retry**: Task 4.4-E implements single-trial execution (`attemptNumber = 1`). Retry loops, backoff algorithms, and multi-attempt schedulers are explicitly omitted.
+### 15.6 Strict Boundaries: Single-Trial Baseline in 4.4-E
+- **Single-Trial Baseline**: Task 4.4-E established single-trial execution (`attemptNumber = 1`) connecting WorkerRuntime to ToolExecutionGateway.
 - **Provider Invocation Boundary**: On any governance denial, invalid contract, revoked contract, or resource ceiling violation, execution terminates with `provider invocation count = 0`.
-- **Deferred Recovery**: Crash recovery, sweeper orphan cleanup, and retry/re-execution orchestration are deferred to Task 4.4-F.
+
+---
+
+## 16. Crash Recovery, UNKNOWN Reconciliation, Retry Safety, and Attempt Sweeper (Task 4.4-F)
+
+### 16.1 Crash Recovery & Epistemic Uncertainty
+When a worker process crashes, stalls, or loses its lease midway through execution, physical reality and persisted state can diverge. Emerald explicitly distinguishes between **execution failure** (where physical execution returned a deterministic error) and **execution uncertainty** (where process disappearance prevents knowing if side effects occurred).
+
+### 16.2 Crash Windows (A through H) & Deterministic Reconciliation
+The runtime deterministically classifies and reconciles crashes across eight discrete windows:
+- **Windows A & B** (Before Attempt Creation): Action is in `CREATED` or `AUTHORIZED`. Sweeper reconciles Action to `FAILED`. Zero attempts created, zero provider execution.
+- **Window C** (Attempt `CREATED`, before dispatch): No physical side effects occurred. Sweeper marks Attempt `CANCELLED`. If tool is `IDEMPOTENT` and attempts remain under contract ceiling, Action transitions to `RETRYING`; otherwise `FAILED`.
+- **Windows D, E & F** (Attempt `DISPATCHED` or `RUNNING`): Physical side effects are indeterminate. Sweeper marks Attempt `UNKNOWN` (`LEASE_EXPIRED_DURING_EXECUTION`). Action transitions to `FAILED` (fail-closed against blind auto-retry).
+- **Window G** (Attempt terminal, Action `RUNNING`): Attempt already completed deterministically before worker died. Sweeper reconciles Action status to match Attempt outcome without re-invoking the tool or provider.
+- **Window H** (Action `RETRYING`, worker crashed before Attempt #2): Recovering worker starts Attempt #2 exactly once, bounded by monotonic attempt numbers and `createAttemptIdempotencyToken()`.
+
+### 16.3 UNKNOWN Semantics & Fail-Closed Retry Prevention
+- `UNKNOWN` is an immutable, terminal state on Attempt. It cannot be updated, resumed, or re-executed.
+- Non-idempotent operations (`write_file`, `run_command`) that end in `UNKNOWN` evaluate to `eligible: false` with reason `NON_IDEMPOTENT_UNKNOWN` in `evaluateRetryEligibility()`. They are **NEVER** retried automatically.
+- Idempotent operations in crash recovery with uncertain outcome fail closed.
+
+### 16.4 Bounded Idempotent Retry Lifecycle
+Retries are permitted strictly when:
+1. Tool is declared `IDEMPOTENT` (`read_file`, `search_code`, `git_status`, `git_diff`).
+2. Prior attempt failed with deterministic `FAILED` status (not `UNKNOWN` or `TIMED_OUT`).
+3. Total attempts remain below both `action.maxAttempts` and `contract.spec.resourceLimits.maxAttempts`.
+4. The bound `MissionContract` remains `ACTIVE`. If revoked or expired, retry execution is refused and Action transitions to `FAILED` with zero provider calls.
+5. Tool capability remains authorized in the bound policy.
+
+### 16.5 Integrated Sweeper & Recovery Methods
+1. **`RunCoordinator.recoverExpiredRuns()`**:
+   - Reconciles expired runs, reclaims leases, and within the same atomic transaction invokes `reconcileStaleActionsAndAttemptsForRun()`.
+2. **`RunCoordinator.recoverStaleExecutions()`**:
+   - Provides targeted or global sweeping of in-flight actions and attempts without requiring complete run reclamation.
+3. **`WorkerRuntime.recoverStaleExecutions()`**:
+   - Sweeps stale attempts and automatically executes eligible `RETRYING` actions under the worker's active run lease, caching and binding the workspace sandbox handle.

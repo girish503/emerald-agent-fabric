@@ -4,6 +4,7 @@ import { createWorkspaceToolAdapterRegistry } from "../adapters/tools/tool-adapt
 import {
   Action,
   ActionSnapshot,
+  evaluateRetryEligibility,
   isTerminalActionStatus,
 } from "../domain/action.js";
 import {
@@ -15,6 +16,7 @@ import { AttemptUnknownReason } from "../domain/events.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   ContractIntegrityError,
+  ContractRevokedError,
   InvalidContractBindingError,
   InvalidMissionContractError,
   InvalidRunError,
@@ -48,7 +50,12 @@ import { LeaseFencingCheck, WorkerRecord } from "../ports/state-store.port.js";
 import { ToolAdapterRegistryPort } from "../ports/tool-adapter.port.js";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
 import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
-import { ClaimRunResult, RunCoordinator } from "./run-coordinator.js";
+import {
+  ClaimRunResult,
+  RunCoordinator,
+  StaleExecutionRecoveryOptions,
+  StaleExecutionRecoveryResult,
+} from "./run-coordinator.js";
 import {
   ToolExecutionGateway,
   TrustedToolInvocationContext,
@@ -81,6 +88,11 @@ export interface WorkerActionResult {
   readonly attempt?: AttemptSnapshot | null;
 }
 
+export interface WorkerStaleRecoveryResult {
+  readonly coordinatorResult: StaleExecutionRecoveryResult;
+  readonly retriedActions: readonly WorkerActionResult[];
+}
+
 export interface ExecuteActionParams {
   readonly runId: string;
   readonly actionId?: string;
@@ -94,8 +106,11 @@ export interface ExecuteActionParams {
     readonly hostPath: string;
     readonly containerMountPath?: string;
   };
+  readonly timeoutMs?: number;
+  readonly maxOutputBytes?: number;
   readonly abortSignal?: AbortSignal;
   readonly throwOnError?: boolean;
+  readonly autoRetry?: boolean;
 }
 
 export interface WorkerRuntimeOptions {
@@ -971,9 +986,66 @@ export class WorkerRuntime {
       throw new LeaseLostError(runId, leaseId, run.leaseId);
     }
 
-    // 2. Action Resolution or Creation
-    let actionSnapshot: ActionSnapshot;
+    // 2. Authoritative MissionContract & Ceilings Validation
+    if (!run.contractBinding) {
+      throw new InvalidContractBindingError(`Run '${runId}' has no bound MissionContract`);
+    }
+
+    const boundContract = store.getContract(
+      run.contractBinding.contractId,
+      run.contractBinding.version
+    );
+    if (!boundContract) {
+      throw new MissingBoundContractError(
+        run.contractBinding.contractId,
+        run.contractBinding.version
+      );
+    }
+
     const existingAction = params.actionId ? store.getAction(params.actionId) : null;
+
+    // Contract lifecycle verification for retries (Requirement 11)
+    if (boundContract.lifecycle.status !== "ACTIVE" && existingAction && existingAction.status === "RETRYING") {
+      store.transaction((tx) => {
+        tx.transitionAction(
+          existingAction.actionId,
+          {
+            type: "FAIL",
+            errorPayload: {
+              code: boundContract.lifecycle.status === "REVOKED" ? "CONTRACT_REVOKED" : "CONTRACT_NOT_ACTIVE",
+              message: `Cannot execute retry: bound MissionContract is ${boundContract.lifecycle.status}`,
+            },
+            now: this.clock.nowIso(),
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+      });
+      return {
+        status: "FAILED",
+        runId,
+        actionId: existingAction.actionId,
+        error: {
+          code: "CONTRACT_REVOKED",
+          message: `Bound MissionContract is ${boundContract.lifecycle.status}`,
+        },
+      };
+    }
+
+    // Non-clamping resource ceilings check on new action and retries (Requirement 12)
+    const contractMaxAttempts = boundContract.spec.resourceLimits.maxAttempts;
+    if (params.maxAttempts !== undefined && params.maxAttempts > contractMaxAttempts) {
+      throw new ResourceLimitExceededError("maxAttempts", params.maxAttempts, contractMaxAttempts);
+    }
+    if (params.timeoutMs !== undefined && params.timeoutMs > boundContract.spec.resourceLimits.timeoutMs) {
+      throw new ResourceLimitExceededError("timeoutMs", params.timeoutMs, boundContract.spec.resourceLimits.timeoutMs);
+    }
+    if (params.maxOutputBytes !== undefined && params.maxOutputBytes > boundContract.spec.resourceLimits.maxOutputBytes) {
+      throw new ResourceLimitExceededError("maxOutputBytes", params.maxOutputBytes, boundContract.spec.resourceLimits.maxOutputBytes);
+    }
+
+    // 3. Action Resolution or Creation
+    let actionSnapshot: ActionSnapshot;
 
     if (existingAction) {
       if (isTerminalActionStatus(existingAction.status)) {
@@ -985,27 +1057,6 @@ export class WorkerRuntime {
         throw new Error(
           `Cannot create Action: toolName is required when actionId does not refer to an existing Action`
         );
-      }
-
-      if (!run.contractBinding) {
-        throw new InvalidContractBindingError(`Run '${runId}' has no bound MissionContract`);
-      }
-
-      const boundContract = store.getContract(
-        run.contractBinding.contractId,
-        run.contractBinding.version
-      );
-      if (!boundContract) {
-        throw new MissingBoundContractError(
-          run.contractBinding.contractId,
-          run.contractBinding.version
-        );
-      }
-
-      // Non-clamping maxAttempts validation
-      const contractMaxAttempts = boundContract.spec.resourceLimits.maxAttempts;
-      if (params.maxAttempts !== undefined && params.maxAttempts > contractMaxAttempts) {
-        throw new ResourceLimitExceededError("maxAttempts", params.maxAttempts, contractMaxAttempts);
       }
 
       const effectiveMaxAttempts = params.maxAttempts ?? Math.min(3, contractMaxAttempts);
@@ -1039,6 +1090,13 @@ export class WorkerRuntime {
     }
 
     // 3. Workspace resolution
+    if (params.workspace) {
+      this.runWorkspaces.set(runId, {
+        workspaceId: params.workspace.workspaceId,
+        hostPath: params.workspace.hostPath,
+        containerMountPath: params.workspace.containerMountPath,
+      });
+    }
     let effectiveWorkspace = params.workspace ?? this.runWorkspaces.get(runId);
     if (!effectiveWorkspace && this.workspacePort) {
       const wsId = `ws-${run.runId.slice(0, 8)}-${crypto.randomUUID().slice(0, 8)}`;
@@ -1129,8 +1187,10 @@ export class WorkerRuntime {
       });
     }
 
-    // 7. Action Transition: AUTHORIZED -> RUNNING (attempt #1)
+    // 7. Action Transition: AUTHORIZED -> RUNNING or RETRYING -> RUNNING
+    let targetAttemptNumber = 1;
     if (actionSnapshot.status === "AUTHORIZED") {
+      targetAttemptNumber = 1;
       store.transaction((tx) => {
         const res = tx.transitionAction(
           actionSnapshot.actionId,
@@ -1144,54 +1204,90 @@ export class WorkerRuntime {
         );
         actionSnapshot = res.snapshot;
       });
+    } else if (actionSnapshot.status === "RETRYING") {
+      targetAttemptNumber = actionSnapshot.totalAttempts + 1;
+      if (targetAttemptNumber > actionSnapshot.maxAttempts) {
+        throw new Error(
+          `Cannot retry Action '${actionSnapshot.actionId}': next attempt ${targetAttemptNumber} exceeds maxAttempts (${actionSnapshot.maxAttempts})`
+        );
+      }
+      store.transaction((tx) => {
+        const res = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "START_ATTEMPT",
+            attemptNumber: targetAttemptNumber,
+            now: this.clock.nowIso(),
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = res.snapshot;
+      });
+    } else if (actionSnapshot.status === "RUNNING") {
+      targetAttemptNumber = actionSnapshot.activeAttemptNumber ?? actionSnapshot.totalAttempts;
     }
 
-    // 8. Attempt Creation (Attempt #1, status CREATED)
-    const attemptId = crypto.randomUUID();
-    const idempotencyToken = createAttemptIdempotencyToken(run.runId, actionSnapshot.actionId, 1);
-    const { attempt, event: attemptCreatedEvent } = Attempt.create({
-      attemptId,
-      actionId: actionSnapshot.actionId,
-      runId: run.runId,
-      attemptNumber: 1,
-      workerId,
-      leaseId,
-      idempotencyToken,
-      now: this.clock.nowIso(),
-    });
-
-    store.transaction((tx) => {
-      tx.insertAttempt(attempt.snapshot, attemptCreatedEvent, fencing);
-    });
-    let attemptSnapshot: AttemptSnapshot = attempt.snapshot;
-
-    // 9. Attempt Transition: CREATED -> DISPATCHED
-    store.transaction((tx) => {
-      const res = tx.transitionAttempt(
-        attemptSnapshot.attemptId,
-        {
-          type: "DISPATCH",
-          now: this.clock.nowIso(),
-        },
-        () => crypto.randomUUID(),
-        fencing
+    // 8. Attempt Creation / Resolution
+    let attemptSnapshot: AttemptSnapshot;
+    const existingAttempt = store.getAttemptByNumber(actionSnapshot.actionId, targetAttemptNumber);
+    if (existingAttempt) {
+      attemptSnapshot = existingAttempt;
+    } else {
+      const attemptId = crypto.randomUUID();
+      const idempotencyToken = createAttemptIdempotencyToken(
+        run.runId,
+        actionSnapshot.actionId,
+        targetAttemptNumber
       );
-      attemptSnapshot = res.snapshot;
-    });
+      const { attempt, event: attemptCreatedEvent } = Attempt.create({
+        attemptId,
+        actionId: actionSnapshot.actionId,
+        runId: run.runId,
+        attemptNumber: targetAttemptNumber,
+        workerId,
+        leaseId,
+        idempotencyToken,
+        now: this.clock.nowIso(),
+      });
 
-    // 10. Attempt Transition: DISPATCHED -> RUNNING
-    store.transaction((tx) => {
-      const res = tx.transitionAttempt(
-        attemptSnapshot.attemptId,
-        {
-          type: "START",
-          now: this.clock.nowIso(),
-        },
-        () => crypto.randomUUID(),
-        fencing
-      );
-      attemptSnapshot = res.snapshot;
-    });
+      store.transaction((tx) => {
+        tx.insertAttempt(attempt.snapshot, attemptCreatedEvent, fencing);
+      });
+      attemptSnapshot = attempt.snapshot;
+    }
+
+    // 9. Attempt Transition: CREATED -> DISPATCHED (if not already dispatched)
+    if (attemptSnapshot.status === "CREATED") {
+      store.transaction((tx) => {
+        const res = tx.transitionAttempt(
+          attemptSnapshot.attemptId,
+          {
+            type: "DISPATCH",
+            now: this.clock.nowIso(),
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        attemptSnapshot = res.snapshot;
+      });
+    }
+
+    // 10. Attempt Transition: DISPATCHED -> RUNNING (if not already running)
+    if (attemptSnapshot.status === "DISPATCHED") {
+      store.transaction((tx) => {
+        const res = tx.transitionAttempt(
+          attemptSnapshot.attemptId,
+          {
+            type: "START",
+            now: this.clock.nowIso(),
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        attemptSnapshot = res.snapshot;
+      });
+    }
 
     // 11. Physical Tool Execution via Gateway Seam
     let toolResult: ToolResult;
@@ -1420,27 +1516,101 @@ export class WorkerRuntime {
       );
       attemptSnapshot = attRes.snapshot;
 
-      const actRes = tx.transitionAction(
-        actionSnapshot.actionId,
-        {
-          type: "FAIL",
-          errorPayload: toolResult.error,
-          now,
-        },
-        () => crypto.randomUUID(),
-        fencing
-      );
-      actionSnapshot = actRes.snapshot;
+      // If autoRetry requested and tool is idempotent and attempts remain, transition to RETRYING
+      if (
+        params.autoRetry &&
+        actionSnapshot.idempotency === "IDEMPOTENT" &&
+        targetAttemptNumber < actionSnapshot.maxAttempts
+      ) {
+        const actRes = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "PREPARE_RETRY",
+            errorPayload: toolResult.error,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = actRes.snapshot;
+      } else {
+        const actRes = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "FAIL",
+            errorPayload: toolResult.error,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = actRes.snapshot;
+      }
     });
 
     return {
-      status: "FAILED",
+      status: actionSnapshot.status === "RETRYING" ? "FAILED" : "FAILED",
       actionId: actionSnapshot.actionId,
       runId: run.runId,
       attemptId: attemptSnapshot.attemptId,
       error: toolResult.error,
       action: actionSnapshot,
       attempt: attemptSnapshot,
+    };
+  }
+
+  /**
+   * Recovers stale executions across runs.
+   * Reconciles stale/orphan in-flight Attempts and Actions to durable states (UNKNOWN, FAILED, RETRYING)
+   * via the RunCoordinator, and optionally executes eligible retries under this worker's lease.
+   */
+  async recoverStaleExecutions(
+    options: StaleExecutionRecoveryOptions & { executeRetries?: boolean } = {}
+  ): Promise<WorkerStaleRecoveryResult> {
+    const nowIso = options.nowIso ?? this.clock.nowIso();
+
+    // 1. Reconcile stale actions and attempts via coordinator
+    const coordinatorResult = this.coordinator.recoverStaleExecutions({
+      runId: options.runId,
+      nowIso,
+      maxRuns: options.maxRuns,
+    });
+
+    const retriedActionResults: WorkerActionResult[] = [];
+
+    // 2. If executeRetries !== false, execute any eligible RETRYING actions
+    if (options.executeRetries !== false) {
+      const store = this.coordinator.store;
+      const actionsToRetry: ActionSnapshot[] = [];
+
+      if (options.runId) {
+        const runActions = store.getActionsForRun(options.runId);
+        actionsToRetry.push(...runActions.filter((a) => a.status === "RETRYING"));
+      } else {
+        const inFlight = store.findInFlightActions ? store.findInFlightActions(options.maxRuns ?? 50) : [];
+        actionsToRetry.push(...inFlight.filter((a) => a.status === "RETRYING"));
+      }
+
+      for (const action of actionsToRetry) {
+        const eligibility = evaluateRetryEligibility(action);
+        if (eligibility.eligible) {
+          const run = store.getRun(action.runId);
+          if (run && (run.status === "RUNNING" || run.status === "LEASED")) {
+            if (run.currentWorkerId === this.workerId) {
+              const res = await this.executeAction({
+                runId: action.runId,
+                actionId: action.actionId,
+              });
+              retriedActionResults.push(res);
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      coordinatorResult,
+      retriedActions: retriedActionResults,
     };
   }
 }

@@ -1310,15 +1310,15 @@ export class SqliteStorageTransaction implements StorageTransaction {
 
     validateAttemptInvariants(nextSnapshot);
 
-    const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
-    const runRow = runStmt.get(nextSnapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
-    if (!runRow) {
-      throw new Error(`Run '${nextSnapshot.runId}' not found`);
-    }
-
-    const effectiveFencing = fencing ?? { workerId: current.workerId, leaseId: current.leaseId };
-    if (runRow.current_worker_id !== effectiveFencing.workerId || runRow.lease_id !== effectiveFencing.leaseId) {
-      throw new LeaseLostError(nextSnapshot.runId, effectiveFencing.leaseId, runRow.lease_id);
+    if (fencing) {
+      const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
+      const runRow = runStmt.get(nextSnapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
+      if (!runRow) {
+        throw new Error(`Run '${nextSnapshot.runId}' not found`);
+      }
+      if (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId) {
+        throw new LeaseLostError(nextSnapshot.runId, fencing.leaseId, runRow.lease_id);
+      }
     }
 
     // Identity immutability check
@@ -1341,7 +1341,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
       `UPDATE attempts SET
          status = ?, started_at = ?, completed_at = ?, duration_ms = ?, exit_code = ?,
          output_payload = ?, error_payload = ?, evidence_ids = ?, provider_metadata = ?
-       WHERE attempt_id = ? AND status = ? AND lease_id = ? AND worker_id = ?`
+       WHERE attempt_id = ? AND status = ?`
     );
     const result = stmt.run(
       nextSnapshot.status,
@@ -1354,18 +1354,13 @@ export class SqliteStorageTransaction implements StorageTransaction {
       JSON.stringify(nextSnapshot.evidenceIds ?? []),
       serializedMetadata,
       attemptId,
-      current.status,
-      effectiveFencing.leaseId,
-      effectiveFencing.workerId
+      current.status
     ) as { changes: number };
 
     if (result.changes === 0) {
       const fresh = this.getAttempt(attemptId);
       if (!fresh) {
         throw new AttemptNotFoundError(attemptId);
-      }
-      if (fresh.leaseId !== effectiveFencing.leaseId || fresh.workerId !== effectiveFencing.workerId) {
-        throw new LeaseLostError(fresh.runId, effectiveFencing.leaseId, fresh.leaseId);
       }
       if (fresh.status !== current.status) {
         throw new InvalidAttemptTransitionError(
@@ -1416,6 +1411,22 @@ export class SqliteStorageTransaction implements StorageTransaction {
     return mapAttemptRowToSnapshot(row);
   }
 
+  findInFlightAttempts(limit: number = 50): readonly AttemptSnapshot[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM attempts WHERE status IN ('CREATED', 'DISPATCHED', 'RUNNING') ORDER BY started_at ASC LIMIT ?`
+    );
+    const rows = stmt.all(limit) as unknown as DbAttemptRow[];
+    return rows.map(mapAttemptRowToSnapshot);
+  }
+
+  findInFlightActions(limit: number = 50): readonly ActionSnapshot[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM actions WHERE status IN ('CREATED', 'AUTHORIZED', 'RUNNING', 'RETRYING') ORDER BY created_at ASC LIMIT ?`
+    );
+    const rows = stmt.all(limit) as unknown as DbActionRow[];
+    return rows.map((r) => mapActionRowToSnapshot(r, this.db));
+  }
+
   transitionAttempt(
     attemptId: string,
     command: AttemptCommand,
@@ -1425,6 +1436,13 @@ export class SqliteStorageTransaction implements StorageTransaction {
     const current = this.getAttempt(attemptId);
     if (!current) {
       throw new AttemptNotFoundError(attemptId);
+    }
+    if (fencing) {
+      const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
+      const runRow = runStmt.get(current.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
+      if (runRow && (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId)) {
+        throw new LeaseLostError(current.runId, fencing.leaseId, runRow.lease_id);
+      }
     }
     const { nextSnapshot, event } = applyAttemptTransition(current, command, eventIdGenerator);
     const persistedEvent = this.updateAttempt(attemptId, nextSnapshot, event, fencing);
@@ -1579,6 +1597,16 @@ export class SqliteStateStore implements StateStorePort {
   getActiveAttemptForAction(actionId: string): AttemptSnapshot | null {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.getActiveAttemptForAction(actionId);
+  }
+
+  findInFlightAttempts(limit: number = 50): readonly AttemptSnapshot[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findInFlightAttempts(limit);
+  }
+
+  findInFlightActions(limit: number = 50): readonly ActionSnapshot[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findInFlightActions(limit);
   }
 
   close(): void {

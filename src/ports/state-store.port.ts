@@ -107,6 +107,8 @@ export interface StorageTransaction extends MissionContractStorePort {
   getAttemptByNumber(actionId: string, attemptNumber: number): AttemptSnapshot | null;
   getAttemptByIdempotencyToken(token: string): AttemptSnapshot | null;
   getActiveAttemptForAction(actionId: string): AttemptSnapshot | null;
+  findInFlightAttempts?(limit?: number): readonly AttemptSnapshot[];
+  findInFlightActions?(limit?: number): readonly ActionSnapshot[];
   transitionAttempt(
     attemptId: string,
     command: AttemptCommand,
@@ -154,6 +156,8 @@ export interface StateStorePort extends MissionContractStorePort {
   getAttemptByNumber(actionId: string, attemptNumber: number): AttemptSnapshot | null;
   getAttemptByIdempotencyToken(token: string): AttemptSnapshot | null;
   getActiveAttemptForAction(actionId: string): AttemptSnapshot | null;
+  findInFlightAttempts?(limit?: number): readonly AttemptSnapshot[];
+  findInFlightActions?(limit?: number): readonly ActionSnapshot[];
 
   getEventsForRun(runId: string): readonly PersistedEvent[];
   getTask(taskId: string): TaskRecord | null;
