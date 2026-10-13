@@ -1,4 +1,4 @@
-# ADR-0012: First Real Model Provider Adapter (OpenAI) & SDK Isolation Boundary
+# ADR-0012: Local Open-Source Model Provider Adapter (Ollama) & Zero-Cost Architecture
 
 ## Status
 Approved (Architecture Specification Baseline)
@@ -25,23 +25,22 @@ Approved (Architecture Specification Baseline)
 
 ## 1. Context & Problem Statement
 
-Phase 6.1 established the provider-neutral `ModelProviderPort` interface and domain error hierarchy. Phase 6.2 implemented `LiveAgentBrain` as the application bridge connecting `AgentStepController` to `ModelProviderPort`.
+Phase 6.1 established the provider-neutral `ModelProviderPort` interface and domain error hierarchy. Phase 6.2 implemented `LiveAgentBrain` as the application-layer bridge mediating between `AgentStepController` and `ModelProviderPort`.
 
-In Phase 6.3, Emerald requires its first concrete adapter connecting to an external model service.
-The fundamental architectural challenge is:
-> How do we connect to a real commercial LLM API while preserving strict provider neutrality, single-attempt predictability, zero credential leakage, 100% offline test reliability, and the foundational invariant that model output is strictly untrusted data?
+In Phase 6.3, Emerald establishes its first concrete model provider adapter.
+A foundational project constraint governs Emerald Agent Fabric:
+> **Zero Cost & Open-Source Infrastructure**: Emerald is developed under ₹0 development/inference cost, zero paid model APIs, zero commercial SaaS dependencies, and local open-source model execution wherever possible.
 
-If an adapter is implemented naively:
-- Provider SDK types and proprietary error shapes leak into domain and application code.
-- SDK default automatic retries and exponential backoff loops hide network latency, defeat timeout ceilings, and violate step budgeting.
-- API keys can inadvertently leak into diagnostic logs, error messages, or commit history.
-- The standard test suite would depend on live external network access, causing flaky CI and billing unpredictability.
+Commercial cloud model APIs (such as OpenAI, Anthropic, or proprietary hosted gateways) require paid subscriptions, recurring per-token billing, secret API credentials, and external network dependencies. Introducing a commercial model provider into the default baseline would violate Emerald's open-source, CPU-first, and zero-cost mission.
+
+The engineering challenge:
+> Implement a concrete model provider adapter using a local open-source model runtime (Ollama) that strictly fulfills the `ModelProviderPort` contract without leaking runtime HTTP details, requiring cloud credentials, or weakening the invariant that model output is strictly untrusted data.
 
 ---
 
 ## 2. Decision & Architectural Principles
 
-We implement `OpenAIModelProvider` in `src/adapters/models/openai-model-provider.ts` as the first concrete adapter implementing `ModelProviderPort`:
+We implement `OllamaModelProvider` in `src/adapters/models/ollama-model-provider.ts` as the primary concrete adapter implementing `ModelProviderPort`:
 
 ```text
 AgentStepController
@@ -52,88 +51,91 @@ LiveAgentBrain (Phase 6.2)
         ↓
 ModelProviderPort (Phase 6.1)
         ↓
-OpenAIModelProvider (Phase 6.3 Adapter)
+OllamaModelProvider (Phase 6.3 Adapter)
         ↓
-OpenAI Chat Completions API
+Ollama Localhost HTTP API (http://127.0.0.1:11434)
+        ↓
+Local Open-Source Model (e.g., Llama, Qwen, Mistral)
 ```
 
-### 2.1 Provider Selection & Single Adapter Discipline
-We select OpenAI (`openai` npm SDK) as the first and currently only concrete adapter:
-- No secondary or speculative adapters are introduced (GEMINI.md Section 5: No Speculative Architecture).
-- No model routing, round-robin, or fallback switching is introduced at this layer.
-- The adapter strictly targets standard chat completions endpoints and compatible proxies via configurable `baseURL`.
+### 2.1 ₹0 Cost & Zero Cloud Dependency
+- **No Paid APIs**: Baseline development, CI, testing, and execution incur ₹0 in model inference fees.
+- **No API Keys**: The adapter requires zero authentication tokens, bearer headers, or secret credentials.
+- **Local Execution**: The default runtime communicates strictly with a local Ollama daemon (`http://127.0.0.1:11434`) over localhost. No prompts or code are dispatched to third-party commercial clouds.
 
-### 2.2 Complete SDK Isolation
-The OpenAI SDK dependency is strictly confined within `src/adapters/models/openai-model-provider.ts`:
-- Zero OpenAI SDK types, classes, or interfaces leak across the `ModelProviderPort` boundary.
-- All incoming requests conform strictly to `ModelProviderRequest`.
-- All outgoing responses conform strictly to `ModelProviderResponse`.
-- All errors are intercepted and translated into the strongly-typed Phase 6.1 domain error taxonomy (`ModelProviderError` hierarchy).
+### 2.2 Model Independence & Flexible Local Models
+- The architecture does not mandate a specific model size or proprietary checkpoint.
+- Models are configurable via `options.defaultModel`, `process.env.OLLAMA_MODEL`, or `request.model` (e.g., `llama3.2`, `qwen2.5-coder`, `mistral`).
+- The system remains usable across varied local developer hardware (CPU-first, Apple Silicon, local GPU).
 
-### 2.3 Non-Negotiable Single-Attempt Semantics
-Automatic retries inside model SDKs destroy observability and violate Emerald's step budget governance:
-- The OpenAI client is instantiated with `maxRetries: 0`.
-- In calls to `chat.completions.create(...)`, `maxRetries: 0` is explicitly enforced.
-- The adapter performs exactly **one** API request per `generate(...)` call.
-- Any network drop, timeout, or rate limit fails immediately into domain error types, allowing the upstream `AgentStepController` and WorkerRuntime to record the failure transparently against step budgets.
+### 2.3 Strict Single-Attempt Semantics (Zero Hidden Retries)
+- The adapter performs exactly **one** HTTP request per `generate(...)` invocation.
+- Zero internal retry loops.
+- Zero automatic exponential backoff.
+- Zero silent model switching or fallback provider cascades.
+- If Ollama is unavailable or inference fails, the call immediately rejects with a typed Phase 6.1 domain error, preserving step budget accounting in `AgentStepController`.
 
-### 2.4 Secret Safety & Fail-Closed Credentials
-- API keys are sourced exclusively from runtime configuration (`options.apiKey`) or environment variables (`process.env.OPENAI_API_KEY`).
-- If credentials are absent and no client was injected, the adapter fails closed immediately with `ModelProviderUnavailableError`.
-- Any error message undergoing domain error mapping is sanitized with regex redaction (`sanitizeErrorMessage`) to strip potential API keys (`sk-...`) or Bearer tokens before exposure.
-- Credentials are never written to disk, events, logs, or diagnostic metadata.
+### 2.4 Complete Infrastructure Isolation
+- Built using native Node.js `fetch` with zero external npm SDK dependencies (eliminating vendor package bloat).
+- Zero Ollama-specific request, response, or error types leak into domain or application layers.
+- All requests adhere strictly to `ModelProviderRequest`.
+- All responses adhere strictly to `ModelProviderResponse`.
 
-### 2.5 Structured Output Mapping
-When `request.generation?.structuredOutput` is present:
-- The provider-neutral `ModelStructuredOutputSchema` is translated directly to OpenAI's native `response_format: { type: "json_schema", json_schema: { ... } }`.
-- Upon response arrival, the adapter performs JSON parse verification before returning to ensure schema conformance when `finishReason === "STOP"`. Malformed outputs produce `ModelResponseInvalidError`.
+### 2.5 Structured Output Translation
+- Provider-neutral `ModelStructuredOutputSchema` is translated directly to Ollama's schema specification (`format: schema.jsonSchema`).
+- Upon receiving a completed response (`finishReason === "STOP"`), the adapter verifies valid JSON syntax before returning. If invalid or empty, it rejects with `ModelResponseInvalidError`.
+- Regex parsers or loose fuzzy extractors are strictly prohibited.
 
 ### 2.6 Deterministic Error Taxonomy Mapping
-All provider exceptions are classified deterministically:
-| OpenAI Error / Condition | Emerald Domain Error |
+All local HTTP and runtime failures map deterministically into Phase 6.1 domain errors:
+| Local Runtime Failure / Condition | Emerald Domain Error |
 | :--- | :--- |
-| `APIUserAbortError`, `AbortError`, pre-dispatch aborted signal | `ModelRequestCancelledError` |
-| `APIConnectionTimeoutError`, `TimeoutError`, message includes timeout | `ModelRequestTimeoutError` |
-| `RateLimitError`, HTTP 429 status | `ModelRateLimitedError` (extracts `retry-after-ms` or `retry-after`) |
-| `context_length_exceeded`, max tokens exceeded | `ModelOutputLimitExceededError` |
-| `BadRequestError`, `UnprocessableEntityError`, HTTP 400, 422 | `ModelRequestInvalidError` |
-| `AuthenticationError` (401), `PermissionDeniedError` (403), `APIConnectionError`, 5xx | `ModelProviderUnavailableError` |
-| Unrecognized or generic `APIError` | `ModelProviderError` (`code: "MODEL_PROVIDER_ERROR"`) |
+| Pre-dispatch `abortSignal.aborted`, in-flight abort event | `ModelRequestCancelledError` |
+| Inference timeout (`timeoutMs` exceeded) | `ModelRequestTimeoutError` |
+| Local daemon unreachable (`ECONNREFUSED`, network drop) | `ModelProviderUnavailableError` |
+| Model not found, route missing, bad options (HTTP 404, 400) | `ModelRequestInvalidError` |
+| Internal daemon error, out of memory (HTTP 500) | `ModelProviderUnavailableError` |
+| Malformed JSON response, missing `message` object | `ModelResponseInvalidError` |
+| Output exceeds token limit | `ModelOutputLimitExceededError` |
+| Unhandled HTTP status code | `ModelProviderError` |
 
-### 2.7 100% Offline Test Suite with Dependency Injection
-To ensure hermetic, fast, and repeatable testing without network dependencies:
-- `OpenAIModelProvider` accepts an optional `client?: OpenAIClientLike` structural interface.
-- 100% of the unit and integration test suite runs offline against deterministic mock clients.
-- Live external network tests are quarantined behind an explicit opt-in environment flag (`LIVE_MODEL_TESTS === "true"` and `OPENAI_API_KEY`), ensuring CI and standard development workflows remain completely offline.
+### 2.7 Usage Accounting Without Fabrication
+- Token counts are mapped strictly from Ollama's `prompt_eval_count` (`inputTokens`) and `eval_count` (`outputTokens`).
+- If token counts are not reported, `usage` remains `undefined`. Token counts are never fabricated or guessed.
 
-### 2.8 Zero Execution Authority
-The adapter is an unprivileged leaf adapter:
-- Zero execution of tools or tool adapters.
-- Zero capability authorization.
+### 2.8 100% Offline Normal Test Suite
+- `OllamaModelProvider` accepts an optional `fetch?: OllamaFetchLike` dependency.
+- All unit and integration tests run 100% offline with zero network access and without requiring an active Ollama installation.
+- Live localhost inference tests are strictly quarantined behind an explicit opt-in environment flag (`OLLAMA_LIVE_TESTS === "true"`).
+
+### 2.9 Model $\ne$ Authority
+Local models remain untrusted external dependencies:
+- Zero tool execution capability.
+- Zero capability escalation.
 - Zero persistence access.
-- Zero modification of Mission Contracts or leases.
+- Every candidate proposal generated by the local model must pass through the authoritative 11-stage `ProposalValidator` pipeline before execution.
 
 ---
 
 ## 3. Alternatives Considered
 
-1. **Third-Party Universal Provider Wrappers (LiteLLM, LangChain, Portkey)**:
-   Rejected. Introduces heavy external dependencies, hides transport behavior, breaks fine-grained timeout and cancellation handling, and violates GEMINI.md Section 7 & 8.
-2. **Raw `fetch` without Official SDK**:
-   Rejected. Using the official `openai` SDK inside a strictly contained adapter provides reliable wire encoding and types while keeping SDK exposure 100% isolated behind `ModelProviderPort`.
-3. **Allowing SDK Internal Retries**:
-   Rejected. Hidden SDK retries conceal latency bottlenecks, prevent step budget accounting, and violate GEMINI.md Section 18 (Latency Model) and Section 26 (Bounded Retries).
+1. **Commercial Model Providers (OpenAI, Anthropic, Gemini)**:
+   Rejected. Introduces recurring costs, requires API keys and subscriptions, creates external cloud dependencies, and violates the ₹0 / open-source constraint.
+2. **Third-Party Model Proxy Wrappers (LiteLLM, LangChain, Ollama npm SDK)**:
+   Rejected. Introduces unnecessary npm dependency bloat and risks leaking proprietary error shapes. Standard native `fetch` provides complete, lightweight HTTP control.
+3. **Internal Model Switching / Fallback Cascades**:
+   Rejected. Violates GEMINI.md Section 18 (Latency Model) and Section 26 (Bounded Retries). Fallback mechanisms must not hide underlying runtime failures.
 
 ---
 
 ## 4. Consequences & Revisit Conditions
 
 ### Positive Consequences
-- Real model inference can now be performed via `LiveAgentBrain` through a real external API.
-- Complete domain and application independence from OpenAI SDK maintained.
-- Deterministic error taxonomy and single-attempt semantics enforced.
-- Test suite remains 100% offline, deterministic, and free from external network flakiness.
+- ₹0 cost development and evaluation unlocked.
+- Complete domain independence preserved: replacing OpenAI with Ollama required zero changes to `ModelProviderPort`, `LiveAgentBrain`, or `AgentStepController`.
+- Zero external npm packages required for model inference.
+- Test suite remains 100% offline, deterministic, and fast.
 
 ### Revisit Conditions
-- Implementation of additional provider adapters (e.g., Anthropic, Gemini, local models) in future phases.
-- If OpenAI deprecates the Chat Completions API format in favor of a different wire protocol.
+- If future local runtimes (e.g. llama.cpp direct bindings or ONNX runtime) provide faster CPU execution than Ollama HTTP.
+- If Ollama introduces streaming chat completions requiring streaming port interfaces.

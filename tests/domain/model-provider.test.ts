@@ -369,7 +369,7 @@ describe("Phase 6.1 — Model Provider Port & Neutral Contracts", () => {
 
     const outputLimitErr = new ModelOutputLimitExceededError("Generation exceeded max tokens", {
       maxOutputTokens: 2048,
-      providerName: "openai",
+      providerName: "ollama",
     });
     expect(outputLimitErr.code).toBe("MODEL_OUTPUT_LIMIT_EXCEEDED");
     expect(outputLimitErr.isRetryable).toBe(false);
@@ -382,7 +382,7 @@ describe("Phase 6.1 — Model Provider Port & Neutral Contracts", () => {
   it("maps timeout errors distinctly as retryable lower-level failures", () => {
     const timeoutErr = new ModelRequestTimeoutError("Model inference timed out after 30000ms", {
       timeoutMs: 30000,
-      providerName: "openai",
+      providerName: "ollama",
       requestId: "req-timeout",
     });
 
@@ -397,7 +397,7 @@ describe("Phase 6.1 — Model Provider Port & Neutral Contracts", () => {
   // =========================================================================
   it("maps cancellation errors distinctly as non-retryable", () => {
     const cancelErr = new ModelRequestCancelledError("Inference cancelled via AbortSignal", {
-      providerName: "gemini",
+      providerName: "ollama",
       requestId: "req-cancel-123",
     });
 
@@ -412,14 +412,14 @@ describe("Phase 6.1 — Model Provider Port & Neutral Contracts", () => {
   it("maps rate limit errors as retryable with optional retryAfterMs hint", () => {
     const rateLimitErr = new ModelRateLimitedError("Rate limit exceeded: 429 Too Many Requests", {
       retryAfterMs: 2500,
-      providerName: "openai",
+      providerName: "ollama",
       requestId: "req-rate",
     });
 
     expect(rateLimitErr.code).toBe("MODEL_RATE_LIMITED");
     expect(rateLimitErr.isRetryable).toBe(true);
     expect(rateLimitErr.retryAfterMs).toBe(2500);
-    expect(rateLimitErr.providerName).toBe("openai");
+    expect(rateLimitErr.providerName).toBe("ollama");
   });
 
   // =========================================================================

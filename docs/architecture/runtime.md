@@ -631,20 +631,19 @@ $$\text{AgentStepController} \longrightarrow \text{AgentBrainPort} \longrightarr
 
 ---
 
-## 22. OpenAI Model Provider Adapter (Task 6.3)
+## 22. Local Open-Source Model Provider Adapter — Ollama (Task 6.3)
 
-Section 22 establishes the first concrete provider adapter connecting `ModelProviderPort` to the OpenAI Chat Completions API:
+Section 22 establishes the first concrete provider adapter connecting `ModelProviderPort` to the local open-source Ollama runtime (`http://127.0.0.1:11434`):
 
-$$\text{LiveAgentBrain} \longrightarrow \text{ModelProviderPort} \longrightarrow \text{OpenAIModelProvider} \longrightarrow \text{OpenAI API}$$
+$$\text{LiveAgentBrain} \longrightarrow \text{ModelProviderPort} \longrightarrow \text{OllamaModelProvider} \longrightarrow \text{Ollama Localhost API} \longrightarrow \text{Open-Source Model}$$
 
 ### 22.1 Core Architectural Principles
-1. **Single Concrete Adapter Discipline**: Only OpenAI is implemented in this phase. No fallback cascades, model routing, or speculative provider adapters exist.
-2. **SDK Isolation**: The official `openai` SDK dependency is 100% contained within `src/adapters/models/openai-model-provider.ts`. No OpenAI SDK types leak into domain, port, or application layers.
+1. **₹0 Inference Cost & Open-Source Discipline**: Emerald operates under ₹0 development/inference cost, zero commercial API dependencies, no subscriptions, and no API keys. The baseline model inference path runs locally against open-source models (e.g. Llama, Qwen, Mistral).
+2. **Native HTTP & Zero External SDKs**: The adapter uses native Node.js `fetch` with zero external npm SDK dependencies. All Ollama wire protocol details are 100% contained within `src/adapters/models/ollama-model-provider.ts`.
 3. **Single-Attempt Non-Negotiable Guarantee**:
-   $$\text{maxRetries} = 0$$
-   The client is configured with `maxRetries: 0` and every call enforces `maxRetries: 0`. The adapter performs exactly one API invocation per `generate(...)` call. Zero internal retry or backoff loops exist.
-4. **Secret Safety & Fail-Closed Credentials**: API keys are read strictly from `options.apiKey` or `process.env.OPENAI_API_KEY`. If unconfigured and no client is injected, execution fails closed with `ModelProviderUnavailableError`. Error messages are scrubbed to redact `sk-...` keys and bearer tokens. Credentials are never logged or stored.
-5. **Deterministic Error Mapping**: Provider errors map to Emerald's Phase 6.1 domain error taxonomy (`ModelRequestCancelledError`, `ModelRequestTimeoutError`, `ModelRateLimitedError`, `ModelRequestInvalidError`, `ModelProviderUnavailableError`, `ModelOutputLimitExceededError`, `ModelResponseInvalidError`).
-6. **Structured Output Translation**: Translates provider-neutral `ModelStructuredOutputSchema` to OpenAI `response_format: { type: "json_schema", ... }` and verifies JSON syntax before returning.
-7. **100% Hermetic Offline Test Suite**: Dependency injection of `OpenAIClientLike` enables fully offline, deterministic testing of request translation, error handling, structured outputs, and governance loop integration. Live network tests are isolated behind `LIVE_MODEL_TESTS === "true"`.
-8. **Zero Execution Authority**: The provider possesses zero execution authority, runs zero tools, touches zero execution providers, and makes zero database changes.
+   The adapter performs exactly one HTTP request per `generate(...)` call. Zero internal retries, zero automatic backoff loops, and zero silent fallback models exist.
+4. **Hardware & Model Flexibility**: Model selection is configurable via `options.defaultModel`, `process.env.OLLAMA_MODEL`, or `request.model`. No specific massive model is hardcoded, keeping Emerald runnable on CPU-first developer machines.
+5. **Deterministic Error Mapping**: Local runtime failures map deterministically to Emerald's Phase 6.1 domain error taxonomy (`ModelRequestCancelledError`, `ModelRequestTimeoutError`, `ModelProviderUnavailableError`, `ModelRequestInvalidError`, `ModelOutputLimitExceededError`, `ModelResponseInvalidError`, `ModelProviderError`).
+6. **Structured Output Translation**: Translates provider-neutral `ModelStructuredOutputSchema` to Ollama's schema specification (`format: schema.jsonSchema`) and verifies valid JSON syntax before returning when `finishReason === "STOP"`.
+7. **100% Hermetic Offline Test Suite**: Dependency injection of `OllamaFetchLike` enables fully offline, deterministic testing of request translation, error mapping, structured output conformance, and governance loop integration without requiring an active Ollama installation. Live tests are isolated behind `OLLAMA_LIVE_TESTS === "true"`.
+8. **Zero Execution Authority**: The local model remains untrusted. The adapter confers zero execution authority, runs zero tools, touches zero execution providers, and makes zero database changes. Model proposals must pass through `ProposalValidator` before execution.

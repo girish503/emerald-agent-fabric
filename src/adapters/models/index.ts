@@ -3,7 +3,7 @@
  */
 
 export {
-  OpenAIModelProvider,
-  type OpenAIModelProviderOptions,
-  type OpenAIClientLike,
-} from "./openai-model-provider.js";
+  OllamaModelProvider,
+  type OllamaModelProviderOptions,
+  type OllamaFetchLike,
+} from "./ollama-model-provider.js";
