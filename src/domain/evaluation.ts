@@ -26,6 +26,7 @@ import { computeCanonicalHash, isSensitiveKey } from "./canonical-hash.js";
 import { sanitizeWorkspacePath } from "./workspace-path.js";
 import { FORBIDDEN_AUTHORITY_KEYS } from "./action-proposal.js";
 import { VerificationSpec } from "./verification.js";
+import { ReflexNotImplementedError } from "./errors.js";
 
 // ============================================================================
 // 1. Constants & Limits
@@ -55,6 +56,21 @@ export type EvaluationStatus = (typeof EVALUATION_STATUSES)[number];
 
 export function isValidEvaluationStatus(status: unknown): status is EvaluationStatus {
   return typeof status === "string" && (EVALUATION_STATUSES as readonly string[]).includes(status);
+}
+
+// ============================================================================
+// 2B. Evaluation Execution Modes
+// ============================================================================
+
+export const EVALUATION_EXECUTION_MODES = [
+  "BASELINE",
+  "REFLEX",
+] as const;
+
+export type EvaluationExecutionMode = (typeof EVALUATION_EXECUTION_MODES)[number];
+
+export function isValidEvaluationExecutionMode(mode: unknown): mode is EvaluationExecutionMode {
+  return typeof mode === "string" && (EVALUATION_EXECUTION_MODES as readonly string[]).includes(mode);
 }
 
 // ============================================================================
@@ -552,6 +568,7 @@ export interface EvaluationRunResult {
   readonly taskContentHash: string;
   readonly configFingerprint: EvaluationConfigFingerprint;
   readonly trialNumber: number;
+  readonly executionMode?: EvaluationExecutionMode;
   readonly runId: string;
   readonly status: EvaluationStatus;
   readonly statusMessage: string;
@@ -754,6 +771,7 @@ export interface EvaluationTrial {
   readonly criteriaResults: readonly EvaluationCriterionResult[];
   readonly metrics: EvaluationMetrics;
   readonly evidenceReferences: readonly string[];
+  readonly executionMode?: EvaluationExecutionMode;
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
@@ -816,6 +834,7 @@ export const EvaluationTrialSchema = z
     criteriaResults: z.array(z.any()),
     metrics: EvaluationMetricsSchema,
     evidenceReferences: z.array(z.string()),
+    executionMode: z.enum(EVALUATION_EXECUTION_MODES).optional(),
     errorDetails: z.string().optional(),
     startedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "startedAt must be a valid ISO 8601 timestamp"),
     completedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "completedAt must be a valid ISO 8601 timestamp"),
@@ -894,6 +913,7 @@ export function validateEvaluationTrial(def: unknown): EvaluationTrial {
     criteriaResults: Object.freeze(data.criteriaResults.map((c: any) => Object.freeze({ ...c }))),
     metrics: createEvaluationMetrics(data.metrics),
     evidenceReferences: Object.freeze([...data.evidenceReferences]),
+    executionMode: data.executionMode,
     errorDetails: data.errorDetails,
     startedAt: data.startedAt,
     completedAt: data.completedAt,
@@ -916,6 +936,7 @@ export interface CreateEvaluationTrialParams {
   readonly criteriaResults?: readonly EvaluationCriterionResult[];
   readonly metrics: EvaluationMetrics;
   readonly evidenceReferences?: readonly string[];
+  readonly executionMode?: EvaluationExecutionMode;
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
@@ -964,6 +985,7 @@ export function createEvaluationTrial(params: CreateEvaluationTrialParams): Eval
     criteriaResults: params.criteriaResults ?? [],
     metrics: params.metrics,
     evidenceReferences: params.evidenceReferences ?? [],
+    executionMode: params.executionMode ?? "BASELINE",
     errorDetails: params.errorDetails,
     startedAt: params.startedAt,
     completedAt: params.completedAt,
@@ -1019,6 +1041,7 @@ export function createEvaluationTrialFromRunResult(
     criteriaResults: runResult.criteriaResults,
     metrics: runResult.metrics,
     evidenceReferences: runResult.evidenceReferences,
+    executionMode: runResult.executionMode ?? "BASELINE",
     errorDetails:
       options?.errorDetails ??
       (runResult.status === "ERROR" || runResult.status === "BLOCKED"
@@ -1169,17 +1192,23 @@ export interface EvaluationExperimentCondition {
   readonly conditionId: string;
   readonly name: string;
   readonly description?: string;
+  readonly executionMode: EvaluationExecutionMode;
   readonly configFingerprint: EvaluationConfigFingerprint;
   readonly conditionHash: string;
 }
 
-export function computeConditionHash(params: {
+export interface ComputeConditionHashParams {
   readonly conditionId: string;
   readonly configFingerprintHash: string;
-}): string {
+  readonly executionMode?: EvaluationExecutionMode;
+}
+
+export function computeConditionHash(params: ComputeConditionHashParams): string {
+  const executionMode = params.executionMode ?? "BASELINE";
   const canonicalPayload = {
     conditionId: params.conditionId,
     configFingerprintHash: params.configFingerprintHash,
+    executionMode,
   };
   return computeCanonicalHash(canonicalPayload).contentHash;
 }
@@ -1196,6 +1225,7 @@ export const EvaluationExperimentConditionSchema = z
       .min(1, "condition name cannot be empty")
       .max(256, "condition name cannot exceed 256 characters"),
     description: z.string().max(4096, "condition description cannot exceed 4096 characters").optional(),
+    executionMode: z.enum(EVALUATION_EXECUTION_MODES).default("BASELINE"),
     configFingerprint: EvaluationConfigFingerprintSchema,
     conditionHash: z.string().regex(/^[a-f0-9]{64}$/, "conditionHash must be a 64-char hex string"),
   })
@@ -1205,6 +1235,7 @@ export const EvaluationExperimentConditionSchema = z
     const expectedHash = computeConditionHash({
       conditionId: val.conditionId,
       configFingerprintHash: val.configFingerprint.fingerprintHash,
+      executionMode: val.executionMode,
     });
     if (val.conditionHash !== expectedHash) {
       ctx.addIssue({
@@ -1254,6 +1285,7 @@ export function validateExperimentCondition(def: unknown): EvaluationExperimentC
     conditionId: result.data.conditionId,
     name: result.data.name,
     description: result.data.description,
+    executionMode: result.data.executionMode,
     configFingerprint: Object.freeze({ ...result.data.configFingerprint }),
     conditionHash: result.data.conditionHash,
   });
@@ -1263,6 +1295,7 @@ export interface CreateExperimentConditionParams {
   readonly conditionId: string;
   readonly name: string;
   readonly description?: string;
+  readonly executionMode?: EvaluationExecutionMode;
   readonly configFingerprint: EvaluationConfigFingerprint;
   readonly conditionHash?: string;
 }
@@ -1270,17 +1303,20 @@ export interface CreateExperimentConditionParams {
 export function createExperimentCondition(
   params: CreateExperimentConditionParams
 ): EvaluationExperimentCondition {
+  const executionMode = params.executionMode ?? "BASELINE";
   const conditionHash =
     params.conditionHash ??
     computeConditionHash({
       conditionId: params.conditionId,
       configFingerprintHash: params.configFingerprint?.fingerprintHash,
+      executionMode,
     });
 
   const raw = {
     conditionId: params.conditionId,
     name: params.name,
     description: params.description,
+    executionMode,
     configFingerprint: params.configFingerprint,
     conditionHash,
   };
@@ -1323,6 +1359,7 @@ export function computeEvaluationExperimentHash(params: {
       conditionHash: c.conditionHash,
       conditionId: c.conditionId,
       configFingerprintHash: c.configFingerprint.fingerprintHash,
+      executionMode: c.executionMode,
       name: c.name,
     }));
 
@@ -1873,6 +1910,7 @@ export interface EvaluationConditionReport {
   readonly conditionId: string;
   readonly conditionName: string;
   readonly conditionHash: string;
+  readonly executionMode?: EvaluationExecutionMode;
   readonly taskRef: EvaluationTaskReference;
   readonly configFingerprint: EvaluationConfigFingerprint;
   readonly plannedTrialCount: number;
@@ -1888,6 +1926,7 @@ export const EvaluationConditionReportSchema = z
     conditionId: z.string().min(1),
     conditionName: z.string().min(1),
     conditionHash: z.string().regex(/^[a-f0-9]{64}$/),
+    executionMode: z.enum(EVALUATION_EXECUTION_MODES).optional(),
     taskRef: EvaluationTaskReferenceSchema,
     configFingerprint: EvaluationConfigFingerprintSchema,
     plannedTrialCount: z.number().int().positive(),
@@ -1926,6 +1965,7 @@ export function validateConditionReport(def: unknown): EvaluationConditionReport
     conditionId: result.data.conditionId,
     conditionName: result.data.conditionName,
     conditionHash: result.data.conditionHash,
+    executionMode: result.data.executionMode,
     taskRef: Object.freeze({ ...result.data.taskRef }),
     configFingerprint: Object.freeze({ ...result.data.configFingerprint }),
     plannedTrialCount: result.data.plannedTrialCount,
@@ -2252,6 +2292,7 @@ export function generateEvaluationReport(
         conditionId: condition.conditionId,
         conditionName: condition.name,
         conditionHash: condition.conditionHash,
+        executionMode: condition.executionMode,
         taskRef: experiment.taskRef,
         configFingerprint: condition.configFingerprint,
         plannedTrialCount: experiment.plannedTrialCount,
@@ -2414,4 +2455,128 @@ export function compareExperimentConditions(
   }
 
   return compareConditions(baseline, candidate, report.taskRef);
+}
+
+// ============================================================================
+// 26. Reflex Evaluation Condition Boundary & Controlled Comparison
+// ============================================================================
+
+export function assertExecutionModeSupported(mode: EvaluationExecutionMode): void {
+  if (mode === "REFLEX") {
+    throw new ReflexNotImplementedError(
+      "Evaluation execution mode 'REFLEX' is reserved for the future adaptive Reflex control layer and is not yet implemented (REFLEX_NOT_IMPLEMENTED). Preflight execution rejected."
+    );
+  }
+  if (mode !== "BASELINE") {
+    throw new Error(`Unsupported evaluation execution mode: '${mode}'`);
+  }
+}
+
+export interface ControlledConditionComparisonResult {
+  readonly comparable: boolean;
+  readonly taskRef: EvaluationTaskReference;
+  readonly baselineConditionId: string;
+  readonly candidateConditionId: string;
+  readonly intentionalDifferences: readonly string[];
+  readonly configurationCompatible: boolean;
+}
+
+export interface AssertControlledConditionComparabilityParams {
+  readonly taskRef: EvaluationTaskReference;
+  readonly baselineCondition: EvaluationExperimentCondition;
+  readonly candidateCondition: EvaluationExperimentCondition;
+  readonly expectedTaskId?: string;
+  readonly expectedTaskVersion?: number;
+  readonly expectedTaskContentHash?: string;
+  readonly allowConfigDifferences?: boolean;
+}
+
+export function assertControlledConditionComparability(
+  params: AssertControlledConditionComparabilityParams
+): ControlledConditionComparisonResult {
+  const {
+    taskRef,
+    baselineCondition,
+    candidateCondition,
+    expectedTaskId,
+    expectedTaskVersion,
+    expectedTaskContentHash,
+    allowConfigDifferences,
+  } = params;
+
+  // 1. Task verification & fencing against expectations
+  if (expectedTaskId && taskRef.taskId !== expectedTaskId) {
+    throw new Error(
+      `Task mismatch in controlled comparison: expected taskId '${expectedTaskId}', received '${taskRef.taskId}'`
+    );
+  }
+  if (expectedTaskVersion !== undefined && taskRef.taskVersion !== expectedTaskVersion) {
+    throw new Error(
+      `Task version mismatch in controlled comparison: expected version ${expectedTaskVersion}, received ${taskRef.taskVersion}`
+    );
+  }
+  if (expectedTaskContentHash && taskRef.taskContentHash !== expectedTaskContentHash) {
+    throw new Error(
+      `Task content hash mismatch in controlled comparison: expected '${expectedTaskContentHash}', received '${taskRef.taskContentHash}'`
+    );
+  }
+
+  // 2. Condition-to-task version alignment
+  if (baselineCondition.configFingerprint.taskVersion !== taskRef.taskVersion) {
+    throw new Error(
+      `Task version mismatch between baseline condition and taskRef: ${baselineCondition.configFingerprint.taskVersion} vs ${taskRef.taskVersion}`
+    );
+  }
+  if (candidateCondition.configFingerprint.taskVersion !== taskRef.taskVersion) {
+    throw new Error(
+      `Task version mismatch between candidate condition and taskRef: ${candidateCondition.configFingerprint.taskVersion} vs ${taskRef.taskVersion}`
+    );
+  }
+
+  // 3. Baseline condition execution mode verification
+  if (baselineCondition.executionMode !== "BASELINE") {
+    throw new Error(
+      `Baseline condition must have executionMode 'BASELINE', received '${baselineCondition.executionMode}'`
+    );
+  }
+
+  // 4. Configuration comparability fencing
+  const baseFp = baselineCondition.configFingerprint;
+  const candFp = candidateCondition.configFingerprint;
+
+  if (baseFp.harnessVersion !== candFp.harnessVersion) {
+    throw new Error(
+      `Incompatible harnessVersion in controlled comparison: '${baseFp.harnessVersion}' vs '${candFp.harnessVersion}'`
+    );
+  }
+  if (baseFp.modelProvider !== candFp.modelProvider && !allowConfigDifferences) {
+    throw new Error(
+      `Incompatible modelProvider in controlled comparison: '${baseFp.modelProvider}' vs '${candFp.modelProvider}'`
+    );
+  }
+  if (baseFp.model !== candFp.model && !allowConfigDifferences) {
+    throw new Error(
+      `Incompatible model in controlled comparison: '${baseFp.model}' vs '${candFp.model}'`
+    );
+  }
+
+  // 5. Explicitly isolate and declare intentional differences
+  const intentionalDifferences: string[] = [];
+  if (baselineCondition.executionMode !== candidateCondition.executionMode) {
+    intentionalDifferences.push(
+      `executionMode: ${baselineCondition.executionMode} -> ${candidateCondition.executionMode}`
+    );
+  }
+  if (baseFp.fingerprintHash !== candFp.fingerprintHash) {
+    intentionalDifferences.push("configFingerprint");
+  }
+
+  return Object.freeze({
+    comparable: true,
+    taskRef,
+    baselineConditionId: baselineCondition.conditionId,
+    candidateConditionId: candidateCondition.conditionId,
+    intentionalDifferences: Object.freeze(intentionalDifferences),
+    configurationCompatible: baseFp.fingerprintHash === candFp.fingerprintHash,
+  });
 }

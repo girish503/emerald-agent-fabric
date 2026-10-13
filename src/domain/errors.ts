@@ -802,3 +802,13 @@ export class ModelOutputLimitExceededError extends ModelProviderError {
     this.maxOutputTokens = options?.maxOutputTokens;
   }
 }
+
+export class ReflexNotImplementedError extends DomainError {
+  readonly code = "REFLEX_NOT_IMPLEMENTED";
+
+  constructor(
+    message: string = "Evaluation execution mode 'REFLEX' is reserved for the future adaptive Reflex control layer and is not yet implemented (REFLEX_NOT_IMPLEMENTED). Preflight execution rejected."
+  ) {
+    super(message);
+  }
+}

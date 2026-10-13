@@ -57,6 +57,10 @@ import {
   CriteriaReader,
   CURRENT_HARNESS_VERSION,
   MAX_TRIAL_ORDINAL,
+  assertExecutionModeSupported,
+  EvaluationExecutionMode,
+  isValidEvaluationExecutionMode,
+  EvaluationExperimentCondition,
 } from "../../domain/index.js";
 import {
   ModelProviderPort,
@@ -77,6 +81,8 @@ export interface ExecuteEvaluationRunOptions {
   readonly harnessVersion?: string;
   readonly generationConfig?: Readonly<Record<string, unknown>>;
   readonly abortSignal?: AbortSignal;
+  readonly executionMode?: EvaluationExecutionMode;
+  readonly condition?: EvaluationExperimentCondition;
 }
 
 export interface ExecuteEvaluationTrialOptions {
@@ -88,6 +94,8 @@ export interface ExecuteEvaluationTrialOptions {
   readonly harnessVersion?: string;
   readonly generationConfig?: Readonly<Record<string, unknown>>;
   readonly abortSignal?: AbortSignal;
+  readonly executionMode?: EvaluationExecutionMode;
+  readonly condition?: EvaluationExperimentCondition;
 }
 
 // ============================================================================
@@ -140,6 +148,16 @@ class MetricsTrackingModelProvider implements ModelProviderPort {
 export async function executeEvaluationRun(
   options: ExecuteEvaluationRunOptions
 ): Promise<EvaluationRunResult> {
+  // 0. Preflight execution mode check
+  const executionMode: EvaluationExecutionMode =
+    options.executionMode ?? options.condition?.executionMode ?? "BASELINE";
+
+  if (!isValidEvaluationExecutionMode(executionMode)) {
+    throw new Error(`Invalid evaluation execution mode: '${executionMode}'`);
+  }
+
+  assertExecutionModeSupported(executionMode);
+
   // 1. Validate task specification
   const validatedTask = validateEvaluationTask(options.task);
   const taskContentHash = computeEvaluationTaskHash(validatedTask);
@@ -376,6 +394,7 @@ export async function executeEvaluationRun(
       taskContentHash,
       configFingerprint,
       trialNumber,
+      executionMode,
       runId: run.runId,
       status,
       statusMessage,
@@ -433,6 +452,8 @@ export async function executeEvaluationTrial(
     harnessVersion: options.harnessVersion,
     generationConfig: options.generationConfig,
     abortSignal: options.abortSignal,
+    executionMode: options.executionMode,
+    condition: options.condition,
   });
 
   return createEvaluationTrialFromRunResult(runResult, options.trialOrdinal, {

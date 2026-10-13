@@ -908,3 +908,93 @@ Baseline / Candidate
 
 6. **Transparent Methodological Limitations**:
    Small samples ($n < 2$), missing data, zero baselines, unequal sample counts, and wide confidence intervals are explicitly exposed as `StatisticalWarning` objects, providing observable boundaries on evidence strength.
+
+---
+
+## 29. Reflex Evaluation Boundary (Task 7.6)
+
+Section 29 establishes the architectural condition boundary for evaluating Emerald Reflex:
+
+```text
+                    Evaluation Experiment
+                            │
+                 ┌──────────┴──────────┐
+                 ▼                     ▼
+             BASELINE                REFLEX
+                 │                     │
+                 │              future Reflex layer
+                 │                     │
+                 └──────────┬──────────┘
+                            ▼
+                    Governed Runtime
+                            │
+                    ┌───────┴────────┐
+                    ▼                ▼
+              Tool Gateway      Verification
+                    │
+                    ▼
+              Workspace/Sandbox
+```
+
+> **The evaluation condition specifies which execution mode is being evaluated; it does not implement execution behavior or grant runtime authority. The Reflex controller itself remains unimplemented in this phase.**
+
+### 29.1 Architectural Role and Invariants
+
+1. **Explicit Execution Modes**:
+   Trials execute under one of two strongly typed modes:
+   - `BASELINE`: The existing governed `AgentStepController` runtime without an adaptive Reflex control layer.
+   - `REFLEX`: Reserved for execution through the future Emerald Reflex control layer.
+
+2. **Explicit Preflight Rejection (No Silent Downgrade)**:
+   Because the Reflex adaptive controller does not yet exist, any execution runner encountering a `REFLEX` condition fails closed during preflight:
+   - Throws `ReflexNotImplementedError` with machine-actionable error code `REFLEX_NOT_IMPLEMENTED`.
+   - Rejection occurs before creating a runtime `Run`, claiming a lease, or provisioning a workspace.
+   - Silent fallback (`REFLEX → BASELINE`) is strictly prohibited to prevent data contamination in experimental evaluation records.
+
+3. **Condition Identity Fencing**:
+   `EvaluationExperimentCondition` incorporates `executionMode` into its canonical SHA-256 `conditionHash`.
+   `BASELINE + configFingerprint` and `REFLEX + configFingerprint` are semantically distinct conditions that yield different condition hashes. `EvaluationConfigFingerprint` is preserved unchanged, guaranteeing backward compatibility.
+
+4. **Proposed Future Reflex Position**:
+   When implemented, the Reflex controller will sit inside the governed loop between untrusted proposals and policy validation:
+   ```text
+   AgentStepController
+           ↓
+        AgentBrain
+           ↓
+      ActionProposal (UNTRUSTED)
+           ↓
+        [Reflex] (Future: Prune, Defer, Constrain)
+           ↓
+    Policy / Governance
+           ↓
+   ToolExecutionGateway
+           ↓
+    Workspace / Sandbox
+   ```
+
+5. **Reflex Safety Invariant (Monotonic Authority Reduction)**:
+   The future Reflex layer is strictly monotonic with respect to governance authority:
+   > *Reflex may reduce or constrain what the agent attempts, but it may not expand what the agent is authorized to do.*
+   Reflex may reject or defer proposals, request alternatives, or stop execution early. It can never grant capabilities, modify `MissionContract` boundaries, bypass `ProposalValidator` or `ToolExecutionGateway`, select credentials, alter worker/lease identities, or weaken sandbox isolation.
+
+6. **Multi-Objective Evaluation Boundary**:
+   Reflex evaluation evaluates multiple research dimensions without scalar score collapse:
+   - **Primary**: Objective task success (`verificationPassed`)
+   - **Efficiency**: Model calls, tool calls, wall-clock latency, model/tool latency, token consumption
+   - **Safety / Governance**: Blocked actions, proposal rejections, execution failures, unknown outcomes
+   No composite `ReflexScore` or `ReflexEfficiencyScore` is created.
+
+7. **Default Controlled Experimentation**:
+   The primary scientific comparison isolates the execution mode while holding all other variables constant:
+   - Same `taskId`, `taskVersion`, `taskContentHash`
+   - Same `MissionContract` & `Policy`
+   - Same workspace constraints & initial fixture
+   - Same objective criteria & verification specs
+   - Same model provider, model, & generation parameters
+   - Same resource ceilings
+   - **Only difference**: Execution condition (`BASELINE` vs `REFLEX`)
+
+8. **Scientific Limitations**:
+   - **Association vs. Causation**: Observed performance differences between `BASELINE` and `REFLEX` constitute empirical associations within the trial dataset. Strong causal attribution requires controlled experimental isolation and replication.
+   - **Model Non-Determinism**: Identical declared configuration does not guarantee identical inference outputs, hardware conditions, or runtime scheduling across repeated trials.
