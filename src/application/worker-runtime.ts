@@ -16,7 +16,6 @@ import { AttemptUnknownReason } from "../domain/events.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   ContractIntegrityError,
-  ContractRevokedError,
   InvalidContractBindingError,
   InvalidMissionContractError,
   InvalidRunError,

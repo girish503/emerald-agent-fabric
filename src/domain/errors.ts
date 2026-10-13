@@ -639,3 +639,38 @@ export class PayloadLimitExceededError extends DomainError {
     );
   }
 }
+
+export class ContextBudgetExceededError extends DomainError {
+  readonly code = "CONTEXT_BUDGET_EXCEEDED";
+
+  constructor(
+    readonly reason: string,
+    readonly requiredEstimatedTokens?: number,
+    readonly maxEstimatedTokens?: number
+  ) {
+    super(`Context budget exceeded: ${reason}`);
+  }
+}
+
+export class InvalidObservationError extends DomainError {
+  readonly code = "INVALID_OBSERVATION";
+
+  constructor(
+    readonly reason: string,
+    readonly violations?: readonly string[]
+  ) {
+    super(
+      `Invalid observation: ${reason}${
+        violations && violations.length > 0 ? ` (${violations.join("; ")})` : ""
+      }`
+    );
+  }
+}
+
+export class InvalidContextBudgetError extends DomainError {
+  readonly code = "INVALID_CONTEXT_BUDGET";
+
+  constructor(readonly reason: string) {
+    super(`Invalid context budget: ${reason}`);
+  }
+}

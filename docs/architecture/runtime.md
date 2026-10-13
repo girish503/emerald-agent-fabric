@@ -441,3 +441,58 @@ Retries are permitted strictly when:
    - Provides targeted or global sweeping of in-flight actions and attempts without requiring complete run reclamation.
 3. **`WorkerRuntime.recoverStaleExecutions()`**:
    - Sweeps stale attempts and automatically executes eligible `RETRYING` actions under the worker's active run lease, caching and binding the workspace sandbox handle.
+
+---
+
+## 17. Typed Context Engine: Observation Selection, Context Budgeting, and Token Governance (Task 5.1)
+
+### 17.1 Architecture & Separation of Boundaries
+The Typed Context Engine forms the deterministic information-control boundary consumed by future agent reasoning layers:
+```text
+Model
+  ↓
+Agent Brain
+  ↓
+Context Engine (Information Boundary — Read-Only)
+  ↓
+Action Proposal
+  ↓
+Governance & Policy (Authority Boundary)
+  ↓
+Execution (Tool Gateway & Providers)
+```
+The Context Engine is strictly read-only with respect to runtime authority:
+- Does **NOT** mutate Run, Action, Attempt, MissionContract, or Workspace state.
+- Does **NOT** append domain events.
+- Does **NOT** execute tools or subprocesses.
+
+### 17.2 Observation Model & 10 Semantic Categories
+Information from durable storage is extracted as typed, immutable `Observation` records partitioned into 10 semantic categories:
+1. `RUN_STATE`: Run state machine status, version, lease, retry counts, error reasons.
+2. `MISSION_CONTEXT`: Bound Mission Contract goals, constraints, non-goals, capabilities authorized, resource ceilings.
+3. `ATTEMPT_HISTORY` (UNKNOWN): Physical attempts with uncertain execution outcomes (`executionOutcomeUncertain: true`).
+4. `TOOL_ERROR`: Tool errors and policy rejections.
+5. `VERIFICATION`: Verification specs and diagnostic checks.
+6. `WORKSPACE_STATE`: Workspace directory and status.
+7. `TOOL_RESULT`: Tool execution outputs (bounded by `maxToolOutputBytes`).
+8. `ACTION_HISTORY`: Logical action sequences and tool identities.
+9. `ATTEMPT_HISTORY` (Settled): Past settled attempts.
+10. `EVIDENCE`: Authoritative evidence records.
+11. `SYSTEM_EVENT`: Bounded causal domain events.
+
+Within categories, freshness boosts priority: `CURRENT` (+15), `RECENT` (+5), `STALE` (+0).
+
+### 17.3 Mandatory Safety Floor & Epistemic Uncertainty Preservation
+- `RUN_STATE` and `MISSION_CONTEXT` are non-negotiable safety observations (`isMandatory: true`).
+- Attempts in `UNKNOWN` state are marked `isMandatory: true` and retain `executionOutcomeUncertain: true` and `unknownReason`. They are **NEVER** normalized to `FAILED` or `SUCCEEDED`.
+- If budget ceilings cannot accommodate mandatory safety observations, `ContextEngine.build()` fails closed by throwing `ContextBudgetExceededError`.
+
+### 17.4 Token & Byte Ceilings, Category Bounds, and Truncation
+- **Token Estimation**: Computed deterministically as $\lceil \text{bytes} / 4 \rceil$ over canonical JSON. Independent of specific model tokenizers.
+- **Category Ceilings**: Enforces `maxHistoryEvents`, `maxActionHistory`, `maxAttemptHistory`, and `maxEvidenceItems`.
+- **Tool Output Truncation**: Tool outputs exceeding `maxToolOutputBytes` are truncated using head/tail retention (`HEAD_TAIL`), appending detailed `TruncationMetadata`. Invariant guaranteed: `retainedBytes <= originalBytes`.
+- **Omitted Observations Summary**: Any observation omitted due to category bounds or budget limits is aggregated in `omittedObservationsSummary`.
+
+### 17.5 Universal Secret Redaction & Replay Integrity
+- All observation contents undergo key-based redaction (`redactSensitiveData`) before content hashing, budgeting, or snapshot inclusion.
+- Snapshots produce a deterministic cryptographic `contextHash` (SHA-256 over canonical JSON of selected observations, budget, and policy), ensuring identical hashes across replay and verification.
