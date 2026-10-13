@@ -647,3 +647,23 @@ $$\text{LiveAgentBrain} \longrightarrow \text{ModelProviderPort} \longrightarrow
 6. **Structured Output Translation**: Translates provider-neutral `ModelStructuredOutputSchema` to Ollama's schema specification (`format: schema.jsonSchema`) and verifies valid JSON syntax before returning when `finishReason === "STOP"`.
 7. **100% Hermetic Offline Test Suite**: Dependency injection of `OllamaFetchLike` enables fully offline, deterministic testing of request translation, error mapping, structured output conformance, and governance loop integration without requiring an active Ollama installation. Live tests are isolated behind `OLLAMA_LIVE_TESTS === "true"`.
 8. **Zero Execution Authority**: The local model remains untrusted. The adapter confers zero execution authority, runs zero tools, touches zero execution providers, and makes zero database changes. Model proposals must pass through `ProposalValidator` before execution.
+
+---
+
+## 23. Live Local Agent Governance Validation & Evaluation Smoke Path (Task 6.4)
+
+Section 23 establishes the first empirical validation and minimal evaluation harness for the complete end-to-end governed execution loop running against a local open-source model:
+
+$$\text{ContextEngine} \longrightarrow \text{LiveAgentBrain} \longrightarrow \text{ModelProviderPort} \longrightarrow \text{Ollama} \longrightarrow \text{ActionProposal} \longrightarrow \text{ProposalValidator} \longrightarrow \text{WorkerRuntime} \longrightarrow \text{Gateway} \longrightarrow \text{Workspace}$$
+
+### 23.1 Empirical Research Question
+Can an autonomous agent driven by a real local open-source model execute multi-step software tasks while remaining strictly observable, lease-fenced, contract-bounded, sandboxed, and verifiable without bypassing any governance boundary?
+
+`LocalEvaluationHarness` (`src/application/evaluation/local-eval-harness.ts`) confirms:
+1. **End-to-End Governance Path**: Untrusted model proposals pass through the 11-stage `ProposalValidator`, Capability Policy checks, and `ToolExecutionGateway` before executing inside an isolated workspace.
+2. **Least Privilege Enforcement**: Contracts grant only minimal capabilities (e.g. `workspace.file.read` and `workspace.file.write`). Proposing unauthorized tools (`run_command`) is rejected at Stage 8 with zero physical executions.
+3. **Workspace Confinement**: Path traversal attempts (`../../etc/passwd`) are rejected by lexical sanitization at Stage 9 with zero file reads outside the provisioned workspace directory.
+4. **Authority Field Firewall**: Model-injected authority keys (`workerId`, `leaseId`, `contractId`) are rejected before creating runtime state.
+5. **Exact Metric & Token Accounting**: Wall-clock time, model calls, tool calls, model/tool latencies, and token counts are measured directly without fabrication. Token metrics are extracted strictly from provider usage metadata when supplied.
+6. **Fail-Closed Safety**: Provider unavailability and timeouts trigger clean `BRAIN_FAILURE` stops; `AbortSignal` triggers immediate `CANCELLED` stops; uncertain tool outcomes trigger `UNKNOWN_EXECUTION` without automatic retries.
+7. **Offline Deterministic Verification**: Dependency-injected mock transport enables 100% offline, deterministic CI testing across all governance and failure scenarios, while live execution tests are isolated behind `OLLAMA_LIVE_TESTS === "true"`.

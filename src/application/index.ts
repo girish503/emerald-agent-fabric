@@ -6,3 +6,4 @@ export * from "./context/index.js";
 export * from "./proposal-validator.js";
 export * from "./agent-step-controller.js";
 export * from "./live-agent-brain.js";
+export * from "./evaluation/index.js";
