@@ -18,3 +18,4 @@ export * from "./action.js";
 export * from "./attempt.js";
 export * from "./context.js";
 export * from "./action-proposal.js";
+export * from "./model-provider.js";

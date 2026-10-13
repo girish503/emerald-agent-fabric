@@ -589,3 +589,22 @@ Can an autonomous agent operate over multiple execution steps while remaining bo
 8. **Ephemeral Proposal Rejections**: Rejected proposals create zero `Action` and zero `Attempt` rows in persistence. Feedback is routed into the subsequent context snapshot.
 9. **In-Memory Structured Step Transcript**: Every step produces an immutable transcript entry tracking context hash, proposal, validation, and action outcome for post-run audit and evidence bundling.
 10. **Deterministic Terminal Reason Taxonomy**: Terminal reasons are drawn strictly from `StepControllerTerminalReason` (`COMPLETED`, `NO_ACTION`, `MAX_STEPS`, `MAX_WALL_CLOCK`, `MAX_ACTIONS`, `MAX_FAILURES`, `MAX_PROPOSAL_REJECTIONS`, `CANCELLED`, `LEASE_LOST`, `CONTRACT_REVOKED`, `UNKNOWN_EXECUTION`, `CONTEXT_BUDGET_EXCEEDED`, `BRAIN_FAILURE`).
+
+---
+
+## 20. Model Provider Boundary & Neutral Inference Port (Task 6.1)
+
+Section 20 establishes the provider-neutral infrastructure boundary decoupling agent reasoning from commercial model provider SDKs and APIs:
+
+$$\text{AgentBrainPort} \longrightarrow \text{LiveAgentBrain (Phase 6.2)} \longrightarrow \text{ModelProviderPort (Phase 6.1)} \longrightarrow \text{Provider Adapters (Phase 6.3+)}$$
+
+### 20.1 Core Architectural Principles
+1. **Model $\ne$ Authority**: The model provider is strictly an untrusted external dependency. It receives zero execution authority over Mission Contracts, capabilities, policies, workspace roots, credentials, worker IDs, lease IDs, retry counts, attempts, or ToolExecutionGateway.
+2. **Provider Independence**: Zero provider SDK types (no OpenAI, Anthropic, Gemini, Ollama, LangChain, or LiteLLM) leak into the domain or application layers.
+3. **Single-Attempt Semantics**: `ModelProviderPort.generate(...)` executes a single inference call with zero internal retries or backoff loops. Retry policy is owned exclusively by the caller.
+4. **Explicit Lower-Level Timeouts**: `request.timeoutMs` defines an inference-level deadline, decoupled from `AgentStepController` wall-clock loop budgets.
+5. **Cooperative Cancellation**: `request.abortSignal` is observed and propagates as `ModelRequestCancelledError` (`code: "MODEL_REQUEST_CANCELLED"`). Cancellation is never swallowed.
+6. **Provider-Neutral Structured Output**: `ModelStructuredOutputSchema` carries an agnostic JSON Schema descriptor (`name`, `jsonSchema`, `description?`, `strict?`) mapped by concrete adapters to vendor-specific schemas.
+7. **Explicit Token Accounting**: `ModelUsageMetadata` tracks `inputTokens`, `outputTokens`, and `totalTokens`. Unavailable metrics remain `undefined` and are never fabricated.
+8. **Informational Metadata**: `providerMetadata` is strictly non-authoritative diagnostic data.
+9. **Strongly-Typed Domain Errors**: Provider failures are classified into `ModelProviderUnavailableError`, `ModelRequestInvalidError`, `ModelRequestTimeoutError`, `ModelRequestCancelledError`, `ModelRateLimitedError`, `ModelResponseInvalidError`, and `ModelOutputLimitExceededError`.

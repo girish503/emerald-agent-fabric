@@ -690,3 +690,115 @@ export class ActionProposalRejectedError extends DomainError {
     );
   }
 }
+
+// ============================================================================
+// Model Provider Error Hierarchy (Phase 6.1)
+// ============================================================================
+
+export type ModelProviderErrorCode =
+  | "MODEL_PROVIDER_UNAVAILABLE"
+  | "MODEL_REQUEST_INVALID"
+  | "MODEL_REQUEST_TIMEOUT"
+  | "MODEL_REQUEST_CANCELLED"
+  | "MODEL_RATE_LIMITED"
+  | "MODEL_RESPONSE_INVALID"
+  | "MODEL_OUTPUT_LIMIT_EXCEEDED"
+  | "MODEL_PROVIDER_ERROR";
+
+export class ModelProviderError extends DomainError {
+  readonly code: ModelProviderErrorCode;
+  readonly isRetryable: boolean;
+  readonly providerName?: string;
+  readonly requestId?: string;
+  readonly cause?: unknown;
+
+  constructor(
+    code: ModelProviderErrorCode,
+    message: string,
+    options?: {
+      isRetryable?: boolean;
+      providerName?: string;
+      requestId?: string;
+      cause?: unknown;
+    }
+  ) {
+    super(`[${code}] ${message}`);
+    this.code = code;
+    this.isRetryable = options?.isRetryable ?? false;
+    this.providerName = options?.providerName;
+    this.requestId = options?.requestId;
+    this.cause = options?.cause;
+  }
+}
+
+export class ModelProviderUnavailableError extends ModelProviderError {
+  constructor(
+    message: string,
+    options?: { providerName?: string; requestId?: string; cause?: unknown }
+  ) {
+    super("MODEL_PROVIDER_UNAVAILABLE", message, { ...options, isRetryable: true });
+  }
+}
+
+export class ModelRequestInvalidError extends ModelProviderError {
+  constructor(
+    message: string,
+    options?: { providerName?: string; requestId?: string; cause?: unknown }
+  ) {
+    super("MODEL_REQUEST_INVALID", message, { ...options, isRetryable: false });
+  }
+}
+
+export class ModelRequestTimeoutError extends ModelProviderError {
+  readonly timeoutMs?: number;
+
+  constructor(
+    message: string,
+    options?: { timeoutMs?: number; providerName?: string; requestId?: string; cause?: unknown }
+  ) {
+    super("MODEL_REQUEST_TIMEOUT", message, { ...options, isRetryable: true });
+    this.timeoutMs = options?.timeoutMs;
+  }
+}
+
+export class ModelRequestCancelledError extends ModelProviderError {
+  constructor(
+    message: string,
+    options?: { providerName?: string; requestId?: string; cause?: unknown }
+  ) {
+    super("MODEL_REQUEST_CANCELLED", message, { ...options, isRetryable: false });
+  }
+}
+
+export class ModelRateLimitedError extends ModelProviderError {
+  readonly retryAfterMs?: number;
+
+  constructor(
+    message: string,
+    options?: { retryAfterMs?: number; providerName?: string; requestId?: string; cause?: unknown }
+  ) {
+    super("MODEL_RATE_LIMITED", message, { ...options, isRetryable: true });
+    this.retryAfterMs = options?.retryAfterMs;
+  }
+}
+
+export class ModelResponseInvalidError extends ModelProviderError {
+  constructor(
+    message: string,
+    options?: { providerName?: string; requestId?: string; cause?: unknown }
+  ) {
+    super("MODEL_RESPONSE_INVALID", message, { ...options, isRetryable: false });
+  }
+}
+
+export class ModelOutputLimitExceededError extends ModelProviderError {
+  readonly maxOutputTokens?: number;
+
+  constructor(
+    message: string,
+    options?: { maxOutputTokens?: number; providerName?: string; requestId?: string; cause?: unknown }
+  ) {
+    super("MODEL_OUTPUT_LIMIT_EXCEEDED", message, { ...options, isRetryable: false });
+    this.maxOutputTokens = options?.maxOutputTokens;
+  }
+}
