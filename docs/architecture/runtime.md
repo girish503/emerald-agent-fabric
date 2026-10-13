@@ -667,3 +667,21 @@ Can an autonomous agent driven by a real local open-source model execute multi-s
 5. **Exact Metric & Token Accounting**: Wall-clock time, model calls, tool calls, model/tool latencies, and token counts are measured directly without fabrication. Token metrics are extracted strictly from provider usage metadata when supplied.
 6. **Fail-Closed Safety**: Provider unavailability and timeouts trigger clean `BRAIN_FAILURE` stops; `AbortSignal` triggers immediate `CANCELLED` stops; uncertain tool outcomes trigger `UNKNOWN_EXECUTION` without automatic retries.
 7. **Offline Deterministic Verification**: Dependency-injected mock transport enables 100% offline, deterministic CI testing across all governance and failure scenarios, while live execution tests are isolated behind `OLLAMA_LIVE_TESTS === "true"`.
+
+---
+
+## 24. Reproducible Multi-Task Evaluation Architecture (Task 7.1)
+
+Section 24 establishes the provider- and model-independent domain contracts and application evaluation runner for reproducible agent benchmarking and evaluation:
+
+$$\text{EvaluationTaskDefinition} \longrightarrow \text{EvaluationRunner} \longrightarrow \text{AgentStepController} \longrightarrow \text{Governed Runtime} \longrightarrow \text{EvaluationRunResult}$$
+
+### 24.1 Core Architectural Principles
+1. **Task Immutability & Content Hashing**: Evaluation tasks are versioned specifications $(\text{taskId}, \text{version})$. Content modifications mandate a new version. Every task computes a canonical SHA-256 hash ($\text{taskContentHash}$) over its deterministic specification (fixture, mission, criteria, budget), completely excluding runtime execution timestamps.
+2. **Input $\ne$ Authority**: Evaluation fixtures (`EvaluationFixture`) describe input workspace state only. Fixtures are strictly prohibited from specifying credentials, host paths, traversal, or runtime authority fields (`workerId`, `leaseId`, `contractId`, `capability`).
+3. **Governance Supremacy**: Evaluation tasks declare required capabilities (`EvaluationMission`), but confer zero direct authority. The evaluation runner constructs and activates an authoritative `MissionContract` via SQLite; all agent proposals pass through the 11-stage `ProposalValidator` and `ToolExecutionGateway`.
+4. **Objective Ground-Truth Verification**: Evaluation success is determined by evaluating `EvaluationCriterion` specifications (`FILE_CONTENT_EQUALS`, `FILE_EXISTS`, `FILE_ABSENT`, `TEXT_CONTAINS`, `COMMAND_EXIT_CODE`, `VERIFICATION_SPEC`) against the physical workspace via an independent `CriteriaReader`. Agent claims (`isGoalReached: true`) are recorded for observability, but do not dictate success.
+5. **Deterministic Configuration Fingerprint**: Every result includes a canonical `EvaluationConfigFingerprint` capturing `modelProvider`, `model`, `harnessVersion` (`harness-0.1`), `taskVersion`, and generation parameters with automatic secret redaction.
+6. **Explicit Outcome Taxonomy**: Evaluation runs conclude in one of six explicit states (`PASSED`, `FAILED`, `ERROR`, `TIMED_OUT`, `CANCELLED`, `BLOCKED`), clearly distinguishing assertion failures from environment errors or governance fencing.
+7. **Strict Metric Semantics**: `EvaluationMetrics` measures steps, actions, attempts, model/tool calls, failures, wall-clock time, and token counts. Metrics that are unsupported or not reported by the provider are preserved as `undefined`, strictly distinct from observed zero (`0`), and are never fabricated.
+8. **Decoupled Trial and Run Identity**: `evaluationRunId` identifies the scientific evaluation trial, which references the authoritative runtime kernel `runId` and causal event IDs without duplicating state.

@@ -1,0 +1,394 @@
+/**
+ * Phase 7.1 — Evaluation Runner for Emerald Agent Fabric.
+ *
+ * Implements the application-layer evaluation runner executing reproducible
+ * EvaluationTaskDefinition specifications against the governed Emerald runtime:
+ *
+ * EvaluationTaskDefinition
+ *         ↓
+ * EvaluationRunner
+ *         ↓
+ * AgentStepController
+ *         ↓
+ * Authoritative Emerald Governance (MissionContract, Policy, Gateway, Workspace)
+ *         ↓
+ * Runtime Run (SQLite Durable State)
+ *         ↓
+ * EvaluationRunResult
+ *
+ * Principles:
+ * 1. Zero Model/Provider Bias: The runner accepts any ModelProviderPort and treats model output as untrusted.
+ * 2. Governance Supremacy: Evaluation tasks declare required capabilities, but cannot bypass
+ *    MissionContracts, PolicyEvaluators, ProposalValidators, or Workspace boundaries.
+ * 3. Objective Truth: Success is decided exclusively by evaluating EvaluationCriteria against physical workspace
+ *    evidence. Agent self-claims ("isGoalReached: true") are strictly recorded, but do not dictate success.
+ * 4. Deterministic Fingerprinting: Every result embeds canonical taskContentHash and configFingerprint.
+ * 5. Strict Metric Semantics: Preserves observed zeros vs undefined token metrics without fabrication.
+ */
+
+import * as fs from "node:fs";
+import * as os from "node:os";
+import * as path from "node:path";
+import { SqliteStateStore } from "../../adapters/persistence/sqlite-state-store.js";
+import { NodeFsWorkspaceAdapter } from "../../adapters/workspace/node-fs-workspace-adapter.js";
+import {
+  AgentStepController,
+  StepControllerResult,
+} from "../agent-step-controller.js";
+import { LiveAgentBrain } from "../live-agent-brain.js";
+import { RunCoordinator } from "../run-coordinator.js";
+import { WorkerRuntime } from "../worker-runtime.js";
+import {
+  computeEvaluationTaskHash,
+  createEvaluationConfigFingerprint,
+  createEvaluationMetrics,
+  createExecutionPolicy,
+  createMissionContract,
+  createResourceLimits,
+  evaluateObjectiveCriteria,
+  EvaluationConfigFingerprint,
+  EvaluationMetrics,
+  EvaluationRunResult,
+  EvaluationStatus,
+  EvaluationTaskDefinition,
+  validateEvaluationTask,
+  CriteriaReader,
+  CURRENT_HARNESS_VERSION,
+} from "../../domain/index.js";
+import {
+  ModelProviderPort,
+  ModelProviderRequest,
+  ModelProviderResponse,
+} from "../../ports/model-provider.port.js";
+import { SettableClock } from "../../ports/clock.port.js";
+
+// ============================================================================
+// 1. Runner Options
+// ============================================================================
+
+export interface ExecuteEvaluationRunOptions {
+  readonly task: EvaluationTaskDefinition;
+  readonly modelProvider: ModelProviderPort;
+  readonly model: string;
+  readonly trialNumber?: number;
+  readonly harnessVersion?: string;
+  readonly generationConfig?: Readonly<Record<string, unknown>>;
+  readonly abortSignal?: AbortSignal;
+}
+
+// ============================================================================
+// 2. Metrics Tracking Model Provider Wrapper
+// ============================================================================
+
+class MetricsTrackingModelProvider implements ModelProviderPort {
+  readonly providerName: string;
+  calls = 0;
+  failures = 0;
+  totalLatencyMs = 0;
+  promptTokens?: number;
+  outputTokens?: number;
+  totalTokens?: number;
+
+  constructor(private readonly inner: ModelProviderPort) {
+    this.providerName = inner.providerName;
+  }
+
+  async generate(request: ModelProviderRequest): Promise<ModelProviderResponse> {
+    this.calls++;
+    const start = Date.now();
+    try {
+      const response = await this.inner.generate(request);
+      this.totalLatencyMs += Date.now() - start;
+      if (response.usage) {
+        if (typeof response.usage.inputTokens === "number") {
+          this.promptTokens = (this.promptTokens ?? 0) + response.usage.inputTokens;
+        }
+        if (typeof response.usage.outputTokens === "number") {
+          this.outputTokens = (this.outputTokens ?? 0) + response.usage.outputTokens;
+        }
+        if (typeof response.usage.totalTokens === "number") {
+          this.totalTokens = (this.totalTokens ?? 0) + response.usage.totalTokens;
+        }
+      }
+      return response;
+    } catch (err) {
+      this.failures++;
+      this.totalLatencyMs += Date.now() - start;
+      throw err;
+    }
+  }
+}
+
+// ============================================================================
+// 3. Evaluation Runner Implementation
+// ============================================================================
+
+export async function executeEvaluationRun(
+  options: ExecuteEvaluationRunOptions
+): Promise<EvaluationRunResult> {
+  // 1. Validate task specification
+  const validatedTask = validateEvaluationTask(options.task);
+  const taskContentHash = computeEvaluationTaskHash(validatedTask);
+
+  // 2. Build configuration fingerprint
+  const trialNumber = options.trialNumber ?? 1;
+  const harnessVersion = options.harnessVersion ?? CURRENT_HARNESS_VERSION;
+  const configFingerprint: EvaluationConfigFingerprint = createEvaluationConfigFingerprint({
+    modelProvider: options.modelProvider.providerName,
+    model: options.model,
+    taskVersion: validatedTask.version,
+    harnessVersion,
+    generationConfig: options.generationConfig,
+  });
+
+  const evaluationRunId = `eval-run-${validatedTask.taskId}-v${validatedTask.version}-t${trialNumber}-${Date.now()}`;
+  const startedAt = new Date().toISOString();
+
+  // 3. Setup ephemeral execution environment
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "emerald-eval-task-ws-"));
+  const store = new SqliteStateStore();
+  const clock = new SettableClock(new Date(startedAt));
+  const workspaceAdapter = new NodeFsWorkspaceAdapter({ workspaceRoot: tempDir });
+  const coordinator = new RunCoordinator(store, clock);
+  const workerId = `eval-worker-${Date.now()}`;
+
+  const workerRuntime = new WorkerRuntime({
+    workerId,
+    coordinator,
+    clock,
+    workspacePort: workspaceAdapter,
+  });
+
+  const trackingProvider = new MetricsTrackingModelProvider(options.modelProvider);
+  const liveBrain = new LiveAgentBrain({
+    modelProvider: trackingProvider,
+    model: options.model,
+  });
+
+  const stepController = new AgentStepController({
+    coordinator,
+    stateStore: store,
+    workerRuntime,
+    agentBrain: liveBrain,
+    clock,
+  });
+
+  let wsHandle: any;
+
+  try {
+    // 4. Create authoritative Task & Contract in runtime
+    const runtimeTask = coordinator.createTask({
+      title: `Evaluation Task: ${validatedTask.taskId} v${validatedTask.version}`,
+      description: validatedTask.description,
+      inputPayload: {
+        evaluationRunId,
+        taskId: validatedTask.taskId,
+        taskVersion: validatedTask.version,
+        taskContentHash,
+      },
+    });
+
+    const policy = createExecutionPolicy({
+      policyId: `eval-policy-${runtimeTask.taskId}`,
+      allowedCapabilities: validatedTask.mission.requiredCapabilities,
+      isolationRequirement: "ISOLATED",
+    });
+
+    const contractLimits = validatedTask.mission.resourceLimits ?? {};
+    const contract = createMissionContract({
+      contractId: `eval-contract-${runtimeTask.taskId}`,
+      version: 1,
+      taskId: runtimeTask.taskId,
+      policy,
+      verificationSpecs: [],
+      resourceLimits: createResourceLimits({
+        timeoutMs: contractLimits.timeoutMs ?? 60000,
+        maxAttempts: contractLimits.maxAttempts ?? 3,
+        maxOutputBytes: contractLimits.maxOutputBytes ?? 1048576,
+      }),
+      credentialScopes: ["workspace:eval:scope"],
+    });
+
+    store.insertContract(contract);
+    store.activateContract(contract.spec.contractId, contract.spec.version);
+
+    // 5. Register Worker & Start Runtime Run
+    coordinator.registerWorker({
+      workerId,
+      hostname: "localhost",
+      pid: process.pid,
+      status: "ACTIVE",
+      createdAt: clock.nowIso(),
+      lastHeartbeatAt: clock.nowIso(),
+    });
+
+    const { run } = coordinator.createRun({ taskId: runtimeTask.taskId });
+    coordinator.queueRun(run.runId);
+    const claimResult = coordinator.claimRun(run.runId, workerId, 300000);
+    coordinator.startRun(run.runId, workerId, claimResult.lease.leaseId);
+
+    // 6. Provision Isolated Workspace
+    wsHandle = await workspaceAdapter.provisionWorkspace({
+      workspaceId: `ws-eval-${runtimeTask.taskId}`,
+      runId: run.runId,
+      taskId: runtimeTask.taskId,
+      maxWorkspaceBytes: 10 * 1024 * 1024,
+      maxFileSizeBytes: 1024 * 1024,
+    });
+
+    // 7. Populate Fixture Initial Files
+    for (const [relPath, content] of Object.entries(validatedTask.fixture.initialFiles)) {
+      const fullPath = await workspaceAdapter.resolvePath(wsHandle.workspaceId, relPath);
+      fs.mkdirSync(path.dirname(fullPath), { recursive: true });
+      fs.writeFileSync(fullPath, content, "utf8");
+    }
+
+    // 8. Execute Governed Step Loop
+    const stepResult: StepControllerResult = await stepController.runStepLoop({
+      runId: run.runId,
+      workerId,
+      leaseId: claimResult.lease.leaseId,
+      workspace: wsHandle,
+      budget: {
+        maxSteps: validatedTask.budget.maxSteps,
+        maxActions: validatedTask.budget.maxActions,
+        maxWallClockMs: validatedTask.budget.maxWallClockMs,
+        maxConsecutiveFailures: validatedTask.budget.maxConsecutiveFailures,
+        maxProposalRejections: validatedTask.budget.maxProposalRejections,
+      },
+      abortSignal: options.abortSignal,
+    });
+
+    // 9. Evaluate Objective Criteria against Workspace
+    const criteriaReader: CriteriaReader = {
+      async readFile(relPath: string): Promise<string | null> {
+        try {
+          const resolved = await workspaceAdapter.resolvePath(wsHandle.workspaceId, relPath);
+          if (!fs.existsSync(resolved)) return null;
+          return fs.readFileSync(resolved, "utf8");
+        } catch {
+          return null;
+        }
+      },
+      async fileExists(relPath: string): Promise<boolean> {
+        try {
+          const resolved = await workspaceAdapter.resolvePath(wsHandle.workspaceId, relPath);
+          return fs.existsSync(resolved);
+        } catch {
+          return false;
+        }
+      },
+    };
+
+    const criteriaResults = await evaluateObjectiveCriteria(
+      validatedTask.successCriteria,
+      criteriaReader
+    );
+
+    const verificationPassed =
+      criteriaResults.length > 0 && criteriaResults.every((c) => c.passed);
+
+    // Check if agent explicitly claimed the mission goal was reached
+    const agentClaimedGoal = stepResult.transcript.some(
+      (entry) => entry.finishReason === "GOAL_REACHED"
+    );
+
+    // 10. Map Evaluation Outcome Taxonomy
+    let status: EvaluationStatus;
+    let statusMessage: string;
+
+    if (stepResult.terminalReason === "BRAIN_FAILURE") {
+      status = "ERROR";
+      statusMessage = `Evaluation halted due to model/brain failure: ${stepResult.terminalMessage}`;
+    } else if (
+      stepResult.terminalReason === "MAX_STEPS" ||
+      stepResult.terminalReason === "MAX_ACTIONS" ||
+      stepResult.terminalReason === "MAX_WALL_CLOCK"
+    ) {
+      status = "TIMED_OUT";
+      statusMessage = `Evaluation exhausted resource ceiling: ${stepResult.terminalReason} (${stepResult.terminalMessage})`;
+    } else if (stepResult.terminalReason === "CANCELLED") {
+      status = "CANCELLED";
+      statusMessage = "Evaluation run cancelled via AbortSignal";
+    } else if (
+      stepResult.terminalReason === "CONTRACT_REVOKED" ||
+      stepResult.terminalReason === "LEASE_LOST" ||
+      stepResult.terminalReason === "MAX_PROPOSAL_REJECTIONS" ||
+      stepResult.terminalReason === "UNKNOWN_EXECUTION"
+    ) {
+      status = "BLOCKED";
+      statusMessage = `Evaluation blocked by governance fencing: ${stepResult.terminalReason} (${stepResult.terminalMessage})`;
+    } else {
+      // Step loop concluded without error; objective verification dictates PASSED vs FAILED
+      if (verificationPassed) {
+        status = "PASSED";
+        statusMessage = "All objective evaluation criteria verified successfully";
+      } else {
+        status = "FAILED";
+        statusMessage = "Objective verification criteria failed against physical workspace";
+      }
+    }
+
+    // 11. Compile Exact Metrics
+    const toolLatency = stepResult.transcript.reduce(
+      (acc, e) => acc + (e.actionStatus ? e.durationMs : 0),
+      0
+    );
+
+    const metrics: EvaluationMetrics = createEvaluationMetrics({
+      steps: stepResult.totalSteps,
+      actions: stepResult.totalActions,
+      attempts: stepResult.transcript.filter((e) => e.actionId !== undefined).length,
+      modelCalls: trackingProvider.calls,
+      toolCalls: stepResult.totalActions,
+      proposalRejections: stepResult.totalProposalRejections,
+      executionFailures: stepResult.transcript.filter((e) => e.actionStatus === "FAILED").length,
+      modelFailures: trackingProvider.failures,
+      wallClockMs: stepResult.totalWallClockMs,
+      modelLatencyMs: trackingProvider.totalLatencyMs,
+      toolLatencyMs: toolLatency,
+      inputTokens: trackingProvider.promptTokens,
+      outputTokens: trackingProvider.outputTokens,
+      totalTokens: trackingProvider.totalTokens,
+    });
+
+    const completedAt = new Date().toISOString();
+
+    // 12. Build Final Structured Result
+    return Object.freeze({
+      evaluationRunId,
+      taskId: validatedTask.taskId,
+      taskVersion: validatedTask.version,
+      taskContentHash,
+      configFingerprint,
+      trialNumber,
+      runId: run.runId,
+      status,
+      statusMessage,
+      verificationPassed,
+      agentClaimedGoal,
+      criteriaResults,
+      metrics,
+      evidenceReferences: Object.freeze(
+        stepResult.transcript
+          .map((e) => e.actionId)
+          .filter((id): id is string => typeof id === "string")
+      ),
+      startedAt,
+      completedAt,
+    });
+  } finally {
+    if (wsHandle) {
+      try {
+        await workspaceAdapter.disposeWorkspace(wsHandle.workspaceId);
+      } catch {
+        // Best effort
+      }
+    }
+    try {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    } catch {
+      // Best effort
+    }
+  }
+}
