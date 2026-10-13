@@ -400,6 +400,7 @@ export class AgentStepController {
           contextSnapshot,
           availableTools: this.toolRegistry.listTools(),
           sequenceNumber: stepCount,
+          abortSignal: params.abortSignal,
         };
         brainResult = await this.agentBrain.proposeAction(brainRequest);
       } catch (err: unknown) {

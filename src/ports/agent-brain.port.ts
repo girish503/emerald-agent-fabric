@@ -19,6 +19,7 @@ export interface AgentBrainRequest {
   readonly contextSnapshot: ContextSnapshot;
   readonly availableTools: readonly ToolDefinition[];
   readonly sequenceNumber: number;
+  readonly abortSignal?: AbortSignal;
 }
 
 export type BrainFinishReason =
