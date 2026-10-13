@@ -1648,3 +1648,770 @@ export function validateExperimentConditionTrials(
     trials: Object.freeze(sortedTrials),
   });
 }
+
+// ============================================================================
+// 18. Evaluation Metric Keys & Constants
+// ============================================================================
+
+export const EVALUATION_METRIC_KEYS = [
+  "steps",
+  "actions",
+  "attempts",
+  "modelCalls",
+  "toolCalls",
+  "proposalRejections",
+  "executionFailures",
+  "modelFailures",
+  "wallClockMs",
+  "modelLatencyMs",
+  "toolLatencyMs",
+  "inputTokens",
+  "outputTokens",
+  "totalTokens",
+] as const;
+
+export type EvaluationMetricKey = (typeof EVALUATION_METRIC_KEYS)[number];
+
+export function isValidEvaluationMetricKey(key: unknown): key is EvaluationMetricKey {
+  return typeof key === "string" && (EVALUATION_METRIC_KEYS as readonly string[]).includes(key);
+}
+
+// ============================================================================
+// 19. Descriptive Rate Contract
+// ============================================================================
+
+export interface DescriptiveRate {
+  readonly numerator: number;
+  readonly denominator: number;
+  readonly rate?: number;
+}
+
+export const DescriptiveRateSchema = z
+  .object({
+    numerator: z.number().int().nonnegative(),
+    denominator: z.number().int().nonnegative(),
+    rate: z.number().nonnegative().optional(),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    if (val.denominator === 0 && val.rate !== undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "rate must be undefined when denominator is 0",
+      });
+    }
+  });
+
+export function computeDescriptiveRate(numerator: number, denominator: number): DescriptiveRate {
+  if (denominator <= 0) {
+    return Object.freeze({
+      numerator,
+      denominator,
+      rate: undefined,
+    });
+  }
+  const raw = numerator / denominator;
+  const rate = Math.round(raw * 1e8) / 1e8;
+  return Object.freeze({
+    numerator,
+    denominator,
+    rate,
+  });
+}
+
+// ============================================================================
+// 20. Evaluation Outcome Distribution
+// ============================================================================
+
+export interface EvaluationOutcomeDistribution {
+  readonly totalTrials: number;
+  readonly completedTrials: number;
+  readonly passedTrials: number;
+  readonly failedTrials: number;
+  readonly timedOutTrials: number;
+  readonly cancelledTrials: number;
+  readonly blockedTrials: number;
+  readonly errorTrials: number;
+}
+
+export const EvaluationOutcomeDistributionSchema = z
+  .object({
+    totalTrials: z.number().int().nonnegative(),
+    completedTrials: z.number().int().nonnegative(),
+    passedTrials: z.number().int().nonnegative(),
+    failedTrials: z.number().int().nonnegative(),
+    timedOutTrials: z.number().int().nonnegative(),
+    cancelledTrials: z.number().int().nonnegative(),
+    blockedTrials: z.number().int().nonnegative(),
+    errorTrials: z.number().int().nonnegative(),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    const sum =
+      val.passedTrials +
+      val.failedTrials +
+      val.timedOutTrials +
+      val.cancelledTrials +
+      val.blockedTrials +
+      val.errorTrials;
+    if (sum !== val.totalTrials) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Sum of outcome buckets (${sum}) does not equal totalTrials (${val.totalTrials})`,
+      });
+    }
+    if (val.completedTrials !== val.passedTrials + val.failedTrials) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `completedTrials (${val.completedTrials}) must equal passedTrials + failedTrials (${val.passedTrials + val.failedTrials})`,
+      });
+    }
+  });
+
+// ============================================================================
+// 21. Metric Aggregate Contract & Missing Value Semantics
+// ============================================================================
+
+export interface MetricAggregate {
+  readonly observedCount: number;
+  readonly unavailableCount: number;
+  readonly sum?: number;
+  readonly average?: number;
+  readonly minimum?: number;
+  readonly maximum?: number;
+}
+
+export const MetricAggregateSchema = z
+  .object({
+    observedCount: z.number().int().nonnegative(),
+    unavailableCount: z.number().int().nonnegative(),
+    sum: z.number().optional(),
+    average: z.number().optional(),
+    minimum: z.number().optional(),
+    maximum: z.number().optional(),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    if (val.observedCount === 0) {
+      if (
+        val.sum !== undefined ||
+        val.average !== undefined ||
+        val.minimum !== undefined ||
+        val.maximum !== undefined
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Aggregate metrics (sum, average, minimum, maximum) must be undefined when observedCount is 0",
+        });
+      }
+    } else {
+      if (
+        val.sum === undefined ||
+        val.average === undefined ||
+        val.minimum === undefined ||
+        val.maximum === undefined
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Aggregate metrics (sum, average, minimum, maximum) must be present when observedCount > 0",
+        });
+      }
+    }
+  });
+
+export function aggregateMetric(values: readonly (number | undefined)[]): MetricAggregate {
+  let observedCount = 0;
+  let unavailableCount = 0;
+  let sum = 0;
+  let minimum: number | undefined = undefined;
+  let maximum: number | undefined = undefined;
+
+  for (const v of values) {
+    if (typeof v === "number" && !isNaN(v)) {
+      observedCount++;
+      sum += v;
+      if (minimum === undefined || v < minimum) {
+        minimum = v;
+      }
+      if (maximum === undefined || v > maximum) {
+        maximum = v;
+      }
+    } else {
+      unavailableCount++;
+    }
+  }
+
+  if (observedCount === 0) {
+    return Object.freeze({
+      observedCount: 0,
+      unavailableCount,
+      sum: undefined,
+      average: undefined,
+      minimum: undefined,
+      maximum: undefined,
+    });
+  }
+
+  const average = Math.round((sum / observedCount) * 1e8) / 1e8;
+  const roundedSum = Math.round(sum * 1e8) / 1e8;
+
+  return Object.freeze({
+    observedCount,
+    unavailableCount,
+    sum: roundedSum,
+    average,
+    minimum,
+    maximum,
+  });
+}
+
+// ============================================================================
+// 22. Condition-Level Evaluation Report
+// ============================================================================
+
+export interface EvaluationConditionReport {
+  readonly conditionId: string;
+  readonly conditionName: string;
+  readonly conditionHash: string;
+  readonly taskRef: EvaluationTaskReference;
+  readonly configFingerprint: EvaluationConfigFingerprint;
+  readonly plannedTrialCount: number;
+  readonly observedTrialCount: number;
+  readonly outcomes: EvaluationOutcomeDistribution;
+  readonly objectivePassRate: DescriptiveRate;
+  readonly metrics: Readonly<Record<EvaluationMetricKey, MetricAggregate>>;
+  readonly trialReferences: readonly string[];
+}
+
+export const EvaluationConditionReportSchema = z
+  .object({
+    conditionId: z.string().min(1),
+    conditionName: z.string().min(1),
+    conditionHash: z.string().regex(/^[a-f0-9]{64}$/),
+    taskRef: EvaluationTaskReferenceSchema,
+    configFingerprint: EvaluationConfigFingerprintSchema,
+    plannedTrialCount: z.number().int().positive(),
+    observedTrialCount: z.number().int().nonnegative(),
+    outcomes: EvaluationOutcomeDistributionSchema,
+    objectivePassRate: DescriptiveRateSchema,
+    metrics: z.record(z.string(), MetricAggregateSchema),
+    trialReferences: z.array(z.string()),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    for (const key of EVALUATION_METRIC_KEYS) {
+      if (!val.metrics[key]) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Missing required metric aggregate for '${key}' in condition report`,
+        });
+      }
+    }
+  });
+
+export function validateConditionReport(def: unknown): EvaluationConditionReport {
+  const result = EvaluationConditionReportSchema.safeParse(def);
+  if (!result.success) {
+    const issues = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+    throw new Error(`Malformed EvaluationConditionReport: ${issues}`);
+  }
+
+  const metricsRecord: Record<string, MetricAggregate> = {};
+  for (const k of EVALUATION_METRIC_KEYS) {
+    const agg = result.data.metrics[k]!;
+    metricsRecord[k] = Object.freeze({ ...agg });
+  }
+
+  return Object.freeze({
+    conditionId: result.data.conditionId,
+    conditionName: result.data.conditionName,
+    conditionHash: result.data.conditionHash,
+    taskRef: Object.freeze({ ...result.data.taskRef }),
+    configFingerprint: Object.freeze({ ...result.data.configFingerprint }),
+    plannedTrialCount: result.data.plannedTrialCount,
+    observedTrialCount: result.data.observedTrialCount,
+    outcomes: Object.freeze({ ...result.data.outcomes }),
+    objectivePassRate: Object.freeze({ ...result.data.objectivePassRate }),
+    metrics: Object.freeze(metricsRecord) as Readonly<Record<EvaluationMetricKey, MetricAggregate>>,
+    trialReferences: Object.freeze([...result.data.trialReferences]),
+  });
+}
+
+// ============================================================================
+// 23. Evaluation Report Contract & Deterministic Hashing
+// ============================================================================
+
+export interface EvaluationReport {
+  readonly experimentId: string;
+  readonly experimentVersion: number;
+  readonly experimentContentHash: string;
+  readonly taskRef: EvaluationTaskReference;
+  readonly harnessVersion: string;
+  readonly plannedTrialCount: number;
+  readonly totalObservedTrials: number;
+  readonly conditions: readonly EvaluationConditionReport[];
+  readonly reportContentHash: string;
+}
+
+export interface EvaluationReportHashConditionInput {
+  readonly conditionId: string;
+  readonly conditionName: string;
+  readonly conditionHash: string;
+  readonly plannedTrialCount: number;
+  readonly observedTrialCount: number;
+  readonly outcomes: EvaluationOutcomeDistribution;
+  readonly objectivePassRate: DescriptiveRate;
+  readonly metrics: Readonly<Record<string, MetricAggregate>>;
+  readonly trialReferences: readonly string[];
+}
+
+export function computeEvaluationReportHash(params: {
+  readonly experimentId: string;
+  readonly experimentVersion: number;
+  readonly experimentContentHash: string;
+  readonly taskRef: EvaluationTaskReference;
+  readonly harnessVersion: string;
+  readonly plannedTrialCount: number;
+  readonly conditions: readonly EvaluationReportHashConditionInput[];
+}): string {
+  const sortedConditions = [...params.conditions]
+    .sort((a, b) => a.conditionId.localeCompare(b.conditionId))
+    .map((c) => ({
+      conditionHash: c.conditionHash,
+      conditionId: c.conditionId,
+      conditionName: c.conditionName,
+      metrics: EVALUATION_METRIC_KEYS.map((metricName) => {
+        const agg = c.metrics[metricName];
+        return {
+          metricName,
+          observedCount: agg?.observedCount ?? 0,
+          unavailableCount: agg?.unavailableCount ?? 0,
+          sum: agg?.sum,
+          average: agg?.average,
+          minimum: agg?.minimum,
+          maximum: agg?.maximum,
+        };
+      }),
+      objectivePassRate: {
+        denominator: c.objectivePassRate.denominator,
+        numerator: c.objectivePassRate.numerator,
+        rate: c.objectivePassRate.rate,
+      },
+      observedTrialCount: c.observedTrialCount,
+      outcomes: {
+        blockedTrials: c.outcomes.blockedTrials,
+        cancelledTrials: c.outcomes.cancelledTrials,
+        completedTrials: c.outcomes.completedTrials,
+        errorTrials: c.outcomes.errorTrials,
+        failedTrials: c.outcomes.failedTrials,
+        passedTrials: c.outcomes.passedTrials,
+        timedOutTrials: c.outcomes.timedOutTrials,
+        totalTrials: c.outcomes.totalTrials,
+      },
+      plannedTrialCount: c.plannedTrialCount,
+      trialReferences: [...c.trialReferences].sort(),
+    }));
+
+  const canonicalPayload = {
+    conditions: sortedConditions,
+    experimentContentHash: params.experimentContentHash,
+    experimentId: params.experimentId,
+    experimentVersion: params.experimentVersion,
+    harnessVersion: params.harnessVersion,
+    plannedTrialCount: params.plannedTrialCount,
+    taskRef: {
+      taskId: params.taskRef.taskId,
+      taskVersion: params.taskRef.taskVersion,
+      taskContentHash: params.taskRef.taskContentHash,
+    },
+  };
+
+  return computeCanonicalHash(canonicalPayload).contentHash;
+}
+
+export const EvaluationReportSchema = z
+  .object({
+    experimentId: z.string().min(1),
+    experimentVersion: z.number().int().positive(),
+    experimentContentHash: z.string().regex(/^[a-f0-9]{64}$/),
+    taskRef: EvaluationTaskReferenceSchema,
+    harnessVersion: z.string().min(1),
+    plannedTrialCount: z.number().int().positive(),
+    totalObservedTrials: z.number().int().nonnegative(),
+    conditions: z.array(EvaluationConditionReportSchema).min(1),
+    reportContentHash: z.string().regex(/^[a-f0-9]{64}$/),
+  })
+  .strict()
+  .superRefine((val, ctx) => {
+    // 1. Condition uniqueness
+    const seenConditionIds = new Set<string>();
+    for (const c of val.conditions) {
+      if (seenConditionIds.has(c.conditionId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Duplicate conditionId '${c.conditionId}' in evaluation report`,
+        });
+      }
+      seenConditionIds.add(c.conditionId);
+    }
+
+    // 2. Report content hash verification
+    const expectedHash = computeEvaluationReportHash({
+      experimentId: val.experimentId,
+      experimentVersion: val.experimentVersion,
+      experimentContentHash: val.experimentContentHash,
+      taskRef: val.taskRef,
+      harnessVersion: val.harnessVersion,
+      plannedTrialCount: val.plannedTrialCount,
+      conditions: val.conditions,
+    });
+    if (val.reportContentHash !== expectedHash) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `reportContentHash mismatch. Expected '${expectedHash}', received '${val.reportContentHash}'`,
+      });
+    }
+
+    // 3. Security firewall: authority keyword checks
+    for (const forbidden of FORBIDDEN_AUTHORITY_KEYS) {
+      if (val.experimentId.toLowerCase().includes(forbidden.toLowerCase())) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `experimentId '${val.experimentId}' contains forbidden authority keyword '${forbidden}'`,
+        });
+      }
+    }
+  });
+
+export function validateEvaluationReport(def: unknown): EvaluationReport {
+  const result = EvaluationReportSchema.safeParse(def);
+  if (!result.success) {
+    const issues = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+    throw new Error(`Malformed EvaluationReport: ${issues}`);
+  }
+  return Object.freeze({
+    experimentId: result.data.experimentId,
+    experimentVersion: result.data.experimentVersion,
+    experimentContentHash: result.data.experimentContentHash,
+    taskRef: Object.freeze({ ...result.data.taskRef }),
+    harnessVersion: result.data.harnessVersion,
+    plannedTrialCount: result.data.plannedTrialCount,
+    totalObservedTrials: result.data.totalObservedTrials,
+    conditions: Object.freeze(
+      result.data.conditions.map((c) => validateConditionReport(c))
+    ),
+    reportContentHash: result.data.reportContentHash,
+  });
+}
+
+// ============================================================================
+// 24. Pure Report Generation
+// ============================================================================
+
+export interface GenerateEvaluationReportParams {
+  readonly experiment: EvaluationExperiment;
+  readonly trials: readonly EvaluationTrial[];
+}
+
+export function generateEvaluationReport(
+  experimentOrParams: EvaluationExperiment | GenerateEvaluationReportParams,
+  maybeTrials?: readonly EvaluationTrial[]
+): EvaluationReport {
+  let experiment: EvaluationExperiment;
+  let trials: readonly EvaluationTrial[];
+
+  if ("experiment" in experimentOrParams) {
+    experiment = experimentOrParams.experiment;
+    trials = experimentOrParams.trials;
+  } else {
+    experiment = experimentOrParams;
+    trials = maybeTrials ?? [];
+  }
+
+  // Validate experiment structure
+  validateEvaluationExperiment(experiment);
+
+  // Group trials by conditionId
+  const trialsByConditionId = new Map<string, EvaluationTrial[]>();
+  for (const condition of experiment.conditions) {
+    trialsByConditionId.set(condition.conditionId, []);
+  }
+
+  for (const trial of trials) {
+    if (trial.taskId !== experiment.taskRef.taskId) {
+      throw new Error(
+        `Trial '${trial.trialId}' task mismatch: experiment requires taskId '${experiment.taskRef.taskId}', received '${trial.taskId}'`
+      );
+    }
+    if (trial.taskVersion !== experiment.taskRef.taskVersion) {
+      throw new Error(
+        `Trial '${trial.trialId}' task version mismatch: experiment requires version ${experiment.taskRef.taskVersion}, received ${trial.taskVersion}`
+      );
+    }
+    if (trial.taskContentHash !== experiment.taskRef.taskContentHash) {
+      throw new Error(
+        `Trial '${trial.trialId}' task content hash mismatch: experiment requires '${experiment.taskRef.taskContentHash}', received '${trial.taskContentHash}'`
+      );
+    }
+
+    const matchingCondition = experiment.conditions.find(
+      (c) => c.configFingerprint.fingerprintHash === trial.configFingerprint.fingerprintHash
+    );
+    if (!matchingCondition) {
+      throw new Error(
+        `Trial '${trial.trialId}' with fingerprint '${trial.configFingerprint.fingerprintHash}' does not match any condition in experiment '${experiment.experimentId}'`
+      );
+    }
+
+    trialsByConditionId.get(matchingCondition.conditionId)!.push(trial);
+  }
+
+  // Validate trial ordinal uniqueness within each condition
+  for (const [condId, condTrials] of trialsByConditionId.entries()) {
+    const seenOrdinals = new Set<number>();
+    for (const t of condTrials) {
+      if (seenOrdinals.has(t.trialOrdinal)) {
+        throw new Error(
+          `Duplicate trialOrdinal ${t.trialOrdinal} in condition '${condId}'`
+        );
+      }
+      seenOrdinals.add(t.trialOrdinal);
+    }
+  }
+
+  // Build condition reports in deterministic order (sorted by conditionId)
+  const sortedConditions = [...experiment.conditions].sort((a, b) =>
+    a.conditionId.localeCompare(b.conditionId)
+  );
+
+  let totalObserved = 0;
+  const conditionReports: EvaluationConditionReport[] = [];
+
+  for (const condition of sortedConditions) {
+    const condTrials = [...(trialsByConditionId.get(condition.conditionId) ?? [])].sort(
+      (a, b) => a.trialOrdinal - b.trialOrdinal
+    );
+    totalObserved += condTrials.length;
+
+    let passedTrials = 0;
+    let failedTrials = 0;
+    let timedOutTrials = 0;
+    let cancelledTrials = 0;
+    let blockedTrials = 0;
+    let errorTrials = 0;
+
+    for (const t of condTrials) {
+      switch (t.outcome) {
+        case "PASSED":
+          passedTrials++;
+          break;
+        case "FAILED":
+          failedTrials++;
+          break;
+        case "TIMED_OUT":
+          timedOutTrials++;
+          break;
+        case "CANCELLED":
+          cancelledTrials++;
+          break;
+        case "BLOCKED":
+          blockedTrials++;
+          break;
+        case "ERROR":
+          errorTrials++;
+          break;
+      }
+    }
+
+    const completedTrials = passedTrials + failedTrials;
+    const totalTrials = condTrials.length;
+
+    const outcomes: EvaluationOutcomeDistribution = Object.freeze({
+      totalTrials,
+      completedTrials,
+      passedTrials,
+      failedTrials,
+      timedOutTrials,
+      cancelledTrials,
+      blockedTrials,
+      errorTrials,
+    });
+
+    const objectivePassRate = computeDescriptiveRate(passedTrials, completedTrials);
+
+    const metricAggregates: Record<string, MetricAggregate> = {};
+    for (const metricKey of EVALUATION_METRIC_KEYS) {
+      const values = condTrials.map((t) => t.metrics[metricKey]);
+      metricAggregates[metricKey] = aggregateMetric(values);
+    }
+
+    const trialReferences = Object.freeze(condTrials.map((t) => t.trialId));
+
+    conditionReports.push(
+      Object.freeze({
+        conditionId: condition.conditionId,
+        conditionName: condition.name,
+        conditionHash: condition.conditionHash,
+        taskRef: experiment.taskRef,
+        configFingerprint: condition.configFingerprint,
+        plannedTrialCount: experiment.plannedTrialCount,
+        observedTrialCount: totalTrials,
+        outcomes,
+        objectivePassRate,
+        metrics: Object.freeze(metricAggregates as Record<EvaluationMetricKey, MetricAggregate>),
+        trialReferences,
+      })
+    );
+  }
+
+  const reportContentHash = computeEvaluationReportHash({
+    experimentId: experiment.experimentId,
+    experimentVersion: experiment.version,
+    experimentContentHash: experiment.experimentContentHash,
+    taskRef: experiment.taskRef,
+    harnessVersion: experiment.harnessVersion,
+    plannedTrialCount: experiment.plannedTrialCount,
+    conditions: conditionReports,
+  });
+
+  return Object.freeze({
+    experimentId: experiment.experimentId,
+    experimentVersion: experiment.version,
+    experimentContentHash: experiment.experimentContentHash,
+    taskRef: experiment.taskRef,
+    harnessVersion: experiment.harnessVersion,
+    plannedTrialCount: experiment.plannedTrialCount,
+    totalObservedTrials: totalObserved,
+    conditions: Object.freeze(conditionReports),
+    reportContentHash,
+  });
+}
+
+// ============================================================================
+// 25. Baseline Comparison Contract & Comparator
+// ============================================================================
+
+export interface MetricComparison {
+  readonly baseline: MetricAggregate;
+  readonly candidate: MetricAggregate;
+  readonly deltaAverage?: number;
+  readonly deltaSum?: number;
+}
+
+export interface PassRateComparison {
+  readonly baseline: DescriptiveRate;
+  readonly candidate: DescriptiveRate;
+  readonly delta?: number;
+}
+
+export interface ConditionComparison {
+  readonly baselineConditionId: string;
+  readonly candidateConditionId: string;
+  readonly baselineConditionName: string;
+  readonly candidateConditionName: string;
+  readonly taskRef: EvaluationTaskReference;
+  readonly passRateComparison: PassRateComparison;
+  readonly metricComparisons: Readonly<Record<EvaluationMetricKey, MetricComparison>>;
+}
+
+function computeDelta(candidate: number | undefined, baseline: number | undefined): number | undefined {
+  if (candidate === undefined || baseline === undefined) {
+    return undefined;
+  }
+  const raw = candidate - baseline;
+  return Math.round(raw * 1e8) / 1e8;
+}
+
+export function compareConditions(
+  baseline: EvaluationConditionReport,
+  candidate: EvaluationConditionReport,
+  taskRef?: EvaluationTaskReference
+): ConditionComparison {
+  if (baseline.taskRef.taskId !== candidate.taskRef.taskId) {
+    throw new Error(
+      `Cannot compare conditions with different taskId: '${baseline.taskRef.taskId}' vs '${candidate.taskRef.taskId}'`
+    );
+  }
+  if (baseline.taskRef.taskVersion !== candidate.taskRef.taskVersion) {
+    throw new Error(
+      `Cannot compare conditions with different taskVersion: ${baseline.taskRef.taskVersion} vs ${candidate.taskRef.taskVersion}`
+    );
+  }
+  if (baseline.taskRef.taskContentHash !== candidate.taskRef.taskContentHash) {
+    throw new Error(
+      `Cannot compare conditions with different taskContentHash: '${baseline.taskRef.taskContentHash}' vs '${candidate.taskRef.taskContentHash}'`
+    );
+  }
+
+  if (taskRef) {
+    if (baseline.taskRef.taskId !== taskRef.taskId) {
+      throw new Error(
+        `Conditions do not match expected taskRef taskId: '${taskRef.taskId}' vs '${baseline.taskRef.taskId}'`
+      );
+    }
+    if (baseline.taskRef.taskVersion !== taskRef.taskVersion) {
+      throw new Error(
+        `Conditions do not match expected taskRef taskVersion: ${taskRef.taskVersion} vs ${baseline.taskRef.taskVersion}`
+      );
+    }
+    if (baseline.taskRef.taskContentHash !== taskRef.taskContentHash) {
+      throw new Error(
+        `Conditions do not match expected taskRef taskContentHash: '${taskRef.taskContentHash}' vs '${baseline.taskRef.taskContentHash}'`
+      );
+    }
+  }
+
+  const passRateDelta = computeDelta(candidate.objectivePassRate.rate, baseline.objectivePassRate.rate);
+  const passRateComparison: PassRateComparison = Object.freeze({
+    baseline: baseline.objectivePassRate,
+    candidate: candidate.objectivePassRate,
+    delta: passRateDelta,
+  });
+
+  const metricComparisons: Record<string, MetricComparison> = {};
+  for (const metricKey of EVALUATION_METRIC_KEYS) {
+    const baseAgg = baseline.metrics[metricKey];
+    const candAgg = candidate.metrics[metricKey];
+    const deltaAverage = computeDelta(candAgg.average, baseAgg.average);
+    const deltaSum = computeDelta(candAgg.sum, baseAgg.sum);
+
+    metricComparisons[metricKey] = Object.freeze({
+      baseline: baseAgg,
+      candidate: candAgg,
+      deltaAverage,
+      deltaSum,
+    });
+  }
+
+  return Object.freeze({
+    baselineConditionId: baseline.conditionId,
+    candidateConditionId: candidate.conditionId,
+    baselineConditionName: baseline.conditionName,
+    candidateConditionName: candidate.conditionName,
+    taskRef: baseline.taskRef,
+    passRateComparison,
+    metricComparisons: Object.freeze(metricComparisons as Record<EvaluationMetricKey, MetricComparison>),
+  });
+}
+
+export function compareExperimentConditions(
+  report: EvaluationReport,
+  baselineConditionId: string,
+  candidateConditionId: string
+): ConditionComparison {
+  const baseline = report.conditions.find((c) => c.conditionId === baselineConditionId);
+  if (!baseline) {
+    throw new Error(
+      `Baseline condition '${baselineConditionId}' not found in report for experiment '${report.experimentId}'`
+    );
+  }
+
+  const candidate = report.conditions.find((c) => c.conditionId === candidateConditionId);
+  if (!candidate) {
+    throw new Error(
+      `Candidate condition '${candidateConditionId}' not found in report for experiment '${report.experimentId}'`
+    );
+  }
+
+  return compareConditions(baseline, candidate, report.taskRef);
+}

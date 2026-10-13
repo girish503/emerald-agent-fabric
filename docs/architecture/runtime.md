@@ -782,3 +782,74 @@ Condition A  Condition B
    Each `EvaluationExperimentCondition` binds strictly to an immutable `EvaluationConfigFingerprint`. An `EvaluationTrial` can belong to an experiment condition only when its `taskId`, `taskVersion`, `taskContentHash`, and `configFingerprint.fingerprintHash` match the experiment's declared task and condition configuration. Mismatched or incomparable trials are rejected fail-closed.
 5. **Planned Trial Count vs. Statistical Power**:
    `plannedTrialCount` indicates the intended number of trials the experiment aims to run. It does not dictate, enforce, or compute statistical sample sizes or statistical power.
+
+---
+
+## 27. Descriptive Evaluation Reporting (Task 7.4)
+
+Section 27 establishes the pure evaluation reporting layer that derives deterministic descriptive reports (`EvaluationReport`) and explicit condition comparisons (`ConditionComparison`) from immutable experiment and trial records:
+
+```text
+EvaluationExperiment
+        │
+        ├── Condition A
+        │      ↓
+        │   Trials
+        │
+        └── Condition B
+               ↓
+             Trials
+                │
+                ▼
+      Descriptive Report
+                │
+        ┌───────┴────────┐
+        ▼                ▼
+ Outcome Distribution   Metric Aggregates
+        │                │
+        └───────┬────────┘
+                ▼
+        Baseline / Candidate
+             Deltas
+```
+
+> **Reporting is a pure evaluation-layer operation and has no execution authority.**
+
+### 27.1 Architectural Role and Invariants
+
+1. **Pure Derived Artifact (Zero Execution Authority)**:
+   `EvaluationReport` is an immutable, derived domain object generated from completed `EvaluationTrial` records and an `EvaluationExperiment`. The reporting layer:
+   - Does NOT invoke the AgentBrain, model providers, or `ToolExecutionGateway`.
+   - Does NOT create Actions, Attempts, or Runtime Runs.
+   - Does NOT issue worker leases or modify `MissionContract` boundaries.
+   - Does NOT mutate source `EvaluationExperiment` or `EvaluationTrial` instances.
+   - Contains zero security-sensitive or authority-bearing fields (`workerId`, `leaseId`, `contractId`, credentials).
+
+2. **Deterministic Canonical Report Identity**:
+   Reports are identified strictly by the experiment they describe: `experimentId`, `experimentVersion`, `experimentContentHash`.
+   The `reportContentHash` is computed canonically over sorted semantic contents (conditions sorted by `conditionId`, canonical metric keys, sorted trial references) and completely excludes runtime execution timestamps, worker IDs, or ephemeral state.
+
+3. **Discrete Outcome Distribution**:
+   Every condition report preserves the discrete outcome distribution across all six evaluation statuses:
+   $$\text{totalTrials} = \text{passedTrials} + \text{failedTrials} + \text{timedOutTrials} + \text{cancelledTrials} + \text{blockedTrials} + \text{errorTrials}$$
+   Incomplete or aborted evaluations (`TIMED_OUT`, `CANCELLED`, `BLOCKED`, `ERROR`) are never silently discarded or collapsed into failed trials.
+
+4. **Explicit Descriptive Pass Rate Semantics**:
+   The objective pass rate is represented as an explicit, strongly typed ratio:
+   $$\text{objectivePassRate} = \left\{\text{numerator}: \text{passedTrials}, \; \text{denominator}: \text{completedTrials}, \; \text{rate}: \frac{\text{passedTrials}}{\text{completedTrials}}\right\}$$
+   where $\text{completedTrials} = \text{passedTrials} + \text{failedTrials}$.
+   Incomplete outcomes are excluded from the completion denominator. If $\text{completedTrials} = 0$, the pass rate is explicitly `undefined` rather than a fabricated `0`. When zero passes occur among completed trials, the rate is exact `0`.
+
+5. **Rigorous Missing Metric Semantics**:
+   Existing metric semantics ($0$ = observed zero, $\text{undefined}$ = unavailable/unsupported) are strictly preserved across aggregation:
+   - Numeric aggregates (`MetricAggregate`) track `observedCount` and `unavailableCount` explicitly.
+   - Missing observations do not default to zero; only observed values contribute to `sum`, `average`, `minimum`, and `maximum`.
+   - If $\text{observedCount} = 0$, all statistical aggregates remain `undefined`.
+
+6. **Explicit Baseline Comparison & Comparability Fencing**:
+   Condition comparison (`compareConditions`, `compareExperimentConditions`) requires an explicit baseline designation (no implicit ordering or hardcoded defaults).
+   Comparisons fail closed if candidate and baseline conditions do not share the identical task scope ($\text{taskId}$, $\text{taskVersion}$, $\text{taskContentHash}$).
+   Differences are reported as descriptive deltas ($\text{deltaAverage}$, $\text{deltaSum}$, $\text{delta}$) rather than value-laden labels such as "improvement".
+
+7. **Explicit Non-Goals (No Statistical Inference)**:
+   This reporting layer explicitly omits statistical inference (variance, standard deviation, confidence intervals, p-values, hypothesis tests, effect sizes, statistical power, or causal claims). Reports describe observed empirical evidence without making unverified statistical generalizations.
