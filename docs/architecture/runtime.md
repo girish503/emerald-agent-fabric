@@ -348,6 +348,61 @@ Reconstitution (`getContract`, `findContractsByHash`, `findContractsByTaskId`) d
 - Transitions (`activateContract`, `revokeContract`) execute within `BEGIN IMMEDIATE` transactions, verifying current status (`WHERE status = 'DRAFT'` or `WHERE status = 'ACTIVE'`) to prevent concurrency races.
 - The repository port `MissionContractStorePort` is integrated directly into `StateStorePort` and `StorageTransaction`, ensuring that contract updates can participate atomically in larger transaction boundaries.
 
+---
 
+## 15. Action and Attempt Execution Lifecycle Integration (Task 4.4-E)
 
+### 15.1 Responsibility Hierarchy
+The deterministic execution lifecycle coordinates six distinct architectural boundaries:
+```text
+WorkerRuntime
+    ↓ coordinates lifecycle & lease authority
+Action (Domain)
+    ↓ owns logical intention, monotonic sequence, and state machine invariants
+Attempt (Domain)
+    ↓ owns physical execution trial (#1), idempotency token, and physical state machine
+ToolExecutionGateway
+    ↓ owns pre-execution governance, policy authorization, resource limits, and input validation
+ToolAdapter
+    ↓ owns typed tool implementation within workspace boundaries
+ExecutionProvider
+    ↓ owns physical sandbox execution (e.g. Docker container) where required
+```
 
+### 15.2 Deterministic Execution Lifecycle
+For a governed Action, the runtime progresses through an unskippable sequence:
+1. **Authoritative Run & Lease Resolution**: Worker verifies its active lease (`workerId`, `leaseId`) against the authoritative `runs` record.
+2. **Action Creation / Ingestion**: Action is created in `CREATED` state or loaded from persistent state. If newly created, `Action.create` validates invariants and emits `action.created`.
+3. **Gateway Authorization**: `ToolExecutionGateway.authorize()` evaluates Mission Contract authority, capability policy, resource ceilings, schema validation, workspace containment, and isolation posture. Zero provider execution occurs during authorization.
+   - If denied: Action transitions directly from `CREATED` to `FAILED` with `action.failed`. Zero Attempts are created.
+4. **Action Start**: Action transitions `CREATED` → `AUTHORIZED` (`action.authorized`) → `RUNNING` (`action.started`, attempt #1).
+5. **Attempt Creation & Dispatch**: Attempt #1 is created in `CREATED` state (`attempt.created`), then transitions to `DISPATCHED` (`attempt.dispatched`) and `RUNNING` (`attempt.started`).
+6. **Physical Tool Execution**: Invoked strictly through `ToolExecutionGateway.execute()`, which delegates to the registered `ToolAdapter` and underlying `ExecutionProvider`.
+7. **Terminal Mapping**: Results map into Attempt and Action states atomically:
+   - Success: `Attempt.SUCCEEDED` (`attempt.completed`) + `Action.SUCCEEDED` (`action.completed`).
+   - Failure: `Attempt.FAILED` (`attempt.failed`) + `Action.FAILED` (`action.failed`).
+   - Timeout: `Attempt.TIMED_OUT` (`attempt.timed_out`) + `Action.TIMED_OUT` (`action.timed_out`).
+   - Cancellation: `Attempt.CANCELLED` (`attempt.cancelled`) + `Action.CANCELLED` (`action.cancelled`).
+   - Execution Uncertainty: `Attempt.UNKNOWN` (`attempt.unknown`) + `Action.FAILED` (`action.failed`).
+
+### 15.3 Transactional Boundaries and Durability
+Every state mutation and its causal domain event are committed atomically inside a single ACID SQLite transaction (`store.transaction((tx) => { ... })`).
+Terminal transitions for an Attempt and its parent Action are committed together in a single atomic transaction:
+```typescript
+store.transaction((tx) => {
+  tx.transitionAttempt(attemptId, completeCommand, idGen, fencing);
+  tx.transitionAction(actionId, succeedCommand, idGen, fencing);
+});
+```
+This guarantees zero divergence between operational state tables (`actions`, `attempts`) and the append-only event stream (`run_events`).
+
+### 15.4 Lease Fencing
+Every Action and Attempt mutation is lease-fenced via `LeaseFencingCheck { workerId, leaseId }`. The persistence transaction verifies that the run's current lease matches the caller's credentials. If the worker lost its lease (due to expiry, stall, or usurpation), the mutation is rejected immediately with `LeaseLostError`, preventing zombie writes to Action, Attempt, Run, and event tables.
+
+### 15.5 Execution Uncertainty (UNKNOWN Semantics)
+If the outcome of physical execution is indeterminate (such as `PROVIDER_RESULT_UNAVAILABLE`, `WORKER_CRASHED`, `LEASE_EXPIRED_DURING_EXECUTION`, or `PROCESS_TERMINATION_BEFORE_PERSISTENCE`), the Attempt status is preserved strictly as `UNKNOWN` with the preserved reason code. The runtime does NOT convert execution uncertainty into `FAILED`, nor does it attempt automated retries. The parent Action transitions to `FAILED` to reflect terminal outcome of the trial.
+
+### 15.6 Strict Boundaries: No Automatic Retries & Deferred Recovery
+- **No Automatic Retry**: Task 4.4-E implements single-trial execution (`attemptNumber = 1`). Retry loops, backoff algorithms, and multi-attempt schedulers are explicitly omitted.
+- **Provider Invocation Boundary**: On any governance denial, invalid contract, revoked contract, or resource ceiling violation, execution terminates with `provider invocation count = 0`.
+- **Deferred Recovery**: Crash recovery, sweeper orphan cleanup, and retry/re-execution orchestration are deferred to Task 4.4-F.

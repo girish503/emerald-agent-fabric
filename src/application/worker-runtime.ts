@@ -1,11 +1,27 @@
 import { DockerExecutionProvider } from "../adapters/execution/docker-execution-provider.js";
 import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
+import { createWorkspaceToolAdapterRegistry } from "../adapters/tools/tool-adapter-registry.factory.js";
+import {
+  Action,
+  ActionSnapshot,
+  isTerminalActionStatus,
+} from "../domain/action.js";
+import {
+  Attempt,
+  AttemptSnapshot,
+  createAttemptIdempotencyToken,
+} from "../domain/attempt.js";
+import { AttemptUnknownReason } from "../domain/events.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   ContractIntegrityError,
+  InvalidContractBindingError,
   InvalidMissionContractError,
   InvalidRunError,
   LeaseLostError,
+  MissingBoundContractError,
+  ResourceLimitExceededError,
+  TerminalStateError,
 } from "../domain/errors.js";
 import {
   createOutputPayloadEvidence,
@@ -19,13 +35,24 @@ import {
   IsolationRequirement,
   PolicyEvaluator,
 } from "../domain/policy.js";
+import {
+  ToolName,
+  ToolRequest,
+  ToolResult,
+} from "../domain/tool.js";
 import { DeterministicVerifier, VerificationSpec } from "../domain/verification.js";
 import { Workspace } from "../domain/workspace.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../ports/execution-provider.port.js";
-import { WorkerRecord } from "../ports/state-store.port.js";
+import { LeaseFencingCheck, WorkerRecord } from "../ports/state-store.port.js";
+import { ToolAdapterRegistryPort } from "../ports/tool-adapter.port.js";
+import { ToolRegistryPort } from "../ports/tool-registry.port.js";
 import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { ClaimRunResult, RunCoordinator } from "./run-coordinator.js";
+import {
+  ToolExecutionGateway,
+  TrustedToolInvocationContext,
+} from "./tool-execution-gateway.js";
 
 export type WorkerRunResult =
   | { readonly status: "IDLE" }
@@ -34,6 +61,42 @@ export type WorkerRunResult =
   | { readonly status: "TIMED_OUT"; readonly runId: string; readonly error: unknown }
   | { readonly status: "CANCELLED"; readonly runId: string; readonly error: unknown }
   | { readonly status: "FENCED"; readonly runId: string; readonly error: LeaseLostError };
+
+export type WorkerActionStatus =
+  | "SUCCEEDED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "CANCELLED"
+  | "UNKNOWN"
+  | "FENCED";
+
+export interface WorkerActionResult {
+  readonly status: WorkerActionStatus;
+  readonly actionId: string;
+  readonly runId: string;
+  readonly attemptId?: string;
+  readonly output?: unknown;
+  readonly error?: unknown;
+  readonly action?: ActionSnapshot | null;
+  readonly attempt?: AttemptSnapshot | null;
+}
+
+export interface ExecuteActionParams {
+  readonly runId: string;
+  readonly actionId?: string;
+  readonly sequenceNumber?: number;
+  readonly toolName?: ToolName;
+  readonly inputPayload?: unknown;
+  readonly maxAttempts?: number;
+  readonly leaseId?: string;
+  readonly workspace?: {
+    readonly workspaceId: string;
+    readonly hostPath: string;
+    readonly containerMountPath?: string;
+  };
+  readonly abortSignal?: AbortSignal;
+  readonly throwOnError?: boolean;
+}
 
 export interface WorkerRuntimeOptions {
   readonly workerId?: string;
@@ -59,6 +122,9 @@ export interface WorkerRuntimeOptions {
   readonly verificationSpec?:
     | VerificationSpec
     | ((request: ExecutionRequest) => VerificationSpec | undefined);
+  readonly toolGateway?: ToolExecutionGateway;
+  readonly toolAdapterRegistry?: ToolAdapterRegistryPort;
+  readonly toolRegistry?: ToolRegistryPort;
 }
 
 /**
@@ -86,6 +152,11 @@ export class WorkerRuntime {
     | ((request: ExecutionRequest) => VerificationSpec | undefined);
   private readonly policyEvaluator: PolicyEvaluator;
   private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
+  private readonly toolGateway: ToolExecutionGateway;
+  private readonly runWorkspaces = new Map<
+    string,
+    { workspaceId: string; hostPath: string; containerMountPath?: string }
+  >();
 
   constructor(options: WorkerRuntimeOptions) {
     this.workerId = options.workerId ?? crypto.randomUUID();
@@ -107,6 +178,32 @@ export class WorkerRuntime {
         options.operations ?? [new EchoOperation()]
       );
     }
+
+    if (options.toolGateway) {
+      this.toolGateway = options.toolGateway;
+    } else {
+      const adapterRegistry =
+        options.toolAdapterRegistry ??
+        (this.workspacePort
+          ? createWorkspaceToolAdapterRegistry(this.workspacePort, this.executionProvider)
+          : undefined);
+
+      this.toolGateway = new ToolExecutionGateway({
+        toolRegistry: options.toolRegistry,
+        adapterRegistry,
+        coordinator: this.coordinator,
+        policyEvaluator: this.policyEvaluator,
+        clock: this.clock,
+        isIsolationAvailable: this.isIsolationAvailableProbe,
+      });
+    }
+  }
+
+  /**
+   * Reference to the configured ToolExecutionGateway.
+   */
+  get gateway(): ToolExecutionGateway {
+    return this.toolGateway;
   }
 
   /**
@@ -833,6 +930,518 @@ export class WorkerRuntime {
     }
 
     return { satisfied: false, reason: `Unknown isolation requirement: ${required}` };
+  }
+
+  /**
+   * Associates an existing active workspace with a run for subsequent Action executions.
+   */
+  setRunWorkspace(
+    runId: string,
+    workspace: { workspaceId: string; hostPath: string; containerMountPath?: string }
+  ): void {
+    this.runWorkspaces.set(runId, workspace);
+  }
+
+  /**
+   * Executes a single governed Action through the complete deterministic lifecycle:
+   * Action CREATED -> AUTHORIZED -> RUNNING -> Attempt CREATED -> DISPATCHED -> RUNNING
+   * -> ToolExecutionGateway.execute() -> Attempt SUCCEEDED/FAILED/TIMED_OUT/CANCELLED/UNKNOWN
+   * -> Action SUCCEEDED/FAILED/TIMED_OUT/CANCELLED.
+   */
+  async executeAction(params: ExecuteActionParams): Promise<WorkerActionResult> {
+    const runId = params.runId;
+    const store = this.coordinator.store;
+
+    // 1. Authoritative Run and Lease Resolution
+    const run = store.getRun(runId);
+    if (!run) {
+      throw new Error(`Run '${runId}' not found in authoritative state store`);
+    }
+
+    const workerId = this.workerId;
+    const leaseId = params.leaseId ?? run.leaseId;
+    if (!leaseId) {
+      throw new LeaseLostError(runId, "none", run.leaseId);
+    }
+
+    const fencing: LeaseFencingCheck = { workerId, leaseId };
+
+    // Initial fencing verification against authoritative run
+    if (run.currentWorkerId !== workerId || run.leaseId !== leaseId) {
+      throw new LeaseLostError(runId, leaseId, run.leaseId);
+    }
+
+    // 2. Action Resolution or Creation
+    let actionSnapshot: ActionSnapshot;
+    const existingAction = params.actionId ? store.getAction(params.actionId) : null;
+
+    if (existingAction) {
+      if (isTerminalActionStatus(existingAction.status)) {
+        throw new TerminalStateError(existingAction.status, "executeAction");
+      }
+      actionSnapshot = existingAction;
+    } else {
+      if (!params.toolName) {
+        throw new Error(
+          `Cannot create Action: toolName is required when actionId does not refer to an existing Action`
+        );
+      }
+
+      if (!run.contractBinding) {
+        throw new InvalidContractBindingError(`Run '${runId}' has no bound MissionContract`);
+      }
+
+      const boundContract = store.getContract(
+        run.contractBinding.contractId,
+        run.contractBinding.version
+      );
+      if (!boundContract) {
+        throw new MissingBoundContractError(
+          run.contractBinding.contractId,
+          run.contractBinding.version
+        );
+      }
+
+      // Non-clamping maxAttempts validation
+      const contractMaxAttempts = boundContract.spec.resourceLimits.maxAttempts;
+      if (params.maxAttempts !== undefined && params.maxAttempts > contractMaxAttempts) {
+        throw new ResourceLimitExceededError("maxAttempts", params.maxAttempts, contractMaxAttempts);
+      }
+
+      const effectiveMaxAttempts = params.maxAttempts ?? Math.min(3, contractMaxAttempts);
+
+      let sequenceNumber = params.sequenceNumber;
+      if (sequenceNumber === undefined) {
+        const existingActions = store.getActionsForRun(runId);
+        sequenceNumber = existingActions.length + 1;
+      }
+
+      const actionId = params.actionId ?? crypto.randomUUID();
+      const now = this.clock.nowIso();
+
+      const { action, event: createdEvent } = Action.create({
+        actionId,
+        runId,
+        sequenceNumber,
+        toolName: params.toolName,
+        inputPayload: params.inputPayload,
+        contractBinding: run.contractBinding,
+        maxAttempts: effectiveMaxAttempts,
+        now,
+      });
+
+      // Persist Action in CREATED state with action.created event (atomic + lease fenced)
+      store.transaction((tx) => {
+        tx.insertAction(action.snapshot, createdEvent, fencing);
+      });
+
+      actionSnapshot = action.snapshot;
+    }
+
+    // 3. Workspace resolution
+    let effectiveWorkspace = params.workspace ?? this.runWorkspaces.get(runId);
+    if (!effectiveWorkspace && this.workspacePort) {
+      const wsId = `ws-${run.runId.slice(0, 8)}-${crypto.randomUUID().slice(0, 8)}`;
+      const handle = await this.workspacePort.provisionWorkspace({
+        workspaceId: wsId,
+        runId: run.runId,
+        taskId: run.taskId,
+        maxWorkspaceBytes: 500 * 1024 * 1024,
+        maxFileSizeBytes: 10 * 1024 * 1024,
+      });
+      effectiveWorkspace = {
+        workspaceId: handle.workspaceId,
+        hostPath: handle.hostPath,
+        containerMountPath: handle.containerMountPath,
+      };
+      this.runWorkspaces.set(runId, effectiveWorkspace);
+    }
+
+    // 4. Construct ToolRequest & Trusted Context
+    const toolRequest: ToolRequest = {
+      requestId: actionSnapshot.actionId,
+      runId: run.runId,
+      toolName: actionSnapshot.toolName,
+      input: actionSnapshot.inputPayload as any,
+    };
+
+    const toolContext: TrustedToolInvocationContext = {
+      runId: run.runId,
+      taskId: run.taskId,
+      workerId,
+      leaseId,
+      workspace: effectiveWorkspace,
+      abortSignal: params.abortSignal,
+    };
+
+    // 5. Evaluate Authorization via ToolExecutionGateway
+    const decision = await this.toolGateway.authorize(toolRequest, toolContext);
+
+    if (decision.status !== "AUTHORIZED") {
+      // Governance denied / invalid: FAIL Action directly from CREATED state.
+      // ZERO Attempt is created. ZERO adapter/provider execution.
+      const failErrorPayload = decision.errorPayload ?? {
+        code: "CAPABILITY_DENIED",
+        category: "authorization",
+        message: decision.domainError?.message ?? "Tool authorization denied",
+      };
+
+      store.transaction((tx) => {
+        const res = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "FAIL",
+            errorPayload: failErrorPayload,
+            now: this.clock.nowIso(),
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = res.snapshot;
+      });
+
+      if (params.throwOnError && decision.domainError) {
+        throw decision.domainError;
+      }
+
+      return {
+        status: "FAILED",
+        actionId: actionSnapshot.actionId,
+        runId: run.runId,
+        error: failErrorPayload,
+        action: actionSnapshot,
+      };
+    }
+
+    // 6. Action Transition: CREATED -> AUTHORIZED
+    if (actionSnapshot.status === "CREATED") {
+      store.transaction((tx) => {
+        const res = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "AUTHORIZE",
+            now: this.clock.nowIso(),
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = res.snapshot;
+      });
+    }
+
+    // 7. Action Transition: AUTHORIZED -> RUNNING (attempt #1)
+    if (actionSnapshot.status === "AUTHORIZED") {
+      store.transaction((tx) => {
+        const res = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "START_ATTEMPT",
+            attemptNumber: 1,
+            now: this.clock.nowIso(),
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = res.snapshot;
+      });
+    }
+
+    // 8. Attempt Creation (Attempt #1, status CREATED)
+    const attemptId = crypto.randomUUID();
+    const idempotencyToken = createAttemptIdempotencyToken(run.runId, actionSnapshot.actionId, 1);
+    const { attempt, event: attemptCreatedEvent } = Attempt.create({
+      attemptId,
+      actionId: actionSnapshot.actionId,
+      runId: run.runId,
+      attemptNumber: 1,
+      workerId,
+      leaseId,
+      idempotencyToken,
+      now: this.clock.nowIso(),
+    });
+
+    store.transaction((tx) => {
+      tx.insertAttempt(attempt.snapshot, attemptCreatedEvent, fencing);
+    });
+    let attemptSnapshot: AttemptSnapshot = attempt.snapshot;
+
+    // 9. Attempt Transition: CREATED -> DISPATCHED
+    store.transaction((tx) => {
+      const res = tx.transitionAttempt(
+        attemptSnapshot.attemptId,
+        {
+          type: "DISPATCH",
+          now: this.clock.nowIso(),
+        },
+        () => crypto.randomUUID(),
+        fencing
+      );
+      attemptSnapshot = res.snapshot;
+    });
+
+    // 10. Attempt Transition: DISPATCHED -> RUNNING
+    store.transaction((tx) => {
+      const res = tx.transitionAttempt(
+        attemptSnapshot.attemptId,
+        {
+          type: "START",
+          now: this.clock.nowIso(),
+        },
+        () => crypto.randomUUID(),
+        fencing
+      );
+      attemptSnapshot = res.snapshot;
+    });
+
+    // 11. Physical Tool Execution via Gateway Seam
+    let toolResult: ToolResult;
+    try {
+      toolResult = await this.toolGateway.execute(toolRequest, toolContext, { throwOnError: false });
+    } catch (err: unknown) {
+      if (err instanceof LeaseLostError) {
+        throw err;
+      }
+      toolResult = {
+        requestId: actionSnapshot.actionId,
+        toolName: actionSnapshot.toolName,
+        status: "FAILED",
+        error: {
+          code: "TOOL_EXECUTION_FAILED",
+          category: "execution",
+          message: err instanceof Error ? err.message : String(err),
+        },
+        durationMs: 0,
+      };
+    }
+
+    // 12. Map Result into Attempt and Action (atomic dual-transition in single transaction)
+    const now = this.clock.nowIso();
+
+    if (toolResult.status === "SUCCESS") {
+      store.transaction((tx) => {
+        const attRes = tx.transitionAttempt(
+          attemptSnapshot.attemptId,
+          {
+            type: "COMPLETE",
+            outputPayload: toolResult.output,
+            exitCode: (toolResult.output as any)?.exitCode ?? 0,
+            durationMs: toolResult.durationMs,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        attemptSnapshot = attRes.snapshot;
+
+        const actRes = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "SUCCEED",
+            resultPayload: toolResult.output,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = actRes.snapshot;
+      });
+
+      return {
+        status: "SUCCEEDED",
+        actionId: actionSnapshot.actionId,
+        runId: run.runId,
+        attemptId: attemptSnapshot.attemptId,
+        output: toolResult.output,
+        action: actionSnapshot,
+        attempt: attemptSnapshot,
+      };
+    }
+
+    // Handle failure modes
+    const errorCode = toolResult.error?.code;
+    const errorCodeStr = String(errorCode ?? "");
+
+    // Timeout
+    if (errorCode === "TOOL_TIMEOUT") {
+      store.transaction((tx) => {
+        const attRes = tx.transitionAttempt(
+          attemptSnapshot.attemptId,
+          {
+            type: "TIMEOUT",
+            errorPayload: toolResult.error,
+            durationMs: toolResult.durationMs,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        attemptSnapshot = attRes.snapshot;
+
+        const actRes = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "TIMEOUT",
+            reason: toolResult.error,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = actRes.snapshot;
+      });
+
+      return {
+        status: "TIMED_OUT",
+        actionId: actionSnapshot.actionId,
+        runId: run.runId,
+        attemptId: attemptSnapshot.attemptId,
+        error: toolResult.error,
+        action: actionSnapshot,
+        attempt: attemptSnapshot,
+      };
+    }
+
+    // Cancellation
+    if (errorCode === "TOOL_CANCELLED" || params.abortSignal?.aborted) {
+      store.transaction((tx) => {
+        const attRes = tx.transitionAttempt(
+          attemptSnapshot.attemptId,
+          {
+            type: "CANCEL",
+            reason: toolResult.error ?? "Tool execution cancelled",
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        attemptSnapshot = attRes.snapshot;
+
+        const actRes = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "CANCEL",
+            reason: toolResult.error ?? "Tool execution cancelled",
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = actRes.snapshot;
+      });
+
+      return {
+        status: "CANCELLED",
+        actionId: actionSnapshot.actionId,
+        runId: run.runId,
+        attemptId: attemptSnapshot.attemptId,
+        error: toolResult.error,
+        action: actionSnapshot,
+        attempt: attemptSnapshot,
+      };
+    }
+
+    // UNKNOWN uncertainty
+    const detailsCode = String((toolResult.error as any)?.details?.code ?? "");
+    const errorMsg = String(toolResult.error?.message ?? "");
+    const isUnknownUncertainty =
+      errorCodeStr === "EXECUTION_UNCERTAIN" ||
+      errorCodeStr === "PROVIDER_RESULT_UNAVAILABLE" ||
+      errorCodeStr === "WORKER_CRASHED" ||
+      errorCodeStr === "LEASE_EXPIRED_DURING_EXECUTION" ||
+      errorCodeStr === "PROCESS_TERMINATION_BEFORE_PERSISTENCE" ||
+      detailsCode === "PROVIDER_RESULT_UNAVAILABLE" ||
+      detailsCode === "EXECUTION_UNCERTAIN" ||
+      detailsCode === "WORKER_CRASHED" ||
+      detailsCode === "LEASE_EXPIRED_DURING_EXECUTION" ||
+      detailsCode === "PROCESS_TERMINATION_BEFORE_PERSISTENCE" ||
+      errorMsg.includes("PROVIDER_RESULT_UNAVAILABLE") ||
+      errorMsg.includes("EXECUTION_UNCERTAIN");
+
+    if (isUnknownUncertainty) {
+      const reasonCode = (
+        ((toolResult.error as any)?.reasonCode ??
+        ((toolResult.error as any)?.details?.reasonCode ??
+        ((toolResult.error as any)?.details?.code ??
+        (errorMsg.includes("PROVIDER_RESULT_UNAVAILABLE")
+          ? "PROVIDER_RESULT_UNAVAILABLE"
+          : errorCodeStr))))
+      ) as AttemptUnknownReason;
+      store.transaction((tx) => {
+        const attRes = tx.transitionAttempt(
+          attemptSnapshot.attemptId,
+          {
+            type: "MARK_UNKNOWN",
+            reason: toolResult.error?.message ?? "Execution uncertainty",
+            reasonCode,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        attemptSnapshot = attRes.snapshot;
+
+        const actRes = tx.transitionAction(
+          actionSnapshot.actionId,
+          {
+            type: "FAIL",
+            errorPayload: toolResult.error,
+            now,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        actionSnapshot = actRes.snapshot;
+      });
+
+      return {
+        status: "UNKNOWN",
+        actionId: actionSnapshot.actionId,
+        runId: run.runId,
+        attemptId: attemptSnapshot.attemptId,
+        error: toolResult.error,
+        action: actionSnapshot,
+        attempt: attemptSnapshot,
+      };
+    }
+
+    // Deterministic Failure
+    store.transaction((tx) => {
+      const attRes = tx.transitionAttempt(
+        attemptSnapshot.attemptId,
+        {
+          type: "FAIL",
+          errorPayload: toolResult.error,
+          exitCode: (toolResult.error as any)?.exitCode ?? null,
+          durationMs: toolResult.durationMs,
+          now,
+        },
+        () => crypto.randomUUID(),
+        fencing
+      );
+      attemptSnapshot = attRes.snapshot;
+
+      const actRes = tx.transitionAction(
+        actionSnapshot.actionId,
+        {
+          type: "FAIL",
+          errorPayload: toolResult.error,
+          now,
+        },
+        () => crypto.randomUUID(),
+        fencing
+      );
+      actionSnapshot = actRes.snapshot;
+    });
+
+    return {
+      status: "FAILED",
+      actionId: actionSnapshot.actionId,
+      runId: run.runId,
+      attemptId: attemptSnapshot.attemptId,
+      error: toolResult.error,
+      action: actionSnapshot,
+      attempt: attemptSnapshot,
+    };
   }
 }
 

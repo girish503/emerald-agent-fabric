@@ -17,6 +17,8 @@ import {
 } from "../domain/events.js";
 import { Evidence } from "../domain/evidence.js";
 import { VerificationResult } from "../domain/verification.js";
+import { ActionSnapshot } from "../domain/action.js";
+import { AttemptSnapshot } from "../domain/attempt.js";
 import { Run } from "../domain/run.js";
 import {
   createContractBinding,
@@ -1088,5 +1090,25 @@ export class RunCoordinator {
 
   getContract(contractId: string, version: number): MissionContract | null {
     return this.stateStore.getContract(contractId, version);
+  }
+
+  get store(): StateStorePort {
+    return this.stateStore;
+  }
+
+  getAction(actionId: string): ActionSnapshot | null {
+    return this.stateStore.getAction(actionId);
+  }
+
+  getAttempt(attemptId: string): AttemptSnapshot | null {
+    return this.stateStore.getAttempt(attemptId);
+  }
+
+  getActionsForRun(runId: string): readonly ActionSnapshot[] {
+    return this.stateStore.getActionsForRun(runId);
+  }
+
+  getAttemptsForAction(actionId: string): readonly AttemptSnapshot[] {
+    return this.stateStore.getAttemptsForAction(actionId);
   }
 }

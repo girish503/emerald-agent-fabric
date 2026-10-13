@@ -167,7 +167,8 @@ export class SandboxedCommandToolAdapter implements ToolAdapter<"run_command"> {
       }
       throw new ToolExecutionFailedError(
         this.toolName,
-        result.error?.message ?? "Command execution failed in container"
+        result.error?.message ?? "Command execution failed in container",
+        result.error
       );
     }
 
