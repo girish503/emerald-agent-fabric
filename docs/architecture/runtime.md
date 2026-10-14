@@ -1373,3 +1373,84 @@ In `BASELINE` execution mode (`NoopReflex`):
 ### 34.6 Limitations
 - **Evaluation-Only Scope**: This phase evaluates the safety and determinism of the existing Reflex implementation; it does not tune rule thresholds or introduce adaptive learning.
 - **Syntactic Heuristics**: Deterministic heuristics rely on canonical hashing of action inputs and context snapshots rather than semantic natural language understanding.
+
+## 35. Reflex Fault Injection & Fail-Safe Recovery
+
+Phase 8.6 establishes the fault injection and fail-safe recovery boundary for Emerald Reflex. The goal is to verify runtime safety and containment when Reflex itself fails (crashes, throws exceptions, emits malformed outputs, violates schemas, attempts authority expansion, encounters cancellation, or exceeds timeouts).
+
+```text
+       AgentBrain (Untrusted Proposal)
+                     │
+                     ▼
+             ProposalValidator
+                     │
+             validated proposal
+                     ▼
+     ┌───────────────────────────────┐
+     │          ReflexPort           │
+     │  Fault Injected:              │
+     │  • Exception / Panic          │
+     │  • Malformed Output           │
+     │  • Schema Violation           │
+     │  • Cancellation / Timeout     │
+     └───────────────┬───────────────┘
+                     │
+              CRASH / FAULT
+                     │
+                     ▼
+         Fail-Closed Interception
+                     │
+      ┌──────────────┴──────────────┐
+      ▼                             ▼
+NO AUTHORIZATION            NO TOOL DISPATCH
+(reflexDecision = undef)    (providerInvocationCount === 0)
+(proposalRejections++)      (clean state preserved)
+```
+
+### 35.1 Core Fail-Safe Principle
+Reflex operates as an untrusted advisory layer within the runtime pipeline:
+$$\text{Model} \to \text{ProposalValidator} \to \text{Reflex} \to \text{PolicyEvaluator} \to \text{ToolExecutionGateway}$$
+
+Under all internal Reflex failure conditions:
+$$\text{Reflex Fault} \implies \text{NO AUTHORIZATION} \implies \text{providerInvocationCount} \equiv 0$$
+
+Reflex failure NEVER silently falls back to `ALLOW` and never bypasses downstream policy evaluation.
+
+### 35.2 Telemetry & Evidence Purity
+- **No Fabricated Telemetry**: Unexpected crashes or validation failures do not fabricate synthetic `ALLOW` or `REJECT` decisions. `reflexDecision` remains `undefined` in the transcript.
+- **No Fabricated Replay Evidence**: Failures during Reflex evaluation do not create synthetic `ReflexEvidence` blocks. `reflexEvidence` remains `undefined`.
+- **Typed Error Capture**: The transcript records `reflexError: err.message`, capturing the exact failure diagnostics for audit and evaluation analysis.
+- **Fail-Closed Budget Accounting**: The proposal is rejected fail-closed, incrementing `proposalRejections` towards the configured `maxProposalRejections` budget ceiling to prevent infinite loops.
+
+### 35.3 Cancellation & Timeout Mechanics
+- **Cancellation Fast-Path**: If `params.abortSignal?.aborted` is true, or if Reflex throws an `AbortError`, `AgentStepController` immediately short-circuits and returns `terminalReason: "CANCELLED"` with zero tools executed.
+- **Wall-Clock Ceiling**: Long-running or delayed Reflex evaluations are strictly bounded by `maxWallClockMs`. Exceeding this ceiling terminates execution deterministically with `MAX_WALL_CLOCK`.
+
+### 35.4 Invariant Defense & Output Firewall
+- All decisions emitted by `ReflexPort.evaluate()` are strictly validated by `validateReflexDecision()`.
+- Output containing illegal decision strings, invalid reason codes, or authority-expanding keys triggers `InvalidReflexDecisionError` and is safely contained.
+- Proposal and context inputs passed into `evaluate()` are defensively frozen against in-place mutations.
+
+### 35.5 UNKNOWN Execution State Separation & BASELINE Non-Interference
+- Prior action attempts marked `UNKNOWN` remain completely intact in authoritative SQLite persistence across subsequent Reflex faults.
+- In `BASELINE` execution mode (`NoopReflex`), execution proceeds normally, isolated from experimental Reflex faults, with zero Reflex evidence records and undefined Reflex telemetry.
+
+### 35.6 Executable Fault Matrix
+The fault injection test suite (`tests/application/reflex-fault-injection.test.ts`) verifies containment across 12 discrete fault modes:
+1. `EXCEPTION_THROW`: Throws `ReflexExecutionError`; rejects proposal; 0 tools executed.
+2. `NON_ERROR_THROW`: Throws primitive string panic; captures string in `reflexError`; 0 tools executed.
+3. `INVALID_DECISION_STRING`: Returns illegal decision kind; caught by Zod schema; 0 tools executed.
+4. `INVALID_REASON_CODE`: Returns unapproved reason code; caught by Zod enum; 0 tools executed.
+5. `INVALID_SCHEMA_SHAPE`: Returns null or non-object; caught by schema; 0 tools executed.
+6. `AUTHORITY_INJECTION`: Injects `bypassGovernance: true`; caught by strict schema; 0 tools executed.
+7. `RULE_CONFIG_CORRUPTION`: Corrupted config hash; detected during replay as `MISMATCH_CONFIGURATION`.
+8. `CONTEXT_CORRUPTION_ATTEMPT`: Tries to mutate frozen `ReflexContext`; thwarted by immutability.
+9. `OBSERVATIONAL_EVIDENCE_FAILURE`: Evidence construction failure; intercepted by defense-in-depth.
+10. `ABORT_SIGNAL_CANCELLATION`: Aborted via `AbortSignal`; immediately returns `CANCELLED`; 0 tools executed.
+11. `BOUNDED_TIMEOUT_DELAY`: Delayed execution exceeding budget; terminates with `MAX_WALL_CLOCK`.
+12. `ASYNC_REJECTION`: Unhandled async promise rejection; caught by async boundary; 0 tools executed.
+
+### 35.7 Limitations
+- **Recovery Strategy**: The current fail-safe recovery model rejects the affected proposal and increments `proposalRejections`. It does not attempt automated replanning or heuristic self-repair.
+- **Diagnostic Logging**: `reflexError` records error text in transcripts; structured diagnostic traces remain an area for future evaluation logging phases.
+

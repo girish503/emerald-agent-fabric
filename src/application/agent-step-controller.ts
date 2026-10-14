@@ -125,6 +125,7 @@ export interface StepTranscriptEntry {
   readonly reflexReasonCode?: ReflexReasonCode;
   readonly reflexRationale?: string;
   readonly reflexEvidence?: ReflexEvidence;
+  readonly reflexError?: string;
   readonly actionId?: string;
   readonly actionStatus?: WorkerActionStatus;
   readonly actionOutput?: unknown;
@@ -625,31 +626,18 @@ export class AgentStepController {
           }
         }
       } catch (err: unknown) {
-        proposalRejections++;
-        let errorEvidence: ReflexEvidence | undefined = undefined;
-        if (!(this.reflex instanceof NoopReflex)) {
-          try {
-            errorEvidence = createReflexEvidence({
-              runId,
-              sequenceNumber: stepCount,
-              proposal: validationResult.proposal,
-              context: reflexContext,
-              decision: {
-                decision: "REJECT",
-                reasonCode: "UNSUPPORTED_ACTION",
-                rationale: `Reflex evaluation threw error: ${
-                  err instanceof Error ? err.message : String(err)
-                }`,
-              },
-              reflexImplementation: (this.reflex as any).name ?? "RuleBasedReflex",
-              ruleConfigurationHash: (this.reflex as any).activeConfigHash ?? "0".repeat(64),
-              ruleConfig: (this.reflex as any).activeConfig,
-              evaluatedAt: stepTimestamp,
-            });
-          } catch {
-            // Defense-in-depth
-          }
+        if (
+          params.abortSignal?.aborted ||
+          (err instanceof Error && err.name === "AbortError")
+        ) {
+          return assembleResult(
+            "CANCELLED",
+            "Execution loop cancelled via AbortSignal during Reflex evaluation",
+            taskId
+          );
         }
+
+        proposalRejections++;
         transcript.push(
           Object.freeze({
             stepNumber: stepCount,
@@ -663,12 +651,8 @@ export class AgentStepController {
             rationale: validationResult.proposal.rationale,
             finishReason: brainResult.finishReason,
             proposalValid: true,
-            reflexDecision: "REJECT",
             reflexReasonCode: "UNSUPPORTED_ACTION",
-            reflexRationale: `Reflex evaluation threw error: ${
-              err instanceof Error ? err.message : String(err)
-            }`,
-            reflexEvidence: errorEvidence,
+            reflexError: err instanceof Error ? err.message : String(err),
             durationMs: this.clock.now().getTime() - stepStartTime,
             timestamp: stepTimestamp,
           })

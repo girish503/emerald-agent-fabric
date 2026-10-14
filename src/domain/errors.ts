@@ -852,3 +852,12 @@ export class InvalidRuleConfigError extends DomainError {
     super(message);
   }
 }
+
+export class ReflexExecutionError extends DomainError {
+  readonly code = "REFLEX_EXECUTION_FAILED";
+
+  constructor(message: string, readonly cause?: unknown) {
+    super(message);
+  }
+}
+
