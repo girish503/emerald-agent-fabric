@@ -93,6 +93,7 @@ export const DEFAULT_METRIC_DIRECTIONS: Readonly<Record<string, MetricDirection>
   inputTokens: "LOWER_IS_BETTER",
   outputTokens: "LOWER_IS_BETTER",
   totalTokens: "LOWER_IS_BETTER",
+  reflexLatencyMs: "LOWER_IS_BETTER",
 });
 
 // ============================================================================

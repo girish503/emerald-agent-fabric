@@ -393,6 +393,7 @@ export async function executeEvaluationRun(
     let failureLoopTriggers: number | undefined = undefined;
     let redundantActionTriggers: number | undefined = undefined;
     let budgetPressureTriggers: number | undefined = undefined;
+    let reflexLatencyMs: number | undefined = undefined;
 
     if (executionMode === "REFLEX") {
       reflexEvaluations = 0;
@@ -402,6 +403,7 @@ export async function executeEvaluationRun(
       failureLoopTriggers = 0;
       redundantActionTriggers = 0;
       budgetPressureTriggers = 0;
+      reflexLatencyMs = 0;
 
       for (const entry of stepResult.transcript) {
         const decision = entry.reflexEvidence ? entry.reflexEvidence.decision : entry.reflexDecision;
@@ -416,6 +418,9 @@ export async function executeEvaluationRun(
           } else if (decision === "DEFER") {
             reflexDefers++;
           }
+        }
+        if (typeof entry.reflexDurationMs === "number") {
+          reflexLatencyMs += entry.reflexDurationMs;
         }
         if (reasonCode === "REPEATED_FAILURE") {
           failureLoopTriggers++;
@@ -449,6 +454,7 @@ export async function executeEvaluationRun(
       failureLoopTriggers,
       redundantActionTriggers,
       budgetPressureTriggers,
+      reflexLatencyMs,
     });
 
     let ruleConfigurationHash: string | undefined = undefined;

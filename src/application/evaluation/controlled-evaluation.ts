@@ -22,18 +22,24 @@
  */
 
 import {
+  calculateReflexInterventionMetrics,
+  calculateReflexStabilityMetrics,
   compareConditions,
   ConditionComparison,
   createEvaluationConfigFingerprint,
   createEvaluationExperiment,
   createExperimentCondition,
+  createExperimentManifest,
   CURRENT_HARNESS_VERSION,
   EvaluationExperiment,
   EvaluationExperimentCondition,
   EvaluationReport,
   EvaluationTaskDefinition,
   EvaluationTrial,
+  ExperimentManifest,
   generateEvaluationReport,
+  ReflexInterventionMetrics,
+  ReflexStabilityMetrics,
   validateEvaluationTask,
 } from "../../domain/evaluation.js";
 import {
@@ -47,6 +53,7 @@ import {
 } from "../../domain/statistical-analysis.js";
 import { ModelProviderPort } from "../../ports/model-provider.port.js";
 import { executeEvaluationTrial } from "./evaluation-runner.js";
+import { ALL_BASELINE_REFLEX_TASKS } from "./baseline-reflex-tasks.js";
 
 // ============================================================================
 // Interfaces & Contracts
@@ -56,7 +63,7 @@ export interface ExecuteControlledBaselineReflexExperimentParams {
   readonly task: EvaluationTaskDefinition;
   readonly modelProvider: ModelProviderPort;
   readonly model: string;
-  readonly trialsPerCondition: number;
+  readonly trialsPerCondition?: number;
   readonly ruleBasedReflexConfig?: RuleBasedReflexConfig;
   readonly harnessVersion?: string;
   readonly generationConfig?: Readonly<Record<string, unknown>>;
@@ -66,6 +73,7 @@ export interface ExecuteControlledBaselineReflexExperimentParams {
 
 export interface ControlledBaselineReflexExperimentResult {
   readonly experiment: EvaluationExperiment;
+  readonly manifest: ExperimentManifest;
   readonly baselineCondition: EvaluationExperimentCondition;
   readonly reflexCondition: EvaluationExperimentCondition;
   readonly baselineTrials: readonly EvaluationTrial[];
@@ -77,6 +85,11 @@ export interface ControlledBaselineReflexExperimentResult {
   readonly toolCallsAnalysis: StatisticalAnalysis;
   readonly wallClockAnalysis: StatisticalAnalysis;
   readonly proposalRejectionsAnalysis: StatisticalAnalysis;
+  readonly reflexLatencyAnalysis?: StatisticalAnalysis;
+  readonly baselineInterventionMetrics: ReflexInterventionMetrics;
+  readonly reflexInterventionMetrics: ReflexInterventionMetrics;
+  readonly baselineStabilityMetrics?: ReflexStabilityMetrics;
+  readonly reflexStabilityMetrics?: ReflexStabilityMetrics;
 }
 
 // ============================================================================
@@ -89,13 +102,15 @@ export async function executeControlledBaselineReflexExperiment(
   // 1. Validate inputs
   const task = validateEvaluationTask(params.task);
 
+  const trialsPerCondition = params.trialsPerCondition ?? 10;
+
   if (
-    typeof params.trialsPerCondition !== "number" ||
-    !Number.isInteger(params.trialsPerCondition) ||
-    params.trialsPerCondition < 1
+    typeof trialsPerCondition !== "number" ||
+    !Number.isInteger(trialsPerCondition) ||
+    trialsPerCondition < 1
   ) {
     throw new Error(
-      `trialsPerCondition must be a positive integer >= 1, received ${params.trialsPerCondition}`
+      `trialsPerCondition must be a positive integer >= 1, received ${trialsPerCondition}`
     );
   }
 
@@ -131,7 +146,21 @@ export async function executeControlledBaselineReflexExperiment(
     configFingerprint,
   });
 
-  // 5. Construct Experiment specification
+  // 5. Build experiment manifest (Phase 8.7)
+  const manifest = createExperimentManifest({
+    experimentId: `exp-baseline-reflex-${task.taskId}`,
+    taskRegistry: "emerald-controlled-baseline-reflex",
+    taskIds: [task.taskId],
+    trialCount: trialsPerCondition,
+    executionModes: ["BASELINE", "REFLEX"],
+    ruleConfigurationHash,
+    modelProvider: params.modelProvider.providerName,
+    model: params.model,
+    generationConfig: params.generationConfig,
+    harnessVersion,
+  });
+
+  // 6. Construct Experiment specification
   const experiment = createEvaluationExperiment({
     experimentId: `exp-baseline-reflex-${task.taskId}`,
     version: 1,
@@ -141,14 +170,14 @@ export async function executeControlledBaselineReflexExperiment(
       "Reflex intercepts repeated failures and redundant action loops deterministically without compromising objective task completion",
     taskRef: task,
     conditions: [baselineCondition, reflexCondition],
-    plannedTrialCount: params.trialsPerCondition,
+    plannedTrialCount: trialsPerCondition,
     harnessVersion,
     status: "RUNNING",
   });
 
-  // 6. Execute Baseline Trials (1..N)
+  // 7. Execute Baseline Trials (1..N)
   const baselineTrials: EvaluationTrial[] = [];
-  for (let ordinal = 1; ordinal <= params.trialsPerCondition; ordinal++) {
+  for (let ordinal = 1; ordinal <= trialsPerCondition; ordinal++) {
     const trial = await executeEvaluationTrial({
       task,
       modelProvider: params.modelProvider,
@@ -163,9 +192,9 @@ export async function executeControlledBaselineReflexExperiment(
     baselineTrials.push(trial);
   }
 
-  // 7. Execute Reflex Trials (1..N)
+  // 8. Execute Reflex Trials (1..N)
   const reflexTrials: EvaluationTrial[] = [];
-  for (let ordinal = 1; ordinal <= params.trialsPerCondition; ordinal++) {
+  for (let ordinal = 1; ordinal <= trialsPerCondition; ordinal++) {
     const trial = await executeEvaluationTrial({
       task,
       modelProvider: params.modelProvider,
@@ -181,16 +210,16 @@ export async function executeControlledBaselineReflexExperiment(
     reflexTrials.push(trial);
   }
 
-  // 8. Generate pure descriptive report
+  // 9. Generate pure descriptive report
   const allTrials = [...baselineTrials, ...reflexTrials];
   const report = generateEvaluationReport(experiment, allTrials);
 
-  // 9. Generate baseline-to-candidate condition comparison
+  // 10. Generate baseline-to-candidate condition comparison
   const baseReport = report.conditions.find((c) => c.conditionId === "condition-baseline")!;
   const reflexReport = report.conditions.find((c) => c.conditionId === "condition-reflex")!;
   const comparison = compareConditions(baseReport, reflexReport, experiment.taskRef);
 
-  // 10. Run statistical analyses
+  // 11. Run statistical analyses
   const confidenceLevel = params.confidenceLevel ?? 0.95;
 
   const passRateAnalysis = analyzeExperiment({
@@ -242,8 +271,31 @@ export async function executeControlledBaselineReflexExperiment(
     direction: "LOWER_IS_BETTER",
   });
 
+  let reflexLatencyAnalysis: StatisticalAnalysis | undefined = undefined;
+  try {
+    reflexLatencyAnalysis = analyzeExperiment({
+      experiment,
+      trials: allTrials,
+      baselineConditionId: "condition-baseline",
+      candidateConditionId: "condition-reflex",
+      metric: "reflexLatencyMs",
+      confidenceLevel,
+      direction: "LOWER_IS_BETTER",
+    });
+  } catch {
+    // Graceful fallback if missing data prevents analysis
+  }
+
+  // 12. Compute Phase 8.7 Intervention & Stability Metrics
+  const baselineInterventionMetrics = calculateReflexInterventionMetrics(baselineTrials, task);
+  const reflexInterventionMetrics = calculateReflexInterventionMetrics(reflexTrials, task);
+
+  const baselineStabilityMetrics = calculateReflexStabilityMetrics(baselineTrials);
+  const reflexStabilityMetrics = calculateReflexStabilityMetrics(reflexTrials);
+
   return Object.freeze({
     experiment,
+    manifest,
     baselineCondition,
     reflexCondition,
     baselineTrials: Object.freeze(baselineTrials),
@@ -255,5 +307,87 @@ export async function executeControlledBaselineReflexExperiment(
     toolCallsAnalysis,
     wallClockAnalysis,
     proposalRejectionsAnalysis,
+    reflexLatencyAnalysis,
+    baselineInterventionMetrics,
+    reflexInterventionMetrics,
+    baselineStabilityMetrics,
+    reflexStabilityMetrics,
   });
 }
+
+// ============================================================================
+// Multi-Task Suite Orchestrator (Phase 8.7)
+// ============================================================================
+
+export interface ExecuteControlledBaselineReflexSuiteParams {
+  readonly tasks?: readonly EvaluationTaskDefinition[];
+  readonly modelProvider: ModelProviderPort;
+  readonly model: string;
+  readonly trialsPerCondition?: number;
+  readonly ruleBasedReflexConfig?: RuleBasedReflexConfig;
+  readonly harnessVersion?: string;
+  readonly generationConfig?: Readonly<Record<string, unknown>>;
+  readonly abortSignal?: AbortSignal;
+  readonly confidenceLevel?: number;
+}
+
+export interface ControlledBaselineReflexSuiteResult {
+  readonly suiteManifest: ExperimentManifest;
+  readonly taskResults: readonly ControlledBaselineReflexExperimentResult[];
+  readonly overallReflexInterventionMetrics: ReflexInterventionMetrics;
+  readonly overallReflexStabilityMetrics?: ReflexStabilityMetrics;
+}
+
+export async function executeControlledBaselineReflexSuite(
+  params: ExecuteControlledBaselineReflexSuiteParams
+): Promise<ControlledBaselineReflexSuiteResult> {
+  const tasks = params.tasks ?? ALL_BASELINE_REFLEX_TASKS;
+  const trialsPerCondition = params.trialsPerCondition ?? 10;
+  const harnessVersion = params.harnessVersion ?? CURRENT_HARNESS_VERSION;
+  const ruleConfig = params.ruleBasedReflexConfig ?? DEFAULT_RULE_BASED_REFLEX_CONFIG;
+  const ruleConfigurationHash = computeRuleBasedReflexConfigHash(ruleConfig);
+
+  const suiteManifest = createExperimentManifest({
+    experimentId: `exp-suite-baseline-reflex-${Date.now()}`,
+    taskRegistry: "emerald-controlled-baseline-reflex",
+    taskIds: tasks.map((t) => t.taskId),
+    trialCount: trialsPerCondition,
+    executionModes: ["BASELINE", "REFLEX"],
+    ruleConfigurationHash,
+    modelProvider: params.modelProvider.providerName,
+    model: params.model,
+    generationConfig: params.generationConfig,
+    harnessVersion,
+  });
+
+  const taskResults: ControlledBaselineReflexExperimentResult[] = [];
+  const allReflexTrials: EvaluationTrial[] = [];
+
+  for (const task of tasks) {
+    if (params.abortSignal?.aborted) break;
+    const result = await executeControlledBaselineReflexExperiment({
+      task,
+      modelProvider: params.modelProvider,
+      model: params.model,
+      trialsPerCondition,
+      ruleBasedReflexConfig: ruleConfig,
+      harnessVersion,
+      generationConfig: params.generationConfig,
+      abortSignal: params.abortSignal,
+      confidenceLevel: params.confidenceLevel,
+    });
+    taskResults.push(result);
+    allReflexTrials.push(...result.reflexTrials);
+  }
+
+  const overallReflexInterventionMetrics = calculateReflexInterventionMetrics(allReflexTrials);
+  const overallReflexStabilityMetrics = calculateReflexStabilityMetrics(allReflexTrials);
+
+  return Object.freeze({
+    suiteManifest,
+    taskResults: Object.freeze(taskResults),
+    overallReflexInterventionMetrics,
+    overallReflexStabilityMetrics,
+  });
+}
+

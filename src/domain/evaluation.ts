@@ -22,7 +22,7 @@
  */
 
 import { z } from "zod";
-import { computeCanonicalHash, isSensitiveKey } from "./canonical-hash.js";
+import { computeCanonicalHash, isSensitiveKey, redactSensitiveData } from "./canonical-hash.js";
 import { sanitizeWorkspacePath } from "./workspace-path.js";
 import { FORBIDDEN_AUTHORITY_KEYS } from "./action-proposal.js";
 import { VerificationSpec } from "./verification.js";
@@ -524,6 +524,7 @@ export interface EvaluationMetrics {
   readonly failureLoopTriggers?: number;
   readonly redundantActionTriggers?: number;
   readonly budgetPressureTriggers?: number;
+  readonly reflexLatencyMs?: number;
 }
 
 export const EvaluationMetricsSchema = z
@@ -549,6 +550,7 @@ export const EvaluationMetricsSchema = z
     failureLoopTriggers: z.number().int().nonnegative().optional(),
     redundantActionTriggers: z.number().int().nonnegative().optional(),
     budgetPressureTriggers: z.number().int().nonnegative().optional(),
+    reflexLatencyMs: z.number().int().nonnegative().optional(),
   })
   .strict();
 
@@ -576,6 +578,7 @@ export function createEvaluationMetrics(params: EvaluationMetrics): EvaluationMe
     failureLoopTriggers: parsed.failureLoopTriggers !== undefined ? parsed.failureLoopTriggers : undefined,
     redundantActionTriggers: parsed.redundantActionTriggers !== undefined ? parsed.redundantActionTriggers : undefined,
     budgetPressureTriggers: parsed.budgetPressureTriggers !== undefined ? parsed.budgetPressureTriggers : undefined,
+    reflexLatencyMs: parsed.reflexLatencyMs !== undefined ? parsed.reflexLatencyMs : undefined,
   });
 }
 
@@ -1797,6 +1800,7 @@ export const EVALUATION_METRIC_KEYS = [
   "failureLoopTriggers",
   "redundantActionTriggers",
   "budgetPressureTriggers",
+  "reflexLatencyMs",
 ] as const;
 
 export type EvaluationMetricKey = (typeof EVALUATION_METRIC_KEYS)[number];
@@ -2681,3 +2685,304 @@ export function assertControlledConditionComparability(
     configurationCompatible: baseFp.fingerprintHash === candFp.fingerprintHash,
   });
 }
+
+// ============================================================================
+// 24. Reflex Intervention Metrics Contract (Phase 8.7)
+// ============================================================================
+
+export interface ReflexInterventionMetrics {
+  readonly reflexEvaluations?: number;
+  readonly reflexInterventions?: number;
+  readonly reflexAllows?: number;
+  readonly reflexRejects?: number;
+  readonly reflexDefers?: number;
+  readonly interventionRate?: number;
+  readonly rejectionRate?: number;
+  readonly deferRate?: number;
+  readonly allowanceRate?: number;
+  readonly falsePositiveInterventions?: number;
+  readonly falsePositiveRate?: number;
+}
+
+export const ReflexInterventionMetricsSchema = z
+  .object({
+    reflexEvaluations: z.number().int().nonnegative().optional(),
+    reflexInterventions: z.number().int().nonnegative().optional(),
+    reflexAllows: z.number().int().nonnegative().optional(),
+    reflexRejects: z.number().int().nonnegative().optional(),
+    reflexDefers: z.number().int().nonnegative().optional(),
+    interventionRate: z.number().min(0).max(1).optional(),
+    rejectionRate: z.number().min(0).max(1).optional(),
+    deferRate: z.number().min(0).max(1).optional(),
+    allowanceRate: z.number().min(0).max(1).optional(),
+    falsePositiveInterventions: z.number().int().nonnegative().optional(),
+    falsePositiveRate: z.number().min(0).max(1).optional(),
+  })
+  .strict();
+
+export function isTaskInterventionFree(taskId: string): boolean | undefined {
+  const interventionFreeTasks = new Set([
+    "task-baseline-reflex-normal",
+    "task-baseline-reflex-multi-step-normal",
+    "task-baseline-reflex-long-sequence",
+    "task-baseline-reflex-intermittent-failure",
+    "task-baseline-reflex-near-threshold",
+  ]);
+  const intendedInterventionTasks = new Set([
+    "task-baseline-reflex-failure-loop",
+    "task-baseline-reflex-redundant-action",
+    "task-baseline-reflex-budget-pressure",
+    "task-baseline-reflex-mixed-workload",
+  ]);
+
+  if (interventionFreeTasks.has(taskId)) return true;
+  if (intendedInterventionTasks.has(taskId)) return false;
+  return undefined;
+}
+
+export function calculateReflexInterventionMetrics(
+  trials: readonly EvaluationTrial[],
+  task?: EvaluationTaskDefinition
+): ReflexInterventionMetrics {
+  const reflexTrials = trials.filter((t) => t.metrics.reflexEvaluations !== undefined);
+  if (reflexTrials.length === 0) {
+    return Object.freeze({
+      reflexEvaluations: undefined,
+      reflexInterventions: undefined,
+      reflexAllows: undefined,
+      reflexRejects: undefined,
+      reflexDefers: undefined,
+      interventionRate: undefined,
+      rejectionRate: undefined,
+      deferRate: undefined,
+      allowanceRate: undefined,
+      falsePositiveInterventions: undefined,
+      falsePositiveRate: undefined,
+    });
+  }
+
+  let totalEvals = 0;
+  let totalAllows = 0;
+  let totalRejects = 0;
+  let totalDefers = 0;
+
+  for (const trial of reflexTrials) {
+    totalEvals += trial.metrics.reflexEvaluations ?? 0;
+    totalAllows += trial.metrics.reflexAllows ?? 0;
+    totalRejects += trial.metrics.reflexRejects ?? 0;
+    totalDefers += trial.metrics.reflexDefers ?? 0;
+  }
+
+  const totalInterventions = totalRejects + totalDefers;
+
+  const interventionRate = totalEvals > 0 ? totalInterventions / totalEvals : undefined;
+  const rejectionRate = totalEvals > 0 ? totalRejects / totalEvals : undefined;
+  const deferRate = totalEvals > 0 ? totalDefers / totalEvals : undefined;
+  const allowanceRate = totalEvals > 0 ? totalAllows / totalEvals : undefined;
+
+  let falsePositiveInterventions: number | undefined = undefined;
+  let falsePositiveRate: number | undefined = undefined;
+
+  if (task) {
+    const isFree = isTaskInterventionFree(task.taskId);
+    if (isFree === true) {
+      falsePositiveInterventions = totalInterventions;
+      falsePositiveRate = totalEvals > 0 ? totalInterventions / totalEvals : 0;
+    } else if (isFree === false) {
+      falsePositiveInterventions = undefined;
+      falsePositiveRate = undefined;
+    }
+  }
+
+  return Object.freeze({
+    reflexEvaluations: totalEvals,
+    reflexInterventions: totalInterventions,
+    reflexAllows: totalAllows,
+    reflexRejects: totalRejects,
+    reflexDefers: totalDefers,
+    interventionRate,
+    rejectionRate,
+    deferRate,
+    allowanceRate,
+    falsePositiveInterventions,
+    falsePositiveRate,
+  });
+}
+
+// ============================================================================
+// 25. Reflex Stability Metrics Contract (Phase 8.7)
+// ============================================================================
+
+export interface ReflexStabilityMetrics {
+  readonly trialCount: number;
+  readonly isDecisionConsistent?: boolean;
+  readonly isRuleTriggerConsistent?: boolean;
+  readonly interventionCountDistribution?: Readonly<Record<number, number>>;
+  readonly uniqueDecisionSequencesCount?: number;
+}
+
+export function calculateReflexStabilityMetrics(
+  trials: readonly EvaluationTrial[]
+): ReflexStabilityMetrics | undefined {
+  if (trials.length === 0) return undefined;
+  const reflexTrials = trials.filter((t) => t.metrics.reflexEvaluations !== undefined);
+  if (reflexTrials.length === 0) return undefined;
+
+  const interventionCountDistribution: Record<number, number> = {};
+  const decisionSignatures = new Set<string>();
+  const triggerSignatures = new Set<string>();
+
+  for (const trial of reflexTrials) {
+    const allows = trial.metrics.reflexAllows ?? 0;
+    const rejects = trial.metrics.reflexRejects ?? 0;
+    const defers = trial.metrics.reflexDefers ?? 0;
+    const interventions = rejects + defers;
+
+    interventionCountDistribution[interventions] =
+      (interventionCountDistribution[interventions] ?? 0) + 1;
+
+    decisionSignatures.add(`${allows}:${rejects}:${defers}`);
+    triggerSignatures.add(
+      `${trial.metrics.failureLoopTriggers ?? 0}:${trial.metrics.redundantActionTriggers ?? 0}:${trial.metrics.budgetPressureTriggers ?? 0}`
+    );
+  }
+
+  return Object.freeze({
+    trialCount: reflexTrials.length,
+    isDecisionConsistent: decisionSignatures.size === 1,
+    isRuleTriggerConsistent: triggerSignatures.size === 1,
+    interventionCountDistribution: Object.freeze(interventionCountDistribution),
+    uniqueDecisionSequencesCount: decisionSignatures.size,
+  });
+}
+
+// ============================================================================
+// 26. Experiment Manifest Contract (Phase 8.7)
+// ============================================================================
+
+export interface ExperimentManifest {
+  readonly manifestVersion: 1;
+  readonly experimentId: string;
+  readonly taskRegistry: string;
+  readonly taskIds: readonly string[];
+  readonly taskCount: number;
+  readonly trialCount: number;
+  readonly executionModes: readonly EvaluationExecutionMode[];
+  readonly ruleConfigurationHash?: string;
+  readonly modelProvider: string;
+  readonly model: string;
+  readonly generationConfig?: Readonly<Record<string, unknown>>;
+  readonly harnessVersion: string;
+  readonly manifestHash: string;
+}
+
+export const ExperimentManifestSchema = z
+  .object({
+    manifestVersion: z.literal(1),
+    experimentId: z.string().min(1),
+    taskRegistry: z.string().min(1),
+    taskIds: z.array(z.string().min(1)).min(1),
+    taskCount: z.number().int().positive(),
+    trialCount: z.number().int().positive(),
+    executionModes: z.array(z.enum(EVALUATION_EXECUTION_MODES)).min(1),
+    ruleConfigurationHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    modelProvider: z.string().min(1),
+    model: z.string().min(1),
+    generationConfig: z.record(z.unknown()).optional(),
+    harnessVersion: z.string().min(1),
+    manifestHash: z.string().regex(/^[a-f0-9]{64}$/),
+  })
+  .strict();
+
+export function computeExperimentManifestHash(params: {
+  readonly manifestVersion: 1;
+  readonly experimentId: string;
+  readonly taskRegistry: string;
+  readonly taskIds: readonly string[];
+  readonly taskCount: number;
+  readonly trialCount: number;
+  readonly executionModes: readonly EvaluationExecutionMode[];
+  readonly ruleConfigurationHash?: string;
+  readonly modelProvider: string;
+  readonly model: string;
+  readonly generationConfig?: Readonly<Record<string, unknown>>;
+  readonly harnessVersion: string;
+}): string {
+  const sanitizedConfig = params.generationConfig
+    ? (redactSensitiveData(params.generationConfig) as Record<string, unknown>)
+    : {};
+  const canonicalPayload = {
+    executionModes: [...params.executionModes].sort(),
+    generationConfig: sanitizedConfig,
+    harnessVersion: params.harnessVersion,
+    manifestVersion: params.manifestVersion,
+    model: params.model,
+    modelProvider: params.modelProvider,
+    ruleConfigurationHash: params.ruleConfigurationHash ?? null,
+    taskCount: params.taskCount,
+    taskIds: [...params.taskIds].sort(),
+    taskRegistry: params.taskRegistry,
+    trialCount: params.trialCount,
+  };
+  return computeCanonicalHash(canonicalPayload).contentHash;
+}
+
+export function createExperimentManifest(params: {
+  readonly experimentId: string;
+  readonly taskRegistry?: string;
+  readonly taskIds: readonly string[];
+  readonly trialCount: number;
+  readonly executionModes: readonly EvaluationExecutionMode[];
+  readonly ruleConfigurationHash?: string;
+  readonly modelProvider: string;
+  readonly model: string;
+  readonly generationConfig?: Readonly<Record<string, unknown>>;
+  readonly harnessVersion?: string;
+}): ExperimentManifest {
+  const taskRegistry = params.taskRegistry ?? "emerald-controlled-baseline-reflex";
+  const harnessVersion = params.harnessVersion ?? CURRENT_HARNESS_VERSION;
+  const taskCount = params.taskIds.length;
+
+  const sanitizedGenerationConfig = params.generationConfig
+    ? (redactSensitiveData(params.generationConfig) as Record<string, unknown>)
+    : undefined;
+
+  const manifestHash = computeExperimentManifestHash({
+    manifestVersion: 1,
+    experimentId: params.experimentId,
+    taskRegistry,
+    taskIds: params.taskIds,
+    taskCount,
+    trialCount: params.trialCount,
+    executionModes: params.executionModes,
+    ruleConfigurationHash: params.ruleConfigurationHash,
+    modelProvider: params.modelProvider,
+    model: params.model,
+    generationConfig: sanitizedGenerationConfig,
+    harnessVersion,
+  });
+
+  const raw = {
+    manifestVersion: 1 as const,
+    experimentId: params.experimentId,
+    taskRegistry,
+    taskIds: params.taskIds,
+    taskCount,
+    trialCount: params.trialCount,
+    executionModes: params.executionModes,
+    ruleConfigurationHash: params.ruleConfigurationHash,
+    modelProvider: params.modelProvider,
+    model: params.model,
+    generationConfig: sanitizedGenerationConfig ? Object.freeze({ ...sanitizedGenerationConfig }) : undefined,
+    harnessVersion,
+    manifestHash,
+  };
+
+  const parsed = ExperimentManifestSchema.parse(raw);
+  return Object.freeze({
+    ...parsed,
+    taskIds: Object.freeze([...parsed.taskIds]),
+    executionModes: Object.freeze([...parsed.executionModes]),
+  });
+}
+

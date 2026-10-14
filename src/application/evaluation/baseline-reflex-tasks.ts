@@ -195,9 +195,232 @@ export const TASK_D_BUDGET_PRESSURE: EvaluationTaskDefinition = createEvaluation
 });
 
 // ============================================================================
+// Task E: Multi-Step Normal Work (Phase 8.7)
+// ============================================================================
+
+export const TASK_E_MULTI_STEP_NORMAL: EvaluationTaskDefinition = createEvaluationTask({
+  taskId: "task-baseline-reflex-multi-step-normal",
+  version: 1,
+  description:
+    "Multi-step normal workflow: reads step1.txt, writes intermediate step2.txt, reads step2.txt, and writes step3.txt without failure loops or redundancy.",
+  fixture: {
+    initialFiles: {
+      "step1.txt": "alpha",
+    },
+  },
+  mission: {
+    requiredCapabilities: ["workspace.file.read", "workspace.file.write"],
+    resourceLimits: {
+      timeoutMs: 30000,
+      maxAttempts: 5,
+      maxOutputBytes: 65536,
+    },
+  },
+  successCriteria: [
+    {
+      criterionId: "step3-created",
+      kind: "FILE_EXISTS",
+      path: "step3.txt",
+      description: "step3.txt must exist",
+    },
+    {
+      criterionId: "step3-content",
+      kind: "FILE_CONTENT_EQUALS",
+      path: "step3.txt",
+      expectedContent: "ALPHA-BETA-GAMMA",
+      description: "step3.txt contains transformed pipeline output",
+    },
+  ],
+  budget: {
+    maxSteps: 8,
+    maxActions: 8,
+    maxWallClockMs: 30000,
+    maxConsecutiveFailures: 3,
+    maxProposalRejections: 3,
+  },
+});
+
+// ============================================================================
+// Task F: Long Successful Sequence (Phase 8.7)
+// ============================================================================
+
+export const TASK_F_LONG_SEQUENCE: EvaluationTaskDefinition = createEvaluationTask({
+  taskId: "task-baseline-reflex-long-sequence",
+  version: 1,
+  description:
+    "Long successful sequence: deterministic multi-stage data processing pipeline measuring cumulative Reflex invocation overhead.",
+  fixture: {
+    initialFiles: {
+      "stage0.txt": "initial-token",
+    },
+  },
+  mission: {
+    requiredCapabilities: ["workspace.file.read", "workspace.file.write"],
+    resourceLimits: {
+      timeoutMs: 40000,
+      maxAttempts: 10,
+      maxOutputBytes: 65536,
+    },
+  },
+  successCriteria: [
+    {
+      criterionId: "final-stage-exists",
+      kind: "FILE_EXISTS",
+      path: "stage4.txt",
+      description: "stage4.txt must exist",
+    },
+    {
+      criterionId: "final-stage-content",
+      kind: "FILE_CONTENT_EQUALS",
+      path: "stage4.txt",
+      expectedContent: "PIPELINE-COMPLETE",
+      description: "Final stage must contain verified output",
+    },
+  ],
+  budget: {
+    maxSteps: 12,
+    maxActions: 12,
+    maxWallClockMs: 40000,
+    maxConsecutiveFailures: 3,
+    maxProposalRejections: 3,
+  },
+});
+
+// ============================================================================
+// Task G: Intermittent Recoverable Failure (Phase 8.7)
+// ============================================================================
+
+export const TASK_G_INTERMITTENT_FAILURE: EvaluationTaskDefinition = createEvaluationTask({
+  taskId: "task-baseline-reflex-intermittent-failure",
+  version: 1,
+  description:
+    "Intermittent recoverable failure scenario: transient non-consecutive errors reset by intervening successful actions to verify failure-loop rule does not prematurely trigger.",
+  fixture: {
+    initialFiles: {
+      "primary.txt": "primary payload",
+      "secondary.txt": "secondary payload",
+    },
+  },
+  mission: {
+    requiredCapabilities: ["workspace.file.read", "workspace.file.write"],
+    resourceLimits: {
+      timeoutMs: 30000,
+      maxAttempts: 6,
+      maxOutputBytes: 65536,
+    },
+  },
+  successCriteria: [
+    {
+      criterionId: "recovered-output-exists",
+      kind: "FILE_EXISTS",
+      path: "recovered.txt",
+      description: "recovered.txt must exist",
+    },
+    {
+      criterionId: "recovered-output-content",
+      kind: "FILE_CONTENT_EQUALS",
+      path: "recovered.txt",
+      expectedContent: "RECOVERED: primary payload + secondary payload",
+      description: "recovered.txt contains aggregated data from both primary and secondary",
+    },
+  ],
+  budget: {
+    maxSteps: 8,
+    maxActions: 8,
+    maxWallClockMs: 30000,
+    maxConsecutiveFailures: 5,
+    maxProposalRejections: 5,
+  },
+});
+
+// ============================================================================
+// Task H: Mixed Workload (Phase 8.7)
+// ============================================================================
+
+export const TASK_H_MIXED_WORKLOAD: EvaluationTaskDefinition = createEvaluationTask({
+  taskId: "task-baseline-reflex-mixed-workload",
+  version: 1,
+  description:
+    "Mixed workload scenario: deterministic sequence containing normal actions, a transient failure, a redundant action loop, and final recovery, measuring multiple Reflex decision types in a single run.",
+  fixture: {
+    initialFiles: {
+      "dataset.txt": "base record",
+      "config.txt": "mode=strict",
+    },
+  },
+  mission: {
+    requiredCapabilities: ["workspace.file.read", "workspace.file.write"],
+    resourceLimits: {
+      timeoutMs: 30000,
+      maxAttempts: 8,
+      maxOutputBytes: 65536,
+    },
+  },
+  successCriteria: [
+    {
+      criterionId: "summary-written",
+      kind: "FILE_CONTENT_EQUALS",
+      path: "summary.txt",
+      expectedContent: "PROCESSED: base record",
+      description: "summary.txt contains final output",
+    },
+  ],
+  budget: {
+    maxSteps: 10,
+    maxActions: 10,
+    maxWallClockMs: 30000,
+    maxConsecutiveFailures: 5,
+    maxProposalRejections: 5,
+  },
+});
+
+// ============================================================================
+// Task I: Near-Threshold Workload (Phase 8.7)
+// ============================================================================
+
+export const TASK_I_NEAR_THRESHOLD: EvaluationTaskDefinition = createEvaluationTask({
+  taskId: "task-baseline-reflex-near-threshold",
+  version: 1,
+  description:
+    "Near-threshold workload scenario: workload that approaches but does not exceed the resource pressure threshold (e.g. 60% of budget vs 80% threshold), measuring absence of false DEFER/REJECT interventions.",
+  fixture: {
+    initialFiles: {
+      "data.txt": "threshold verification payload",
+    },
+  },
+  mission: {
+    requiredCapabilities: ["workspace.file.read", "workspace.file.write"],
+    resourceLimits: {
+      timeoutMs: 30000,
+      maxAttempts: 5,
+      maxOutputBytes: 65536,
+    },
+  },
+  successCriteria: [
+    {
+      criterionId: "verified-result",
+      kind: "FILE_CONTENT_EQUALS",
+      path: "result.txt",
+      expectedContent: "THRESHOLD VERIFIED: threshold verification payload",
+      description: "result.txt contains processed data created before budget threshold",
+    },
+  ],
+  budget: {
+    maxSteps: 5,
+    maxActions: 5,
+    maxWallClockMs: 30000,
+    maxConsecutiveFailures: 3,
+    maxProposalRejections: 3,
+  },
+});
+
+// ============================================================================
 // Registry & Lookup
 // ============================================================================
 
+/**
+ * Canonical Phase 8.3 baseline evaluation tasks (Tasks A–D).
+ */
 export const BASELINE_REFLEX_TASKS: readonly EvaluationTaskDefinition[] = Object.freeze([
   TASK_A_NORMAL_WORK,
   TASK_B_REPEATED_FAILURE,
@@ -209,14 +432,42 @@ export const BASELINE_REFLEX_TASK_IDS = Object.freeze(
   BASELINE_REFLEX_TASKS.map((t) => t.taskId)
 );
 
+/**
+ * Extended Phase 8.7 baseline evaluation tasks (Tasks E–I).
+ */
+export const EXTENDED_BASELINE_REFLEX_TASKS: readonly EvaluationTaskDefinition[] = Object.freeze([
+  TASK_E_MULTI_STEP_NORMAL,
+  TASK_F_LONG_SEQUENCE,
+  TASK_G_INTERMITTENT_FAILURE,
+  TASK_H_MIXED_WORKLOAD,
+  TASK_I_NEAR_THRESHOLD,
+]);
+
+export const EXTENDED_BASELINE_REFLEX_TASK_IDS = Object.freeze(
+  EXTENDED_BASELINE_REFLEX_TASKS.map((t) => t.taskId)
+);
+
+/**
+ * Complete suite of all 9 deterministic Baseline/Reflex evaluation tasks (A–I).
+ */
+export const ALL_BASELINE_REFLEX_TASKS: readonly EvaluationTaskDefinition[] = Object.freeze([
+  ...BASELINE_REFLEX_TASKS,
+  ...EXTENDED_BASELINE_REFLEX_TASKS,
+]);
+
+export const ALL_BASELINE_REFLEX_TASK_IDS = Object.freeze(
+  ALL_BASELINE_REFLEX_TASKS.map((t) => t.taskId)
+);
+
 export function getBaselineReflexTask(taskId: string): EvaluationTaskDefinition {
-  const task = BASELINE_REFLEX_TASKS.find((t) => t.taskId === taskId);
+  const task = ALL_BASELINE_REFLEX_TASKS.find((t) => t.taskId === taskId);
   if (!task) {
     throw new Error(
-      `Unknown Baseline/Reflex evaluation task '${taskId}'. Available: [${BASELINE_REFLEX_TASK_IDS.join(
+      `Unknown Baseline/Reflex evaluation task '${taskId}'. Available: [${ALL_BASELINE_REFLEX_TASK_IDS.join(
         ", "
       )}]`
     );
   }
   return task;
 }
+

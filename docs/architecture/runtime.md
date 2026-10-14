@@ -1454,3 +1454,92 @@ The fault injection test suite (`tests/application/reflex-fault-injection.test.t
 - **Recovery Strategy**: The current fail-safe recovery model rejects the affected proposal and increments `proposalRejections`. It does not attempt automated replanning or heuristic self-repair.
 - **Diagnostic Logging**: `reflexError` records error text in transcripts; structured diagnostic traces remain an area for future evaluation logging phases.
 
+---
+
+## 36. Reflex Overhead, Calibration & Extended Controlled Evaluation
+
+Phase 8.7 establishes a rigorous empirical calibration harness to measure the execution cost, stability, and intervention behavior of the frozen `RuleBasedReflex` controller across longer workloads and repeated trials.
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Controlled Experiment Suite                     │
+│                                                                        │
+│   Tasks A–D (Canonical)              Tasks E–I (Extended Suite)        │
+│   • Task A: Normal Productive Work   • Task E: Multi-Step Normal Work  │
+│   • Task B: Repeated Failure Loop    • Task F: Long Sequence Pipeline  │
+│   • Task C: Redundant Action Loop    • Task G: Intermittent Failures   │
+│   • Task D: Budget Pressure          • Task H: Mixed Workload          │
+│                                      • Task I: Near-Threshold Load     │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                    ┌───────────────┴───────────────┐
+                    ▼                               ▼
+       Condition: BASELINE (N=10)       Condition: REFLEX (N=10)
+       • Unassisted runtime             • Governed RuleBasedReflex
+       • No Reflex evaluations          • Frozen config hash binding
+       • Undefined Reflex telemetry     • Monotonic reflexLatencyMs
+                    │                               │
+                    └───────────────┬───────────────┘
+                                    │
+                                    ▼
+       ┌─────────────────────────────────────────────────────────┐
+       │             Empirical Measurement & Analysis            │
+       │                                                         │
+       │  • Descriptive Reports (Variability: min, max, mean)    │
+       │  • Wilson Score CIs for pass rates                      │
+       │  • Student's t for continuous metrics (steps, latency)  │
+       │  • Reflex Stability (decision consistency signatures)   │
+       │  • Ground-Truth False-Positive Intervention Rates       │
+       │  • ExperimentManifest (Redacted, canonical hash)        │
+       └─────────────────────────────────────────────────────────┘
+```
+
+### 36.1 Measurement-Only & Anti-Tuning Principle
+Phase 8.7 is strictly an empirical **measurement and calibration phase**, not an optimization or tuning phase:
+- Heuristics, thresholds, and precedence order remain strictly frozen and bound to `FROZEN_RULE_BASED_REFLEX_CONFIG_HASH` (`5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252`).
+- No learning, adaptive adjustments, or opportunistic optimizations are permitted.
+- The Reflex controller remains governed by the rule precedence:
+  $$\text{Failure Loop} > \text{Redundant Action} > \text{Budget Pressure} > \text{ALLOW}$$
+
+### 36.2 Extended Controlled Tasks (Tasks E–I)
+The suite extends canonical evaluation beyond micro-scenarios:
+1. **Task E (`task-baseline-reflex-multi-step-normal`)**: Multi-step productive pipeline (4 sequential actions) testing intervention-free execution on clean multi-step workloads.
+2. **Task F (`task-baseline-reflex-long-sequence`)**: 6-stage transformation pipeline measuring cumulative reflex latency overhead across extended trajectories.
+3. **Task G (`task-baseline-reflex-intermittent-failure`)**: Transient errors separated by intervening successes, testing failure loop streak reset mechanics and preventing premature intervention.
+4. **Task H (`task-baseline-reflex-mixed-workload`)**: Mixed workload containing normal steps, a transient error, a redundant action loop, and final recovery, measuring multiple decision types (`ALLOW` and `REJECT`) within a single transcript.
+5. **Task I (`task-baseline-reflex-near-threshold`)**: Workload operating at 40% of step budget (approaching the 80% ceiling), verifying that budget pressure does not falsely intervene before its threshold.
+
+### 36.3 Repeated Trial Matrix & Stability Metrics
+- Controlled experiments support configurable trial counts ($N \ge 1$, default $N=10$).
+- Every trial executes within an isolated ephemeral sandbox with independent SQLite persistence, fresh directory fixtures, and unique trial IDs.
+- **Reflex Stability Metrics** (`ReflexStabilityMetrics`) quantify controller consistency:
+  - `isDecisionConsistent`: Verifies that identical input histories produce identical decision sequences across all $N$ trials.
+  - `isRuleTriggerConsistent`: Verifies that identical rule trigger sequences occur across all $N$ trials.
+  - `interventionCountDistribution`: Frequency distribution of intervention counts per trial.
+  - `uniqueDecisionSequencesCount`: Exact count of unique decision sequence signatures observed.
+
+### 36.4 Monotonic Reflex Latency Overhead Telemetry
+- Monotonic wall-clock overhead of `ReflexPort.evaluate()` is captured per step using high-resolution timers (`performance.now()`).
+- Cumulative reflex duration is aggregated into `metrics.reflexLatencyMs` and reported in descriptive statistics with direction `LOWER_IS_BETTER`.
+- Control group purity invariant: In `BASELINE` execution mode, `reflexLatencyMs` and all Reflex evaluation counters remain strictly `undefined` (never fabricated as 0).
+
+### 36.5 Intervention & False-Positive Rate Accounting
+- `ReflexInterventionMetrics` computes formal intervention ratios:
+  $$\text{reflexInterventionRate} = \frac{\text{reflexRejects} + \text{reflexDefers}}{\text{reflexEvaluations}}$$
+- **False-Positive Classification**:
+  - Defined strictly for intervention-free tasks (Tasks A, E, F, G, I) where any intervention constitutes an objective false positive.
+  - For deliberate intervention tasks (Tasks B, C, D, H), false-positive metrics remain strictly `undefined` to prevent subjective or fabricated claims.
+
+### 36.6 Deterministic Experiment Manifest & Reproducibility
+- Every controlled experiment generates an immutable `ExperimentManifest` (`createExperimentManifest`).
+- Computes canonical SHA-256 fingerprint over sorted task IDs, sorted execution modes, trial count, model provider, model, harness version, and rule configuration hash.
+- Sensitive credential patterns (API keys, authorization headers) in generation configurations are deterministically redacted (`redactSensitiveData`) prior to hashing and storage.
+
+### 36.7 Statistical Rigor
+- Conforms to Section 34 of `GEMINI.md`:
+  - Binomial metrics (`objectivePassRate`): Wilson score confidence intervals with continuity correction.
+  - Continuous metrics (`steps`, `actions`, `wallClockMs`, `toolCalls`, `reflexLatencyMs`): Student's t distribution statistics (mean, variance, margin of error).
+  - Variability reporting: Sample size $N$, mean, min, max, standard deviation.
+  - Non-causal reporting: Zero hypothesis tests, p-values, or generalized superiority claims.
+
+

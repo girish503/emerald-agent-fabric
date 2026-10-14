@@ -474,6 +474,13 @@ export const DEFAULT_RULE_BASED_REFLEX_CONFIG: RuleBasedReflexConfig = Object.fr
 });
 
 /**
+ * Immutable canonical configuration hash of the frozen RuleBasedReflex defaults.
+ * Used for regression testing and experiment condition fingerprinting.
+ */
+export const FROZEN_RULE_BASED_REFLEX_CONFIG_HASH =
+  "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252";
+
+/**
  * Validates that an unknown input strictly conforms to the RuleBasedReflexConfig contract.
  * Throws InvalidRuleConfigError on violation. Never silently clamps invalid values.
  */

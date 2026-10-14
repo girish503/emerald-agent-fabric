@@ -126,6 +126,7 @@ export interface StepTranscriptEntry {
   readonly reflexRationale?: string;
   readonly reflexEvidence?: ReflexEvidence;
   readonly reflexError?: string;
+  readonly reflexDurationMs?: number;
   readonly actionId?: string;
   readonly actionStatus?: WorkerActionStatus;
   readonly actionOutput?: unknown;
@@ -600,12 +601,15 @@ export class AgentStepController {
 
       let reflexDecisionResult;
       let reflexEvidence: ReflexEvidence | undefined = undefined;
+      let reflexDurationMs: number | undefined = undefined;
 
+      const reflexStartMonotonic = performance.now();
       try {
         const unvalidatedDecision = await this.reflex.evaluate(
           validationResult.proposal,
           reflexContext
         );
+        reflexDurationMs = Math.max(0, Math.round(performance.now() - reflexStartMonotonic));
         reflexDecisionResult = validateReflexDecision(unvalidatedDecision);
 
         if (!(this.reflex instanceof NoopReflex)) {
@@ -637,6 +641,7 @@ export class AgentStepController {
           );
         }
 
+        const elapsedReflexMs = Math.max(0, Math.round(performance.now() - reflexStartMonotonic));
         proposalRejections++;
         transcript.push(
           Object.freeze({
@@ -653,6 +658,7 @@ export class AgentStepController {
             proposalValid: true,
             reflexReasonCode: "UNSUPPORTED_ACTION",
             reflexError: err instanceof Error ? err.message : String(err),
+            reflexDurationMs: elapsedReflexMs,
             durationMs: this.clock.now().getTime() - stepStartTime,
             timestamp: stepTimestamp,
           })
@@ -679,6 +685,7 @@ export class AgentStepController {
             reflexReasonCode: reflexDecisionResult.reasonCode,
             reflexRationale: reflexDecisionResult.rationale,
             reflexEvidence,
+            reflexDurationMs,
             durationMs: this.clock.now().getTime() - stepStartTime,
             timestamp: stepTimestamp,
           })
@@ -704,6 +711,7 @@ export class AgentStepController {
             reflexReasonCode: reflexDecisionResult.reasonCode,
             reflexRationale: reflexDecisionResult.rationale,
             reflexEvidence,
+            reflexDurationMs,
             durationMs: this.clock.now().getTime() - stepStartTime,
             timestamp: stepTimestamp,
           })
@@ -816,6 +824,7 @@ export class AgentStepController {
           reflexReasonCode: reflexDecisionResult.reasonCode,
           reflexRationale: reflexDecisionResult.rationale,
           reflexEvidence,
+          reflexDurationMs,
           actionId: action.actionId,
           actionStatus: actionResult.status,
           actionOutput: actionResult.output,
