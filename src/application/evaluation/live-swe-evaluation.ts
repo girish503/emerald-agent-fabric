@@ -59,6 +59,7 @@ import {
 import {
   computeRuleBasedReflexConfigHash,
   DEFAULT_RULE_BASED_REFLEX_CONFIG,
+  FROZEN_RULE_BASED_REFLEX_CONFIG_HASH,
   RuleBasedReflexConfig,
 } from "../../domain/reflex.js";
 import {
@@ -86,6 +87,7 @@ export interface ExecuteLiveSweEvaluationParams {
   readonly confidenceLevel?: number;
   readonly requireLiveOllama?: boolean;
   readonly ollamaBaseUrl?: string;
+  readonly modelTimeoutMs?: number;
 }
 
 export interface LiveSweEvaluationTaskResult {
@@ -154,7 +156,16 @@ export async function checkOllamaLiveAvailability(
     const data = (await res.json()) as { models?: Array<{ name: string; model: string }> };
     const modelNames = (data.models ?? []).flatMap((m) => [m.name, m.model]);
 
-    if (targetModel && !modelNames.some((m) => m === targetModel || m.startsWith(`${targetModel}:`))) {
+    const matchesTargetModel = (m: string): boolean => {
+      if (!targetModel) return true;
+      if (m === targetModel) return true;
+      if (!targetModel.includes(":") && (m === `${targetModel}:latest` || m.startsWith(`${targetModel}:`))) {
+        return true;
+      }
+      return false;
+    };
+
+    if (targetModel && !modelNames.some(matchesTargetModel)) {
       return {
         available: false,
         reason: `Target model '${targetModel}' not found in local Ollama repository. Available: [${(data.models ?? []).map((m) => m.name).join(", ")}]`,
@@ -182,8 +193,7 @@ export async function checkOllamaLiveAvailability(
 export async function executeLiveSweEvaluation(
   params: ExecuteLiveSweEvaluationParams
 ): Promise<LiveSweEvaluationResult> {
-  const isLiveEnv = process.env.OLLAMA_LIVE_TESTS === "true";
-  const shouldRequireLive = params.requireLiveOllama || isLiveEnv;
+  const shouldRequireLive = Boolean(params.requireLiveOllama);
 
   // 1. Preflight check if live Ollama required
   if (shouldRequireLive) {
@@ -310,6 +320,7 @@ export async function executeLiveSweEvaluation(
         executionMode: "BASELINE",
         condition: baselineCondition,
         abortSignal: params.abortSignal,
+        modelTimeoutMs: params.modelTimeoutMs,
       });
 
       // Invariant: Baseline reflex telemetry is strictly undefined
@@ -337,6 +348,7 @@ export async function executeLiveSweEvaluation(
         condition: reflexCondition,
         ruleBasedReflexConfig: ruleConfig,
         abortSignal: params.abortSignal,
+        modelTimeoutMs: params.modelTimeoutMs,
       });
       reflexTrials.push(trial);
     }
@@ -455,5 +467,96 @@ export async function executeLiveSweEvaluation(
     ruleConfigurationHash,
     isLiveRun: Boolean(shouldRequireLive),
     completedAt: new Date().toISOString(),
+  });
+}
+
+// ============================================================================
+// Phase 9 Live SWE Experiment Specification & Entry Point
+// ============================================================================
+
+export const PHASE_9_EXPERIMENT_SPEC = Object.freeze({
+  model: "qwen2.5:3b",
+  executionModes: Object.freeze(["BASELINE", "REFLEX"] as const),
+  trialsPerCondition: 5,
+  defaultModelTimeoutMs: 120_000,
+});
+
+export interface Phase9ExperimentPlan {
+  readonly model: string;
+  readonly tasks: readonly EvaluationTaskDefinition[];
+  readonly taskIds: readonly string[];
+  readonly executionModes: readonly ("BASELINE" | "REFLEX")[];
+  readonly trialsPerCondition: number;
+  readonly totalPlannedTrials: number;
+  readonly modelTimeoutMs: number;
+  readonly ruleConfigurationHash: string;
+}
+
+export function createPhase9ExperimentPlan(
+  overrides: {
+    readonly model?: string;
+    readonly modelTimeoutMs?: number;
+    readonly tasks?: readonly EvaluationTaskDefinition[];
+    readonly trialsPerCondition?: number;
+  } = {}
+): Phase9ExperimentPlan {
+  const model = overrides.model ?? PHASE_9_EXPERIMENT_SPEC.model;
+  const tasks = overrides.tasks ?? SWE_EVAL_TASKS;
+  const trialsPerCondition = overrides.trialsPerCondition ?? PHASE_9_EXPERIMENT_SPEC.trialsPerCondition;
+  const executionModes = PHASE_9_EXPERIMENT_SPEC.executionModes;
+  const totalPlannedTrials = tasks.length * executionModes.length * trialsPerCondition;
+  const modelTimeoutMs = overrides.modelTimeoutMs ?? PHASE_9_EXPERIMENT_SPEC.defaultModelTimeoutMs;
+
+  return Object.freeze({
+    model,
+    tasks: Object.freeze([...tasks]),
+    taskIds: Object.freeze(tasks.map((t) => t.taskId)),
+    executionModes,
+    trialsPerCondition,
+    totalPlannedTrials,
+    modelTimeoutMs,
+    ruleConfigurationHash: FROZEN_RULE_BASED_REFLEX_CONFIG_HASH,
+  });
+}
+
+export interface ExecuteLiveSweExperimentOptions {
+  readonly modelProvider?: ModelProviderPort;
+  readonly model?: string;
+  readonly modelTimeoutMs?: number;
+  readonly ollamaBaseUrl?: string;
+  readonly abortSignal?: AbortSignal;
+}
+
+export async function executeLiveSweExperiment(
+  options: ExecuteLiveSweExperimentOptions = {}
+): Promise<LiveSweEvaluationResult> {
+  const plan = createPhase9ExperimentPlan({
+    model: options.model,
+    modelTimeoutMs: options.modelTimeoutMs,
+  });
+
+  const baseUrl = options.ollamaBaseUrl ?? process.env.OLLAMA_BASE_URL ?? "http://127.0.0.1:11434";
+
+  let provider = options.modelProvider;
+  if (!provider) {
+    const { OllamaModelProvider } = await import(
+      "../../adapters/models/ollama-model-provider.js"
+    );
+    provider = new OllamaModelProvider({
+      baseURL: baseUrl,
+      defaultModel: plan.model,
+      timeoutMs: plan.modelTimeoutMs,
+    });
+  }
+
+  return executeLiveSweEvaluation({
+    tasks: plan.tasks,
+    modelProvider: provider,
+    model: plan.model,
+    trialsPerCondition: plan.trialsPerCondition,
+    modelTimeoutMs: plan.modelTimeoutMs,
+    requireLiveOllama: true,
+    ollamaBaseUrl: baseUrl,
+    abortSignal: options.abortSignal,
   });
 }

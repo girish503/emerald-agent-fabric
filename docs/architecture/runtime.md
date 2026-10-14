@@ -1607,3 +1607,12 @@ The SWE evaluation suite (`src/application/evaluation/swe-eval-tasks.ts`) define
 - Baseline execution mode does not invoke Reflex; baseline Reflex telemetry remains strictly `undefined`.
 - Reflex trials capture `ReflexEvidence` for all evaluated proposals.
 - Every captured evidence record is verified via offline deterministic replay (`replayReflexEvidence`), guaranteeing that recorded decisions match fresh evaluations with zero side effects.
+
+### 37.8 Evaluation Harness Isolation & Explicit 60-Trial Entry Point (Phase 9.1)
+- **Offline / Live Separation**: Preflight checks against the local Ollama instance (`http://127.0.0.1:11434`) execute strictly when `requireLiveOllama: true` is explicitly configured. Setting `OLLAMA_LIVE_TESTS=true` does not convert mock/scripted evaluations into live evaluations.
+- **Fail-Closed Model Integrity**: Preflight requires exact model registry matching. If the requested target model is missing, execution throws `ModelProviderUnavailableError` without falling back to another installed model.
+- **Explicit Model-Generation Timeout**: Model inference timeout (`modelTimeoutMs`) is decoupled from task wall-clock budget (`maxWallClockMs`) and per-tool timeout (`resourceLimits.timeoutMs`). Configured explicitly (default 120,000ms for CPU-first local open-source models like `qwen2.5:3b`), preventing premature timeouts during complex JSON schema completion.
+- **Explicit Phase 9 Experiment Entry Point**:
+  - `createPhase9ExperimentPlan()`: Statically resolves the canonical 60-trial experimental matrix without invoking models.
+  - `executeLiveSweExperiment()`: Dispatches the full 60-trial live experiment (Tasks J–O × 2 conditions × 5 trials).
+  - Binds immutable `FROZEN_RULE_BASED_REFLEX_CONFIG_HASH` with zero heuristics or threshold changes.

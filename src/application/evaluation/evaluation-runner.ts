@@ -93,6 +93,7 @@ export interface ExecuteEvaluationRunOptions {
   readonly condition?: EvaluationExperimentCondition;
   readonly reflex?: ReflexPort;
   readonly ruleBasedReflexConfig?: RuleBasedReflexConfig;
+  readonly modelTimeoutMs?: number;
 }
 
 export interface ExecuteEvaluationTrialOptions {
@@ -108,6 +109,7 @@ export interface ExecuteEvaluationTrialOptions {
   readonly condition?: EvaluationExperimentCondition;
   readonly reflex?: ReflexPort;
   readonly ruleBasedReflexConfig?: RuleBasedReflexConfig;
+  readonly modelTimeoutMs?: number;
 }
 
 // ============================================================================
@@ -208,6 +210,7 @@ export async function executeEvaluationRun(
   const liveBrain = new LiveAgentBrain({
     modelProvider: trackingProvider,
     model: options.model,
+    ...(options.modelTimeoutMs !== undefined ? { timeoutMs: options.modelTimeoutMs } : {}),
   });
 
   let effectiveReflex: ReflexPort | undefined = options.reflex;
@@ -578,6 +581,7 @@ export async function executeEvaluationTrial(
     condition: options.condition,
     reflex: options.reflex,
     ruleBasedReflexConfig: options.ruleBasedReflexConfig,
+    modelTimeoutMs: options.modelTimeoutMs,
   });
 
   return createEvaluationTrialFromRunResult(runResult, options.trialOrdinal, {

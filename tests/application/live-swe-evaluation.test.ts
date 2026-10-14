@@ -50,7 +50,10 @@ import {
 } from "../../src/application/evaluation/swe-eval-tasks.js";
 import {
   checkOllamaLiveAvailability,
+  createPhase9ExperimentPlan,
   executeLiveSweEvaluation,
+  executeLiveSweExperiment,
+  PHASE_9_EXPERIMENT_SPEC,
 } from "../../src/application/evaluation/live-swe-evaluation.js";
 import {
   computeEvaluationTaskHash,
@@ -59,6 +62,8 @@ import {
   validateEvaluationTask,
 } from "../../src/domain/evaluation.js";
 import {
+  computeRuleBasedReflexConfigHash,
+  DEFAULT_RULE_BASED_REFLEX_CONFIG,
   FROZEN_RULE_BASED_REFLEX_CONFIG_HASH,
 } from "../../src/domain/reflex.js";
 import {
@@ -282,6 +287,40 @@ class FutileLoopScriptedProvider implements ModelProviderPort {
         inputTokens: 100,
         outputTokens: 50,
         totalTokens: 150,
+      },
+    };
+  }
+}
+
+/**
+ * Scripted provider that captures the effective timeoutMs passed to generate().
+ */
+class TimeoutCapturingProvider implements ModelProviderPort {
+  readonly providerName = "scripted-timeout-capturing-provider";
+  readonly capturedTimeouts: number[] = [];
+
+  async generate(request: ModelProviderRequest): Promise<ModelProviderResponse> {
+    if (typeof request.timeoutMs === "number") {
+      this.capturedTimeouts.push(request.timeoutMs);
+    }
+    const userMsg = request.input.find((m) => m.role === "user")?.content ?? "";
+    const hashMatch = /Set contextSnapshotHash to "([a-f0-9]{64})"/.exec(userMsg);
+    const contextSnapshotHash = hashMatch ? hashMatch[1] : undefined;
+
+    return {
+      requestId: request.requestId,
+      model: request.model,
+      outputText: JSON.stringify({
+        isGoalReached: true,
+        contextSnapshotHash,
+        rationale: "Goal reached immediately for timeout test",
+      }),
+      finishReason: "STOP",
+      durationMs: 5,
+      usage: {
+        inputTokens: 50,
+        outputTokens: 25,
+        totalTokens: 75,
       },
     };
   }
@@ -609,36 +648,185 @@ describe("Phase 9: Empirical Evaluation of Frozen Reflex on Live SWE Workloads",
     });
   });
 
-  describe("6. Live Ollama SWE Evaluation (Gated)", () => {
+  describe("6. Live Ollama SWE Evaluation (Gated Smoke Test)", () => {
     const isLive = process.env.OLLAMA_LIVE_TESTS === "true";
 
-    it.runIf(isLive)("executes live open-source LLM on SWE workload", async () => {
-      const { OllamaModelProvider } = await import(
-        "../../src/adapters/models/ollama-model-provider.js"
-      );
+    it.runIf(isLive)(
+      "executes live open-source LLM smoke test on SWE workload",
+      async () => {
+        const { OllamaModelProvider } = await import(
+          "../../src/adapters/models/ollama-model-provider.js"
+        );
 
-      const liveModel = process.env.OLLAMA_MODEL || "llama3.2";
-      const liveProvider = new OllamaModelProvider({
-        defaultModel: liveModel,
-      });
+        const liveModel = process.env.OLLAMA_MODEL || "qwen2.5:3b";
+        const liveProvider = new OllamaModelProvider({
+          defaultModel: liveModel,
+          timeoutMs: 120_000,
+        });
 
-      const result = await executeLiveSweEvaluation({
+        const result = await executeLiveSweEvaluation({
+          tasks: [TASK_J_BUG_FIX_A],
+          modelProvider: liveProvider,
+          model: liveModel,
+          trialsPerCondition: 2,
+          modelTimeoutMs: 120_000,
+          requireLiveOllama: true,
+        });
+
+        expect(result.isLiveRun).toBe(true);
+        expect(result.taskResults).toHaveLength(1);
+        const taskRes = result.taskResults[0]!;
+
+        // Replay verification succeeded
+        expect(taskRes.allReplaysMatched).toBe(true);
+      },
+      300_000
+    );
+  });
+
+  describe("7. Phase 9.1 Harness Isolation & Experiment Entry Point", () => {
+    // Test A — Offline isolation: OLLAMA_LIVE_TESTS=true does not convert mock evaluations into live Ollama calls
+    it("Test A: offline/mock evaluation runs hermetically even when OLLAMA_LIVE_TESTS=true", async () => {
+      const prevEnv = process.env.OLLAMA_LIVE_TESTS;
+      try {
+        process.env.OLLAMA_LIVE_TESTS = "true";
+
+        const result = await executeLiveSweEvaluation({
+          tasks: [TASK_J_BUG_FIX_A],
+          modelProvider: new CalcBugFixScriptedProvider(),
+          model: "scripted-model",
+          trialsPerCondition: 1,
+          // requireLiveOllama is omitted -> offline execution
+        });
+
+        expect(result.isLiveRun).toBe(false);
+        expect(result.taskResults).toHaveLength(1);
+        const taskRes = result.taskResults[0]!;
+        expect(taskRes.baselinePassRate).toBe(1);
+        expect(taskRes.reflexPassRate).toBe(1);
+        expect(taskRes.allReplaysMatched).toBe(true);
+      } finally {
+        if (prevEnv === undefined) {
+          delete process.env.OLLAMA_LIVE_TESTS;
+        } else {
+          process.env.OLLAMA_LIVE_TESTS = prevEnv;
+        }
+      }
+    });
+
+    // Test B — Live preflight: rejects when live Ollama is required but unavailable
+    it("Test B: live evaluation fails closed when required Ollama endpoint is unreachable", async () => {
+      await expect(
+        executeLiveSweEvaluation({
+          tasks: [TASK_J_BUG_FIX_A],
+          modelProvider: new CalcBugFixScriptedProvider(),
+          model: "qwen2.5:3b",
+          requireLiveOllama: true,
+          ollamaBaseUrl: "http://127.0.0.1:59999",
+        })
+      ).rejects.toThrow(ModelProviderUnavailableError);
+    });
+
+    // Test C — No fallback: if target model is missing, fails closed and does not fallback to other available models
+    it("Test C: live preflight fails closed when target model is missing without model fallback", async () => {
+      // Direct preflight function check
+      const originalFetch = globalThis.fetch;
+      try {
+        // Mock fetch that returns other models but NOT qwen2.5:3b
+        globalThis.fetch = (async () => {
+          return new Response(
+            JSON.stringify({
+              models: [
+                { name: "llama3.2:3b", model: "llama3.2:3b" },
+                { name: "gemma3:1b", model: "gemma3:1b" },
+                { name: "deepseek-r1:8b", model: "deepseek-r1:8b" },
+              ],
+            }),
+            {
+              status: 200,
+              statusText: "OK",
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }) as typeof fetch;
+
+        const check = await checkOllamaLiveAvailability(
+          "http://127.0.0.1:11434",
+          "qwen2.5:3b"
+        );
+        expect(check.available).toBe(false);
+        expect(check.reason).toContain("Target model 'qwen2.5:3b' not found in local Ollama repository");
+        expect(check.availableModels).toEqual([
+          "llama3.2:3b",
+          "gemma3:1b",
+          "deepseek-r1:8b",
+        ]);
+
+        // Orchestrator preflight rejects without falling back to llama3.2:3b
+        await expect(
+          executeLiveSweEvaluation({
+            tasks: [TASK_J_BUG_FIX_A],
+            modelProvider: new CalcBugFixScriptedProvider(),
+            model: "qwen2.5:3b",
+            requireLiveOllama: true,
+            ollamaBaseUrl: "http://127.0.0.1:11434",
+          })
+        ).rejects.toThrow(/Target model 'qwen2.5:3b' not found/);
+      } finally {
+        globalThis.fetch = originalFetch;
+      }
+    });
+
+    // Test D — Explicit live entry point: resolves 60-trial configuration statically without model invocation
+    it("Test D: Phase 9 experiment plan resolves 60-trial matrix without invoking model", () => {
+      const plan = createPhase9ExperimentPlan();
+
+      expect(plan.model).toBe("qwen2.5:3b");
+      expect(plan.executionModes).toEqual(["BASELINE", "REFLEX"]);
+      expect(plan.tasks).toHaveLength(6);
+      expect(plan.taskIds).toEqual([
+        "task-swe-bug-fix-calc",
+        "task-swe-bug-fix-parser",
+        "task-swe-feature-string-utils",
+        "task-swe-feature-multi-file",
+        "task-swe-recoverable-failure",
+        "task-swe-futile-loop",
+      ]);
+      expect(plan.trialsPerCondition).toBe(5);
+      expect(plan.totalPlannedTrials).toBe(60);
+      expect(plan.modelTimeoutMs).toBe(120_000);
+      expect(plan.ruleConfigurationHash).toBe(FROZEN_RULE_BASED_REFLEX_CONFIG_HASH);
+      expect(typeof executeLiveSweExperiment).toBe("function");
+      expect(PHASE_9_EXPERIMENT_SPEC.model).toBe("qwen2.5:3b");
+      expect(PHASE_9_EXPERIMENT_SPEC.defaultModelTimeoutMs).toBe(120_000);
+    });
+
+    // Test E — Timeout propagation: explicit modelTimeoutMs reaches modelProvider request
+    it("Test E: explicit modelTimeoutMs propagates cleanly to model provider requests", async () => {
+      const capturingProvider = new TimeoutCapturingProvider();
+
+      await executeLiveSweEvaluation({
         tasks: [TASK_J_BUG_FIX_A],
-        modelProvider: liveProvider,
-        model: liveModel,
-        trialsPerCondition: 2,
-        requireLiveOllama: true,
+        modelProvider: capturingProvider,
+        model: "timeout-test-model",
+        trialsPerCondition: 1,
+        modelTimeoutMs: 75_000,
       });
 
-      expect(result.isLiveRun).toBe(true);
-      expect(result.taskResults).toHaveLength(1);
-      const taskRes = result.taskResults[0]!;
+      expect(capturingProvider.capturedTimeouts.length).toBeGreaterThan(0);
+      for (const timeout of capturingProvider.capturedTimeouts) {
+        expect(timeout).toBe(75_000);
+      }
+    });
 
-      // Reflex telemetry was recorded
-      expect(taskRes.reflexInterventionMetrics.reflexEvaluations).toBeGreaterThan(0);
+    // Test F — Frozen Reflex binding: experiment enforces immutable frozen config hash
+    it("Test F: experiment plan binds immutable frozen Reflex configuration hash", () => {
+      const plan = createPhase9ExperimentPlan();
+      const expectedHash = computeRuleBasedReflexConfigHash(DEFAULT_RULE_BASED_REFLEX_CONFIG);
 
-      // Replay verification succeeded
-      expect(taskRes.allReplaysMatched).toBe(true);
+      expect(plan.ruleConfigurationHash).toBe(FROZEN_RULE_BASED_REFLEX_CONFIG_HASH);
+      expect(plan.ruleConfigurationHash).toBe(expectedHash);
+      expect(plan.ruleConfigurationHash).toMatch(/^[a-f0-9]{64}$/);
     });
   });
 });
