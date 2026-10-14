@@ -1294,3 +1294,82 @@ The replay facility (`replayReflexEvidence`) verifies historical Reflex decision
 ### 33.4 Runtime & Evaluation Retention
 - **Step Controller Retention**: `AgentStepController` attaches `reflexEvidence` to `StepTranscriptEntry` during `REFLEX` execution, while leaving it strictly `undefined` for `BASELINE` (`NoopReflex`).
 - **Evaluation Trial Binding**: `EvaluationRunner` collects `reflexEvidence` into `EvaluationRunResult` and binds it to `EvaluationTrial.reflexEvidence`, referencing `evidenceId` in `evidenceReferences`.
+
+---
+
+## 34. Reflex Adversarial Reliability & Invariant Evaluation
+
+Phase 8.5 establishes the adversarial reliability and invariant evaluation boundary for Emerald Reflex. The goal is not to enhance heuristic decision-making or adaptivity, but to systematically subject the Reflex interceptor, rule engine, and evidence replay infrastructure to hostile, malformed, stale, ambiguous, and execution-uncertain runtime states.
+
+```text
+Hostile Model / Adversarial Input
+             │
+             ▼
+     ProposalValidator (Schema, Authority, Bounds)
+             │
+      validated proposal
+             ▼
+     ┌────────────────────────────────────────────────────────┐
+     │                      Reflex Layer                      │
+     │  • Fail-Closed Context Validation                      │
+     │  • Deterministic Precedence: Loop > Redundant > Budget │
+     │  • Authority Monotonicity Assertion                    │
+     │  • Cryptographic Tamper-Evident Evidence Logging       │
+     └───────────────────────────┬────────────────────────────┘
+                                 │
+                   ReflexDecision (ALLOW | REJECT | DEFER)
+                                 │
+                                 ▼
+                     PolicyEvaluator (Final Gate)
+                                 │
+                                 ▼
+                       ToolExecutionGateway
+                                 │
+                                 ▼
+                         ExecutionProvider
+```
+
+### 34.1 Adversarial Evaluation Boundary & Threat Classes
+The adversarial evaluation suite (`src/application/evaluation/reflex-adversarial-fixtures.ts`, `tests/application/reflex-adversarial-reliability.test.ts`) verifies that Reflex remains resilient across 14 discrete threat vectors:
+1. **Authority Injection**: Untrusted proposals or decisions attempting to inject capabilities, contract identifiers, worker/lease tokens, or isolation levels.
+2. **Capability Expansion**: Proposals or decisions attempting to elevate read-only capabilities to write or process execution.
+3. **Resource Ceiling Expansion**: Proposals or decisions attempting to inflate wall-clock timeouts or attempt ceilings.
+4. **Workspace Boundary Expansion**: Untrusted context or decisions attempting to alter mount points or escape sandbox paths.
+5. **Provider Substitution**: Attempts to switch execution providers (e.g., from in-process to containerized or vice versa) via Reflex.
+6. **Contract Substitution**: Attempts to swap the bound `MissionContract` specification or version.
+7. **Credential Injection**: Context snapshots or proposals containing sensitive keywords (`secret`, `password`, `token`, `apiKey`).
+8. **Stale Evidence Verification**: Replaying evidence referencing outdated context hashes or modified states.
+9. **Configuration Tampering**: Replaying evidence against mismatched evaluator rule configurations or thresholds.
+10. **Malformed Context Handling**: Unvalidated or out-of-spec context structures failing closed immediately.
+11. **UNKNOWN Outcome Reinterpretation**: Preserving epistemic integrity by treating `UNKNOWN` as non-success and retaining failure loop streaks.
+12. **Unauthorized Tool Execution**: Proving that downstream `PolicyEvaluator` and `ToolExecutionGateway` block unauthorized actions even if Reflex recommends `ALLOW`.
+13. **Replay Side-Effect Freedom**: Verifying that offline evidence replay generates zero model, tool, database, or container side effects.
+14. **Baseline Isolation Non-Interference**: Verifying that `BASELINE` trials never execute Reflex or fabricate Reflex evidence.
+
+### 34.2 Authority Monotonicity Invariant
+Reflex is strictly a control recommendation layer and possesses zero authorization authority:
+$$\text{EffectiveAuthorityAfterReflex} \subseteq \text{EffectiveAuthorityBeforeReflex}$$
+The system strictly rejects any decision containing authority-bearing keys (`capability`, `capabilities`, `contractId`, `contractVersion`, `contractBinding`, `workerId`, `leaseId`, `credentials`, `resourceLimits`, `isolationLevel`) via `assertReflexAuthorityInvariant`.
+
+### 34.3 Epistemic Safety for UNKNOWN Execution Outcomes
+When an action attempt terminates in an `UNKNOWN` state (due to worker timeout, crash, or transient infrastructure disruption):
+- `RuleBasedReflex` classifies `UNKNOWN` as a failure alongside `FAILED` and `TIMED_OUT` when evaluating `reflex.failure-loop.v1`.
+- `UNKNOWN` is never reclassified as `SUCCESS` and never resets the consecutive failure counter.
+- Reflex cannot trigger automatic retries on `UNKNOWN` attempts without authoritative state reconciliation.
+
+### 34.4 Replay Tamper Detection & Cryptographic Integrity
+Replay (`replayReflexEvidence`) operates in pure offline memory:
+- Evidence objects whose payload has been tampered with fail cryptographic SHA-256 identity verification (`INVALID_EVIDENCE`).
+- Inconsistent context snapshots yield `MISMATCH_CONTEXT`.
+- Modified thresholds or rule settings yield `MISMATCH_CONFIGURATION`.
+- Decisions and reasons recomputed from identical inputs match bit-for-bit (`MATCH`).
+
+### 34.5 Baseline Non-Interference
+In `BASELINE` execution mode (`NoopReflex`):
+- Reflex telemetry fields (`reflexEvaluations`, `reflexAllows`, `reflexRejects`, `reflexDefers`, `ruleTriggerCounts`) remain strictly `undefined`.
+- Step transcripts and evaluation trials record zero Reflex evidence records.
+- Absence of Reflex intervention is mathematically preserved as `undefined`, never synthetic zeroes.
+
+### 34.6 Limitations
+- **Evaluation-Only Scope**: This phase evaluates the safety and determinism of the existing Reflex implementation; it does not tune rule thresholds or introduce adaptive learning.
+- **Syntactic Heuristics**: Deterministic heuristics rely on canonical hashing of action inputs and context snapshots rather than semantic natural language understanding.
