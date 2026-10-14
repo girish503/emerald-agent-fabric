@@ -111,6 +111,7 @@ export interface StepTranscriptEntry {
   readonly contextObservationsCount: number;
   readonly proposalId?: string;
   readonly toolName?: ToolName;
+  readonly inputHash?: string;
   readonly rationale?: string;
   readonly finishReason?: BrainFinishReason;
   readonly proposalValid: boolean;
@@ -570,10 +571,14 @@ export class AgentStepController {
         failureCount: consecutiveFailures,
         recentActionHistory: transcript
           .filter((t) => t.toolName)
-          .slice(-5)
+          .slice(-10)
           .map((t) => ({
             toolName: t.toolName!,
             status: t.actionStatus ?? "UNKNOWN",
+            sequenceNumber: t.stepNumber,
+            inputHash: t.inputHash,
+            contextHash: t.contextHash,
+            failureReason: t.actionError ? String(t.actionError) : undefined,
           })),
         workspacePath: params.workspace?.hostPath,
         resourceUsage: {
@@ -769,6 +774,7 @@ export class AgentStepController {
           contextObservationsCount: contextSnapshot.observations.length,
           proposalId: validationResult.proposal.proposalId,
           toolName: validationResult.proposal.toolName,
+          inputHash: action.inputHash,
           rationale: validationResult.proposal.rationale,
           finishReason: brainResult.finishReason,
           proposalValid: true,

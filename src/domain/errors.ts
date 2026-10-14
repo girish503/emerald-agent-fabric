@@ -844,3 +844,11 @@ export class ReflexExecutionDeferredError extends DomainError {
     super(message);
   }
 }
+
+export class InvalidRuleConfigError extends DomainError {
+  readonly code = "INVALID_RULE_CONFIG";
+
+  constructor(message: string) {
+    super(message);
+  }
+}

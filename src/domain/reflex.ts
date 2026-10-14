@@ -24,6 +24,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import {
   canonicalJsonStringify,
+  computeCanonicalHash,
   isSensitiveKey,
   redactSensitiveData,
 } from "./canonical-hash.js";
@@ -36,6 +37,7 @@ import {
   InvalidReflexDecisionError,
   InvalidReflexContextError,
   ReflexAuthorityExpansionError,
+  InvalidRuleConfigError,
 } from "./errors.js";
 
 // ============================================================================
@@ -92,10 +94,34 @@ export const MAX_REFLEX_RATIONALE_LENGTH = 1000;
 // 3. ReflexDecision Interface & Zod Schema
 // ============================================================================
 
+export interface ReflexDecisionEvidence {
+  readonly ruleId: string;
+  readonly reasonCode: ReflexReasonCode;
+  readonly observedCount: number;
+  readonly threshold: number;
+  readonly signal?: string;
+  readonly details?: Readonly<Record<string, unknown>>;
+}
+
+export const ReflexDecisionEvidenceSchema = z
+  .object({
+    ruleId: z.string().min(1).max(128),
+    reasonCode: z.enum(REFLEX_REASON_CODES),
+    observedCount: z.number().min(0),
+    threshold: z.number().min(0),
+    signal: z.string().max(256).optional(),
+    details: z.record(z.unknown()).optional(),
+  })
+  .strict();
+
 export interface ReflexDecision {
   readonly decision: ReflexDecisionKind;
   readonly reasonCode: ReflexReasonCode;
   readonly rationale?: string;
+  readonly ruleId?: string;
+  readonly observedCount?: number;
+  readonly threshold?: number;
+  readonly evidence?: ReflexDecisionEvidence;
 }
 
 export const ReflexDecisionSchema = z
@@ -109,11 +135,15 @@ export const ReflexDecisionSchema = z
         `rationale exceeds maximum length of ${MAX_REFLEX_RATIONALE_LENGTH}`
       )
       .optional(),
+    ruleId: z.string().min(1).max(128).optional(),
+    observedCount: z.number().min(0).optional(),
+    threshold: z.number().min(0).optional(),
+    evidence: ReflexDecisionEvidenceSchema.optional(),
   })
   .strict()
   .superRefine((val, ctx) => {
-    // Firewall: Reflex must never return authority-bearing fields
-    const forbiddenKeys = findForbiddenAuthorityKeys(val);
+    // Firewall: Reflex must never return authority-bearing fields (excluding Reflex's own decision evidence)
+    const forbiddenKeys = findForbiddenAuthorityKeys(val).filter((k) => k !== "evidence");
     if (forbiddenKeys.length > 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -132,12 +162,16 @@ export interface ReflexActionHistoryItem {
   readonly toolName: ToolName;
   readonly status: string;
   readonly sequenceNumber?: number;
+  readonly inputHash?: string;
+  readonly contextHash?: string;
+  readonly failureReason?: string;
 }
 
 export interface ReflexResourceUsage {
   readonly elapsedWallClockMs?: number;
   readonly actionsExecuted?: number;
   readonly stepsExecuted?: number;
+  readonly modelCallsExecuted?: number;
 }
 
 export interface ReflexContext {
@@ -158,6 +192,9 @@ export const ReflexActionHistoryItemSchema = z
     toolName: z.enum(TOOL_NAMES),
     status: z.string().max(64),
     sequenceNumber: z.number().int().positive().optional(),
+    inputHash: z.string().regex(/^[a-f0-9]{64}$/i, "inputHash must be a 64-character hexadecimal SHA-256 hash").optional(),
+    contextHash: z.string().regex(/^[a-f0-9]{64}$/i, "contextHash must be a 64-character hexadecimal SHA-256 hash").optional(),
+    failureReason: z.string().max(512).optional(),
   })
   .strict();
 
@@ -166,6 +203,7 @@ export const ReflexResourceUsageSchema = z
     elapsedWallClockMs: z.number().min(0).optional(),
     actionsExecuted: z.number().int().min(0).optional(),
     stepsExecuted: z.number().int().min(0).optional(),
+    modelCallsExecuted: z.number().int().min(0).optional(),
   })
   .strict();
 
@@ -291,7 +329,7 @@ export function assertReflexAuthorityInvariant(
     throw new InvalidReflexDecisionError("Reflex decision must be an object");
   }
 
-  const forbiddenKeys = findForbiddenAuthorityKeys(decision);
+  const forbiddenKeys = findForbiddenAuthorityKeys(decision).filter((k) => k !== "evidence");
   if (forbiddenKeys.length > 0) {
     throw new ReflexAuthorityExpansionError(
       `Reflex attempted to expand authority by injecting forbidden keys: [${forbiddenKeys.join(
@@ -321,5 +359,178 @@ export function assertReflexAuthorityInvariant(
       );
     }
   }
+}
 
+// ============================================================================
+// 8. Deterministic Rule-Based Reflex Configuration & Canonical Hash
+// ============================================================================
+
+export const REFLEX_RULE_IDS = [
+  "reflex.failure-loop.v1",
+  "reflex.redundant-action.v1",
+  "reflex.budget-pressure.v1",
+] as const;
+
+export type ReflexRuleId = (typeof REFLEX_RULE_IDS)[number];
+
+export function isValidReflexRuleId(ruleId: unknown): ruleId is ReflexRuleId {
+  return (
+    typeof ruleId === "string" &&
+    (REFLEX_RULE_IDS as readonly string[]).includes(ruleId)
+  );
+}
+
+export interface FailureLoopRuleConfig {
+  readonly enabled: boolean;
+  readonly maxRepeatedFailures: number;
+  readonly decisionOnTrigger?: "REJECT" | "DEFER";
+}
+
+export const FailureLoopRuleConfigSchema = z
+  .object({
+    enabled: z.boolean(),
+    maxRepeatedFailures: z
+      .number()
+      .int("maxRepeatedFailures must be an integer")
+      .min(1, "maxRepeatedFailures must be at least 1")
+      .max(100, "maxRepeatedFailures cannot exceed 100"),
+    decisionOnTrigger: z.enum(["REJECT", "DEFER"]).default("REJECT"),
+  })
+  .strict();
+
+export interface RedundantActionRuleConfig {
+  readonly enabled: boolean;
+  readonly maxRepeatedActions: number;
+  readonly decisionOnTrigger?: "REJECT" | "DEFER";
+}
+
+export const RedundantActionRuleConfigSchema = z
+  .object({
+    enabled: z.boolean(),
+    maxRepeatedActions: z
+      .number()
+      .int("maxRepeatedActions must be an integer")
+      .min(1, "maxRepeatedActions must be at least 1")
+      .max(100, "maxRepeatedActions cannot exceed 100"),
+    decisionOnTrigger: z.enum(["REJECT", "DEFER"]).default("REJECT"),
+  })
+  .strict();
+
+export interface BudgetPressureRuleConfig {
+  readonly enabled: boolean;
+  readonly pressureThreshold: number;
+  readonly maxSteps?: number;
+  readonly maxActions?: number;
+  readonly maxWallClockMs?: number;
+  readonly maxModelCalls?: number;
+  readonly decisionOnTrigger?: "DEFER" | "REJECT";
+}
+
+export const BudgetPressureRuleConfigSchema = z
+  .object({
+    enabled: z.boolean(),
+    pressureThreshold: z
+      .number()
+      .positive("pressureThreshold must be greater than 0")
+      .max(1.0, "pressureThreshold cannot exceed 1.0"),
+    maxSteps: z.number().int().min(1).max(1000).optional(),
+    maxActions: z.number().int().min(1).max(1000).optional(),
+    maxWallClockMs: z.number().int().min(100).max(3600000).optional(),
+    maxModelCalls: z.number().int().min(1).max(1000).optional(),
+    decisionOnTrigger: z.enum(["DEFER", "REJECT"]).default("DEFER"),
+  })
+  .strict();
+
+export interface RuleBasedReflexConfig {
+  readonly failureLoop: FailureLoopRuleConfig;
+  readonly redundantAction: RedundantActionRuleConfig;
+  readonly budgetPressure: BudgetPressureRuleConfig;
+}
+
+export const RuleBasedReflexConfigSchema = z
+  .object({
+    failureLoop: FailureLoopRuleConfigSchema,
+    redundantAction: RedundantActionRuleConfigSchema,
+    budgetPressure: BudgetPressureRuleConfigSchema,
+  })
+  .strict();
+
+export const DEFAULT_RULE_BASED_REFLEX_CONFIG: RuleBasedReflexConfig = Object.freeze({
+  failureLoop: Object.freeze({
+    enabled: true,
+    maxRepeatedFailures: 3,
+    decisionOnTrigger: "REJECT",
+  }),
+  redundantAction: Object.freeze({
+    enabled: true,
+    maxRepeatedActions: 3,
+    decisionOnTrigger: "REJECT",
+  }),
+  budgetPressure: Object.freeze({
+    enabled: true,
+    pressureThreshold: 0.8,
+    decisionOnTrigger: "DEFER",
+  }),
+});
+
+/**
+ * Validates that an unknown input strictly conforms to the RuleBasedReflexConfig contract.
+ * Throws InvalidRuleConfigError on violation. Never silently clamps invalid values.
+ */
+export function validateRuleBasedReflexConfig(config: unknown): RuleBasedReflexConfig {
+  const result = RuleBasedReflexConfigSchema.safeParse(config);
+  if (!result.success) {
+    const errorDetails = result.error.errors
+      .map((e) => `${e.path.join(".")}: ${e.message}`)
+      .join("; ");
+    throw new InvalidRuleConfigError(`RuleBasedReflexConfig validation failed: ${errorDetails}`);
+  }
+  return Object.freeze({
+    failureLoop: Object.freeze({ ...result.data.failureLoop }),
+    redundantAction: Object.freeze({ ...result.data.redundantAction }),
+    budgetPressure: Object.freeze({ ...result.data.budgetPressure }),
+  });
+}
+
+/**
+ * Computes a deterministic canonical SHA-256 fingerprint for a RuleBasedReflexConfig.
+ *
+ * Covers: rule IDs, thresholds, rule versions, and enabled/disabled state.
+ * Excludes: timestamps, worker IDs, lease IDs, runtime handles, credentials.
+ *
+ * Guaranteed to be key-order invariant and deterministic.
+ */
+export function computeRuleBasedReflexConfigHash(config: RuleBasedReflexConfig): string {
+  const validated = validateRuleBasedReflexConfig(config);
+  const canonicalConfig = {
+    rules: [
+      {
+        decisionOnTrigger: validated.budgetPressure.decisionOnTrigger ?? "DEFER",
+        enabled: validated.budgetPressure.enabled,
+        maxActions: validated.budgetPressure.maxActions ?? null,
+        maxModelCalls: validated.budgetPressure.maxModelCalls ?? null,
+        maxSteps: validated.budgetPressure.maxSteps ?? null,
+        maxWallClockMs: validated.budgetPressure.maxWallClockMs ?? null,
+        pressureThreshold: validated.budgetPressure.pressureThreshold,
+        ruleId: "reflex.budget-pressure.v1",
+        version: 1,
+      },
+      {
+        decisionOnTrigger: validated.failureLoop.decisionOnTrigger ?? "REJECT",
+        enabled: validated.failureLoop.enabled,
+        maxRepeatedFailures: validated.failureLoop.maxRepeatedFailures,
+        ruleId: "reflex.failure-loop.v1",
+        version: 1,
+      },
+      {
+        decisionOnTrigger: validated.redundantAction.decisionOnTrigger ?? "REJECT",
+        enabled: validated.redundantAction.enabled,
+        maxRepeatedActions: validated.redundantAction.maxRepeatedActions,
+        ruleId: "reflex.redundant-action.v1",
+        version: 1,
+      },
+    ].sort((a, b) => a.ruleId.localeCompare(b.ruleId)),
+  };
+
+  return computeCanonicalHash(canonicalConfig).contentHash;
 }

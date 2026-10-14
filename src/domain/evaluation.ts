@@ -2461,11 +2461,17 @@ export function compareExperimentConditions(
 // 26. Reflex Evaluation Condition Boundary & Controlled Comparison
 // ============================================================================
 
-export function assertExecutionModeSupported(mode: EvaluationExecutionMode): void {
+export function assertExecutionModeSupported(
+  mode: EvaluationExecutionMode,
+  options?: { readonly reflexConfigured?: boolean }
+): void {
   if (mode === "REFLEX") {
-    throw new ReflexNotImplementedError(
-      "Evaluation execution mode 'REFLEX' is reserved for the future adaptive Reflex control layer and is not yet implemented (REFLEX_NOT_IMPLEMENTED). Preflight execution rejected."
-    );
+    if (!options?.reflexConfigured) {
+      throw new ReflexNotImplementedError(
+        "Evaluation execution mode 'REFLEX' is reserved for the future adaptive Reflex control layer and is not yet implemented (REFLEX_NOT_IMPLEMENTED). Preflight execution rejected."
+      );
+    }
+    return;
   }
   if (mode !== "BASELINE") {
     throw new Error(`Unsupported evaluation execution mode: '${mode}'`);

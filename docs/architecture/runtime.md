@@ -1076,3 +1076,73 @@ A deterministic no-op implementation serves as the default adapter:
 - Validates context immutability without altering proposals or state.
 - Invokes zero model providers, tools, or containers.
 - Guarantees zero synthetic optimization or metrics manipulation in baseline trials.
+
+---
+
+## 31. Deterministic Rule-Based Reflex Heuristics (Task 8.2)
+
+Section 31 establishes the deterministic, rule-based Reflex adapter (`RuleBasedReflex`) providing explainable failure prevention and resource protection without machine learning or statistical opacity:
+
+```text
+               AgentBrain
+                   │
+                   ▼
+            ActionProposal (UNTRUSTED)
+                   │
+                   ▼
+           ProposalValidator (11-Stage Pipeline)
+                   │
+               validated
+                   ▼
+       ┌────────────────────────┐
+       │   RuleBasedReflex      │
+       │   1. Failure Loop      │
+       │   2. Redundant Action  │
+       │   3. Budget Pressure   │
+       │   4. Default ALLOW     │
+       └───────────┬────────────┘
+                   │
+            ReflexDecision (ALLOW | REJECT | DEFER)
+                   │
+                   ▼
+           PolicyEvaluator (MissionContract)
+                   │
+                   ▼
+         ToolExecutionGateway
+                   │
+                   ▼
+          Workspace / Sandbox
+```
+
+### 31.1 Deterministic Rule Architecture & Precedence
+`RuleBasedReflex` evaluates an untrusted validated `ActionProposal` against three deterministic safety heuristics in strict sequential precedence:
+
+1. **Failure Loop Detection (`reflex.failure-loop.v1`)**:
+   - Triggers when an identical tool invocation (matching `toolName` and canonical SHA-256 `inputHash`) has failed $\ge \text{failureThreshold}$ (default 3) consecutive times in recent history without intervening success or mutating state change.
+   - Rejects the proposal with `FAILURE_LOOP_DETECTED` and attaches evidence containing streak count and threshold.
+2. **Redundant Action Detection (`reflex.redundant-action.v1`)**:
+   - Triggers when an identical tool invocation has already executed $\ge \text{redundancyThreshold}$ (default 2) times under the same context without any intervening mutating actions or context changes.
+   - Rejects the proposal with `REDUNDANT_ACTION`.
+   - Intervening mutating actions (`write_file`, `run_command` with `SUCCEEDED`) or context hash modifications indicate environment evolution and reset redundancy counters.
+3. **Budget Pressure Detection (`reflex.budget-pressure.v1`)**:
+   - Triggers when step count, action count, wall-clock time, or model calls exceed a configured threshold ratio (default 0.90 / 90% of budget limit).
+   - At warning threshold ($\ge 90\%$): Non-mutating actions (`read_file`, `git_status`, `git_diff`) are rejected with `BUDGET_EXHAUSTED` to protect remaining budget for goal achievement.
+   - At hard ceiling ($\ge 100\%$): All actions are deferred with `DEFER` and reason code `RESOURCE_LIMIT_EXCEEDED`, terminating execution cleanly.
+4. **Default Action**:
+   - If no rule fires or rules are disabled, the adapter returns `ALLOW` with reason code `NO_INTERVENTION`.
+
+### 31.2 State Awareness & Unverified Outcomes
+- **Canonical Action Identity**: Input payloads are hashed using deterministic canonical JSON serialization (`computeCanonicalHash(proposal.inputPayload).contentHash`).
+- **Fail-Closed Unknowns**: Unverified execution outcomes (`UNKNOWN`) are preserved as non-success and never reset failure streaks or redundancy tracking.
+- **Intervening State Changes**: Successful mutating actions (`write_file`, `run_command`) and context hash changes reset streak tracking, ensuring valid read-after-write cycles are never falsely rejected as redundant.
+
+### 31.3 Monotonic Authority Invariant
+Formally preserved:
+$$\text{EffectiveAuthorityAfterReflex} \subseteq \text{EffectiveAuthorityBeforeReflex}$$
+`RuleBasedReflex` only constrains or defers execution. It never confers capability grants, credentials, worker/lease identifiers, or resource limit overrides.
+
+### 31.4 In-Memory Determinism & Zero External Dependencies
+- Sub-millisecond offline execution ($< 0.5\text{ ms}$).
+- Zero LLM calls or external model provider dependencies.
+- Zero network I/O, child processes, or container execution.
+- Zero database mutations or filesystem modifications.

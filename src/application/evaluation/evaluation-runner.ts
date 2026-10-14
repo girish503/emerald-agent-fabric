@@ -68,6 +68,9 @@ import {
   ModelProviderResponse,
 } from "../../ports/model-provider.port.js";
 import { SettableClock } from "../../ports/clock.port.js";
+import type { ReflexPort } from "../../ports/reflex.port.js";
+import type { RuleBasedReflexConfig } from "../../domain/reflex.js";
+import { RuleBasedReflex } from "../../adapters/reflex/rule-based-reflex.js";
 
 // ============================================================================
 // 1. Runner Options
@@ -83,6 +86,8 @@ export interface ExecuteEvaluationRunOptions {
   readonly abortSignal?: AbortSignal;
   readonly executionMode?: EvaluationExecutionMode;
   readonly condition?: EvaluationExperimentCondition;
+  readonly reflex?: ReflexPort;
+  readonly ruleBasedReflexConfig?: RuleBasedReflexConfig;
 }
 
 export interface ExecuteEvaluationTrialOptions {
@@ -96,6 +101,8 @@ export interface ExecuteEvaluationTrialOptions {
   readonly abortSignal?: AbortSignal;
   readonly executionMode?: EvaluationExecutionMode;
   readonly condition?: EvaluationExperimentCondition;
+  readonly reflex?: ReflexPort;
+  readonly ruleBasedReflexConfig?: RuleBasedReflexConfig;
 }
 
 // ============================================================================
@@ -156,7 +163,8 @@ export async function executeEvaluationRun(
     throw new Error(`Invalid evaluation execution mode: '${executionMode}'`);
   }
 
-  assertExecutionModeSupported(executionMode);
+  const reflexConfigured = Boolean(options.reflex || options.ruleBasedReflexConfig);
+  assertExecutionModeSupported(executionMode, { reflexConfigured });
 
   // 1. Validate task specification
   const validatedTask = validateEvaluationTask(options.task);
@@ -197,12 +205,18 @@ export async function executeEvaluationRun(
     model: options.model,
   });
 
+  let effectiveReflex: ReflexPort | undefined = options.reflex;
+  if (!effectiveReflex && executionMode === "REFLEX" && options.ruleBasedReflexConfig) {
+    effectiveReflex = new RuleBasedReflex(options.ruleBasedReflexConfig);
+  }
+
   const stepController = new AgentStepController({
     coordinator,
     stateStore: store,
     workerRuntime,
     agentBrain: liveBrain,
     clock,
+    reflex: effectiveReflex,
   });
 
   let wsHandle: any;
@@ -454,6 +468,8 @@ export async function executeEvaluationTrial(
     abortSignal: options.abortSignal,
     executionMode: options.executionMode,
     condition: options.condition,
+    reflex: options.reflex,
+    ruleBasedReflexConfig: options.ruleBasedReflexConfig,
   });
 
   return createEvaluationTrialFromRunResult(runResult, options.trialOrdinal, {
