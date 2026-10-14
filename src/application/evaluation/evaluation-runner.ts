@@ -26,6 +26,7 @@
  * 5. Strict Metric Semantics: Preserves observed zeros vs undefined token metrics without fabrication.
  */
 
+import * as child_process from "node:child_process";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -326,6 +327,35 @@ export async function executeEvaluationRun(
           return fs.existsSync(resolved);
         } catch {
           return false;
+        }
+      },
+      async executeCommand(argv: readonly string[]): Promise<{ exitCode: number; stdout: string; stderr: string }> {
+        try {
+          if (!argv || argv.length === 0) {
+            return { exitCode: 1, stdout: "", stderr: "Empty command argv" };
+          }
+          const wsDir = await workspaceAdapter.resolvePath(wsHandle.workspaceId, ".");
+          const cmd = argv[0] === "node" ? process.execPath : argv[0]!;
+          const args = argv.slice(1);
+          const result = child_process.spawnSync(cmd, args, {
+            cwd: wsDir,
+            timeout: 15000,
+            maxBuffer: 1024 * 1024,
+            shell: false,
+            windowsHide: true,
+            encoding: "utf8",
+          });
+          return {
+            exitCode: result.status ?? (result.error ? 1 : 0),
+            stdout: result.stdout ?? "",
+            stderr: (result.stderr ?? "") + (result.error ? `\n${result.error.message}` : ""),
+          };
+        } catch (err: unknown) {
+          return {
+            exitCode: 1,
+            stdout: "",
+            stderr: err instanceof Error ? err.message : String(err),
+          };
         }
       },
     };

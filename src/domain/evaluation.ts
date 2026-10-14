@@ -2727,12 +2727,18 @@ export function isTaskInterventionFree(taskId: string): boolean | undefined {
     "task-baseline-reflex-long-sequence",
     "task-baseline-reflex-intermittent-failure",
     "task-baseline-reflex-near-threshold",
+    "task-swe-bug-fix-calc",
+    "task-swe-bug-fix-parser",
+    "task-swe-feature-string-utils",
+    "task-swe-feature-multi-file",
+    "task-swe-recoverable-failure",
   ]);
   const intendedInterventionTasks = new Set([
     "task-baseline-reflex-failure-loop",
     "task-baseline-reflex-redundant-action",
     "task-baseline-reflex-budget-pressure",
     "task-baseline-reflex-mixed-workload",
+    "task-swe-futile-loop",
   ]);
 
   if (interventionFreeTasks.has(taskId)) return true;
