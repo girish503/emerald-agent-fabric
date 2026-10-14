@@ -69,7 +69,10 @@ import {
 } from "../../ports/model-provider.port.js";
 import { SettableClock } from "../../ports/clock.port.js";
 import type { ReflexPort } from "../../ports/reflex.port.js";
-import type { RuleBasedReflexConfig } from "../../domain/reflex.js";
+import {
+  type RuleBasedReflexConfig,
+  computeRuleBasedReflexConfigHash,
+} from "../../domain/reflex.js";
 import { RuleBasedReflex } from "../../adapters/reflex/rule-based-reflex.js";
 
 // ============================================================================
@@ -360,7 +363,8 @@ export async function executeEvaluationRun(
       stepResult.terminalReason === "CONTRACT_REVOKED" ||
       stepResult.terminalReason === "LEASE_LOST" ||
       stepResult.terminalReason === "MAX_PROPOSAL_REJECTIONS" ||
-      stepResult.terminalReason === "UNKNOWN_EXECUTION"
+      stepResult.terminalReason === "UNKNOWN_EXECUTION" ||
+      stepResult.terminalReason === "DEFERRED"
     ) {
       status = "BLOCKED";
       statusMessage = `Evaluation blocked by governance fencing: ${stepResult.terminalReason} (${stepResult.terminalMessage})`;
@@ -381,6 +385,44 @@ export async function executeEvaluationRun(
       0
     );
 
+    let reflexEvaluations: number | undefined = undefined;
+    let reflexAllows: number | undefined = undefined;
+    let reflexRejects: number | undefined = undefined;
+    let reflexDefers: number | undefined = undefined;
+    let failureLoopTriggers: number | undefined = undefined;
+    let redundantActionTriggers: number | undefined = undefined;
+    let budgetPressureTriggers: number | undefined = undefined;
+
+    if (executionMode === "REFLEX") {
+      reflexEvaluations = 0;
+      reflexAllows = 0;
+      reflexRejects = 0;
+      reflexDefers = 0;
+      failureLoopTriggers = 0;
+      redundantActionTriggers = 0;
+      budgetPressureTriggers = 0;
+
+      for (const entry of stepResult.transcript) {
+        if (entry.reflexDecision !== undefined) {
+          reflexEvaluations++;
+          if (entry.reflexDecision === "ALLOW") {
+            reflexAllows++;
+          } else if (entry.reflexDecision === "REJECT") {
+            reflexRejects++;
+          } else if (entry.reflexDecision === "DEFER") {
+            reflexDefers++;
+          }
+        }
+        if (entry.reflexReasonCode === "REPEATED_FAILURE") {
+          failureLoopTriggers++;
+        } else if (entry.reflexReasonCode === "REDUNDANT_ACTION") {
+          redundantActionTriggers++;
+        } else if (entry.reflexReasonCode === "RESOURCE_PRESSURE") {
+          budgetPressureTriggers++;
+        }
+      }
+    }
+
     const metrics: EvaluationMetrics = createEvaluationMetrics({
       steps: stepResult.totalSteps,
       actions: stepResult.totalActions,
@@ -396,7 +438,23 @@ export async function executeEvaluationRun(
       inputTokens: trackingProvider.promptTokens,
       outputTokens: trackingProvider.outputTokens,
       totalTokens: trackingProvider.totalTokens,
+      reflexEvaluations,
+      reflexAllows,
+      reflexRejects,
+      reflexDefers,
+      failureLoopTriggers,
+      redundantActionTriggers,
+      budgetPressureTriggers,
     });
+
+    let ruleConfigurationHash: string | undefined = undefined;
+    if (executionMode === "REFLEX") {
+      if (options.condition?.ruleConfigurationHash) {
+        ruleConfigurationHash = options.condition.ruleConfigurationHash;
+      } else if (options.ruleBasedReflexConfig) {
+        ruleConfigurationHash = computeRuleBasedReflexConfigHash(options.ruleBasedReflexConfig);
+      }
+    }
 
     const completedAt = new Date().toISOString();
 
@@ -409,6 +467,7 @@ export async function executeEvaluationRun(
       configFingerprint,
       trialNumber,
       executionMode,
+      ruleConfigurationHash,
       runId: run.runId,
       status,
       statusMessage,
@@ -474,6 +533,7 @@ export async function executeEvaluationTrial(
 
   return createEvaluationTrialFromRunResult(runResult, options.trialOrdinal, {
     trialId: options.trialId,
+    ruleConfigurationHash: runResult.ruleConfigurationHash,
     errorDetails:
       runResult.status === "ERROR" || runResult.status === "BLOCKED"
         ? runResult.statusMessage

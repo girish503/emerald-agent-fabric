@@ -1038,7 +1038,10 @@ export function analyzeExperiment(params: {
     }
 
     const matchesAnyCondition = params.experiment.conditions.some(
-      (c) => c.configFingerprint.fingerprintHash === t.configFingerprint.fingerprintHash
+      (c) =>
+        c.configFingerprint.fingerprintHash === t.configFingerprint.fingerprintHash &&
+        (c.executionMode ?? "BASELINE") === (t.executionMode ?? "BASELINE") &&
+        c.ruleConfigurationHash === t.ruleConfigurationHash
     );
     if (!matchesAnyCondition) {
       throw new Error(`Trial '${t.trialId}' configuration fingerprint does not match any condition in experiment '${params.experiment.experimentId}'`);
@@ -1047,10 +1050,16 @@ export function analyzeExperiment(params: {
 
   // Filter trials for baseline and candidate
   const baseTrials = params.trials.filter(
-    (t) => t.configFingerprint.fingerprintHash === baseCond.configFingerprint.fingerprintHash
+    (t) =>
+      t.configFingerprint.fingerprintHash === baseCond.configFingerprint.fingerprintHash &&
+      (t.executionMode ?? "BASELINE") === (baseCond.executionMode ?? "BASELINE") &&
+      t.ruleConfigurationHash === baseCond.ruleConfigurationHash
   );
   const candTrials = params.trials.filter(
-    (t) => t.configFingerprint.fingerprintHash === candCond.configFingerprint.fingerprintHash
+    (t) =>
+      t.configFingerprint.fingerprintHash === candCond.configFingerprint.fingerprintHash &&
+      (t.executionMode ?? "BASELINE") === (candCond.executionMode ?? "BASELINE") &&
+      t.ruleConfigurationHash === candCond.ruleConfigurationHash
   );
 
   if (params.metric === "objectivePassRate") {

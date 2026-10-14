@@ -577,7 +577,6 @@ export class AgentStepController {
             status: t.actionStatus ?? "UNKNOWN",
             sequenceNumber: t.stepNumber,
             inputHash: t.inputHash,
-            contextHash: t.contextHash,
             failureReason: t.actionError ? String(t.actionError) : undefined,
           })),
         workspacePath: params.workspace?.hostPath,

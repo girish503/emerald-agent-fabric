@@ -516,6 +516,13 @@ export interface EvaluationMetrics {
   readonly inputTokens?: number;
   readonly outputTokens?: number;
   readonly totalTokens?: number;
+  readonly reflexEvaluations?: number;
+  readonly reflexAllows?: number;
+  readonly reflexRejects?: number;
+  readonly reflexDefers?: number;
+  readonly failureLoopTriggers?: number;
+  readonly redundantActionTriggers?: number;
+  readonly budgetPressureTriggers?: number;
 }
 
 export const EvaluationMetricsSchema = z
@@ -534,6 +541,13 @@ export const EvaluationMetricsSchema = z
     inputTokens: z.number().int().nonnegative().optional(),
     outputTokens: z.number().int().nonnegative().optional(),
     totalTokens: z.number().int().nonnegative().optional(),
+    reflexEvaluations: z.number().int().nonnegative().optional(),
+    reflexAllows: z.number().int().nonnegative().optional(),
+    reflexRejects: z.number().int().nonnegative().optional(),
+    reflexDefers: z.number().int().nonnegative().optional(),
+    failureLoopTriggers: z.number().int().nonnegative().optional(),
+    redundantActionTriggers: z.number().int().nonnegative().optional(),
+    budgetPressureTriggers: z.number().int().nonnegative().optional(),
   })
   .strict();
 
@@ -554,6 +568,13 @@ export function createEvaluationMetrics(params: EvaluationMetrics): EvaluationMe
     inputTokens: parsed.inputTokens !== undefined ? parsed.inputTokens : undefined,
     outputTokens: parsed.outputTokens !== undefined ? parsed.outputTokens : undefined,
     totalTokens: parsed.totalTokens !== undefined ? parsed.totalTokens : undefined,
+    reflexEvaluations: parsed.reflexEvaluations !== undefined ? parsed.reflexEvaluations : undefined,
+    reflexAllows: parsed.reflexAllows !== undefined ? parsed.reflexAllows : undefined,
+    reflexRejects: parsed.reflexRejects !== undefined ? parsed.reflexRejects : undefined,
+    reflexDefers: parsed.reflexDefers !== undefined ? parsed.reflexDefers : undefined,
+    failureLoopTriggers: parsed.failureLoopTriggers !== undefined ? parsed.failureLoopTriggers : undefined,
+    redundantActionTriggers: parsed.redundantActionTriggers !== undefined ? parsed.redundantActionTriggers : undefined,
+    budgetPressureTriggers: parsed.budgetPressureTriggers !== undefined ? parsed.budgetPressureTriggers : undefined,
   });
 }
 
@@ -569,6 +590,7 @@ export interface EvaluationRunResult {
   readonly configFingerprint: EvaluationConfigFingerprint;
   readonly trialNumber: number;
   readonly executionMode?: EvaluationExecutionMode;
+  readonly ruleConfigurationHash?: string;
   readonly runId: string;
   readonly status: EvaluationStatus;
   readonly statusMessage: string;
@@ -772,6 +794,7 @@ export interface EvaluationTrial {
   readonly metrics: EvaluationMetrics;
   readonly evidenceReferences: readonly string[];
   readonly executionMode?: EvaluationExecutionMode;
+  readonly ruleConfigurationHash?: string;
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
@@ -784,6 +807,8 @@ export interface EvaluationTrialIdentityParams {
   readonly configFingerprintHash?: string;
   readonly configFingerprint?: { readonly fingerprintHash: string };
   readonly trialOrdinal: number;
+  readonly executionMode?: EvaluationExecutionMode;
+  readonly ruleConfigurationHash?: string;
 }
 
 export function computeEvaluationTrialIdentityHash(params: EvaluationTrialIdentityParams): string {
@@ -792,13 +817,19 @@ export function computeEvaluationTrialIdentityHash(params: EvaluationTrialIdenti
   if (!configFingerprintHash) {
     throw new Error("Missing configFingerprintHash or configFingerprint for trial identity hash calculation");
   }
-  const canonicalPayload = {
+  const canonicalPayload: Record<string, unknown> = {
     configFingerprintHash,
     taskId: params.taskId,
     taskContentHash: params.taskContentHash,
     taskVersion: params.taskVersion,
     trialOrdinal: params.trialOrdinal,
   };
+  if (params.executionMode && params.executionMode !== "BASELINE") {
+    canonicalPayload.executionMode = params.executionMode;
+  }
+  if (params.ruleConfigurationHash !== undefined) {
+    canonicalPayload.ruleConfigurationHash = params.ruleConfigurationHash;
+  }
   return computeCanonicalHash(canonicalPayload).contentHash;
 }
 
@@ -835,6 +866,10 @@ export const EvaluationTrialSchema = z
     metrics: EvaluationMetricsSchema,
     evidenceReferences: z.array(z.string()),
     executionMode: z.enum(EVALUATION_EXECUTION_MODES).optional(),
+    ruleConfigurationHash: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/, "ruleConfigurationHash must be a 64-char hex string")
+      .optional(),
     errorDetails: z.string().optional(),
     startedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "startedAt must be a valid ISO 8601 timestamp"),
     completedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "completedAt must be a valid ISO 8601 timestamp"),
@@ -856,6 +891,8 @@ export const EvaluationTrialSchema = z
       taskContentHash: val.taskContentHash,
       configFingerprintHash: val.configFingerprint.fingerprintHash,
       trialOrdinal: val.trialOrdinal,
+      executionMode: val.executionMode,
+      ruleConfigurationHash: val.ruleConfigurationHash,
     });
     if (val.trialIdentityHash !== expectedTrialIdentityHash) {
       ctx.addIssue({
@@ -914,6 +951,7 @@ export function validateEvaluationTrial(def: unknown): EvaluationTrial {
     metrics: createEvaluationMetrics(data.metrics),
     evidenceReferences: Object.freeze([...data.evidenceReferences]),
     executionMode: data.executionMode,
+    ruleConfigurationHash: data.ruleConfigurationHash,
     errorDetails: data.errorDetails,
     startedAt: data.startedAt,
     completedAt: data.completedAt,
@@ -937,6 +975,7 @@ export interface CreateEvaluationTrialParams {
   readonly metrics: EvaluationMetrics;
   readonly evidenceReferences?: readonly string[];
   readonly executionMode?: EvaluationExecutionMode;
+  readonly ruleConfigurationHash?: string;
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
@@ -960,6 +999,8 @@ export function createEvaluationTrial(params: CreateEvaluationTrialParams): Eval
     taskContentHash: params.taskContentHash,
     configFingerprintHash: params.configFingerprint?.fingerprintHash,
     trialOrdinal: params.trialOrdinal,
+    executionMode: params.executionMode,
+    ruleConfigurationHash: params.ruleConfigurationHash,
   });
 
   const trialIdentityHash = params.trialIdentityHash ?? expectedTrialIdentityHash;
@@ -986,6 +1027,7 @@ export function createEvaluationTrial(params: CreateEvaluationTrialParams): Eval
     metrics: params.metrics,
     evidenceReferences: params.evidenceReferences ?? [],
     executionMode: params.executionMode ?? "BASELINE",
+    ruleConfigurationHash: params.ruleConfigurationHash,
     errorDetails: params.errorDetails,
     startedAt: params.startedAt,
     completedAt: params.completedAt,
@@ -999,6 +1041,7 @@ export function createEvaluationTrialFromRunResult(
   trialOrdinal: number,
   options?: {
     trialId?: string;
+    ruleConfigurationHash?: string;
     errorDetails?: string;
   }
 ): EvaluationTrial {
@@ -1013,12 +1056,15 @@ export function createEvaluationTrialFromRunResult(
     );
   }
 
+  const ruleConfigurationHash = runResult.ruleConfigurationHash ?? options?.ruleConfigurationHash;
   const trialIdentityHash = computeEvaluationTrialIdentityHash({
     taskId: runResult.taskId,
     taskVersion: runResult.taskVersion,
     taskContentHash: runResult.taskContentHash,
     configFingerprintHash: runResult.configFingerprint.fingerprintHash,
     trialOrdinal,
+    executionMode: runResult.executionMode,
+    ruleConfigurationHash,
   });
 
   const trialId =
@@ -1042,6 +1088,7 @@ export function createEvaluationTrialFromRunResult(
     metrics: runResult.metrics,
     evidenceReferences: runResult.evidenceReferences,
     executionMode: runResult.executionMode ?? "BASELINE",
+    ruleConfigurationHash,
     errorDetails:
       options?.errorDetails ??
       (runResult.status === "ERROR" || runResult.status === "BLOCKED"
@@ -1193,6 +1240,7 @@ export interface EvaluationExperimentCondition {
   readonly name: string;
   readonly description?: string;
   readonly executionMode: EvaluationExecutionMode;
+  readonly ruleConfigurationHash?: string;
   readonly configFingerprint: EvaluationConfigFingerprint;
   readonly conditionHash: string;
 }
@@ -1201,15 +1249,19 @@ export interface ComputeConditionHashParams {
   readonly conditionId: string;
   readonly configFingerprintHash: string;
   readonly executionMode?: EvaluationExecutionMode;
+  readonly ruleConfigurationHash?: string;
 }
 
 export function computeConditionHash(params: ComputeConditionHashParams): string {
   const executionMode = params.executionMode ?? "BASELINE";
-  const canonicalPayload = {
+  const canonicalPayload: Record<string, unknown> = {
     conditionId: params.conditionId,
     configFingerprintHash: params.configFingerprintHash,
     executionMode,
   };
+  if (params.ruleConfigurationHash !== undefined) {
+    canonicalPayload.ruleConfigurationHash = params.ruleConfigurationHash;
+  }
   return computeCanonicalHash(canonicalPayload).contentHash;
 }
 
@@ -1226,6 +1278,10 @@ export const EvaluationExperimentConditionSchema = z
       .max(256, "condition name cannot exceed 256 characters"),
     description: z.string().max(4096, "condition description cannot exceed 4096 characters").optional(),
     executionMode: z.enum(EVALUATION_EXECUTION_MODES).default("BASELINE"),
+    ruleConfigurationHash: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/, "ruleConfigurationHash must be a 64-char hex string")
+      .optional(),
     configFingerprint: EvaluationConfigFingerprintSchema,
     conditionHash: z.string().regex(/^[a-f0-9]{64}$/, "conditionHash must be a 64-char hex string"),
   })
@@ -1236,6 +1292,7 @@ export const EvaluationExperimentConditionSchema = z
       conditionId: val.conditionId,
       configFingerprintHash: val.configFingerprint.fingerprintHash,
       executionMode: val.executionMode,
+      ruleConfigurationHash: val.ruleConfigurationHash,
     });
     if (val.conditionHash !== expectedHash) {
       ctx.addIssue({
@@ -1286,6 +1343,7 @@ export function validateExperimentCondition(def: unknown): EvaluationExperimentC
     name: result.data.name,
     description: result.data.description,
     executionMode: result.data.executionMode,
+    ruleConfigurationHash: result.data.ruleConfigurationHash,
     configFingerprint: Object.freeze({ ...result.data.configFingerprint }),
     conditionHash: result.data.conditionHash,
   });
@@ -1296,6 +1354,7 @@ export interface CreateExperimentConditionParams {
   readonly name: string;
   readonly description?: string;
   readonly executionMode?: EvaluationExecutionMode;
+  readonly ruleConfigurationHash?: string;
   readonly configFingerprint: EvaluationConfigFingerprint;
   readonly conditionHash?: string;
 }
@@ -1310,6 +1369,7 @@ export function createExperimentCondition(
       conditionId: params.conditionId,
       configFingerprintHash: params.configFingerprint?.fingerprintHash,
       executionMode,
+      ruleConfigurationHash: params.ruleConfigurationHash,
     });
 
   const raw = {
@@ -1317,6 +1377,7 @@ export function createExperimentCondition(
     name: params.name,
     description: params.description,
     executionMode,
+    ruleConfigurationHash: params.ruleConfigurationHash,
     configFingerprint: params.configFingerprint,
     conditionHash,
   };
@@ -1604,7 +1665,9 @@ export function isTrialCompatibleWithCondition(
     trial.taskId === experiment.taskRef.taskId &&
     trial.taskVersion === experiment.taskRef.taskVersion &&
     trial.taskContentHash === experiment.taskRef.taskContentHash &&
-    trial.configFingerprint.fingerprintHash === condition.configFingerprint.fingerprintHash
+    trial.configFingerprint.fingerprintHash === condition.configFingerprint.fingerprintHash &&
+    (condition.executionMode ?? "BASELINE") === (trial.executionMode ?? "BASELINE") &&
+    condition.ruleConfigurationHash === trial.ruleConfigurationHash
   );
 }
 
@@ -1641,6 +1704,18 @@ export function assertTrialCompatibleWithCondition(
   if (trial.configFingerprint.fingerprintHash !== condition.configFingerprint.fingerprintHash) {
     throw new Error(
       `Trial configuration fingerprint mismatch for condition '${conditionId}': condition requires '${condition.configFingerprint.fingerprintHash}', received '${trial.configFingerprint.fingerprintHash}'`
+    );
+  }
+
+  if ((condition.executionMode ?? "BASELINE") !== (trial.executionMode ?? "BASELINE")) {
+    throw new Error(
+      `Trial execution mode mismatch for condition '${conditionId}': condition requires '${condition.executionMode}', received '${trial.executionMode ?? "BASELINE"}'`
+    );
+  }
+
+  if (condition.ruleConfigurationHash !== trial.ruleConfigurationHash) {
+    throw new Error(
+      `Trial rule configuration hash mismatch for condition '${conditionId}': condition requires '${condition.ruleConfigurationHash}', received '${trial.ruleConfigurationHash}'`
     );
   }
 }
@@ -1705,6 +1780,13 @@ export const EVALUATION_METRIC_KEYS = [
   "inputTokens",
   "outputTokens",
   "totalTokens",
+  "reflexEvaluations",
+  "reflexAllows",
+  "reflexRejects",
+  "reflexDefers",
+  "failureLoopTriggers",
+  "redundantActionTriggers",
+  "budgetPressureTriggers",
 ] as const;
 
 export type EvaluationMetricKey = (typeof EVALUATION_METRIC_KEYS)[number];
@@ -2195,11 +2277,14 @@ export function generateEvaluationReport(
     }
 
     const matchingCondition = experiment.conditions.find(
-      (c) => c.configFingerprint.fingerprintHash === trial.configFingerprint.fingerprintHash
+      (c) =>
+        c.configFingerprint.fingerprintHash === trial.configFingerprint.fingerprintHash &&
+        (c.executionMode ?? "BASELINE") === (trial.executionMode ?? "BASELINE") &&
+        c.ruleConfigurationHash === trial.ruleConfigurationHash
     );
     if (!matchingCondition) {
       throw new Error(
-        `Trial '${trial.trialId}' with fingerprint '${trial.configFingerprint.fingerprintHash}' does not match any condition in experiment '${experiment.experimentId}'`
+        `Trial '${trial.trialId}' with fingerprint '${trial.configFingerprint.fingerprintHash}' (mode: ${trial.executionMode ?? "BASELINE"}, ruleHash: ${trial.ruleConfigurationHash}) does not match any condition in experiment '${experiment.experimentId}'`
       );
     }
 
