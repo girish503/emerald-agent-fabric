@@ -27,6 +27,7 @@ import { sanitizeWorkspacePath } from "./workspace-path.js";
 import { FORBIDDEN_AUTHORITY_KEYS } from "./action-proposal.js";
 import { VerificationSpec } from "./verification.js";
 import { ReflexNotImplementedError } from "./errors.js";
+import { type ReflexEvidence, ReflexEvidenceSchema } from "./reflex-evidence.js";
 
 // ============================================================================
 // 1. Constants & Limits
@@ -599,6 +600,7 @@ export interface EvaluationRunResult {
   readonly criteriaResults: readonly EvaluationCriterionResult[];
   readonly metrics: EvaluationMetrics;
   readonly evidenceReferences: readonly string[];
+  readonly reflexEvidence?: readonly ReflexEvidence[];
   readonly startedAt: string;
   readonly completedAt: string;
 }
@@ -795,6 +797,7 @@ export interface EvaluationTrial {
   readonly evidenceReferences: readonly string[];
   readonly executionMode?: EvaluationExecutionMode;
   readonly ruleConfigurationHash?: string;
+  readonly reflexEvidence?: readonly ReflexEvidence[];
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
@@ -870,6 +873,7 @@ export const EvaluationTrialSchema = z
       .string()
       .regex(/^[a-f0-9]{64}$/, "ruleConfigurationHash must be a 64-char hex string")
       .optional(),
+    reflexEvidence: z.array(ReflexEvidenceSchema).optional(),
     errorDetails: z.string().optional(),
     startedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "startedAt must be a valid ISO 8601 timestamp"),
     completedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "completedAt must be a valid ISO 8601 timestamp"),
@@ -952,6 +956,9 @@ export function validateEvaluationTrial(def: unknown): EvaluationTrial {
     evidenceReferences: Object.freeze([...data.evidenceReferences]),
     executionMode: data.executionMode,
     ruleConfigurationHash: data.ruleConfigurationHash,
+    reflexEvidence: data.reflexEvidence
+      ? (Object.freeze([...data.reflexEvidence]) as readonly ReflexEvidence[])
+      : undefined,
     errorDetails: data.errorDetails,
     startedAt: data.startedAt,
     completedAt: data.completedAt,
@@ -976,6 +983,7 @@ export interface CreateEvaluationTrialParams {
   readonly evidenceReferences?: readonly string[];
   readonly executionMode?: EvaluationExecutionMode;
   readonly ruleConfigurationHash?: string;
+  readonly reflexEvidence?: readonly ReflexEvidence[];
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
@@ -1028,6 +1036,7 @@ export function createEvaluationTrial(params: CreateEvaluationTrialParams): Eval
     evidenceReferences: params.evidenceReferences ?? [],
     executionMode: params.executionMode ?? "BASELINE",
     ruleConfigurationHash: params.ruleConfigurationHash,
+    reflexEvidence: params.reflexEvidence,
     errorDetails: params.errorDetails,
     startedAt: params.startedAt,
     completedAt: params.completedAt,
@@ -1089,6 +1098,7 @@ export function createEvaluationTrialFromRunResult(
     evidenceReferences: runResult.evidenceReferences,
     executionMode: runResult.executionMode ?? "BASELINE",
     ruleConfigurationHash,
+    reflexEvidence: runResult.reflexEvidence,
     errorDetails:
       options?.errorDetails ??
       (runResult.status === "ERROR" || runResult.status === "BLOCKED"

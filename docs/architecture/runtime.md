@@ -1213,3 +1213,84 @@ The evaluation harness establishes four frozen, deterministic evaluation tasks (
 - **Monotonic Authority Reduction**: Reflex interventions operate strictly within the `ALLOW | REJECT | DEFER` taxonomy; Reflex never expands authority, confers capabilities, or injects credentials.
 - **Fail-Closed Policy**: Unvalidated decisions or rule errors fail closed via proposal rejection or safe deferral.
 
+---
+
+## 33. Reflex Evidence and Replay Instrumentation
+
+```text
+ActionProposal + ReflexContext + RuleConfiguration
+                      │
+                      ▼
+              RuleBasedReflex
+                      │
+                      ▼
+           ReflexDecision (ALLOW | REJECT | DEFER)
+                      │
+                      ▼
+         createReflexEvidence(...)
+                      │
+                      ▼
+               ReflexEvidence
+         • 64 KB Payload Ceiling
+         • Secret & Authority Firewall
+         • Cryptographic Identity Hash (SHA-256)
+         • Observational Only (Zero Authority)
+                      │
+                      ├──────────────────────────┐
+                      ▼                          ▼
+            StepTranscriptEntry          EvaluationTrial
+          (Attached in REFLEX mode,      (Stored in Trial
+          undefined in BASELINE)           Record)
+                      │                          │
+                      └──────────┬───────────────┘
+                                 │
+                                 ▼
+                    replayReflexEvidence(...)
+            • Pure Offline Replay
+            • ZERO Model Calls
+            • ZERO Tool Execution
+            • ZERO Database / Container Mutation
+            • Status: MATCH | MISMATCH_* | INVALID_EVIDENCE
+```
+
+### 33.1 Reflex Evidence Contract
+Every proposal evaluation by Reflex produces an immutable, tamper-evident observational record (`src/domain/reflex-evidence.ts`):
+- `evidenceId`: Deterministic prefixed identifier (`rfe-<runId>-<sequence>-<proposalPrefix>`).
+- `schemaVersion`: Numeric contract version (`REFLEX_EVIDENCE_SCHEMA_VERSION = 1`).
+- `runId` & `sequenceNumber`: Strict execution ordering within the governed run.
+- `proposalId`, `toolName`, `actionInputHash`: Canonical proposal identity and payload hash.
+- `contextSnapshotHash`: Context snapshot hash from proposal.
+- `reflexImplementation` & `reflexImplementationVersion`: Implementation provenance.
+- `ruleConfigurationHash`: SHA-256 fingerprint of the active rule configuration.
+- `reflexContextHash`: SHA-256 fingerprint of the observational context.
+- `decision` & `reasonCode`: The resulting Reflex verdict (`ALLOW | REJECT | DEFER`) and classification.
+- `triggeredRuleId`, `observedSignal`, `thresholdUsed`, `observedCount`: Quantitative rationale behind the decision.
+- `precedenceIndex`: Deterministic evaluation priority order (1: failure-loop, 2: redundant-action, 3: budget-pressure, 4: default allow, 0: other).
+- `replayInput`: Complete frozen input payload (`proposal`, `context`, `ruleConfig`).
+- `evidenceIdentityHash`: Cryptographic SHA-256 digest computed via canonical JSON serialization.
+- `evaluatedAt`: ISO 8601 execution timestamp.
+
+### 33.2 Pure Offline Deterministic Replay
+The replay facility (`replayReflexEvidence`) verifies historical Reflex decisions without requiring runtime execution:
+1. **Zero External Dependencies**: Guarantees zero model provider calls, zero tool executions, zero filesystem mutations, zero database writes, and zero container operations.
+2. **Context & Configuration Fencing**: Recomputes `reflexContextHash` and compares active evaluator configuration hash before evaluation.
+3. **Structured Verdicts**:
+   - `MATCH`: Recomputed decision, reason code, and triggered rule match the recorded evidence bit-for-bit.
+   - `MISMATCH_DECISION`: Recomputed decision differs from recorded decision.
+   - `MISMATCH_REASON`: Recomputed reason code differs.
+   - `MISMATCH_RULE`: Recomputed triggered rule differs.
+   - `MISMATCH_CONFIGURATION`: Evaluator configuration does not match evidence `ruleConfigurationHash`.
+   - `MISMATCH_CONTEXT`: Recomputed context hash does not match evidence `reflexContextHash`.
+   - `INVALID_EVIDENCE`: Evidence schema validation or cryptographic identity hash verification fails.
+
+### 33.3 Security, Credential, and Authority Firewalls
+- **64 KB Payload Ceiling**: Total serialized canonical evidence is hard-bounded (`MAX_REFLEX_EVIDENCE_BYTES = 65536`).
+- **Secret Firewall**: Rejects any proposal or context containing sensitive keywords (`isSensitiveKey`: `secret`, `password`, `token`, `apiKey`, etc.).
+- **Authority Firewall**: Strictly rejects forbidden authority fields (`findForbiddenAuthorityKeys`: `workerId`, `leaseId`, `contractBinding`, `capabilities`, `isolationLevel`, etc.).
+- **Monotonic Authority Invariant**: Evidence is purely observational and confers zero execution authority:
+  $$\text{EffectiveAuthorityAfterReflex} \subseteq \text{EffectiveAuthorityBeforeReflex}$$
+- **Epistemic Integrity**: `UNKNOWN` execution states in context history remain `UNKNOWN` and are never rewritten.
+
+### 33.4 Runtime & Evaluation Retention
+- **Step Controller Retention**: `AgentStepController` attaches `reflexEvidence` to `StepTranscriptEntry` during `REFLEX` execution, while leaving it strictly `undefined` for `BASELINE` (`NoopReflex`).
+- **Evaluation Trial Binding**: `EvaluationRunner` collects `reflexEvidence` into `EvaluationRunResult` and binds it to `EvaluationTrial.reflexEvidence`, referencing `evidenceId` in `evidenceReferences`.

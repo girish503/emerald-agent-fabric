@@ -61,6 +61,7 @@ import {
   EvaluationExecutionMode,
   isValidEvaluationExecutionMode,
   EvaluationExperimentCondition,
+  ReflexEvidence,
 } from "../../domain/index.js";
 import {
   ModelProviderPort,
@@ -403,21 +404,24 @@ export async function executeEvaluationRun(
       budgetPressureTriggers = 0;
 
       for (const entry of stepResult.transcript) {
-        if (entry.reflexDecision !== undefined) {
+        const decision = entry.reflexEvidence ? entry.reflexEvidence.decision : entry.reflexDecision;
+        const reasonCode = entry.reflexEvidence ? entry.reflexEvidence.reasonCode : entry.reflexReasonCode;
+
+        if (decision !== undefined) {
           reflexEvaluations++;
-          if (entry.reflexDecision === "ALLOW") {
+          if (decision === "ALLOW") {
             reflexAllows++;
-          } else if (entry.reflexDecision === "REJECT") {
+          } else if (decision === "REJECT") {
             reflexRejects++;
-          } else if (entry.reflexDecision === "DEFER") {
+          } else if (decision === "DEFER") {
             reflexDefers++;
           }
         }
-        if (entry.reflexReasonCode === "REPEATED_FAILURE") {
+        if (reasonCode === "REPEATED_FAILURE") {
           failureLoopTriggers++;
-        } else if (entry.reflexReasonCode === "REDUNDANT_ACTION") {
+        } else if (reasonCode === "REDUNDANT_ACTION") {
           redundantActionTriggers++;
-        } else if (entry.reflexReasonCode === "RESOURCE_PRESSURE") {
+        } else if (reasonCode === "RESOURCE_PRESSURE") {
           budgetPressureTriggers++;
         }
       }
@@ -456,6 +460,18 @@ export async function executeEvaluationRun(
       }
     }
 
+    const capturedReflexEvidence: ReflexEvidence[] = [];
+    const evidenceReferencesList: string[] = [];
+    for (const entry of stepResult.transcript) {
+      if (typeof entry.actionId === "string") {
+        evidenceReferencesList.push(entry.actionId);
+      }
+      if (entry.reflexEvidence) {
+        capturedReflexEvidence.push(entry.reflexEvidence);
+        evidenceReferencesList.push(entry.reflexEvidence.evidenceId);
+      }
+    }
+
     const completedAt = new Date().toISOString();
 
     // 12. Build Final Structured Result
@@ -475,11 +491,8 @@ export async function executeEvaluationRun(
       agentClaimedGoal,
       criteriaResults,
       metrics,
-      evidenceReferences: Object.freeze(
-        stepResult.transcript
-          .map((e) => e.actionId)
-          .filter((id): id is string => typeof id === "string")
-      ),
+      evidenceReferences: Object.freeze(evidenceReferencesList),
+      reflexEvidence: capturedReflexEvidence.length > 0 ? Object.freeze(capturedReflexEvidence) : undefined,
       startedAt,
       completedAt,
     });
