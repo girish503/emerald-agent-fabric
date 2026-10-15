@@ -330,6 +330,7 @@ class MixedWorkloadProvider implements ModelProviderPort {
       };
     } else if (step === 1) {
       payload = {
+        isGoalReached: false,
         toolName: "read_file",
         inputPayload: { path: "dataset.txt" },
         contextSnapshotHash,
@@ -337,6 +338,7 @@ class MixedWorkloadProvider implements ModelProviderPort {
       };
     } else if (step === 2) {
       payload = {
+        isGoalReached: false,
         toolName: "write_file",
         inputPayload: { path: "temp.txt", content: "intermediate" },
         contextSnapshotHash,
@@ -344,6 +346,7 @@ class MixedWorkloadProvider implements ModelProviderPort {
       };
     } else if (step === 3) {
       payload = {
+        isGoalReached: false,
         toolName: "read_file",
         inputPayload: { path: "missing-h.txt" },
         contextSnapshotHash,
@@ -352,6 +355,7 @@ class MixedWorkloadProvider implements ModelProviderPort {
     } else {
       // Step 4 & 5: redundant read of config.txt without state modification
       payload = {
+        isGoalReached: false,
         toolName: "read_file",
         inputPayload: { path: "config.txt" },
         contextSnapshotHash,

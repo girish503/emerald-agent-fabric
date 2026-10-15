@@ -48,7 +48,6 @@ import {
 import {
   assertCredentialBoundary,
   verifyArtifactIntegrity,
-  PersistedTrialEvidence,
 } from "../../src/domain/evaluation-evidence.js";
 import { computeCanonicalHash, sha256Hex } from "../../src/domain/canonical-hash.js";
 import { ActionProposal } from "../../src/domain/action-proposal.js";

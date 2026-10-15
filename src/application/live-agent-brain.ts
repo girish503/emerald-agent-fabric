@@ -85,42 +85,81 @@ export const ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA: ModelStructuredOutputSche
       "Untrusted action proposal or completion signal for Emerald agent reasoning",
     strict: true,
     jsonSchema: Object.freeze({
-      type: "object",
-      properties: {
-        isGoalReached: {
-          type: "boolean",
-          description:
-            "Set to true if the task goal has been completely achieved, false if proposing an action",
-        },
-        proposalId: {
-          type: "string",
-          description: "Unique client-generated proposal identifier",
-        },
-        toolName: {
-          type: "string",
-          description: "Name of the tool to invoke",
-          enum: [...TOOL_NAMES],
-        },
-        inputPayload: {
+      anyOf: [
+        {
           type: "object",
-          description: "Tool input parameters matching the tool schema",
+          description: "Goal-reached completion signal (no tool execution)",
+          properties: {
+            isGoalReached: {
+              type: "boolean",
+              enum: [true],
+              description: "Must be true when task goal is fully achieved",
+            },
+            proposalId: {
+              type: "string",
+              description: "Unique client-generated proposal identifier",
+            },
+            contextSnapshotHash: {
+              type: "string",
+              description:
+                "The exact 64-character hexadecimal SHA-256 contextHash from snapshot",
+            },
+            rationale: {
+              type: "string",
+              description:
+                "Brief rationale explaining how the goal was achieved",
+            },
+          },
+          required: ["isGoalReached", "proposalId", "contextSnapshotHash"],
+          additionalProperties: false,
         },
-        contextSnapshotHash: {
-          type: "string",
-          description:
-            "The exact 64-character hexadecimal SHA-256 contextHash from the snapshot",
+        {
+          type: "object",
+          description: "Tool-action proposal (requests governed tool execution)",
+          properties: {
+            isGoalReached: {
+              type: "boolean",
+              enum: [false],
+              description: "Must be false when proposing a tool action",
+            },
+            proposalId: {
+              type: "string",
+              description: "Unique client-generated proposal identifier",
+            },
+            toolName: {
+              type: "string",
+              description: "Name of the registered tool to invoke",
+              enum: [...TOOL_NAMES],
+            },
+            inputPayload: {
+              type: "object",
+              description: "Tool input parameters matching tool schema",
+            },
+            contextSnapshotHash: {
+              type: "string",
+              description:
+                "The exact 64-character hexadecimal SHA-256 contextHash from snapshot",
+            },
+            rationale: {
+              type: "string",
+              description:
+                "Brief rationale explaining why this action is proposed",
+            },
+            sequenceHint: {
+              type: "integer",
+              description: "Optional sequence hint",
+            },
+          },
+          required: [
+            "isGoalReached",
+            "proposalId",
+            "toolName",
+            "inputPayload",
+            "contextSnapshotHash",
+          ],
+          additionalProperties: false,
         },
-        rationale: {
-          type: "string",
-          description: "Brief rationale explaining why this action is proposed",
-        },
-        sequenceHint: {
-          type: "integer",
-          description: "Optional sequence hint",
-        },
-      },
-      required: ["isGoalReached"],
-      additionalProperties: false,
+      ],
     }),
   });
 
@@ -401,17 +440,7 @@ export class LiveAgentBrain implements AgentBrainPort {
 
     const obj = parsed as Record<string, unknown>;
 
-    // Goal reached detection
-    if (obj.isGoalReached === true || obj.finishReason === "GOAL_REACHED") {
-      return Object.freeze({
-        finishReason: "GOAL_REACHED",
-        proposal: undefined,
-        rawOutput: response.outputText,
-        modelMetadata,
-      });
-    }
-
-    // Payload size ceiling check
+    // 1. Payload size ceiling check (enforced across both branches)
     let serialized: string;
     try {
       serialized = canonicalJsonStringify(obj);
@@ -434,7 +463,7 @@ export class LiveAgentBrain implements AgentBrainPort {
       });
     }
 
-    // Forbidden authority firewall check
+    // 2. Forbidden authority firewall check (enforced across both branches)
     const forbiddenKeys = findForbiddenAuthorityKeys(obj);
     if (forbiddenKeys.length > 0) {
       return Object.freeze({
@@ -446,6 +475,59 @@ export class LiveAgentBrain implements AgentBrainPort {
         )}. Models are strictly prohibited from specifying runtime authority.`,
       });
     }
+
+    // 3. Discriminator check: isGoalReached must be a boolean
+    if (typeof obj.isGoalReached !== "boolean") {
+      return Object.freeze({
+        finishReason: "ERROR",
+        rawOutput: response.outputText,
+        modelMetadata,
+        error:
+          "Model output missing required boolean discriminator 'isGoalReached'",
+      });
+    }
+
+    // 4. Branch 1: Goal-reached proposal (isGoalReached === true)
+    if (obj.isGoalReached === true) {
+      // Cross-branch contamination check: forbidden tool fields on goal-completion proposal
+      if (
+        obj.toolName !== undefined ||
+        obj.inputPayload !== undefined ||
+        obj.input !== undefined
+      ) {
+        return Object.freeze({
+          finishReason: "ERROR",
+          rawOutput: response.outputText,
+          modelMetadata,
+          error:
+            "Goal-reached proposal cannot contain tool action fields (toolName, inputPayload)",
+        });
+      }
+
+      // Rationale length check (if rationale provided)
+      if (obj.rationale !== undefined) {
+        if (
+          typeof obj.rationale !== "string" ||
+          obj.rationale.length > MAX_RATIONALE_LENGTH
+        ) {
+          return Object.freeze({
+            finishReason: "ERROR",
+            rawOutput: response.outputText,
+            modelMetadata,
+            error: `Proposal rationale must be a string <= ${MAX_RATIONALE_LENGTH} characters`,
+          });
+        }
+      }
+
+      return Object.freeze({
+        finishReason: "GOAL_REACHED",
+        proposal: undefined,
+        rawOutput: response.outputText,
+        modelMetadata,
+      });
+    }
+
+    // 5. Branch 2: Tool-action proposal (isGoalReached === false)
 
     // Tool name check
     if (

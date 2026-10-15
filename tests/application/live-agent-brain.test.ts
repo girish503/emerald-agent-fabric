@@ -1165,4 +1165,385 @@ describe("LiveAgentBrain — Provider-Neutral Agent Brain Bridge (Phase 6.2)", (
       }
     });
   });
+
+  // --------------------------------------------------------------------------
+  // 9. Phase 10D Discriminated Union Structured-Output Verification
+  // --------------------------------------------------------------------------
+  describe("9. Phase 10D Discriminated Union Structured-Output Verification", () => {
+    it("43. ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA defines strict anyOf discriminated union", () => {
+      const schema = ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA.jsonSchema as any;
+      expect(schema.anyOf).toBeDefined();
+      expect(Array.isArray(schema.anyOf)).toBe(true);
+      expect(schema.anyOf.length).toBe(2);
+
+      // Branch 1: GoalReachedProposal
+      const goalBranch = schema.anyOf[0];
+      expect(goalBranch.type).toBe("object");
+      expect(goalBranch.properties.isGoalReached.enum).toEqual([true]);
+      expect(goalBranch.required).toEqual([
+        "isGoalReached",
+        "proposalId",
+        "contextSnapshotHash",
+      ]);
+      expect(goalBranch.additionalProperties).toBe(false);
+      expect(goalBranch.properties.toolName).toBeUndefined();
+      expect(goalBranch.properties.inputPayload).toBeUndefined();
+
+      // Branch 2: ToolActionProposal
+      const toolBranch = schema.anyOf[1];
+      expect(toolBranch.type).toBe("object");
+      expect(toolBranch.properties.isGoalReached.enum).toEqual([false]);
+      expect(toolBranch.required).toEqual([
+        "isGoalReached",
+        "proposalId",
+        "toolName",
+        "inputPayload",
+        "contextSnapshotHash",
+      ]);
+      expect(toolBranch.additionalProperties).toBe(false);
+      expect(toolBranch.properties.toolName.enum).toBeDefined();
+    });
+
+    it("44. valid goal-completion proposal returns GOAL_REACHED", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-goal-valid",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: true,
+          proposalId: "prop-goal-1",
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+          rationale: "Task objective has been fully satisfied.",
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("GOAL_REACHED");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toBeUndefined();
+    });
+
+    it("45. valid tool-action proposal returns ACTION_PROPOSED with candidate proposal", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-tool-valid",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: false,
+          proposalId: "prop-tool-1",
+          toolName: "read_file",
+          inputPayload: { path: "src/main.ts" },
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+          rationale: "Inspecting entry point",
+        }),
+        finishReason: "STOP",
+        durationMs: 20,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ACTION_PROPOSED");
+      expect(result.proposal).toBeDefined();
+      const prop = result.proposal as ActionProposal;
+      expect(prop.toolName).toBe("read_file");
+      expect(prop.inputPayload).toEqual({ path: "src/main.ts" });
+    });
+
+    it("46. contaminated goal proposal (isGoalReached: true with toolName) rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-goal-contam-toolname",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: true,
+          proposalId: "prop-goal-contam-1",
+          toolName: "read_file",
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain(
+        "Goal-reached proposal cannot contain tool action fields"
+      );
+    });
+
+    it("47. contaminated goal proposal (isGoalReached: true with inputPayload) rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-goal-contam-payload",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: true,
+          proposalId: "prop-goal-contam-2",
+          inputPayload: { path: "test.txt" },
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain(
+        "Goal-reached proposal cannot contain tool action fields"
+      );
+    });
+
+    it("48. incomplete tool proposal (isGoalReached: false without toolName) rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-tool-missing-name",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: false,
+          proposalId: "prop-tool-incomp-1",
+          inputPayload: { path: "src/index.ts" },
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain("missing or not a registered tool name");
+    });
+
+    it("49. incomplete tool proposal (isGoalReached: false without inputPayload) rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-tool-missing-input",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: false,
+          proposalId: "prop-tool-incomp-2",
+          toolName: "read_file",
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain("Proposal inputPayload must be a non-null object");
+    });
+
+    it("50. authority injection attempt on goal branch rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-goal-auth-injection",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: true,
+          proposalId: "prop-goal-auth-1",
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+          workerId: "attacker-worker",
+          contractId: "unauthorized-contract",
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain("forbidden authority field");
+    });
+
+    it("51. authority injection attempt on tool branch rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-tool-auth-injection",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: false,
+          proposalId: "prop-tool-auth-1",
+          toolName: "read_file",
+          inputPayload: { path: "test.txt" },
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+          capability: "COMMAND_EXECUTION",
+          workspaceRoot: "/root",
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain("forbidden authority field");
+    });
+
+    it("52. oversized payload on goal branch rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-goal-oversized",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: true,
+          proposalId: "prop-goal-huge",
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+          extraPadding: "x".repeat(MAX_PROPOSAL_BYTES + 100),
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain("exceeds maximum limit");
+    });
+
+    it("53. oversized payload on tool branch rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-tool-oversized",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: false,
+          proposalId: "prop-tool-huge",
+          toolName: "read_file",
+          inputPayload: { path: "x".repeat(MAX_PROPOSAL_BYTES + 100) },
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain("exceeds maximum limit");
+    });
+
+    it("54. missing isGoalReached discriminator rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-missing-discrim",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          proposalId: "prop-no-discrim",
+          toolName: "read_file",
+          inputPayload: { path: "src/index.ts" },
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain(
+        "missing required boolean discriminator 'isGoalReached'"
+      );
+    });
+
+    it("55. non-boolean isGoalReached discriminator rejected", async () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      provider.responseToReturn = {
+        requestId: "req-non-bool-discrim",
+        model: "test-model-1",
+        outputText: JSON.stringify({
+          isGoalReached: "true",
+          proposalId: "prop-str-discrim",
+          toolName: "read_file",
+          inputPayload: { path: "src/index.ts" },
+          contextSnapshotHash: brainReq.contextSnapshot.contextHash,
+        }),
+        finishReason: "STOP",
+        durationMs: 15,
+      };
+
+      const result = await brain.proposeAction(brainReq);
+      expect(result.finishReason).toBe("ERROR");
+      expect(result.proposal).toBeUndefined();
+      expect(result.error).toContain(
+        "missing required boolean discriminator 'isGoalReached'"
+      );
+    });
+  });
 });
