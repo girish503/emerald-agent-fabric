@@ -25,3 +25,4 @@ export * from "./reflex.js";
 export * from "./reflex-evidence.js";
 export * from "./evaluation-evidence.js";
 export * from "./counterfactual-replay.js";
+export * from "./tool-projection.js";

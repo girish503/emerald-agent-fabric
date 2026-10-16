@@ -44,6 +44,7 @@ import {
   validateModelProviderResponse,
 } from "../domain/model-provider.js";
 import { TOOL_NAMES, ToolName } from "../domain/tool.js";
+import { formatModelFacingToolCatalog } from "../domain/tool-projection.js";
 import {
   AgentBrainPort,
   AgentBrainRequest,
@@ -232,11 +233,7 @@ export class LiveAgentBrain implements AgentBrainPort {
     sections.push(`- Context Snapshot Hash: ${contextSnapshot.contextHash}`);
 
     sections.push("\n## Available Tools");
-    for (const tool of availableTools) {
-      sections.push(
-        `- ${tool.name} (capability: ${tool.requiredCapability}, idempotency: ${tool.idempotency}): ${tool.description}`
-      );
-    }
+    sections.push(formatModelFacingToolCatalog(availableTools));
 
     sections.push("\n## Context Observations");
     if (contextSnapshot.observations.length === 0) {
