@@ -175,6 +175,7 @@ export interface AgentStepControllerOptions {
   readonly clock?: ClockPort;
   readonly defaultBudget?: Partial<StepControllerBudget>;
   readonly reflex?: ReflexPort;
+  readonly enableGovernedVerificationStage?: boolean;
 }
 
 
@@ -190,6 +191,7 @@ export interface RunStepLoopParams {
   readonly budget?: Partial<StepControllerBudget>;
   readonly contextBudget?: ContextBudget;
   readonly abortSignal?: AbortSignal;
+  readonly enableGovernedVerificationStage?: boolean;
 }
 
 // ============================================================================
@@ -207,6 +209,7 @@ export class AgentStepController {
   private readonly clock: ClockPort;
   private readonly defaultBudget: StepControllerBudget;
   private readonly reflex: ReflexPort;
+  private readonly enableGovernedVerificationStage: boolean;
 
   constructor(options: AgentStepControllerOptions) {
     this.coordinator = options.coordinator;
@@ -216,6 +219,8 @@ export class AgentStepController {
     this.toolRegistry = options.toolRegistry ?? staticToolRegistry;
     this.clock = options.clock ?? new SystemClock();
     this.reflex = options.reflex ?? new NoopReflex();
+    this.enableGovernedVerificationStage =
+      options.enableGovernedVerificationStage ?? false;
 
     this.proposalValidator =
       options.proposalValidator ??
@@ -510,10 +515,53 @@ export class AgentStepController {
         // Authoritative Physical Verification Completion Gate (Phase 13B)
         // MODEL_GOAL_REACHED != RUN_COMPLETED
         // isGoalReached: true is strictly an untrusted model proposal.
-        const verificationEvaluation = this.evaluateCompletionVerification(
+        let verificationEvaluation = this.evaluateCompletionVerification(
           runId,
           contract
         );
+
+        // Phase 13D: Governed Verification Stage Experiment
+        const isVerificationStageEnabled =
+          params.enableGovernedVerificationStage ??
+          this.enableGovernedVerificationStage ??
+          (contract.spec.verificationSpecs ?? []).some(
+            (s) => (s.expectedValue as any)?.governedStage === true
+          );
+
+        if (!verificationEvaluation.verified && isVerificationStageEnabled) {
+          const stageResult = await this.executeGovernedVerificationStage({
+            runId,
+            taskId,
+            contract,
+            workerId,
+            leaseId,
+            workspace: params.workspace,
+            abortSignal: params.abortSignal,
+            effectiveBudget,
+            currentActionCount: actionCount,
+            consecutiveFailures,
+            stepCount,
+            startTime,
+            stepStartTime,
+            stepTimestamp,
+            contextSnapshot,
+            transcript,
+            assembleResult: (reason, message) => assembleResult(reason, message, taskId),
+          });
+
+          actionCount = stageResult.updatedActionCount;
+          consecutiveFailures = stageResult.updatedConsecutiveFailures;
+
+          if (stageResult.terminalResult) {
+            return stageResult.terminalResult;
+          }
+
+          // Re-evaluate verification after executing contract-declared verification stage
+          verificationEvaluation = this.evaluateCompletionVerification(
+            runId,
+            contract
+          );
+        }
 
         if (!verificationEvaluation.verified) {
           proposalRejections++;
@@ -960,6 +1008,326 @@ export class AgentStepController {
         consecutiveFailures = 0;
       }
     }
+  }
+
+  /**
+   * Phase 13D: Governed Verification Stage Execution.
+   *
+   * Executes contract-declared physical verification actions (e.g. git_diff, run_command)
+   * through the authoritative WorkerRuntime -> ToolExecutionGateway -> ExecutionProvider pipeline.
+   *
+   * Invariants:
+   * 1. Governed Execution: Dispatched exclusively through WorkerRuntime.executeAction (zero direct exec/spawn).
+   * 2. Full Visibility: Actions, Attempts, events, and observations are durably recorded in SQLite.
+   * 3. Loop Prevention: Prohibits repetitive verification loops when verification already ran on the current mutation state and failed.
+   * 4. Bounded: Obeys action budget, wall clock budget, and cancellation signals.
+   */
+  private async executeGovernedVerificationStage(params: {
+    readonly runId: string;
+    readonly taskId: string;
+    readonly contract: MissionContract;
+    readonly workerId: string;
+    readonly leaseId: string;
+    readonly workspace?: {
+      readonly workspaceId: string;
+      readonly hostPath: string;
+      readonly containerMountPath?: string;
+    };
+    readonly abortSignal?: AbortSignal;
+    readonly effectiveBudget: StepControllerBudget;
+    readonly currentActionCount: number;
+    readonly consecutiveFailures: number;
+    readonly stepCount: number;
+    readonly startTime: number;
+    readonly stepStartTime: number;
+    readonly stepTimestamp: string;
+    readonly contextSnapshot: ContextSnapshot;
+    readonly transcript: StepTranscriptEntry[];
+    readonly assembleResult: (
+      reason: StepControllerTerminalReason,
+      message: string
+    ) => StepControllerResult;
+  }): Promise<{
+    readonly updatedActionCount: number;
+    readonly updatedConsecutiveFailures: number;
+    readonly terminalResult?: StepControllerResult;
+  }> {
+    let actionCount = params.currentActionCount;
+    let consecutiveFailures = params.consecutiveFailures;
+    const vSpecs = params.contract.spec.verificationSpecs ?? [];
+    if (vSpecs.length === 0) {
+      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
+    }
+
+    const actions = this.stateStore.getActionsForRun(params.runId);
+
+    // 1. Check prerequisite mutation requirement
+    const requiresMutation = vSpecs.some(
+      (s) => (s.expectedValue as Record<string, unknown> | undefined)?.requireMutation
+    );
+
+    let lastWriteActionIndex = -1;
+    for (let i = actions.length - 1; i >= 0; i--) {
+      if (actions[i]!.toolName === "write_file") {
+        const attempts = this.stateStore.getAttemptsForAction(actions[i]!.actionId);
+        if (attempts.some((att) => att.status === "SUCCEEDED")) {
+          lastWriteActionIndex = i;
+          break;
+        }
+      }
+    }
+
+    // If mutation is required but no successful write_file exists, do not execute verification stage
+    if (requiresMutation && lastWriteActionIndex === -1) {
+      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
+    }
+
+    // 2. Prevent verification loops (Section 16):
+    // Check if verification already executed on the current code state and failed
+    const actionsAfterLastWrite = lastWriteActionIndex >= 0 ? actions.slice(lastWriteActionIndex + 1) : actions;
+    const alreadyTestedAfterMutation = actionsAfterLastWrite.some((a) => {
+      if (a.toolName !== "run_command") return false;
+      const attempts = this.stateStore.getAttemptsForAction(a.actionId);
+      const latestAttempt = attempts[attempts.length - 1];
+      if (!latestAttempt) return false;
+      const exitCode =
+        latestAttempt.exitCode !== null && latestAttempt.exitCode !== undefined
+          ? latestAttempt.exitCode
+          : (latestAttempt.outputPayload as any)?.exitCode !== undefined
+          ? (latestAttempt.outputPayload as any).exitCode
+          : null;
+      return exitCode !== null && exitCode !== 0;
+    });
+
+    if (alreadyTestedAfterMutation) {
+      // Verification already ran on this exact mutation state and failed; do not loop without code changes
+      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
+    }
+
+    // 3. Determine verification actions to execute
+    interface VerificationActionTask {
+      readonly toolName: ToolName;
+      readonly inputPayload: unknown;
+    }
+
+    const tasksToExecute: VerificationActionTask[] = [];
+
+    // 3a. Diff requirement
+    const requiresDiff = vSpecs.some(
+      (s) => (s.expectedValue as Record<string, unknown> | undefined)?.requireDiff
+    );
+    if (requiresDiff) {
+      const hasDiffAfterMutation = actionsAfterLastWrite.some((a) => {
+        if (a.toolName !== "git_diff") return false;
+        const attempts = this.stateStore.getAttemptsForAction(a.actionId);
+        return attempts.some((att) => att.status === "SUCCEEDED");
+      });
+      if (!hasDiffAfterMutation) {
+        tasksToExecute.push({
+          toolName: "git_diff",
+          inputPayload: { path: "." },
+        });
+      }
+    }
+
+    // 3b. Test command requirements (EXIT_CODE_ZERO)
+    for (const spec of vSpecs) {
+      if (spec.ruleKind === "EXIT_CODE_ZERO") {
+        const expected = spec.expectedValue as Record<string, unknown> | undefined;
+        const targetTool = ((expected?.toolName as string) ?? "run_command") as ToolName;
+        const targetArgv = Array.isArray(expected?.argv)
+          ? (expected!.argv as readonly string[])
+          : undefined;
+
+        const hasTestAfterMutation = actionsAfterLastWrite.some((a) => {
+          if (a.toolName !== targetTool) return false;
+          if (targetArgv) {
+            const inputArgv = (a.inputPayload as any)?.argv;
+            if (!Array.isArray(inputArgv)) return false;
+            if (inputArgv.length !== targetArgv.length) return false;
+            if (!inputArgv.every((v, idx) => v === targetArgv[idx])) return false;
+          }
+          const attempts = this.stateStore.getAttemptsForAction(a.actionId);
+          const latestAttempt = attempts[attempts.length - 1];
+          if (!latestAttempt) return false;
+          const exitCode =
+            latestAttempt.exitCode !== null && latestAttempt.exitCode !== undefined
+              ? latestAttempt.exitCode
+              : (latestAttempt.outputPayload as any)?.exitCode !== undefined
+              ? (latestAttempt.outputPayload as any).exitCode
+              : null;
+          return exitCode === 0;
+        });
+
+        if (!hasTestAfterMutation) {
+          tasksToExecute.push({
+            toolName: targetTool,
+            inputPayload: {
+              ...(targetArgv ? { argv: targetArgv } : {}),
+              timeoutMs: Math.min(60000, params.contract.spec.resourceLimits.timeoutMs),
+            },
+          });
+        }
+      }
+    }
+
+    // 4. Sequentially execute required verification actions through WorkerRuntime
+    for (const task of tasksToExecute) {
+      // Check cancellation
+      if (params.abortSignal?.aborted) {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "CANCELLED",
+            `Autonomous loop aborted by AbortSignal prior to verification action '${task.toolName}'`
+          ),
+        };
+      }
+
+      // Check wall-clock budget
+      const elapsedMs = this.clock.now().getTime() - params.startTime;
+      if (elapsedMs >= params.effectiveBudget.maxWallClockMs) {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "MAX_WALL_CLOCK",
+            `Wall clock ceiling reached prior to verification action '${task.toolName}' (${elapsedMs}ms >= ${params.effectiveBudget.maxWallClockMs}ms)`
+          ),
+        };
+      }
+
+      // Check action ceiling
+      if (actionCount >= params.effectiveBudget.maxActions) {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "MAX_ACTIONS",
+            `Maximum action execution ceiling reached prior to verification action '${task.toolName}' (${actionCount} >= ${params.effectiveBudget.maxActions})`
+          ),
+        };
+      }
+
+      // Check lease ownership & expiration
+      const preExecRun = this.stateStore.getRun(params.runId);
+      if (!preExecRun || preExecRun.leaseId !== params.leaseId || preExecRun.currentWorkerId !== params.workerId) {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "LEASE_LOST",
+            `Lease lost prior to executing verification action '${task.toolName}'`
+          ),
+        };
+      }
+      if (preExecRun.leaseExpiresAt && this.clock.nowIso() >= preExecRun.leaseExpiresAt) {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "LEASE_LOST",
+            `Lease expired prior to executing verification action '${task.toolName}' (expired at '${preExecRun.leaseExpiresAt}')`
+          ),
+        };
+      }
+
+      // Execute via governed WorkerRuntime pipeline
+      actionCount++;
+      const actionStart = this.clock.now().getTime();
+      const actionTimestamp = this.clock.nowIso();
+
+      const actionResult = await this.workerRuntime.executeAction({
+        runId: params.runId,
+        toolName: task.toolName,
+        inputPayload: task.inputPayload,
+        leaseId: params.leaseId,
+        workspace: params.workspace,
+        timeoutMs: params.contract.spec.resourceLimits.timeoutMs,
+        maxOutputBytes: params.contract.spec.resourceLimits.maxOutputBytes,
+        abortSignal: params.abortSignal,
+      });
+
+      params.transcript.push(
+        Object.freeze({
+          stepNumber: params.stepCount,
+          contextSnapshotId: params.contextSnapshot.snapshotId,
+          contextHash: params.contextSnapshot.contextHash,
+          contextEstimatedTokens: params.contextSnapshot.totalEstimatedTokens,
+          contextBytes: params.contextSnapshot.totalBytes,
+          contextObservationsCount: params.contextSnapshot.observations.length,
+          toolName: task.toolName,
+          inputPayload: task.inputPayload,
+          rationale: "Contract-declared verification stage execution",
+          finishReason: "GOAL_REACHED",
+          proposalValid: true,
+          actionId: actionResult.actionId,
+          actionStatus: actionResult.status,
+          actionOutput: actionResult.output,
+          actionError: actionResult.error,
+          durationMs: this.clock.now().getTime() - actionStart,
+          timestamp: actionTimestamp,
+        })
+      );
+
+      // Outcome checks
+      if (actionResult.status === "UNKNOWN") {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "UNKNOWN_EXECUTION",
+            `Verification action '${actionResult.actionId}' produced UNKNOWN execution outcome: physical side effects are uncertain`
+          ),
+        };
+      }
+
+      if (actionResult.status === "FENCED") {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "LEASE_LOST",
+            `Verification action '${actionResult.actionId}' execution fenced due to lost lease`
+          ),
+        };
+      }
+
+      if (actionResult.status === "CANCELLED") {
+        return {
+          updatedActionCount: actionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          terminalResult: params.assembleResult(
+            "CANCELLED",
+            `Verification action '${actionResult.actionId}' was cancelled during execution`
+          ),
+        };
+      }
+
+      if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
+        consecutiveFailures++;
+        break; // Stop further verification tasks on physical failure
+      }
+
+      // Check if command succeeded at runtime level but test exited non-zero
+      if (task.toolName === "run_command") {
+        const exitCode =
+          (actionResult.output as any)?.exitCode !== undefined
+            ? (actionResult.output as any).exitCode
+            : null;
+        if (exitCode !== 0) {
+          consecutiveFailures++;
+          break; // Test failed, stop executing further verification tasks
+        } else {
+          consecutiveFailures = 0;
+        }
+      } else {
+        consecutiveFailures = 0;
+      }
+    }
+
+    return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
   }
 
   /**
