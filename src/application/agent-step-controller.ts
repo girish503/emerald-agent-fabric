@@ -40,7 +40,9 @@ import {
 import {
   DeterministicVerifier,
   type VerificationResult,
+  type CleanRoomVerificationSpec,
 } from "../domain/verification.js";
+import type { CleanRoomVerifier } from "./clean-room-verifier.js";
 import type { MissionContract } from "../domain/mission-contract.js";
 import {
   computeReflexContextHash,
@@ -176,6 +178,7 @@ export interface AgentStepControllerOptions {
   readonly defaultBudget?: Partial<StepControllerBudget>;
   readonly reflex?: ReflexPort;
   readonly enableGovernedVerificationStage?: boolean;
+  readonly cleanRoomVerifier?: CleanRoomVerifier;
 }
 
 
@@ -210,6 +213,7 @@ export class AgentStepController {
   private readonly defaultBudget: StepControllerBudget;
   private readonly reflex: ReflexPort;
   private readonly enableGovernedVerificationStage: boolean;
+  private readonly cleanRoomVerifier?: CleanRoomVerifier;
 
   constructor(options: AgentStepControllerOptions) {
     this.coordinator = options.coordinator;
@@ -221,6 +225,7 @@ export class AgentStepController {
     this.reflex = options.reflex ?? new NoopReflex();
     this.enableGovernedVerificationStage =
       options.enableGovernedVerificationStage ?? false;
+    this.cleanRoomVerifier = options.cleanRoomVerifier;
 
     this.proposalValidator =
       options.proposalValidator ??
@@ -561,6 +566,45 @@ export class AgentStepController {
             runId,
             contract
           );
+        }
+
+        // Phase 14: Independent Clean-Room Verification
+        const cleanRoomSpecObj = (contract.spec.verificationSpecs ?? []).find(
+          (s) => s.ruleKind === "CLEAN_ROOM_DUAL_GATE"
+        );
+        if (
+          verificationEvaluation.verified &&
+          cleanRoomSpecObj &&
+          this.cleanRoomVerifier &&
+          params.workspace
+        ) {
+          const cleanSpec = cleanRoomSpecObj.expectedValue as CleanRoomVerificationSpec;
+          const cleanRoomOutcome = await this.cleanRoomVerifier.verifyCandidatePatch({
+            runId,
+            taskId,
+            workerId,
+            leaseId,
+            contract,
+            spec: cleanSpec,
+            agentWorkspace: params.workspace,
+            abortSignal: params.abortSignal,
+          });
+
+          if (cleanRoomOutcome.status !== "VERIFIED") {
+            verificationEvaluation = {
+              verified: false,
+              failureReason: `Independent clean-room proof failed: ${cleanRoomOutcome.message}`,
+              specResults: [cleanRoomOutcome.verificationResult],
+              requirementsSummary: {
+                ...(verificationEvaluation.requirementsSummary ?? {}),
+                "clean-room verification": "failed",
+              },
+              outstandingRequirements: [
+                ...(verificationEvaluation.outstandingRequirements ?? []),
+                `clean-room proof: ${cleanRoomOutcome.failureReasonCode ?? "FAILED"}`,
+              ],
+            };
+          }
         }
 
         if (!verificationEvaluation.verified) {
@@ -1516,6 +1560,11 @@ export class AgentStepController {
       }
 
       // 3. Rule Kind Evaluation
+      if (spec.ruleKind === "CLEAN_ROOM_DUAL_GATE") {
+        // Independent clean-room dual-gate is evaluated by CleanRoomVerifier in completion stage
+        continue;
+      }
+
       if (spec.ruleKind === "EXIT_CODE_ZERO") {
         const targetTool = (expected?.toolName as string) ?? "run_command";
         const targetArgv = Array.isArray(expected?.argv)

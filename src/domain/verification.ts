@@ -18,7 +18,89 @@ import { Evidence } from "./evidence.js";
 export type VerificationRuleKind =
   | "EXACT_OUTPUT_MATCH"
   | "OUTPUT_HASH_MATCH"
-  | "EXIT_CODE_ZERO";
+  | "EXIT_CODE_ZERO"
+  | "CLEAN_ROOM_DUAL_GATE";
+
+export interface CleanRoomVerificationSpec {
+  readonly specId: string;
+  readonly baselineCommitSha: string;
+  readonly failToPass: {
+    readonly testCommand: readonly string[];
+    readonly expectedBaselineExitCode: number;
+    readonly expectedPatchedExitCode: 0;
+    readonly minTestCount: number;
+    readonly suiteRanRegex: string;
+  };
+  readonly passToPass: {
+    readonly testCommand: readonly string[];
+    readonly expectedBaselineExitCode: 0;
+    readonly expectedPatchedExitCode: 0;
+    readonly minTestCount: number;
+    readonly suiteRanRegex: string;
+  };
+  readonly allowedPathPatterns: readonly string[];
+  readonly timeoutMs: number;
+}
+
+export type CleanRoomFailureReasonCode =
+  | "BASELINE_DEFECT_NOT_REPRODUCED"
+  | "BASELINE_REGRESSION_PREEXISTING"
+  | "EMPTY_PATCH"
+  | "APPLY_PATCH_FAIL"
+  | "TARGET_TEST_FAILED"
+  | "REGRESSION_DETECTED"
+  | "TEST_SUITE_NEVER_RAN"
+  | "POLICY_PATH_VIOLATION"
+  | "EXECUTION_TIMEOUT"
+  | "INFRA_ENVIRONMENT_FAILURE";
+
+export interface IndependentVerificationEvidencePayload {
+  readonly runId: string;
+  readonly taskId: string;
+  readonly contractId: string;
+  readonly contractVersion: number;
+  readonly baselineCommitSha: string;
+  readonly candidatePatchHash: string;
+  readonly candidatePatchBytes: number;
+  readonly touchedFiles: readonly string[];
+
+  readonly baselineDiagnostic: {
+    readonly f2pExitCode: number | null;
+    readonly f2pOutputHash: string;
+    readonly p2pExitCode: number | null;
+    readonly p2pOutputHash: string;
+    readonly baselineValid: boolean;
+  };
+
+  readonly patchApplication: {
+    readonly status: "APPLIED" | "CONFLICT" | "EMPTY" | "MALFORMED";
+    readonly exitCode: number;
+    readonly outputText: string;
+  };
+
+  readonly cleanRoomEvaluation: {
+    readonly f2pExitCode: number | null;
+    readonly f2pTestsExecuted: number;
+    readonly f2pTestsPassed: number;
+    readonly f2pRatio: number;
+    readonly f2pSuiteRanMatched: boolean;
+
+    readonly p2pExitCode: number | null;
+    readonly p2pTestsExecuted: number;
+    readonly p2pTestsPassed: number;
+    readonly p2pRatio: number;
+    readonly p2pSuiteRanMatched: boolean;
+  };
+
+  readonly policyAudit: {
+    readonly allowedPathsCompliant: boolean;
+    readonly disallowedFilesTouched: readonly string[];
+  };
+
+  readonly overallStatus: "VERIFIED" | "FAILED";
+  readonly failureReasonCode?: CleanRoomFailureReasonCode;
+  readonly verifiedAt: string;
+}
 
 export interface VerificationSpec {
   readonly specId: string;
@@ -39,6 +121,7 @@ export function createVerificationSpec(spec: VerificationSpec): VerificationSpec
     "EXACT_OUTPUT_MATCH",
     "OUTPUT_HASH_MATCH",
     "EXIT_CODE_ZERO",
+    "CLEAN_ROOM_DUAL_GATE",
   ];
   if (!validKinds.includes(spec.ruleKind)) {
     throw new Error(`Invalid VerificationRuleKind: '${String(spec.ruleKind)}'.`);
@@ -58,7 +141,8 @@ export type VerificationFailureReason =
   | "ASSERTION_FAILED"
   | "MISSING_EVIDENCE"
   | "MALFORMED_EVIDENCE"
-  | "UNSUPPORTED_RULE";
+  | "UNSUPPORTED_RULE"
+  | CleanRoomFailureReasonCode;
 
 export interface VerificationResult {
   readonly status: VerificationStatus;
@@ -249,6 +333,48 @@ export class DeterministicVerifier {
         });
       }
 
+      case "CLEAN_ROOM_DUAL_GATE": {
+        const independentEvidence = evidenceList.find(
+          (e) => e.source === "INDEPENDENT_OBSERVER" || e.kind === "OUTPUT_PAYLOAD"
+        );
+        if (!independentEvidence) {
+          return Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds,
+            reasonCode: "MISSING_EVIDENCE",
+            message: "Missing independent observer evidence required for CLEAN_ROOM_DUAL_GATE.",
+            verifiedAt,
+          });
+        }
+
+        const payload = (
+          independentEvidence.summary && "output" in independentEvidence.summary
+            ? (independentEvidence.summary as any).output
+            : independentEvidence.summary
+        ) as IndependentVerificationEvidencePayload | undefined;
+
+        if (!payload || typeof payload !== "object") {
+          return Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds,
+            reasonCode: "MALFORMED_EVIDENCE",
+            message: "Malformed independent verification evidence payload.",
+            verifiedAt,
+          });
+        }
+
+        return DeterministicVerifier.evaluateCleanRoomPayload(
+          payload,
+          spec.specId,
+          evidenceIds,
+          verifiedAt
+        );
+      }
+
       default: {
         return Object.freeze({
           status: "FAILED",
@@ -261,5 +387,144 @@ export class DeterministicVerifier {
         });
       }
     }
+  }
+
+  /**
+   * Deterministically evaluates an IndependentVerificationEvidencePayload.
+   * Enforces the fourfold clean-room invariant.
+   */
+  static evaluateCleanRoomPayload(
+    payload: IndependentVerificationEvidencePayload,
+    specId: string,
+    evidenceIds: readonly string[],
+    verifiedAt: string = new Date().toISOString()
+  ): VerificationResult {
+    // 1. Overall status assertion
+    if (payload.overallStatus !== "VERIFIED") {
+      return Object.freeze({
+        status: "FAILED",
+        verifierId: DeterministicVerifier.VERIFIER_ID,
+        specId,
+        evidenceIds,
+        reasonCode: payload.failureReasonCode ?? "ASSERTION_FAILED",
+        message: `Clean-room verification failed: ${payload.failureReasonCode ?? "OVERALL_STATUS_NOT_VERIFIED"}`,
+        details: Object.freeze(payload as unknown as Record<string, unknown>),
+        verifiedAt,
+      });
+    }
+
+    // 2. Baseline diagnostic validity
+    if (!payload.baselineDiagnostic?.baselineValid) {
+      return Object.freeze({
+        status: "FAILED",
+        verifierId: DeterministicVerifier.VERIFIER_ID,
+        specId,
+        evidenceIds,
+        reasonCode: "BASELINE_DEFECT_NOT_REPRODUCED",
+        message: "Clean-room baseline diagnostic was invalid: defect was not reproduced or preexisting regression found.",
+        details: Object.freeze(payload as unknown as Record<string, unknown>),
+        verifiedAt,
+      });
+    }
+
+    // 3. Patch application validity
+    if (payload.patchApplication?.status !== "APPLIED") {
+      return Object.freeze({
+        status: "FAILED",
+        verifierId: DeterministicVerifier.VERIFIER_ID,
+        specId,
+        evidenceIds,
+        reasonCode: payload.patchApplication?.status === "EMPTY" ? "EMPTY_PATCH" : "APPLY_PATCH_FAIL",
+        message: `Clean-room patch application failed with status '${payload.patchApplication?.status}'.`,
+        details: Object.freeze(payload as unknown as Record<string, unknown>),
+        verifiedAt,
+      });
+    }
+
+    // 4. Fail-to-Pass ratio must be 1.0
+    if (payload.cleanRoomEvaluation?.f2pRatio !== 1.0) {
+      return Object.freeze({
+        status: "FAILED",
+        verifierId: DeterministicVerifier.VERIFIER_ID,
+        specId,
+        evidenceIds,
+        reasonCode: "TARGET_TEST_FAILED",
+        message: `Clean-room Fail-to-Pass ratio was ${payload.cleanRoomEvaluation?.f2pRatio}, expected 1.0.`,
+        details: Object.freeze(payload as unknown as Record<string, unknown>),
+        verifiedAt,
+      });
+    }
+
+    // 5. Pass-to-Pass ratio must be 1.0
+    if (payload.cleanRoomEvaluation?.p2pRatio !== 1.0) {
+      return Object.freeze({
+        status: "FAILED",
+        verifierId: DeterministicVerifier.VERIFIER_ID,
+        specId,
+        evidenceIds,
+        reasonCode: "REGRESSION_DETECTED",
+        message: `Clean-room Pass-to-Pass ratio was ${payload.cleanRoomEvaluation?.p2pRatio}, expected 1.0 (regression detected).`,
+        details: Object.freeze(payload as unknown as Record<string, unknown>),
+        verifiedAt,
+      });
+    }
+
+    // 6. Anti-zero-test execution suite ran assertion
+    if (
+      !payload.cleanRoomEvaluation?.f2pSuiteRanMatched ||
+      !payload.cleanRoomEvaluation?.p2pSuiteRanMatched
+    ) {
+      return Object.freeze({
+        status: "FAILED",
+        verifierId: DeterministicVerifier.VERIFIER_ID,
+        specId,
+        evidenceIds,
+        reasonCode: "TEST_SUITE_NEVER_RAN",
+        message: "Clean-room test suite execution check failed: suite did not execute required assertions.",
+        details: Object.freeze(payload as unknown as Record<string, unknown>),
+        verifiedAt,
+      });
+    }
+
+    // 7. Policy path audit
+    if (!payload.policyAudit?.allowedPathsCompliant) {
+      return Object.freeze({
+        status: "FAILED",
+        verifierId: DeterministicVerifier.VERIFIER_ID,
+        specId,
+        evidenceIds,
+        reasonCode: "POLICY_PATH_VIOLATION",
+        message: `Clean-room policy path audit failed: disallowed files touched: ${JSON.stringify(payload.policyAudit?.disallowedFilesTouched ?? [])}`,
+        details: Object.freeze(payload as unknown as Record<string, unknown>),
+        verifiedAt,
+      });
+    }
+
+    // All clean-room predicates satisfied
+    return Object.freeze({
+      status: "VERIFIED",
+      verifierId: DeterministicVerifier.VERIFIER_ID,
+      specId,
+      evidenceIds,
+      message: "Independent clean-room proof verified: F2P=1.0, P2P=1.0, SUITE_RAN verified, zero regressions.",
+      details: Object.freeze(payload as unknown as Record<string, unknown>),
+      verifiedAt,
+    });
+  }
+
+  /**
+   * Helper to verify a single independent Evidence item against a CleanRoomVerificationSpec.
+   */
+  static verifyCleanRoom(
+    evidence: Evidence,
+    spec: CleanRoomVerificationSpec,
+    verifiedAt: string = new Date().toISOString()
+  ): VerificationResult {
+    const vSpec: VerificationSpec = {
+      specId: spec.specId,
+      ruleKind: "CLEAN_ROOM_DUAL_GATE",
+      expectedValue: spec,
+    };
+    return DeterministicVerifier.verify([evidence], vSpec, verifiedAt);
   }
 }
