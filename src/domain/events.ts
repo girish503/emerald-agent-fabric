@@ -166,6 +166,20 @@ export type VerificationCompletedEvent = DomainEvent<VerificationCompletedPayloa
   readonly eventType: "verification.completed";
 };
 
+export interface VerificationRejectedPayload {
+  readonly runId: string;
+  readonly status: "COMPLETION_REJECTED";
+  readonly reason: "UNVERIFIED_COMPLETION_CLAIM";
+  readonly message: string;
+  readonly requirements: Record<string, string>;
+  readonly outstandingRequirements: readonly string[];
+  readonly rejectedAt: string;
+}
+
+export type VerificationRejectedEvent = DomainEvent<VerificationRejectedPayload> & {
+  readonly eventType: "verification.rejected";
+};
+
 export interface WorkspaceProvisioningPayload {
   readonly workspaceId: string;
   readonly runId: string;
@@ -488,6 +502,7 @@ export type AnyRunEvent =
   | PolicyEvaluatedEvent
   | EvidenceRecordedEvent
   | VerificationCompletedEvent
+  | VerificationRejectedEvent
   | AnyWorkspaceEvent
   | AnyActionEvent
   | AnyAttemptEvent;

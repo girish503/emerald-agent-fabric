@@ -370,9 +370,24 @@ export class ContextSource implements ContextSourcePort {
         const verContent = redactSensitiveData({
           eventType: event.eventType,
           sequence: event.sequence,
-          passed: payload["passed"],
-          failureReason: payload["failureReason"],
+          status: payload["status"],
+          reason: payload["reason"],
+          message: payload["message"] ?? payload["failureReason"],
+          passed:
+            payload["passed"] ??
+            (payload["status"] === "VERIFIED"
+              ? true
+              : payload["status"] === "FAILED" || payload["status"] === "COMPLETION_REJECTED"
+              ? false
+              : undefined),
+          failureReason:
+            payload["failureReason"] ??
+            (payload["status"] === "FAILED" || payload["status"] === "COMPLETION_REJECTED"
+              ? payload["message"]
+              : undefined),
           checks: payload["checks"],
+          requirements: payload["requirements"],
+          outstandingRequirements: payload["outstandingRequirements"],
         }) as Record<string, unknown>;
 
         const verBytes = estimateBytes(verContent);
@@ -387,8 +402,8 @@ export class ContextSource implements ContextSourcePort {
             timestamp: event.timestamp,
             isAuthoritativeRuntimeFact: true,
           },
-          freshness: eventFreshness,
-          priority: 75,
+          freshness: isRecent ? "CURRENT" : "STALE",
+          priority: 85,
           content: verContent,
           contentHash: computeObservationContentHash(verContent),
           estimatedBytes: verBytes,

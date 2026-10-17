@@ -517,6 +517,30 @@ export class AgentStepController {
 
         if (!verificationEvaluation.verified) {
           proposalRejections++;
+          const rejectionTimestamp = this.clock.nowIso();
+
+          // Phase 13C: Persist authoritative completion rejection observation into the durable event stream
+          this.stateStore.transaction((tx) => {
+            tx.appendEvent({
+              eventId: crypto.randomUUID(),
+              runId,
+              timestamp: rejectionTimestamp,
+              eventType: "verification.rejected",
+              schemaVersion: 1,
+              producer: "application.agent_step_controller",
+              payload: {
+                status: "COMPLETION_REJECTED",
+                reason: "UNVERIFIED_COMPLETION_CLAIM",
+                message:
+                  "Required verification evidence is missing. The task is not complete. Continue using the available governed tools.",
+                requirements: verificationEvaluation.requirementsSummary ?? {},
+                outstandingRequirements:
+                  verificationEvaluation.outstandingRequirements ?? [],
+                rejectedAt: rejectionTimestamp,
+              },
+            });
+          });
+
           transcript.push(
             Object.freeze({
               stepNumber: stepCount,
@@ -955,14 +979,112 @@ export class AgentStepController {
     readonly verified: boolean;
     readonly failureReason?: string;
     readonly specResults: readonly VerificationResult[];
+    readonly requirementsSummary?: Record<string, string>;
+    readonly outstandingRequirements?: readonly string[];
   } {
     const vSpecs = contract.spec.verificationSpecs;
     if (!vSpecs || vSpecs.length === 0) {
-      return { verified: true, specResults: [] };
+      return {
+        verified: true,
+        specResults: [],
+        requirementsSummary: {},
+        outstandingRequirements: [],
+      };
     }
 
     const actions = this.stateStore.getActionsForRun(runId);
     const specResults: VerificationResult[] = [];
+    const requirementsSummary: Record<string, string> = {};
+    const outstandingRequirements: string[] = [];
+
+    // Pre-evaluate requirement statuses to provide complete feedback
+    for (const spec of vSpecs) {
+      const expected = spec.expectedValue as Record<string, unknown> | undefined;
+
+      if (expected?.requireMutation) {
+        const hasSuccessfulWrite = actions.some((a) => {
+          if (a.toolName !== "write_file") return false;
+          const attempts = this.stateStore.getAttemptsForAction(a.actionId);
+          return attempts.some((att) => att.status === "SUCCEEDED");
+        });
+        requirementsSummary["required mutation"] = hasSuccessfulWrite
+          ? "satisfied"
+          : "missing";
+        if (
+          !hasSuccessfulWrite &&
+          !outstandingRequirements.includes("required mutation: write_file")
+        ) {
+          outstandingRequirements.push("required mutation: write_file");
+        }
+      }
+
+      if (expected?.requireDiff) {
+        const hasSuccessfulDiff = actions.some((a) => {
+          if (a.toolName !== "git_diff") return false;
+          const attempts = this.stateStore.getAttemptsForAction(a.actionId);
+          return attempts.some((att) => att.status === "SUCCEEDED");
+        });
+        requirementsSummary["required diff inspection"] = hasSuccessfulDiff
+          ? "satisfied"
+          : "missing";
+        if (
+          !hasSuccessfulDiff &&
+          !outstandingRequirements.includes("required diff inspection: git_diff")
+        ) {
+          outstandingRequirements.push("required diff inspection: git_diff");
+        }
+      }
+
+      if (spec.ruleKind === "EXIT_CODE_ZERO") {
+        const targetTool = (expected?.toolName as string) ?? "run_command";
+        const targetArgv = Array.isArray(expected?.argv)
+          ? (expected!.argv as readonly string[])
+          : undefined;
+
+        const matchingActions = actions.filter((a) => {
+          if (a.toolName !== targetTool) return false;
+          if (targetArgv) {
+            const inputArgv = (a.inputPayload as any)?.argv;
+            if (!Array.isArray(inputArgv)) return false;
+            if (inputArgv.length !== targetArgv.length) return false;
+            return inputArgv.every((v, i) => v === targetArgv[i]);
+          }
+          return true;
+        });
+
+        let testPassed = false;
+        if (matchingActions.length > 0) {
+          const latestAction = matchingActions[matchingActions.length - 1];
+          if (latestAction) {
+            const attempts = this.stateStore.getAttemptsForAction(
+              latestAction.actionId
+            );
+            const latestAttempt =
+              attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
+            if (latestAttempt) {
+              const exitCode =
+                latestAttempt.exitCode !== null &&
+                latestAttempt.exitCode !== undefined
+                  ? latestAttempt.exitCode
+                  : (latestAttempt.outputPayload as any)?.exitCode !== undefined
+                  ? (latestAttempt.outputPayload as any).exitCode
+                  : null;
+              testPassed = exitCode === 0;
+            }
+          }
+        }
+
+        requirementsSummary["required EXIT_CODE_ZERO verification"] = testPassed
+          ? "satisfied"
+          : "missing";
+        const desc = `required EXIT_CODE_ZERO verification: ${targetTool}${
+          targetArgv ? " " + JSON.stringify(targetArgv) : ""
+        }`;
+        if (!testPassed && !outstandingRequirements.includes(desc)) {
+          outstandingRequirements.push(desc);
+        }
+      }
+    }
 
     for (const spec of vSpecs) {
       const expected = spec.expectedValue as Record<string, unknown> | undefined;
@@ -981,7 +1103,8 @@ export class AgentStepController {
             specId: spec.specId,
             evidenceIds: [],
             reasonCode: "MISSING_EVIDENCE",
-            message: "Prerequisite source mutation was not performed (no successful 'write_file' found).",
+            message:
+              "Prerequisite source mutation was not performed (no successful 'write_file' found).",
             verifiedAt: this.clock.nowIso(),
           });
           this.coordinator.recordVerificationResult(runId, failureResult);
@@ -989,6 +1112,8 @@ export class AgentStepController {
             verified: false,
             failureReason: failureResult.message,
             specResults: [...specResults, failureResult],
+            requirementsSummary,
+            outstandingRequirements,
           };
         }
       }
@@ -1007,7 +1132,8 @@ export class AgentStepController {
             specId: spec.specId,
             evidenceIds: [],
             reasonCode: "MISSING_EVIDENCE",
-            message: "Prerequisite diff inspection was not performed (no successful 'git_diff' found).",
+            message:
+              "Prerequisite diff inspection was not performed (no successful 'git_diff' found).",
             verifiedAt: this.clock.nowIso(),
           });
           this.coordinator.recordVerificationResult(runId, failureResult);
@@ -1015,6 +1141,8 @@ export class AgentStepController {
             verified: false,
             failureReason: failureResult.message,
             specResults: [...specResults, failureResult],
+            requirementsSummary,
+            outstandingRequirements,
           };
         }
       }
@@ -1053,6 +1181,8 @@ export class AgentStepController {
             verified: false,
             failureReason: failureResult.message,
             specResults: [...specResults, failureResult],
+            requirementsSummary,
+            outstandingRequirements,
           };
         }
 
@@ -1073,6 +1203,8 @@ export class AgentStepController {
             verified: false,
             failureReason: failureResult.message,
             specResults: [...specResults, failureResult],
+            requirementsSummary,
+            outstandingRequirements,
           };
         }
 
@@ -1093,6 +1225,8 @@ export class AgentStepController {
             verified: false,
             failureReason: failureResult.message,
             specResults: [...specResults, failureResult],
+            requirementsSummary,
+            outstandingRequirements,
           };
         }
 
@@ -1130,6 +1264,8 @@ export class AgentStepController {
             verified: false,
             failureReason: `Verification rule 'EXIT_CODE_ZERO' failed: ${verificationResult.message}`,
             specResults,
+            requirementsSummary,
+            outstandingRequirements,
           };
         }
       } else {
@@ -1158,11 +1294,13 @@ export class AgentStepController {
             verified: false,
             failureReason: `Verification rule '${spec.ruleKind}' failed: ${verificationResult.message}`,
             specResults,
+            requirementsSummary,
+            outstandingRequirements,
           };
         }
       }
     }
 
-    return { verified: true, specResults };
+    return { verified: true, specResults, requirementsSummary, outstandingRequirements };
   }
 }
