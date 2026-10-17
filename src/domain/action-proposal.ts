@@ -156,7 +156,8 @@ export type ProposalRejectionReason =
   | "CONTRACT_REVOKED"
   | "RESOURCE_LIMIT_EXCEEDED"
   | "RUN_NOT_ACTIVE"
-  | "LEASE_INVALID";
+  | "LEASE_INVALID"
+  | "UNVERIFIED_COMPLETION_CLAIM";
 
 export interface ProposalValidationSuccess {
   readonly valid: true;

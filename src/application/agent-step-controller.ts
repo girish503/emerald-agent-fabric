@@ -33,6 +33,16 @@ import { ContextBudgetExceededError } from "../domain/errors.js";
 import { ProposalRejectionReason } from "../domain/action-proposal.js";
 import { staticToolRegistry, ToolName } from "../domain/tool.js";
 import {
+  createOutputPayloadEvidence,
+  createProcessExitEvidence,
+  type Evidence,
+} from "../domain/evidence.js";
+import {
+  DeterministicVerifier,
+  type VerificationResult,
+} from "../domain/verification.js";
+import type { MissionContract } from "../domain/mission-contract.js";
+import {
   computeReflexContextHash,
   validateReflexDecision,
   type ReflexContext,
@@ -496,7 +506,62 @@ export class AgentStepController {
         );
       }
 
-      if (brainResult.finishReason === "GOAL_REACHED" || !brainResult.proposal) {
+      if (brainResult.finishReason === "GOAL_REACHED") {
+        // Authoritative Physical Verification Completion Gate (Phase 13B)
+        // MODEL_GOAL_REACHED != RUN_COMPLETED
+        // isGoalReached: true is strictly an untrusted model proposal.
+        const verificationEvaluation = this.evaluateCompletionVerification(
+          runId,
+          contract
+        );
+
+        if (!verificationEvaluation.verified) {
+          proposalRejections++;
+          transcript.push(
+            Object.freeze({
+              stepNumber: stepCount,
+              contextSnapshotId: contextSnapshot.snapshotId,
+              contextHash: contextSnapshot.contextHash,
+              contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+              contextBytes: contextSnapshot.totalBytes,
+              contextObservationsCount: contextSnapshot.observations.length,
+              finishReason: "GOAL_REACHED",
+              proposalValid: false,
+              proposalRejectionReason: "UNVERIFIED_COMPLETION_CLAIM",
+              proposalRejectionMessage: `Goal reached claim rejected: ${verificationEvaluation.failureReason}`,
+              durationMs: this.clock.now().getTime() - stepStartTime,
+              timestamp: stepTimestamp,
+            })
+          );
+
+          // Goal claim rejected: bounded next model step if budget permits
+          continue;
+        }
+
+        // Verified goal reached: physical verification invariant satisfied
+        transcript.push(
+          Object.freeze({
+            stepNumber: stepCount,
+            contextSnapshotId: contextSnapshot.snapshotId,
+            contextHash: contextSnapshot.contextHash,
+            contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+            contextBytes: contextSnapshot.totalBytes,
+            contextObservationsCount: contextSnapshot.observations.length,
+            finishReason: "GOAL_REACHED",
+            proposalValid: true,
+            durationMs: this.clock.now().getTime() - stepStartTime,
+            timestamp: stepTimestamp,
+          })
+        );
+
+        return assembleResult(
+          "COMPLETED",
+          "Agent Brain concluded step loop with verified completion (GOAL_REACHED)",
+          taskId
+        );
+      }
+
+      if (!brainResult.proposal) {
         transcript.push(
           Object.freeze({
             stepNumber: stepCount,
@@ -512,11 +577,9 @@ export class AgentStepController {
           })
         );
 
-        const terminalReason: StepControllerTerminalReason =
-          brainResult.finishReason === "GOAL_REACHED" ? "COMPLETED" : "NO_ACTION";
         return assembleResult(
-          terminalReason,
-          `Agent Brain concluded step loop with ${brainResult.finishReason}`,
+          "NO_ACTION",
+          `Agent Brain produced no action proposal (${brainResult.finishReason})`,
           taskId
         );
       }
@@ -873,5 +936,233 @@ export class AgentStepController {
         consecutiveFailures = 0;
       }
     }
+  }
+
+  /**
+   * Authoritative Completion Verification Gate (Phase 13B).
+   *
+   * Enforces the unskippable invariant:
+   *   MODEL_GOAL_REACHED != RUN_COMPLETED
+   *
+   * Verifies that all required verification specifications in the bound MissionContract
+   * have executed and succeeded based strictly on durable Action and Attempt state
+   * in SQLite.
+   */
+  private evaluateCompletionVerification(
+    runId: string,
+    contract: MissionContract
+  ): {
+    readonly verified: boolean;
+    readonly failureReason?: string;
+    readonly specResults: readonly VerificationResult[];
+  } {
+    const vSpecs = contract.spec.verificationSpecs;
+    if (!vSpecs || vSpecs.length === 0) {
+      return { verified: true, specResults: [] };
+    }
+
+    const actions = this.stateStore.getActionsForRun(runId);
+    const specResults: VerificationResult[] = [];
+
+    for (const spec of vSpecs) {
+      const expected = spec.expectedValue as Record<string, unknown> | undefined;
+
+      // 1. Check optional prerequisite: source mutation (write_file)
+      if (expected?.requireMutation) {
+        const hasSuccessfulWrite = actions.some((a) => {
+          if (a.toolName !== "write_file") return false;
+          const attempts = this.stateStore.getAttemptsForAction(a.actionId);
+          return attempts.some((att) => att.status === "SUCCEEDED");
+        });
+        if (!hasSuccessfulWrite) {
+          const failureResult: VerificationResult = Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds: [],
+            reasonCode: "MISSING_EVIDENCE",
+            message: "Prerequisite source mutation was not performed (no successful 'write_file' found).",
+            verifiedAt: this.clock.nowIso(),
+          });
+          this.coordinator.recordVerificationResult(runId, failureResult);
+          return {
+            verified: false,
+            failureReason: failureResult.message,
+            specResults: [...specResults, failureResult],
+          };
+        }
+      }
+
+      // 2. Check optional prerequisite: diff inspection (git_diff)
+      if (expected?.requireDiff) {
+        const hasSuccessfulDiff = actions.some((a) => {
+          if (a.toolName !== "git_diff") return false;
+          const attempts = this.stateStore.getAttemptsForAction(a.actionId);
+          return attempts.some((att) => att.status === "SUCCEEDED");
+        });
+        if (!hasSuccessfulDiff) {
+          const failureResult: VerificationResult = Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds: [],
+            reasonCode: "MISSING_EVIDENCE",
+            message: "Prerequisite diff inspection was not performed (no successful 'git_diff' found).",
+            verifiedAt: this.clock.nowIso(),
+          });
+          this.coordinator.recordVerificationResult(runId, failureResult);
+          return {
+            verified: false,
+            failureReason: failureResult.message,
+            specResults: [...specResults, failureResult],
+          };
+        }
+      }
+
+      // 3. Rule Kind Evaluation
+      if (spec.ruleKind === "EXIT_CODE_ZERO") {
+        const targetTool = (expected?.toolName as string) ?? "run_command";
+        const targetArgv = Array.isArray(expected?.argv)
+          ? (expected!.argv as readonly string[])
+          : undefined;
+
+        // Find actions matching target verification tool and argv
+        const matchingActions = actions.filter((a) => {
+          if (a.toolName !== targetTool) return false;
+          if (targetArgv) {
+            const inputArgv = (a.inputPayload as any)?.argv;
+            if (!Array.isArray(inputArgv)) return false;
+            if (inputArgv.length !== targetArgv.length) return false;
+            return inputArgv.every((v, i) => v === targetArgv[i]);
+          }
+          return true;
+        });
+
+        if (matchingActions.length === 0) {
+          const failureResult: VerificationResult = Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds: [],
+            reasonCode: "MISSING_EVIDENCE",
+            message: `Required verification command '${targetTool}${targetArgv ? " " + JSON.stringify(targetArgv) : ""}' was never executed.`,
+            verifiedAt: this.clock.nowIso(),
+          });
+          this.coordinator.recordVerificationResult(runId, failureResult);
+          return {
+            verified: false,
+            failureReason: failureResult.message,
+            specResults: [...specResults, failureResult],
+          };
+        }
+
+        // Evaluate the latest matching action and its latest attempt
+        const latestAction = matchingActions[matchingActions.length - 1];
+        if (!latestAction) {
+          const failureResult: VerificationResult = Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds: [],
+            reasonCode: "MISSING_EVIDENCE",
+            message: `Required verification command was not found.`,
+            verifiedAt: this.clock.nowIso(),
+          });
+          this.coordinator.recordVerificationResult(runId, failureResult);
+          return {
+            verified: false,
+            failureReason: failureResult.message,
+            specResults: [...specResults, failureResult],
+          };
+        }
+
+        const attempts = this.stateStore.getAttemptsForAction(latestAction.actionId);
+        const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
+        if (!latestAttempt) {
+          const failureResult: VerificationResult = Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds: [],
+            reasonCode: "MISSING_EVIDENCE",
+            message: `Verification action '${latestAction.actionId}' has no recorded attempts.`,
+            verifiedAt: this.clock.nowIso(),
+          });
+          this.coordinator.recordVerificationResult(runId, failureResult);
+          return {
+            verified: false,
+            failureReason: failureResult.message,
+            specResults: [...specResults, failureResult],
+          };
+        }
+
+        const exitCode =
+          latestAttempt.exitCode !== null && latestAttempt.exitCode !== undefined
+            ? latestAttempt.exitCode
+            : (latestAttempt.outputPayload as any)?.exitCode !== undefined
+            ? (latestAttempt.outputPayload as any).exitCode
+            : null;
+
+        const evidenceList: Evidence[] = [];
+        const exitEvidence = createProcessExitEvidence(runId, {
+          exitCode: typeof exitCode === "number" ? exitCode : null,
+          signal: null,
+        });
+        evidenceList.push(exitEvidence);
+        this.coordinator.recordEvidence(runId, exitEvidence);
+
+        if (latestAttempt.outputPayload !== null && latestAttempt.outputPayload !== undefined) {
+          const outputEvidence = createOutputPayloadEvidence(runId, latestAttempt.outputPayload);
+          evidenceList.push(outputEvidence);
+          this.coordinator.recordEvidence(runId, outputEvidence);
+        }
+
+        const verificationResult = DeterministicVerifier.verify(
+          evidenceList,
+          spec,
+          this.clock.nowIso()
+        );
+        this.coordinator.recordVerificationResult(runId, verificationResult);
+        specResults.push(verificationResult);
+
+        if (verificationResult.status !== "VERIFIED") {
+          return {
+            verified: false,
+            failureReason: `Verification rule 'EXIT_CODE_ZERO' failed: ${verificationResult.message}`,
+            specResults,
+          };
+        }
+      } else {
+        // Fallback for EXACT_OUTPUT_MATCH or OUTPUT_HASH_MATCH
+        const lastAction = actions[actions.length - 1];
+        const attempts = lastAction ? this.stateStore.getAttemptsForAction(lastAction.actionId) : [];
+        const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
+
+        const evidenceList: Evidence[] = [];
+        if (latestAttempt?.outputPayload !== null && latestAttempt?.outputPayload !== undefined) {
+          const outputEvidence = createOutputPayloadEvidence(runId, latestAttempt.outputPayload);
+          evidenceList.push(outputEvidence);
+          this.coordinator.recordEvidence(runId, outputEvidence);
+        }
+
+        const verificationResult = DeterministicVerifier.verify(
+          evidenceList,
+          spec,
+          this.clock.nowIso()
+        );
+        this.coordinator.recordVerificationResult(runId, verificationResult);
+        specResults.push(verificationResult);
+
+        if (verificationResult.status !== "VERIFIED") {
+          return {
+            verified: false,
+            failureReason: `Verification rule '${spec.ruleKind}' failed: ${verificationResult.message}`,
+            specResults,
+          };
+        }
+      }
+    }
+
+    return { verified: true, specResults };
   }
 }
