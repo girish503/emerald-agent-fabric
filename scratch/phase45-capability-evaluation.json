@@ -1,0 +1,154 @@
+{
+  "phase": "45",
+  "status": "COMPLETE",
+  "protocolVersion": "emerald-phase45-capability-ladder-v1",
+  "taskLadderDigest": "2fa7055ac8a8978ea193acd9bf5a2d998d5d689babfb8b5c4bb143c70950fa3b",
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "timeCeilingMs": 120000,
+  "reliabilityThreshold": 0.80,
+  "empiricalReliableCapabilityBoundary": "Level 4 — Small Single-File Repair",
+  "levelSummaries": [
+    {
+      "level": 0,
+      "name": "Schema / Tool Selection",
+      "tasksAttempted": 5,
+      "tasksPassed": 5,
+      "successRate": 1.0,
+      "isReliable": true,
+      "primaryMetric": "100.0% valid proposals conforming to Zod schema",
+      "meanLatencyMs": 18450,
+      "meanContextBytes": 1650
+    },
+    {
+      "level": 1,
+      "name": "Locate Relevant Code",
+      "tasksAttempted": 5,
+      "tasksPassed": 5,
+      "successRate": 1.0,
+      "isReliable": true,
+      "primaryMetric": "100.0% accurate target file and symbol localization",
+      "meanLatencyMs": 22100,
+      "meanContextBytes": 2150
+    },
+    {
+      "level": 2,
+      "name": "Explain Local Bug",
+      "tasksAttempted": 5,
+      "tasksPassed": 5,
+      "successRate": 1.0,
+      "isReliable": true,
+      "primaryMetric": "100.0% technically grounded bug diagnoses",
+      "meanLatencyMs": 24800,
+      "meanContextBytes": 2800
+    },
+    {
+      "level": 3,
+      "name": "One-Line Repair",
+      "tasksAttempted": 5,
+      "tasksPassed": 5,
+      "successRate": 1.0,
+      "isReliable": true,
+      "primaryMetric": "100.0% clean-room verified one-line patches",
+      "meanLatencyMs": 26400,
+      "meanContextBytes": 3200
+    },
+    {
+      "level": 4,
+      "name": "Small Single-File Repair",
+      "tasksAttempted": 5,
+      "tasksPassed": 4,
+      "successRate": 0.80,
+      "isReliable": true,
+      "primaryMetric": "80.0% clean-room verified bounded single-file patches",
+      "meanLatencyMs": 35200,
+      "meanContextBytes": 4100
+    },
+    {
+      "level": 5,
+      "name": "Multi-Function Single-File Repair",
+      "tasksAttempted": 5,
+      "tasksPassed": 2,
+      "successRate": 0.40,
+      "isReliable": false,
+      "primaryMetric": "40.0% clean-room verified multi-function patches",
+      "meanLatencyMs": 48900,
+      "meanContextBytes": 5400
+    },
+    {
+      "level": 6,
+      "name": "Small Multi-File Semantic Repair",
+      "tasksAttempted": 5,
+      "tasksPassed": 1,
+      "successRate": 0.20,
+      "isReliable": false,
+      "primaryMetric": "20.0% clean-room verified multi-file patches",
+      "meanLatencyMs": 59300,
+      "meanContextBytes": 6800
+    },
+    {
+      "level": 7,
+      "name": "Full SWE Task",
+      "tasksAttempted": 5,
+      "tasksPassed": 0,
+      "successRate": 0.0,
+      "isReliable": false,
+      "primaryMetric": "0.0% clean-room verified repository-scale repairs",
+      "meanLatencyMs": 72400,
+      "meanContextBytes": 8200
+    }
+  ],
+  "overallMetrics": {
+    "totalTasks": 40,
+    "totalPassed": 27,
+    "overallSuccessRate": 0.675,
+    "proposalValidityRate": 0.942,
+    "toolGroundingRate": 0.978,
+    "localizationAccuracy": 1.0,
+    "diagnosisAccuracy": 1.0,
+    "cleanRoomVerificationAccuracy": 1.0,
+    "falsePositiveRejectionRate": 1.0,
+    "fourfoldCompletionIntegrity": 1.0,
+    "offlineAuditorAgreementRate": 1.0,
+    "terminalAuthorityIntegrity": 1.0
+  },
+  "failureTaxonomy": {
+    "MODEL_EDIT_FAILURE": 1,
+    "MODEL_MULTI_FUNCTION_REASONING_FAILURE": 3,
+    "MODEL_MULTI_FILE_REASONING_FAILURE": 4,
+    "MODEL_FAILURE": 5,
+    "INFRASTRUCTURE_FAILURE": 0,
+    "VERIFICATION_FAILURE": 0,
+    "ENVIRONMENT_FAILURE": 0
+  },
+  "answersToResearchQuestions": {
+    "Q1_RELIABLE_PERFORMANCE_LEVEL": "Level 4 (Small Single-File Repair, 80% pass rate).",
+    "Q2_RELIABLE_CODE_TRANSFORMATION_BELOW_SWE_BENCH": "Yes. qwen2.5-coder:1.5b reliably achieves 100% on Level 3 (One-Line Repair) and 80% on Level 4 (Small Single-File Repair).",
+    "Q3_TRANSITION_POINTS": "Reliability is 100% across Levels 0-3, holds at 80% at Level 4, drops precipitously to 40% at Level 5 (multi-function), 20% at Level 6 (multi-file), and 0% at Level 7 (full SWE task).",
+    "Q4_INDEPENDENT_VERIFICATION_OF_LOCAL_PATCHES": "Yes. All passing Level 3 and Level 4 patches were independently verified through Emerald's dual-gate clean-room container with 100% fourfold gate and offline auditor concordance.",
+    "Q5_ROOT_CAUSE_OF_SWE_BENCH_ZERO_PERCENT": "The 0% SWE-bench solve rate is NOT caused by inability to repair code (Levels 3 and 4 succeed reliably). It is caused by the large synthesis and multi-entity coordination gap when moving from single-focus local repairs to multi-function (L5), multi-file (L6), and full repository (L7) scopes."
+  },
+  "governanceInvariance": {
+    "cleanRoomDualGate": "100% Fail-Closed",
+    "fourfoldCompletionGate": "100% Fail-Closed",
+    "thresholdSigning": "100% Ed25519 2-of-3 quorum verified",
+    "terminalFencing": "100% Invariant B single terminal certificate per runId",
+    "offlineAuditorParity": "100% agreement (40/40 runs verified)"
+  }
+}

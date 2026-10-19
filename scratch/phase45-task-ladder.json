@@ -1,0 +1,382 @@
+{
+  "phase": "45",
+  "protocolVersion": "emerald-phase45-capability-ladder-v1",
+  "model": "qwen2.5-coder:1.5b",
+  "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "timeCeilingMs": 120000,
+  "frozenAt": "2026-10-19T11:35:00.000Z",
+  "levels": [
+    {
+      "level": 0,
+      "name": "Schema / Tool Selection",
+      "description": "Select correct Emerald tool and produce valid proposal conforming to Zod schema without code mutation."
+    },
+    {
+      "level": 1,
+      "name": "Locate Relevant Code",
+      "description": "Identify exact file and relevant function/region containing a specified defect without code mutation."
+    },
+    {
+      "level": 2,
+      "name": "Explain Local Bug",
+      "description": "Produce a concise, technically correct diagnosis of a known bug grounded in observed source without mutation."
+    },
+    {
+      "level": 3,
+      "name": "One-Line Repair",
+      "description": "Perform exactly one minimal local line change passing clean-room dual-gate verification and fourfold completion."
+    },
+    {
+      "level": 4,
+      "name": "Small Single-File Repair",
+      "description": "Repair a small defect requiring 2-5 related edits in one file within bounded scope passing clean-room verification."
+    },
+    {
+      "level": 5,
+      "name": "Multi-Function Single-File Repair",
+      "description": "Repair a defect involving multiple interacting functions within the same source file passing clean-room verification."
+    },
+    {
+      "level": 6,
+      "name": "Small Multi-File Semantic Repair",
+      "description": "Repair a defect requiring coordinated changes across 2-3 source files preserving cross-file contracts."
+    },
+    {
+      "level": 7,
+      "name": "Full SWE Task",
+      "description": "Full repository-scale SWE-bench Verified-compatible defect repair under frozen Phase 42 cohort conditions."
+    }
+  ],
+  "tasks": [
+    {
+      "taskId": "EAF-L0-01",
+      "level": 0,
+      "title": "Propose read_file for calc module",
+      "description": "Propose a valid read_file tool call for src/calc.js.",
+      "targetFile": "src/calc.js",
+      "expectedTool": "read_file"
+    },
+    {
+      "taskId": "EAF-L0-02",
+      "level": 0,
+      "title": "Propose run_command for test execution",
+      "description": "Propose a valid run_command tool call executing node test/f2p.test.js.",
+      "targetFile": "test/f2p.test.js",
+      "expectedTool": "run_command"
+    },
+    {
+      "taskId": "EAF-L0-03",
+      "level": 0,
+      "title": "Propose write_file for patch application",
+      "description": "Propose a valid write_file tool call updating src/calc.js.",
+      "targetFile": "src/calc.js",
+      "expectedTool": "write_file"
+    },
+    {
+      "taskId": "EAF-L0-04",
+      "level": 0,
+      "title": "Propose read_file for hex color parsing",
+      "description": "Propose a valid read_file tool call for src/hex.js.",
+      "targetFile": "src/hex.js",
+      "expectedTool": "read_file"
+    },
+    {
+      "taskId": "EAF-L0-05",
+      "level": 0,
+      "title": "Propose run_command for regression suite",
+      "description": "Propose a valid run_command tool call executing node test/p2p.test.js.",
+      "targetFile": "test/p2p.test.js",
+      "expectedTool": "run_command"
+    },
+    {
+      "taskId": "EAF-L1-01",
+      "level": 1,
+      "title": "Locate add function in calc repository",
+      "description": "Locate the function responsible for integer addition in src/calc.js.",
+      "targetFile": "src/calc.js",
+      "expectedSymbol": "add"
+    },
+    {
+      "taskId": "EAF-L1-02",
+      "level": 1,
+      "title": "Locate parseHex in hex color repository",
+      "description": "Locate the entry point function parsing hex color strings in src/hex.js.",
+      "targetFile": "src/hex.js",
+      "expectedSymbol": "parseHex"
+    },
+    {
+      "taskId": "EAF-L1-03",
+      "level": 1,
+      "title": "Locate validateOrigin in CORS validator",
+      "description": "Locate HTTP origin validation function in src/cors.js.",
+      "targetFile": "src/cors.js",
+      "expectedSymbol": "validateOrigin"
+    },
+    {
+      "taskId": "EAF-L1-04",
+      "level": 1,
+      "title": "Locate parsePrerelease in SemVer utility",
+      "description": "Locate pre-release tag extraction function in src/semver.js.",
+      "targetFile": "src/semver.js",
+      "expectedSymbol": "parsePrerelease"
+    },
+    {
+      "taskId": "EAF-L1-05",
+      "level": 1,
+      "title": "Locate formatJsonEntry in logger module",
+      "description": "Locate pure JSON formatting function in src/logger.js.",
+      "targetFile": "src/logger.js",
+      "expectedSymbol": "formatJsonEntry"
+    },
+    {
+      "taskId": "EAF-L2-01",
+      "level": 2,
+      "title": "Diagnose arithmetic operator bug",
+      "description": "Explain why add(2, 3) returns -1 instead of 5 in src/calc.js.",
+      "targetFile": "src/calc.js",
+      "expectedDiagnosis": "SUBTRACTION_OPERATOR_INSTEAD_OF_ADDITION"
+    },
+    {
+      "taskId": "EAF-L2-02",
+      "level": 2,
+      "title": "Diagnose 3-char shorthand expansion defect",
+      "description": "Explain why parseHex('#fff') returns undefined in src/hex.js.",
+      "targetFile": "src/hex.js",
+      "expectedDiagnosis": "MISSING_SHORTHAND_EXPANSION"
+    },
+    {
+      "taskId": "EAF-L2-03",
+      "level": 2,
+      "title": "Diagnose CRLF header injection defect",
+      "description": "Explain why origins containing carriage return are permitted in src/cors.js.",
+      "targetFile": "src/cors.js",
+      "expectedDiagnosis": "UNVALIDATED_CRLF_CHARACTERS"
+    },
+    {
+      "taskId": "EAF-L2-04",
+      "level": 2,
+      "title": "Diagnose hyphenated prerelease parsing error",
+      "description": "Explain why parsePrerelease truncates at hyphen in src/semver.js.",
+      "targetFile": "src/semver.js",
+      "expectedDiagnosis": "INCORRECT_HYPHEN_SPLITTING"
+    },
+    {
+      "taskId": "EAF-L2-05",
+      "level": 2,
+      "title": "Diagnose logger formatting side effect",
+      "description": "Explain why formatJsonEntry mutates global logger state in src/logger.js.",
+      "targetFile": "src/logger.js",
+      "expectedDiagnosis": "IMPURE_SIDE_EFFECT_MUTATION"
+    },
+    {
+      "taskId": "EAF-L3-01",
+      "level": 3,
+      "title": "One-line operator fix in calc.js",
+      "description": "Change subtraction operator to addition operator in add() function.",
+      "targetFile": "src/calc.js",
+      "intendedLines": 1
+    },
+    {
+      "taskId": "EAF-L3-02",
+      "level": 3,
+      "title": "One-line increment repair in counter.js",
+      "description": "Change this.count = 0 to this.count += 1 in increment() method.",
+      "targetFile": "src/counter.js",
+      "intendedLines": 1
+    },
+    {
+      "taskId": "EAF-L3-03",
+      "level": 3,
+      "title": "One-line boolean conversion in boolean-utils.js",
+      "description": "Change return !val to return Boolean(val) in toBoolean() helper.",
+      "targetFile": "src/boolean-utils.js",
+      "intendedLines": 1
+    },
+    {
+      "taskId": "EAF-L3-04",
+      "level": 3,
+      "title": "One-line clamp logic inversion in clamp.js",
+      "description": "Correct inverted ternary condition in clampNumber().",
+      "targetFile": "src/clamp.js",
+      "intendedLines": 1
+    },
+    {
+      "taskId": "EAF-L3-05",
+      "level": 3,
+      "title": "One-line prefix slice fix in string-prefix.js",
+      "description": "Change s.slice(1) to s.slice(prefix.length) in stripPrefix().",
+      "targetFile": "src/string-prefix.js",
+      "intendedLines": 1
+    },
+    {
+      "taskId": "EAF-L4-01",
+      "level": 4,
+      "title": "Small single-file hex shorthand repair",
+      "description": "Expand 3-digit hex format (#fff -> #ffffff) in src/hex.js (3-line edit).",
+      "targetFile": "src/hex.js",
+      "intendedLines": 3
+    },
+    {
+      "taskId": "EAF-L4-02",
+      "level": 4,
+      "title": "Small single-file CRLF rejection in cors.js",
+      "description": "Reject origins containing \\r or \\n characters in src/cors.js (3-line edit).",
+      "targetFile": "src/cors.js",
+      "intendedLines": 3
+    },
+    {
+      "taskId": "EAF-L4-03",
+      "level": 4,
+      "title": "Small single-file null guard in filter-items.js",
+      "description": "Add null/undefined check before array filter in src/filter-items.js (4-line edit).",
+      "targetFile": "src/filter-items.js",
+      "intendedLines": 4
+    },
+    {
+      "taskId": "EAF-L4-04",
+      "level": 4,
+      "title": "Small single-file retry policy bounds in retry-policy.js",
+      "description": "Check maxAttempts and decrement remaining budget correctly (4-line edit).",
+      "targetFile": "src/retry-policy.js",
+      "intendedLines": 4
+    },
+    {
+      "taskId": "EAF-L4-05",
+      "level": 4,
+      "title": "Small single-file zero-exponent guard in math-pow.js",
+      "description": "Handle zero exponent and negative bases in custom power function (5-line edit).",
+      "targetFile": "src/math-pow.js",
+      "intendedLines": 5
+    },
+    {
+      "taskId": "EAF-L5-01",
+      "level": 5,
+      "title": "Multi-function SemVer prerelease parser in semver.js",
+      "description": "Coordinate parsePrerelease() and comparePrerelease() across hyphenated segments.",
+      "targetFile": "src/semver.js",
+      "intendedLines": 8
+    },
+    {
+      "taskId": "EAF-L5-02",
+      "level": 5,
+      "title": "Multi-function prototype pollution guard in deep-set.js",
+      "description": "Coordinate _toPath() key sanitization and _setInternal() traversal to block __proto__.",
+      "targetFile": "src/deep-set.js",
+      "intendedLines": 9
+    },
+    {
+      "taskId": "EAF-L5-03",
+      "level": 5,
+      "title": "Multi-function argument spreading in event-emitter.js",
+      "description": "Coordinate emit() argument array spreading and listener dispatch callback helper.",
+      "targetFile": "src/emitter.js",
+      "intendedLines": 7
+    },
+    {
+      "taskId": "EAF-L5-04",
+      "level": 5,
+      "title": "Multi-function graceful EACCES handling in scanner.js",
+      "description": "Coordinate _handleError() warning emission and scanDirectory() traversal continuation.",
+      "targetFile": "src/scanner.js",
+      "intendedLines": 8
+    },
+    {
+      "taskId": "EAF-L5-05",
+      "level": 5,
+      "title": "Multi-function flush synchronization in kv-store.js",
+      "description": "Coordinate write buffer flush queue and read cache lookup in src/kv-store.js.",
+      "targetFile": "src/kv-store.js",
+      "intendedLines": 9
+    },
+    {
+      "taskId": "EAF-L6-01",
+      "level": 6,
+      "title": "Multi-file role authorization in user-service",
+      "description": "Implement hasRole on User in src/models/user.js and wire check in src/services/user-service.js.",
+      "targetFiles": ["src/models/user.js", "src/services/user-service.js"],
+      "intendedLines": 12
+    },
+    {
+      "taskId": "EAF-L6-02",
+      "level": 6,
+      "title": "Multi-file missing config fallback",
+      "description": "Coordinate fallback loader in src/config.js and default schema in src/defaults.js.",
+      "targetFiles": ["src/config.js", "src/defaults.js"],
+      "intendedLines": 10
+    },
+    {
+      "taskId": "EAF-L6-03",
+      "level": 6,
+      "title": "Multi-file pure JSON formatter refactoring",
+      "description": "Extract formatter to src/formatters/json.js and wire into src/logger.js.",
+      "targetFiles": ["src/formatters/json.js", "src/logger.js"],
+      "intendedLines": 14
+    },
+    {
+      "taskId": "EAF-L6-04",
+      "level": 6,
+      "title": "Multi-file header normalization in http-client",
+      "description": "Coordinate request builder in src/request.js and transport client in src/client.js.",
+      "targetFiles": ["src/request.js", "src/client.js"],
+      "intendedLines": 11
+    },
+    {
+      "taskId": "EAF-L6-05",
+      "level": 6,
+      "title": "Multi-file job cancellation in queue manager",
+      "description": "Coordinate status transition in src/job.js and worker eviction in src/queue.js.",
+      "targetFiles": ["src/job.js", "src/queue.js"],
+      "intendedLines": 13
+    },
+    {
+      "taskId": "EAF-L7-01",
+      "level": 7,
+      "title": "Full SWE task: calc repository bug (EAF-BM-01)",
+      "description": "Repository-scale SWE-bench task EAF-BM-01 in emerald/calc repository.",
+      "targetFile": "src/calc.js",
+      "source": "SWE-bench-Verified-compatible"
+    },
+    {
+      "taskId": "EAF-L7-02",
+      "level": 7,
+      "title": "Full SWE task: CORS header injection (EAF-BM-03)",
+      "description": "Repository-scale SWE-bench task EAF-BM-03 in express/cors-validator.",
+      "targetFile": "src/cors.js",
+      "source": "SWE-bench-Verified-compatible"
+    },
+    {
+      "taskId": "EAF-L7-03",
+      "level": 7,
+      "title": "Full SWE task: SemVer 2.0 prerelease (EAF-BM-04)",
+      "description": "Repository-scale SWE-bench task EAF-BM-04 in emerald/semver-lite.",
+      "targetFile": "src/semver.js",
+      "source": "SWE-bench-Verified-compatible"
+    },
+    {
+      "taskId": "EAF-L7-04",
+      "level": 7,
+      "title": "Full SWE task: Lodash prototype pollution (EAF-BM-07)",
+      "description": "Repository-scale SWE-bench task EAF-BM-07 in lodash/deep-set.",
+      "targetFile": "src/deep-set.js",
+      "source": "SWE-bench-Verified-compatible"
+    },
+    {
+      "taskId": "EAF-L7-05",
+      "level": 7,
+      "title": "Full SWE task: User service role authorization (EAF-BM-11)",
+      "description": "Repository-scale SWE-bench task EAF-BM-11 in emerald/user-service.",
+      "targetFile": "src/models/user.js, src/services/user-service.js",
+      "source": "SWE-bench-Verified-compatible"
+    }
+  ]
+}
