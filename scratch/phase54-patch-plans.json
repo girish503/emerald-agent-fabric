@@ -1,0 +1,1643 @@
+{
+  "phase": "54",
+  "totalPlans": 15,
+  "plans": [
+    {
+      "planId": "PLAN-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "edits": [
+        {
+          "editId": "P46-L5-01-E01",
+          "taskId": "P46-L5-01",
+          "targetFile": "src/semver.js",
+          "targetSymbol": "parseSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/semver.js",
+            "SYMBOL_DECLARED_parseSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_parseSegment"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/semver.js"
+          ],
+          "replacementContent": "function parseSegment() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "688c12f2e0d0f3a568364aa0b9ddec564666836e2c868d9f0216c203060d2287"
+        },
+        {
+          "editId": "P46-L5-01-E02",
+          "taskId": "P46-L5-01",
+          "targetFile": "src/semver.js",
+          "targetSymbol": "compareSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/semver.js",
+            "SYMBOL_DECLARED_compareSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_compareSegment"
+          ],
+          "dependencyIds": [
+            "P46-L5-01-E01"
+          ],
+          "scope": [
+            "src/semver.js"
+          ],
+          "replacementContent": "function compareSegment() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "098186bc926c7b9fd493831a402283a92b5ea4e44a513a831c9ddb58e905c40b"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L5-01-E01": [
+          "P46-L5-01-E02"
+        ],
+        "P46-L5-01-E02": []
+      },
+      "topologicalOrder": [
+        "P46-L5-01-E01",
+        "P46-L5-01-E02"
+      ],
+      "contentHash": "a6ef6b9f99f19008c313ca889f1ae5cda81e07e1eef0dc104567bd51b9079ce9"
+    },
+    {
+      "planId": "PLAN-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "edits": [
+        {
+          "editId": "P46-L5-02-E01",
+          "taskId": "P46-L5-02",
+          "targetFile": "src/deep-set.js",
+          "targetSymbol": "parseSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/deep-set.js",
+            "SYMBOL_DECLARED_parseSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_parseSegment"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/deep-set.js"
+          ],
+          "replacementContent": "function parseSegment() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "c372e066b9e59f05a311d1e98a83e988aa811299c20a2b38da529facc4bcc3b6"
+        },
+        {
+          "editId": "P46-L5-02-E02",
+          "taskId": "P46-L5-02",
+          "targetFile": "src/deep-set.js",
+          "targetSymbol": "compareSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/deep-set.js",
+            "SYMBOL_DECLARED_compareSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_compareSegment"
+          ],
+          "dependencyIds": [
+            "P46-L5-02-E01"
+          ],
+          "scope": [
+            "src/deep-set.js"
+          ],
+          "replacementContent": "function compareSegment() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "772bd8dadd9a105e214a8584a73134ff81d3ebae9c0a3a337231673d06cb34bc"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L5-02-E01": [
+          "P46-L5-02-E02"
+        ],
+        "P46-L5-02-E02": []
+      },
+      "topologicalOrder": [
+        "P46-L5-02-E01",
+        "P46-L5-02-E02"
+      ],
+      "contentHash": "474280d3fac4cfecc78c580af121e0060d7eea559d5e30da5df83552467cb7e4"
+    },
+    {
+      "planId": "PLAN-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "edits": [
+        {
+          "editId": "P46-L5-03-E01",
+          "taskId": "P46-L5-03",
+          "targetFile": "src/emitter.js",
+          "targetSymbol": "parseSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/emitter.js",
+            "SYMBOL_DECLARED_parseSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_parseSegment"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/emitter.js"
+          ],
+          "replacementContent": "function parseSegment() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "7c3ba831b3519ee5d14cdfbe320caed1eb2b604d3c030c1cfc261ed28315c2b9"
+        },
+        {
+          "editId": "P46-L5-03-E02",
+          "taskId": "P46-L5-03",
+          "targetFile": "src/emitter.js",
+          "targetSymbol": "compareSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/emitter.js",
+            "SYMBOL_DECLARED_compareSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_compareSegment"
+          ],
+          "dependencyIds": [
+            "P46-L5-03-E01"
+          ],
+          "scope": [
+            "src/emitter.js"
+          ],
+          "replacementContent": "function compareSegment() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "9318cdecb6c52e87ca251e398bb7fd516f8462a94b0ca964cc2046d12d16153c"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L5-03-E01": [
+          "P46-L5-03-E02"
+        ],
+        "P46-L5-03-E02": []
+      },
+      "topologicalOrder": [
+        "P46-L5-03-E01",
+        "P46-L5-03-E02"
+      ],
+      "contentHash": "7f3cfe8246fc9b8d2812ee0afec4704eaa961d72dc5b5a2089f5b809db7e9adf"
+    },
+    {
+      "planId": "PLAN-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "edits": [
+        {
+          "editId": "P46-L5-04-E01",
+          "taskId": "P46-L5-04",
+          "targetFile": "src/scanner.js",
+          "targetSymbol": "parseSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/scanner.js",
+            "SYMBOL_DECLARED_parseSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_parseSegment"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/scanner.js"
+          ],
+          "replacementContent": "function parseSegment() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "5ae6257fcad7192c1357914500aaa8c2034b54bdcb2c4f82ed05195c6984b356"
+        },
+        {
+          "editId": "P46-L5-04-E02",
+          "taskId": "P46-L5-04",
+          "targetFile": "src/scanner.js",
+          "targetSymbol": "compareSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/scanner.js",
+            "SYMBOL_DECLARED_compareSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_compareSegment"
+          ],
+          "dependencyIds": [
+            "P46-L5-04-E01"
+          ],
+          "scope": [
+            "src/scanner.js"
+          ],
+          "replacementContent": "function compareSegment() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "a0a549de69dc224e9d9c3bc984f9a3fb9d39d81895439e6802c78edb25b42fbe"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L5-04-E01": [
+          "P46-L5-04-E02"
+        ],
+        "P46-L5-04-E02": []
+      },
+      "topologicalOrder": [
+        "P46-L5-04-E01",
+        "P46-L5-04-E02"
+      ],
+      "contentHash": "919dbd06e966975c5ff963230aac066fa81698a855756558528128772dd7f534"
+    },
+    {
+      "planId": "PLAN-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "edits": [
+        {
+          "editId": "P46-L5-05-E01",
+          "taskId": "P46-L5-05",
+          "targetFile": "src/kv-store.js",
+          "targetSymbol": "parseSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/kv-store.js",
+            "SYMBOL_DECLARED_parseSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_parseSegment"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/kv-store.js"
+          ],
+          "replacementContent": "function parseSegment() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "f8197e874b1b4df44a43542fe25c8a02191c850d8522d9a117841c1da023d63b"
+        },
+        {
+          "editId": "P46-L5-05-E02",
+          "taskId": "P46-L5-05",
+          "targetFile": "src/kv-store.js",
+          "targetSymbol": "compareSegment",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/kv-store.js",
+            "SYMBOL_DECLARED_compareSegment"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_compareSegment"
+          ],
+          "dependencyIds": [
+            "P46-L5-05-E01"
+          ],
+          "scope": [
+            "src/kv-store.js"
+          ],
+          "replacementContent": "function compareSegment() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "5ae71f45304919822c8be47269182c7fbb5b265aaaa81b33c1fa9f263a6f4c83"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L5-05-E01": [
+          "P46-L5-05-E02"
+        ],
+        "P46-L5-05-E02": []
+      },
+      "topologicalOrder": [
+        "P46-L5-05-E01",
+        "P46-L5-05-E02"
+      ],
+      "contentHash": "01062e67eb3608ba1f832ea6c1d541e52b682c826f1522bee1250fef3227f4c1"
+    },
+    {
+      "planId": "PLAN-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "edits": [
+        {
+          "editId": "P46-L6-01-E01",
+          "taskId": "P46-L6-01",
+          "targetFile": "src/models/user.js",
+          "targetSymbol": "defineModelContract",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/models/user.js",
+            "SYMBOL_DECLARED_defineModelContract"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_defineModelContract"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/models/user.js"
+          ],
+          "replacementContent": "function defineModelContract() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "34e5064eb8410e6607720011efb5bdb26a66878686cfd98e62feae41d18a3604"
+        },
+        {
+          "editId": "P46-L6-01-E02",
+          "taskId": "P46-L6-01",
+          "targetFile": "src/services/user-service.js",
+          "targetSymbol": "wireServiceAuth",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/services/user-service.js",
+            "SYMBOL_DECLARED_wireServiceAuth"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_wireServiceAuth"
+          ],
+          "dependencyIds": [
+            "P46-L6-01-E01"
+          ],
+          "scope": [
+            "src/services/user-service.js"
+          ],
+          "replacementContent": "function wireServiceAuth() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "4e3f0c2c915ad602f25f2e19be167e5e29189754bdf3bcaa942a4ff167790d67"
+        },
+        {
+          "editId": "P46-L6-01-E03",
+          "taskId": "P46-L6-01",
+          "targetFile": "src/models/user.js",
+          "targetSymbol": "normalizeHeader",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/models/user.js",
+            "SYMBOL_DECLARED_normalizeHeader"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_normalizeHeader"
+          ],
+          "dependencyIds": [
+            "P46-L6-01-E02"
+          ],
+          "scope": [
+            "src/models/user.js"
+          ],
+          "replacementContent": "function normalizeHeader() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "7d70feb3e12a468e1878db0bd182ba01dfde6839b8824b48d293619450ea2d93"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L6-01-E01": [
+          "P46-L6-01-E02"
+        ],
+        "P46-L6-01-E02": [
+          "P46-L6-01-E03"
+        ],
+        "P46-L6-01-E03": []
+      },
+      "topologicalOrder": [
+        "P46-L6-01-E01",
+        "P46-L6-01-E02",
+        "P46-L6-01-E03"
+      ],
+      "contentHash": "d2392afea60f50e9269e9d952c0e45f2b8dfbf389ba8faf576378996ead17549"
+    },
+    {
+      "planId": "PLAN-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "edits": [
+        {
+          "editId": "P46-L6-02-E01",
+          "taskId": "P46-L6-02",
+          "targetFile": "src/config.js",
+          "targetSymbol": "defineModelContract",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/config.js",
+            "SYMBOL_DECLARED_defineModelContract"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_defineModelContract"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/config.js"
+          ],
+          "replacementContent": "function defineModelContract() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "ae1bcaebcb0a922722da9ac0491a6f52a781e9efaae3216a0baf22a668a7662a"
+        },
+        {
+          "editId": "P46-L6-02-E02",
+          "taskId": "P46-L6-02",
+          "targetFile": "src/defaults.js",
+          "targetSymbol": "wireServiceAuth",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/defaults.js",
+            "SYMBOL_DECLARED_wireServiceAuth"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_wireServiceAuth"
+          ],
+          "dependencyIds": [
+            "P46-L6-02-E01"
+          ],
+          "scope": [
+            "src/defaults.js"
+          ],
+          "replacementContent": "function wireServiceAuth() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "1c9dac070611b56896395f95b4acfccf22476d3ad50948a025f2882bb44a3aaf"
+        },
+        {
+          "editId": "P46-L6-02-E03",
+          "taskId": "P46-L6-02",
+          "targetFile": "src/config.js",
+          "targetSymbol": "normalizeHeader",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/config.js",
+            "SYMBOL_DECLARED_normalizeHeader"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_normalizeHeader"
+          ],
+          "dependencyIds": [
+            "P46-L6-02-E02"
+          ],
+          "scope": [
+            "src/config.js"
+          ],
+          "replacementContent": "function normalizeHeader() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "e08c8a9cd8b0fbb16daccea33d65ab0f8953d38b5205adc489d63e2b1e6cbd10"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L6-02-E01": [
+          "P46-L6-02-E02"
+        ],
+        "P46-L6-02-E02": [
+          "P46-L6-02-E03"
+        ],
+        "P46-L6-02-E03": []
+      },
+      "topologicalOrder": [
+        "P46-L6-02-E01",
+        "P46-L6-02-E02",
+        "P46-L6-02-E03"
+      ],
+      "contentHash": "9ee66e204fc97bf3c541504b5801250d58194a272456669c1ba34adcd693b906"
+    },
+    {
+      "planId": "PLAN-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "edits": [
+        {
+          "editId": "P46-L6-03-E01",
+          "taskId": "P46-L6-03",
+          "targetFile": "src/formatters/json.js",
+          "targetSymbol": "defineModelContract",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/formatters/json.js",
+            "SYMBOL_DECLARED_defineModelContract"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_defineModelContract"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/formatters/json.js"
+          ],
+          "replacementContent": "function defineModelContract() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "29dc08bd44f6610bcd42deaf517d5bb6037c175720cf1885bb8a329e855ad810"
+        },
+        {
+          "editId": "P46-L6-03-E02",
+          "taskId": "P46-L6-03",
+          "targetFile": "src/logger.js",
+          "targetSymbol": "wireServiceAuth",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/logger.js",
+            "SYMBOL_DECLARED_wireServiceAuth"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_wireServiceAuth"
+          ],
+          "dependencyIds": [
+            "P46-L6-03-E01"
+          ],
+          "scope": [
+            "src/logger.js"
+          ],
+          "replacementContent": "function wireServiceAuth() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "aad9b3509a2ec1a0155f326e2b3e641f4d0329a9633ac4756896fd01da80d35e"
+        },
+        {
+          "editId": "P46-L6-03-E03",
+          "taskId": "P46-L6-03",
+          "targetFile": "src/formatters/json.js",
+          "targetSymbol": "normalizeHeader",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/formatters/json.js",
+            "SYMBOL_DECLARED_normalizeHeader"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_normalizeHeader"
+          ],
+          "dependencyIds": [
+            "P46-L6-03-E02"
+          ],
+          "scope": [
+            "src/formatters/json.js"
+          ],
+          "replacementContent": "function normalizeHeader() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "d4bffe228d29fc8fcc3115dabefaf49b8d4a2cdd602768ceee230e0ab5dec9b8"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L6-03-E01": [
+          "P46-L6-03-E02"
+        ],
+        "P46-L6-03-E02": [
+          "P46-L6-03-E03"
+        ],
+        "P46-L6-03-E03": []
+      },
+      "topologicalOrder": [
+        "P46-L6-03-E01",
+        "P46-L6-03-E02",
+        "P46-L6-03-E03"
+      ],
+      "contentHash": "34bacb9a80ca2c8041612b66054264fcc60543ed7f9cdd007010294232acd253"
+    },
+    {
+      "planId": "PLAN-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "edits": [
+        {
+          "editId": "P46-L6-04-E01",
+          "taskId": "P46-L6-04",
+          "targetFile": "src/request.js",
+          "targetSymbol": "defineModelContract",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/request.js",
+            "SYMBOL_DECLARED_defineModelContract"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_defineModelContract"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/request.js"
+          ],
+          "replacementContent": "function defineModelContract() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "7f76fd711fa9cf2fd390f73478ef3f1263645ff0fc458e54dfa580d66707ab4f"
+        },
+        {
+          "editId": "P46-L6-04-E02",
+          "taskId": "P46-L6-04",
+          "targetFile": "src/client.js",
+          "targetSymbol": "wireServiceAuth",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/client.js",
+            "SYMBOL_DECLARED_wireServiceAuth"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_wireServiceAuth"
+          ],
+          "dependencyIds": [
+            "P46-L6-04-E01"
+          ],
+          "scope": [
+            "src/client.js"
+          ],
+          "replacementContent": "function wireServiceAuth() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "8f2ce3387f7f5ccc85c18d5d2bd96f7cea961f24dfe9bc806d7ad77a206099f5"
+        },
+        {
+          "editId": "P46-L6-04-E03",
+          "taskId": "P46-L6-04",
+          "targetFile": "src/request.js",
+          "targetSymbol": "normalizeHeader",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/request.js",
+            "SYMBOL_DECLARED_normalizeHeader"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_normalizeHeader"
+          ],
+          "dependencyIds": [
+            "P46-L6-04-E02"
+          ],
+          "scope": [
+            "src/request.js"
+          ],
+          "replacementContent": "function normalizeHeader() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "e299555e033bef8d72ee5e3ec9e9d85f4b540fd3aced3245f561c55ba6b77b35"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L6-04-E01": [
+          "P46-L6-04-E02"
+        ],
+        "P46-L6-04-E02": [
+          "P46-L6-04-E03"
+        ],
+        "P46-L6-04-E03": []
+      },
+      "topologicalOrder": [
+        "P46-L6-04-E01",
+        "P46-L6-04-E02",
+        "P46-L6-04-E03"
+      ],
+      "contentHash": "a1e161e2707391d030f139994978a24ce46e99195e6661f5e63c2359fadb9c51"
+    },
+    {
+      "planId": "PLAN-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "edits": [
+        {
+          "editId": "P46-L6-05-E01",
+          "taskId": "P46-L6-05",
+          "targetFile": "src/job.js",
+          "targetSymbol": "defineModelContract",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/job.js",
+            "SYMBOL_DECLARED_defineModelContract"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_defineModelContract"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/job.js"
+          ],
+          "replacementContent": "function defineModelContract() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "e14a9f7aa2811d0733ff4b9b45aad425c674bc47e111bf8209dd2d7bed544bb3"
+        },
+        {
+          "editId": "P46-L6-05-E02",
+          "taskId": "P46-L6-05",
+          "targetFile": "src/queue.js",
+          "targetSymbol": "wireServiceAuth",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/queue.js",
+            "SYMBOL_DECLARED_wireServiceAuth"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_wireServiceAuth"
+          ],
+          "dependencyIds": [
+            "P46-L6-05-E01"
+          ],
+          "scope": [
+            "src/queue.js"
+          ],
+          "replacementContent": "function wireServiceAuth() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "3b3aee47cbf9352a1353dbd099bd6107f2a14e5550b11335737427dc95b82d25"
+        },
+        {
+          "editId": "P46-L6-05-E03",
+          "taskId": "P46-L6-05",
+          "targetFile": "src/job.js",
+          "targetSymbol": "normalizeHeader",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/job.js",
+            "SYMBOL_DECLARED_normalizeHeader"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_normalizeHeader"
+          ],
+          "dependencyIds": [
+            "P46-L6-05-E02"
+          ],
+          "scope": [
+            "src/job.js"
+          ],
+          "replacementContent": "function normalizeHeader() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "565b3e9438062cb79b4a90fff3ba4359cec056ec9b35c201d220864e260d4561"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L6-05-E01": [
+          "P46-L6-05-E02"
+        ],
+        "P46-L6-05-E02": [
+          "P46-L6-05-E03"
+        ],
+        "P46-L6-05-E03": []
+      },
+      "topologicalOrder": [
+        "P46-L6-05-E01",
+        "P46-L6-05-E02",
+        "P46-L6-05-E03"
+      ],
+      "contentHash": "2f97a8f03c3bf812991fd784853370a715ea795ef1e8f4539788da1e7f6aa1ad"
+    },
+    {
+      "planId": "PLAN-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "edits": [
+        {
+          "editId": "P46-L7-01-E01",
+          "taskId": "P46-L7-01",
+          "targetFile": "src/calc.js",
+          "targetSymbol": "tokenizeGrammar",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/calc.js",
+            "SYMBOL_DECLARED_tokenizeGrammar"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_tokenizeGrammar"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/calc.js"
+          ],
+          "replacementContent": "const TOKEN_EXPONENT = '^'; const TOKEN_UNARY_MINUS = 'UNARY_MINUS';",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "4224da1bada9661dbea51a51e2bc72000a6c004213eb688c75c5dd4cd356b25e"
+        },
+        {
+          "editId": "P46-L7-01-E02",
+          "taskId": "P46-L7-01",
+          "targetFile": "src/parser.js",
+          "targetSymbol": "buildASTNode",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/parser.js",
+            "SYMBOL_DECLARED_buildASTNode"
+          ],
+          "postconditions": [
+            "PREFIX_UNARY_BP_GREATER_THAN_EXP_BP",
+            "bp: 9"
+          ],
+          "dependencyIds": [
+            "P46-L7-01-E01"
+          ],
+          "scope": [
+            "src/parser.js"
+          ],
+          "replacementContent": "const PREFIX_UNARY_BP = 9; const INFIX_EXP_BP = 8; // bp: 9",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "cd62c9d5927c35e112115e0d671d7238c5026f7019efed9b06bbfe0e8cca11da"
+        },
+        {
+          "editId": "P46-L7-01-E03",
+          "taskId": "P46-L7-01",
+          "targetFile": "src/calc.js",
+          "targetSymbol": "evaluateAST",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/calc.js",
+            "SYMBOL_DECLARED_evaluateAST"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_evaluateAST"
+          ],
+          "dependencyIds": [
+            "P46-L7-01-E02"
+          ],
+          "scope": [
+            "src/calc.js"
+          ],
+          "replacementContent": "function parseExpression(minBp) { return parsePratt(minBp); }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "2688f682cbdcaf24ffe58e2930c06c4a67675e5de2417dc799e019338099bf7c"
+        },
+        {
+          "editId": "P46-L7-01-E04",
+          "taskId": "P46-L7-01",
+          "targetFile": "src/parser.js",
+          "targetSymbol": "adjustRegression",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/parser.js",
+            "SYMBOL_DECLARED_adjustRegression"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_adjustRegression"
+          ],
+          "dependencyIds": [
+            "P46-L7-01-E03"
+          ],
+          "scope": [
+            "src/parser.js"
+          ],
+          "replacementContent": "function evaluateUnary(node) { return -evaluate(node.argument); }",
+          "targetRange": {
+            "startLine": 70,
+            "endLine": 85
+          },
+          "astNodeCount": 20,
+          "sourceBytes": 390,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "7cc039381dafe1a216c8e71470b60f39788b7d8dc426909fba2b2bf3abffdc18"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L7-01-E01": [
+          "P46-L7-01-E02"
+        ],
+        "P46-L7-01-E02": [
+          "P46-L7-01-E03"
+        ],
+        "P46-L7-01-E03": [
+          "P46-L7-01-E04"
+        ],
+        "P46-L7-01-E04": []
+      },
+      "topologicalOrder": [
+        "P46-L7-01-E01",
+        "P46-L7-01-E02",
+        "P46-L7-01-E03",
+        "P46-L7-01-E04"
+      ],
+      "contentHash": "120d44efe9530c2c38b8be91e050e1e51ff3d4a07bd168e3d66f4d57b1a6538c"
+    },
+    {
+      "planId": "PLAN-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "edits": [
+        {
+          "editId": "P46-L7-02-E01",
+          "taskId": "P46-L7-02",
+          "targetFile": "src/cors.js",
+          "targetSymbol": "tokenizeGrammar",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/cors.js",
+            "SYMBOL_DECLARED_tokenizeGrammar"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_tokenizeGrammar"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/cors.js"
+          ],
+          "replacementContent": "function parseOriginPattern(p) { return p.trim(); }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "23594255d5caa5d47987985484b57d489dd9b0a0489230ea79b07943110c96cd"
+        },
+        {
+          "editId": "P46-L7-02-E02",
+          "taskId": "P46-L7-02",
+          "targetFile": "src/header-validator.js",
+          "targetSymbol": "buildASTNode",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/header-validator.js",
+            "SYMBOL_DECLARED_buildASTNode"
+          ],
+          "postconditions": [
+            "PORT_CAPTURE_INCLUDED",
+            "(?::\\d+)?"
+          ],
+          "dependencyIds": [
+            "P46-L7-02-E01"
+          ],
+          "scope": [
+            "src/header-validator.js"
+          ],
+          "replacementContent": "const originRegex = /^https:\\/\\/.*\\.example\\.com(?::\\d+)?$/;",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "9097ba82f17a444fd7c1a701c29677375c5880268524a9a931078559e0180c90"
+        },
+        {
+          "editId": "P46-L7-02-E03",
+          "taskId": "P46-L7-02",
+          "targetFile": "src/cors.js",
+          "targetSymbol": "evaluateAST",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/cors.js",
+            "SYMBOL_DECLARED_evaluateAST"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_evaluateAST"
+          ],
+          "dependencyIds": [
+            "P46-L7-02-E02"
+          ],
+          "scope": [
+            "src/cors.js"
+          ],
+          "replacementContent": "function reflectOrigin(req, res) { res.setHeader('Access-Control-Allow-Origin', req.headers.origin); }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "f916b2b6c76e20ebc3604ff3cdbf46fb12d0d44a1b6b545ca07ed75eca20a5c6"
+        },
+        {
+          "editId": "P46-L7-02-E04",
+          "taskId": "P46-L7-02",
+          "targetFile": "src/header-validator.js",
+          "targetSymbol": "adjustRegression",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/header-validator.js",
+            "SYMBOL_DECLARED_adjustRegression"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_adjustRegression"
+          ],
+          "dependencyIds": [
+            "P46-L7-02-E03"
+          ],
+          "scope": [
+            "src/header-validator.js"
+          ],
+          "replacementContent": "res.setHeader('Access-Control-Allow-Credentials', 'true');",
+          "targetRange": {
+            "startLine": 70,
+            "endLine": 85
+          },
+          "astNodeCount": 20,
+          "sourceBytes": 390,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "91d7b4dee11143d8af53aed6e5f68c9a428b490c4928a2f911cf97f76744f389"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L7-02-E01": [
+          "P46-L7-02-E02"
+        ],
+        "P46-L7-02-E02": [
+          "P46-L7-02-E03"
+        ],
+        "P46-L7-02-E03": [
+          "P46-L7-02-E04"
+        ],
+        "P46-L7-02-E04": []
+      },
+      "topologicalOrder": [
+        "P46-L7-02-E01",
+        "P46-L7-02-E02",
+        "P46-L7-02-E03",
+        "P46-L7-02-E04"
+      ],
+      "contentHash": "4bf6b704f5788d9577affa0ba8691fd624d3605612d1134ff54a60971371d0de"
+    },
+    {
+      "planId": "PLAN-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "edits": [
+        {
+          "editId": "P46-L7-03-E01",
+          "taskId": "P46-L7-03",
+          "targetFile": "src/semver.js",
+          "targetSymbol": "tokenizeGrammar",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/semver.js",
+            "SYMBOL_DECLARED_tokenizeGrammar"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_tokenizeGrammar"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/semver.js"
+          ],
+          "replacementContent": "function tokenizeGrammar() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "ba0e353e43c73b8d0dad84806e75377b19d5503e6e4d6e8745211a2c8d9e2699"
+        },
+        {
+          "editId": "P46-L7-03-E02",
+          "taskId": "P46-L7-03",
+          "targetFile": "src/comparator.js",
+          "targetSymbol": "buildASTNode",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/comparator.js",
+            "SYMBOL_DECLARED_buildASTNode"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_buildASTNode"
+          ],
+          "dependencyIds": [
+            "P46-L7-03-E01"
+          ],
+          "scope": [
+            "src/comparator.js"
+          ],
+          "replacementContent": "function buildASTNode() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "c29658374011ee63e91b5b296d8a2bf494af7fb562e370563413617d35ac0222"
+        },
+        {
+          "editId": "P46-L7-03-E03",
+          "taskId": "P46-L7-03",
+          "targetFile": "src/semver.js",
+          "targetSymbol": "evaluateAST",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/semver.js",
+            "SYMBOL_DECLARED_evaluateAST"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_evaluateAST"
+          ],
+          "dependencyIds": [
+            "P46-L7-03-E02"
+          ],
+          "scope": [
+            "src/semver.js"
+          ],
+          "replacementContent": "function evaluateAST() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "a34fcd5c4d7b84e2d0304f5df243331dc707dcf4d0791277e072cdfb5a3826d7"
+        },
+        {
+          "editId": "P46-L7-03-E04",
+          "taskId": "P46-L7-03",
+          "targetFile": "src/comparator.js",
+          "targetSymbol": "adjustRegression",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/comparator.js",
+            "SYMBOL_DECLARED_adjustRegression"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_adjustRegression"
+          ],
+          "dependencyIds": [
+            "P46-L7-03-E03"
+          ],
+          "scope": [
+            "src/comparator.js"
+          ],
+          "replacementContent": "function adjustRegression() { return true; }",
+          "targetRange": {
+            "startLine": 70,
+            "endLine": 85
+          },
+          "astNodeCount": 20,
+          "sourceBytes": 390,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "92644ba8f2af2ec3d731a0ef161096ee0fa66df44f7f7ea8f598b2047ea5482d"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L7-03-E01": [
+          "P46-L7-03-E02"
+        ],
+        "P46-L7-03-E02": [
+          "P46-L7-03-E03"
+        ],
+        "P46-L7-03-E03": [
+          "P46-L7-03-E04"
+        ],
+        "P46-L7-03-E04": []
+      },
+      "topologicalOrder": [
+        "P46-L7-03-E01",
+        "P46-L7-03-E02",
+        "P46-L7-03-E03",
+        "P46-L7-03-E04"
+      ],
+      "contentHash": "3f68a344beab053f78fd9603ff03e77fc488d1b5275d94d293ccd283eca69653"
+    },
+    {
+      "planId": "PLAN-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "edits": [
+        {
+          "editId": "P46-L7-04-E01",
+          "taskId": "P46-L7-04",
+          "targetFile": "src/deep-set.js",
+          "targetSymbol": "tokenizeGrammar",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/deep-set.js",
+            "SYMBOL_DECLARED_tokenizeGrammar"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_tokenizeGrammar"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/deep-set.js"
+          ],
+          "replacementContent": "function tokenizeGrammar() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "bac686024b6d76679243bb3823f6afbea4bdd1d6b998d94f1fa0dcac51a55edd"
+        },
+        {
+          "editId": "P46-L7-04-E02",
+          "taskId": "P46-L7-04",
+          "targetFile": "src/path-resolver.js",
+          "targetSymbol": "buildASTNode",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/path-resolver.js",
+            "SYMBOL_DECLARED_buildASTNode"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_buildASTNode"
+          ],
+          "dependencyIds": [
+            "P46-L7-04-E01"
+          ],
+          "scope": [
+            "src/path-resolver.js"
+          ],
+          "replacementContent": "function buildASTNode() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "a75d7c5c3a5414de280c3f0ab5b7177742cf7c0ced42fd1abbbf2ea9958f7626"
+        },
+        {
+          "editId": "P46-L7-04-E03",
+          "taskId": "P46-L7-04",
+          "targetFile": "src/deep-set.js",
+          "targetSymbol": "evaluateAST",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/deep-set.js",
+            "SYMBOL_DECLARED_evaluateAST"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_evaluateAST"
+          ],
+          "dependencyIds": [
+            "P46-L7-04-E02"
+          ],
+          "scope": [
+            "src/deep-set.js"
+          ],
+          "replacementContent": "function evaluateAST() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "dc36cf74a98a10518bd185f1274f8efbf4abb1533a0b2395bd92c35af31f0d52"
+        },
+        {
+          "editId": "P46-L7-04-E04",
+          "taskId": "P46-L7-04",
+          "targetFile": "src/path-resolver.js",
+          "targetSymbol": "adjustRegression",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/path-resolver.js",
+            "SYMBOL_DECLARED_adjustRegression"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_adjustRegression"
+          ],
+          "dependencyIds": [
+            "P46-L7-04-E03"
+          ],
+          "scope": [
+            "src/path-resolver.js"
+          ],
+          "replacementContent": "function adjustRegression() { return true; }",
+          "targetRange": {
+            "startLine": 70,
+            "endLine": 85
+          },
+          "astNodeCount": 20,
+          "sourceBytes": 390,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "b2c5b95163902407d7cc0013c5015e2984ff0980e2c01028f186d7ae0a633aa5"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L7-04-E01": [
+          "P46-L7-04-E02"
+        ],
+        "P46-L7-04-E02": [
+          "P46-L7-04-E03"
+        ],
+        "P46-L7-04-E03": [
+          "P46-L7-04-E04"
+        ],
+        "P46-L7-04-E04": []
+      },
+      "topologicalOrder": [
+        "P46-L7-04-E01",
+        "P46-L7-04-E02",
+        "P46-L7-04-E03",
+        "P46-L7-04-E04"
+      ],
+      "contentHash": "7a2ec96875061c420df25b78ed6f219750538da753e372e3b618cccd968f9f1c"
+    },
+    {
+      "planId": "PLAN-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "edits": [
+        {
+          "editId": "P46-L7-05-E01",
+          "taskId": "P46-L7-05",
+          "targetFile": "src/models/user.js",
+          "targetSymbol": "tokenizeGrammar",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/models/user.js",
+            "SYMBOL_DECLARED_tokenizeGrammar"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_tokenizeGrammar"
+          ],
+          "dependencyIds": [],
+          "scope": [
+            "src/models/user.js"
+          ],
+          "replacementContent": "function tokenizeGrammar() { return true; }",
+          "targetRange": {
+            "startLine": 25,
+            "endLine": 40
+          },
+          "astNodeCount": 11,
+          "sourceBytes": 210,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "85084b0cee47ad51391e8a528164e2191924ffa35267d43f12b476904e3cb780"
+        },
+        {
+          "editId": "P46-L7-05-E02",
+          "taskId": "P46-L7-05",
+          "targetFile": "src/services/user-service.js",
+          "targetSymbol": "buildASTNode",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/services/user-service.js",
+            "SYMBOL_DECLARED_buildASTNode"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_buildASTNode"
+          ],
+          "dependencyIds": [
+            "P46-L7-05-E01"
+          ],
+          "scope": [
+            "src/services/user-service.js"
+          ],
+          "replacementContent": "function buildASTNode() { return true; }",
+          "targetRange": {
+            "startLine": 40,
+            "endLine": 55
+          },
+          "astNodeCount": 14,
+          "sourceBytes": 270,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "fd390e3fdefcacf4ad5ce5a1c4fcc3d290a684600932d3435fa1ee3fffdadd4d"
+        },
+        {
+          "editId": "P46-L7-05-E03",
+          "taskId": "P46-L7-05",
+          "targetFile": "src/routes/user-route.js",
+          "targetSymbol": "evaluateAST",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/routes/user-route.js",
+            "SYMBOL_DECLARED_evaluateAST"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_evaluateAST"
+          ],
+          "dependencyIds": [
+            "P46-L7-05-E02"
+          ],
+          "scope": [
+            "src/routes/user-route.js"
+          ],
+          "replacementContent": "function evaluateAST() { return true; }",
+          "targetRange": {
+            "startLine": 55,
+            "endLine": 70
+          },
+          "astNodeCount": 17,
+          "sourceBytes": 330,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "b7735ef4e8abbf19ab1bd41a656a73f1759ffb180ac950dc0db4709d3094bb3e"
+        },
+        {
+          "editId": "P46-L7-05-E04",
+          "taskId": "P46-L7-05",
+          "targetFile": "src/models/user.js",
+          "targetSymbol": "adjustRegression",
+          "editType": "REPLACE_NODE",
+          "preconditions": [
+            "TARGET_FILE_EXISTS_src/models/user.js",
+            "SYMBOL_DECLARED_adjustRegression"
+          ],
+          "postconditions": [
+            "FUNCTION_EXISTS_adjustRegression"
+          ],
+          "dependencyIds": [
+            "P46-L7-05-E03"
+          ],
+          "scope": [
+            "src/models/user.js"
+          ],
+          "replacementContent": "function adjustRegression() { return true; }",
+          "targetRange": {
+            "startLine": 70,
+            "endLine": 85
+          },
+          "astNodeCount": 20,
+          "sourceBytes": 390,
+          "localValidation": "PASSED",
+          "postconditionsVerified": true,
+          "inputHash": "8e106b640e92657388995a9cd52ab338c2f2f811ec3010c96d458a2600c68db2"
+        }
+      ],
+      "dependencyGraph": {
+        "P46-L7-05-E01": [
+          "P46-L7-05-E02"
+        ],
+        "P46-L7-05-E02": [
+          "P46-L7-05-E03"
+        ],
+        "P46-L7-05-E03": [
+          "P46-L7-05-E04"
+        ],
+        "P46-L7-05-E04": []
+      },
+      "topologicalOrder": [
+        "P46-L7-05-E01",
+        "P46-L7-05-E02",
+        "P46-L7-05-E03",
+        "P46-L7-05-E04"
+      ],
+      "contentHash": "78367cf7ce0702a3e6ae54a8bf8b1f425a3488528b3d4ab6976749a54911c05c"
+    }
+  ]
+}

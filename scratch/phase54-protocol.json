@@ -1,0 +1,63 @@
+{
+  "phase": "54",
+  "protocolVersion": "emerald-phase54-multihop-patch-synthesis-v1",
+  "frozenAt": "2026-10-19T16:42:43.480Z",
+  "experimentalVariable": "governed_multihop_patch_synthesis",
+  "frozenBaselineCommit": "4883ffe",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "models": {
+    "executor": {
+      "model": "qwen2.5-coder:1.5b",
+      "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "parameterCount": 1540000000,
+      "quantization": "Q4_K_M",
+      "role": "LOCAL_EXECUTOR"
+    },
+    "semanticReasoner": {
+      "model": "qwen2.5-coder:3b",
+      "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameterCount": 3090000000,
+      "quantization": "Q4_K_M",
+      "role": "SEMANTIC_REASONER"
+    },
+    "critic": {
+      "model": "granite3-dense:2b",
+      "digest": "5c2e6f47738bc9e5c3e6cf8e78881268685e13d7be76402fc6103ff411e7ba25",
+      "parameterCount": 2500000000,
+      "quantization": "Q4_K_M",
+      "role": "CRITIC"
+    }
+  },
+  "conditions": {
+    "CONDITION_A_PHASE53_CONTROL": "Phase 53 promoted configuration: monolithic global repair under global invariant reconciliation",
+    "CONDITION_B_ATOMIC_EDIT_DECOMPOSITION": "Atomic patch plan with multiple independently validated edit operations",
+    "CONDITION_C_SEARCH_TRANSFORM_VALIDATE": "Condition B + deterministic structural search and exact target resolution",
+    "CONDITION_D_GOVERNED_INCREMENTAL_PATCH_SYNTHESIS": "Condition C + dependency ordering + incremental checkpoints + invariant preservation"
+  },
+  "limits": {
+    "atomicEditLimits": {
+      "MAX_FILES_PER_EDIT": 1,
+      "MAX_SYMBOLS_PER_EDIT": 2,
+      "MAX_AST_NODES_PER_EDIT": 25,
+      "MAX_SOURCE_BYTES_PER_EDIT": 4096
+    },
+    "synthesisBudget": {
+      "MAX_SEMANTIC_REASONER_CALLS": 2,
+      "MAX_EXECUTOR_CALLS": 9,
+      "MAX_GLOBAL_REPAIR_CALLS": 2,
+      "MAX_TOTAL_MODEL_CALLS": 11,
+      "MAX_EDIT_RETRIES": 2,
+      "MAX_TOTAL_EDIT_RETRIES": 6
+    }
+  },
+  "cohortSize": 15,
+  "trialsCount": 60
+}

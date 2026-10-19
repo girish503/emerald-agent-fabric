@@ -1,0 +1,771 @@
+{
+  "phase": "54",
+  "totalCheckpoints": 40,
+  "checkpoints": [
+    {
+      "checkpointId": "CP-P46-L5-01-STEP01",
+      "repositoryStateHash": "5df4a5c7bd9b30cb0b3bfb98d1f39f939e9fd339d0ec8eabdde3edec5af0913f",
+      "completedEdits": [
+        "P46-L5-01-E01"
+      ],
+      "remainingEdits": [
+        "P46-L5-01-E02"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-01_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "393d130193f9be1c30df1b37c7411ae507837efb131231f5cfb3e8fd0a31a0bb"
+    },
+    {
+      "checkpointId": "CP-P46-L5-01-STEP02",
+      "repositoryStateHash": "a7a4468ad3bb54631e90d0712e56b4586f2302f882fa70218068bc650138f917",
+      "completedEdits": [
+        "P46-L5-01-E01",
+        "P46-L5-01-E02"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-01_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "ac72f8463b821856da6057bb317587fc3525e153d5e969ed95124bf30e2f52a8"
+    },
+    {
+      "checkpointId": "CP-P46-L5-02-STEP01",
+      "repositoryStateHash": "175f30c4ee8c40cbe47d4377bfbae4e4fcacecaba008d4be6049f3358124ea58",
+      "completedEdits": [
+        "P46-L5-02-E01"
+      ],
+      "remainingEdits": [
+        "P46-L5-02-E02"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-02_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "bbcd009353139c188ca6c5cf3c42a1a035060ec17b91efeeeb57a9a3af1022c6"
+    },
+    {
+      "checkpointId": "CP-P46-L5-02-STEP02",
+      "repositoryStateHash": "2ce42d4653aab75329d9b08ff2997aff401e3168ee5e8d2a75343dd7c76e6969",
+      "completedEdits": [
+        "P46-L5-02-E01",
+        "P46-L5-02-E02"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-02_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "061d6d012aeba3a433d1de82babd68ddc8d2a5e07dcd269a647509b4f4888d6c"
+    },
+    {
+      "checkpointId": "CP-P46-L5-03-STEP01",
+      "repositoryStateHash": "693f3e97a610f5dd67b32026516a09cb505bf6ea000718d69e9d8eb1792be4a4",
+      "completedEdits": [
+        "P46-L5-03-E01"
+      ],
+      "remainingEdits": [
+        "P46-L5-03-E02"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-03_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "1bd59c1dd9045d562029c1e4cb8a5b39151b7f603e938703e03badbf595b85f1"
+    },
+    {
+      "checkpointId": "CP-P46-L5-03-STEP02",
+      "repositoryStateHash": "79fee12e88fa40c718cdf39c5650a48d53d47465749256f58bfd383380a8b9e4",
+      "completedEdits": [
+        "P46-L5-03-E01",
+        "P46-L5-03-E02"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-03_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "199aef7cfcc06710a6f911f3ff2bddfe42fb4c385d212d538c01df3b0491d30b"
+    },
+    {
+      "checkpointId": "CP-P46-L5-04-STEP01",
+      "repositoryStateHash": "8e0006b6bae1fa12b60d9e938a1440e39a7996c5be63ecb1e0e3f803ba061801",
+      "completedEdits": [
+        "P46-L5-04-E01"
+      ],
+      "remainingEdits": [
+        "P46-L5-04-E02"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-04_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "bf1e9b238f5caf5a8ad6f2f16ed21798c6e923eb863fb7eb28fe915e0a89528d"
+    },
+    {
+      "checkpointId": "CP-P46-L5-04-STEP02",
+      "repositoryStateHash": "01e36a2b94ddf394fe5a0536a0da32aa07f1416e900c3d6c442a7e9126c1bc76",
+      "completedEdits": [
+        "P46-L5-04-E01",
+        "P46-L5-04-E02"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-04_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "d8cc8fd03be8733686bab307f98f1ead987ee9d10c15fdc6f77e27c02330be4f"
+    },
+    {
+      "checkpointId": "CP-P46-L5-05-STEP01",
+      "repositoryStateHash": "e773f9e88c3641e96d7e106a24a47d59104d55c54dacf6bc83437b944e45d42d",
+      "completedEdits": [
+        "P46-L5-05-E01"
+      ],
+      "remainingEdits": [
+        "P46-L5-05-E02"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-05_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "325bfdcc8a7c572b28079ec5a6267e8f52db6cd1fd747233755223dbb9e8c386"
+    },
+    {
+      "checkpointId": "CP-P46-L5-05-STEP02",
+      "repositoryStateHash": "0bf670a20ab91c21a11dfcd641ae57c97b34476a8abf38294994375cbf5123de",
+      "completedEdits": [
+        "P46-L5-05-E01",
+        "P46-L5-05-E02"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L5-05_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "1bdeb62dc9dd225d25abef05275d1a82e0f609ddd0c8f0835aa3d714f12717dc"
+    },
+    {
+      "checkpointId": "CP-P46-L6-01-STEP01",
+      "repositoryStateHash": "b6857162f10d443a8bccc85b8b2b712ce6ba544b1779dc77d44909f701633d8d",
+      "completedEdits": [
+        "P46-L6-01-E01"
+      ],
+      "remainingEdits": [
+        "P46-L6-01-E02",
+        "P46-L6-01-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-01_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "8b90e279fc618f7366955d856f706dae42961461114103de1696af25f686df64"
+    },
+    {
+      "checkpointId": "CP-P46-L6-01-STEP02",
+      "repositoryStateHash": "15be169005826dfe4848a4c42dd6213423a02147d26cfd5cfe29bbcc7df4d9e8",
+      "completedEdits": [
+        "P46-L6-01-E01",
+        "P46-L6-01-E02"
+      ],
+      "remainingEdits": [
+        "P46-L6-01-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-01_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "039dc16bd150ce3a7755fcd7d45584bfe36a6228e35c0a599c69a7a47cd5ff62"
+    },
+    {
+      "checkpointId": "CP-P46-L6-01-STEP03",
+      "repositoryStateHash": "424bddee4f8e6fd86417c2416530cd8dca7e0f7bed8f368bb1bc9cc1dcd5c8f5",
+      "completedEdits": [
+        "P46-L6-01-E01",
+        "P46-L6-01-E02",
+        "P46-L6-01-E03"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-01_PRESERVED_3"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "c596ccd2a2e079e8ea22ba830d9047336464013970d2f3aced9eb68ec1771d0d"
+    },
+    {
+      "checkpointId": "CP-P46-L6-02-STEP01",
+      "repositoryStateHash": "f1732d05656b06bfa4cbacc95215313c2c52c9a69ee1ed716fbe12198ec3ddd5",
+      "completedEdits": [
+        "P46-L6-02-E01"
+      ],
+      "remainingEdits": [
+        "P46-L6-02-E02",
+        "P46-L6-02-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-02_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "982abfbfcf20d330fff575800d71ff87037b89c9512b2946b29fa3618bafb06c"
+    },
+    {
+      "checkpointId": "CP-P46-L6-02-STEP02",
+      "repositoryStateHash": "f863d12db5928742446029463a55556744f3c737d9179febb605a1f22b4e83a6",
+      "completedEdits": [
+        "P46-L6-02-E01",
+        "P46-L6-02-E02"
+      ],
+      "remainingEdits": [
+        "P46-L6-02-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-02_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "9693601ea5b1cd9efee5f3953bd8484eb0797038150a3b2be7a7c395c2926672"
+    },
+    {
+      "checkpointId": "CP-P46-L6-02-STEP03",
+      "repositoryStateHash": "53f089df8a3bb66336e420ae8a61e80f7d15db00fe996e173876e80a0291c573",
+      "completedEdits": [
+        "P46-L6-02-E01",
+        "P46-L6-02-E02",
+        "P46-L6-02-E03"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-02_PRESERVED_3"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "fe2bfca0c2871863e8af1dc3ec6049a5b415d8cf16a4f325143fb75dda74e8fc"
+    },
+    {
+      "checkpointId": "CP-P46-L6-03-STEP01",
+      "repositoryStateHash": "de271ee4a7c8d778253a834d115005eddebcb1c2caf2856620ccfe5edd646651",
+      "completedEdits": [
+        "P46-L6-03-E01"
+      ],
+      "remainingEdits": [
+        "P46-L6-03-E02",
+        "P46-L6-03-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-03_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "7ee6e7942e83f94641410b62834f5f05ac5193830740f7e712037361a0c91612"
+    },
+    {
+      "checkpointId": "CP-P46-L6-03-STEP02",
+      "repositoryStateHash": "1bbad20b39d5827ae2d5a48becba78a34bc0db91c363a488712f83dcf93a0141",
+      "completedEdits": [
+        "P46-L6-03-E01",
+        "P46-L6-03-E02"
+      ],
+      "remainingEdits": [
+        "P46-L6-03-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-03_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "83ff09bd28c55c319ba5f3138adfa5afa9204968fe644894a3136252cc36a9df"
+    },
+    {
+      "checkpointId": "CP-P46-L6-03-STEP03",
+      "repositoryStateHash": "72e338737ea83e56f693370fa8333a4bcf4041ee772c84fc7ba15254eacc0751",
+      "completedEdits": [
+        "P46-L6-03-E01",
+        "P46-L6-03-E02",
+        "P46-L6-03-E03"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-03_PRESERVED_3"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "35a88d6e57bbf6c786c9075c9b5f9fc0b25eb0f9f29bb28a9f7525168d086c2b"
+    },
+    {
+      "checkpointId": "CP-P46-L6-04-STEP01",
+      "repositoryStateHash": "b1a9c74ef279b72109e0ce071d0c1480b72adbf4d8ec2a7cf42db6dfaf308058",
+      "completedEdits": [
+        "P46-L6-04-E01"
+      ],
+      "remainingEdits": [
+        "P46-L6-04-E02",
+        "P46-L6-04-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-04_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "1d4ca6dfd9dbeec656cc94a16f7a9e451acf3ab2babb6cce26cdf5e826f26194"
+    },
+    {
+      "checkpointId": "CP-P46-L6-04-STEP02",
+      "repositoryStateHash": "fec57ac08fbf175b10008ac8929b71d270aa9cba02a6082b014253fd60a41cb9",
+      "completedEdits": [
+        "P46-L6-04-E01",
+        "P46-L6-04-E02"
+      ],
+      "remainingEdits": [
+        "P46-L6-04-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-04_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "478b29400d861496842ff2b43f9179dc6926504170d689be136d25a7ceeff8e7"
+    },
+    {
+      "checkpointId": "CP-P46-L6-04-STEP03",
+      "repositoryStateHash": "01461987ba688b2c48fe7c66e2806e3f605bc1a014191cef5663d1178883216a",
+      "completedEdits": [
+        "P46-L6-04-E01",
+        "P46-L6-04-E02",
+        "P46-L6-04-E03"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-04_PRESERVED_3"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "122654e45fd059ee622c09faa36b2708ff02db985c2bc0e3f26ca0c4a272cf73"
+    },
+    {
+      "checkpointId": "CP-P46-L6-05-STEP01",
+      "repositoryStateHash": "a5782467ebfc6a4fca72bc107845dfcb655442508108ba215140c41994dac69e",
+      "completedEdits": [
+        "P46-L6-05-E01"
+      ],
+      "remainingEdits": [
+        "P46-L6-05-E02",
+        "P46-L6-05-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-05_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "8796ec83424e296af62ce5daa49435d4ec5420b77ac92d44dff12f25e147bfe0"
+    },
+    {
+      "checkpointId": "CP-P46-L6-05-STEP02",
+      "repositoryStateHash": "c10ea0f66974c295131dc814ac67fcd868bf8c1e850fca62152758ed2f24e218",
+      "completedEdits": [
+        "P46-L6-05-E01",
+        "P46-L6-05-E02"
+      ],
+      "remainingEdits": [
+        "P46-L6-05-E03"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-05_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "bb9507f76e9d4b4c5b87a34ad9d4c4e2537da1d8c502f03dcc6cb62021e1a574"
+    },
+    {
+      "checkpointId": "CP-P46-L6-05-STEP03",
+      "repositoryStateHash": "0391373a116d7fdf6e9427828cc431bf8f23ccb21e1f24412377f85627816cc6",
+      "completedEdits": [
+        "P46-L6-05-E01",
+        "P46-L6-05-E02",
+        "P46-L6-05-E03"
+      ],
+      "remainingEdits": [],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L6-05_PRESERVED_3"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "d712bcb13881f860a5afa8b2c2b1c1c24ed3b83231f74a71b8e658bb06c08a1c"
+    },
+    {
+      "checkpointId": "CP-P46-L7-01-STEP01",
+      "repositoryStateHash": "753ad81b67daa22e7c79395b1b067704d7e1ad3188bd13b096dbd83befc153ee",
+      "completedEdits": [
+        "P46-L7-01-E01"
+      ],
+      "remainingEdits": [
+        "P46-L7-01-E02",
+        "P46-L7-01-E03",
+        "P46-L7-01-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-01_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "4c55fe4526c5ab1f8be5ac1408e1bf918b23f3fdbcf642f93a6c5a1504d9ac81"
+    },
+    {
+      "checkpointId": "CP-P46-L7-01-STEP02",
+      "repositoryStateHash": "244dee663151ca7cd2106dc5387aba71c5b2a092e71028173666a0a22c05e630",
+      "completedEdits": [
+        "P46-L7-01-E01",
+        "P46-L7-01-E02"
+      ],
+      "remainingEdits": [
+        "P46-L7-01-E03",
+        "P46-L7-01-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-01_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "f420ee7d026452db777b2238d4e824124ae434bb941409a853e5f0d3f9ffaabb"
+    },
+    {
+      "checkpointId": "CP-P46-L7-01-STEP03",
+      "repositoryStateHash": "2c8ec11c3fe79ec4f5049d300185a9537a08ff63c3ba18e1756bd5acb266b053",
+      "completedEdits": [
+        "P46-L7-01-E01",
+        "P46-L7-01-E02",
+        "P46-L7-01-E03"
+      ],
+      "remainingEdits": [
+        "P46-L7-01-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-01_PARTIAL"
+      ],
+      "unsatisfiedInvariants": [
+        "PRIOR_INVARIANT_REGRESSION_P46-L7-01"
+      ],
+      "testStatus": "FAILED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "1cd7b3fc7997df01d0180760bced65b5a6463896ab0fd66b7e59e7384fdd4b0f"
+    },
+    {
+      "checkpointId": "CP-P46-L7-02-STEP01",
+      "repositoryStateHash": "5707ac0a2fa30451da1d9a9128ac406776b5cc777f0cb0ad942674ff40d5e5aa",
+      "completedEdits": [
+        "P46-L7-02-E01"
+      ],
+      "remainingEdits": [
+        "P46-L7-02-E02",
+        "P46-L7-02-E03",
+        "P46-L7-02-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-02_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "beae4017c1941125bf583356e064b30e09b889b601766daf5dc537fdea3e6ccf"
+    },
+    {
+      "checkpointId": "CP-P46-L7-02-STEP02",
+      "repositoryStateHash": "8f226f250308f37da99567cbf90a3e990f1ccce642cda4a1ebe52ec5ce1c1f30",
+      "completedEdits": [
+        "P46-L7-02-E01",
+        "P46-L7-02-E02"
+      ],
+      "remainingEdits": [
+        "P46-L7-02-E03",
+        "P46-L7-02-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-02_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "42e20fb51acf124f02d90bdc1fca4565fbadb5be6a4f9c2fc7883550337fad86"
+    },
+    {
+      "checkpointId": "CP-P46-L7-02-STEP03",
+      "repositoryStateHash": "510c08d253dec73b3d299bad68027ac1e7c13cacd2f8b07f0fba658898fa72f6",
+      "completedEdits": [
+        "P46-L7-02-E01",
+        "P46-L7-02-E02",
+        "P46-L7-02-E03"
+      ],
+      "remainingEdits": [
+        "P46-L7-02-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-02_PARTIAL"
+      ],
+      "unsatisfiedInvariants": [
+        "PRIOR_INVARIANT_REGRESSION_P46-L7-02"
+      ],
+      "testStatus": "FAILED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "e65b54b143a7180571569bb37feffe9b7cfeb7335e0de3c38f82259b83ee2834"
+    },
+    {
+      "checkpointId": "CP-P46-L7-03-STEP01",
+      "repositoryStateHash": "b9ba758c0891f520178a3834e19b2b41f8011845bd3e6210ecb3c7f9474684ed",
+      "completedEdits": [
+        "P46-L7-03-E01"
+      ],
+      "remainingEdits": [
+        "P46-L7-03-E02",
+        "P46-L7-03-E03",
+        "P46-L7-03-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-03_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "a057b109d55024a2ea10aea414e867dc3e0944aca40a17378910d6d03b9e7802"
+    },
+    {
+      "checkpointId": "CP-P46-L7-03-STEP02",
+      "repositoryStateHash": "8b67751b24e972b3d7ac07735513c67f10bcf9aff263af57b47275cf243895e2",
+      "completedEdits": [
+        "P46-L7-03-E01",
+        "P46-L7-03-E02"
+      ],
+      "remainingEdits": [
+        "P46-L7-03-E03",
+        "P46-L7-03-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-03_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "b3441bbc7406d254ae37ba8c7f438129ca13a1b926edc6224cb725defbc0974c"
+    },
+    {
+      "checkpointId": "CP-P46-L7-03-STEP03",
+      "repositoryStateHash": "7cacddc603df86c06cdac0a1319682993cdc2ef617b1b67ffc0619c90260cb22",
+      "completedEdits": [
+        "P46-L7-03-E01",
+        "P46-L7-03-E02",
+        "P46-L7-03-E03"
+      ],
+      "remainingEdits": [
+        "P46-L7-03-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-03_PARTIAL"
+      ],
+      "unsatisfiedInvariants": [
+        "PRIOR_INVARIANT_REGRESSION_P46-L7-03"
+      ],
+      "testStatus": "FAILED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "dc987bedc2ecb0e24491235cbfb8d83ced8bb19e0b01d2c15362d2f5175bf184"
+    },
+    {
+      "checkpointId": "CP-P46-L7-04-STEP01",
+      "repositoryStateHash": "f56889624853058f8a34ea4bab7f10a8161becc7ae5fa15867279bcfbf8f2287",
+      "completedEdits": [
+        "P46-L7-04-E01"
+      ],
+      "remainingEdits": [
+        "P46-L7-04-E02",
+        "P46-L7-04-E03",
+        "P46-L7-04-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-04_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "1b09f9733283013377da33a8576d33eb3346d8f3b8fb2dd3b0735af6dcb387d9"
+    },
+    {
+      "checkpointId": "CP-P46-L7-04-STEP02",
+      "repositoryStateHash": "150fc412e28563c0551ff55ef3634ad9cd5cd8c8fe1bd3045595821c6f195c24",
+      "completedEdits": [
+        "P46-L7-04-E01",
+        "P46-L7-04-E02"
+      ],
+      "remainingEdits": [
+        "P46-L7-04-E03",
+        "P46-L7-04-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-04_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "96e47a9e71ccd69ebf0ce7c11b7fe07f69a4d5a78cf2b0c4f9d399d1437b452e"
+    },
+    {
+      "checkpointId": "CP-P46-L7-04-STEP03",
+      "repositoryStateHash": "763723fe8f720842336275a4d931e0644d9ef2c95db77e792a37694e38367120",
+      "completedEdits": [
+        "P46-L7-04-E01",
+        "P46-L7-04-E02",
+        "P46-L7-04-E03"
+      ],
+      "remainingEdits": [
+        "P46-L7-04-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-04_PARTIAL"
+      ],
+      "unsatisfiedInvariants": [
+        "PRIOR_INVARIANT_REGRESSION_P46-L7-04"
+      ],
+      "testStatus": "FAILED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "73891aef204a75305d91a79e815efb5f3d8b56e4d9846a685bc7f19413809376"
+    },
+    {
+      "checkpointId": "CP-P46-L7-05-STEP01",
+      "repositoryStateHash": "5aa09d1bcf86834fae83844044ddf1e00968df44e894d0a585e0557759cd2323",
+      "completedEdits": [
+        "P46-L7-05-E01"
+      ],
+      "remainingEdits": [
+        "P46-L7-05-E02",
+        "P46-L7-05-E03",
+        "P46-L7-05-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-05_PRESERVED_1"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "d97ca5cda86475fd4699a3cb7bde67f3e54f4e65976a9114c2f42a5c1b769ca7"
+    },
+    {
+      "checkpointId": "CP-P46-L7-05-STEP02",
+      "repositoryStateHash": "64d2a8bd1c87e41468fec822a0f6377431fe7f2ceadfafae0a97a961775f2656",
+      "completedEdits": [
+        "P46-L7-05-E01",
+        "P46-L7-05-E02"
+      ],
+      "remainingEdits": [
+        "P46-L7-05-E03",
+        "P46-L7-05-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-05_PRESERVED_2"
+      ],
+      "unsatisfiedInvariants": [],
+      "testStatus": "PASSED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "4a3044eeea28eb8a42cfb39f5b7e8500e89116165da9b85bd3cdb6885d4b8cc6"
+    },
+    {
+      "checkpointId": "CP-P46-L7-05-STEP03",
+      "repositoryStateHash": "f927baa2de060e938d50946e2f0e8f55fc27be583bee625cac927a48c22be10f",
+      "completedEdits": [
+        "P46-L7-05-E01",
+        "P46-L7-05-E02",
+        "P46-L7-05-E03"
+      ],
+      "remainingEdits": [
+        "P46-L7-05-E04"
+      ],
+      "satisfiedInvariants": [
+        "INVARIANT_P46-L7-05_PARTIAL"
+      ],
+      "unsatisfiedInvariants": [
+        "PRIOR_INVARIANT_REGRESSION_P46-L7-05"
+      ],
+      "testStatus": "FAILED",
+      "astStatus": "VALID",
+      "scopeStatus": "COMPLIANT",
+      "patchHash": "64d5fc1cac76e457b79aa239cc8162d4b6d27a8ddaf974f60d91b27ea89dc510"
+    }
+  ]
+}
