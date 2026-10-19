@@ -1,0 +1,66 @@
+{
+  "phase": "55",
+  "totalGates": 6,
+  "gates": [
+    {
+      "gateId": "G1",
+      "name": "Structured tool proposal conformance",
+      "targetCapability": "Zod-validated tool proposal with required fields",
+      "testPrompt": "Read lines 1-10 of src/calc.js using read_file",
+      "passed": true,
+      "latencyMs": 1420,
+      "tokensProduced": 32,
+      "notes": "100% compliant JSON conforming to ReadFileInputSchema"
+    },
+    {
+      "gateId": "G2",
+      "name": "Code localization & target symbol resolution",
+      "targetCapability": "Locate AST node responsible for exponentiation precedence",
+      "testPrompt": "Locate parseExpression in src/parser/ast.js and identify binding power",
+      "passed": true,
+      "latencyMs": 2150,
+      "tokensProduced": 48,
+      "notes": "Correctly resolved Pratt dispatch table and binding power assignment"
+    },
+    {
+      "gateId": "G3",
+      "name": "Single-file repair (Level 4)",
+      "targetCapability": "Fix one-line off-by-one boundary bug in semver comparator",
+      "testPrompt": "Repair boundary check in src/semver.js",
+      "passed": true,
+      "latencyMs": 3820,
+      "tokensProduced": 76,
+      "notes": "Synthesized valid AST replacement; unit tests passed"
+    },
+    {
+      "gateId": "G4",
+      "name": "Multi-file coordination (Level 5 & Level 6)",
+      "targetCapability": "Coordinate user model role check and user service auth method",
+      "testPrompt": "Implement hasRole on User and wire into UserService.authorize()",
+      "passed": true,
+      "latencyMs": 8400,
+      "tokensProduced": 145,
+      "notes": "Synthesized both files cleanly; clean-room verification passed"
+    },
+    {
+      "gateId": "G5",
+      "name": "Multi-hop diagnostic repair on Level 7 SWE-bench tasks",
+      "targetCapability": "Synthesize full Pratt precedence repair for P46-L7-01 and CORS for P46-L7-02",
+      "testPrompt": "Repair prefix unary minus precedence vs exponentiation without breaking binary subtraction",
+      "passed": false,
+      "latencyMs": 38500,
+      "tokensProduced": 310,
+      "notes": "Synthesized bp: 9 for unary minus, but broke standard juxtaposition 5 - -2 in parser loop"
+    },
+    {
+      "gateId": "G6",
+      "name": "Regression preservation under invariant pressure",
+      "targetCapability": "Preserve all existing P2P regression tests while satisfying F2P bug fix",
+      "testPrompt": "Apply CORS wildcard regex repair while preserving test/cors-p2p.test.js",
+      "passed": false,
+      "latencyMs": 41200,
+      "tokensProduced": 280,
+      "notes": "Omitted credentials reflection on custom ports; regression test failed"
+    }
+  ]
+}

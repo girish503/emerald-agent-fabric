@@ -1,0 +1,50 @@
+{
+  "phase": "55",
+  "protocolVersion": "emerald-phase55-model-substitution-v1",
+  "frozenAt": "2026-10-19T17:02:01.259Z",
+  "experimentalVariable": "open_weight_model_capability_substitution",
+  "frozenBaselineCommit": "41f64f6",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "evaluatedModels": {
+    "control": {
+      "model": "qwen2.5-coder:1.5b",
+      "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "parameters": 1540000000,
+      "quantization": "Q4_K_M"
+    },
+    "strongerExecutor": {
+      "model": "qwen2.5-coder:3b",
+      "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameters": 3090000000,
+      "quantization": "Q4_K_M"
+    },
+    "critic": {
+      "model": "granite3-dense:2b",
+      "digest": "5c2e6f3112f4c9c1b359c25fca622f96cfb6e987c276a74ad503fcba8903c80b",
+      "parameters": 2500000000,
+      "quantization": "Q4_K_M"
+    }
+  },
+  "conditions": {
+    "CONDITION_A_EXISTING_CONTROL": "qwen2.5-coder:1.5b under frozen Phase 54 stack",
+    "CONDITION_B_STRONGER_MODEL_ALONE": "qwen2.5-coder:3b under frozen execution protocol (no diagnostic)",
+    "CONDITION_C_STRONGER_MODEL_DIAGNOSTIC": "qwen2.5-coder:3b + Phase 53 global invariant diagnostic",
+    "CONDITION_D_STRONGER_MODEL_FULL_STACK": "qwen2.5-coder:3b + complete Phase 54 patch synthesis stack"
+  },
+  "budgets": {
+    "maxTotalModelCalls": 11,
+    "maxContextBytes": 4096,
+    "maxEditRetries": 2,
+    "maxTotalRetries": 6
+  },
+  "cohortSize": 15,
+  "totalTrials": 60
+}
