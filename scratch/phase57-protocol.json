@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "emerald-phase57-v1",
+  "phase": "57",
+  "protocolVersion": "emerald-phase57-semantic-intent-inference-v1",
+  "frozenAt": "2026-10-19T17:40:54.719Z",
+  "baselineCommit": "69a5600",
+  "experimentalVariable": "whole_program_semantic_intent_inference_and_cross_module_contract_reconciliation",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "conditions": {
+    "CONDITION_A_PHASE56_CONTROL": "Frozen Phase 56 deterministic transformation pipeline (no semantic intent inference)",
+    "CONDITION_B_SEMANTIC_SPECIFICATION_INFERENCE": "Deterministic whole-program semantic inference (Evidence -> Invariants -> Semantic Spec -> Transformer -> Verification)",
+    "CONDITION_C_INFERENCE_PLUS_RECONCILIATION": "Inference + Cross-module Contract Graph + Conflict Detection + Reconciliation",
+    "CONDITION_D_FULL_SEMANTIC_INTENT_PIPELINE": "Full Semantic Intent Pipeline (Evidence -> Inference -> Contract Graph -> Conflict Detection -> Reconciliation -> Transformation -> Regression Preservation -> Clean Room -> Fourfold Verification)"
+  },
+  "bounds": {
+    "MAX_FILES": 10,
+    "MAX_SYMBOLS": 50,
+    "MAX_EDGES": 100,
+    "MAX_EVIDENCE_ITEMS": 100,
+    "MAX_INVARIANTS": 30,
+    "MAX_CONTRACTS": 30,
+    "MAX_CONFLICTS": 20,
+    "MAX_RECONCILIATION_ITERATIONS": 10,
+    "MAX_AST_NODES": 200,
+    "MAX_WALL_CLOCK_MS": 30000
+  },
+  "cohortSize": 15,
+  "totalTrials": 60,
+  "protocolDigest": "be7255d136c676f7e3a78fe05f3d86e5c6631b3b11421e31d6795783c5992da9"
+}

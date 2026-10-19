@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "emerald-phase57-v1",
+  "phase": "57",
+  "generatedAt": "2026-10-19T17:40:54.784Z",
+  "baselineCommit": "69a5600",
+  "protocolDigest": "be7255d136c676f7e3a78fe05f3d86e5c6631b3b11421e31d6795783c5992da9",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "inferredSemantics": {
+        "primaryModule": "src/parser.js",
+        "targetSymbol": "parseExpression",
+        "primaryBug": "Unary prefix minus binding power (8) is lower than exponentiation (8)",
+        "crossModuleDependency": "src/calc.js:evaluateExponent",
+        "discoveredHiddenInvariant": "Juxtaposition subtraction (5 - -2) relies on tokenizer state and infix Pratt precedence",
+        "conflictDetected": "DOWNSTREAM_REGRESSION_CONFLICT: Increasing parseExpression unary BP to 9 breaks infix subtraction juxtaposition in test/calc-p2p.test.js",
+        "reconciliationStatus": "RECONCILIATION_UNRESOLVED",
+        "repairFeasibility": "Requires multi-module Pratt tokenizer state + operator precedence re-engineering, which exceeds atomic single-pass transformation"
+      }
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "inferredSemantics": {
+        "primaryModule": "src/cors.js",
+        "targetSymbol": "compileOriginPattern",
+        "primaryBug": "Origin pattern wildcard does not capture custom port boundary",
+        "crossModuleDependency": "src/header-validator.js:validateHeaders",
+        "discoveredHiddenInvariant": "Wildcard origin reflection must preserve custom port credentials in response header",
+        "conflictDetected": "PRODUCER_CONSUMER_MISMATCH: compileOriginPattern regex captures port, but validateHeaders drops custom port credential header in test/cors-p2p.test.js",
+        "reconciliationStatus": "RECONCILIATION_UNRESOLVED",
+        "repairFeasibility": "Requires synchronized dual-module regex capture and header credential reflector synthesis"
+      }
+    }
+  ],
+  "artifactDigest": "31801753a1047a3592befddece594bc56b08be3cfb57270c3eb23b2fc69fdea1"
+}

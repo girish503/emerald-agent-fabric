@@ -1,0 +1,2451 @@
+{
+  "schemaVersion": "emerald-phase57-v1",
+  "phase": "57",
+  "generatedAt": "2026-10-19T17:40:54.763Z",
+  "baselineCommit": "69a5600",
+  "protocolDigest": "be7255d136c676f7e3a78fe05f3d86e5c6631b3b11421e31d6795783c5992da9",
+  "totalGraphs": 15,
+  "graphs": [
+    {
+      "graphId": "GRAPH-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L5-01-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-01-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-01-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-01-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-01-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-01-3"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-01-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-01-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-01-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-01-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-01-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-01-3"
+        },
+        {
+          "nodeId": "MOD:src/semver.js",
+          "nodeType": "MODULE",
+          "label": "src/semver.js"
+        },
+        {
+          "nodeId": "MOD:test/semver-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/semver-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/semver.js:comparePrerelease",
+          "nodeType": "SYMBOL",
+          "label": "comparePrerelease"
+        },
+        {
+          "nodeId": "SYM:src/semver.js:parsePrerelease",
+          "nodeType": "SYMBOL",
+          "label": "parsePrerelease"
+        },
+        {
+          "nodeId": "SYM:test/semver-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L5-01-1",
+          "targetNodeId": "EV:EV-P46-L5-01-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-01-2",
+          "targetNodeId": "EV:EV-P46-L5-01-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-01-3",
+          "targetNodeId": "EV:EV-P46-L5-01-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/semver.js",
+          "targetNodeId": "SYM:src/semver.js:comparePrerelease",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/semver.js",
+          "targetNodeId": "SYM:src/semver.js:parsePrerelease",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/semver-core.test.js",
+          "targetNodeId": "SYM:test/semver-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/semver.js:comparePrerelease",
+          "targetNodeId": "EV:EV-P46-L5-01-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/semver.js:parsePrerelease",
+          "targetNodeId": "EV:EV-P46-L5-01-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/semver-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L5-01-3",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "100ce874c610e3b3fca3b83aece10204d4eb9ea693e6fdf9a4465a957584f8f6"
+    },
+    {
+      "graphId": "GRAPH-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L5-02-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-02-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-02-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-02-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-02-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-02-3"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-02-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-02-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-02-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-02-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-02-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-02-3"
+        },
+        {
+          "nodeId": "MOD:src/deep-set.js",
+          "nodeType": "MODULE",
+          "label": "src/deep-set.js"
+        },
+        {
+          "nodeId": "MOD:test/deep-set-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/deep-set-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/deep-set.js:_setInternal",
+          "nodeType": "SYMBOL",
+          "label": "_setInternal"
+        },
+        {
+          "nodeId": "SYM:src/deep-set.js:_toPath",
+          "nodeType": "SYMBOL",
+          "label": "_toPath"
+        },
+        {
+          "nodeId": "SYM:test/deep-set-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L5-02-1",
+          "targetNodeId": "EV:EV-P46-L5-02-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-02-2",
+          "targetNodeId": "EV:EV-P46-L5-02-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-02-3",
+          "targetNodeId": "EV:EV-P46-L5-02-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/deep-set.js",
+          "targetNodeId": "SYM:src/deep-set.js:_setInternal",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/deep-set.js",
+          "targetNodeId": "SYM:src/deep-set.js:_toPath",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/deep-set-core.test.js",
+          "targetNodeId": "SYM:test/deep-set-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/deep-set.js:_setInternal",
+          "targetNodeId": "EV:EV-P46-L5-02-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/deep-set.js:_toPath",
+          "targetNodeId": "EV:EV-P46-L5-02-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/deep-set-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L5-02-3",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "77348b360d099ebda94d90a9a07dbe4884646391d6565ddb62b5998a9d11bd24"
+    },
+    {
+      "graphId": "GRAPH-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L5-03-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-03-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-03-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-03-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-03-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-03-3"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-03-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-03-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-03-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-03-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-03-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-03-3"
+        },
+        {
+          "nodeId": "MOD:src/emitter.js",
+          "nodeType": "MODULE",
+          "label": "src/emitter.js"
+        },
+        {
+          "nodeId": "MOD:test/emitter-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/emitter-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/emitter.js:dispatchListener",
+          "nodeType": "SYMBOL",
+          "label": "dispatchListener"
+        },
+        {
+          "nodeId": "SYM:src/emitter.js:emit",
+          "nodeType": "SYMBOL",
+          "label": "emit"
+        },
+        {
+          "nodeId": "SYM:test/emitter-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L5-03-1",
+          "targetNodeId": "EV:EV-P46-L5-03-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-03-2",
+          "targetNodeId": "EV:EV-P46-L5-03-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-03-3",
+          "targetNodeId": "EV:EV-P46-L5-03-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/emitter.js",
+          "targetNodeId": "SYM:src/emitter.js:dispatchListener",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/emitter.js",
+          "targetNodeId": "SYM:src/emitter.js:emit",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/emitter-core.test.js",
+          "targetNodeId": "SYM:test/emitter-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/emitter.js:dispatchListener",
+          "targetNodeId": "EV:EV-P46-L5-03-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/emitter.js:emit",
+          "targetNodeId": "EV:EV-P46-L5-03-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/emitter-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L5-03-3",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "c9146788bb12515eca608399ecfd48f34776a3be77a9d00c845171592f549dbb"
+    },
+    {
+      "graphId": "GRAPH-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L5-04-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-04-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-04-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-04-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-04-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-04-3"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-04-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-04-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-04-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-04-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-04-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-04-3"
+        },
+        {
+          "nodeId": "MOD:src/scanner.js",
+          "nodeType": "MODULE",
+          "label": "src/scanner.js"
+        },
+        {
+          "nodeId": "MOD:test/scanner-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/scanner-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/scanner.js:_handleError",
+          "nodeType": "SYMBOL",
+          "label": "_handleError"
+        },
+        {
+          "nodeId": "SYM:src/scanner.js:scanDirectory",
+          "nodeType": "SYMBOL",
+          "label": "scanDirectory"
+        },
+        {
+          "nodeId": "SYM:test/scanner-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L5-04-1",
+          "targetNodeId": "EV:EV-P46-L5-04-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-04-2",
+          "targetNodeId": "EV:EV-P46-L5-04-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-04-3",
+          "targetNodeId": "EV:EV-P46-L5-04-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/scanner.js",
+          "targetNodeId": "SYM:src/scanner.js:_handleError",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/scanner.js",
+          "targetNodeId": "SYM:src/scanner.js:scanDirectory",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/scanner-core.test.js",
+          "targetNodeId": "SYM:test/scanner-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/scanner.js:_handleError",
+          "targetNodeId": "EV:EV-P46-L5-04-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/scanner.js:scanDirectory",
+          "targetNodeId": "EV:EV-P46-L5-04-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/scanner-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L5-04-3",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "ac63b77e22ee92f730f2f370ed7aabfefa2d9b1682d5c9574ac43cf7fe395270"
+    },
+    {
+      "graphId": "GRAPH-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L5-05-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-05-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-05-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-05-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L5-05-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L5-05-3"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-05-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-05-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-05-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-05-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L5-05-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L5-05-3"
+        },
+        {
+          "nodeId": "MOD:src/kv-store.js",
+          "nodeType": "MODULE",
+          "label": "src/kv-store.js"
+        },
+        {
+          "nodeId": "MOD:test/kv-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/kv-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/kv-store.js:flushQueue",
+          "nodeType": "SYMBOL",
+          "label": "flushQueue"
+        },
+        {
+          "nodeId": "SYM:src/kv-store.js:readCache",
+          "nodeType": "SYMBOL",
+          "label": "readCache"
+        },
+        {
+          "nodeId": "SYM:test/kv-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L5-05-1",
+          "targetNodeId": "EV:EV-P46-L5-05-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-05-2",
+          "targetNodeId": "EV:EV-P46-L5-05-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L5-05-3",
+          "targetNodeId": "EV:EV-P46-L5-05-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/kv-store.js",
+          "targetNodeId": "SYM:src/kv-store.js:flushQueue",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/kv-store.js",
+          "targetNodeId": "SYM:src/kv-store.js:readCache",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/kv-core.test.js",
+          "targetNodeId": "SYM:test/kv-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/kv-store.js:flushQueue",
+          "targetNodeId": "EV:EV-P46-L5-05-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/kv-store.js:readCache",
+          "targetNodeId": "EV:EV-P46-L5-05-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/kv-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L5-05-3",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "bb65541c48c251a25fb7b3aaa69102611391350080ad7d25e631bf012889a7ad"
+    },
+    {
+      "graphId": "GRAPH-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L6-01-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-01-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-01-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-01-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-01-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-01-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-01-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-01-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-01-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-01-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-01-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-01-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-01-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-01-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-01-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-01-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-01-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-01-3"
+        },
+        {
+          "nodeId": "MOD:src/models/user.js",
+          "nodeType": "MODULE",
+          "label": "src/models/user.js"
+        },
+        {
+          "nodeId": "MOD:src/services/user-service.js",
+          "nodeType": "MODULE",
+          "label": "src/services/user-service.js"
+        },
+        {
+          "nodeId": "MOD:test/user-service-auth.test.js",
+          "nodeType": "MODULE",
+          "label": "test/user-service-auth.test.js"
+        },
+        {
+          "nodeId": "SYM:src/models/user.js:authorizeUser",
+          "nodeType": "SYMBOL",
+          "label": "authorizeUser"
+        },
+        {
+          "nodeId": "SYM:src/models/user.js:hasRole",
+          "nodeType": "SYMBOL",
+          "label": "hasRole"
+        },
+        {
+          "nodeId": "SYM:src/services/user-service.js:authorizeUser",
+          "nodeType": "SYMBOL",
+          "label": "authorizeUser"
+        },
+        {
+          "nodeId": "SYM:src/services/user-service.js:hasRole",
+          "nodeType": "SYMBOL",
+          "label": "hasRole"
+        },
+        {
+          "nodeId": "SYM:test/user-service-auth.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L6-01-1",
+          "targetNodeId": "EV:EV-P46-L6-01-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-01-1",
+          "targetNodeId": "EV:EV-P46-L6-01-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-01-1",
+          "targetNodeId": "EV:EV-P46-L6-01-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-01-2",
+          "targetNodeId": "EV:EV-P46-L6-01-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-01-2",
+          "targetNodeId": "EV:EV-P46-L6-01-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-01-3",
+          "targetNodeId": "EV:EV-P46-L6-01-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/models/user.js",
+          "targetNodeId": "SYM:src/models/user.js:authorizeUser",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/models/user.js",
+          "targetNodeId": "SYM:src/models/user.js:hasRole",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/models/user.js",
+          "targetNodeId": "SYM:src/models/user.js:hasRole",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/services/user-service.js",
+          "targetNodeId": "SYM:src/services/user-service.js:authorizeUser",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/services/user-service.js",
+          "targetNodeId": "SYM:src/services/user-service.js:hasRole",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/user-service-auth.test.js",
+          "targetNodeId": "SYM:test/user-service-auth.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/models/user.js:authorizeUser",
+          "targetNodeId": "EV:EV-P46-L6-01-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/models/user.js:hasRole",
+          "targetNodeId": "EV:EV-P46-L6-01-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/models/user.js:hasRole",
+          "targetNodeId": "EV:EV-P46-L6-01-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/services/user-service.js:authorizeUser",
+          "targetNodeId": "EV:EV-P46-L6-01-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/services/user-service.js:hasRole",
+          "targetNodeId": "EV:EV-P46-L6-01-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/user-service-auth.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L6-01-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "6ef417e578583b13a6aae51eddc89785e3f795895bf63cc910c784343da9da66"
+    },
+    {
+      "graphId": "GRAPH-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L6-02-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-02-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-02-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-02-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-02-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-02-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-02-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-02-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-02-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-02-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-02-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-02-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-02-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-02-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-02-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-02-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-02-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-02-3"
+        },
+        {
+          "nodeId": "MOD:src/config.js",
+          "nodeType": "MODULE",
+          "label": "src/config.js"
+        },
+        {
+          "nodeId": "MOD:src/defaults.js",
+          "nodeType": "MODULE",
+          "label": "src/defaults.js"
+        },
+        {
+          "nodeId": "MOD:test/config-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/config-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/config.js:defaultSchema",
+          "nodeType": "SYMBOL",
+          "label": "defaultSchema"
+        },
+        {
+          "nodeId": "SYM:src/config.js:loadConfig",
+          "nodeType": "SYMBOL",
+          "label": "loadConfig"
+        },
+        {
+          "nodeId": "SYM:src/defaults.js:defaultSchema",
+          "nodeType": "SYMBOL",
+          "label": "defaultSchema"
+        },
+        {
+          "nodeId": "SYM:src/defaults.js:loadConfig",
+          "nodeType": "SYMBOL",
+          "label": "loadConfig"
+        },
+        {
+          "nodeId": "SYM:test/config-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L6-02-1",
+          "targetNodeId": "EV:EV-P46-L6-02-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-02-1",
+          "targetNodeId": "EV:EV-P46-L6-02-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-02-1",
+          "targetNodeId": "EV:EV-P46-L6-02-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-02-2",
+          "targetNodeId": "EV:EV-P46-L6-02-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-02-2",
+          "targetNodeId": "EV:EV-P46-L6-02-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-02-3",
+          "targetNodeId": "EV:EV-P46-L6-02-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/config.js",
+          "targetNodeId": "SYM:src/config.js:defaultSchema",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/config.js",
+          "targetNodeId": "SYM:src/config.js:loadConfig",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/config.js",
+          "targetNodeId": "SYM:src/config.js:loadConfig",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/defaults.js",
+          "targetNodeId": "SYM:src/defaults.js:defaultSchema",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/defaults.js",
+          "targetNodeId": "SYM:src/defaults.js:loadConfig",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/config-core.test.js",
+          "targetNodeId": "SYM:test/config-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/config.js:defaultSchema",
+          "targetNodeId": "EV:EV-P46-L6-02-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/config.js:loadConfig",
+          "targetNodeId": "EV:EV-P46-L6-02-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/config.js:loadConfig",
+          "targetNodeId": "EV:EV-P46-L6-02-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/defaults.js:defaultSchema",
+          "targetNodeId": "EV:EV-P46-L6-02-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/defaults.js:loadConfig",
+          "targetNodeId": "EV:EV-P46-L6-02-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/config-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L6-02-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "4c38958955c0bf00e58726e971e8caf8923499dfa8c68f4aefe7b16fed7ca9a6"
+    },
+    {
+      "graphId": "GRAPH-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L6-03-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-03-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-03-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-03-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-03-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-03-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-03-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-03-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-03-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-03-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-03-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-03-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-03-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-03-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-03-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-03-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-03-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-03-3"
+        },
+        {
+          "nodeId": "MOD:src/formatters/json.js",
+          "nodeType": "MODULE",
+          "label": "src/formatters/json.js"
+        },
+        {
+          "nodeId": "MOD:src/logger.js",
+          "nodeType": "MODULE",
+          "label": "src/logger.js"
+        },
+        {
+          "nodeId": "MOD:test/logger-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/logger-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/formatters/json.js:formatJson",
+          "nodeType": "SYMBOL",
+          "label": "formatJson"
+        },
+        {
+          "nodeId": "SYM:src/formatters/json.js:logEvent",
+          "nodeType": "SYMBOL",
+          "label": "logEvent"
+        },
+        {
+          "nodeId": "SYM:src/logger.js:formatJson",
+          "nodeType": "SYMBOL",
+          "label": "formatJson"
+        },
+        {
+          "nodeId": "SYM:src/logger.js:logEvent",
+          "nodeType": "SYMBOL",
+          "label": "logEvent"
+        },
+        {
+          "nodeId": "SYM:test/logger-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L6-03-1",
+          "targetNodeId": "EV:EV-P46-L6-03-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-03-1",
+          "targetNodeId": "EV:EV-P46-L6-03-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-03-1",
+          "targetNodeId": "EV:EV-P46-L6-03-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-03-2",
+          "targetNodeId": "EV:EV-P46-L6-03-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-03-2",
+          "targetNodeId": "EV:EV-P46-L6-03-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-03-3",
+          "targetNodeId": "EV:EV-P46-L6-03-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/formatters/json.js",
+          "targetNodeId": "SYM:src/formatters/json.js:formatJson",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/formatters/json.js",
+          "targetNodeId": "SYM:src/formatters/json.js:formatJson",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/formatters/json.js",
+          "targetNodeId": "SYM:src/formatters/json.js:logEvent",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/logger.js",
+          "targetNodeId": "SYM:src/logger.js:formatJson",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/logger.js",
+          "targetNodeId": "SYM:src/logger.js:logEvent",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/logger-core.test.js",
+          "targetNodeId": "SYM:test/logger-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/formatters/json.js:formatJson",
+          "targetNodeId": "EV:EV-P46-L6-03-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/formatters/json.js:formatJson",
+          "targetNodeId": "EV:EV-P46-L6-03-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/formatters/json.js:logEvent",
+          "targetNodeId": "EV:EV-P46-L6-03-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/logger.js:formatJson",
+          "targetNodeId": "EV:EV-P46-L6-03-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/logger.js:logEvent",
+          "targetNodeId": "EV:EV-P46-L6-03-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/logger-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L6-03-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "7dff9b65586858cf5e39dbc0444450399e9d0a418d40800792e53c96bf986f06"
+    },
+    {
+      "graphId": "GRAPH-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L6-04-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-04-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-04-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-04-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-04-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-04-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-04-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-04-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-04-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-04-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-04-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-04-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-04-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-04-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-04-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-04-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-04-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-04-3"
+        },
+        {
+          "nodeId": "MOD:src/client.js",
+          "nodeType": "MODULE",
+          "label": "src/client.js"
+        },
+        {
+          "nodeId": "MOD:src/request.js",
+          "nodeType": "MODULE",
+          "label": "src/request.js"
+        },
+        {
+          "nodeId": "MOD:test/client-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/client-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/client.js:buildRequest",
+          "nodeType": "SYMBOL",
+          "label": "buildRequest"
+        },
+        {
+          "nodeId": "SYM:src/client.js:sendRequest",
+          "nodeType": "SYMBOL",
+          "label": "sendRequest"
+        },
+        {
+          "nodeId": "SYM:src/request.js:buildRequest",
+          "nodeType": "SYMBOL",
+          "label": "buildRequest"
+        },
+        {
+          "nodeId": "SYM:src/request.js:sendRequest",
+          "nodeType": "SYMBOL",
+          "label": "sendRequest"
+        },
+        {
+          "nodeId": "SYM:test/client-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L6-04-1",
+          "targetNodeId": "EV:EV-P46-L6-04-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-04-1",
+          "targetNodeId": "EV:EV-P46-L6-04-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-04-1",
+          "targetNodeId": "EV:EV-P46-L6-04-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-04-2",
+          "targetNodeId": "EV:EV-P46-L6-04-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-04-2",
+          "targetNodeId": "EV:EV-P46-L6-04-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-04-3",
+          "targetNodeId": "EV:EV-P46-L6-04-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/client.js",
+          "targetNodeId": "SYM:src/client.js:buildRequest",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/client.js",
+          "targetNodeId": "SYM:src/client.js:sendRequest",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/request.js",
+          "targetNodeId": "SYM:src/request.js:buildRequest",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/request.js",
+          "targetNodeId": "SYM:src/request.js:buildRequest",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/request.js",
+          "targetNodeId": "SYM:src/request.js:sendRequest",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/client-core.test.js",
+          "targetNodeId": "SYM:test/client-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/client.js:buildRequest",
+          "targetNodeId": "EV:EV-P46-L6-04-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/client.js:sendRequest",
+          "targetNodeId": "EV:EV-P46-L6-04-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/request.js:buildRequest",
+          "targetNodeId": "EV:EV-P46-L6-04-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/request.js:buildRequest",
+          "targetNodeId": "EV:EV-P46-L6-04-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/request.js:sendRequest",
+          "targetNodeId": "EV:EV-P46-L6-04-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/client-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L6-04-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "724a385565dc6ac91a0818a19ebc584f3b1c9de864576d5515a9d7be9efba27b"
+    },
+    {
+      "graphId": "GRAPH-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L6-05-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-05-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-05-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-05-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-05-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-05-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-05-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-05-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-05-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-05-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L6-05-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L6-05-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-05-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-05-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-05-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-05-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L6-05-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L6-05-3"
+        },
+        {
+          "nodeId": "MOD:src/job.js",
+          "nodeType": "MODULE",
+          "label": "src/job.js"
+        },
+        {
+          "nodeId": "MOD:src/queue.js",
+          "nodeType": "MODULE",
+          "label": "src/queue.js"
+        },
+        {
+          "nodeId": "MOD:test/queue-core.test.js",
+          "nodeType": "MODULE",
+          "label": "test/queue-core.test.js"
+        },
+        {
+          "nodeId": "SYM:src/job.js:cancelJob",
+          "nodeType": "SYMBOL",
+          "label": "cancelJob"
+        },
+        {
+          "nodeId": "SYM:src/job.js:evictWorker",
+          "nodeType": "SYMBOL",
+          "label": "evictWorker"
+        },
+        {
+          "nodeId": "SYM:src/queue.js:cancelJob",
+          "nodeType": "SYMBOL",
+          "label": "cancelJob"
+        },
+        {
+          "nodeId": "SYM:src/queue.js:evictWorker",
+          "nodeType": "SYMBOL",
+          "label": "evictWorker"
+        },
+        {
+          "nodeId": "SYM:test/queue-core.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L6-05-1",
+          "targetNodeId": "EV:EV-P46-L6-05-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-05-1",
+          "targetNodeId": "EV:EV-P46-L6-05-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-05-1",
+          "targetNodeId": "EV:EV-P46-L6-05-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-05-2",
+          "targetNodeId": "EV:EV-P46-L6-05-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-05-2",
+          "targetNodeId": "EV:EV-P46-L6-05-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L6-05-3",
+          "targetNodeId": "EV:EV-P46-L6-05-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/job.js",
+          "targetNodeId": "SYM:src/job.js:cancelJob",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/job.js",
+          "targetNodeId": "SYM:src/job.js:cancelJob",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/job.js",
+          "targetNodeId": "SYM:src/job.js:evictWorker",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/queue.js",
+          "targetNodeId": "SYM:src/queue.js:cancelJob",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/queue.js",
+          "targetNodeId": "SYM:src/queue.js:evictWorker",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/queue-core.test.js",
+          "targetNodeId": "SYM:test/queue-core.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/job.js:cancelJob",
+          "targetNodeId": "EV:EV-P46-L6-05-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/job.js:cancelJob",
+          "targetNodeId": "EV:EV-P46-L6-05-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/job.js:evictWorker",
+          "targetNodeId": "EV:EV-P46-L6-05-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/queue.js:cancelJob",
+          "targetNodeId": "EV:EV-P46-L6-05-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/queue.js:evictWorker",
+          "targetNodeId": "EV:EV-P46-L6-05-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/queue-core.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L6-05-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "ad6df795952e5f8aa81348f845ac79afee03e37b2317cf498400469ecbc911df"
+    },
+    {
+      "graphId": "GRAPH-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L7-01-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-01-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-01-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-01-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-01-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-01-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-01-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-01-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-01-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-01-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-01-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-01-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-01-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-01-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-01-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-01-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-01-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-01-3"
+        },
+        {
+          "nodeId": "MOD:src/calc.js",
+          "nodeType": "MODULE",
+          "label": "src/calc.js"
+        },
+        {
+          "nodeId": "MOD:src/parser.js",
+          "nodeType": "MODULE",
+          "label": "src/parser.js"
+        },
+        {
+          "nodeId": "MOD:test/calc-p2p.test.js",
+          "nodeType": "MODULE",
+          "label": "test/calc-p2p.test.js"
+        },
+        {
+          "nodeId": "SYM:src/calc.js:evaluateExponent",
+          "nodeType": "SYMBOL",
+          "label": "evaluateExponent"
+        },
+        {
+          "nodeId": "SYM:src/calc.js:parseExpression",
+          "nodeType": "SYMBOL",
+          "label": "parseExpression"
+        },
+        {
+          "nodeId": "SYM:src/parser.js:evaluateExponent",
+          "nodeType": "SYMBOL",
+          "label": "evaluateExponent"
+        },
+        {
+          "nodeId": "SYM:src/parser.js:parseExpression",
+          "nodeType": "SYMBOL",
+          "label": "parseExpression"
+        },
+        {
+          "nodeId": "SYM:test/calc-p2p.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L7-01-1",
+          "targetNodeId": "EV:EV-P46-L7-01-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-01-1",
+          "targetNodeId": "EV:EV-P46-L7-01-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-01-1",
+          "targetNodeId": "EV:EV-P46-L7-01-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-01-2",
+          "targetNodeId": "EV:EV-P46-L7-01-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-01-2",
+          "targetNodeId": "EV:EV-P46-L7-01-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-01-3",
+          "targetNodeId": "EV:EV-P46-L7-01-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/calc.js",
+          "targetNodeId": "SYM:src/calc.js:evaluateExponent",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/calc.js",
+          "targetNodeId": "SYM:src/calc.js:parseExpression",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/calc.js",
+          "targetNodeId": "SYM:src/calc.js:parseExpression",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/parser.js",
+          "targetNodeId": "SYM:src/parser.js:evaluateExponent",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/parser.js",
+          "targetNodeId": "SYM:src/parser.js:parseExpression",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/calc-p2p.test.js",
+          "targetNodeId": "SYM:test/calc-p2p.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/calc.js:evaluateExponent",
+          "targetNodeId": "EV:EV-P46-L7-01-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/calc.js:parseExpression",
+          "targetNodeId": "EV:EV-P46-L7-01-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/calc.js:parseExpression",
+          "targetNodeId": "EV:EV-P46-L7-01-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/parser.js:evaluateExponent",
+          "targetNodeId": "EV:EV-P46-L7-01-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/parser.js:parseExpression",
+          "targetNodeId": "EV:EV-P46-L7-01-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/calc-p2p.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L7-01-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "d01d2b996e574fcabd5ba0bda8222fdd7ee48ba2ff411d87e6c309ab918d05bf"
+    },
+    {
+      "graphId": "GRAPH-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L7-02-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-02-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-02-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-02-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-02-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-02-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-02-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-02-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-02-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-02-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-02-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-02-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-02-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-02-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-02-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-02-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-02-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-02-3"
+        },
+        {
+          "nodeId": "MOD:src/cors.js",
+          "nodeType": "MODULE",
+          "label": "src/cors.js"
+        },
+        {
+          "nodeId": "MOD:src/header-validator.js",
+          "nodeType": "MODULE",
+          "label": "src/header-validator.js"
+        },
+        {
+          "nodeId": "MOD:test/cors-p2p.test.js",
+          "nodeType": "MODULE",
+          "label": "test/cors-p2p.test.js"
+        },
+        {
+          "nodeId": "SYM:src/cors.js:compileOriginPattern",
+          "nodeType": "SYMBOL",
+          "label": "compileOriginPattern"
+        },
+        {
+          "nodeId": "SYM:src/cors.js:validateHeaders",
+          "nodeType": "SYMBOL",
+          "label": "validateHeaders"
+        },
+        {
+          "nodeId": "SYM:src/header-validator.js:compileOriginPattern",
+          "nodeType": "SYMBOL",
+          "label": "compileOriginPattern"
+        },
+        {
+          "nodeId": "SYM:src/header-validator.js:validateHeaders",
+          "nodeType": "SYMBOL",
+          "label": "validateHeaders"
+        },
+        {
+          "nodeId": "SYM:test/cors-p2p.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L7-02-1",
+          "targetNodeId": "EV:EV-P46-L7-02-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-02-1",
+          "targetNodeId": "EV:EV-P46-L7-02-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-02-1",
+          "targetNodeId": "EV:EV-P46-L7-02-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-02-2",
+          "targetNodeId": "EV:EV-P46-L7-02-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-02-2",
+          "targetNodeId": "EV:EV-P46-L7-02-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-02-3",
+          "targetNodeId": "EV:EV-P46-L7-02-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/cors.js",
+          "targetNodeId": "SYM:src/cors.js:compileOriginPattern",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/cors.js",
+          "targetNodeId": "SYM:src/cors.js:compileOriginPattern",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/cors.js",
+          "targetNodeId": "SYM:src/cors.js:validateHeaders",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/header-validator.js",
+          "targetNodeId": "SYM:src/header-validator.js:compileOriginPattern",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/header-validator.js",
+          "targetNodeId": "SYM:src/header-validator.js:validateHeaders",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/cors-p2p.test.js",
+          "targetNodeId": "SYM:test/cors-p2p.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/cors.js:compileOriginPattern",
+          "targetNodeId": "EV:EV-P46-L7-02-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/cors.js:compileOriginPattern",
+          "targetNodeId": "EV:EV-P46-L7-02-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/cors.js:validateHeaders",
+          "targetNodeId": "EV:EV-P46-L7-02-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/header-validator.js:compileOriginPattern",
+          "targetNodeId": "EV:EV-P46-L7-02-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/header-validator.js:validateHeaders",
+          "targetNodeId": "EV:EV-P46-L7-02-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/cors-p2p.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L7-02-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "14e4a5afee404d790402a11d7898759a48959df76fd03d1aec477bc534124c23"
+    },
+    {
+      "graphId": "GRAPH-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L7-03-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-03-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-03-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-03-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-03-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-03-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-03-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-03-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-03-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-03-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-03-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-03-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-03-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-03-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-03-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-03-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-03-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-03-3"
+        },
+        {
+          "nodeId": "MOD:src/comparator.js",
+          "nodeType": "MODULE",
+          "label": "src/comparator.js"
+        },
+        {
+          "nodeId": "MOD:src/semver.js",
+          "nodeType": "MODULE",
+          "label": "src/semver.js"
+        },
+        {
+          "nodeId": "MOD:test/semver-p2p.test.js",
+          "nodeType": "MODULE",
+          "label": "test/semver-p2p.test.js"
+        },
+        {
+          "nodeId": "SYM:src/comparator.js:compareSemVer",
+          "nodeType": "SYMBOL",
+          "label": "compareSemVer"
+        },
+        {
+          "nodeId": "SYM:src/comparator.js:sortPrerelease",
+          "nodeType": "SYMBOL",
+          "label": "sortPrerelease"
+        },
+        {
+          "nodeId": "SYM:src/semver.js:compareSemVer",
+          "nodeType": "SYMBOL",
+          "label": "compareSemVer"
+        },
+        {
+          "nodeId": "SYM:src/semver.js:sortPrerelease",
+          "nodeType": "SYMBOL",
+          "label": "sortPrerelease"
+        },
+        {
+          "nodeId": "SYM:test/semver-p2p.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L7-03-1",
+          "targetNodeId": "EV:EV-P46-L7-03-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-03-1",
+          "targetNodeId": "EV:EV-P46-L7-03-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-03-1",
+          "targetNodeId": "EV:EV-P46-L7-03-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-03-2",
+          "targetNodeId": "EV:EV-P46-L7-03-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-03-2",
+          "targetNodeId": "EV:EV-P46-L7-03-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-03-3",
+          "targetNodeId": "EV:EV-P46-L7-03-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/comparator.js",
+          "targetNodeId": "SYM:src/comparator.js:compareSemVer",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/comparator.js",
+          "targetNodeId": "SYM:src/comparator.js:sortPrerelease",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/semver.js",
+          "targetNodeId": "SYM:src/semver.js:compareSemVer",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/semver.js",
+          "targetNodeId": "SYM:src/semver.js:sortPrerelease",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/semver.js",
+          "targetNodeId": "SYM:src/semver.js:sortPrerelease",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/semver-p2p.test.js",
+          "targetNodeId": "SYM:test/semver-p2p.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/comparator.js:compareSemVer",
+          "targetNodeId": "EV:EV-P46-L7-03-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/comparator.js:sortPrerelease",
+          "targetNodeId": "EV:EV-P46-L7-03-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/semver.js:compareSemVer",
+          "targetNodeId": "EV:EV-P46-L7-03-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/semver.js:sortPrerelease",
+          "targetNodeId": "EV:EV-P46-L7-03-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/semver.js:sortPrerelease",
+          "targetNodeId": "EV:EV-P46-L7-03-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/semver-p2p.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L7-03-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "5503761fdccf725860ffa8b65dc8981096354ef743de6abfb5209318cdaa30ea"
+    },
+    {
+      "graphId": "GRAPH-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L7-04-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-04-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-04-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-04-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-04-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-04-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-04-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-04-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-04-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-04-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-04-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-04-6"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-04-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-04-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-04-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-04-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-04-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-04-3"
+        },
+        {
+          "nodeId": "MOD:src/deep-set.js",
+          "nodeType": "MODULE",
+          "label": "src/deep-set.js"
+        },
+        {
+          "nodeId": "MOD:src/path-resolver.js",
+          "nodeType": "MODULE",
+          "label": "src/path-resolver.js"
+        },
+        {
+          "nodeId": "MOD:test/deep-p2p.test.js",
+          "nodeType": "MODULE",
+          "label": "test/deep-p2p.test.js"
+        },
+        {
+          "nodeId": "SYM:src/deep-set.js:resolveObjectPath",
+          "nodeType": "SYMBOL",
+          "label": "resolveObjectPath"
+        },
+        {
+          "nodeId": "SYM:src/deep-set.js:setDeepProperty",
+          "nodeType": "SYMBOL",
+          "label": "setDeepProperty"
+        },
+        {
+          "nodeId": "SYM:src/path-resolver.js:resolveObjectPath",
+          "nodeType": "SYMBOL",
+          "label": "resolveObjectPath"
+        },
+        {
+          "nodeId": "SYM:src/path-resolver.js:setDeepProperty",
+          "nodeType": "SYMBOL",
+          "label": "setDeepProperty"
+        },
+        {
+          "nodeId": "SYM:test/deep-p2p.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L7-04-1",
+          "targetNodeId": "EV:EV-P46-L7-04-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-04-1",
+          "targetNodeId": "EV:EV-P46-L7-04-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-04-1",
+          "targetNodeId": "EV:EV-P46-L7-04-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-04-2",
+          "targetNodeId": "EV:EV-P46-L7-04-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-04-2",
+          "targetNodeId": "EV:EV-P46-L7-04-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-04-3",
+          "targetNodeId": "EV:EV-P46-L7-04-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/deep-set.js",
+          "targetNodeId": "SYM:src/deep-set.js:resolveObjectPath",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/deep-set.js",
+          "targetNodeId": "SYM:src/deep-set.js:setDeepProperty",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/deep-set.js",
+          "targetNodeId": "SYM:src/deep-set.js:setDeepProperty",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/path-resolver.js",
+          "targetNodeId": "SYM:src/path-resolver.js:resolveObjectPath",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/path-resolver.js",
+          "targetNodeId": "SYM:src/path-resolver.js:setDeepProperty",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/deep-p2p.test.js",
+          "targetNodeId": "SYM:test/deep-p2p.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/deep-set.js:resolveObjectPath",
+          "targetNodeId": "EV:EV-P46-L7-04-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/deep-set.js:setDeepProperty",
+          "targetNodeId": "EV:EV-P46-L7-04-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/deep-set.js:setDeepProperty",
+          "targetNodeId": "EV:EV-P46-L7-04-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/path-resolver.js:resolveObjectPath",
+          "targetNodeId": "EV:EV-P46-L7-04-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/path-resolver.js:setDeepProperty",
+          "targetNodeId": "EV:EV-P46-L7-04-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/deep-p2p.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L7-04-6",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "830c83222ceafc2edb2b922f5f5a258fa7606c7a829f34898ba5ba0be494849d"
+    },
+    {
+      "graphId": "GRAPH-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "nodes": [
+        {
+          "nodeId": "EV:EV-P46-L7-05-1",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-1"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-05-2",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-2"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-05-3",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-3"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-05-4",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-4"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-05-5",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-5"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-05-6",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-6"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-05-7",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-7"
+        },
+        {
+          "nodeId": "EV:EV-P46-L7-05-8",
+          "nodeType": "EVIDENCE",
+          "label": "EV-P46-L7-05-8"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-05-1",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-05-1"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-05-2",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-05-2"
+        },
+        {
+          "nodeId": "INV:INV-P46-L7-05-3",
+          "nodeType": "INVARIANT",
+          "label": "INV-P46-L7-05-3"
+        },
+        {
+          "nodeId": "MOD:src/models/user.js",
+          "nodeType": "MODULE",
+          "label": "src/models/user.js"
+        },
+        {
+          "nodeId": "MOD:src/routes/user-route.js",
+          "nodeType": "MODULE",
+          "label": "src/routes/user-route.js"
+        },
+        {
+          "nodeId": "MOD:src/services/user-service.js",
+          "nodeType": "MODULE",
+          "label": "src/services/user-service.js"
+        },
+        {
+          "nodeId": "MOD:test/user-p2p.test.js",
+          "nodeType": "MODULE",
+          "label": "test/user-p2p.test.js"
+        },
+        {
+          "nodeId": "SYM:src/models/user.js:authorizeRole",
+          "nodeType": "SYMBOL",
+          "label": "authorizeRole"
+        },
+        {
+          "nodeId": "SYM:src/models/user.js:evaluateRoleHierarchy",
+          "nodeType": "SYMBOL",
+          "label": "evaluateRoleHierarchy"
+        },
+        {
+          "nodeId": "SYM:src/routes/user-route.js:authorizeRole",
+          "nodeType": "SYMBOL",
+          "label": "authorizeRole"
+        },
+        {
+          "nodeId": "SYM:src/routes/user-route.js:evaluateRoleHierarchy",
+          "nodeType": "SYMBOL",
+          "label": "evaluateRoleHierarchy"
+        },
+        {
+          "nodeId": "SYM:src/services/user-service.js:authorizeRole",
+          "nodeType": "SYMBOL",
+          "label": "authorizeRole"
+        },
+        {
+          "nodeId": "SYM:src/services/user-service.js:evaluateRoleHierarchy",
+          "nodeType": "SYMBOL",
+          "label": "evaluateRoleHierarchy"
+        },
+        {
+          "nodeId": "SYM:test/user-p2p.test.js:testAssertion",
+          "nodeType": "SYMBOL",
+          "label": "testAssertion"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-1",
+          "targetNodeId": "EV:EV-P46-L7-05-1",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-1",
+          "targetNodeId": "EV:EV-P46-L7-05-3",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-1",
+          "targetNodeId": "EV:EV-P46-L7-05-5",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-1",
+          "targetNodeId": "EV:EV-P46-L7-05-7",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-2",
+          "targetNodeId": "EV:EV-P46-L7-05-2",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-2",
+          "targetNodeId": "EV:EV-P46-L7-05-4",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-2",
+          "targetNodeId": "EV:EV-P46-L7-05-6",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "INV:INV-P46-L7-05-3",
+          "targetNodeId": "EV:EV-P46-L7-05-8",
+          "edgeType": "DEPENDS_ON"
+        },
+        {
+          "sourceNodeId": "MOD:src/models/user.js",
+          "targetNodeId": "SYM:src/models/user.js:authorizeRole",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/models/user.js",
+          "targetNodeId": "SYM:src/models/user.js:authorizeRole",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/models/user.js",
+          "targetNodeId": "SYM:src/models/user.js:evaluateRoleHierarchy",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/routes/user-route.js",
+          "targetNodeId": "SYM:src/routes/user-route.js:authorizeRole",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/routes/user-route.js",
+          "targetNodeId": "SYM:src/routes/user-route.js:evaluateRoleHierarchy",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/services/user-service.js",
+          "targetNodeId": "SYM:src/services/user-service.js:authorizeRole",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:src/services/user-service.js",
+          "targetNodeId": "SYM:src/services/user-service.js:evaluateRoleHierarchy",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "MOD:test/user-p2p.test.js",
+          "targetNodeId": "SYM:test/user-p2p.test.js:testAssertion",
+          "edgeType": "EXPORTS"
+        },
+        {
+          "sourceNodeId": "SYM:src/models/user.js:authorizeRole",
+          "targetNodeId": "EV:EV-P46-L7-05-1",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/models/user.js:authorizeRole",
+          "targetNodeId": "EV:EV-P46-L7-05-7",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/models/user.js:evaluateRoleHierarchy",
+          "targetNodeId": "EV:EV-P46-L7-05-2",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/routes/user-route.js:authorizeRole",
+          "targetNodeId": "EV:EV-P46-L7-05-5",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/routes/user-route.js:evaluateRoleHierarchy",
+          "targetNodeId": "EV:EV-P46-L7-05-6",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/services/user-service.js:authorizeRole",
+          "targetNodeId": "EV:EV-P46-L7-05-3",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:src/services/user-service.js:evaluateRoleHierarchy",
+          "targetNodeId": "EV:EV-P46-L7-05-4",
+          "edgeType": "PRODUCES"
+        },
+        {
+          "sourceNodeId": "SYM:test/user-p2p.test.js:testAssertion",
+          "targetNodeId": "EV:EV-P46-L7-05-8",
+          "edgeType": "PRODUCES"
+        }
+      ],
+      "contractGraphHash": "73323c49465ded46f0f754333bd5f4ac717c7f7cb4705e173d47eb8a82f9752b"
+    }
+  ],
+  "artifactDigest": "7ad38b7e115d37189e4dbf916e66e59e03d90605dfc8a0b24d5f701a7ded19bd"
+}

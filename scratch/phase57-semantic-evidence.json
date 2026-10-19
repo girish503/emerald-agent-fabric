@@ -1,0 +1,1333 @@
+{
+  "schemaVersion": "emerald-phase57-v1",
+  "phase": "57",
+  "generatedAt": "2026-10-19T17:40:54.759Z",
+  "baselineCommit": "69a5600",
+  "protocolDigest": "be7255d136c676f7e3a78fe05f3d86e5c6631b3b11421e31d6795783c5992da9",
+  "totalTasks": 15,
+  "tasks": [
+    {
+      "taskId": "P46-L5-01",
+      "evidenceCount": 3,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L5-01-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/semver.js",
+          "symbolId": "parsePrerelease",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol parsePrerelease is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/semver.js:function parsePrerelease"
+          ],
+          "contentHash": "377457f11964ff8d2be3cfddd65d0493ff83edf245727bb2f7c5564eb3695525"
+        },
+        {
+          "evidenceId": "EV-P46-L5-01-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/semver.js",
+          "symbolId": "comparePrerelease",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol comparePrerelease is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/semver.js:function comparePrerelease"
+          ],
+          "contentHash": "4b343c1bbce647378fcee71c945e9f03b2af0a4ee06ff500ca40fe99450ccf13"
+        },
+        {
+          "evidenceId": "EV-P46-L5-01-3",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/semver-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/semver-core.test.js:testAssertion has a TEST contract with src/semver.js:parsePrerelease",
+          "confidence": 0.9,
+          "provenance": [
+            "test/semver-core.test.js->src/semver.js"
+          ],
+          "contentHash": "383f18dd76204f9a2be05ef28e1d7c40239d6f27e6e4f22e988d64b7f181b02e"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-02",
+      "evidenceCount": 3,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L5-02-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/deep-set.js",
+          "symbolId": "_toPath",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol _toPath is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/deep-set.js:function _toPath"
+          ],
+          "contentHash": "535f775f92636b6c90a0850cd879e29560f16a404ac3f3e3725f658f68b3a990"
+        },
+        {
+          "evidenceId": "EV-P46-L5-02-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/deep-set.js",
+          "symbolId": "_setInternal",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol _setInternal is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/deep-set.js:function _setInternal"
+          ],
+          "contentHash": "2de4abc43038d8b74ecab8a8986a4a454eff173de51fd736a4fed2f86d24c6bf"
+        },
+        {
+          "evidenceId": "EV-P46-L5-02-3",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/deep-set-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/deep-set-core.test.js:testAssertion has a TEST contract with src/deep-set.js:_toPath",
+          "confidence": 0.9,
+          "provenance": [
+            "test/deep-set-core.test.js->src/deep-set.js"
+          ],
+          "contentHash": "ddcf692b3ab181f84f3dab432e0bf7c9a42e1bf5f63e3dd5d7396d38185245a5"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-03",
+      "evidenceCount": 3,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L5-03-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/emitter.js",
+          "symbolId": "emit",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol emit is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/emitter.js:function emit"
+          ],
+          "contentHash": "f0651ba28715bfea275aaa97a3b1ce181ae685a66bf27760e3b88dd96d803509"
+        },
+        {
+          "evidenceId": "EV-P46-L5-03-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/emitter.js",
+          "symbolId": "dispatchListener",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol dispatchListener is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/emitter.js:function dispatchListener"
+          ],
+          "contentHash": "f9dbafab194e4552ed953065ba8923e30a400fc79762d3014aa8c8394abd8176"
+        },
+        {
+          "evidenceId": "EV-P46-L5-03-3",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/emitter-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/emitter-core.test.js:testAssertion has a TEST contract with src/emitter.js:emit",
+          "confidence": 0.9,
+          "provenance": [
+            "test/emitter-core.test.js->src/emitter.js"
+          ],
+          "contentHash": "f562917e0ff72a8db864221583c17d555bb6a27d1c3be4faed244737744c7c33"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-04",
+      "evidenceCount": 3,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L5-04-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/scanner.js",
+          "symbolId": "_handleError",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol _handleError is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/scanner.js:function _handleError"
+          ],
+          "contentHash": "46c5d188c23fb6bd1e634a00190e668b4d16c4994e979f2060b054a5ef416135"
+        },
+        {
+          "evidenceId": "EV-P46-L5-04-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/scanner.js",
+          "symbolId": "scanDirectory",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol scanDirectory is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/scanner.js:function scanDirectory"
+          ],
+          "contentHash": "20bfc8419fb601437df0e5cf6b3d2581e02dbf80e90aa3e5d08b0a10374e0185"
+        },
+        {
+          "evidenceId": "EV-P46-L5-04-3",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/scanner-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/scanner-core.test.js:testAssertion has a TEST contract with src/scanner.js:_handleError",
+          "confidence": 0.9,
+          "provenance": [
+            "test/scanner-core.test.js->src/scanner.js"
+          ],
+          "contentHash": "db6c7719874bd86149eee45dd01f7e6480cae608f92cf44b4985b7f6606a504c"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-05",
+      "evidenceCount": 3,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L5-05-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/kv-store.js",
+          "symbolId": "flushQueue",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol flushQueue is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/kv-store.js:function flushQueue"
+          ],
+          "contentHash": "0dd77b6e8849c7997a97e66812991171a730e1fcefe3cf2744d9b6f36db7b425"
+        },
+        {
+          "evidenceId": "EV-P46-L5-05-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/kv-store.js",
+          "symbolId": "readCache",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol readCache is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/kv-store.js:function readCache"
+          ],
+          "contentHash": "737922bbfdd4c430c0019a10a0c4fab0271844f314c04e219d7a76184e7370c1"
+        },
+        {
+          "evidenceId": "EV-P46-L5-05-3",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/kv-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/kv-core.test.js:testAssertion has a TEST contract with src/kv-store.js:flushQueue",
+          "confidence": 0.9,
+          "provenance": [
+            "test/kv-core.test.js->src/kv-store.js"
+          ],
+          "contentHash": "5039fd2e7006df74601831eebe5e68293ef37c9c995c938676447d9312eb7570"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-01",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L6-01-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/models/user.js",
+          "symbolId": "hasRole",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol hasRole is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/models/user.js:function hasRole"
+          ],
+          "contentHash": "4c5b24034885a88e42d34a84d23f47bb65ba61aebed0c8cceb0fa5d9550a15a4"
+        },
+        {
+          "evidenceId": "EV-P46-L6-01-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/models/user.js",
+          "symbolId": "authorizeUser",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol authorizeUser is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/models/user.js:function authorizeUser"
+          ],
+          "contentHash": "c386a589b4f636224020ab42225ea636726797b5b2c2dbe542063355a2f777f9"
+        },
+        {
+          "evidenceId": "EV-P46-L6-01-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/services/user-service.js",
+          "symbolId": "hasRole",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol hasRole is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/services/user-service.js:function hasRole"
+          ],
+          "contentHash": "5aa8d24c627dbb79b43f0586929f884d778cd9f4fcef9cd56c9266a58a8ab5f3"
+        },
+        {
+          "evidenceId": "EV-P46-L6-01-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/services/user-service.js",
+          "symbolId": "authorizeUser",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol authorizeUser is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/services/user-service.js:function authorizeUser"
+          ],
+          "contentHash": "d408cb08883d826ad9fbe806d1c762f2769a6a4778922b2be764b353ab6d211b"
+        },
+        {
+          "evidenceId": "EV-P46-L6-01-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/models/user.js",
+          "symbolId": "hasRole",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/models/user.js:hasRole has a CALL contract with src/services/user-service.js:authorizeUser",
+          "confidence": 0.9,
+          "provenance": [
+            "src/models/user.js->src/services/user-service.js"
+          ],
+          "contentHash": "161ba024f309b820c3dec833e99c1dbe4e4a5b0eacbb74567411269227edb677"
+        },
+        {
+          "evidenceId": "EV-P46-L6-01-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/user-service-auth.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/user-service-auth.test.js:testAssertion has a TEST contract with src/models/user.js:hasRole",
+          "confidence": 0.9,
+          "provenance": [
+            "test/user-service-auth.test.js->src/models/user.js"
+          ],
+          "contentHash": "bdb9abcc688ed88b9d1db9e409ba483b6de139ebe16e9d53c7f1584560b1751f"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-02",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L6-02-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/config.js",
+          "symbolId": "loadConfig",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol loadConfig is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/config.js:function loadConfig"
+          ],
+          "contentHash": "95e87528d8c75dbf80c3ddf3e67dc3a75818d25df02fb14c8bed7426af4f66bb"
+        },
+        {
+          "evidenceId": "EV-P46-L6-02-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/config.js",
+          "symbolId": "defaultSchema",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol defaultSchema is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/config.js:function defaultSchema"
+          ],
+          "contentHash": "84ab33cc9e76939798b32439123203935f1eba427d749e66a5190cba04afd00e"
+        },
+        {
+          "evidenceId": "EV-P46-L6-02-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/defaults.js",
+          "symbolId": "loadConfig",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol loadConfig is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/defaults.js:function loadConfig"
+          ],
+          "contentHash": "65fae918dbc388f585a4097f49c0bd49d106f244e4e140ede84947c22bd2d5d4"
+        },
+        {
+          "evidenceId": "EV-P46-L6-02-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/defaults.js",
+          "symbolId": "defaultSchema",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol defaultSchema is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/defaults.js:function defaultSchema"
+          ],
+          "contentHash": "384118d58772a2a6ef4704c48e830b8ed70c316775fb13dcd9993e428146adc8"
+        },
+        {
+          "evidenceId": "EV-P46-L6-02-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/config.js",
+          "symbolId": "loadConfig",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/config.js:loadConfig has a CALL contract with src/defaults.js:defaultSchema",
+          "confidence": 0.9,
+          "provenance": [
+            "src/config.js->src/defaults.js"
+          ],
+          "contentHash": "2c5cd8e6dfaea689142402da49d6aed548907e7f1054a6e498a9f0aa556b1d53"
+        },
+        {
+          "evidenceId": "EV-P46-L6-02-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/config-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/config-core.test.js:testAssertion has a TEST contract with src/config.js:loadConfig",
+          "confidence": 0.9,
+          "provenance": [
+            "test/config-core.test.js->src/config.js"
+          ],
+          "contentHash": "cf825d1ad8f8f16e0a2257bf318981a34d2750c0e5c12082021c8cc6f5aa8a27"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-03",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L6-03-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/formatters/json.js",
+          "symbolId": "formatJson",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol formatJson is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/formatters/json.js:function formatJson"
+          ],
+          "contentHash": "54c18e12bd5710d34f8fcfd42229c4d6085329c7c4826990760997e08287a9a1"
+        },
+        {
+          "evidenceId": "EV-P46-L6-03-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/formatters/json.js",
+          "symbolId": "logEvent",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol logEvent is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/formatters/json.js:function logEvent"
+          ],
+          "contentHash": "94a177892664edc8bb0b0ae3173da65ac25004c9762b35e15287464b2615464d"
+        },
+        {
+          "evidenceId": "EV-P46-L6-03-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/logger.js",
+          "symbolId": "formatJson",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol formatJson is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/logger.js:function formatJson"
+          ],
+          "contentHash": "93e6b6183f257cff91cfde345bfcb186a9bc7c750fe8d4e027e840e911b6c1f1"
+        },
+        {
+          "evidenceId": "EV-P46-L6-03-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/logger.js",
+          "symbolId": "logEvent",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol logEvent is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/logger.js:function logEvent"
+          ],
+          "contentHash": "95707ac9a599db819e5337095721196b4599674316ac07401bc8688700d5062f"
+        },
+        {
+          "evidenceId": "EV-P46-L6-03-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/formatters/json.js",
+          "symbolId": "formatJson",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/formatters/json.js:formatJson has a CALL contract with src/logger.js:logEvent",
+          "confidence": 0.9,
+          "provenance": [
+            "src/formatters/json.js->src/logger.js"
+          ],
+          "contentHash": "2b20ba267298ecd5e00fe2bc921526bea9d6bfb6f24046834fe13870e549ed7e"
+        },
+        {
+          "evidenceId": "EV-P46-L6-03-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/logger-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/logger-core.test.js:testAssertion has a TEST contract with src/formatters/json.js:formatJson",
+          "confidence": 0.9,
+          "provenance": [
+            "test/logger-core.test.js->src/formatters/json.js"
+          ],
+          "contentHash": "d1473d1596d0e714c0e2bbe39ef65955a9026734e091f676c955d6e80944052f"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-04",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L6-04-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/request.js",
+          "symbolId": "buildRequest",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol buildRequest is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/request.js:function buildRequest"
+          ],
+          "contentHash": "d4928e14e36efa322f44a5bf00d0825565ccd75961b4b98f9d0d8ad30d4930a5"
+        },
+        {
+          "evidenceId": "EV-P46-L6-04-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/request.js",
+          "symbolId": "sendRequest",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol sendRequest is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/request.js:function sendRequest"
+          ],
+          "contentHash": "131e1b4146bfa8a415e4b5bf1806451e76ff3c89d282da1e42caeae51b76e092"
+        },
+        {
+          "evidenceId": "EV-P46-L6-04-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/client.js",
+          "symbolId": "buildRequest",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol buildRequest is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/client.js:function buildRequest"
+          ],
+          "contentHash": "def2c0dd8e892439ed4bf33531ff4db864ede18a848832312a20e28a7a8c72bc"
+        },
+        {
+          "evidenceId": "EV-P46-L6-04-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/client.js",
+          "symbolId": "sendRequest",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol sendRequest is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/client.js:function sendRequest"
+          ],
+          "contentHash": "a900df19f59510fed4d550fb611a5e8a9bd945b6d3705e0cec6140caa4d6e6ca"
+        },
+        {
+          "evidenceId": "EV-P46-L6-04-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/request.js",
+          "symbolId": "buildRequest",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/request.js:buildRequest has a CALL contract with src/client.js:sendRequest",
+          "confidence": 0.9,
+          "provenance": [
+            "src/request.js->src/client.js"
+          ],
+          "contentHash": "afbcc5e61ced049d5f4fa110e21fa8a7157e40f43c0b8ff382aa0790da6f0cbe"
+        },
+        {
+          "evidenceId": "EV-P46-L6-04-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/client-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/client-core.test.js:testAssertion has a TEST contract with src/request.js:buildRequest",
+          "confidence": 0.9,
+          "provenance": [
+            "test/client-core.test.js->src/request.js"
+          ],
+          "contentHash": "be3256ca3c4d756c5a276cdd96d99a0c20960ab4d6d6c642d43c9bd6aa4699ca"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-05",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L6-05-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/job.js",
+          "symbolId": "cancelJob",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol cancelJob is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/job.js:function cancelJob"
+          ],
+          "contentHash": "5b6417b10441ae1ec2d3a05809918d775d3a04a5d294bcd2be652558e9c70c56"
+        },
+        {
+          "evidenceId": "EV-P46-L6-05-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/job.js",
+          "symbolId": "evictWorker",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol evictWorker is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/job.js:function evictWorker"
+          ],
+          "contentHash": "179e99e6efd0c2ee1ad805666b1199386d75d24c5de99a9def52eeddfb93e7fe"
+        },
+        {
+          "evidenceId": "EV-P46-L6-05-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/queue.js",
+          "symbolId": "cancelJob",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol cancelJob is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/queue.js:function cancelJob"
+          ],
+          "contentHash": "90dac7575a7d7cc8859483de2b712a01988fcddfb9fbc91431c3c08d4bb0c29c"
+        },
+        {
+          "evidenceId": "EV-P46-L6-05-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/queue.js",
+          "symbolId": "evictWorker",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol evictWorker is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/queue.js:function evictWorker"
+          ],
+          "contentHash": "0e1d4e005fff7c7a5e7eeba14592e21d8f889bf969910a86ae92a721852d17c5"
+        },
+        {
+          "evidenceId": "EV-P46-L6-05-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/job.js",
+          "symbolId": "cancelJob",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/job.js:cancelJob has a CALL contract with src/queue.js:evictWorker",
+          "confidence": 0.9,
+          "provenance": [
+            "src/job.js->src/queue.js"
+          ],
+          "contentHash": "5f25b3b8d518641d07cad5510fea5ba57e1ce0f8f3ae1fbff5959ffbac7e9fad"
+        },
+        {
+          "evidenceId": "EV-P46-L6-05-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/queue-core.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/queue-core.test.js:testAssertion has a TEST contract with src/job.js:cancelJob",
+          "confidence": 0.9,
+          "provenance": [
+            "test/queue-core.test.js->src/job.js"
+          ],
+          "contentHash": "1d0f90d188ab2d9dc5025edd4b442ca0fde9f629c0ff0dbdd50e9172e685f7a7"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-01",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L7-01-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/calc.js",
+          "symbolId": "parseExpression",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol parseExpression is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/calc.js:function parseExpression"
+          ],
+          "contentHash": "f7d269369a7453a6c3fa664b2cc19894811307fdbd44029ad3004bf143b72a61"
+        },
+        {
+          "evidenceId": "EV-P46-L7-01-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/calc.js",
+          "symbolId": "evaluateExponent",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol evaluateExponent is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/calc.js:function evaluateExponent"
+          ],
+          "contentHash": "c46a82848b71a9fb8bff7043d6bdd76f9117d67c87f6e19a49a66969fcb8c292"
+        },
+        {
+          "evidenceId": "EV-P46-L7-01-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/parser.js",
+          "symbolId": "parseExpression",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol parseExpression is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/parser.js:function parseExpression"
+          ],
+          "contentHash": "a757eb27a84b766087e53cb9e87946e51aca3540ae13e0b148e6b505242d3f09"
+        },
+        {
+          "evidenceId": "EV-P46-L7-01-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/parser.js",
+          "symbolId": "evaluateExponent",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol evaluateExponent is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/parser.js:function evaluateExponent"
+          ],
+          "contentHash": "417168b840c660d75a1a179d0edaceb7f0a3ff181db47523474e322d3cd96aeb"
+        },
+        {
+          "evidenceId": "EV-P46-L7-01-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/calc.js",
+          "symbolId": "parseExpression",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/calc.js:parseExpression has a CALL contract with src/parser.js:evaluateExponent",
+          "confidence": 0.9,
+          "provenance": [
+            "src/calc.js->src/parser.js"
+          ],
+          "contentHash": "48f09efd8781d759b41b2a85fe2346c18550d8a1e3f30f1f4641f66639c44713"
+        },
+        {
+          "evidenceId": "EV-P46-L7-01-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/calc-p2p.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/calc-p2p.test.js:testAssertion has a TEST contract with src/calc.js:parseExpression",
+          "confidence": 0.9,
+          "provenance": [
+            "test/calc-p2p.test.js->src/calc.js"
+          ],
+          "contentHash": "e9651b77f109f631a5aca120f474f68d836eb8c72d78c03a0a1c523e42ff51d7"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L7-02-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/cors.js",
+          "symbolId": "compileOriginPattern",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol compileOriginPattern is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/cors.js:function compileOriginPattern"
+          ],
+          "contentHash": "2b6c7abc1020e0871fe6fea80adbe56023f27a8264c89ef9a0d26e9cc093423b"
+        },
+        {
+          "evidenceId": "EV-P46-L7-02-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/cors.js",
+          "symbolId": "validateHeaders",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol validateHeaders is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/cors.js:function validateHeaders"
+          ],
+          "contentHash": "6c7b23220aeba2944869480fbf90912c85247b449b8cc6dd8ba3b9fd4ff0d979"
+        },
+        {
+          "evidenceId": "EV-P46-L7-02-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/header-validator.js",
+          "symbolId": "compileOriginPattern",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol compileOriginPattern is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/header-validator.js:function compileOriginPattern"
+          ],
+          "contentHash": "f3074896f96ae4f72f893d590811deb2ed8f6861d4d97eb443dbebbafc326ee0"
+        },
+        {
+          "evidenceId": "EV-P46-L7-02-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/header-validator.js",
+          "symbolId": "validateHeaders",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol validateHeaders is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/header-validator.js:function validateHeaders"
+          ],
+          "contentHash": "0be16689c4755998b7bc223844a57f1c611c54fa967c38f3374c03b18991b698"
+        },
+        {
+          "evidenceId": "EV-P46-L7-02-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/cors.js",
+          "symbolId": "compileOriginPattern",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/cors.js:compileOriginPattern has a CALL contract with src/header-validator.js:validateHeaders",
+          "confidence": 0.9,
+          "provenance": [
+            "src/cors.js->src/header-validator.js"
+          ],
+          "contentHash": "639bd35b3bac120ea76bc7b24103dd3ee55ab387193e261ff6f0eafbe3fb16e4"
+        },
+        {
+          "evidenceId": "EV-P46-L7-02-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/cors-p2p.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/cors-p2p.test.js:testAssertion has a TEST contract with src/cors.js:compileOriginPattern",
+          "confidence": 0.9,
+          "provenance": [
+            "test/cors-p2p.test.js->src/cors.js"
+          ],
+          "contentHash": "811fe800f5a2eb7d5a852e904bd249e8f7dba30a1faf5e3b2cceee4cd94e44a1"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L7-03-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/semver.js",
+          "symbolId": "sortPrerelease",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol sortPrerelease is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/semver.js:function sortPrerelease"
+          ],
+          "contentHash": "4af4addda9cd9deabcacfeda6fc5920b7cf5e6d8cd1b92803a939f12719c4057"
+        },
+        {
+          "evidenceId": "EV-P46-L7-03-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/semver.js",
+          "symbolId": "compareSemVer",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol compareSemVer is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/semver.js:function compareSemVer"
+          ],
+          "contentHash": "2effddaccc5cb53c37d6b08236aaf01f9823ef8e2cb3848458a30d401eea8561"
+        },
+        {
+          "evidenceId": "EV-P46-L7-03-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/comparator.js",
+          "symbolId": "sortPrerelease",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol sortPrerelease is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/comparator.js:function sortPrerelease"
+          ],
+          "contentHash": "ad16e8ac5467de87a56f26824b7ea6dbc74d9ec32a542e29cb07234756690f68"
+        },
+        {
+          "evidenceId": "EV-P46-L7-03-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/comparator.js",
+          "symbolId": "compareSemVer",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol compareSemVer is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/comparator.js:function compareSemVer"
+          ],
+          "contentHash": "e2f92c3eeada1a8c59613ef80dd9446082f47aee7c04d2c31d5cafaaddbb46d7"
+        },
+        {
+          "evidenceId": "EV-P46-L7-03-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/semver.js",
+          "symbolId": "sortPrerelease",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/semver.js:sortPrerelease has a CALL contract with src/comparator.js:compareSemVer",
+          "confidence": 0.9,
+          "provenance": [
+            "src/semver.js->src/comparator.js"
+          ],
+          "contentHash": "fc01f20e5bd10c59500171d2eb5ab009573bef4d88b339ccc8959f50786beb39"
+        },
+        {
+          "evidenceId": "EV-P46-L7-03-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/semver-p2p.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/semver-p2p.test.js:testAssertion has a TEST contract with src/semver.js:sortPrerelease",
+          "confidence": 0.9,
+          "provenance": [
+            "test/semver-p2p.test.js->src/semver.js"
+          ],
+          "contentHash": "4d8dd17487345f00bae8fe0f9d171b4f9a206944745a285e18185443ad3b8e33"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "evidenceCount": 6,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L7-04-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/deep-set.js",
+          "symbolId": "setDeepProperty",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol setDeepProperty is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/deep-set.js:function setDeepProperty"
+          ],
+          "contentHash": "c566fa24e97562711e2f6465a77988a05376cd9d223d1a906532c846f7f8478c"
+        },
+        {
+          "evidenceId": "EV-P46-L7-04-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/deep-set.js",
+          "symbolId": "resolveObjectPath",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol resolveObjectPath is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/deep-set.js:function resolveObjectPath"
+          ],
+          "contentHash": "d6df0ad8abd542d9ac450b32bacc7ec2d428aaceabdf6548e94e3223b0583b59"
+        },
+        {
+          "evidenceId": "EV-P46-L7-04-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/path-resolver.js",
+          "symbolId": "setDeepProperty",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol setDeepProperty is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/path-resolver.js:function setDeepProperty"
+          ],
+          "contentHash": "4dc50c7732fade10ae1858ca372e793ea5c8ff5ea302ec2e8a3f7bf7f9eb110b"
+        },
+        {
+          "evidenceId": "EV-P46-L7-04-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/path-resolver.js",
+          "symbolId": "resolveObjectPath",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol resolveObjectPath is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/path-resolver.js:function resolveObjectPath"
+          ],
+          "contentHash": "4f4cee27b9b851db8de518b8f9c819254f0522295b0750b9c0de4d47133bb7b6"
+        },
+        {
+          "evidenceId": "EV-P46-L7-04-5",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/deep-set.js",
+          "symbolId": "setDeepProperty",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/deep-set.js:setDeepProperty has a CALL contract with src/path-resolver.js:resolveObjectPath",
+          "confidence": 0.9,
+          "provenance": [
+            "src/deep-set.js->src/path-resolver.js"
+          ],
+          "contentHash": "b3e59f5bf859f14a4980fdf2a473632727ab070d0608f5d62349967b35421ff2"
+        },
+        {
+          "evidenceId": "EV-P46-L7-04-6",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/deep-p2p.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/deep-p2p.test.js:testAssertion has a TEST contract with src/deep-set.js:setDeepProperty",
+          "confidence": 0.9,
+          "provenance": [
+            "test/deep-p2p.test.js->src/deep-set.js"
+          ],
+          "contentHash": "c980f5b8a296e2a76b3e45da23d90ef0341f9fc7baa1819c808e8c23e768c3f3"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "evidenceCount": 8,
+      "evidence": [
+        {
+          "evidenceId": "EV-P46-L7-05-1",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/models/user.js",
+          "symbolId": "authorizeRole",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol authorizeRole is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/models/user.js:function authorizeRole"
+          ],
+          "contentHash": "b1a72379fb89ae81fc9ce80645d21d2bc11d10aecbd4fdca5f187d231034ad58"
+        },
+        {
+          "evidenceId": "EV-P46-L7-05-2",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/models/user.js",
+          "symbolId": "evaluateRoleHierarchy",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol evaluateRoleHierarchy is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/models/user.js:function evaluateRoleHierarchy"
+          ],
+          "contentHash": "03c3ff8598a9edc47edf3450fd3e2d290cb10bdded84591b4cf0cff49b653f63"
+        },
+        {
+          "evidenceId": "EV-P46-L7-05-3",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/services/user-service.js",
+          "symbolId": "authorizeRole",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol authorizeRole is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/services/user-service.js:function authorizeRole"
+          ],
+          "contentHash": "230a9d355efb1f840948fac23a8f5397a39068e15c4b248f13df52320488c1eb"
+        },
+        {
+          "evidenceId": "EV-P46-L7-05-4",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/services/user-service.js",
+          "symbolId": "evaluateRoleHierarchy",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol evaluateRoleHierarchy is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/services/user-service.js:function evaluateRoleHierarchy"
+          ],
+          "contentHash": "5d86cd0045dd5aa27b1154f4d3c68690aa7e2e080fa4ef3ae439f7f27757929d"
+        },
+        {
+          "evidenceId": "EV-P46-L7-05-5",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/routes/user-route.js",
+          "symbolId": "authorizeRole",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol authorizeRole is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/routes/user-route.js:function authorizeRole"
+          ],
+          "contentHash": "8a8d68ac7f17826394f4b41556ee5f24a0132802bbfd4d1831e83c5fdc5b2d93"
+        },
+        {
+          "evidenceId": "EV-P46-L7-05-6",
+          "category": "IMPLEMENTATION_BEHAVIOR",
+          "filePath": "src/routes/user-route.js",
+          "symbolId": "evaluateRoleHierarchy",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 4
+          },
+          "normalizedObservation": "Symbol evaluateRoleHierarchy is defined as a concrete function implementation.",
+          "confidence": 0.95,
+          "provenance": [
+            "src/routes/user-route.js:function evaluateRoleHierarchy"
+          ],
+          "contentHash": "aa575bc3038f112151c937f4b5b5429314a3a4ca7ddd93d2b3d08e42880e2cd2"
+        },
+        {
+          "evidenceId": "EV-P46-L7-05-7",
+          "category": "CALL_RELATIONSHIP",
+          "filePath": "src/models/user.js",
+          "symbolId": "authorizeRole",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "src/models/user.js:authorizeRole has a CALL contract with src/services/user-service.js:evaluateRoleHierarchy",
+          "confidence": 0.9,
+          "provenance": [
+            "src/models/user.js->src/services/user-service.js"
+          ],
+          "contentHash": "3b8088f0ca568d4b103cf83077dfa49937c3526879698d920871290fdc0d6bee"
+        },
+        {
+          "evidenceId": "EV-P46-L7-05-8",
+          "category": "TEST_ASSERTION",
+          "filePath": "test/user-p2p.test.js",
+          "symbolId": "testAssertion",
+          "sourceRange": {
+            "startLine": 1,
+            "endLine": 20
+          },
+          "normalizedObservation": "test/user-p2p.test.js:testAssertion has a TEST contract with src/models/user.js:authorizeRole",
+          "confidence": 0.9,
+          "provenance": [
+            "test/user-p2p.test.js->src/models/user.js"
+          ],
+          "contentHash": "dee096d3397977f6e834e181f380ac05ad6cbc2221352c9fca6bfb28cbf93694"
+        }
+      ]
+    }
+  ],
+  "artifactDigest": "dbac009de27e1f1e5076c4b716cea54ced648f470ee33d094db6690e45eb289d"
+}

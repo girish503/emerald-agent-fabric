@@ -1,0 +1,795 @@
+{
+  "schemaVersion": "emerald-phase57-v1",
+  "phase": "57",
+  "generatedAt": "2026-10-19T17:40:54.761Z",
+  "baselineCommit": "69a5600",
+  "protocolDigest": "be7255d136c676f7e3a78fe05f3d86e5c6631b3b11421e31d6795783c5992da9",
+  "totalTasks": 15,
+  "tasks": [
+    {
+      "taskId": "P46-L5-01",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L5-01-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol parsePrerelease must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-01-1"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/semver.js:function parsePrerelease"
+          ],
+          "contentHash": "a630d20c5d765455ac168410f0f01c74875d8a79ec0d01dd77930e84cbbd80a5"
+        },
+        {
+          "invariantId": "INV-P46-L5-01-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol comparePrerelease must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-01-2"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/semver.js:function comparePrerelease"
+          ],
+          "contentHash": "18ac2c2148db41819e717fa5ff17dccd6a0967ebd874099bd37354fa17a90256"
+        },
+        {
+          "invariantId": "INV-P46-L5-01-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-01-3"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/semver-core.test.js->src/semver.js"
+          ],
+          "contentHash": "8ae5773743e3e0f29b17d6768ff03d8e3faf60083270ba0d67e5a0a5de71a555"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-02",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L5-02-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol _toPath must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-02-1"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/deep-set.js:function _toPath"
+          ],
+          "contentHash": "a4af5c177c86bac9616338b86dd0ef33e8220c11d5bbc3be3639166e45dc10a9"
+        },
+        {
+          "invariantId": "INV-P46-L5-02-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol _setInternal must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-02-2"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/deep-set.js:function _setInternal"
+          ],
+          "contentHash": "0102b2760b3c106e0620a044cda650db055bc74c50a88a4a3cda948ceb165780"
+        },
+        {
+          "invariantId": "INV-P46-L5-02-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-02-3"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/deep-set-core.test.js->src/deep-set.js"
+          ],
+          "contentHash": "a754ae09add6b76fadbb6b6226a0752923a35b51edfdae103940728a4b25fc4a"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-03",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L5-03-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol emit must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-03-1"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/emitter.js:function emit"
+          ],
+          "contentHash": "a2619a680d058ee65f141c105277ce375e5c4ae67e8450e737eb3a3f296be87e"
+        },
+        {
+          "invariantId": "INV-P46-L5-03-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol dispatchListener must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-03-2"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/emitter.js:function dispatchListener"
+          ],
+          "contentHash": "5d79675f3c5f545a21276bd6c87c39899bbe7f20f24a17c324d575c22bfd5107"
+        },
+        {
+          "invariantId": "INV-P46-L5-03-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-03-3"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/emitter-core.test.js->src/emitter.js"
+          ],
+          "contentHash": "3c8a279a34084e53dbcd72afa20ecc6cd2e62d01e4b8865409a2f94db0cfa833"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-04",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L5-04-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol _handleError must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-04-1"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/scanner.js:function _handleError"
+          ],
+          "contentHash": "4e7aa37a9aaeab5cde9bda0d1359896170788e6e9a9417da26b7839e7e7cb736"
+        },
+        {
+          "invariantId": "INV-P46-L5-04-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol scanDirectory must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-04-2"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/scanner.js:function scanDirectory"
+          ],
+          "contentHash": "59d1f74abe2517ea486a64afd147287089dd1b73dc198d8cfc4193b7dbfb1635"
+        },
+        {
+          "invariantId": "INV-P46-L5-04-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-04-3"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/scanner-core.test.js->src/scanner.js"
+          ],
+          "contentHash": "5d2f3460d6fe00f4b20fc849a04c0db4f266c9a63770330b4570c67c431ec6ae"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-05",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L5-05-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol flushQueue must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-05-1"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/kv-store.js:function flushQueue"
+          ],
+          "contentHash": "e0c2de0e12541d11a8540ce95906778ec30899df14e36aac8b13dd4d8634bb05"
+        },
+        {
+          "invariantId": "INV-P46-L5-05-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol readCache must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-05-2"
+          ],
+          "confidence": 0.7999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/kv-store.js:function readCache"
+          ],
+          "contentHash": "b7f37458fcf55488622f65a98242cc0d54364b2f79e803ac0602ea5d761ce15a"
+        },
+        {
+          "invariantId": "INV-P46-L5-05-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L5-05-3"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/kv-core.test.js->src/kv-store.js"
+          ],
+          "contentHash": "af38d042ef6d73dbb8906156ffb3ce65eebfecc581136b7fc9ad8a3e06da3df5"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-01",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L6-01-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol hasRole must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-01-1",
+            "EV-P46-L6-01-3",
+            "EV-P46-L6-01-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/models/user.js->src/services/user-service.js",
+            "src/models/user.js:function hasRole",
+            "src/services/user-service.js:function hasRole"
+          ],
+          "contentHash": "68afaeb1fecb58a84dec05702020e12ff61f7af75aa6ead4c7cd8a1877507896"
+        },
+        {
+          "invariantId": "INV-P46-L6-01-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol authorizeUser must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-01-2",
+            "EV-P46-L6-01-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/models/user.js:function authorizeUser",
+            "src/services/user-service.js:function authorizeUser"
+          ],
+          "contentHash": "04ab3752ddb68b6594955c68e9db13767e63bc432af426946e7b56751db45387"
+        },
+        {
+          "invariantId": "INV-P46-L6-01-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-01-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/user-service-auth.test.js->src/models/user.js"
+          ],
+          "contentHash": "14ec4a6e0eb3046d8131e8f3cd41ffe106d0c6dc90ecd39e9aaca0f961459730"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-02",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L6-02-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol loadConfig must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-02-1",
+            "EV-P46-L6-02-3",
+            "EV-P46-L6-02-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/config.js->src/defaults.js",
+            "src/config.js:function loadConfig",
+            "src/defaults.js:function loadConfig"
+          ],
+          "contentHash": "c09affc81737adaf6832de9f00b1d982f5046b0153120af40c7864cff4f01020"
+        },
+        {
+          "invariantId": "INV-P46-L6-02-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol defaultSchema must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-02-2",
+            "EV-P46-L6-02-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/config.js:function defaultSchema",
+            "src/defaults.js:function defaultSchema"
+          ],
+          "contentHash": "124d7816a146f31b7b76b4d232f12fb8026bc339d2131562261666d498c58489"
+        },
+        {
+          "invariantId": "INV-P46-L6-02-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-02-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/config-core.test.js->src/config.js"
+          ],
+          "contentHash": "af616398e80876ee4084e247f82c773aa2961414af1fd6f9c102558236ccaea9"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-03",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L6-03-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol formatJson must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-03-1",
+            "EV-P46-L6-03-3",
+            "EV-P46-L6-03-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/formatters/json.js->src/logger.js",
+            "src/formatters/json.js:function formatJson",
+            "src/logger.js:function formatJson"
+          ],
+          "contentHash": "476905e4f1f7c0483d135d330f2fabdc3cd83fa73aebd52c46004ed52bf7df45"
+        },
+        {
+          "invariantId": "INV-P46-L6-03-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol logEvent must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-03-2",
+            "EV-P46-L6-03-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/formatters/json.js:function logEvent",
+            "src/logger.js:function logEvent"
+          ],
+          "contentHash": "96a3f075fd713f3ddb6e3e8e33603948cb9e7377d93d2ed8fd16a0ee5b17e708"
+        },
+        {
+          "invariantId": "INV-P46-L6-03-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-03-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/logger-core.test.js->src/formatters/json.js"
+          ],
+          "contentHash": "33b3de0a3a68f42a5981a3f11a163ead1f2805c367bf7ec66ff630fe1865cdf3"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-04",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L6-04-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol buildRequest must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-04-1",
+            "EV-P46-L6-04-3",
+            "EV-P46-L6-04-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/client.js:function buildRequest",
+            "src/request.js->src/client.js",
+            "src/request.js:function buildRequest"
+          ],
+          "contentHash": "f2380f971bc20524f1ce93e48d3fe3a66a1b6338abdf62b0dc85c2806144de1c"
+        },
+        {
+          "invariantId": "INV-P46-L6-04-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol sendRequest must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-04-2",
+            "EV-P46-L6-04-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/client.js:function sendRequest",
+            "src/request.js:function sendRequest"
+          ],
+          "contentHash": "132d9f20d1f1c8e28776a717efbc4adc6c291e3d2a77b128a89b59008d94a92a"
+        },
+        {
+          "invariantId": "INV-P46-L6-04-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-04-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/client-core.test.js->src/request.js"
+          ],
+          "contentHash": "68cbd6a9fa733cc07b225d975b63dcb85e97acb8d6eece97894eb12c3e06c264"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-05",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L6-05-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol cancelJob must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-05-1",
+            "EV-P46-L6-05-3",
+            "EV-P46-L6-05-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/job.js->src/queue.js",
+            "src/job.js:function cancelJob",
+            "src/queue.js:function cancelJob"
+          ],
+          "contentHash": "7cbaef768aa007b05c9e10c9ed7bd71f977cab0d74d1b73eb04d3cf3835bd318"
+        },
+        {
+          "invariantId": "INV-P46-L6-05-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol evictWorker must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-05-2",
+            "EV-P46-L6-05-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/job.js:function evictWorker",
+            "src/queue.js:function evictWorker"
+          ],
+          "contentHash": "0811e1a9457309ac5815c73e73b6800463bde6e639cca0af8e381a54232bede8"
+        },
+        {
+          "invariantId": "INV-P46-L6-05-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L6-05-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/queue-core.test.js->src/job.js"
+          ],
+          "contentHash": "85b4d156f4c0947d073779411d0a1f26cd559e509f02debb3bcce60bdf411fc6"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-01",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L7-01-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol parseExpression must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-01-1",
+            "EV-P46-L7-01-3",
+            "EV-P46-L7-01-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/calc.js->src/parser.js",
+            "src/calc.js:function parseExpression",
+            "src/parser.js:function parseExpression"
+          ],
+          "contentHash": "fbb8eb155c13e92dbf3f045c6b1f2929ac2b52a0d1273e984122c41ea8bc863b"
+        },
+        {
+          "invariantId": "INV-P46-L7-01-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol evaluateExponent must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-01-2",
+            "EV-P46-L7-01-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/calc.js:function evaluateExponent",
+            "src/parser.js:function evaluateExponent"
+          ],
+          "contentHash": "8652fcd29de7c085bd2c96bc237fac7d8bea440ffa896636e380952ebcdd2724"
+        },
+        {
+          "invariantId": "INV-P46-L7-01-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-01-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/calc-p2p.test.js->src/calc.js"
+          ],
+          "contentHash": "683ff8630daadb96c1fcff99f540266551fc3983aec4b4a5c488d00e6fea0820"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L7-02-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol compileOriginPattern must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-02-1",
+            "EV-P46-L7-02-3",
+            "EV-P46-L7-02-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/cors.js->src/header-validator.js",
+            "src/cors.js:function compileOriginPattern",
+            "src/header-validator.js:function compileOriginPattern"
+          ],
+          "contentHash": "ee2e22393d5af1317c7aa4804716f01b4d7f0abccd1864a6b5bb1dc064c3a3db"
+        },
+        {
+          "invariantId": "INV-P46-L7-02-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol validateHeaders must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-02-2",
+            "EV-P46-L7-02-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/cors.js:function validateHeaders",
+            "src/header-validator.js:function validateHeaders"
+          ],
+          "contentHash": "58b1d244e865879d8a31d688c9dbf01b6a874c18cd50c07481aa7b96a2772de3"
+        },
+        {
+          "invariantId": "INV-P46-L7-02-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-02-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/cors-p2p.test.js->src/cors.js"
+          ],
+          "contentHash": "dd94b32a2baee135f73c8da81097c4e07a0eee445c1f3eaccd776b96129905b7"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L7-03-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol sortPrerelease must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-03-1",
+            "EV-P46-L7-03-3",
+            "EV-P46-L7-03-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/comparator.js:function sortPrerelease",
+            "src/semver.js->src/comparator.js",
+            "src/semver.js:function sortPrerelease"
+          ],
+          "contentHash": "51dd580619b52ce557627567cdb046b448dc67c70150ac6eab39a7ec77fb60ba"
+        },
+        {
+          "invariantId": "INV-P46-L7-03-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol compareSemVer must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-03-2",
+            "EV-P46-L7-03-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/comparator.js:function compareSemVer",
+            "src/semver.js:function compareSemVer"
+          ],
+          "contentHash": "75c1e5504e3c3c98036b8a2b6de2f83798ee82dee0c37801491f079ab353de18"
+        },
+        {
+          "invariantId": "INV-P46-L7-03-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-03-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/semver-p2p.test.js->src/semver.js"
+          ],
+          "contentHash": "fde2a62b64dd12f32e7bb9f9e6e26b89de9185154d6b8c22ef05d3666527f818"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L7-04-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol setDeepProperty must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-04-1",
+            "EV-P46-L7-04-3",
+            "EV-P46-L7-04-5"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/deep-set.js->src/path-resolver.js",
+            "src/deep-set.js:function setDeepProperty",
+            "src/path-resolver.js:function setDeepProperty"
+          ],
+          "contentHash": "71a01750fcb063a5e801eff5eab32e3b4029119e1ceb78b79b2ca5491325db4e"
+        },
+        {
+          "invariantId": "INV-P46-L7-04-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol resolveObjectPath must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-04-2",
+            "EV-P46-L7-04-4"
+          ],
+          "confidence": 0.8999999999999999,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/deep-set.js:function resolveObjectPath",
+            "src/path-resolver.js:function resolveObjectPath"
+          ],
+          "contentHash": "3ee542c961281c13c5303b85733aa38fc6f12269e36aed808741781783eded2a"
+        },
+        {
+          "invariantId": "INV-P46-L7-04-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-04-6"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/deep-p2p.test.js->src/deep-set.js"
+          ],
+          "contentHash": "46eb35b6cc53c676eb0e2fff4f02c6d1e5f4dc6e9e3cd77b28310d9dd557ed35"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "invariantCount": 3,
+      "invariants": [
+        {
+          "invariantId": "INV-P46-L7-05-1",
+          "category": "API_INVARIANT",
+          "statement": "Symbol authorizeRole must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-05-1",
+            "EV-P46-L7-05-3",
+            "EV-P46-L7-05-5",
+            "EV-P46-L7-05-7"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/models/user.js->src/services/user-service.js",
+            "src/models/user.js:function authorizeRole",
+            "src/routes/user-route.js:function authorizeRole",
+            "src/services/user-service.js:function authorizeRole"
+          ],
+          "contentHash": "aab5f290b145ab8bb1febf4e49e60d0f94e355cdb903f3841cdd49fcf3bd5e3f"
+        },
+        {
+          "invariantId": "INV-P46-L7-05-2",
+          "category": "API_INVARIANT",
+          "statement": "Symbol evaluateRoleHierarchy must maintain public interface contract and parameter types across callers.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-05-2",
+            "EV-P46-L7-05-4",
+            "EV-P46-L7-05-6"
+          ],
+          "confidence": 1,
+          "isRegressionCritical": false,
+          "provenance": [
+            "src/models/user.js:function evaluateRoleHierarchy",
+            "src/routes/user-route.js:function evaluateRoleHierarchy",
+            "src/services/user-service.js:function evaluateRoleHierarchy"
+          ],
+          "contentHash": "13941768272b03842c3d5e75a7b3a55c74a50b2a6e67e4bff316e8f8471af05d"
+        },
+        {
+          "invariantId": "INV-P46-L7-05-3",
+          "category": "REGRESSION_INVARIANT",
+          "statement": "Existing regression assertions on testAssertion must be preserved across multi-file mutations.",
+          "supportingEvidenceIds": [
+            "EV-P46-L7-05-8"
+          ],
+          "confidence": 0.99,
+          "isRegressionCritical": true,
+          "provenance": [
+            "test/user-p2p.test.js->src/models/user.js"
+          ],
+          "contentHash": "21dce9c3d47224e1b20a743819f544c476be87ac8fb02a3bec66fa246fc30886"
+        }
+      ]
+    }
+  ],
+  "artifactDigest": "b0da69051d622e548da1e064f570905660bd966e4f656864deff9346e3b3a9a1"
+}
