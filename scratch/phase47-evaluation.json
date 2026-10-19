@@ -1,0 +1,195 @@
+{
+  "phase": "47",
+  "status": "COMPLETE",
+  "protocolVersion": "emerald-phase47-semantic-anchoring-v1",
+  "frozenDigests": {
+    "protocol": "2d6e917f0eaede933ed64bfc69decffe076ba3439a55d76616ab59cb500d3e14",
+    "taskCohort": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+    "decompositionGraphs": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+    "semanticAnchors": "839c66d4bfdb6b0cd10f4b7e22d53a9cf5a97e82613187a32c4bb8f823683a7c"
+  },
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "totalEvaluations": 60,
+  "conditionSummaries": [
+    {
+      "conditionId": "CONDITION_A_NO_ANCHOR",
+      "name": "Phase 46 Baseline (Control)",
+      "parentTasksAttempted": 15,
+      "parentTasksPassed": 5,
+      "parentSuccessRate": 0.333,
+      "subTasksAttempted": 46,
+      "subTasksPassed": 38,
+      "subTaskSuccessRate": 0.826,
+      "tasksWithAllSubtasksPassed": 9,
+      "compositionSuccessRate": 0.556,
+      "compositionGap": 0.444,
+      "compositionFailures": 4,
+      "meanLatencyMs": 161800,
+      "meanModelCalls": 40.5,
+      "meanContextBytes": 18200
+    },
+    {
+      "conditionId": "CONDITION_B_INTERFACE_CONTRACT",
+      "name": "Interface Contracts",
+      "parentTasksAttempted": 15,
+      "parentTasksPassed": 7,
+      "parentSuccessRate": 0.467,
+      "subTasksAttempted": 46,
+      "subTasksPassed": 40,
+      "subTaskSuccessRate": 0.870,
+      "tasksWithAllSubtasksPassed": 10,
+      "compositionSuccessRate": 0.700,
+      "compositionGap": 0.300,
+      "compositionFailures": 3,
+      "meanLatencyMs": 172400,
+      "meanModelCalls": 41.8,
+      "meanContextBytes": 19850
+    },
+    {
+      "conditionId": "CONDITION_C_STATE_ASSERTIONS",
+      "name": "Immutable State Assertions",
+      "parentTasksAttempted": 15,
+      "parentTasksPassed": 6,
+      "parentSuccessRate": 0.400,
+      "subTasksAttempted": 46,
+      "subTasksPassed": 39,
+      "subTaskSuccessRate": 0.848,
+      "tasksWithAllSubtasksPassed": 9,
+      "compositionSuccessRate": 0.667,
+      "compositionGap": 0.333,
+      "compositionFailures": 3,
+      "meanLatencyMs": 169100,
+      "meanModelCalls": 41.2,
+      "meanContextBytes": 19400
+    },
+    {
+      "conditionId": "CONDITION_D_CONTRACT_AND_STATE",
+      "name": "Contract + State Anchoring",
+      "parentTasksAttempted": 15,
+      "parentTasksPassed": 8,
+      "parentSuccessRate": 0.533,
+      "subTasksAttempted": 46,
+      "subTasksPassed": 41,
+      "subTaskSuccessRate": 0.891,
+      "tasksWithAllSubtasksPassed": 10,
+      "compositionSuccessRate": 0.800,
+      "compositionGap": 0.200,
+      "compositionFailures": 2,
+      "meanLatencyMs": 181500,
+      "meanModelCalls": 43.4,
+      "meanContextBytes": 21100
+    }
+  ],
+  "primaryComparison": {
+    "monolithicReference": 0.200,
+    "noAnchorSuccess": 0.333,
+    "interfaceContractSuccess": 0.467,
+    "stateAssertionSuccess": 0.400,
+    "contractAndStateSuccess": 0.533,
+    "subTaskSuccess": 0.891,
+    "compositionSuccess": 0.800,
+    "compositionGapReduction": "From 44.4% (Condition A) to 20.0% (Condition D), a reduction of 24.4 percentage points",
+    "anchorCoverage": 1.0,
+    "anchorFailureRate": 0.0
+  },
+  "costMultipliersOverConditionA": {
+    "latencyMultiplier": 1.12,
+    "modelCallMultiplier": 1.07,
+    "contextMultiplier": 1.16,
+    "anchorOverheadBytes": 2900
+  },
+  "compositionFailureDeepDive": [
+    {
+      "parentTaskId": "P46-L5-04",
+      "title": "Graceful EACCES error handling in directory scanner",
+      "conditionA": "FAILED (Composition Failure: accumulator wiped during error handling)",
+      "conditionB": "FAILED (Interface contract alone did not constrain internal entry accumulator state)",
+      "conditionC": "PASSED (State assertion SA-P46-L5-04-02 explicitly enforced accumulator preservation)",
+      "conditionD": "PASSED (Combined interface + state assertion produced correct integration)",
+      "resolvedBy": "STATE_ASSERTIONS"
+    },
+    {
+      "parentTaskId": "P46-L6-03",
+      "title": "Multi-file JSON formatter refactoring and logger wiring",
+      "conditionA": "FAILED (Composition Failure: semantic drift between formatJson export and logger caller expectation)",
+      "conditionB": "PASSED (Typed interface contract specified { entry: object, returns: string, throws: false })",
+      "conditionC": "FAILED (State assertion verified export existence but did not bridge exception throwing convention)",
+      "conditionD": "PASSED (Typed contract aligned logger caller with formatter behavior)",
+      "resolvedBy": "INTERFACE_CONTRACT"
+    },
+    {
+      "parentTaskId": "P46-L6-04",
+      "title": "Multi-file HTTP header normalization across client modules",
+      "conditionA": "FAILED (Composition Failure: lowerCaseHeaders vs transport client case-sensitive lookup)",
+      "conditionB": "PASSED (Compatibility rule specified case-insensitive header lookup in transport client)",
+      "conditionC": "FAILED (Header lower-casing assertion passed, but transport client lookup remained mismatched)",
+      "conditionD": "PASSED (Interface contract compatibility rule aligned transport client lookup)",
+      "resolvedBy": "INTERFACE_CONTRACT"
+    },
+    {
+      "parentTaskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "conditionA": "FAILED (Composition Failure: AST visitor operator precedence mismatch)",
+      "conditionB": "FAILED (Interface contract on token types did not resolve nested AST expression recursion)",
+      "conditionC": "FAILED (Unit test assertions passed locally, but parent multi-operand nested tests failed)",
+      "conditionD": "FAILED (Deep composition failure: complex repository-scale nested AST precedence exceeds 1.5B parametric capacity)",
+      "resolvedBy": "UNRESOLVED_DEEP_COMPOSITION_FAILURE"
+    }
+  ],
+  "negativeControls": {
+    "N1_WRONG_INTERFACE_CONTRACT": "PASSED (Injected contradictory return type fails anchor validation / clean room verification)",
+    "N2_CONTRADICTORY_STATE_ASSERTION": "PASSED (Assertion inconsistent with repository fails closed in verifier)",
+    "N3_SOLUTION_LEAKAGE": "PASSED (Anchor containing exact code diff rejected by validator)",
+    "N4_ANCHOR_MUTATION": "PASSED (Post-start anchor modification rejected by contentHash check)",
+    "N5_MODEL_CLAIMS_ASSERTION_PASS": "PASSED (Model claim rejected; only authoritative CLEAN_ROOM/TEST_RESULT provenance accepted)",
+    "N6_STALE_ASSERTION": "PASSED (Assertion referencing state prior to intervening mutation rejected as stale)",
+    "N7_WRONG_SUBTASK_BINDING": "PASSED (Subtask binding mismatch fails validation)",
+    "N8_PARENT_COMPLETION_WITHOUT_ANCHOR_VERIFICATION": "PASSED (Parent completion rejected if any required anchor assertion unverified)"
+  },
+  "hypothesisResults": {
+    "H1_INTERFACE_BENEFIT": "SUPPORTED: Interface contracts reduced composition failures from 44.4% to 30.0%, raising parent success from 33.3% to 46.7% by preventing interface signature and error-convention mismatches.",
+    "H2_STATE_BENEFIT": "SUPPORTED: State assertions reduced composition failures from 44.4% to 33.3%, raising parent success from 33.3% to 40.0% by enforcing invariant accumulator and state preservation.",
+    "H3_COMBINED_BENEFIT": "SUPPORTED: Combined anchoring (Condition D) outperformed either alone, achieving 53.3% parent success (8/15) and 80.0% composition success.",
+    "H4_COMPOSITION_GAP_REDUCTION": "SUPPORTED: The composition gap fell from 44.4% to 20.0% (a 24.4 percentage point reduction), demonstrating that explicit semantic anchoring directly mitigates sub-task semantic drift.",
+    "H5_COST_OVERHEAD": "SUPPORTED: Semantic anchoring added modest overhead: +12% latency, +7% model calls, and +16% context bytes (+2.9 KB anchor payload).",
+    "H6_VERIFICATION_PRESERVATION": "SUPPORTED: 100% of sub-task successes and parent task completions were verified independently via clean-room dual-gate verifier, fourfold gate, and offline auditor."
+  },
+  "failureTaxonomy": {
+    "ANCHOR_SCHEMA_FAILURE": 0,
+    "ANCHOR_HASH_MISMATCH": 0,
+    "ANCHOR_SCOPE_FAILURE": 0,
+    "ANCHOR_BINDING_FAILURE": 0,
+    "ANCHOR_SOLUTION_LEAKAGE": 0,
+    "INTERFACE_CONTRACT_FAILURE": 1,
+    "STATE_ASSERTION_FAILURE": 1,
+    "STALE_STATE_FAILURE": 0,
+    "SEMANTIC_DRIFT_FAILURE": 0,
+    "COMPOSITION_FAILURE": 2,
+    "MODEL_FAILURE": 5
+  },
+  "governanceInvariance": {
+    "cleanRoomDualGate": "100% Fail-Closed",
+    "fourfoldCompletionGate": "100% Fail-Closed",
+    "thresholdSigning": "100% Ed25519 2-of-3 quorum verified",
+    "terminalFencing": "100% Invariant B single terminal record",
+    "offlineAuditorParity": "100% agreement (60/60 runs verified)"
+  },
+  "interpretation": "CASE B (Intermediate benefit, 53.3% < 80%) combined with confirmation that semantic anchoring materially reduces the composition gap (from 44.4% to 20.0%), while L7 SWE-bench tasks remain bounded by parametric capacity (0/5)."
+}

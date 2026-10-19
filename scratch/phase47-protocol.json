@@ -1,0 +1,94 @@
+{
+  "phase": "47",
+  "name": "Governed Interface Contracts & Cross-Subtask Semantic Anchoring Evaluation",
+  "protocolVersion": "emerald-phase47-semantic-anchoring-v1",
+  "frozenAt": "2026-10-19T12:15:00.000Z",
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "experimentalVariable": "semantic_anchoring",
+  "baselineStrategy": "STATIC_EXPERT_DECOMPOSITION",
+  "taskCohort": {
+    "size": 15,
+    "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+    "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956"
+  },
+  "conditions": [
+    {
+      "id": "CONDITION_A_NO_ANCHOR",
+      "name": "Phase 46 Baseline (Control)",
+      "description": "Sub-tasks execute with objective, tools, workspace scope, and dependency information without semantic anchoring."
+    },
+    {
+      "id": "CONDITION_B_INTERFACE_CONTRACT",
+      "name": "Interface Contracts",
+      "description": "Sub-tasks receive immutable typed interface contracts specifying input/output schemas, preconditions, and postconditions."
+    },
+    {
+      "id": "CONDITION_C_STATE_ASSERTIONS",
+      "name": "Immutable State Assertions",
+      "description": "Sub-tasks receive deterministic invariant state assertions verified independently post-execution."
+    },
+    {
+      "id": "CONDITION_D_CONTRACT_AND_STATE",
+      "name": "Contract + State Anchoring",
+      "description": "Sub-tasks receive both typed interface contracts and immutable state assertions."
+    }
+  ],
+  "anchorSchema": {
+    "type": "SemanticAnchorContract",
+    "requiredFields": [
+      "anchorId",
+      "parentTaskId",
+      "subTaskId",
+      "version",
+      "interfaceContracts",
+      "stateAssertions",
+      "inputHash",
+      "createdAt",
+      "contentHash"
+    ]
+  },
+  "stateProvenanceSources": [
+    "CLEAN_ROOM_VERIFICATION",
+    "TEST_RESULT",
+    "TOOL_OBSERVATION",
+    "STATIC_ANALYSIS"
+  ],
+  "disallowedProvenance": [
+    "MODEL_CLAIM"
+  ],
+  "negativeControls": [
+    "N1_WRONG_INTERFACE_CONTRACT",
+    "N2_CONTRADICTORY_STATE_ASSERTION",
+    "N3_SOLUTION_LEAKAGE",
+    "N4_ANCHOR_MUTATION",
+    "N5_MODEL_CLAIMS_ASSERTION_PASS",
+    "N6_STALE_ASSERTION",
+    "N7_WRONG_SUBTASK_BINDING",
+    "N8_PARENT_COMPLETION_WITHOUT_ANCHOR_VERIFICATION"
+  ],
+  "hypotheses": [
+    "H1_INTERFACE_BENEFIT",
+    "H2_STATE_BENEFIT",
+    "H3_COMBINED_BENEFIT",
+    "H4_COMPOSITION_GAP_REDUCTION",
+    "H5_COST_OVERHEAD",
+    "H6_VERIFICATION_PRESERVATION"
+  ]
+}
