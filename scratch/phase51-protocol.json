@@ -1,0 +1,114 @@
+{
+  "phase": "51",
+  "protocolVersion": "emerald-phase51-execution-amplification-v1",
+  "frozenAt": "2026-10-19T15:41:30.051Z",
+  "experimentalVariable": "execution_tier_amplification",
+  "frozenBaselineCommit": "3ff3a0c",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "models": {
+    "executor": {
+      "model": "qwen2.5-coder:1.5b",
+      "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "parameterCount": 1540000000,
+      "quantization": "Q4_K_M",
+      "role": "LOCAL_EXECUTOR"
+    },
+    "semanticReasoner": {
+      "model": "qwen2.5-coder:3b",
+      "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameterCount": 3100000000,
+      "quantization": "Q4_K_M",
+      "role": "SEMANTIC_REASONER"
+    },
+    "critic": {
+      "model": "granite3-dense:2b",
+      "digest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+      "parameterCount": 2600000000,
+      "quantization": "Q4_K_M",
+      "role": "OPTIONAL_CRITIC"
+    }
+  },
+  "taskCohort": {
+    "cohortSize": 15,
+    "difficultTasksCount": 10,
+    "levelDistribution": {
+      "L5": 5,
+      "L6": 5,
+      "L7": 5
+    },
+    "selectionRule": "15 parent tasks derived from Phase 46-50 cohort, focusing on the 10 difficult tasks (5 L6 multi-file and 5 L7 repository-scale SWE-bench tasks)."
+  },
+  "conditions": [
+    {
+      "conditionId": "CONDITION_A_PHASE50_CONTROL",
+      "name": "Phase 50 Execution Control",
+      "description": "Promoted Phase 50 adaptive cascade without execution amplification (one-shot executor mutation).",
+      "maxMutationAttempts": 1,
+      "maxRepairAttempts": 0,
+      "hasDiagnosticFeedback": false,
+      "hasStructuralDecomposition": false,
+      "hasReferenceEnvironment": false
+    },
+    {
+      "conditionId": "CONDITION_B_BOUNDED_ITERATIVE_EXECUTOR",
+      "name": "Bounded Iterative Executor",
+      "description": "Up to 3 executor mutation attempts with deterministic compiler, test, and AST diagnostic feedback.",
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 0,
+      "hasDiagnosticFeedback": true,
+      "hasStructuralDecomposition": false,
+      "hasReferenceEnvironment": false
+    },
+    {
+      "conditionId": "CONDITION_C_STRUCTURAL_EXECUTION_DECOMPOSITION",
+      "name": "Structural Execution Decomposition",
+      "description": "Five-stage execution: Target Identification -> Structural Patch Plan -> Bounded Mutation -> Local Validation -> Bounded Repair (<=2).",
+      "maxMutationAttempts": 1,
+      "maxRepairAttempts": 2,
+      "hasDiagnosticFeedback": true,
+      "hasStructuralDecomposition": true,
+      "hasReferenceEnvironment": false
+    },
+    {
+      "conditionId": "CONDITION_D_LOCAL_REFERENCE_PLUS_ITERATIVE",
+      "name": "Local Reference Environment + Iterative Execution",
+      "description": "Read-only local repository reference idioms + bounded iterative execution and repair.",
+      "maxMutationAttempts": 2,
+      "maxRepairAttempts": 2,
+      "hasDiagnosticFeedback": true,
+      "hasStructuralDecomposition": true,
+      "hasReferenceEnvironment": true
+    }
+  ],
+  "callBudgets": {
+    "maxMutationAttempts": 3,
+    "maxRepairAttempts": 2,
+    "maxSemanticReasonerCalls": 2,
+    "maxExecutorCalls": 6,
+    "maxCriticCalls": 1,
+    "maxReferenceRetrievals": 3,
+    "maxTotalModelCalls": 9,
+    "exceededFailureCode": "CASCADE_BUDGET_EXCEEDED"
+  },
+  "failureTaxonomy": [
+    "SEMANTIC_PLAN_FAILURE",
+    "TARGET_RESOLUTION_FAILURE",
+    "EXECUTION_SYNTHESIS_FAILURE",
+    "STRUCTURAL_VALIDATION_FAILURE",
+    "LOCAL_TEST_FAILURE",
+    "CROSS_FILE_COMPOSITION_FAILURE",
+    "CLEAN_ROOM_VERIFICATION_FAILURE",
+    "POLICY_FAILURE",
+    "EVIDENCE_FAILURE",
+    "BUDGET_FAILURE",
+    "ENVIRONMENT_FAILURE"
+  ]
+}

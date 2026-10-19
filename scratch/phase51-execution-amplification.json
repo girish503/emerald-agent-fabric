@@ -1,0 +1,507 @@
+{
+  "phase": "51",
+  "plans": [
+    {
+      "planId": "plan-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "title": "SemVer prerelease parser and comparator coordination",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "targetFiles": [
+        "src/semver.js"
+      ],
+      "targetSymbols": [
+        "semver"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/semver.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L5-01-01",
+          "domain": "L5_MULTI_FUNCTION",
+          "description": "Canonical structural pattern for SemVer prerelease parser and comparator coordination",
+          "sampleCode": "// Reference structural transformation pattern for P46-L5-01",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "title": "Prototype pollution guard in deep-set",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "targetFiles": [
+        "src/deep-set.js"
+      ],
+      "targetSymbols": [
+        "deep-set"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/deep-set.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L5-02-01",
+          "domain": "L5_MULTI_FUNCTION",
+          "description": "Canonical structural pattern for Prototype pollution guard in deep-set",
+          "sampleCode": "// Reference structural transformation pattern for P46-L5-02",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "title": "Event emitter argument spreading and dispatch",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "targetFiles": [
+        "src/emitter.js"
+      ],
+      "targetSymbols": [
+        "emitter"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/emitter.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L5-03-01",
+          "domain": "L5_MULTI_FUNCTION",
+          "description": "Canonical structural pattern for Event emitter argument spreading and dispatch",
+          "sampleCode": "// Reference structural transformation pattern for P46-L5-03",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "title": "Graceful EACCES error handling in directory scanner",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "targetFiles": [
+        "src/scanner.js"
+      ],
+      "targetSymbols": [
+        "scanner"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/scanner.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L5-04-01",
+          "domain": "L5_MULTI_FUNCTION",
+          "description": "Canonical structural pattern for Graceful EACCES error handling in directory scanner",
+          "sampleCode": "// Reference structural transformation pattern for P46-L5-04",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "title": "KV-store buffer flush synchronization",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "targetFiles": [
+        "src/kv-store.js"
+      ],
+      "targetSymbols": [
+        "kv-store"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/kv-store.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L5-05-01",
+          "domain": "L5_MULTI_FUNCTION",
+          "description": "Canonical structural pattern for KV-store buffer flush synchronization",
+          "sampleCode": "// Reference structural transformation pattern for P46-L5-05",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "title": "Multi-file role authorization in user-service",
+      "complexityTier": "L6_MULTI_FILE",
+      "targetFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "targetSymbols": [
+        "user",
+        "user-service"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/models/user.js, src/services/user-service.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L6-01-01",
+          "domain": "L6_MULTI_FILE",
+          "description": "Canonical structural pattern for Multi-file role authorization in user-service",
+          "sampleCode": "// Reference structural transformation pattern for P46-L6-01",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "title": "Multi-file missing config fallback coordination",
+      "complexityTier": "L6_MULTI_FILE",
+      "targetFiles": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "targetSymbols": [
+        "config",
+        "defaults"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/config.js, src/defaults.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L6-02-01",
+          "domain": "L6_MULTI_FILE",
+          "description": "Canonical structural pattern for Multi-file missing config fallback coordination",
+          "sampleCode": "// Reference structural transformation pattern for P46-L6-02",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "title": "Multi-file JSON formatter refactoring and logger wiring",
+      "complexityTier": "L6_MULTI_FILE",
+      "targetFiles": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "targetSymbols": [
+        "json",
+        "logger"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/formatters/json.js, src/logger.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L6-03-01",
+          "domain": "L6_MULTI_FILE",
+          "description": "Canonical structural pattern for Multi-file JSON formatter refactoring and logger wiring",
+          "sampleCode": "// Reference structural transformation pattern for P46-L6-03",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "title": "Multi-file HTTP header normalization across client modules",
+      "complexityTier": "L6_MULTI_FILE",
+      "targetFiles": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "targetSymbols": [
+        "request",
+        "client"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/request.js, src/client.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L6-04-01",
+          "domain": "L6_MULTI_FILE",
+          "description": "Canonical structural pattern for Multi-file HTTP header normalization across client modules",
+          "sampleCode": "// Reference structural transformation pattern for P46-L6-04",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "title": "Multi-file job cancellation in queue manager",
+      "complexityTier": "L6_MULTI_FILE",
+      "targetFiles": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "targetSymbols": [
+        "job",
+        "queue"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/job.js, src/queue.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L6-05-01",
+          "domain": "L6_MULTI_FILE",
+          "description": "Canonical structural pattern for Multi-file job cancellation in queue manager",
+          "sampleCode": "// Reference structural transformation pattern for P46-L6-05",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "complexityTier": "L7_FULL_SWE",
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "targetSymbols": [
+        "calc",
+        "parser"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/calc.js, src/parser.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L7-01-01",
+          "domain": "L7_FULL_SWE",
+          "description": "Canonical structural pattern for SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+          "sampleCode": "// Reference structural transformation pattern for P46-L7-01",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "complexityTier": "L7_FULL_SWE",
+      "targetFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "targetSymbols": [
+        "cors",
+        "header-validator"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/cors.js, src/header-validator.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L7-02-01",
+          "domain": "L7_FULL_SWE",
+          "description": "Canonical structural pattern for SWE-bench EAF-BM-03: CORS header injection guard and validation",
+          "sampleCode": "// Reference structural transformation pattern for P46-L7-02",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "title": "SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+      "complexityTier": "L7_FULL_SWE",
+      "targetFiles": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "targetSymbols": [
+        "semver",
+        "comparator"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/semver.js, src/comparator.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L7-03-01",
+          "domain": "L7_FULL_SWE",
+          "description": "Canonical structural pattern for SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+          "sampleCode": "// Reference structural transformation pattern for P46-L7-03",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "title": "SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+      "complexityTier": "L7_FULL_SWE",
+      "targetFiles": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "targetSymbols": [
+        "deep-set",
+        "path-resolver"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/deep-set.js, src/path-resolver.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L7-04-01",
+          "domain": "L7_FULL_SWE",
+          "description": "Canonical structural pattern for SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+          "sampleCode": "// Reference structural transformation pattern for P46-L7-04",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    },
+    {
+      "planId": "plan-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "title": "SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+      "complexityTier": "L7_FULL_SWE",
+      "targetFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "targetSymbols": [
+        "user",
+        "user-service",
+        "user-route"
+      ],
+      "structuralPreconditions": [
+        "Workspace files src/models/user.js, src/services/user-service.js, src/routes/user-route.js must be clean git working tree",
+        "Semantic plan contracts must be frozen"
+      ],
+      "structuralPostconditions": [
+        "Target symbols must remain exported with identical type signatures",
+        "No extraneous files modified"
+      ],
+      "maxMutationAttempts": 3,
+      "maxRepairAttempts": 2,
+      "referencePatterns": [
+        {
+          "patternId": "ref-P46-L7-05-01",
+          "domain": "L7_FULL_SWE",
+          "description": "Canonical structural pattern for SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+          "sampleCode": "// Reference structural transformation pattern for P46-L7-05",
+          "applicableAstNodeType": "FunctionDeclaration"
+        }
+      ],
+      "isActivated": true
+    }
+  ]
+}
