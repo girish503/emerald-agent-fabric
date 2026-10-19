@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "emerald-phase56-v1",
+  "phase": "56",
+  "protocolVersion": "emerald-phase56-deterministic-transformation-v1",
+  "frozenAt": "2026-10-19T17:22:52.724Z",
+  "baselineCommit": "41f64f6",
+  "phase55Commit": "580f9a7",
+  "experimentalVariable": "deterministic_execution_tier_semantic_transformation",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "conditions": {
+    "CONDITION_A_EXISTING_CONTROL": "Frozen Phase 55 best-performing stack (qwen2.5-coder:3b + full patch synthesis stack)",
+    "CONDITION_B_DETERMINISTIC_AST": "Deterministic AST transformation from structured specification (no generative patch synthesis)",
+    "CONDITION_C_DEPENDENCY_AWARE": "Dependency-aware deterministic transformation (symbol/import/export/call/type/test/config closure in topological order)",
+    "CONDITION_D_GOVERNED_PIPELINE": "Complete governed semantic transformation pipeline with checkpointing, compile verification, and rollback on regression"
+  },
+  "bounds": {
+    "MAX_FILES": 5,
+    "MAX_EDITS": 15,
+    "MAX_AST_NODES": 100,
+    "MAX_DEPENDENCY_EDGES": 50,
+    "MAX_TRANSFORMATION_STEPS": 20,
+    "MAX_WALL_CLOCK_MS": 30000,
+    "MAX_MEMORY_BYTES": 1073741824,
+    "MAX_RETRIES": 2
+  },
+  "cohortSize": 15,
+  "totalTrials": 60,
+  "protocolDigest": "ce8b9b45a2710735074987575de53fe1ab90f884dd07557ff49b4cc38757b9ee"
+}

@@ -1,0 +1,543 @@
+{
+  "schemaVersion": "emerald-phase56-v1",
+  "phase": "56",
+  "generatedAt": "2026-10-19T17:22:52.729Z",
+  "baselineCommit": "41f64f6",
+  "protocolDigest": "ce8b9b45a2710735074987575de53fe1ab90f884dd07557ff49b4cc38757b9ee",
+  "totalSpecs": 15,
+  "specs": [
+    {
+      "specId": "SPEC-P46-L5-01",
+      "version": "1.0.0",
+      "taskId": "P46-L5-01",
+      "targetSymbols": [
+        "parsePrerelease",
+        "comparePrerelease"
+      ],
+      "targetFiles": [
+        "src/semver.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [parsePrerelease, comparePrerelease]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/semver.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/semver-prerelease.test.js",
+        "P2P_BASELINE_SATISFIED: test/semver-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/semver-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/semver.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "abe17f679644676c8206b5cc5395e371372ecc6c31aa487d791ee9545bf5be29"
+    },
+    {
+      "specId": "SPEC-P46-L5-02",
+      "version": "1.0.0",
+      "taskId": "P46-L5-02",
+      "targetSymbols": [
+        "_toPath",
+        "_setInternal"
+      ],
+      "targetFiles": [
+        "src/deep-set.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [_toPath, _setInternal]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/deep-set.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/deep-set-pollution.test.js",
+        "P2P_BASELINE_SATISFIED: test/deep-set-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/deep-set-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/deep-set.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "41db77e5a8539a53e119857dccddb0cee9e641327e54d3a634b724e953c7c3e2"
+    },
+    {
+      "specId": "SPEC-P46-L5-03",
+      "version": "1.0.0",
+      "taskId": "P46-L5-03",
+      "targetSymbols": [
+        "emit",
+        "dispatchListener"
+      ],
+      "targetFiles": [
+        "src/emitter.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [emit, dispatchListener]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/emitter.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/emitter-args.test.js",
+        "P2P_BASELINE_SATISFIED: test/emitter-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/emitter-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/emitter.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "ae0cc469a205fcf4c3905bd4c16294cc025a088aa123fab831fdf9d2b5a03518"
+    },
+    {
+      "specId": "SPEC-P46-L5-04",
+      "version": "1.0.0",
+      "taskId": "P46-L5-04",
+      "targetSymbols": [
+        "_handleError",
+        "scanDirectory"
+      ],
+      "targetFiles": [
+        "src/scanner.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [_handleError, scanDirectory]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/scanner.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/scanner-eacces.test.js",
+        "P2P_BASELINE_SATISFIED: test/scanner-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/scanner-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/scanner.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "3316acf330d520e44ecb6208c6080219ec0338f6c50e7b6a6dfdd53882069561"
+    },
+    {
+      "specId": "SPEC-P46-L5-05",
+      "version": "1.0.0",
+      "taskId": "P46-L5-05",
+      "targetSymbols": [
+        "flushQueue",
+        "readCache"
+      ],
+      "targetFiles": [
+        "src/kv-store.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [flushQueue, readCache]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/kv-store.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/kv-flush.test.js",
+        "P2P_BASELINE_SATISFIED: test/kv-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/kv-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/kv-store.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "5d75452d5399c4c85806e23211dd053a44bfce1b7e2e8d43f93f87e1bf3a9278"
+    },
+    {
+      "specId": "SPEC-P46-L6-01",
+      "version": "1.0.0",
+      "taskId": "P46-L6-01",
+      "targetSymbols": [
+        "hasRole",
+        "authorizeUser"
+      ],
+      "targetFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [hasRole, authorizeUser]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/models/user.js, src/services/user-service.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/user-service-roles.test.js",
+        "P2P_BASELINE_SATISFIED: test/user-service-auth.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/user-service-auth.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "add359a2bcd33444b461120e0bc9953b70c4339661caf763e6166ce80a37eefe"
+    },
+    {
+      "specId": "SPEC-P46-L6-02",
+      "version": "1.0.0",
+      "taskId": "P46-L6-02",
+      "targetSymbols": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "targetFiles": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [loadConfig, defaultSchema]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/config.js, src/defaults.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/config-fallback.test.js",
+        "P2P_BASELINE_SATISFIED: test/config-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/config-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "d6435d8824b5fadf42e863cbbfa6cddf5387200339a12a82e0bc78d8f54478da"
+    },
+    {
+      "specId": "SPEC-P46-L6-03",
+      "version": "1.0.0",
+      "taskId": "P46-L6-03",
+      "targetSymbols": [
+        "formatJson",
+        "logEvent"
+      ],
+      "targetFiles": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [formatJson, logEvent]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/formatters/json.js, src/logger.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/logger-formatter.test.js",
+        "P2P_BASELINE_SATISFIED: test/logger-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/logger-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "6d27388bdc0c2c5f8f14b14bfe61fb697051d15f1496fc704ef0698a45c7d2f3"
+    },
+    {
+      "specId": "SPEC-P46-L6-04",
+      "version": "1.0.0",
+      "taskId": "P46-L6-04",
+      "targetSymbols": [
+        "buildRequest",
+        "sendRequest"
+      ],
+      "targetFiles": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [buildRequest, sendRequest]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/request.js, src/client.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/client-headers.test.js",
+        "P2P_BASELINE_SATISFIED: test/client-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/client-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "256e0102ef1608b677732562c3c6c01033b5b5fccf8c63e07e566c7d4ce25658"
+    },
+    {
+      "specId": "SPEC-P46-L6-05",
+      "version": "1.0.0",
+      "taskId": "P46-L6-05",
+      "targetSymbols": [
+        "cancelJob",
+        "evictWorker"
+      ],
+      "targetFiles": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [cancelJob, evictWorker]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/job.js, src/queue.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/queue-cancel.test.js",
+        "P2P_BASELINE_SATISFIED: test/queue-core.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/queue-core.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "273351e8861685014540ea80a3673f4895b820e47cb8eec111ba9c0734d2b730"
+    },
+    {
+      "specId": "SPEC-P46-L7-01",
+      "version": "1.0.0",
+      "taskId": "P46-L7-01",
+      "targetSymbols": [
+        "parseExpression",
+        "evaluateExponent"
+      ],
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [parseExpression, evaluateExponent]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/calc.js, src/parser.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/calc-f2p.test.js",
+        "P2P_BASELINE_SATISFIED: test/calc-p2p.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/calc-p2p.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "a88b925a28f28f1cc0b46d86e1ff66117709ac116168d502400d4af7d9e361e5"
+    },
+    {
+      "specId": "SPEC-P46-L7-02",
+      "version": "1.0.0",
+      "taskId": "P46-L7-02",
+      "targetSymbols": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "targetFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [compileOriginPattern, validateHeaders]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/cors.js, src/header-validator.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/cors-f2p.test.js",
+        "P2P_BASELINE_SATISFIED: test/cors-p2p.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/cors-p2p.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "ae1ff6b2df48cc1d7b8ecde056500692110b519755b6e407ebe0eb6405c6f35b"
+    },
+    {
+      "specId": "SPEC-P46-L7-03",
+      "version": "1.0.0",
+      "taskId": "P46-L7-03",
+      "targetSymbols": [
+        "sortPrerelease",
+        "compareSemVer"
+      ],
+      "targetFiles": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [sortPrerelease, compareSemVer]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/semver.js, src/comparator.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/semver-f2p.test.js",
+        "P2P_BASELINE_SATISFIED: test/semver-p2p.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/semver-p2p.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "2dd4c56562ba9934a11b864c1cf59a1457025b2b7667e9c4488f43fe815f8026"
+    },
+    {
+      "specId": "SPEC-P46-L7-04",
+      "version": "1.0.0",
+      "taskId": "P46-L7-04",
+      "targetSymbols": [
+        "setDeepProperty",
+        "resolveObjectPath"
+      ],
+      "targetFiles": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [setDeepProperty, resolveObjectPath]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/deep-set.js, src/path-resolver.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/deep-f2p.test.js",
+        "P2P_BASELINE_SATISFIED: test/deep-p2p.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/deep-p2p.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "489689c2cf7eb3045095285d69c5aa132aad596aeec54c327adf305d501b69fe"
+    },
+    {
+      "specId": "SPEC-P46-L7-05",
+      "version": "1.0.0",
+      "taskId": "P46-L7-05",
+      "targetSymbols": [
+        "authorizeRole",
+        "evaluateRoleHierarchy"
+      ],
+      "targetFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "transformationKind": "REPLACE_NODE",
+      "structuralPreconditions": [
+        "TARGET_SYMBOLS_EXIST: [authorizeRole, evaluateRoleHierarchy]",
+        "FILES_IN_AUTHORIZED_SLICE: [src/models/user.js, src/services/user-service.js, src/routes/user-route.js]"
+      ],
+      "semanticPreconditions": [
+        "F2P_FAILURE_CONFIRMED: test/user-f2p.test.js",
+        "P2P_BASELINE_SATISFIED: test/user-p2p.test.js"
+      ],
+      "requiredInvariants": [
+        "PRESERVE_REGRESSION_test/user-p2p.test.js",
+        "AST_SYNTACTIC_VALIDITY",
+        "CLEAN_ROOM_INTEGRITY"
+      ],
+      "expectedAffectedScope": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "maximumFiles": 5,
+      "maximumEdits": 10,
+      "maximumASTNodes": 50,
+      "rollbackOnRegression": true,
+      "specHash": "7783b9f933fe0d2a6af05263b42f6e66f235c947ea0d4da0e7c23b925035d5bd"
+    }
+  ],
+  "artifactDigest": "4174c381989fba31681535386a8cbe93f0da9f4c00435e81b89ba3238ac5634c"
+}

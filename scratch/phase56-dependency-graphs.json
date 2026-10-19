@@ -1,0 +1,745 @@
+{
+  "schemaVersion": "emerald-phase56-v1",
+  "phase": "56",
+  "generatedAt": "2026-10-19T17:22:52.755Z",
+  "baselineCommit": "41f64f6",
+  "protocolDigest": "ce8b9b45a2710735074987575de53fe1ab90f884dd07557ff49b4cc38757b9ee",
+  "totalGraphs": 15,
+  "graphs": [
+    {
+      "graphId": "DEP-GRAPH-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "nodes": [
+        {
+          "symbol": "parsePrerelease",
+          "filePath": "src/semver.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/semver-prerelease.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "test/semver-prerelease.test.js:testRunner",
+          "toNode": "src/semver.js:parsePrerelease",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/semver.js:parsePrerelease",
+        "test/semver-prerelease.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/semver.js",
+        "test/semver-prerelease.test.js"
+      ],
+      "graphHash": "e192c7f048b133a2048c08077c55e25925cee3a07216984d6da550bce75baaac",
+      "closureHash": "bfd5c2d4f2563dc5caf797e4c427a5e8d85313000966c4d006c9adc7eed589f4",
+      "affectedFileSetHash": "1fa6437f970a6d69304e3179719cc68511873fa64091e83ec66b48ae384e5184"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "nodes": [
+        {
+          "symbol": "_toPath",
+          "filePath": "src/deep-set.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/deep-set-pollution.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "test/deep-set-pollution.test.js:testRunner",
+          "toNode": "src/deep-set.js:_toPath",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/deep-set.js:_toPath",
+        "test/deep-set-pollution.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/deep-set.js",
+        "test/deep-set-pollution.test.js"
+      ],
+      "graphHash": "af0d8f27e6d4cf7989e011857e15ecf8655cfa63fe45c979d37d9870ce6e326e",
+      "closureHash": "086006e551a6cb36404195911f1c416e39b4b57a4b966b325d6130021c4e8669",
+      "affectedFileSetHash": "5d7bf66ced2463e628bb45f3c09ee8443c11d279ab451f8e8bc8ccca61b78872"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "nodes": [
+        {
+          "symbol": "emit",
+          "filePath": "src/emitter.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/emitter-args.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "test/emitter-args.test.js:testRunner",
+          "toNode": "src/emitter.js:emit",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/emitter.js:emit",
+        "test/emitter-args.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/emitter.js",
+        "test/emitter-args.test.js"
+      ],
+      "graphHash": "50e0be0da27d9ca40e965a6ea4fce8e6fb7c006ca3373bac18999ac903baf860",
+      "closureHash": "2acd4b7964b2e093fdcf35d26aaf80841c5de48a611759a2526cf8cb0f05caf3",
+      "affectedFileSetHash": "d1a6d3cfa8b7e4e53f27c19061480a0c56802f13403a0abca590c621e2945a10"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "nodes": [
+        {
+          "symbol": "_handleError",
+          "filePath": "src/scanner.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/scanner-eacces.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "test/scanner-eacces.test.js:testRunner",
+          "toNode": "src/scanner.js:_handleError",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/scanner.js:_handleError",
+        "test/scanner-eacces.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/scanner.js",
+        "test/scanner-eacces.test.js"
+      ],
+      "graphHash": "652c35c12d6a161925b4c4cc5cf403b04289d1fce9f9c8e9345825dbece30f9c",
+      "closureHash": "33c0010fcf80e220d923906cd58c541904fe374dc64b8855087ba63881a03bb6",
+      "affectedFileSetHash": "61edda1ae9284e554fec95d6c46f116649fa8d39f10d337dba7d552a0ea16c88"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "nodes": [
+        {
+          "symbol": "flushQueue",
+          "filePath": "src/kv-store.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/kv-flush.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "test/kv-flush.test.js:testRunner",
+          "toNode": "src/kv-store.js:flushQueue",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/kv-store.js:flushQueue",
+        "test/kv-flush.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/kv-store.js",
+        "test/kv-flush.test.js"
+      ],
+      "graphHash": "090ff1b91786cf0a090c320104d6d13c10c33379d6b39e8e5ae63862caea1223",
+      "closureHash": "d79304d76ac85bc325b0ff060ca0b83eeb7671aaa7693586e55747c44d4bcdbb",
+      "affectedFileSetHash": "f9d4605a63724e430e6a0511840f5df205a95f3b9a648394ae026bbc474e7c26"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "nodes": [
+        {
+          "symbol": "hasRole",
+          "filePath": "src/models/user.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "authorizeUser",
+          "filePath": "src/services/user-service.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/user-service-roles.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/models/user.js:hasRole",
+          "toNode": "src/services/user-service.js:authorizeUser",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/services/user-service.js:authorizeUser",
+          "toNode": "src/models/user.js:hasRole",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/user-service-roles.test.js:testRunner",
+          "toNode": "src/models/user.js:hasRole",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/models/user.js:hasRole",
+        "src/services/user-service.js:authorizeUser",
+        "test/user-service-roles.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "test/user-service-roles.test.js"
+      ],
+      "graphHash": "8db700d3bd36842d4b1d1b69cbc17984cdf24bc7b2084b472a973eb1247307cd",
+      "closureHash": "07ec0f6d8b455f0ceceb404712715e4d4c855a5ab9ae139e629442ffca5b28a5",
+      "affectedFileSetHash": "cfe5e85033648532583d0f09a698d36ede0e173d5430ba8551627a6a04e56d13"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "nodes": [
+        {
+          "symbol": "loadConfig",
+          "filePath": "src/config.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "defaultSchema",
+          "filePath": "src/defaults.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/config-fallback.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/config.js:loadConfig",
+          "toNode": "src/defaults.js:defaultSchema",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/defaults.js:defaultSchema",
+          "toNode": "src/config.js:loadConfig",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/config-fallback.test.js:testRunner",
+          "toNode": "src/config.js:loadConfig",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/config.js:loadConfig",
+        "src/defaults.js:defaultSchema",
+        "test/config-fallback.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/config.js",
+        "src/defaults.js",
+        "test/config-fallback.test.js"
+      ],
+      "graphHash": "3776a713230b1c16643defee116c3fd12d7d4e04741e4c7d5eb3232852d16b33",
+      "closureHash": "0e27ffb912a5d271ec3e5c631fb7604b91b8231ff6419ece9ee200ab616cd3ce",
+      "affectedFileSetHash": "638cd2113c76fba10f7ab99cc226e2414d37f6c5a49ce2e5a569a6daaf2eacbf"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "nodes": [
+        {
+          "symbol": "formatJson",
+          "filePath": "src/formatters/json.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "logEvent",
+          "filePath": "src/logger.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/logger-formatter.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/formatters/json.js:formatJson",
+          "toNode": "src/logger.js:logEvent",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/logger.js:logEvent",
+          "toNode": "src/formatters/json.js:formatJson",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/logger-formatter.test.js:testRunner",
+          "toNode": "src/formatters/json.js:formatJson",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/formatters/json.js:formatJson",
+        "src/logger.js:logEvent",
+        "test/logger-formatter.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/formatters/json.js",
+        "src/logger.js",
+        "test/logger-formatter.test.js"
+      ],
+      "graphHash": "aa96eda77584ce716fddd202816f95bd4c0c4fdf4b1f84f1756d89efb80847ac",
+      "closureHash": "e6a7941b9d9e64a3d48684adbab036e683786cd458046f457a19bd0829284e80",
+      "affectedFileSetHash": "fc606051838777633e6a75fd2c73b841143e3322b5aa5d53804758c65873e108"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "nodes": [
+        {
+          "symbol": "sendRequest",
+          "filePath": "src/client.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "buildRequest",
+          "filePath": "src/request.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/client-headers.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/client.js:sendRequest",
+          "toNode": "src/request.js:buildRequest",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/request.js:buildRequest",
+          "toNode": "src/client.js:sendRequest",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/client-headers.test.js:testRunner",
+          "toNode": "src/request.js:buildRequest",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/client.js:sendRequest",
+        "src/request.js:buildRequest",
+        "test/client-headers.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/client.js",
+        "src/request.js",
+        "test/client-headers.test.js"
+      ],
+      "graphHash": "b6a20593858fc63556c4ad1ca71cc8d28231475d1cf49a0bbf06b7b3b82cea67",
+      "closureHash": "405986ed2fd1c2632f894ef4c6c052c52f04b8b45b24c070e3fca61579305216",
+      "affectedFileSetHash": "7a99ba0cdfbbef93e864eb0fe4ec19d0b6e8992af019c72f1f5c38ba78fc4b5b"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "nodes": [
+        {
+          "symbol": "cancelJob",
+          "filePath": "src/job.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "evictWorker",
+          "filePath": "src/queue.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/queue-cancel.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/job.js:cancelJob",
+          "toNode": "src/queue.js:evictWorker",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/queue.js:evictWorker",
+          "toNode": "src/job.js:cancelJob",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/queue-cancel.test.js:testRunner",
+          "toNode": "src/job.js:cancelJob",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/job.js:cancelJob",
+        "src/queue.js:evictWorker",
+        "test/queue-cancel.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/job.js",
+        "src/queue.js",
+        "test/queue-cancel.test.js"
+      ],
+      "graphHash": "36f2e8a2021e5ebb8d8d220f964ede14558ebacea6dfe85e8beeb244362f7290",
+      "closureHash": "ed6b6c71240d2fdc913e77ccb2936a74f6df6baf61b5a88a2eaf15df8df44f66",
+      "affectedFileSetHash": "1b515d793e48319c2f11be1b4ad54ecba9bdb16b9538c075f9db552b9a5339e9"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "nodes": [
+        {
+          "symbol": "parseExpression",
+          "filePath": "src/calc.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "evaluateExponent",
+          "filePath": "src/parser.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/calc-f2p.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/calc.js:parseExpression",
+          "toNode": "src/parser.js:evaluateExponent",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/parser.js:evaluateExponent",
+          "toNode": "src/calc.js:parseExpression",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/calc-f2p.test.js:testRunner",
+          "toNode": "src/calc.js:parseExpression",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/calc.js:parseExpression",
+        "src/parser.js:evaluateExponent",
+        "test/calc-f2p.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js",
+        "test/calc-f2p.test.js"
+      ],
+      "graphHash": "d1b87519ab2867a297be2099a03c877e389e3fdfdb2f8689ebc8c54cdfa4b6a9",
+      "closureHash": "d1b6381bedabc5e90c872ff1856da565c85465f6425c50d324b7a099d16c9e8a",
+      "affectedFileSetHash": "f708d287cba1d98b4953ab805e7ae1131be35cd8dcf8e8511196ac1c8adadd51"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "nodes": [
+        {
+          "symbol": "compileOriginPattern",
+          "filePath": "src/cors.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "validateHeaders",
+          "filePath": "src/header-validator.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/cors-f2p.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/cors.js:compileOriginPattern",
+          "toNode": "src/header-validator.js:validateHeaders",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/header-validator.js:validateHeaders",
+          "toNode": "src/cors.js:compileOriginPattern",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/cors-f2p.test.js:testRunner",
+          "toNode": "src/cors.js:compileOriginPattern",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/cors.js:compileOriginPattern",
+        "src/header-validator.js:validateHeaders",
+        "test/cors-f2p.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/cors.js",
+        "src/header-validator.js",
+        "test/cors-f2p.test.js"
+      ],
+      "graphHash": "7dcecf8238b138632f7d4cbd9ec053b8bbb138ba18de9329406e799f722c3d02",
+      "closureHash": "4ea145f6ba6cc4eaed6360fe22051c8dae62f152be2f9e4a82e3a38bdfba33ce",
+      "affectedFileSetHash": "60a34fa9b520f50112d0c8823333c90010a5405ed746005bbf5d435db9438344"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "nodes": [
+        {
+          "symbol": "compareSemVer",
+          "filePath": "src/comparator.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "sortPrerelease",
+          "filePath": "src/semver.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/semver-f2p.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/comparator.js:compareSemVer",
+          "toNode": "src/semver.js:sortPrerelease",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/semver.js:sortPrerelease",
+          "toNode": "src/comparator.js:compareSemVer",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/semver-f2p.test.js:testRunner",
+          "toNode": "src/semver.js:sortPrerelease",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/comparator.js:compareSemVer",
+        "src/semver.js:sortPrerelease",
+        "test/semver-f2p.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/comparator.js",
+        "src/semver.js",
+        "test/semver-f2p.test.js"
+      ],
+      "graphHash": "2d40473bdb14fca818635432a7d6a470e8b515175a8bd8e795b0a6aa49a20d0b",
+      "closureHash": "22810ad4d6e1f4e17d9fe263a61f255f118cc7c65138ea9802dce7c9e63c78f7",
+      "affectedFileSetHash": "2f285056e610c547e33d5c98f4877c5d66d743801d44d946f9d81558ee007662"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "nodes": [
+        {
+          "symbol": "setDeepProperty",
+          "filePath": "src/deep-set.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "resolveObjectPath",
+          "filePath": "src/path-resolver.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/deep-f2p.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/deep-set.js:setDeepProperty",
+          "toNode": "src/path-resolver.js:resolveObjectPath",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/path-resolver.js:resolveObjectPath",
+          "toNode": "src/deep-set.js:setDeepProperty",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/deep-f2p.test.js:testRunner",
+          "toNode": "src/deep-set.js:setDeepProperty",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/deep-set.js:setDeepProperty",
+        "src/path-resolver.js:resolveObjectPath",
+        "test/deep-f2p.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/deep-set.js",
+        "src/path-resolver.js",
+        "test/deep-f2p.test.js"
+      ],
+      "graphHash": "95d40e89448ddc6b05f9c42d59209baabf6a9f8d3ec0ae6e4ea1be5276f4e507",
+      "closureHash": "791965b30d298eed18e96f6e3147e93c95ae8873e9331bb309ba9fe3b123ca8b",
+      "affectedFileSetHash": "4165c6fcb0a9b55191e7df70e5ac0124c79882b46c4774efe7539e566426ca47"
+    },
+    {
+      "graphId": "DEP-GRAPH-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "nodes": [
+        {
+          "symbol": "authorizeRole",
+          "filePath": "src/models/user.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "authorizeRole",
+          "filePath": "src/routes/user-route.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "evaluateRoleHierarchy",
+          "filePath": "src/services/user-service.js",
+          "nodeType": "DECLARATION"
+        },
+        {
+          "symbol": "testRunner",
+          "filePath": "test/user-f2p.test.js",
+          "nodeType": "TEST_CASE"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "src/models/user.js:authorizeRole",
+          "toNode": "src/services/user-service.js:evaluateRoleHierarchy",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/routes/user-route.js:authorizeRole",
+          "toNode": "src/services/user-service.js:evaluateRoleHierarchy",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/services/user-service.js:evaluateRoleHierarchy",
+          "toNode": "src/models/user.js:authorizeRole",
+          "dependencyType": "IMPORT",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "src/services/user-service.js:evaluateRoleHierarchy",
+          "toNode": "src/routes/user-route.js:authorizeRole",
+          "dependencyType": "CALL",
+          "isCrossFile": true
+        },
+        {
+          "fromNode": "test/user-f2p.test.js:testRunner",
+          "toNode": "src/models/user.js:authorizeRole",
+          "dependencyType": "TEST",
+          "isCrossFile": true
+        }
+      ],
+      "closure": [
+        "src/models/user.js:authorizeRole",
+        "src/routes/user-route.js:authorizeRole",
+        "src/services/user-service.js:evaluateRoleHierarchy",
+        "test/user-f2p.test.js:testRunner"
+      ],
+      "affectedFiles": [
+        "src/models/user.js",
+        "src/routes/user-route.js",
+        "src/services/user-service.js",
+        "test/user-f2p.test.js"
+      ],
+      "graphHash": "1aaddb2bb981d55e00acdd03c7cf89940280485ba3716b1062e48d750b0598da",
+      "closureHash": "608e5768f45ac28b3c12b114cbe975a6fdc729b4dfa678506f734e2395ce759e",
+      "affectedFileSetHash": "2fbaa520c0c6bc46115fadc0e2525a272ff5c2c2e5bfcba05af474219d072f48"
+    }
+  ],
+  "artifactDigest": "63b1b60e8f15ba0264b3703e7c61e61f92bcccd6189ca873c7fefdc6515c1ae5"
+}
