@@ -1,0 +1,880 @@
+{
+  "phase": "52",
+  "subtaskDAGs": [
+    {
+      "dagId": "dag-P46-L5-01",
+      "parentTaskId": "P46-L5-01",
+      "parentComplexityTier": "L5_MULTI_FUNCTION",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L5-01-S1",
+          "parentTaskId": "P46-L5-01",
+          "title": "Sub-function 1 mutation for SemVer prerelease parser and comparator coordination",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/semver.js"
+          ],
+          "targetSymbols": [
+            "semver"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-01-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 25
+        },
+        {
+          "subtaskId": "P46-L5-01-S2",
+          "parentTaskId": "P46-L5-01",
+          "title": "Sub-function 2 coordination for SemVer prerelease parser and comparator coordination",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/semver.js"
+          ],
+          "targetSymbols": [
+            "semver"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-01-state"
+          ],
+          "dependencies": [
+            "P46-L5-01-S1"
+          ],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 30
+        }
+      ],
+      "maxDepth": 1,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "86d7f8318c96e4ef2a467a84cba7504ff9a57bacce377b52fea81aaa044ea583"
+    },
+    {
+      "dagId": "dag-P46-L5-02",
+      "parentTaskId": "P46-L5-02",
+      "parentComplexityTier": "L5_MULTI_FUNCTION",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L5-02-S1",
+          "parentTaskId": "P46-L5-02",
+          "title": "Sub-function 1 mutation for Prototype pollution guard in deep-set",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/deep-set.js"
+          ],
+          "targetSymbols": [
+            "deep-set"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-02-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 25
+        },
+        {
+          "subtaskId": "P46-L5-02-S2",
+          "parentTaskId": "P46-L5-02",
+          "title": "Sub-function 2 coordination for Prototype pollution guard in deep-set",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/deep-set.js"
+          ],
+          "targetSymbols": [
+            "deep-set"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-02-state"
+          ],
+          "dependencies": [
+            "P46-L5-02-S1"
+          ],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 30
+        }
+      ],
+      "maxDepth": 1,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "bea41142dbf5acc0c62d09ead9c927951ecffd5dc191825006f65244a126d9b3"
+    },
+    {
+      "dagId": "dag-P46-L5-03",
+      "parentTaskId": "P46-L5-03",
+      "parentComplexityTier": "L5_MULTI_FUNCTION",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L5-03-S1",
+          "parentTaskId": "P46-L5-03",
+          "title": "Sub-function 1 mutation for Event emitter argument spreading and dispatch",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/emitter.js"
+          ],
+          "targetSymbols": [
+            "emitter"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-03-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 25
+        },
+        {
+          "subtaskId": "P46-L5-03-S2",
+          "parentTaskId": "P46-L5-03",
+          "title": "Sub-function 2 coordination for Event emitter argument spreading and dispatch",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/emitter.js"
+          ],
+          "targetSymbols": [
+            "emitter"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-03-state"
+          ],
+          "dependencies": [
+            "P46-L5-03-S1"
+          ],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 30
+        }
+      ],
+      "maxDepth": 1,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "f00404db5f02f28fdd0de21c8ed60050128cfc2281f7ca8f0b7e5387c90d3a22"
+    },
+    {
+      "dagId": "dag-P46-L5-04",
+      "parentTaskId": "P46-L5-04",
+      "parentComplexityTier": "L5_MULTI_FUNCTION",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L5-04-S1",
+          "parentTaskId": "P46-L5-04",
+          "title": "Sub-function 1 mutation for Graceful EACCES error handling in directory scanner",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/scanner.js"
+          ],
+          "targetSymbols": [
+            "scanner"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-04-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 25
+        },
+        {
+          "subtaskId": "P46-L5-04-S2",
+          "parentTaskId": "P46-L5-04",
+          "title": "Sub-function 2 coordination for Graceful EACCES error handling in directory scanner",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/scanner.js"
+          ],
+          "targetSymbols": [
+            "scanner"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-04-state"
+          ],
+          "dependencies": [
+            "P46-L5-04-S1"
+          ],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 30
+        }
+      ],
+      "maxDepth": 1,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "272a3423d870c0067cdac66aa458b830abfcd4602098dba05af6ece97a65ed00"
+    },
+    {
+      "dagId": "dag-P46-L5-05",
+      "parentTaskId": "P46-L5-05",
+      "parentComplexityTier": "L5_MULTI_FUNCTION",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L5-05-S1",
+          "parentTaskId": "P46-L5-05",
+          "title": "Sub-function 1 mutation for KV-store buffer flush synchronization",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/kv-store.js"
+          ],
+          "targetSymbols": [
+            "kv-store"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-05-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 25
+        },
+        {
+          "subtaskId": "P46-L5-05-S2",
+          "parentTaskId": "P46-L5-05",
+          "title": "Sub-function 2 coordination for KV-store buffer flush synchronization",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/kv-store.js"
+          ],
+          "targetSymbols": [
+            "kv-store"
+          ],
+          "assignedContracts": [
+            "contract-P46-L5-05-state"
+          ],
+          "dependencies": [
+            "P46-L5-05-S1"
+          ],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 30
+        }
+      ],
+      "maxDepth": 1,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "004d95ebea556bdd83af3ce81f95974201f8a64ca8631ff730cb4fff71319ac8"
+    },
+    {
+      "dagId": "dag-P46-L6-01",
+      "parentTaskId": "P46-L6-01",
+      "parentComplexityTier": "L6_MULTI_FILE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L6-01-S1",
+          "parentTaskId": "P46-L6-01",
+          "title": "File 1 export & signature mutation: src/models/user.js",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/models/user.js"
+          ],
+          "targetSymbols": [
+            "user"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-01-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L6-01-S2",
+          "parentTaskId": "P46-L6-01",
+          "title": "File 2 caller update & state wiring: src/services/user-service.js",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/services/user-service.js"
+          ],
+          "targetSymbols": [
+            "user-service"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-01-state",
+            "contract-P46-L6-01-cross-module"
+          ],
+          "dependencies": [
+            "P46-L6-01-S1"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 45
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "97b638979c9bdf89cf6c3cc84719910458d97413111186d0f1be2fb503d066f1"
+    },
+    {
+      "dagId": "dag-P46-L6-02",
+      "parentTaskId": "P46-L6-02",
+      "parentComplexityTier": "L6_MULTI_FILE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L6-02-S1",
+          "parentTaskId": "P46-L6-02",
+          "title": "File 1 export & signature mutation: src/config.js",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/config.js"
+          ],
+          "targetSymbols": [
+            "config"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-02-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L6-02-S2",
+          "parentTaskId": "P46-L6-02",
+          "title": "File 2 caller update & state wiring: src/defaults.js",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/defaults.js"
+          ],
+          "targetSymbols": [
+            "defaults"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-02-state",
+            "contract-P46-L6-02-cross-module"
+          ],
+          "dependencies": [
+            "P46-L6-02-S1"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 45
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "543ec3cdb9069732fa376602f0f7579d7da348c27a4325b2648cda35936d7a3b"
+    },
+    {
+      "dagId": "dag-P46-L6-03",
+      "parentTaskId": "P46-L6-03",
+      "parentComplexityTier": "L6_MULTI_FILE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L6-03-S1",
+          "parentTaskId": "P46-L6-03",
+          "title": "File 1 export & signature mutation: src/formatters/json.js",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/formatters/json.js"
+          ],
+          "targetSymbols": [
+            "json"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-03-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L6-03-S2",
+          "parentTaskId": "P46-L6-03",
+          "title": "File 2 caller update & state wiring: src/logger.js",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/logger.js"
+          ],
+          "targetSymbols": [
+            "logger"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-03-state",
+            "contract-P46-L6-03-cross-module"
+          ],
+          "dependencies": [
+            "P46-L6-03-S1"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 45
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "c8fc96dda44d217979d10f933da315415ca79a299e4b93a2d5fcb423a8ea3606"
+    },
+    {
+      "dagId": "dag-P46-L6-04",
+      "parentTaskId": "P46-L6-04",
+      "parentComplexityTier": "L6_MULTI_FILE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L6-04-S1",
+          "parentTaskId": "P46-L6-04",
+          "title": "File 1 export & signature mutation: src/request.js",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/request.js"
+          ],
+          "targetSymbols": [
+            "request"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-04-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L6-04-S2",
+          "parentTaskId": "P46-L6-04",
+          "title": "File 2 caller update & state wiring: src/client.js",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/client.js"
+          ],
+          "targetSymbols": [
+            "client"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-04-state",
+            "contract-P46-L6-04-cross-module"
+          ],
+          "dependencies": [
+            "P46-L6-04-S1"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 45
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "391b04c4e475235b16641126f801328df2d2f7adee27260ef8f1d52d2aefb18f"
+    },
+    {
+      "dagId": "dag-P46-L6-05",
+      "parentTaskId": "P46-L6-05",
+      "parentComplexityTier": "L6_MULTI_FILE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L6-05-S1",
+          "parentTaskId": "P46-L6-05",
+          "title": "File 1 export & signature mutation: src/job.js",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/job.js"
+          ],
+          "targetSymbols": [
+            "job"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-05-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L6-05-S2",
+          "parentTaskId": "P46-L6-05",
+          "title": "File 2 caller update & state wiring: src/queue.js",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/queue.js"
+          ],
+          "targetSymbols": [
+            "queue"
+          ],
+          "assignedContracts": [
+            "contract-P46-L6-05-state",
+            "contract-P46-L6-05-cross-module"
+          ],
+          "dependencies": [
+            "P46-L6-05-S1"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 45
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "45c113fb466850ba29b413ff0094d81eddd5515a75cbdb909bd712080635fe23"
+    },
+    {
+      "dagId": "dag-P46-L7-01",
+      "parentTaskId": "P46-L7-01",
+      "parentComplexityTier": "L7_FULL_SWE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L7-01-S1",
+          "parentTaskId": "P46-L7-01",
+          "title": "Tokenizer & operator table negative exponent token handling",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/parser.js"
+          ],
+          "targetSymbols": [
+            "tokenize"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-01-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 30
+        },
+        {
+          "subtaskId": "P46-L7-01-S2",
+          "parentTaskId": "P46-L7-01",
+          "title": "Evaluator power computation with negative base/exponent",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/calc.js"
+          ],
+          "targetSymbols": [
+            "evaluate"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-01-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 25
+        },
+        {
+          "subtaskId": "P46-L7-01-S3",
+          "parentTaskId": "P46-L7-01",
+          "title": "Parser recursive descent binding power and unary minus precedence",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/parser.js"
+          ],
+          "targetSymbols": [
+            "parse"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-01-state",
+            "contract-P46-L7-01-cross-module"
+          ],
+          "dependencies": [
+            "P46-L7-01-S1",
+            "P46-L7-01-S2"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 60
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "5d411bbd2e723ee37eaa0cbd9c5eb1849d78336feb2532ed024666e0085e7a7e"
+    },
+    {
+      "dagId": "dag-P46-L7-02",
+      "parentTaskId": "P46-L7-02",
+      "parentComplexityTier": "L7_FULL_SWE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L7-02-S1",
+          "parentTaskId": "P46-L7-02",
+          "title": "Origin header string normalization and validation helper",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/header-validator.js"
+          ],
+          "targetSymbols": [
+            "validateOrigin"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-02-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 28
+        },
+        {
+          "subtaskId": "P46-L7-02-S2",
+          "parentTaskId": "P46-L7-02",
+          "title": "Regex compile cache and multi-origin wildcard matcher",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/cors.js"
+          ],
+          "targetSymbols": [
+            "compileOriginRegex"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-02-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 50
+        },
+        {
+          "subtaskId": "P46-L7-02-S3",
+          "parentTaskId": "P46-L7-02",
+          "title": "Vary and Access-Control-Allow-Credentials header injection logic",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/cors.js"
+          ],
+          "targetSymbols": [
+            "corsMiddleware"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-02-state",
+            "contract-P46-L7-02-cross-module"
+          ],
+          "dependencies": [
+            "P46-L7-02-S1",
+            "P46-L7-02-S2"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 55
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "873f311b42204b16640c03dcf6c865dcaaadcaeda2b4fcca58287e35e6f48a22"
+    },
+    {
+      "dagId": "dag-P46-L7-03",
+      "parentTaskId": "P46-L7-03",
+      "parentComplexityTier": "L7_FULL_SWE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L7-03-S1",
+          "parentTaskId": "P46-L7-03",
+          "title": "Component 1 parser/helper decomposition for SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/semver.js"
+          ],
+          "targetSymbols": [
+            "semver"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-03-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L7-03-S2",
+          "parentTaskId": "P46-L7-03",
+          "title": "Component 2 comparator/handler for SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/comparator.js"
+          ],
+          "targetSymbols": [
+            "comparator"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-03-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 40
+        },
+        {
+          "subtaskId": "P46-L7-03-S3",
+          "parentTaskId": "P46-L7-03",
+          "title": "Component 3 multi-module composition for SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/comparator.js"
+          ],
+          "targetSymbols": [
+            "comparator"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-03-state",
+            "contract-P46-L7-03-cross-module"
+          ],
+          "dependencies": [
+            "P46-L7-03-S1",
+            "P46-L7-03-S2"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 50
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "1efac786383bfcc6878432b248d2ec0ae8f27faee8525954480ce5bf16aff103"
+    },
+    {
+      "dagId": "dag-P46-L7-04",
+      "parentTaskId": "P46-L7-04",
+      "parentComplexityTier": "L7_FULL_SWE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L7-04-S1",
+          "parentTaskId": "P46-L7-04",
+          "title": "Component 1 parser/helper decomposition for SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/deep-set.js"
+          ],
+          "targetSymbols": [
+            "deep-set"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-04-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L7-04-S2",
+          "parentTaskId": "P46-L7-04",
+          "title": "Component 2 comparator/handler for SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/path-resolver.js"
+          ],
+          "targetSymbols": [
+            "path-resolver"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-04-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 40
+        },
+        {
+          "subtaskId": "P46-L7-04-S3",
+          "parentTaskId": "P46-L7-04",
+          "title": "Component 3 multi-module composition for SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/path-resolver.js"
+          ],
+          "targetSymbols": [
+            "path-resolver"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-04-state",
+            "contract-P46-L7-04-cross-module"
+          ],
+          "dependencies": [
+            "P46-L7-04-S1",
+            "P46-L7-04-S2"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 50
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "5bc5a7811ccf0e119de870cc71d16fa72454b8a14efef04a4463fc67e83933ed"
+    },
+    {
+      "dagId": "dag-P46-L7-05",
+      "parentTaskId": "P46-L7-05",
+      "parentComplexityTier": "L7_FULL_SWE",
+      "subtasks": [
+        {
+          "subtaskId": "P46-L7-05-S1",
+          "parentTaskId": "P46-L7-05",
+          "title": "Component 1 parser/helper decomposition for SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+          "complexityTier": "L4",
+          "targetFiles": [
+            "src/models/user.js"
+          ],
+          "targetSymbols": [
+            "user"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-05-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 35
+        },
+        {
+          "subtaskId": "P46-L7-05-S2",
+          "parentTaskId": "P46-L7-05",
+          "title": "Component 2 comparator/handler for SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/services/user-service.js"
+          ],
+          "targetSymbols": [
+            "user-service"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-05-interface"
+          ],
+          "dependencies": [],
+          "maxMutationAttempts": 2,
+          "maxRepairAttempts": 1,
+          "estimatedMutationSurfaceLines": 40
+        },
+        {
+          "subtaskId": "P46-L7-05-S3",
+          "parentTaskId": "P46-L7-05",
+          "title": "Component 3 multi-module composition for SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+          "complexityTier": "L5",
+          "targetFiles": [
+            "src/routes/user-route.js"
+          ],
+          "targetSymbols": [
+            "user-route"
+          ],
+          "assignedContracts": [
+            "contract-P46-L7-05-state",
+            "contract-P46-L7-05-cross-module"
+          ],
+          "dependencies": [
+            "P46-L7-05-S1",
+            "P46-L7-05-S2"
+          ],
+          "maxMutationAttempts": 3,
+          "maxRepairAttempts": 2,
+          "estimatedMutationSurfaceLines": 50
+        }
+      ],
+      "maxDepth": 2,
+      "maxFanout": 2,
+      "isProjectedToL6OrBelow": true,
+      "dagHash": "8e2cc0b648f9c3bf2410fbf0e91e856386af5ce132e110d05527ae86b488fbd0"
+    }
+  ]
+}

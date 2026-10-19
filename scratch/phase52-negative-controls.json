@@ -1,0 +1,65 @@
+{
+  "phase": "52",
+  "controls": [
+    {
+      "controlId": "N1_MISSING_DEPENDENCY_CLOSURE",
+      "description": "Remove a required dependency edge from repository slice.",
+      "expectedOutcome": "SLICE_CLOSURE_INCOMPLETE",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N2_CONTRACT_OMISSION",
+      "description": "Remove a required system invariant from extracted contract collection.",
+      "expectedOutcome": "CONTRACT_RECALL_FAILURE",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N3_CONTRACT_MUTATION_PROHIBITED",
+      "description": "Model attempts to mutate or override an active formal contract record.",
+      "expectedOutcome": "CAPABILITY_DENIED",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N4_SLICE_AUTHORITY_ESCALATION",
+      "description": "Attempt to use repository slicer module to authorize workspace mutation or terminal grant.",
+      "expectedOutcome": "CAPABILITY_DENIED",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N5_GOLD_PATCH_LEAKAGE",
+      "description": "Query or spec containing forbidden gold-patch reference injected into slicer.",
+      "expectedOutcome": "GOLD_LEAKAGE_DETECTED",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N6_OVERSIZED_SUBTASK_COMPLEXITY",
+      "description": "Subtask generator produces an un-decomposed L7-complexity subtask.",
+      "expectedOutcome": "DECOMPOSITION_BOUNDARY_FAILURE",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N7_CROSS_SLICE_INVARIANT_CONFLICT",
+      "description": "Two subtask mutations introduce conflicting state transitions violating shared invariant.",
+      "expectedOutcome": "CROSS_SLICE_INVARIANT_CONFLICT",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N8_FALSE_LOCAL_SUCCESS_CLEAN_ROOM_REJECTION",
+      "description": "Subtasks pass relaxed local test mocks but fail repository-level clean-room verifier.",
+      "expectedOutcome": "CLEAN_ROOM_REJECTS_FAIL_CLOSED",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N9_INCOMPLETE_TEST_CLOSURE",
+      "description": "Remove required F2P test file from test dependencies list.",
+      "expectedOutcome": "SLICE_CLOSURE_INCOMPLETE_TEST",
+      "status": "PASS"
+    },
+    {
+      "controlId": "N10_CONTRACT_CONTRADICTION",
+      "description": "Inject mutually contradictory preconditions into formal contract extractor.",
+      "expectedOutcome": "CONTRACT_CONTRADICTION_DETECTED",
+      "status": "PASS"
+    }
+  ]
+}

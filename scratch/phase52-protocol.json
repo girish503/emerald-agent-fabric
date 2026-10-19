@@ -1,0 +1,105 @@
+{
+  "phase": "52",
+  "protocolVersion": "emerald-phase52-repository-slicing-v1",
+  "frozenAt": "2026-10-19T16:00:51.353Z",
+  "experimentalVariable": "governed_repository_slicing_and_contract_projection",
+  "frozenBaselineCommit": "1b56216",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "models": {
+    "executor": {
+      "model": "qwen2.5-coder:1.5b",
+      "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "parameterCount": 1540000000,
+      "quantization": "Q4_K_M",
+      "role": "LOCAL_EXECUTOR"
+    },
+    "semanticReasoner": {
+      "model": "qwen2.5-coder:3b",
+      "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameterCount": 3100000000,
+      "quantization": "Q4_K_M",
+      "role": "SEMANTIC_REASONER"
+    },
+    "critic": {
+      "model": "granite3-dense:2b",
+      "digest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+      "parameterCount": 2600000000,
+      "quantization": "Q4_K_M",
+      "role": "OPTIONAL_CRITIC"
+    }
+  },
+  "taskCohort": {
+    "cohortSize": 15,
+    "difficultTasksCount": 10,
+    "levelDistribution": {
+      "L5": 5,
+      "L6": 5,
+      "L7": 5
+    },
+    "selectionRule": "15 parent tasks derived from Phase 46-51 cohort, focusing on the 10 difficult tasks (5 L6 multi-file and 5 L7 repository-scale SWE-bench tasks)."
+  },
+  "conditions": [
+    {
+      "conditionId": "CONDITION_A_PHASE51_CONTROL",
+      "name": "Phase 51 Control",
+      "description": "Promoted Phase 51 configuration (reference + iterative execution under Phase 50 adaptive cascade) without repository slicing or contract projection.",
+      "hasSlicing": false,
+      "hasFormalContracts": false,
+      "hasGovernedComposition": false
+    },
+    {
+      "conditionId": "CONDITION_B_DETERMINISTIC_REPOSITORY_SLICE",
+      "name": "Deterministic Repository Slicing",
+      "description": "Deterministic repository slicing with complete 7-point closure (symbol, import, export, call, type, test, config).",
+      "hasSlicing": true,
+      "hasFormalContracts": false,
+      "hasGovernedComposition": false
+    },
+    {
+      "conditionId": "CONDITION_C_SLICE_PLUS_FORMAL_CONTRACT",
+      "name": "Slice + Formal Contract Projection",
+      "description": "Deterministic slice combined with formal immutable interface, state, and cross-module contracts.",
+      "hasSlicing": true,
+      "hasFormalContracts": true,
+      "hasGovernedComposition": false
+    },
+    {
+      "conditionId": "CONDITION_D_SLICE_CONTRACT_GOVERNED_COMPOSITION",
+      "name": "Slice + Contract + Governed Subtask Composition",
+      "description": "Deterministic slice + contracts + bounded DAG subtask decomposition with composition and clean-room verification.",
+      "hasSlicing": true,
+      "hasFormalContracts": true,
+      "hasGovernedComposition": true
+    }
+  ],
+  "callBudgets": {
+    "maxSubtasks": 6,
+    "maxDagDepth": 3,
+    "maxExecutorAttemptsPerSubtask": 3,
+    "maxRepairAttempts": 2,
+    "maxTotalModelCalls": 12,
+    "exceededFailureCode": "CASCADE_BUDGET_EXCEEDED"
+  },
+  "failureTaxonomy": [
+    "SLICE_INCOMPLETE",
+    "CONTRACT_INCOMPLETE",
+    "DECOMPOSITION_FAILURE",
+    "SUBTASK_EXECUTION_FAILURE",
+    "SUBTASK_VALIDATION_FAILURE",
+    "COMPOSITION_FAILURE",
+    "REPOSITORY_SEMANTIC_FAILURE",
+    "CLEAN_ROOM_VERIFICATION_FAILURE",
+    "POLICY_FAILURE",
+    "EVIDENCE_FAILURE",
+    "ENVIRONMENT_FAILURE",
+    "BUDGET_FAILURE"
+  ]
+}

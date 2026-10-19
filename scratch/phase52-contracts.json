@@ -1,0 +1,1424 @@
+{
+  "phase": "52",
+  "contractCollections": [
+    {
+      "taskId": "P46-L5-01",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L5-01-interface",
+          "taskId": "P46-L5-01",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "semver"
+          ],
+          "preconditions": [
+            "Inputs conform to semver contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy SemVer prerelease parser and comparator coordination"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'semver' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L5-01"
+          ],
+          "contentHash": "63e78ae37dde9925cdc8a1e4ea29826e0cb704b41e073017b66721ebf240d5c4",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L5-01-state",
+          "taskId": "P46-L5-01",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "semver"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of semver must be preserved",
+            "Passes regression suite test/semver-core.test.js",
+            "Fixes fault under test/semver-prerelease.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-01"
+          ],
+          "contentHash": "baa95235e87449f85b49aa1310bbbbfc36518d0b1293056d7f8af0eb515b974e",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "aa7b8664b2b03e1590afa7f666002dd10637969af01a441b53d5d545eaabdc84",
+      "contractCount": 2,
+      "contractBytes": 1139,
+      "requiredInvariants": [
+        "Public interface of semver must be preserved",
+        "Passes regression suite test/semver-core.test.js",
+        "Fixes fault under test/semver-prerelease.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of semver must be preserved",
+        "Passes regression suite test/semver-core.test.js",
+        "Fixes fault under test/semver-prerelease.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L5-02",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L5-02-interface",
+          "taskId": "P46-L5-02",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "deep-set"
+          ],
+          "preconditions": [
+            "Inputs conform to deep-set contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Prototype pollution guard in deep-set"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'deep-set' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L5-02"
+          ],
+          "contentHash": "de164e14888246cb48fdc84a5d51486f3cb6aa16681013e3d417cf622b39b031",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L5-02-state",
+          "taskId": "P46-L5-02",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "deep-set"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of deep-set must be preserved",
+            "Passes regression suite test/deep-set-core.test.js",
+            "Fixes fault under test/deep-set-pollution.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-02"
+          ],
+          "contentHash": "7d422433ad2b67d3bf0c69e9223297c487b13cb640a0cfccd8349f46ce2c8316",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "0b9c54126fe5745533d74c3dd418cb92b86eea87bb06c972b39bb4f21ee037ef",
+      "contractCount": 2,
+      "contractBytes": 1137,
+      "requiredInvariants": [
+        "Public interface of deep-set must be preserved",
+        "Passes regression suite test/deep-set-core.test.js",
+        "Fixes fault under test/deep-set-pollution.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of deep-set must be preserved",
+        "Passes regression suite test/deep-set-core.test.js",
+        "Fixes fault under test/deep-set-pollution.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L5-03",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L5-03-interface",
+          "taskId": "P46-L5-03",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "emitter"
+          ],
+          "preconditions": [
+            "Inputs conform to emitter contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Event emitter argument spreading and dispatch"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'emitter' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L5-03"
+          ],
+          "contentHash": "f4fe9a781547ba93edb7fa7f66f327381e423771ec878fe28b4b68d1affdf796",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L5-03-state",
+          "taskId": "P46-L5-03",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "emitter"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of emitter must be preserved",
+            "Passes regression suite test/emitter-core.test.js",
+            "Fixes fault under test/emitter-args.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-03"
+          ],
+          "contentHash": "a408777ecef6420b5852b1ff4f277db93bdba7a3e19e90852ecc66d87c6be229",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "818770d043cf215b628ff66a8572549883d0b9c5482f645c44a5bf0a7b650565",
+      "contractCount": 2,
+      "contractBytes": 1133,
+      "requiredInvariants": [
+        "Public interface of emitter must be preserved",
+        "Passes regression suite test/emitter-core.test.js",
+        "Fixes fault under test/emitter-args.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of emitter must be preserved",
+        "Passes regression suite test/emitter-core.test.js",
+        "Fixes fault under test/emitter-args.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L5-04",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L5-04-interface",
+          "taskId": "P46-L5-04",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "scanner"
+          ],
+          "preconditions": [
+            "Inputs conform to scanner contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Graceful EACCES error handling in directory scanner"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'scanner' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L5-04"
+          ],
+          "contentHash": "ab635e87b45edf8b11d91e8cbe267ae2f42213e927d0847bc291292bfa6b8dc0",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L5-04-state",
+          "taskId": "P46-L5-04",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "scanner"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of scanner must be preserved",
+            "Passes regression suite test/scanner-core.test.js",
+            "Fixes fault under test/scanner-eacces.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-04"
+          ],
+          "contentHash": "f48479af6ee3b8fff712ca17b7ed2e116f855bb1ffa55422116a1e0c1d3c101f",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "98db7c623faa4050c1d085ace8c4dc3b009f7ac9c2c60395591fc8c12fc099e1",
+      "contractCount": 2,
+      "contractBytes": 1141,
+      "requiredInvariants": [
+        "Public interface of scanner must be preserved",
+        "Passes regression suite test/scanner-core.test.js",
+        "Fixes fault under test/scanner-eacces.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of scanner must be preserved",
+        "Passes regression suite test/scanner-core.test.js",
+        "Fixes fault under test/scanner-eacces.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L5-05",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L5-05-interface",
+          "taskId": "P46-L5-05",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "kv-store"
+          ],
+          "preconditions": [
+            "Inputs conform to kv-store contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy KV-store buffer flush synchronization"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'kv-store' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L5-05"
+          ],
+          "contentHash": "af4b84b78b17c735d2abe05c5987aeffe1d91a697bc0d0620a959928c544e488",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L5-05-state",
+          "taskId": "P46-L5-05",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "kv-store"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of kv-store must be preserved",
+            "Passes regression suite test/kv-core.test.js",
+            "Fixes fault under test/kv-flush.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-05"
+          ],
+          "contentHash": "9b3f3ceffd4d139e4270fcd933d97c8ce99bdf13792b738312013dd409aa5f7e",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "039469c069f05c073e222c50a46be5f091a701fe2f32649f356212617334d9c1",
+      "contractCount": 2,
+      "contractBytes": 1121,
+      "requiredInvariants": [
+        "Public interface of kv-store must be preserved",
+        "Passes regression suite test/kv-core.test.js",
+        "Fixes fault under test/kv-flush.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of kv-store must be preserved",
+        "Passes regression suite test/kv-core.test.js",
+        "Fixes fault under test/kv-flush.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L6-01",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L6-01-interface",
+          "taskId": "P46-L6-01",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "user",
+            "user-service"
+          ],
+          "preconditions": [
+            "Inputs conform to user, user-service contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Multi-file role authorization in user-service"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'user' must remain invariant",
+            "Signature of 'user-service' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L6-01"
+          ],
+          "contentHash": "0dfd893ff44030d034fb66bc1a429ee180e673eae2090ac78c0ef4576ecbac16",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-01-state",
+          "taskId": "P46-L6-01",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "user",
+            "user-service"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of user, user-service must be preserved",
+            "Passes regression suite test/user-service-auth.test.js",
+            "Fixes fault under test/user-service-roles.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-01"
+          ],
+          "contentHash": "2544b87a84173d614f21fbf26854127f7dc0ab67bcc526cad9ae347f4207136a",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-01-cross-module",
+          "taskId": "P46-L6-01",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "user",
+            "user-service"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/models/user.js <-> src/services/user-service.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-01"
+          ],
+          "contentHash": "ad584081fdd82b411ebc03bf812c580900a69ebed08e11362e04dbf11c353d1b",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "4cda30f073cbb1d30d3e9d23ee7ed327c4550592b73e16b0bde348bcb672faeb",
+      "contractCount": 3,
+      "contractBytes": 1935,
+      "requiredInvariants": [
+        "Public interface of user, user-service must be preserved",
+        "Passes regression suite test/user-service-auth.test.js",
+        "Fixes fault under test/user-service-roles.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of user, user-service must be preserved",
+        "Passes regression suite test/user-service-auth.test.js",
+        "Fixes fault under test/user-service-roles.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L6-02",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L6-02-interface",
+          "taskId": "P46-L6-02",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "config",
+            "defaults"
+          ],
+          "preconditions": [
+            "Inputs conform to config, defaults contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Multi-file missing config fallback coordination"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'config' must remain invariant",
+            "Signature of 'defaults' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L6-02"
+          ],
+          "contentHash": "112c9396ecc0320f401d7821dedfc98fdd338d9e8a54ec485be3d2058752a955",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-02-state",
+          "taskId": "P46-L6-02",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "config",
+            "defaults"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of config, defaults must be preserved",
+            "Passes regression suite test/config-core.test.js",
+            "Fixes fault under test/config-fallback.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-02"
+          ],
+          "contentHash": "2911a2d327e4296eca8e1eb0524021d14944a8faa0c818701b154dee80be3fdb",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-02-cross-module",
+          "taskId": "P46-L6-02",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "config",
+            "defaults"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/config.js <-> src/defaults.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-02"
+          ],
+          "contentHash": "c01fbebfcd23b4e874edf83076ac1526e351e9d7caa7bb7ba393e5e5b3ee2942",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "0d68c3dddf7286613890a08d5b06d9e64ef88a8b8898225deccffa6d7b8baf01",
+      "contractCount": 3,
+      "contractBytes": 1898,
+      "requiredInvariants": [
+        "Public interface of config, defaults must be preserved",
+        "Passes regression suite test/config-core.test.js",
+        "Fixes fault under test/config-fallback.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of config, defaults must be preserved",
+        "Passes regression suite test/config-core.test.js",
+        "Fixes fault under test/config-fallback.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L6-03",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L6-03-interface",
+          "taskId": "P46-L6-03",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "json",
+            "logger"
+          ],
+          "preconditions": [
+            "Inputs conform to json, logger contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Multi-file JSON formatter refactoring and logger wiring"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'json' must remain invariant",
+            "Signature of 'logger' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L6-03"
+          ],
+          "contentHash": "e6a9950bf5864640dd048d36ae5a2d245cb3e0d4a36f9ab99a5fb8aad16a6f89",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-03-state",
+          "taskId": "P46-L6-03",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "json",
+            "logger"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of json, logger must be preserved",
+            "Passes regression suite test/logger-core.test.js",
+            "Fixes fault under test/logger-formatter.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-03"
+          ],
+          "contentHash": "fdb604bb8531657c1b3e87c3d65b71588c554bc205d47cb0d914975cae29e3ad",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-03-cross-module",
+          "taskId": "P46-L6-03",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "json",
+            "logger"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/formatters/json.js <-> src/logger.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-03"
+          ],
+          "contentHash": "5a48e1a6a5807ceb873665e9b17a9669c8da5096dc94585c687fe763d6116b29",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "c82a02185de1abec0fb772617f817e9c2374e98472acd86549075cf049d1c569",
+      "contractCount": 3,
+      "contractBytes": 1890,
+      "requiredInvariants": [
+        "Public interface of json, logger must be preserved",
+        "Passes regression suite test/logger-core.test.js",
+        "Fixes fault under test/logger-formatter.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of json, logger must be preserved",
+        "Passes regression suite test/logger-core.test.js",
+        "Fixes fault under test/logger-formatter.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L6-04",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L6-04-interface",
+          "taskId": "P46-L6-04",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "request",
+            "client"
+          ],
+          "preconditions": [
+            "Inputs conform to request, client contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Multi-file HTTP header normalization across client modules"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'request' must remain invariant",
+            "Signature of 'client' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L6-04"
+          ],
+          "contentHash": "b5611d04178338d6c0fb2fe030e82df2cbc589f5414c00d0a10de43679c43cb2",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-04-state",
+          "taskId": "P46-L6-04",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "request",
+            "client"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of request, client must be preserved",
+            "Passes regression suite test/client-core.test.js",
+            "Fixes fault under test/client-headers.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-04"
+          ],
+          "contentHash": "0dd572c9f6ae662891c8b24da20e4f7f9b14b2c27729851688a61e47a22888d0",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-04-cross-module",
+          "taskId": "P46-L6-04",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "request",
+            "client"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/client.js <-> src/request.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-04"
+          ],
+          "contentHash": "0bbe8c67070539a590d209a1dc865dd1f051f6ca1115ff31f2fb2f87b1357f8b",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "c0d63d9f8fc3891b06c93853b5c5ff0a50c761a3c0be1a31ed01af7f43d8340f",
+      "contractCount": 3,
+      "contractBytes": 1901,
+      "requiredInvariants": [
+        "Public interface of request, client must be preserved",
+        "Passes regression suite test/client-core.test.js",
+        "Fixes fault under test/client-headers.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of request, client must be preserved",
+        "Passes regression suite test/client-core.test.js",
+        "Fixes fault under test/client-headers.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L6-05",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L6-05-interface",
+          "taskId": "P46-L6-05",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "job",
+            "queue"
+          ],
+          "preconditions": [
+            "Inputs conform to job, queue contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy Multi-file job cancellation in queue manager"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'job' must remain invariant",
+            "Signature of 'queue' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L6-05"
+          ],
+          "contentHash": "044750fdff63d42fb65268f8279d43f565aa679ea91134427d466118c13e8723",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-05-state",
+          "taskId": "P46-L6-05",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "job",
+            "queue"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of job, queue must be preserved",
+            "Passes regression suite test/queue-core.test.js",
+            "Fixes fault under test/queue-cancel.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-05"
+          ],
+          "contentHash": "795d3c802abde90297146ef0d0fa91cb13aaec1165f4a289749d8517781ce1df",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L6-05-cross-module",
+          "taskId": "P46-L6-05",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "job",
+            "queue"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/job.js <-> src/queue.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-05"
+          ],
+          "contentHash": "2215f668488aef3f9b58f2dd34d6ea62737aa2d18325a3d169d568c2c585f023",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "716d8e13b2f16c71609f7c0aeee2457700cbb2f26910e93644901c1687b69596",
+      "contractCount": 3,
+      "contractBytes": 1849,
+      "requiredInvariants": [
+        "Public interface of job, queue must be preserved",
+        "Passes regression suite test/queue-core.test.js",
+        "Fixes fault under test/queue-cancel.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of job, queue must be preserved",
+        "Passes regression suite test/queue-core.test.js",
+        "Fixes fault under test/queue-cancel.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L7-01",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L7-01-interface",
+          "taskId": "P46-L7-01",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "calc",
+            "parser"
+          ],
+          "preconditions": [
+            "Inputs conform to calc, parser contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy SWE-bench EAF-BM-01: calc negative exponent parsing and calculation"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'calc' must remain invariant",
+            "Signature of 'parser' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L7-01"
+          ],
+          "contentHash": "d16274b643d85796033d4b747f22a34c93f4444ba1f2fd547902ed56b0ab878e",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-01-state",
+          "taskId": "P46-L7-01",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "calc",
+            "parser"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of calc, parser must be preserved",
+            "Passes regression suite test/calc-p2p.test.js",
+            "Fixes fault under test/calc-f2p.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-01"
+          ],
+          "contentHash": "a934353de9dc5d8f7686bc9c45cabae3535704cc824f2b63cb449172352de518",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-01-cross-module",
+          "taskId": "P46-L7-01",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "calc",
+            "parser"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/calc.js <-> src/parser.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-01"
+          ],
+          "contentHash": "1b48cdea0e87ee40d7e2e957d78ab7781e22c8a974011dcf04ff755eb9abfad8",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "76e4fa99aad5ea0590548a0cb26924f1cd255726fc81b21c9627c99f4af9bfe4",
+      "contractCount": 3,
+      "contractBytes": 1880,
+      "requiredInvariants": [
+        "Public interface of calc, parser must be preserved",
+        "Passes regression suite test/calc-p2p.test.js",
+        "Fixes fault under test/calc-f2p.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of calc, parser must be preserved",
+        "Passes regression suite test/calc-p2p.test.js",
+        "Fixes fault under test/calc-f2p.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L7-02",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L7-02-interface",
+          "taskId": "P46-L7-02",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "cors",
+            "header-validator"
+          ],
+          "preconditions": [
+            "Inputs conform to cors, header-validator contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy SWE-bench EAF-BM-03: CORS header injection guard and validation"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'cors' must remain invariant",
+            "Signature of 'header-validator' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L7-02"
+          ],
+          "contentHash": "fe5a3e28e9f7141ce9efc8b02779ca305628bc26626327ee20363c2a7d117789",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-02-state",
+          "taskId": "P46-L7-02",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "cors",
+            "header-validator"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of cors, header-validator must be preserved",
+            "Passes regression suite test/cors-p2p.test.js",
+            "Fixes fault under test/cors-f2p.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-02"
+          ],
+          "contentHash": "6e7a34090a0c527b82ee2d3d7382b268b3267294c770f631e178cea218281977",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-02-cross-module",
+          "taskId": "P46-L7-02",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "cors",
+            "header-validator"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/cors.js <-> src/header-validator.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-02"
+          ],
+          "contentHash": "c871d0c9aa614b51c159a31d6bf8857c7289003c509a757bace7973c29146c85",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "935578a80d0b6ba8fe6848122b8f5795f6cfe126d63c54af89f979f25a9579d7",
+      "contractCount": 3,
+      "contractBytes": 1946,
+      "requiredInvariants": [
+        "Public interface of cors, header-validator must be preserved",
+        "Passes regression suite test/cors-p2p.test.js",
+        "Fixes fault under test/cors-f2p.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of cors, header-validator must be preserved",
+        "Passes regression suite test/cors-p2p.test.js",
+        "Fixes fault under test/cors-f2p.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L7-03",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L7-03-interface",
+          "taskId": "P46-L7-03",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "semver",
+            "comparator"
+          ],
+          "preconditions": [
+            "Inputs conform to semver, comparator contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'semver' must remain invariant",
+            "Signature of 'comparator' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L7-03"
+          ],
+          "contentHash": "a7c114cf850227389420dfaf0c52829cc12102d89c0360169899ffb3c5cc7467",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-03-state",
+          "taskId": "P46-L7-03",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "semver",
+            "comparator"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of semver, comparator must be preserved",
+            "Passes regression suite test/semver-p2p.test.js",
+            "Fixes fault under test/semver-f2p.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-03"
+          ],
+          "contentHash": "17b204ba3831b3bd7edab33dd53376d283222df34f0d38dcaa4a2d23fbc96cd5",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-03-cross-module",
+          "taskId": "P46-L7-03",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "semver",
+            "comparator"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/comparator.js <-> src/semver.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-03"
+          ],
+          "contentHash": "d08a7c0588afc8f523fd9456676dd6361c5eeadcf7e2e98d941bedfdeddd0f0d",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "676e26957df856184b46edafd7c43d7065660ae0ec24144b59cae1b16fbf7092",
+      "contractCount": 3,
+      "contractBytes": 1924,
+      "requiredInvariants": [
+        "Public interface of semver, comparator must be preserved",
+        "Passes regression suite test/semver-p2p.test.js",
+        "Fixes fault under test/semver-f2p.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of semver, comparator must be preserved",
+        "Passes regression suite test/semver-p2p.test.js",
+        "Fixes fault under test/semver-f2p.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L7-04",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L7-04-interface",
+          "taskId": "P46-L7-04",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "deep-set",
+            "path-resolver"
+          ],
+          "preconditions": [
+            "Inputs conform to deep-set, path-resolver contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'deep-set' must remain invariant",
+            "Signature of 'path-resolver' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L7-04"
+          ],
+          "contentHash": "2552f7f84280fe211d94bd7e8c1d8a3f7b6003728c0085badcf49e354609769c",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-04-state",
+          "taskId": "P46-L7-04",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "deep-set",
+            "path-resolver"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of deep-set, path-resolver must be preserved",
+            "Passes regression suite test/deep-p2p.test.js",
+            "Fixes fault under test/deep-f2p.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-04"
+          ],
+          "contentHash": "81ddd131a892d2882e869a7a9c4f86a4237d885a7c110a9c0346adfe7f6dfd25",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-04-cross-module",
+          "taskId": "P46-L7-04",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "deep-set",
+            "path-resolver"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/deep-set.js <-> src/path-resolver.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-04"
+          ],
+          "contentHash": "139249c844b7b509a67e9c8229a31763ad569d512cbd2db07007c75f9477c416",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "569a3db5aad56e4084fb90ca7cbd7d0100dd180932914da52915a5f8abcf5ab0",
+      "contractCount": 3,
+      "contractBytes": 1956,
+      "requiredInvariants": [
+        "Public interface of deep-set, path-resolver must be preserved",
+        "Passes regression suite test/deep-p2p.test.js",
+        "Fixes fault under test/deep-f2p.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of deep-set, path-resolver must be preserved",
+        "Passes regression suite test/deep-p2p.test.js",
+        "Fixes fault under test/deep-f2p.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    },
+    {
+      "taskId": "P46-L7-05",
+      "contracts": [
+        {
+          "contractId": "contract-P46-L7-05-interface",
+          "taskId": "P46-L7-05",
+          "contractType": "INTERFACE",
+          "sourceSymbols": [
+            "user",
+            "user-service",
+            "user-route"
+          ],
+          "preconditions": [
+            "Inputs conform to user, user-service, user-route contracts"
+          ],
+          "postconditions": [
+            "Outputs satisfy SWE-bench EAF-BM-11: User service role authorization and hierarchy"
+          ],
+          "invariants": [],
+          "interfaceConstraints": [
+            "Signature of 'user' must remain invariant",
+            "Signature of 'user-service' must remain invariant",
+            "Signature of 'user-route' must remain invariant"
+          ],
+          "stateConstraints": [],
+          "provenance": [
+            "slice:slice-P46-L7-05"
+          ],
+          "contentHash": "b19008b75896b15b1636c3a3ceea4b5cc0b852288c82b858284e1e99e9f3d1e8",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-05-state",
+          "taskId": "P46-L7-05",
+          "contractType": "STATE",
+          "sourceSymbols": [
+            "user",
+            "user-service",
+            "user-route"
+          ],
+          "preconditions": [
+            "Clean initial state"
+          ],
+          "postconditions": [
+            "State transitions strictly valid"
+          ],
+          "invariants": [
+            "Public interface of user, user-service, user-route must be preserved",
+            "Passes regression suite test/user-p2p.test.js",
+            "Fixes fault under test/user-f2p.test.js"
+          ],
+          "interfaceConstraints": [],
+          "stateConstraints": [
+            "Working tree remains clean",
+            "No extraneous global state mutation"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-05"
+          ],
+          "contentHash": "296fc2c79b3d5da0161d1646dceb0bd4ad9ad6c42e446163ab64e5895473378a",
+          "isImmutable": true
+        },
+        {
+          "contractId": "contract-P46-L7-05-cross-module",
+          "taskId": "P46-L7-05",
+          "contractType": "CROSS_MODULE",
+          "sourceSymbols": [
+            "user",
+            "user-service",
+            "user-route"
+          ],
+          "preconditions": [
+            "Producer-consumer modules aligned on shared protocol"
+          ],
+          "postconditions": [
+            "Composed subsystem passes cross-module integration tests"
+          ],
+          "invariants": [
+            "Cross-boundary invariants preserved between src/models/user.js <-> src/routes/user-route.js <-> src/services/user-service.js"
+          ],
+          "interfaceConstraints": [
+            "Inter-module calls adhere to declared signatures"
+          ],
+          "stateConstraints": [
+            "No shared lock contention or asynchronous status race"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-05"
+          ],
+          "contentHash": "4921b96015e1c3a4ced5699f638c671405c10643c0e2ff8f7cf09cace3ec89c1",
+          "isImmutable": true
+        }
+      ],
+      "collectionHash": "36bf95cc5d62370ef10b7a3d4b5015d8b7b7ef7799e4cb1a43247e4086620216",
+      "contractCount": 3,
+      "contractBytes": 2079,
+      "requiredInvariants": [
+        "Public interface of user, user-service, user-route must be preserved",
+        "Passes regression suite test/user-p2p.test.js",
+        "Fixes fault under test/user-f2p.test.js"
+      ],
+      "coveredInvariants": [
+        "Public interface of user, user-service, user-route must be preserved",
+        "Passes regression suite test/user-p2p.test.js",
+        "Fixes fault under test/user-f2p.test.js"
+      ],
+      "recall": 1,
+      "precision": 1
+    }
+  ]
+}

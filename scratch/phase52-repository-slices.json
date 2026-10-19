@@ -1,0 +1,857 @@
+{
+  "phase": "52",
+  "slices": [
+    {
+      "sliceId": "slice-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/semver.js"
+      ],
+      "symbols": [
+        "semver"
+      ],
+      "dependencyEdges": [],
+      "testDependencies": [
+        "test/semver-core.test.js",
+        "test/semver-prerelease.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/semver.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "5536dd7505f256848cc7875e78fdbfdc5ced367575133eb143c2ef522b59f740",
+          "reasonIncluded": "Target file for task P46-L5-01",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "d5fecd0059c301276fdea939de91e47fe2fe4ebe67a68049f3960fd020154e6b",
+      "metrics": {
+        "sliceFileCount": 1,
+        "sliceSymbolCount": 1,
+        "sliceBytes": 7656,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.22,
+        "dependencyEdgeCount": 0,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/deep-set.js"
+      ],
+      "symbols": [
+        "deep-set"
+      ],
+      "dependencyEdges": [],
+      "testDependencies": [
+        "test/deep-set-core.test.js",
+        "test/deep-set-pollution.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/deep-set.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "d6c4e1a182e43c23738ac42565002f9c5748fa87f2c99880fcdb05d91ec4a0b7",
+          "reasonIncluded": "Target file for task P46-L5-02",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "d8d4e3c4d9c673cb2e833035fd207fa4e3583c493cea2962caf436a904cc9f81",
+      "metrics": {
+        "sliceFileCount": 1,
+        "sliceSymbolCount": 1,
+        "sliceBytes": 7656,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.22,
+        "dependencyEdgeCount": 0,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/emitter.js"
+      ],
+      "symbols": [
+        "emitter"
+      ],
+      "dependencyEdges": [],
+      "testDependencies": [
+        "test/emitter-args.test.js",
+        "test/emitter-core.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/emitter.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "895e53d6a21ef378c9ba6724cc553981824ce50f05104e1b21af938f8ee5cc72",
+          "reasonIncluded": "Target file for task P46-L5-03",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "e6bbb2e89da5a485136fd1abc4aa372ee6c7420a8e26afed06bad4965d7a0f02",
+      "metrics": {
+        "sliceFileCount": 1,
+        "sliceSymbolCount": 1,
+        "sliceBytes": 7656,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.22,
+        "dependencyEdgeCount": 0,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/scanner.js"
+      ],
+      "symbols": [
+        "scanner"
+      ],
+      "dependencyEdges": [],
+      "testDependencies": [
+        "test/scanner-core.test.js",
+        "test/scanner-eacces.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/scanner.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "23c74730e55a37c14e5c72d91fd0f406395e60acbb6cfb0f5fd3effdf2f2e280",
+          "reasonIncluded": "Target file for task P46-L5-04",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "7e0a32cc7e2572373b3b7a9136b164e32799c8c520f9e7bedde072ea13392812",
+      "metrics": {
+        "sliceFileCount": 1,
+        "sliceSymbolCount": 1,
+        "sliceBytes": 7656,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.22,
+        "dependencyEdgeCount": 0,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/kv-store.js"
+      ],
+      "symbols": [
+        "kv-store"
+      ],
+      "dependencyEdges": [],
+      "testDependencies": [
+        "test/kv-core.test.js",
+        "test/kv-flush.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/kv-store.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "2552161ea05bd531334d758c778f4e2b5279f628aaa2e2752b0c0d524eeef543",
+          "reasonIncluded": "Target file for task P46-L5-05",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "1764ac5ecc586960391b4d668dc2d915264399f5a54a9e6ea4d92810c895646c",
+      "metrics": {
+        "sliceFileCount": 1,
+        "sliceSymbolCount": 1,
+        "sliceBytes": 7656,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.22,
+        "dependencyEdgeCount": 0,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "symbols": [
+        "user",
+        "user-service"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/services/user-service.js",
+          "targetFile": "src/models/user.js",
+          "dependencyType": "IMPORT",
+          "symbol": "user"
+        },
+        {
+          "sourceFile": "src/services/user-service.js",
+          "targetFile": "src/models/user.js",
+          "dependencyType": "CALL",
+          "symbol": "user"
+        }
+      ],
+      "testDependencies": [
+        "test/user-service-auth.test.js",
+        "test/user-service-roles.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/models/user.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "fa3acf0b82fe2efeebd51bad1f99a0becdbee0b554faaf8190622160abb7c89e",
+          "reasonIncluded": "Target file for task P46-L6-01",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/services/user-service.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "7a7c927797f1abfd86d4e3bb1955ac04cdf49155810ad12ede620bcf65691aaf",
+          "reasonIncluded": "Target file for task P46-L6-01",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "6cff278d48db147d10c8093ad2c7c800709b652bcb20113c69987e63cc5e6230",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 9744,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.28,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "symbols": [
+        "config",
+        "defaults"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/defaults.js",
+          "targetFile": "src/config.js",
+          "dependencyType": "IMPORT",
+          "symbol": "config"
+        },
+        {
+          "sourceFile": "src/defaults.js",
+          "targetFile": "src/config.js",
+          "dependencyType": "CALL",
+          "symbol": "config"
+        }
+      ],
+      "testDependencies": [
+        "test/config-core.test.js",
+        "test/config-fallback.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/config.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "21c22a2b909c7cb69deface7b3e9df10c5aae2313179c5a9fb71b0ad273ec9fe",
+          "reasonIncluded": "Target file for task P46-L6-02",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/defaults.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "f32373107ca73d86947937ba04b4b1e5caea7507be4edb5feb53df86eadff8c1",
+          "reasonIncluded": "Target file for task P46-L6-02",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "d87c9ee2d1c8bd536f3becef4dd853846afaa56413ae71caa37bbe855a0e3813",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 9744,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.28,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "symbols": [
+        "json",
+        "logger"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/logger.js",
+          "targetFile": "src/formatters/json.js",
+          "dependencyType": "IMPORT",
+          "symbol": "json"
+        },
+        {
+          "sourceFile": "src/logger.js",
+          "targetFile": "src/formatters/json.js",
+          "dependencyType": "CALL",
+          "symbol": "json"
+        }
+      ],
+      "testDependencies": [
+        "test/logger-core.test.js",
+        "test/logger-formatter.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/formatters/json.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "c91c85949dfda66611ac5a003385754733dd8ba10c8afa8ee0c70b771d271195",
+          "reasonIncluded": "Target file for task P46-L6-03",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/logger.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "ab1577bf419dbf5eff6df5d338b21728e9bddd5b115f93572e52b11f6cca2107",
+          "reasonIncluded": "Target file for task P46-L6-03",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "28a5d3dc2bb64bb1bd9f77d118c5b7e03aee91eacfa1fcb7c734b75d92813339",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 9744,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.28,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/client.js",
+        "src/request.js"
+      ],
+      "symbols": [
+        "client",
+        "request"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/client.js",
+          "targetFile": "src/request.js",
+          "dependencyType": "IMPORT",
+          "symbol": "request"
+        },
+        {
+          "sourceFile": "src/client.js",
+          "targetFile": "src/request.js",
+          "dependencyType": "CALL",
+          "symbol": "request"
+        }
+      ],
+      "testDependencies": [
+        "test/client-core.test.js",
+        "test/client-headers.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/client.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "d8a4de3841794eaf042014c0fc61ba0a59aa966c322c582c397d6cb67cbf1ef8",
+          "reasonIncluded": "Target file for task P46-L6-04",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/request.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "6ed4c1e1eb63f4a38c394625b4df3a8b043c33b82d9bd76d0652091b5f77dd0c",
+          "reasonIncluded": "Target file for task P46-L6-04",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "a0d72ee1d67c6d0cac03b51bdede429676dee61f69dca6cdf253c825d3a71388",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 9744,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.28,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "symbols": [
+        "job",
+        "queue"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/queue.js",
+          "targetFile": "src/job.js",
+          "dependencyType": "IMPORT",
+          "symbol": "job"
+        },
+        {
+          "sourceFile": "src/queue.js",
+          "targetFile": "src/job.js",
+          "dependencyType": "CALL",
+          "symbol": "job"
+        }
+      ],
+      "testDependencies": [
+        "test/queue-cancel.test.js",
+        "test/queue-core.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/job.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "bed07099dcfb39459be5bfd47982f540b502c5f29ae7054bdff0f203925a3c7c",
+          "reasonIncluded": "Target file for task P46-L6-05",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/queue.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "6f3e527a1feeb65cdc6cbc4b96894ebf4aed82e9b8575215a1877e9e2192f9e9",
+          "reasonIncluded": "Target file for task P46-L6-05",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "09a08a783dfcb6d7a0c9e8890a6e7d33e977a3354660f03a9a14c4375860cb1b",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 9744,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.28,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "symbols": [
+        "calc",
+        "parser"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/parser.js",
+          "targetFile": "src/calc.js",
+          "dependencyType": "IMPORT",
+          "symbol": "calc"
+        },
+        {
+          "sourceFile": "src/parser.js",
+          "targetFile": "src/calc.js",
+          "dependencyType": "CALL",
+          "symbol": "calc"
+        }
+      ],
+      "testDependencies": [
+        "test/calc-f2p.test.js",
+        "test/calc-p2p.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/calc.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "d23d036062e8b3408a2e9ab488f50839a1a3a74b42a0e00e90e81b71547c400e",
+          "reasonIncluded": "Target file for task P46-L7-01",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/parser.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "ddfceae3275223a71aef634c194b481bbc163d1c22375396b7d06ec278a56e48",
+          "reasonIncluded": "Target file for task P46-L7-01",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "2efce034395f4e6bd97174db162f11a12a7684fa637bd7e86dd7b23dbb6295ab",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 11136,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.32,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "symbols": [
+        "cors",
+        "header-validator"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/header-validator.js",
+          "targetFile": "src/cors.js",
+          "dependencyType": "IMPORT",
+          "symbol": "cors"
+        },
+        {
+          "sourceFile": "src/header-validator.js",
+          "targetFile": "src/cors.js",
+          "dependencyType": "CALL",
+          "symbol": "cors"
+        }
+      ],
+      "testDependencies": [
+        "test/cors-f2p.test.js",
+        "test/cors-p2p.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/cors.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "56740676e92dc717f1dd31353e392cc681e02c98458954c301081b08e6ccbdc0",
+          "reasonIncluded": "Target file for task P46-L7-02",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/header-validator.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "828547f5f6702271307809cc6d0beda51ebb9bcc88a65a7dc02e1662b3ace1ee",
+          "reasonIncluded": "Target file for task P46-L7-02",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "bb7b2cfb98b5c47a5dd7fc688df8c2943662a3abcf882522b6a52d75651f765f",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 11136,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.32,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/comparator.js",
+        "src/semver.js"
+      ],
+      "symbols": [
+        "comparator",
+        "semver"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/comparator.js",
+          "targetFile": "src/semver.js",
+          "dependencyType": "IMPORT",
+          "symbol": "semver"
+        },
+        {
+          "sourceFile": "src/comparator.js",
+          "targetFile": "src/semver.js",
+          "dependencyType": "CALL",
+          "symbol": "semver"
+        }
+      ],
+      "testDependencies": [
+        "test/semver-f2p.test.js",
+        "test/semver-p2p.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/comparator.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "01f638048a6b9487a8bf9f3038649cfb1f07820580c3405e9c48f4fdd3acb02c",
+          "reasonIncluded": "Target file for task P46-L7-03",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/semver.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "77b86dc117295c0c648309655b63d7e264152a110dc4214421609a6be2740fcb",
+          "reasonIncluded": "Target file for task P46-L7-03",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "01f747668c68e4c0b8a9a3cea4ab74cc71dd791b61ddd1801be898bbee896308",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 11136,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.32,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "symbols": [
+        "deep-set",
+        "path-resolver"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/path-resolver.js",
+          "targetFile": "src/deep-set.js",
+          "dependencyType": "IMPORT",
+          "symbol": "deep-set"
+        },
+        {
+          "sourceFile": "src/path-resolver.js",
+          "targetFile": "src/deep-set.js",
+          "dependencyType": "CALL",
+          "symbol": "deep-set"
+        }
+      ],
+      "testDependencies": [
+        "test/deep-f2p.test.js",
+        "test/deep-p2p.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/deep-set.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "9b441fcbf24c1c4dbf411fac72f0cc0aeca104a612f86f269301defce61f2186",
+          "reasonIncluded": "Target file for task P46-L7-04",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/path-resolver.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "4eb8fd4b873c039aa45b7034a76db3bb547779b8c5575931c8b4a064adc0ee09",
+          "reasonIncluded": "Target file for task P46-L7-04",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "33e35d4b8c5aa7724998e108126378c9cfa2ac3390ef33cce49139cbef96f49e",
+      "metrics": {
+        "sliceFileCount": 2,
+        "sliceSymbolCount": 2,
+        "sliceBytes": 11136,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.32,
+        "dependencyEdgeCount": 2,
+        "unresolvedDependencies": 0
+      }
+    },
+    {
+      "sliceId": "slice-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "baselineCommitSha": "1b56216",
+      "files": [
+        "src/models/user.js",
+        "src/routes/user-route.js",
+        "src/services/user-service.js"
+      ],
+      "symbols": [
+        "user",
+        "user-route",
+        "user-service"
+      ],
+      "dependencyEdges": [
+        {
+          "sourceFile": "src/services/user-service.js",
+          "targetFile": "src/models/user.js",
+          "dependencyType": "IMPORT",
+          "symbol": "user"
+        },
+        {
+          "sourceFile": "src/services/user-service.js",
+          "targetFile": "src/models/user.js",
+          "dependencyType": "CALL",
+          "symbol": "user"
+        },
+        {
+          "sourceFile": "src/routes/user-route.js",
+          "targetFile": "src/services/user-service.js",
+          "dependencyType": "IMPORT",
+          "symbol": "user-service"
+        },
+        {
+          "sourceFile": "src/routes/user-route.js",
+          "targetFile": "src/services/user-service.js",
+          "dependencyType": "CALL",
+          "symbol": "user-service"
+        }
+      ],
+      "testDependencies": [
+        "test/user-f2p.test.js",
+        "test/user-p2p.test.js"
+      ],
+      "configurationDependencies": [
+        "package.json"
+      ],
+      "sourceRegions": [
+        {
+          "file": "src/models/user.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "3ab7ac5e9cb587754fd1383cceeb31696f20fc75919bb1ea60a184d304b3dfaf",
+          "reasonIncluded": "Target file for task P46-L7-05",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/routes/user-route.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "5b77010bdb75ee38d1c280f4fafa3a382e1233ba487ec8a6cfc859be2eaf8a4c",
+          "reasonIncluded": "Target file for task P46-L7-05",
+          "dependencySource": "TASK_SPECIFICATION"
+        },
+        {
+          "file": "src/services/user-service.js",
+          "startLine": 1,
+          "endLine": 100,
+          "contentHash": "8fdb59c75626f167a75d8eaa7469e43f4769af7ce400bffb201d9eaceac210f1",
+          "reasonIncluded": "Target file for task P46-L7-05",
+          "dependencySource": "TASK_SPECIFICATION"
+        }
+      ],
+      "closureStatus": "COMPLETE",
+      "sliceHash": "37922c5663b834ec8ab63d7760d23d5cf4b3f42b725d6829309dc6f33e54f260",
+      "metrics": {
+        "sliceFileCount": 3,
+        "sliceSymbolCount": 3,
+        "sliceBytes": 11136,
+        "repositoryTotalBytes": 34800,
+        "sliceRatio": 0.32,
+        "dependencyEdgeCount": 4,
+        "unresolvedDependencies": 0
+      }
+    }
+  ]
+}
