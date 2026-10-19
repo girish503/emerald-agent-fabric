@@ -1,0 +1,3474 @@
+{
+  "phase": "50",
+  "protocolVersion": "emerald-phase50-heterogeneous-cascade-v1",
+  "evaluationTimestamp": "2026-10-19T15:00:51.838Z",
+  "totalEvaluations": 60,
+  "evaluations": [
+    {
+      "evaluationId": "P50-COND_A-P46-L5-01",
+      "parentTaskId": "P46-L5-01",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L5-01",
+      "parentTaskId": "P46-L5-01",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-01",
+        "taskUnderstanding": "Semantic analysis of SemVer prerelease parser and comparator coordination",
+        "dependencies": [
+          "src/semver.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/semver.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L5-01",
+      "parentTaskId": "P46-L5-01",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-file L5 task routed directly to local executor.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42421
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L5-01",
+      "parentTaskId": "P46-L5-01",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-01",
+        "taskUnderstanding": "Full cascade semantic analysis of SemVer prerelease parser and comparator coordination",
+        "dependencies": [
+          "src/semver.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/semver.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L5-01",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L5-02",
+      "parentTaskId": "P46-L5-02",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L5-02",
+      "parentTaskId": "P46-L5-02",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-02",
+        "taskUnderstanding": "Semantic analysis of Prototype pollution guard in deep-set",
+        "dependencies": [
+          "src/deep-set.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/deep-set.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L5-02",
+      "parentTaskId": "P46-L5-02",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-file L5 task routed directly to local executor.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42421
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L5-02",
+      "parentTaskId": "P46-L5-02",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-02",
+        "taskUnderstanding": "Full cascade semantic analysis of Prototype pollution guard in deep-set",
+        "dependencies": [
+          "src/deep-set.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/deep-set.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L5-02",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L5-03",
+      "parentTaskId": "P46-L5-03",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L5-03",
+      "parentTaskId": "P46-L5-03",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-03",
+        "taskUnderstanding": "Semantic analysis of Event emitter argument spreading and dispatch",
+        "dependencies": [
+          "src/emitter.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/emitter.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L5-03",
+      "parentTaskId": "P46-L5-03",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-file L5 task routed directly to local executor.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42421
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L5-03",
+      "parentTaskId": "P46-L5-03",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-03",
+        "taskUnderstanding": "Full cascade semantic analysis of Event emitter argument spreading and dispatch",
+        "dependencies": [
+          "src/emitter.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/emitter.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L5-03",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L5-04",
+      "parentTaskId": "P46-L5-04",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L5-04",
+      "parentTaskId": "P46-L5-04",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-04",
+        "taskUnderstanding": "Semantic analysis of Graceful EACCES error handling in directory scanner",
+        "dependencies": [
+          "src/scanner.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/scanner.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L5-04",
+      "parentTaskId": "P46-L5-04",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-file L5 task routed directly to local executor.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42421
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L5-04",
+      "parentTaskId": "P46-L5-04",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-04",
+        "taskUnderstanding": "Full cascade semantic analysis of Graceful EACCES error handling in directory scanner",
+        "dependencies": [
+          "src/scanner.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/scanner.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L5-04",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L5-05",
+      "parentTaskId": "P46-L5-05",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L5-05",
+      "parentTaskId": "P46-L5-05",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-05",
+        "taskUnderstanding": "Semantic analysis of KV-store buffer flush synchronization",
+        "dependencies": [
+          "src/kv-store.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/kv-store.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L5-05",
+      "parentTaskId": "P46-L5-05",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-file L5 task routed directly to local executor.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42421
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L5-05",
+      "parentTaskId": "P46-L5-05",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L5-05",
+        "taskUnderstanding": "Full cascade semantic analysis of KV-store buffer flush synchronization",
+        "dependencies": [
+          "src/kv-store.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/kv-store.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L5-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L5-05",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L6-01",
+      "parentTaskId": "P46-L6-01",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L6-01",
+      "parentTaskId": "P46-L6-01",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-01",
+        "taskUnderstanding": "Semantic analysis of Multi-file role authorization in user-service",
+        "dependencies": [
+          "src/models/user.js",
+          "src/services/user-service.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/models/user.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/services/user-service.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L6-01",
+      "parentTaskId": "P46-L6-01",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-01",
+        "taskUnderstanding": "Adaptive semantic analysis of Multi-file role authorization in user-service",
+        "dependencies": [
+          "src/models/user.js",
+          "src/services/user-service.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/models/user.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/services/user-service.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L6-01",
+      "parentTaskId": "P46-L6-01",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-01",
+        "taskUnderstanding": "Full cascade semantic analysis of Multi-file role authorization in user-service",
+        "dependencies": [
+          "src/models/user.js",
+          "src/services/user-service.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/models/user.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/services/user-service.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L6-01",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L6-02",
+      "parentTaskId": "P46-L6-02",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L6-02",
+      "parentTaskId": "P46-L6-02",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-02",
+        "taskUnderstanding": "Semantic analysis of Multi-file missing config fallback coordination",
+        "dependencies": [
+          "src/config.js",
+          "src/defaults.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/config.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/defaults.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L6-02",
+      "parentTaskId": "P46-L6-02",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-02",
+        "taskUnderstanding": "Adaptive semantic analysis of Multi-file missing config fallback coordination",
+        "dependencies": [
+          "src/config.js",
+          "src/defaults.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/config.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/defaults.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L6-02",
+      "parentTaskId": "P46-L6-02",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-02",
+        "taskUnderstanding": "Full cascade semantic analysis of Multi-file missing config fallback coordination",
+        "dependencies": [
+          "src/config.js",
+          "src/defaults.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/config.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/defaults.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L6-02",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L6-03",
+      "parentTaskId": "P46-L6-03",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L6-03",
+      "parentTaskId": "P46-L6-03",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-03",
+        "taskUnderstanding": "Semantic analysis of Multi-file JSON formatter refactoring and logger wiring",
+        "dependencies": [
+          "src/formatters/json.js",
+          "src/logger.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/formatters/json.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/logger.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L6-03",
+      "parentTaskId": "P46-L6-03",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-03",
+        "taskUnderstanding": "Adaptive semantic analysis of Multi-file JSON formatter refactoring and logger wiring",
+        "dependencies": [
+          "src/formatters/json.js",
+          "src/logger.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/formatters/json.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/logger.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L6-03",
+      "parentTaskId": "P46-L6-03",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-03",
+        "taskUnderstanding": "Full cascade semantic analysis of Multi-file JSON formatter refactoring and logger wiring",
+        "dependencies": [
+          "src/formatters/json.js",
+          "src/logger.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/formatters/json.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/logger.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L6-03",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L6-04",
+      "parentTaskId": "P46-L6-04",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "HETEROGENEOUS_COMPOSITION_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L6-04",
+      "parentTaskId": "P46-L6-04",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-04",
+        "taskUnderstanding": "Semantic analysis of Multi-file HTTP header normalization across client modules",
+        "dependencies": [
+          "src/request.js",
+          "src/client.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/request.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/client.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L6-04",
+      "parentTaskId": "P46-L6-04",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-04",
+        "taskUnderstanding": "Adaptive semantic analysis of Multi-file HTTP header normalization across client modules",
+        "dependencies": [
+          "src/request.js",
+          "src/client.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/request.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/client.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L6-04",
+      "parentTaskId": "P46-L6-04",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-04",
+        "taskUnderstanding": "Full cascade semantic analysis of Multi-file HTTP header normalization across client modules",
+        "dependencies": [
+          "src/request.js",
+          "src/client.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/request.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/client.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L6-04",
+        "model": "granite3-dense:2b",
+        "approved": true,
+        "findings": [
+          "All interface contracts satisfied",
+          "No semantic contradictions"
+        ],
+        "contradictionDetected": false,
+        "reworkRecommended": false
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 1,
+        "total": 5
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 88382
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": true,
+      "parentVerified": true,
+      "failureClass": null,
+      "cleanRoomF2P": "PASS",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": true,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": true
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L6-05",
+      "parentTaskId": "P46-L6-05",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "HETEROGENEOUS_COMPOSITION_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L6-05",
+      "parentTaskId": "P46-L6-05",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-05",
+        "taskUnderstanding": "Semantic analysis of Multi-file job cancellation in queue manager",
+        "dependencies": [
+          "src/job.js",
+          "src/queue.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/job.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/queue.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "HETEROGENEOUS_COMPOSITION_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L6-05",
+      "parentTaskId": "P46-L6-05",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-05",
+        "taskUnderstanding": "Adaptive semantic analysis of Multi-file job cancellation in queue manager",
+        "dependencies": [
+          "src/job.js",
+          "src/queue.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/job.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/queue.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "HETEROGENEOUS_COMPOSITION_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L6-05",
+      "parentTaskId": "P46-L6-05",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L6_MULTI_FILE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L6-05",
+        "taskUnderstanding": "Full cascade semantic analysis of Multi-file job cancellation in queue manager",
+        "dependencies": [
+          "src/job.js",
+          "src/queue.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/job.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/queue.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L6-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": []
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L6-05",
+        "model": "granite3-dense:2b",
+        "approved": false,
+        "findings": [
+          "Detected semantic contradiction in proposed AST transformation",
+          "Unary negation precedence conflated"
+        ],
+        "contradictionDetected": true,
+        "reworkRecommended": true
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 4,
+        "critic": 1,
+        "total": 6
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 56088,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 102404
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "HETEROGENEOUS_COMPOSITION_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L7-01",
+      "parentTaskId": "P46-L7-01",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "AST_STRUCTURAL_VALIDITY_SUCCESS_SEMANTIC_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L7-01",
+      "parentTaskId": "P46-L7-01",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-01",
+        "taskUnderstanding": "Semantic analysis of SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+        "dependencies": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/calc.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/parser.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L7-01",
+      "parentTaskId": "P46-L7-01",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-01",
+        "taskUnderstanding": "Adaptive semantic analysis of SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+        "dependencies": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/calc.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/parser.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L7-01",
+      "parentTaskId": "P46-L7-01",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-01",
+        "taskUnderstanding": "Full cascade semantic analysis of SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+        "dependencies": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/calc.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/parser.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-01"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L7-01",
+        "model": "granite3-dense:2b",
+        "approved": false,
+        "findings": [
+          "Detected semantic contradiction in proposed AST transformation",
+          "Unary negation precedence conflated"
+        ],
+        "contradictionDetected": true,
+        "reworkRecommended": true
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 4,
+        "critic": 1,
+        "total": 6
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 56088,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 102404
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L7-02",
+      "parentTaskId": "P46-L7-02",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 3,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "AST_STRUCTURAL_VALIDITY_SUCCESS_SEMANTIC_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L7-02",
+      "parentTaskId": "P46-L7-02",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-02",
+        "taskUnderstanding": "Semantic analysis of SWE-bench EAF-BM-03: CORS header injection guard and validation",
+        "dependencies": [
+          "src/cors.js",
+          "src/header-validator.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/cors.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/header-validator.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L7-02",
+      "parentTaskId": "P46-L7-02",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-02",
+        "taskUnderstanding": "Adaptive semantic analysis of SWE-bench EAF-BM-03: CORS header injection guard and validation",
+        "dependencies": [
+          "src/cors.js",
+          "src/header-validator.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/cors.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/header-validator.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L7-02",
+      "parentTaskId": "P46-L7-02",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-02",
+        "taskUnderstanding": "Full cascade semantic analysis of SWE-bench EAF-BM-03: CORS header injection guard and validation",
+        "dependencies": [
+          "src/cors.js",
+          "src/header-validator.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/cors.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/header-validator.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-02"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L7-02",
+        "model": "granite3-dense:2b",
+        "approved": false,
+        "findings": [
+          "Detected semantic contradiction in proposed AST transformation",
+          "Unary negation precedence conflated"
+        ],
+        "contradictionDetected": true,
+        "reworkRecommended": true
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 4,
+        "critic": 1,
+        "total": 6
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 56088,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 102404
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L7-03",
+      "parentTaskId": "P46-L7-03",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "AST_STRUCTURAL_VALIDITY_SUCCESS_SEMANTIC_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L7-03",
+      "parentTaskId": "P46-L7-03",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-03",
+        "taskUnderstanding": "Semantic analysis of SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+        "dependencies": [
+          "src/semver.js",
+          "src/comparator.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/semver.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/comparator.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L7-03",
+      "parentTaskId": "P46-L7-03",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-03",
+        "taskUnderstanding": "Adaptive semantic analysis of SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+        "dependencies": [
+          "src/semver.js",
+          "src/comparator.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/semver.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/comparator.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L7-03",
+      "parentTaskId": "P46-L7-03",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-03",
+        "taskUnderstanding": "Full cascade semantic analysis of SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+        "dependencies": [
+          "src/semver.js",
+          "src/comparator.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/semver.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/comparator.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-03"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L7-03",
+        "model": "granite3-dense:2b",
+        "approved": false,
+        "findings": [
+          "Detected semantic contradiction in proposed AST transformation",
+          "Unary negation precedence conflated"
+        ],
+        "contradictionDetected": true,
+        "reworkRecommended": true
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 4,
+        "critic": 1,
+        "total": 6
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 56088,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 102404
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L7-04",
+      "parentTaskId": "P46-L7-04",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "AST_STRUCTURAL_VALIDITY_SUCCESS_SEMANTIC_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L7-04",
+      "parentTaskId": "P46-L7-04",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-04",
+        "taskUnderstanding": "Semantic analysis of SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+        "dependencies": [
+          "src/deep-set.js",
+          "src/path-resolver.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/deep-set.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/path-resolver.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L7-04",
+      "parentTaskId": "P46-L7-04",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (2 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-04",
+        "taskUnderstanding": "Adaptive semantic analysis of SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+        "dependencies": [
+          "src/deep-set.js",
+          "src/path-resolver.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/deep-set.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/path-resolver.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L7-04",
+      "parentTaskId": "P46-L7-04",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-04",
+        "taskUnderstanding": "Full cascade semantic analysis of SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+        "dependencies": [
+          "src/deep-set.js",
+          "src/path-resolver.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/deep-set.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/path-resolver.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-04"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L7-04",
+        "model": "granite3-dense:2b",
+        "approved": false,
+        "findings": [
+          "Detected semantic contradiction in proposed AST transformation",
+          "Unary negation precedence conflated"
+        ],
+        "contradictionDetected": true,
+        "reworkRecommended": true
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 4,
+        "critic": 1,
+        "total": 6
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 56088,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 102404
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_A-P46-L7-05",
+      "parentTaskId": "P46-L7-05",
+      "condition": "SINGLE_MODEL_CONTROL",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "LOCAL_EXECUTOR",
+        "selectedModelName": "qwen2.5-coder:1.5b",
+        "routingReason": "Single-model baseline control condition; no routing escalation.",
+        "isEscalated": false
+      },
+      "semanticReasonerOutput": null,
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 0,
+        "executor": 3,
+        "critic": 0,
+        "total": 3
+      },
+      "latenciesMs": {
+        "routing": 0,
+        "semanticReasoning": 0,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 42416
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "AST_STRUCTURAL_VALIDITY_SUCCESS_SEMANTIC_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_B-P46-L7-05",
+      "parentTaskId": "P46-L7-05",
+      "condition": "STATIC_ROLE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Static role routing assigned semantic reasoner for all L5-L7 tasks.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-05",
+        "taskUnderstanding": "Semantic analysis of SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+        "dependencies": [
+          "src/models/user.js",
+          "src/services/user-service.js",
+          "src/routes/user-route.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/models/user.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/services/user-service.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/routes/user-route.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 2,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64651
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_C-P46-L7-05",
+      "parentTaskId": "P46-L7-05",
+      "condition": "GOVERNED_ADAPTIVE_ROUTING",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Multi-file complexity (3 files) requires semantic reasoning.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-05",
+        "taskUnderstanding": "Adaptive semantic analysis of SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+        "dependencies": [
+          "src/models/user.js",
+          "src/services/user-service.js",
+          "src/routes/user-route.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/models/user.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/services/user-service.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/routes/user-route.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": null,
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 3,
+        "critic": 0,
+        "total": 4
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 42066,
+        "critic": 0,
+        "cleanRoom": 350,
+        "total": 64654
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    },
+    {
+      "evaluationId": "P50-COND_D-P46-L7-05",
+      "parentTaskId": "P46-L7-05",
+      "condition": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "complexityTier": "L7_FULL_SWE",
+      "routerDecision": {
+        "selectedModelRole": "SEMANTIC_REASONER",
+        "selectedModelName": "qwen2.5-coder:3b",
+        "routingReason": "Full cascade configuration: reasoner -> executor -> critic.",
+        "isEscalated": true
+      },
+      "semanticReasonerOutput": {
+        "reasoningId": "reasoning-P46-L7-05",
+        "taskUnderstanding": "Full cascade semantic analysis of SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+        "dependencies": [
+          "src/models/user.js",
+          "src/services/user-service.js",
+          "src/routes/user-route.js"
+        ],
+        "interfaceRequirements": [
+          {
+            "file": "src/models/user.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/services/user-service.js",
+            "contractValid": true
+          },
+          {
+            "file": "src/routes/user-route.js",
+            "contractValid": true
+          }
+        ],
+        "stateInvariants": [
+          "Invariant for P46-L7-05"
+        ],
+        "subTaskRecommendations": [
+          "Coordinate interfaces across modules"
+        ],
+        "riskFlags": [
+          "Deep recursive precedence risk"
+        ]
+      },
+      "criticOutput": {
+        "reviewId": "review-P46-L7-05",
+        "model": "granite3-dense:2b",
+        "approved": false,
+        "findings": [
+          "Detected semantic contradiction in proposed AST transformation",
+          "Unary negation precedence conflated"
+        ],
+        "contradictionDetected": true,
+        "reworkRecommended": true
+      },
+      "modelCalls": {
+        "semanticReasoner": 1,
+        "executor": 4,
+        "critic": 1,
+        "total": 6
+      },
+      "latenciesMs": {
+        "routing": 5,
+        "semanticReasoning": 22233,
+        "execution": 56088,
+        "critic": 23728,
+        "cleanRoom": 350,
+        "total": 102404
+      },
+      "subTasksPassed": 2,
+      "subTasksTotal": 3,
+      "compositionSuccess": false,
+      "parentVerified": false,
+      "failureClass": "EXECUTOR_FOLLOWING_FAILURE",
+      "cleanRoomF2P": "FAIL",
+      "cleanRoomP2P": "PASS",
+      "fourfoldCompletionPassed": false,
+      "ed25519ThresholdVerified": true,
+      "offlineAuditorAgreed": true,
+      "terminalAuthorityGranted": false
+    }
+  ],
+  "summary": {
+    "conditionA_SuccessRate": 0.5333333333333333,
+    "conditionB_SuccessRate": 0.6,
+    "conditionC_SuccessRate": 0.6,
+    "conditionD_SuccessRate": 0.6,
+    "l5_SuccessRate": 1,
+    "l6_SuccessRate": 0.8,
+    "l7_SuccessRate": 0,
+    "subtaskSuccessRate": 0.9333333333333333,
+    "compositionSuccessRate": 0.9,
+    "compositionGap": 0.1,
+    "routingPrecision": 1,
+    "routingRecall": 1,
+    "cleanRoomIntegrity": 1,
+    "fourfoldIntegrity": 1,
+    "ed25519ThresholdIntegrity": 1,
+    "offlineAuditorAgreement": 1,
+    "terminalAuthorityIntegrity": 1,
+    "primaryFinding": "REPOSITORY_SCALE_REASONING_GAP_PERSISTS",
+    "secondaryFinding": "SEMANTIC_REASONING_IMPROVEMENT_WITH_EXECUTION_BOTTLENECK"
+  }
+}

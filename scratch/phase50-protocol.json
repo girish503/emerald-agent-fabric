@@ -1,0 +1,130 @@
+{
+  "phase": "50",
+  "protocolVersion": "emerald-phase50-heterogeneous-cascade-v1",
+  "frozenAt": "2026-10-19T15:00:51.832Z",
+  "experimentalVariable": "model_routing_strategy",
+  "frozenVariables": {
+    "taskCohortSha256": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+    "phase46GraphSha256": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+    "phase47AnchorSha256": "839c66d4bfdb6b0cd10f4b7e22d53a9cf5a97e82613187a32c4bb8f823683a7c",
+    "phase48ProjectionSha256": "a969190909d8dd083feabfd6e2f0f4ad84147e3555b76e2291c684ef20cf002e",
+    "phase49AstPatchSha256": "c04951a37df5a3418083b191b185990450b9d1c9d51f48cda6afe89a60ae57d0",
+    "contextBudgetBytes": 4096,
+    "stepTimeoutMs": 120000,
+    "toolTimeoutMs": 30000,
+    "hardware": {
+      "cpu": "Intel(R) Core(TM) i3-N305",
+      "cores": 8,
+      "ram": "7.63 GiB",
+      "accelerator": "ACCELERATOR_UNAVAILABLE"
+    }
+  },
+  "modelRoles": {
+    "LOCAL_EXECUTOR": {
+      "model": "qwen2.5-coder:1.5b",
+      "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "responsibilities": [
+        "Bounded AST patch proposals",
+        "File inspection",
+        "Local unit verification"
+      ],
+      "cannotDo": [
+        "Establish authority",
+        "Modify routing",
+        "Override clean room"
+      ]
+    },
+    "SEMANTIC_REASONER": {
+      "model": "qwen2.5-coder:3b",
+      "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "responsibilities": [
+        "Cross-file dependency analysis",
+        "Interface requirement specification",
+        "State invariant identification"
+      ],
+      "cannotDo": [
+        "Directly mutate files",
+        "Grant authority",
+        "Bypass executor"
+      ]
+    },
+    "OPTIONAL_CRITIC": {
+      "model": "granite3-dense:2b",
+      "digest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+      "responsibilities": [
+        "Review proposed decompositions",
+        "Detect semantic contradictions",
+        "Recommend rework"
+      ],
+      "cannotDo": [
+        "Declare parent completion",
+        "Override verification",
+        "Mutate files"
+      ]
+    }
+  },
+  "callBudget": {
+    "maxSemanticReasonerCalls": 2,
+    "maxExecutorCalls": 6,
+    "maxCriticCalls": 1,
+    "maxTotalModelCalls": 9,
+    "exceededFailureCode": "CASCADE_BUDGET_EXCEEDED"
+  },
+  "conditions": [
+    {
+      "conditionId": "CONDITION_A",
+      "name": "SINGLE_MODEL_CONTROL",
+      "description": "Baseline qwen2.5-coder:1.5b single-model execution under Phase 49 strongest configuration.",
+      "rolesUsed": [
+        "LOCAL_EXECUTOR"
+      ]
+    },
+    {
+      "conditionId": "CONDITION_B",
+      "name": "STATIC_ROLE_ROUTING",
+      "description": "Fixed role routing: L0-L4 executor only; L5-L7 semantic reasoner -> local executor.",
+      "rolesUsed": [
+        "SEMANTIC_REASONER",
+        "LOCAL_EXECUTOR"
+      ]
+    },
+    {
+      "conditionId": "CONDITION_C",
+      "name": "GOVERNED_ADAPTIVE_ROUTING",
+      "description": "Deterministic router escalates based on file count, complexity tier, and prior failure status.",
+      "rolesUsed": [
+        "SEMANTIC_REASONER",
+        "LOCAL_EXECUTOR"
+      ]
+    },
+    {
+      "conditionId": "CONDITION_D",
+      "name": "CASCADE_WITH_INDEPENDENT_SEMANTIC_REVIEW",
+      "description": "Full cascade: Semantic Reasoner -> Local Executor -> Independent Model Critic -> Clean-Room Verifier.",
+      "rolesUsed": [
+        "SEMANTIC_REASONER",
+        "LOCAL_EXECUTOR",
+        "OPTIONAL_CRITIC"
+      ]
+    }
+  ],
+  "failureTaxonomy": [
+    "MODEL_FEASIBILITY_FAILURE",
+    "MODEL_ROUTING_FAILURE",
+    "SEMANTIC_REASONER_FAILURE",
+    "SEMANTIC_REASONER_SCHEMA_FAILURE",
+    "SEMANTIC_DECOMPOSITION_FAILURE",
+    "EXECUTOR_FOLLOWING_FAILURE",
+    "CRITIC_FAILURE",
+    "CASCADE_BUDGET_EXCEEDED",
+    "ROUTING_OVERHEAD_FAILURE",
+    "HETEROGENEOUS_COMPOSITION_FAILURE"
+  ],
+  "governanceInvariants": [
+    "CLEAN_ROOM_INTEGRITY_100",
+    "FOURFOLD_COMPLETION_INTEGRITY_100",
+    "ED25519_THRESHOLD_INTEGRITY_100",
+    "OFFLINE_AUDITOR_AGREEMENT_100",
+    "TERMINAL_AUTHORITY_INTEGRITY_100"
+  ]
+}
