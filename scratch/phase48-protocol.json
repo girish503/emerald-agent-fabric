@@ -1,0 +1,193 @@
+{
+  "phase": "48",
+  "name": "Context Compression & Active Invariant Projection Evaluation",
+  "protocolVersion": "emerald-phase48-context-compression-v1",
+  "frozenAt": "2026-10-19T18:00:00.000Z",
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "experimentalVariable": "context_projection_strategy",
+  "baselineCondition": "CONDITION_A_FULL_VERIFIED_CONTEXT",
+  "taskCohort": {
+    "size": 15,
+    "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+    "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+    "anchorsDigest": "839c66d4bfdb6b0cd10f4b7e22d53a9cf5a97e82613187a32c4bb8f823683a7c"
+  },
+  "budgetLimitBytes": 4096,
+  "conditions": [
+    {
+      "id": "CONDITION_A_FULL_VERIFIED_CONTEXT",
+      "name": "Full Verified Context (Phase 47 Control)",
+      "description": "Model receives complete verified semantic state: objective, full interface contracts, state assertions, historical observations, dependency outputs, and repository facts."
+    },
+    {
+      "id": "CONDITION_B_STATIC_RELEVANCE_FILTER",
+      "name": "Static Relevance Filter",
+      "description": "Model receives deterministically filtered state: only contracts and assertions directly referenced by the active sub-task, immediate dependency outputs, current objective, and workspace facts."
+    },
+    {
+      "id": "CONDITION_C_ACTIVE_INVARIANT_PROJECTION",
+      "name": "Active Invariant Projection",
+      "description": "Model receives compact deterministic invariant projection: CURRENT_OBJECTIVE, REQUIRED_INPUT_CONTRACT, REQUIRED_OUTPUT_CONTRACT, ACTIVE_INVARIANTS, RECENT_VERIFIED_STATE, UNRESOLVED_DEPENDENCIES, CURRENT_WORKSPACE_FACTS."
+    },
+    {
+      "id": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "name": "Active Projection + Budgeted Context (4096B)",
+      "description": "Same as Condition C with strict MAX_SEMANTIC_CONTEXT_BYTES = 4096 budget. Deterministic priority-based whole-item omission (P0-P6), never mid-item truncation, tracking all omitted items."
+    }
+  ],
+  "relevanceRules": [
+    {
+      "id": "R1",
+      "name": "Direct Reference",
+      "description": "Directly referenced by active sub-task"
+    },
+    {
+      "id": "R2",
+      "name": "Boundary Definition",
+      "description": "Defines input/output boundary of active sub-task"
+    },
+    {
+      "id": "R3",
+      "name": "Dependency Output",
+      "description": "Verified output from immediate dependency sub-task"
+    },
+    {
+      "id": "R4",
+      "name": "Unresolved Invariant",
+      "description": "Unresolved invariant required by active sub-task"
+    },
+    {
+      "id": "R5",
+      "name": "Workspace State",
+      "description": "Describes current workspace state relevant to active objective"
+    },
+    {
+      "id": "R6",
+      "name": "Unresolved Failure",
+      "description": "Represents recent failure that remains unresolved"
+    }
+  ],
+  "priorityOrder": [
+    {
+      "priority": "P0",
+      "category": "CURRENT_OBJECTIVE",
+      "description": "Active sub-task objective and target scope"
+    },
+    {
+      "priority": "P1",
+      "category": "REQUIRED_INTERFACE_CONTRACTS",
+      "description": "Input and output typed interface contracts"
+    },
+    {
+      "priority": "P2",
+      "category": "UNRESOLVED_FAILED_INVARIANTS",
+      "description": "Unresolved or failed state assertions requiring repair"
+    },
+    {
+      "priority": "P3",
+      "category": "DIRECT_DEPENDENCY_STATE",
+      "description": "Verified outputs produced by immediate predecessor sub-tasks"
+    },
+    {
+      "priority": "P4",
+      "category": "CURRENT_WORKSPACE_FACTS",
+      "description": "Verified file paths, module exports, and test fixtures"
+    },
+    {
+      "priority": "P5",
+      "category": "RECENT_VERIFIED_OBSERVATIONS",
+      "description": "Most recent clean-room test and tool observations"
+    },
+    {
+      "priority": "P6",
+      "category": "HISTORICAL_CONTEXT",
+      "description": "Historical sub-task logs and non-immediate execution records"
+    }
+  ],
+  "stalenessStates": [
+    "FRESH",
+    "STALE",
+    "INVALIDATED"
+  ],
+  "stateProvenanceSources": [
+    "CLEAN_ROOM_VERIFICATION",
+    "TEST_RESULT",
+    "TOOL_OBSERVATION",
+    "STATIC_ANALYSIS"
+  ],
+  "disallowedProvenance": [
+    "MODEL_CLAIM"
+  ],
+  "failureTaxonomy": [
+    {
+      "id": "F1",
+      "name": "Present and Authoritative",
+      "description": "Required semantic information was present, fresh, and authoritative, but model failed to produce correct code"
+    },
+    {
+      "id": "F2",
+      "name": "Present but Stale",
+      "description": "Semantic item was present in context but had become stale due to intervening mutation"
+    },
+    {
+      "id": "F3",
+      "name": "Present but Contradicted",
+      "description": "Semantic items in context contained contradictory assertions or contracts"
+    },
+    {
+      "id": "F4",
+      "name": "Omitted by Projection",
+      "description": "Required semantic item was omitted due to budget constraint or relevance filter"
+    },
+    {
+      "id": "F5",
+      "name": "Present but Unused",
+      "description": "Correct contract/assertion was available in compact form but ignored during code synthesis"
+    },
+    {
+      "id": "F6",
+      "name": "Not Represented by Anchor",
+      "description": "Required semantic constraint was not captured by existing interface contracts or assertions"
+    },
+    {
+      "id": "F7",
+      "name": "Local Passed Global Failed",
+      "description": "All local sub-task invariants verified but global multi-component interaction failed due to complex AST recursion"
+    }
+  ],
+  "negativeControls": [
+    "N1_REQUIRED_INVARIANT_OMISSION",
+    "N2_STALE_PROJECTION",
+    "N3_WRONG_SOURCE_MODEL_CLAIM",
+    "N4_PROJECTION_HASH_MUTATION",
+    "N5_BUDGET_OVERFLOW",
+    "N6_CONTRACT_OMISSION",
+    "N7_CROSS_TASK_CONTAMINATION",
+    "N8_PARENT_COMPLETION_WITHOUT_FRESH_STATE"
+  ],
+  "hypotheses": [
+    "H1_RELEVANCE_BENEFIT",
+    "H2_ACTIVE_PROJECTION_BENEFIT",
+    "H3_COMPRESSION_BENEFIT",
+    "H4_SEMANTIC_RECALL",
+    "H5_DEEP_REASONING_BOUNDARY",
+    "H6_GOVERNANCE_PRESERVATION"
+  ]
+}

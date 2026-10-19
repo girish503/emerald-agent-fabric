@@ -1,0 +1,4060 @@
+{
+  "phase": "48",
+  "protocolVersion": "emerald-phase48-context-compression-v1",
+  "totalProjections": 45,
+  "budgetLimitBytes": 4096,
+  "projections": [
+    {
+      "projectionId": "PROJ-P46-L5-01-S1",
+      "parentTaskId": "P46-L5-01",
+      "subTaskId": "P46-L5-01-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement parsePrerelease() segment splitting in src/semver.js",
+      "inputContracts": [
+        {
+          "interfaceName": "parsePrerelease",
+          "version": "1.0",
+          "inputs": {
+            "raw": "string"
+          },
+          "outputs": {
+            "identifiers": "Array<string | number>"
+          },
+          "preconditions": [
+            "raw starts with hyphen '-' or prerelease delimiter"
+          ],
+          "postconditions": [
+            "returns array of dot-separated segments, numeric segments parsed as integers"
+          ],
+          "compatibilityRules": [
+            "returns empty array if no prerelease tag present"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "parsePrerelease",
+          "version": "1.0",
+          "inputs": {
+            "raw": "string"
+          },
+          "outputs": {
+            "identifiers": "Array<string | number>"
+          },
+          "preconditions": [
+            "raw starts with hyphen '-' or prerelease delimiter"
+          ],
+          "postconditions": [
+            "returns array of dot-separated segments, numeric segments parsed as integers"
+          ],
+          "compatibilityRules": [
+            "returns empty array if no prerelease tag present"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-01-S1-01",
+          "description": "Exported function parsePrerelease exists on semver module",
+          "scope": "src/semver.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "parsePrerelease"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/semver.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-01-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-01-S1-OBJ",
+        "ITEM-P46-L5-01-S1-CONTRACT-0",
+        "ITEM-P46-L5-01-S1-ASSERTION-0",
+        "ITEM-P46-L5-01-S1-WS-0",
+        "ITEM-P46-L5-01-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "e1f32a5c4b69d82136e4b9f02931d8719280a563124508912e7534b8c92a1490"
+      },
+      "totalSemanticBytes": 1358,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "0d0b5789ba7bc0c82cfaf1221ea4f8d3aa4444a8bbc76d8b2666cd3b6a68c5e4"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-01-S2",
+      "parentTaskId": "P46-L5-01",
+      "subTaskId": "P46-L5-01-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Coordinate comparePrerelease() with parsed segment comparator in src/semver.js",
+      "inputContracts": [
+        {
+          "interfaceName": "comparePrerelease",
+          "version": "1.0",
+          "inputs": {
+            "a": "string",
+            "b": "string"
+          },
+          "outputs": {
+            "comparison": "number"
+          },
+          "preconditions": [
+            "a and b are valid version strings"
+          ],
+          "postconditions": [
+            "returns -1 if a < b, 1 if a > b, 0 if equal, per SemVer 2.0 section 9"
+          ],
+          "compatibilityRules": [
+            "uses parsePrerelease() output for segment-by-segment comparison"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "comparePrerelease",
+          "version": "1.0",
+          "inputs": {
+            "a": "string",
+            "b": "string"
+          },
+          "outputs": {
+            "comparison": "number"
+          },
+          "preconditions": [
+            "a and b are valid version strings"
+          ],
+          "postconditions": [
+            "returns -1 if a < b, 1 if a > b, 0 if equal, per SemVer 2.0 section 9"
+          ],
+          "compatibilityRules": [
+            "uses parsePrerelease() output for segment-by-segment comparison"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-01-S2-01",
+          "description": "comparePrerelease handles numeric identifiers with lower precedence than string identifiers",
+          "scope": "src/semver.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/semver.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-01-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-01-S2-OBJ",
+        "ITEM-P46-L5-01-S2-CONTRACT-0",
+        "ITEM-P46-L5-01-S2-ASSERTION-0",
+        "ITEM-P46-L5-01-S2-WS-0",
+        "ITEM-P46-L5-01-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "5a4d7c8192305e981b24d772948a8039c92418e7786489a8182b8319f6a27e31"
+      },
+      "totalSemanticBytes": 1384,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "e9e59fcee271d150eaf3b8c1fd368105da7f4bddbc84994bac3a139e32f5de3c"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-02-S1",
+      "parentTaskId": "P46-L5-02",
+      "subTaskId": "P46-L5-02-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement _toPath key sanitizer blocking __proto__ and prototype in src/deep-set.js",
+      "inputContracts": [
+        {
+          "interfaceName": "_toPath",
+          "version": "1.0",
+          "inputs": {
+            "path": "string | Array<string>"
+          },
+          "outputs": {
+            "keys": "Array<string>"
+          },
+          "preconditions": [
+            "path is non-null"
+          ],
+          "postconditions": [
+            "returns sanitized path segments filtering out dangerous prototypes"
+          ],
+          "compatibilityRules": [
+            "converts dot and bracket notation to array of property keys"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "_toPath",
+          "version": "1.0",
+          "inputs": {
+            "path": "string | Array<string>"
+          },
+          "outputs": {
+            "keys": "Array<string>"
+          },
+          "preconditions": [
+            "path is non-null"
+          ],
+          "postconditions": [
+            "returns sanitized path segments filtering out dangerous prototypes"
+          ],
+          "compatibilityRules": [
+            "converts dot and bracket notation to array of property keys"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-02-S1-01",
+          "description": "Internal _toPath function rejects __proto__ and prototype keys",
+          "scope": "src/deep-set.js",
+          "severity": "REQUIRED",
+          "verificationType": "SYMBOL_EXISTS",
+          "expectedValue": "_toPath"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/deep-set.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-02-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-02-S1-OBJ",
+        "ITEM-P46-L5-02-S1-CONTRACT-0",
+        "ITEM-P46-L5-02-S1-ASSERTION-0",
+        "ITEM-P46-L5-02-S1-WS-0",
+        "ITEM-P46-L5-02-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "812b7a9094e246718c928471928d7162b489a018274619a8274c9102837418bb"
+      },
+      "totalSemanticBytes": 1338,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "d5c68cdc8f8c40c985fcf5638a9723ad07dec8bd0ac877a1da057df4d095997e"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-02-S2",
+      "parentTaskId": "P46-L5-02",
+      "subTaskId": "P46-L5-02-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Wire key check into _setInternal traversal guard in src/deep-set.js",
+      "inputContracts": [
+        {
+          "interfaceName": "deepSet",
+          "version": "1.0",
+          "inputs": {
+            "target": "object",
+            "path": "string | Array<string>",
+            "value": "any"
+          },
+          "outputs": {
+            "result": "object"
+          },
+          "preconditions": [
+            "target is valid non-null object"
+          ],
+          "postconditions": [
+            "target object mutated at path without modifying Object.prototype"
+          ],
+          "compatibilityRules": [
+            "returns target object unchanged if path contains forbidden proto keys"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "deepSet",
+          "version": "1.0",
+          "inputs": {
+            "target": "object",
+            "path": "string | Array<string>",
+            "value": "any"
+          },
+          "outputs": {
+            "result": "object"
+          },
+          "preconditions": [
+            "target is valid non-null object"
+          ],
+          "postconditions": [
+            "target object mutated at path without modifying Object.prototype"
+          ],
+          "compatibilityRules": [
+            "returns target object unchanged if path contains forbidden proto keys"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-02-S2-01",
+          "description": "Object.prototype pollutions remain undefined after deepSet execution",
+          "scope": "src/deep-set.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/deep-set.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-02-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-02-S2-OBJ",
+        "ITEM-P46-L5-02-S2-CONTRACT-0",
+        "ITEM-P46-L5-02-S2-ASSERTION-0",
+        "ITEM-P46-L5-02-S2-WS-0",
+        "ITEM-P46-L5-02-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "19a827364b91827364819283746a819283746a819283746a819283746a819283"
+      },
+      "totalSemanticBytes": 1375,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "2cd662732485f7ccedbcb1bc6d4e50248e9247c5a7d691ed0359e9d166b56d9d"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-03-S1",
+      "parentTaskId": "P46-L5-03",
+      "subTaskId": "P46-L5-03-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Extract and spread variadic arguments in emit() in src/emitter.js",
+      "inputContracts": [
+        {
+          "interfaceName": "emit",
+          "version": "1.0",
+          "inputs": {
+            "event": "string",
+            "args": "varargs"
+          },
+          "outputs": {
+            "handled": "boolean"
+          },
+          "preconditions": [
+            "event is non-empty string"
+          ],
+          "postconditions": [
+            "all registered listeners invoked with args forwarded individually"
+          ],
+          "compatibilityRules": [
+            "variadic arguments sliced starting from index 1"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "emit",
+          "version": "1.0",
+          "inputs": {
+            "event": "string",
+            "args": "varargs"
+          },
+          "outputs": {
+            "handled": "boolean"
+          },
+          "preconditions": [
+            "event is non-empty string"
+          ],
+          "postconditions": [
+            "all registered listeners invoked with args forwarded individually"
+          ],
+          "compatibilityRules": [
+            "variadic arguments sliced starting from index 1"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-03-S1-01",
+          "description": "emit method slices variable length arguments into discrete parameters",
+          "scope": "src/emitter.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/emitter.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-03-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-03-S1-OBJ",
+        "ITEM-P46-L5-03-S1-CONTRACT-0",
+        "ITEM-P46-L5-03-S1-ASSERTION-0",
+        "ITEM-P46-L5-03-S1-WS-0",
+        "ITEM-P46-L5-03-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2938471928374619283746192837461928374619283746192837461928374619"
+      },
+      "totalSemanticBytes": 1315,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "202e52fe86c6a357b0d77ef3ca18a83d729268c8165114a87ac8ef85403a0377"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-03-S2",
+      "parentTaskId": "P46-L5-03",
+      "subTaskId": "P46-L5-03-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Update dispatchListener helper to pass spread args in src/emitter.js",
+      "inputContracts": [
+        {
+          "interfaceName": "dispatchListener",
+          "version": "1.0",
+          "inputs": {
+            "fn": "Function",
+            "args": "Array<any>"
+          },
+          "outputs": {
+            "result": "any"
+          },
+          "preconditions": [
+            "fn is callable function"
+          ],
+          "postconditions": [
+            "listener called with spread args fn(...args) preserving receiver"
+          ],
+          "compatibilityRules": [
+            "returns result of listener call"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "dispatchListener",
+          "version": "1.0",
+          "inputs": {
+            "fn": "Function",
+            "args": "Array<any>"
+          },
+          "outputs": {
+            "result": "any"
+          },
+          "preconditions": [
+            "fn is callable function"
+          ],
+          "postconditions": [
+            "listener called with spread args fn(...args) preserving receiver"
+          ],
+          "compatibilityRules": [
+            "returns result of listener call"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-03-S2-01",
+          "description": "dispatchListener applies spread arguments correctly",
+          "scope": "src/emitter.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/emitter.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-03-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-03-S2-OBJ",
+        "ITEM-P46-L5-03-S2-CONTRACT-0",
+        "ITEM-P46-L5-03-S2-ASSERTION-0",
+        "ITEM-P46-L5-03-S2-WS-0",
+        "ITEM-P46-L5-03-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4857291847562918475629184756291847562918475629184756291847562918"
+      },
+      "totalSemanticBytes": 1290,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "3cff17e3d46501ce250514f811a0143d082e3367165a3a81fc06bac325fa9fab"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-04-S1",
+      "parentTaskId": "P46-L5-04",
+      "subTaskId": "P46-L5-04-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement _handleError to swallow EACCES and emit warning event in src/scanner.js",
+      "inputContracts": [
+        {
+          "interfaceName": "_handleError",
+          "version": "1.0",
+          "inputs": {
+            "err": "Error",
+            "path": "string"
+          },
+          "outputs": {
+            "shouldContinue": "boolean"
+          },
+          "preconditions": [
+            "err is an Error instance",
+            "path is a string"
+          ],
+          "postconditions": [
+            "returns true if err.code === 'EACCES', rethrows otherwise"
+          ],
+          "compatibilityRules": [
+            "emits 'warn' event on scanner instance if EACCES"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "_handleError",
+          "version": "1.0",
+          "inputs": {
+            "err": "Error",
+            "path": "string"
+          },
+          "outputs": {
+            "shouldContinue": "boolean"
+          },
+          "preconditions": [
+            "err is an Error instance",
+            "path is a string"
+          ],
+          "postconditions": [
+            "returns true if err.code === 'EACCES', rethrows otherwise"
+          ],
+          "compatibilityRules": [
+            "emits 'warn' event on scanner instance if EACCES"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-04-S1-01",
+          "description": "_handleError helper function defined and exported on scanner prototype",
+          "scope": "src/scanner.js",
+          "severity": "REQUIRED",
+          "verificationType": "SYMBOL_EXISTS",
+          "expectedValue": "_handleError"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/scanner.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-04-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-04-S1-OBJ",
+        "ITEM-P46-L5-04-S1-CONTRACT-0",
+        "ITEM-P46-L5-04-S1-ASSERTION-0",
+        "ITEM-P46-L5-04-S1-WS-0",
+        "ITEM-P46-L5-04-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6938201948572918475629184756291847562918475629184756291847562918"
+      },
+      "totalSemanticBytes": 1362,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "db81ce259e77ca28ed8dbf70daccd7cdeee6d4567ac0b32401d489149959c607"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-04-S2",
+      "parentTaskId": "P46-L5-04",
+      "subTaskId": "P46-L5-04-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Wrap directory entry iteration in try/catch calling _handleError in src/scanner.js",
+      "inputContracts": [
+        {
+          "interfaceName": "scanDirectory",
+          "version": "1.0",
+          "inputs": {
+            "dir": "string",
+            "options": "object"
+          },
+          "outputs": {
+            "entries": "Array<string>"
+          },
+          "preconditions": [
+            "dir is accessible root directory path"
+          ],
+          "postconditions": [
+            "returns list of files traversing child directories, skipping inaccessible subdirs"
+          ],
+          "compatibilityRules": [
+            "calls _handleError on subdirectory traversal failures"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "scanDirectory",
+          "version": "1.0",
+          "inputs": {
+            "dir": "string",
+            "options": "object"
+          },
+          "outputs": {
+            "entries": "Array<string>"
+          },
+          "preconditions": [
+            "dir is accessible root directory path"
+          ],
+          "postconditions": [
+            "returns list of files traversing child directories, skipping inaccessible subdirs"
+          ],
+          "compatibilityRules": [
+            "calls _handleError on subdirectory traversal failures"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-04-S2-01",
+          "description": "scanDirectory continues loop over sibling entries after EACCES encountered",
+          "scope": "src/scanner.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        },
+        {
+          "assertionId": "SA-P46-L5-04-S2-02",
+          "description": "Scanned path accumulator preserves previously collected valid entries",
+          "scope": "src/scanner.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/scanner.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-04-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-04-S2-OBJ",
+        "ITEM-P46-L5-04-S2-CONTRACT-0",
+        "ITEM-P46-L5-04-S2-ASSERTION-0",
+        "ITEM-P46-L5-04-S2-ASSERTION-1",
+        "ITEM-P46-L5-04-S2-WS-0",
+        "ITEM-P46-L5-04-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483920194857291847562918475629184756291847562918475629184756"
+      },
+      "totalSemanticBytes": 1613,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "42ad0e2df7dfdaba49883f6de698b824013cd4117b89ad9a411615f312657c3d"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-04-S3",
+      "parentTaskId": "P46-L5-04",
+      "subTaskId": "P46-L5-04-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Ensure scanned path accumulator preserves valid entries despite errors in src/scanner.js",
+      "inputContracts": [
+        {
+          "interfaceName": "scanDirectoryAccumulator",
+          "version": "1.0",
+          "inputs": {
+            "results": "Array<string>",
+            "current": "string"
+          },
+          "outputs": {
+            "updatedResults": "Array<string>"
+          },
+          "preconditions": [
+            "results is array"
+          ],
+          "postconditions": [
+            "results contains current entry if valid"
+          ],
+          "compatibilityRules": [
+            "immutable append or mutating push preserves order"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "scanDirectoryAccumulator",
+          "version": "1.0",
+          "inputs": {
+            "results": "Array<string>",
+            "current": "string"
+          },
+          "outputs": {
+            "updatedResults": "Array<string>"
+          },
+          "preconditions": [
+            "results is array"
+          ],
+          "postconditions": [
+            "results contains current entry if valid"
+          ],
+          "compatibilityRules": [
+            "immutable append or mutating push preserves order"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-04-S3-01",
+          "description": "Final scanned array matches expected count without omission of permitted files",
+          "scope": "src/scanner.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/scanner.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-04-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-04-S3-OBJ",
+        "ITEM-P46-L5-04-S3-CONTRACT-0",
+        "ITEM-P46-L5-04-S3-ASSERTION-0",
+        "ITEM-P46-L5-04-S3-WS-0",
+        "ITEM-P46-L5-04-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948392019485729184756291847562918475629184756291847562918"
+      },
+      "totalSemanticBytes": 1358,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "1cab55e5091859589543a327484eba14d2e10ddb4d802ddf2e83eb0fdb3e6bd5"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-05-S1",
+      "parentTaskId": "P46-L5-05",
+      "subTaskId": "P46-L5-05-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement write buffer queue drain mechanism in src/kv-store.js",
+      "inputContracts": [
+        {
+          "interfaceName": "drainBuffer",
+          "version": "1.0",
+          "inputs": {
+            "queue": "Array<object>"
+          },
+          "outputs": {
+            "drainedCount": "number"
+          },
+          "preconditions": [
+            "queue is array of write operations"
+          ],
+          "postconditions": [
+            "all operations written to disk store, queue cleared"
+          ],
+          "compatibilityRules": [
+            "returns number of flushed items"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "drainBuffer",
+          "version": "1.0",
+          "inputs": {
+            "queue": "Array<object>"
+          },
+          "outputs": {
+            "drainedCount": "number"
+          },
+          "preconditions": [
+            "queue is array of write operations"
+          ],
+          "postconditions": [
+            "all operations written to disk store, queue cleared"
+          ],
+          "compatibilityRules": [
+            "returns number of flushed items"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-05-S1-01",
+          "description": "Buffer drain writes pending items to underlying store",
+          "scope": "src/kv-store.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/kv-store.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-05-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-05-S1-OBJ",
+        "ITEM-P46-L5-05-S1-CONTRACT-0",
+        "ITEM-P46-L5-05-S1-ASSERTION-0",
+        "ITEM-P46-L5-05-S1-WS-0",
+        "ITEM-P46-L5-05-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594839201948572918475629184756291847562918475629184756"
+      },
+      "totalSemanticBytes": 1278,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "cc4f043432c2ef89e50393985b1f6820093373abddfe69ae19bf84e23ca63695"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-05-S2",
+      "parentTaskId": "P46-L5-05",
+      "subTaskId": "P46-L5-05-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Wire pending write buffer check into readCache lookup in src/kv-store.js",
+      "inputContracts": [
+        {
+          "interfaceName": "get",
+          "version": "1.0",
+          "inputs": {
+            "key": "string"
+          },
+          "outputs": {
+            "value": "any"
+          },
+          "preconditions": [
+            "key is string"
+          ],
+          "postconditions": [
+            "returns pending buffer value if present, else persistent store value"
+          ],
+          "compatibilityRules": [
+            "returns undefined if key does not exist"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "get",
+          "version": "1.0",
+          "inputs": {
+            "key": "string"
+          },
+          "outputs": {
+            "value": "any"
+          },
+          "preconditions": [
+            "key is string"
+          ],
+          "postconditions": [
+            "returns pending buffer value if present, else persistent store value"
+          ],
+          "compatibilityRules": [
+            "returns undefined if key does not exist"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-05-S2-01",
+          "description": "Read-your-own-writes consistency preserved across buffer and storage",
+          "scope": "src/kv-store.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/kv-store.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-05-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-05-S2-OBJ",
+        "ITEM-P46-L5-05-S2-CONTRACT-0",
+        "ITEM-P46-L5-05-S2-ASSERTION-0",
+        "ITEM-P46-L5-05-S2-WS-0",
+        "ITEM-P46-L5-05-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4615049382716059483920194857291847562918475629184756291847562918"
+      },
+      "totalSemanticBytes": 1279,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "545bd60d07758ad4fddfca4d5aeddb40f64c845cf98e11f761ef68992f1dbf9f"
+    },
+    {
+      "projectionId": "PROJ-P46-L5-05-S3",
+      "parentTaskId": "P46-L5-05",
+      "subTaskId": "P46-L5-05-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Ensure synchronous flush() waits on pending queue completion in src/kv-store.js",
+      "inputContracts": [
+        {
+          "interfaceName": "flush",
+          "version": "1.0",
+          "inputs": {},
+          "outputs": {
+            "success": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "synchronously drains buffer and confirms zero pending writes"
+          ],
+          "compatibilityRules": [
+            "blocks subsequent reads until drain completes"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "flush",
+          "version": "1.0",
+          "inputs": {},
+          "outputs": {
+            "success": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "synchronously drains buffer and confirms zero pending writes"
+          ],
+          "compatibilityRules": [
+            "blocks subsequent reads until drain completes"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L5-05-S3-01",
+          "description": "flush() leaves buffer size at zero",
+          "scope": "src/kv-store.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/kv-store.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L5-05-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L5-05-S3-OBJ",
+        "ITEM-P46-L5-05-S3-CONTRACT-0",
+        "ITEM-P46-L5-05-S3-ASSERTION-0",
+        "ITEM-P46-L5-05-S3-WS-0",
+        "ITEM-P46-L5-05-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6837261504938271605948392019485729184756291847562918475629184756"
+      },
+      "totalSemanticBytes": 1229,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "05ef4cd7d05492b8959075997677fd859e53cf6e3943c310db4bbdf0bff4cbe3"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-01-S1",
+      "parentTaskId": "P46-L6-01",
+      "subTaskId": "P46-L6-01-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement hasRole(role) method on User model in src/models/user.js",
+      "inputContracts": [
+        {
+          "interfaceName": "User.prototype.hasRole",
+          "version": "1.0",
+          "inputs": {
+            "role": "string"
+          },
+          "outputs": {
+            "hasRole": "boolean"
+          },
+          "preconditions": [
+            "role is string"
+          ],
+          "postconditions": [
+            "returns true if user roles array contains role or 'admin'"
+          ],
+          "compatibilityRules": [
+            "returns false if user.roles is null or undefined"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "User.prototype.hasRole",
+          "version": "1.0",
+          "inputs": {
+            "role": "string"
+          },
+          "outputs": {
+            "hasRole": "boolean"
+          },
+          "preconditions": [
+            "role is string"
+          ],
+          "postconditions": [
+            "returns true if user roles array contains role or 'admin'"
+          ],
+          "compatibilityRules": [
+            "returns false if user.roles is null or undefined"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-01-S1-01",
+          "description": "hasRole method exists on User model prototype",
+          "scope": "src/models/user.js",
+          "severity": "REQUIRED",
+          "verificationType": "SYMBOL_EXISTS",
+          "expectedValue": "hasRole"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-01-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-01-S1-OBJ",
+        "ITEM-P46-L6-01-S1-CONTRACT-0",
+        "ITEM-P46-L6-01-S1-ASSERTION-0",
+        "ITEM-P46-L6-01-S1-WS-0",
+        "ITEM-P46-L6-01-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483726150493827160594839201948572918475629184756291847562918"
+      },
+      "totalSemanticBytes": 1281,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "d07d083b2cb2fea5306efa90e55b27383ef1a167d7f96ed5602c8d3bf25678c4"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-01-S2",
+      "parentTaskId": "P46-L6-01",
+      "subTaskId": "P46-L6-01-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Update authorizeUser in src/services/user-service.js to check user.hasRole(role)",
+      "inputContracts": [
+        {
+          "interfaceName": "authorizeUser",
+          "version": "1.0",
+          "inputs": {
+            "user": "User",
+            "requiredRole": "string"
+          },
+          "outputs": {
+            "authorized": "boolean"
+          },
+          "preconditions": [
+            "requiredRole is string"
+          ],
+          "postconditions": [
+            "invokes user.hasRole(requiredRole) and returns boolean outcome"
+          ],
+          "compatibilityRules": [
+            "delegates to User model method"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "authorizeUser",
+          "version": "1.0",
+          "inputs": {
+            "user": "User",
+            "requiredRole": "string"
+          },
+          "outputs": {
+            "authorized": "boolean"
+          },
+          "preconditions": [
+            "requiredRole is string"
+          ],
+          "postconditions": [
+            "invokes user.hasRole(requiredRole) and returns boolean outcome"
+          ],
+          "compatibilityRules": [
+            "delegates to User model method"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-01-S2-01",
+          "description": "authorizeUser queries User.prototype.hasRole without direct property access",
+          "scope": "src/services/user-service.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-01-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-01-S2-OBJ",
+        "ITEM-P46-L6-01-S2-CONTRACT-0",
+        "ITEM-P46-L6-01-S2-ASSERTION-0",
+        "ITEM-P46-L6-01-S2-WS-0",
+        "ITEM-P46-L6-01-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948372615049382716059483920194857291847562918475629184756"
+      },
+      "totalSemanticBytes": 1343,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "43360bdef69e1521460281f55af3d4d36d535d0d6aa0368cfe8ebbe5d14e2018"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-01-S3",
+      "parentTaskId": "P46-L6-01",
+      "subTaskId": "P46-L6-01-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Handle undefined/null user gracefully in authorizeUser in src/services/user-service.js",
+      "inputContracts": [
+        {
+          "interfaceName": "authorizeUserNullGuard",
+          "version": "1.0",
+          "inputs": {
+            "user": "User | null | undefined",
+            "role": "string"
+          },
+          "outputs": {
+            "authorized": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "returns false if user is null or undefined without throwing TypeError"
+          ],
+          "compatibilityRules": [
+            "guards all call sites in user service"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "authorizeUserNullGuard",
+          "version": "1.0",
+          "inputs": {
+            "user": "User | null | undefined",
+            "role": "string"
+          },
+          "outputs": {
+            "authorized": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "returns false if user is null or undefined without throwing TypeError"
+          ],
+          "compatibilityRules": [
+            "guards all call sites in user service"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-01-S3-01",
+          "description": "authorizeUser returns false when user is null",
+          "scope": "src/services/user-service.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-01-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-01-S3-OBJ",
+        "ITEM-P46-L6-01-S3-CONTRACT-0",
+        "ITEM-P46-L6-01-S3-ASSERTION-0",
+        "ITEM-P46-L6-01-S3-WS-0",
+        "ITEM-P46-L6-01-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594837261504938271605948392019485729184756291847562918"
+      },
+      "totalSemanticBytes": 1329,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "1180d2af1d712f103c2ac4b51da34f62e58394357cf41e0fc98f586d934970ea"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-02-S1",
+      "parentTaskId": "P46-L6-02",
+      "subTaskId": "P46-L6-02-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Define default configuration object export in src/defaults.js",
+      "inputContracts": [
+        {
+          "interfaceName": "defaultConfig",
+          "version": "1.0",
+          "inputs": {},
+          "outputs": {
+            "config": "{ port: number, host: string, retries: number }"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "exports immutable default configuration object"
+          ],
+          "compatibilityRules": [
+            "values match DEFAULT_CONFIG specification in defaults.js"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "defaultConfig",
+          "version": "1.0",
+          "inputs": {},
+          "outputs": {
+            "config": "{ port: number, host: string, retries: number }"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "exports immutable default configuration object"
+          ],
+          "compatibilityRules": [
+            "values match DEFAULT_CONFIG specification in defaults.js"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-02-S1-01",
+          "description": "defaultConfig exported from src/defaults.js",
+          "scope": "src/defaults.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "defaultConfig"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-02-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-02-S1-OBJ",
+        "ITEM-P46-L6-02-S1-CONTRACT-0",
+        "ITEM-P46-L6-02-S1-ASSERTION-0",
+        "ITEM-P46-L6-02-S1-WS-0",
+        "ITEM-P46-L6-02-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4615049382716059483726150493827160594839201948572918475629184756"
+      },
+      "totalSemanticBytes": 1273,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "c305a3e6bc348c185cad1c5422538b2bc6509154c6a2db0bb9f44f2c54533f8c"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-02-S2",
+      "parentTaskId": "P46-L6-02",
+      "subTaskId": "P46-L6-02-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Import defaults into src/config.js and merge with loaded user config",
+      "inputContracts": [
+        {
+          "interfaceName": "mergeConfig",
+          "version": "1.0",
+          "inputs": {
+            "userConfig": "object",
+            "defaults": "object"
+          },
+          "outputs": {
+            "merged": "object"
+          },
+          "preconditions": [
+            "defaults is non-null object"
+          ],
+          "postconditions": [
+            "userConfig values override defaults for defined keys"
+          ],
+          "compatibilityRules": [
+            "shallow merge preserving default keys"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "mergeConfig",
+          "version": "1.0",
+          "inputs": {
+            "userConfig": "object",
+            "defaults": "object"
+          },
+          "outputs": {
+            "merged": "object"
+          },
+          "preconditions": [
+            "defaults is non-null object"
+          ],
+          "postconditions": [
+            "userConfig values override defaults for defined keys"
+          ],
+          "compatibilityRules": [
+            "shallow merge preserving default keys"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-02-S2-01",
+          "description": "mergeConfig preserves defaults when user config omits keys",
+          "scope": "src/config.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-02-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-02-S2-OBJ",
+        "ITEM-P46-L6-02-S2-CONTRACT-0",
+        "ITEM-P46-L6-02-S2-ASSERTION-0",
+        "ITEM-P46-L6-02-S2-WS-0",
+        "ITEM-P46-L6-02-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6837261504938271605948372615049382716059483920194857291847562918"
+      },
+      "totalSemanticBytes": 1298,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "6caa751754dca5b02b9fa64510db97f6c731a9fb16c71154189abe6dced8f01f"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-02-S3",
+      "parentTaskId": "P46-L6-02",
+      "subTaskId": "P46-L6-02-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Catch ENOENT in loadConfigFile and return defaults in src/config.js",
+      "inputContracts": [
+        {
+          "interfaceName": "loadConfig",
+          "version": "1.0",
+          "inputs": {
+            "filePath": "string | undefined"
+          },
+          "outputs": {
+            "config": "object"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "returns merged config if file exists, else returns defaultConfig"
+          ],
+          "compatibilityRules": [
+            "swallows ENOENT and does not throw"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "loadConfig",
+          "version": "1.0",
+          "inputs": {
+            "filePath": "string | undefined"
+          },
+          "outputs": {
+            "config": "object"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "returns merged config if file exists, else returns defaultConfig"
+          ],
+          "compatibilityRules": [
+            "swallows ENOENT and does not throw"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-02-S3-01",
+          "description": "loadConfig() without arguments resolves with defaultConfig",
+          "scope": "src/config.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-02-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-02-S3-OBJ",
+        "ITEM-P46-L6-02-S3-CONTRACT-0",
+        "ITEM-P46-L6-02-S3-ASSERTION-0",
+        "ITEM-P46-L6-02-S3-WS-0",
+        "ITEM-P46-L6-02-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483726150493827160594837261504938271605948392019485729184756"
+      },
+      "totalSemanticBytes": 1266,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "80eb2d2ca5d74288fe5763df8cc751b1741773e9b73841183c311f426f152847"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-03-S1",
+      "parentTaskId": "P46-L6-03",
+      "subTaskId": "P46-L6-03-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Extract JSON formatting logic into formatJson() in src/formatters/json.js",
+      "inputContracts": [
+        {
+          "interfaceName": "formatJson",
+          "version": "1.0",
+          "inputs": {
+            "entry": "object",
+            "options": "object | undefined"
+          },
+          "outputs": {
+            "formatted": "string"
+          },
+          "preconditions": [
+            "entry is object"
+          ],
+          "postconditions": [
+            "returns valid JSON string matching { timestamp, level, message } schema"
+          ],
+          "compatibilityRules": [
+            "must return formatted string; must NOT throw on serializable object"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "formatJson",
+          "version": "1.0",
+          "inputs": {
+            "entry": "object",
+            "options": "object | undefined"
+          },
+          "outputs": {
+            "formatted": "string"
+          },
+          "preconditions": [
+            "entry is object"
+          ],
+          "postconditions": [
+            "returns valid JSON string matching { timestamp, level, message } schema"
+          ],
+          "compatibilityRules": [
+            "must return formatted string; must NOT throw on serializable object"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-03-S1-01",
+          "description": "formatJson function exported from src/formatters/json.js",
+          "scope": "src/formatters/json.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "formatJson"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-03-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-03-S1-OBJ",
+        "ITEM-P46-L6-03-S1-CONTRACT-0",
+        "ITEM-P46-L6-03-S1-ASSERTION-0",
+        "ITEM-P46-L6-03-S1-WS-0",
+        "ITEM-P46-L6-03-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948372615049382716059483726150493827160594839201948572918"
+      },
+      "totalSemanticBytes": 1361,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "636f4548f27c100714bdda448e828a05094e98cc0c9b293330b0340d67f08480"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-03-S2",
+      "parentTaskId": "P46-L6-03",
+      "subTaskId": "P46-L6-03-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Wire formatJson into Logger.prototype.log in src/logger.js",
+      "inputContracts": [
+        {
+          "interfaceName": "Logger.prototype.log",
+          "version": "1.0",
+          "inputs": {
+            "level": "string",
+            "message": "string",
+            "meta": "object | undefined"
+          },
+          "outputs": {
+            "formattedLog": "string"
+          },
+          "preconditions": [
+            "level is valid log level"
+          ],
+          "postconditions": [
+            "delegates serialization to formatJson(entry) and outputs to stream"
+          ],
+          "compatibilityRules": [
+            "expects formatJson to return string without throwing"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "Logger.prototype.log",
+          "version": "1.0",
+          "inputs": {
+            "level": "string",
+            "message": "string",
+            "meta": "object | undefined"
+          },
+          "outputs": {
+            "formattedLog": "string"
+          },
+          "preconditions": [
+            "level is valid log level"
+          ],
+          "postconditions": [
+            "delegates serialization to formatJson(entry) and outputs to stream"
+          ],
+          "compatibilityRules": [
+            "expects formatJson to return string without throwing"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-03-S2-01",
+          "description": "Logger.prototype.log invokes formatJson and writes to output stream",
+          "scope": "src/logger.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-03-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-03-S2-OBJ",
+        "ITEM-P46-L6-03-S2-CONTRACT-0",
+        "ITEM-P46-L6-03-S2-ASSERTION-0",
+        "ITEM-P46-L6-03-S2-WS-0",
+        "ITEM-P46-L6-03-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594837261504938271605948372615049382716059483726150493"
+      },
+      "totalSemanticBytes": 1360,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "d83e0140f151e0913c80d6d8841cc2eade9218d9dff02a137b08c157894bcd0c"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-03-S3",
+      "parentTaskId": "P46-L6-03",
+      "subTaskId": "P46-L6-03-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Ensure circular reference safety in formatJson in src/formatters/json.js",
+      "inputContracts": [
+        {
+          "interfaceName": "formatJsonCircularHandling",
+          "version": "1.0",
+          "inputs": {
+            "entry": "object with circular references"
+          },
+          "outputs": {
+            "formatted": "string"
+          },
+          "preconditions": [
+            "entry contains self-referential graph"
+          ],
+          "postconditions": [
+            "replaces circular references with '[Circular]' placeholder and returns valid JSON"
+          ],
+          "compatibilityRules": [
+            "does not crash with TypeError: Converting circular structure to JSON"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "formatJsonCircularHandling",
+          "version": "1.0",
+          "inputs": {
+            "entry": "object with circular references"
+          },
+          "outputs": {
+            "formatted": "string"
+          },
+          "preconditions": [
+            "entry contains self-referential graph"
+          ],
+          "postconditions": [
+            "replaces circular references with '[Circular]' placeholder and returns valid JSON"
+          ],
+          "compatibilityRules": [
+            "does not crash with TypeError: Converting circular structure to JSON"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-03-S3-01",
+          "description": "formatJson handles circular structures safely",
+          "scope": "src/formatters/json.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-03-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-03-S3-OBJ",
+        "ITEM-P46-L6-03-S3-CONTRACT-0",
+        "ITEM-P46-L6-03-S3-ASSERTION-0",
+        "ITEM-P46-L6-03-S3-WS-0",
+        "ITEM-P46-L6-03-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4615049382716059483726150493827160594837261504938271605948372615"
+      },
+      "totalSemanticBytes": 1386,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "9f2793b90c12990a09b598b3bf87fc91abacf98578d085bc563d6fdd8031a04b"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-04-S1",
+      "parentTaskId": "P46-L6-04",
+      "subTaskId": "P46-L6-04-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement lowerCaseHeaders() normalizer in src/request.js",
+      "inputContracts": [
+        {
+          "interfaceName": "lowerCaseHeaders",
+          "version": "1.0",
+          "inputs": {
+            "headers": "Record<string, string>"
+          },
+          "outputs": {
+            "normalized": "Record<string, string>"
+          },
+          "preconditions": [
+            "headers is dictionary object"
+          ],
+          "postconditions": [
+            "all header keys converted to lowercase strings"
+          ],
+          "compatibilityRules": [
+            "preserves header values without transformation"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "lowerCaseHeaders",
+          "version": "1.0",
+          "inputs": {
+            "headers": "Record<string, string>"
+          },
+          "outputs": {
+            "normalized": "Record<string, string>"
+          },
+          "preconditions": [
+            "headers is dictionary object"
+          ],
+          "postconditions": [
+            "all header keys converted to lowercase strings"
+          ],
+          "compatibilityRules": [
+            "preserves header values without transformation"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-04-S1-01",
+          "description": "lowerCaseHeaders exported from src/request.js",
+          "scope": "src/request.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "lowerCaseHeaders"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-04-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-04-S1-OBJ",
+        "ITEM-P46-L6-04-S1-CONTRACT-0",
+        "ITEM-P46-L6-04-S1-ASSERTION-0",
+        "ITEM-P46-L6-04-S1-WS-0",
+        "ITEM-P46-L6-04-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6837261504938271605948372615049382716059483726150493827160594837"
+      },
+      "totalSemanticBytes": 1309,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "53b07dfe8d52bb593288d6b0d2670a7171867ea5b18584d64c57952a374c8e07"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-04-S2",
+      "parentTaskId": "P46-L6-04",
+      "subTaskId": "P46-L6-04-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Update sendRequest in src/client.js to invoke normalizer on outgoing headers",
+      "inputContracts": [
+        {
+          "interfaceName": "sendRequest",
+          "version": "1.0",
+          "inputs": {
+            "url": "string",
+            "options": "{ headers?: Record<string, string> }"
+          },
+          "outputs": {
+            "response": "Promise<Response>"
+          },
+          "preconditions": [
+            "url is valid HTTP URL"
+          ],
+          "postconditions": [
+            "outgoing HTTP request uses lowercase headers from lowerCaseHeaders"
+          ],
+          "compatibilityRules": [
+            "lookups on request.headers in transport client use lowercase or case-insensitive matching"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "sendRequest",
+          "version": "1.0",
+          "inputs": {
+            "url": "string",
+            "options": "{ headers?: Record<string, string> }"
+          },
+          "outputs": {
+            "response": "Promise<Response>"
+          },
+          "preconditions": [
+            "url is valid HTTP URL"
+          ],
+          "postconditions": [
+            "outgoing HTTP request uses lowercase headers from lowerCaseHeaders"
+          ],
+          "compatibilityRules": [
+            "lookups on request.headers in transport client use lowercase or case-insensitive matching"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-04-S2-01",
+          "description": "Transport client performs case-insensitive header lookup",
+          "scope": "src/client.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-04-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-04-S2-OBJ",
+        "ITEM-P46-L6-04-S2-CONTRACT-0",
+        "ITEM-P46-L6-04-S2-ASSERTION-0",
+        "ITEM-P46-L6-04-S2-WS-0",
+        "ITEM-P46-L6-04-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483726150493827160594837261504938271605948372615049382716059"
+      },
+      "totalSemanticBytes": 1399,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "42e0e5d03c685390fc35b2ac246597bea09812cb53ed45d3f2b54f8037d93cc8"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-04-S3",
+      "parentTaskId": "P46-L6-04",
+      "subTaskId": "P46-L6-04-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Add Content-Type preservation guard in src/request.js",
+      "inputContracts": [
+        {
+          "interfaceName": "preserveContentTypeBoundary",
+          "version": "1.0",
+          "inputs": {
+            "headers": "Record<string, string>"
+          },
+          "outputs": {
+            "safeHeaders": "Record<string, string>"
+          },
+          "preconditions": [
+            "headers['content-type'] may contain multipart boundary"
+          ],
+          "postconditions": [
+            "multipart boundary parameter preserved case-sensitively"
+          ],
+          "compatibilityRules": [
+            "only header names are lower-cased, parameters in values preserved"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "preserveContentTypeBoundary",
+          "version": "1.0",
+          "inputs": {
+            "headers": "Record<string, string>"
+          },
+          "outputs": {
+            "safeHeaders": "Record<string, string>"
+          },
+          "preconditions": [
+            "headers['content-type'] may contain multipart boundary"
+          ],
+          "postconditions": [
+            "multipart boundary parameter preserved case-sensitively"
+          ],
+          "compatibilityRules": [
+            "only header names are lower-cased, parameters in values preserved"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-04-S3-01",
+          "description": "Multipart boundary case preserved in content-type header value",
+          "scope": "src/request.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-04-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-04-S3-OBJ",
+        "ITEM-P46-L6-04-S3-CONTRACT-0",
+        "ITEM-P46-L6-04-S3-ASSERTION-0",
+        "ITEM-P46-L6-04-S3-WS-0",
+        "ITEM-P46-L6-04-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948372615049382716059483726150493827160594837261504938271"
+      },
+      "totalSemanticBytes": 1376,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "61b8b360c8416ce5b48b22ad5fe58bcf6d14e2161daa410fa1c92bc18d16c390"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-05-S1",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement markCancelled() state transition and guard in src/job.js",
+      "inputContracts": [
+        {
+          "interfaceName": "Job.prototype.markCancelled",
+          "version": "1.0",
+          "inputs": {
+            "reason": "string"
+          },
+          "outputs": {
+            "success": "boolean"
+          },
+          "preconditions": [
+            "job status is QUEUED or RUNNING"
+          ],
+          "postconditions": [
+            "job status transitions to CANCELLED",
+            "cancelledAt timestamp recorded"
+          ],
+          "compatibilityRules": [
+            "returns false if already COMPLETED or FAILED"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "Job.prototype.markCancelled",
+          "version": "1.0",
+          "inputs": {
+            "reason": "string"
+          },
+          "outputs": {
+            "success": "boolean"
+          },
+          "preconditions": [
+            "job status is QUEUED or RUNNING"
+          ],
+          "postconditions": [
+            "job status transitions to CANCELLED",
+            "cancelledAt timestamp recorded"
+          ],
+          "compatibilityRules": [
+            "returns false if already COMPLETED or FAILED"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-05-S1-01",
+          "description": "markCancelled sets status to CANCELLED",
+          "scope": "src/job.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-05-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-05-S1-OBJ",
+        "ITEM-P46-L6-05-S1-CONTRACT-0",
+        "ITEM-P46-L6-05-S1-ASSERTION-0",
+        "ITEM-P46-L6-05-S1-WS-0",
+        "ITEM-P46-L6-05-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594837261504938271605948372615049382716059483726150493"
+      },
+      "totalSemanticBytes": 1294,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "5af7e8217a30015d12471caf70f44161e8e31c7389ed34a6b512b9c9b0bbebd1"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-05-S2",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Update cancelJob in src/queue.js to signal active worker eviction",
+      "inputContracts": [
+        {
+          "interfaceName": "Queue.prototype.cancelJob",
+          "version": "1.0",
+          "inputs": {
+            "jobId": "string"
+          },
+          "outputs": {
+            "cancelled": "boolean"
+          },
+          "preconditions": [
+            "jobId is registered in queue"
+          ],
+          "postconditions": [
+            "signals active worker to stop",
+            "job marked CANCELLED in store"
+          ],
+          "compatibilityRules": [
+            "evicts worker immediately if job was active"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "Queue.prototype.cancelJob",
+          "version": "1.0",
+          "inputs": {
+            "jobId": "string"
+          },
+          "outputs": {
+            "cancelled": "boolean"
+          },
+          "preconditions": [
+            "jobId is registered in queue"
+          ],
+          "postconditions": [
+            "signals active worker to stop",
+            "job marked CANCELLED in store"
+          ],
+          "compatibilityRules": [
+            "evicts worker immediately if job was active"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-05-S2-01",
+          "description": "cancelJob terminates assigned worker lease",
+          "scope": "src/queue.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-05-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-05-S2-OBJ",
+        "ITEM-P46-L6-05-S2-CONTRACT-0",
+        "ITEM-P46-L6-05-S2-ASSERTION-0",
+        "ITEM-P46-L6-05-S2-WS-0",
+        "ITEM-P46-L6-05-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4615049382716059483726150493827160594837261504938271605948372615"
+      },
+      "totalSemanticBytes": 1287,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "65ae4cfa74bc1e834149893619c071fe819f9a14968cb1229fda3b84093c75c2"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-05-S3",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Ensure worker clean termination handler removes job from active pool in src/queue.js",
+      "inputContracts": [
+        {
+          "interfaceName": "Queue.prototype.removeActiveJob",
+          "version": "1.0",
+          "inputs": {
+            "jobId": "string"
+          },
+          "outputs": {
+            "removed": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "jobId removed from internal activeJobs map"
+          ],
+          "compatibilityRules": [
+            "decrements active count safely"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "Queue.prototype.removeActiveJob",
+          "version": "1.0",
+          "inputs": {
+            "jobId": "string"
+          },
+          "outputs": {
+            "removed": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "jobId removed from internal activeJobs map"
+          ],
+          "compatibilityRules": [
+            "decrements active count safely"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-05-S3-01",
+          "description": "removeActiveJob decrements queue running counter",
+          "scope": "src/queue.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-05-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-05-S3-OBJ",
+        "ITEM-P46-L6-05-S3-CONTRACT-0",
+        "ITEM-P46-L6-05-S3-ASSERTION-0",
+        "ITEM-P46-L6-05-S3-WS-0",
+        "ITEM-P46-L6-05-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6837261504938271605948372615049382716059483726150493827160594837"
+      },
+      "totalSemanticBytes": 1254,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "dd01f2abb1315a00cf84cadc75792f97e371e3d340e6d4535ad1c3e8fb4fd95b"
+    },
+    {
+      "projectionId": "PROJ-P46-L6-05-S4",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S4",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Handle already completed job cancellation idempotency in src/job.js",
+      "inputContracts": [
+        {
+          "interfaceName": "JobCancellationIdempotency",
+          "version": "1.0",
+          "inputs": {
+            "jobId": "string"
+          },
+          "outputs": {
+            "alreadyCancelled": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "calling cancel on already cancelled job returns true without side-effects"
+          ],
+          "compatibilityRules": [
+            "idempotent state transition"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "JobCancellationIdempotency",
+          "version": "1.0",
+          "inputs": {
+            "jobId": "string"
+          },
+          "outputs": {
+            "alreadyCancelled": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "calling cancel on already cancelled job returns true without side-effects"
+          ],
+          "compatibilityRules": [
+            "idempotent state transition"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L6-05-S4-01",
+          "description": "Repeated cancel calls return idempotent confirmation",
+          "scope": "src/job.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L6-05-S4-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L6-05-S4-OBJ",
+        "ITEM-P46-L6-05-S4-CONTRACT-0",
+        "ITEM-P46-L6-05-S4-ASSERTION-0",
+        "ITEM-P46-L6-05-S4-WS-0",
+        "ITEM-P46-L6-05-S4-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483726150493827160594837261504938271605948372615049382716059"
+      },
+      "totalSemanticBytes": 1271,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "818a6afde9463c24ac48ac257f2e0120584d8f235af4d23155208dcb1ca51190"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-01-S1",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Fix negative exponent tokenization in src/parser.js",
+      "inputContracts": [
+        {
+          "interfaceName": "tokenizeExpression",
+          "version": "1.0",
+          "inputs": {
+            "expr": "string"
+          },
+          "outputs": {
+            "tokens": "Array<Token>"
+          },
+          "preconditions": [
+            "expr is valid mathematical string"
+          ],
+          "postconditions": [
+            "tokens include negative exponent numbers as unary minus tokens"
+          ],
+          "compatibilityRules": [
+            "distinguishes binary subtraction from unary negative"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "tokenizeExpression",
+          "version": "1.0",
+          "inputs": {
+            "expr": "string"
+          },
+          "outputs": {
+            "tokens": "Array<Token>"
+          },
+          "preconditions": [
+            "expr is valid mathematical string"
+          ],
+          "postconditions": [
+            "tokens include negative exponent numbers as unary minus tokens"
+          ],
+          "compatibilityRules": [
+            "distinguishes binary subtraction from unary negative"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-01-S1-01",
+          "description": "Tokenizer correctly identifies negative exponent token",
+          "scope": "src/parser.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-01-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-01-S1-OBJ",
+        "ITEM-P46-L7-01-S1-CONTRACT-0",
+        "ITEM-P46-L7-01-S1-ASSERTION-0",
+        "ITEM-P46-L7-01-S1-WS-0",
+        "ITEM-P46-L7-01-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948372615049382716059483726150493827160594837261504938271"
+      },
+      "totalSemanticBytes": 1295,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "53b5a31e29d330031eeecdf47caf4434300ab87925f565f682a946838d014ef1"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-01-S2",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Fix power evaluation operator precedence for negative exponents in src/calc.js",
+      "inputContracts": [
+        {
+          "interfaceName": "powerOperation",
+          "version": "1.0",
+          "inputs": {
+            "base": "number",
+            "exponent": "number"
+          },
+          "outputs": {
+            "result": "number"
+          },
+          "preconditions": [
+            "base and exponent are numbers"
+          ],
+          "postconditions": [
+            "returns base ** exponent",
+            "fractional result for negative exponent"
+          ],
+          "compatibilityRules": [
+            "throws Error on 0 ** negative_number"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "powerOperation",
+          "version": "1.0",
+          "inputs": {
+            "base": "number",
+            "exponent": "number"
+          },
+          "outputs": {
+            "result": "number"
+          },
+          "preconditions": [
+            "base and exponent are numbers"
+          ],
+          "postconditions": [
+            "returns base ** exponent",
+            "fractional result for negative exponent"
+          ],
+          "compatibilityRules": [
+            "throws Error on 0 ** negative_number"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-01-S2-01",
+          "description": "power operation computes 2 ** -2 as 0.25",
+          "scope": "src/calc.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-01-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-01-S2-OBJ",
+        "ITEM-P46-L7-01-S2-CONTRACT-0",
+        "ITEM-P46-L7-01-S2-ASSERTION-0",
+        "ITEM-P46-L7-01-S2-WS-0",
+        "ITEM-P46-L7-01-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594837261504938271605948372615049382716059483726150493"
+      },
+      "totalSemanticBytes": 1300,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "f9cb61d1b70d92dc11118287f7eedb12ff38bbce44cfe0f8819ddd6331eee38e"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-01-S3",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Wire parsed AST node visitor into main compute() pipeline in src/calc.js",
+      "inputContracts": [
+        {
+          "interfaceName": "evaluateAST",
+          "version": "1.0",
+          "inputs": {
+            "node": "ASTNode"
+          },
+          "outputs": {
+            "value": "number"
+          },
+          "preconditions": [
+            "node is parsed AST root"
+          ],
+          "postconditions": [
+            "evaluates tree in correct operator precedence order: parentheses -> powers -> multiply -> add"
+          ],
+          "compatibilityRules": [
+            "right-associative for power operators"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "evaluateAST",
+          "version": "1.0",
+          "inputs": {
+            "node": "ASTNode"
+          },
+          "outputs": {
+            "value": "number"
+          },
+          "preconditions": [
+            "node is parsed AST root"
+          ],
+          "postconditions": [
+            "evaluates tree in correct operator precedence order: parentheses -> powers -> multiply -> add"
+          ],
+          "compatibilityRules": [
+            "right-associative for power operators"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-01-S3-01",
+          "description": "AST visitor preserves right-associative power operator precedence",
+          "scope": "src/calc.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-01-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-01-S3-OBJ",
+        "ITEM-P46-L7-01-S3-CONTRACT-0",
+        "ITEM-P46-L7-01-S3-ASSERTION-0",
+        "ITEM-P46-L7-01-S3-WS-0",
+        "ITEM-P46-L7-01-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4615049382716059483726150493827160594837261504938271605948372615"
+      },
+      "totalSemanticBytes": 1318,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "2c5743a2fbc62e5f94e16e4d0df37ce0c7d0c383c07adaa78651b6ff19148c37"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-01-S4",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S4",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Ensure zero-division and invalid exponent error formatting in src/calc.js",
+      "inputContracts": [
+        {
+          "interfaceName": "calcErrorHandling",
+          "version": "1.0",
+          "inputs": {
+            "err": "Error"
+          },
+          "outputs": {
+            "formattedError": "string"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "formats division by zero and invalid exponent errors with standard message"
+          ],
+          "compatibilityRules": [
+            "matches calc error reporter format"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "calcErrorHandling",
+          "version": "1.0",
+          "inputs": {
+            "err": "Error"
+          },
+          "outputs": {
+            "formattedError": "string"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "formats division by zero and invalid exponent errors with standard message"
+          ],
+          "compatibilityRules": [
+            "matches calc error reporter format"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-01-S4-01",
+          "description": "Division by zero formats standardized message",
+          "scope": "src/calc.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-01-S4-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-01-S4-OBJ",
+        "ITEM-P46-L7-01-S4-CONTRACT-0",
+        "ITEM-P46-L7-01-S4-ASSERTION-0",
+        "ITEM-P46-L7-01-S4-WS-0",
+        "ITEM-P46-L7-01-S4-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6837261504938271605948372615049382716059483726150493827160594837"
+      },
+      "totalSemanticBytes": 1264,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "86893bce71a735f16d7d4a1c23478faaae11597cef1d78c66aa2c064dd6f78ff"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-02-S1",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement strict newline and CRLF stripping in src/header-validator.js",
+      "inputContracts": [
+        {
+          "interfaceName": "stripControlChars",
+          "version": "1.0",
+          "inputs": {
+            "headerVal": "string"
+          },
+          "outputs": {
+            "sanitized": "string"
+          },
+          "preconditions": [
+            "headerVal is string"
+          ],
+          "postconditions": [
+            "strips CR, LF, and null bytes from header value"
+          ],
+          "compatibilityRules": [
+            "returns empty string if headerVal is null/empty"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "stripControlChars",
+          "version": "1.0",
+          "inputs": {
+            "headerVal": "string"
+          },
+          "outputs": {
+            "sanitized": "string"
+          },
+          "preconditions": [
+            "headerVal is string"
+          ],
+          "postconditions": [
+            "strips CR, LF, and null bytes from header value"
+          ],
+          "compatibilityRules": [
+            "returns empty string if headerVal is null/empty"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-02-S1-01",
+          "description": "stripControlChars exported from src/header-validator.js",
+          "scope": "src/header-validator.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "stripControlChars"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-02-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-02-S1-OBJ",
+        "ITEM-P46-L7-02-S1-CONTRACT-0",
+        "ITEM-P46-L7-02-S1-ASSERTION-0",
+        "ITEM-P46-L7-02-S1-WS-0",
+        "ITEM-P46-L7-02-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483726150493827160594837261504938271605948372615049382716059"
+      },
+      "totalSemanticBytes": 1305,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "c43b5c3c5f2477909a1842c8d9fcc52f765783137b40f5eedf7ad11b90f10f05"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-02-S2",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Integrate sanitized header validator into CORS origin reflection in src/cors.js",
+      "inputContracts": [
+        {
+          "interfaceName": "setCorsOrigin",
+          "version": "1.0",
+          "inputs": {
+            "origin": "string",
+            "res": "Response"
+          },
+          "outputs": {
+            "res": "Response"
+          },
+          "preconditions": [
+            "origin is sanitized string"
+          ],
+          "postconditions": [
+            "sets Access-Control-Allow-Origin header without CRLF injection"
+          ],
+          "compatibilityRules": [
+            "uses stripControlChars before writing header"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "setCorsOrigin",
+          "version": "1.0",
+          "inputs": {
+            "origin": "string",
+            "res": "Response"
+          },
+          "outputs": {
+            "res": "Response"
+          },
+          "preconditions": [
+            "origin is sanitized string"
+          ],
+          "postconditions": [
+            "sets Access-Control-Allow-Origin header without CRLF injection"
+          ],
+          "compatibilityRules": [
+            "uses stripControlChars before writing header"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-02-S2-01",
+          "description": "setCorsOrigin sets Access-Control-Allow-Origin with sanitized origin",
+          "scope": "src/cors.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-02-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-02-S2-OBJ",
+        "ITEM-P46-L7-02-S2-CONTRACT-0",
+        "ITEM-P46-L7-02-S2-ASSERTION-0",
+        "ITEM-P46-L7-02-S2-WS-0",
+        "ITEM-P46-L7-02-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948372615049382716059483726150493827160594837261504938271"
+      },
+      "totalSemanticBytes": 1327,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "1f437843bd3c6d365044bb83436b7cf935941d033281bada5e06c8ce6b041d8c"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-02-S3",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Enforce wildcards and credentials mutual exclusion check in src/cors.js",
+      "inputContracts": [
+        {
+          "interfaceName": "validateCredentialsExclusion",
+          "version": "1.0",
+          "inputs": {
+            "allowOrigin": "string",
+            "allowCredentials": "boolean"
+          },
+          "outputs": {
+            "valid": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "returns false if allowOrigin === '*' and allowCredentials === true"
+          ],
+          "compatibilityRules": [
+            "rejects wildcard credentials per W3C CORS spec"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "validateCredentialsExclusion",
+          "version": "1.0",
+          "inputs": {
+            "allowOrigin": "string",
+            "allowCredentials": "boolean"
+          },
+          "outputs": {
+            "valid": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "returns false if allowOrigin === '*' and allowCredentials === true"
+          ],
+          "compatibilityRules": [
+            "rejects wildcard credentials per W3C CORS spec"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-02-S3-01",
+          "description": "Wildcard origin cannot be used with Allow-Credentials true",
+          "scope": "src/cors.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-02-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-02-S3-OBJ",
+        "ITEM-P46-L7-02-S3-CONTRACT-0",
+        "ITEM-P46-L7-02-S3-ASSERTION-0",
+        "ITEM-P46-L7-02-S3-WS-0",
+        "ITEM-P46-L7-02-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594837261504938271605948372615049382716059483726150493"
+      },
+      "totalSemanticBytes": 1320,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "fcee38fd8dc5266dbcd2d1d5a1194632894e59e15c8b747d0159ef8aa87b60ae"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-02-S4",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S4",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Ensure invalid origin rejection returns 403 Forbidden status in src/cors.js",
+      "inputContracts": [
+        {
+          "interfaceName": "rejectInvalidOrigin",
+          "version": "1.0",
+          "inputs": {
+            "req": "Request",
+            "res": "Response"
+          },
+          "outputs": {
+            "status": "number"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "responds with HTTP 403 Forbidden on disallowed origin"
+          ],
+          "compatibilityRules": [
+            "halts middleware pipeline on invalid origin"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "rejectInvalidOrigin",
+          "version": "1.0",
+          "inputs": {
+            "req": "Request",
+            "res": "Response"
+          },
+          "outputs": {
+            "status": "number"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "responds with HTTP 403 Forbidden on disallowed origin"
+          ],
+          "compatibilityRules": [
+            "halts middleware pipeline on invalid origin"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-02-S4-01",
+          "description": "Invalid origin triggers 403 response status",
+          "scope": "src/cors.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-02-S4-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-02-S4-OBJ",
+        "ITEM-P46-L7-02-S4-CONTRACT-0",
+        "ITEM-P46-L7-02-S4-ASSERTION-0",
+        "ITEM-P46-L7-02-S4-WS-0",
+        "ITEM-P46-L7-02-S4-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4615049382716059483726150493827160594837261504938271605948372615"
+      },
+      "totalSemanticBytes": 1265,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "22dfa802e70cf4c46bfdb25efb8bfb4b54ae203c56566f1b78ce1edd582438f9"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-03-S1",
+      "parentTaskId": "P46-L7-03",
+      "subTaskId": "P46-L7-03-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement metadata token tokenizer in src/semver.js",
+      "inputContracts": [
+        {
+          "interfaceName": "parseBuildMetadata",
+          "version": "1.0",
+          "inputs": {
+            "versionStr": "string"
+          },
+          "outputs": {
+            "metadata": "string | null"
+          },
+          "preconditions": [
+            "versionStr is SemVer string"
+          ],
+          "postconditions": [
+            "extracts build metadata segment following '+' delimiter"
+          ],
+          "compatibilityRules": [
+            "returns null if '+' not present"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "parseBuildMetadata",
+          "version": "1.0",
+          "inputs": {
+            "versionStr": "string"
+          },
+          "outputs": {
+            "metadata": "string | null"
+          },
+          "preconditions": [
+            "versionStr is SemVer string"
+          ],
+          "postconditions": [
+            "extracts build metadata segment following '+' delimiter"
+          ],
+          "compatibilityRules": [
+            "returns null if '+' not present"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-03-S1-01",
+          "description": "parseBuildMetadata correctly parses build metadata",
+          "scope": "src/semver.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "parseBuildMetadata"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-03-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-03-S1-OBJ",
+        "ITEM-P46-L7-03-S1-CONTRACT-0",
+        "ITEM-P46-L7-03-S1-ASSERTION-0",
+        "ITEM-P46-L7-03-S1-WS-0",
+        "ITEM-P46-L7-03-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6837261504938271605948372615049382716059483726150493827160594837"
+      },
+      "totalSemanticBytes": 1280,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "6c737b9352fdfb7b8c9544f774da46447c2b28b0b8f728b766787abeeade2931"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-03-S2",
+      "parentTaskId": "P46-L7-03",
+      "subTaskId": "P46-L7-03-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Add build metadata ignore rule in version comparator in src/comparator.js",
+      "inputContracts": [
+        {
+          "interfaceName": "compareVersionsIgnoringBuildMetadata",
+          "version": "1.0",
+          "inputs": {
+            "a": "string",
+            "b": "string"
+          },
+          "outputs": {
+            "comparison": "number"
+          },
+          "preconditions": [
+            "a and b are valid SemVer strings"
+          ],
+          "postconditions": [
+            "build metadata ignored when determining version precedence per SemVer 2.0 item 10"
+          ],
+          "compatibilityRules": [
+            "1.0.0+build1 and 1.0.0+build2 compare as equal (0)"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "compareVersionsIgnoringBuildMetadata",
+          "version": "1.0",
+          "inputs": {
+            "a": "string",
+            "b": "string"
+          },
+          "outputs": {
+            "comparison": "number"
+          },
+          "preconditions": [
+            "a and b are valid SemVer strings"
+          ],
+          "postconditions": [
+            "build metadata ignored when determining version precedence per SemVer 2.0 item 10"
+          ],
+          "compatibilityRules": [
+            "1.0.0+build1 and 1.0.0+build2 compare as equal (0)"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-03-S2-01",
+          "description": "Comparator treats versions differing only in build metadata as equal in precedence",
+          "scope": "src/comparator.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-03-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-03-S2-OBJ",
+        "ITEM-P46-L7-03-S2-CONTRACT-0",
+        "ITEM-P46-L7-03-S2-ASSERTION-0",
+        "ITEM-P46-L7-03-S2-WS-0",
+        "ITEM-P46-L7-03-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483726150493827160594837261504938271605948372615049382716059"
+      },
+      "totalSemanticBytes": 1391,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "b5e032176a04e9beef91732f376a864b36e30862b5b0a54b65f5520c37442a69"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-03-S3",
+      "parentTaskId": "P46-L7-03",
+      "subTaskId": "P46-L7-03-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Wire metadata-aware compare into semver.sort() in src/semver.js",
+      "inputContracts": [
+        {
+          "interfaceName": "semverSort",
+          "version": "1.0",
+          "inputs": {
+            "versions": "Array<string>"
+          },
+          "outputs": {
+            "sorted": "Array<string>"
+          },
+          "preconditions": [
+            "versions is array of SemVer strings"
+          ],
+          "postconditions": [
+            "returns sorted array in ascending precedence order"
+          ],
+          "compatibilityRules": [
+            "stable sort preserving input order for equal precedence versions"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "semverSort",
+          "version": "1.0",
+          "inputs": {
+            "versions": "Array<string>"
+          },
+          "outputs": {
+            "sorted": "Array<string>"
+          },
+          "preconditions": [
+            "versions is array of SemVer strings"
+          ],
+          "postconditions": [
+            "returns sorted array in ascending precedence order"
+          ],
+          "compatibilityRules": [
+            "stable sort preserving input order for equal precedence versions"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-03-S3-01",
+          "description": "semverSort sorts versions according to SemVer 2.0 rules",
+          "scope": "src/semver.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-03-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-03-S3-OBJ",
+        "ITEM-P46-L7-03-S3-CONTRACT-0",
+        "ITEM-P46-L7-03-S3-ASSERTION-0",
+        "ITEM-P46-L7-03-S3-WS-0",
+        "ITEM-P46-L7-03-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948372615049382716059483726150493827160594837261504938271"
+      },
+      "totalSemanticBytes": 1314,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "eef7f36aa392b8038efdda19be3eb42eae6b1f926759b3012441272469aece98"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-04-S1",
+      "parentTaskId": "P46-L7-04",
+      "subTaskId": "P46-L7-04-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement path segment resolver in src/path-resolver.js filtering __proto__ and constructor",
+      "inputContracts": [
+        {
+          "interfaceName": "safePathSegments",
+          "version": "1.0",
+          "inputs": {
+            "pathStr": "string"
+          },
+          "outputs": {
+            "segments": "Array<string>"
+          },
+          "preconditions": [
+            "pathStr is non-null"
+          ],
+          "postconditions": [
+            "filters __proto__, constructor, and prototype from resolved path segments"
+          ],
+          "compatibilityRules": [
+            "returns sanitized path segments for object traversal"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "safePathSegments",
+          "version": "1.0",
+          "inputs": {
+            "pathStr": "string"
+          },
+          "outputs": {
+            "segments": "Array<string>"
+          },
+          "preconditions": [
+            "pathStr is non-null"
+          ],
+          "postconditions": [
+            "filters __proto__, constructor, and prototype from resolved path segments"
+          ],
+          "compatibilityRules": [
+            "returns sanitized path segments for object traversal"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-04-S1-01",
+          "description": "safePathSegments function exported from path resolver",
+          "scope": "src/path-resolver.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "safePathSegments"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-04-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-04-S1-OBJ",
+        "ITEM-P46-L7-04-S1-CONTRACT-0",
+        "ITEM-P46-L7-04-S1-ASSERTION-0",
+        "ITEM-P46-L7-04-S1-WS-0",
+        "ITEM-P46-L7-04-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594837261504938271605948372615049382716059483726150493"
+      },
+      "totalSemanticBytes": 1354,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "27681ead5c5dbf350cd4055675bf2c6b771df9902695c1b1363eeccf345d44d8"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-04-S2",
+      "parentTaskId": "P46-L7-04",
+      "subTaskId": "P46-L7-04-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Integrate safe path resolver into deep-set main loop in src/deep-set.js",
+      "inputContracts": [
+        {
+          "interfaceName": "deepSetTraverse",
+          "version": "1.0",
+          "inputs": {
+            "target": "object",
+            "segments": "Array<string>",
+            "val": "any"
+          },
+          "outputs": {
+            "target": "object"
+          },
+          "preconditions": [
+            "target is object"
+          ],
+          "postconditions": [
+            "traverses segments creating intermediate plain objects as needed"
+          ],
+          "compatibilityRules": [
+            "aborts if any intermediate segment resolves to Object prototype"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "deepSetTraverse",
+          "version": "1.0",
+          "inputs": {
+            "target": "object",
+            "segments": "Array<string>",
+            "val": "any"
+          },
+          "outputs": {
+            "target": "object"
+          },
+          "preconditions": [
+            "target is object"
+          ],
+          "postconditions": [
+            "traverses segments creating intermediate plain objects as needed"
+          ],
+          "compatibilityRules": [
+            "aborts if any intermediate segment resolves to Object prototype"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-04-S2-01",
+          "description": "deepSet does not pollute Object prototype via constructor",
+          "scope": "src/deep-set.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-04-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-04-S2-OBJ",
+        "ITEM-P46-L7-04-S2-CONTRACT-0",
+        "ITEM-P46-L7-04-S2-ASSERTION-0",
+        "ITEM-P46-L7-04-S2-WS-0",
+        "ITEM-P46-L7-04-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "4615049382716059483726150493827160594837261504938271605948372615"
+      },
+      "totalSemanticBytes": 1348,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "da3e4df6b19a876298598ef94105a50b52c02add742a0745f150941f171fcc64"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-04-S3",
+      "parentTaskId": "P46-L7-04",
+      "subTaskId": "P46-L7-04-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Add hasOwnProperty guard on prototype leaf assignments in src/deep-set.js",
+      "inputContracts": [
+        {
+          "interfaceName": "deepSetLeafGuard",
+          "version": "1.0",
+          "inputs": {
+            "target": "object",
+            "key": "string",
+            "val": "any"
+          },
+          "outputs": {
+            "assigned": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "assigns leaf property only on own property container"
+          ],
+          "compatibilityRules": [
+            "uses Object.prototype.hasOwnProperty before assignment"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "deepSetLeafGuard",
+          "version": "1.0",
+          "inputs": {
+            "target": "object",
+            "key": "string",
+            "val": "any"
+          },
+          "outputs": {
+            "assigned": "boolean"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "assigns leaf property only on own property container"
+          ],
+          "compatibilityRules": [
+            "uses Object.prototype.hasOwnProperty before assignment"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-04-S3-01",
+          "description": "Leaf assignment guards against prototype property overriding",
+          "scope": "src/deep-set.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-04-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-04-S3-OBJ",
+        "ITEM-P46-L7-04-S3-CONTRACT-0",
+        "ITEM-P46-L7-04-S3-ASSERTION-0",
+        "ITEM-P46-L7-04-S3-WS-0",
+        "ITEM-P46-L7-04-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "6837261504938271605948372615049382716059483726150493827160594837"
+      },
+      "totalSemanticBytes": 1306,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "5c81b7f465f50748717ff5c566a260bb587ed4d5d5ea5a03e310c207ec075bf3"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-05-S1",
+      "parentTaskId": "P46-L7-05",
+      "subTaskId": "P46-L7-05-S1",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement role hierarchy tree in src/models/user.js",
+      "inputContracts": [
+        {
+          "interfaceName": "ROLE_HIERARCHY",
+          "version": "1.0",
+          "inputs": {},
+          "outputs": {
+            "hierarchy": "Record<string, Array<string>>"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "defines transitive role inheritance tree: admin -> manager -> user"
+          ],
+          "compatibilityRules": [
+            "exported constant in src/models/user.js"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "ROLE_HIERARCHY",
+          "version": "1.0",
+          "inputs": {},
+          "outputs": {
+            "hierarchy": "Record<string, Array<string>>"
+          },
+          "preconditions": [],
+          "postconditions": [
+            "defines transitive role inheritance tree: admin -> manager -> user"
+          ],
+          "compatibilityRules": [
+            "exported constant in src/models/user.js"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-05-S1-01",
+          "description": "ROLE_HIERARCHY constant exported from user model",
+          "scope": "src/models/user.js",
+          "severity": "REQUIRED",
+          "verificationType": "EXPORT_EXISTS",
+          "expectedValue": "ROLE_HIERARCHY"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-05-S1-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-05-S1-OBJ",
+        "ITEM-P46-L7-05-S1-CONTRACT-0",
+        "ITEM-P46-L7-05-S1-ASSERTION-0",
+        "ITEM-P46-L7-05-S1-WS-0",
+        "ITEM-P46-L7-05-S1-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "8059483726150493827160594837261504938271605948372615049382716059"
+      },
+      "totalSemanticBytes": 1261,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "b42c24a8380d682ad40636746836dd41f46733fb96c8f0483a9ab0877a8c18e8"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-05-S2",
+      "parentTaskId": "P46-L7-05",
+      "subTaskId": "P46-L7-05-S2",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Implement hierarchical permission resolver in src/services/user-service.js",
+      "inputContracts": [
+        {
+          "interfaceName": "checkPermissionHierarchical",
+          "version": "1.0",
+          "inputs": {
+            "userRoles": "Array<string>",
+            "requiredRole": "string"
+          },
+          "outputs": {
+            "hasPermission": "boolean"
+          },
+          "preconditions": [
+            "requiredRole is string"
+          ],
+          "postconditions": [
+            "returns true if any userRole is equal to or inherits requiredRole"
+          ],
+          "compatibilityRules": [
+            "queries ROLE_HIERARCHY transitively"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "checkPermissionHierarchical",
+          "version": "1.0",
+          "inputs": {
+            "userRoles": "Array<string>",
+            "requiredRole": "string"
+          },
+          "outputs": {
+            "hasPermission": "boolean"
+          },
+          "preconditions": [
+            "requiredRole is string"
+          ],
+          "postconditions": [
+            "returns true if any userRole is equal to or inherits requiredRole"
+          ],
+          "compatibilityRules": [
+            "queries ROLE_HIERARCHY transitively"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-05-S2-01",
+          "description": "checkPermissionHierarchical resolves manager permission for user role requirement",
+          "scope": "src/services/user-service.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-05-S2-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-05-S2-OBJ",
+        "ITEM-P46-L7-05-S2-CONTRACT-0",
+        "ITEM-P46-L7-05-S2-ASSERTION-0",
+        "ITEM-P46-L7-05-S2-WS-0",
+        "ITEM-P46-L7-05-S2-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "0271605948372615049382716059483726150493827160594837261504938271"
+      },
+      "totalSemanticBytes": 1382,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "623afd8ae25a71de321bab173bb3ca2d0df360ad82588ee28b99e76c0f0133e5"
+    },
+    {
+      "projectionId": "PROJ-P46-L7-05-S3",
+      "parentTaskId": "P46-L7-05",
+      "subTaskId": "P46-L7-05-S3",
+      "version": "1.0",
+      "condition": "CONDITION_D_BUDGETED_ACTIVE_PROJECTION",
+      "objective": "Wire authorization middleware in src/routes/user-route.js calling permission resolver",
+      "inputContracts": [
+        {
+          "interfaceName": "requireRoleMiddleware",
+          "version": "1.0",
+          "inputs": {
+            "role": "string"
+          },
+          "outputs": {
+            "middleware": "Function (req, res, next)"
+          },
+          "preconditions": [
+            "role is string"
+          ],
+          "postconditions": [
+            "calls next() if checkPermissionHierarchical returns true, else 403 Forbidden"
+          ],
+          "compatibilityRules": [
+            "Express-compatible route middleware"
+          ]
+        }
+      ],
+      "outputContracts": [
+        {
+          "interfaceName": "requireRoleMiddleware",
+          "version": "1.0",
+          "inputs": {
+            "role": "string"
+          },
+          "outputs": {
+            "middleware": "Function (req, res, next)"
+          },
+          "preconditions": [
+            "role is string"
+          ],
+          "postconditions": [
+            "calls next() if checkPermissionHierarchical returns true, else 403 Forbidden"
+          ],
+          "compatibilityRules": [
+            "Express-compatible route middleware"
+          ]
+        }
+      ],
+      "activeAssertions": [
+        {
+          "assertionId": "SA-P46-L7-05-S3-01",
+          "description": "requireRoleMiddleware returns 403 when user lacks required hierarchical role",
+          "scope": "src/routes/user-route.js",
+          "severity": "REQUIRED",
+          "verificationType": "TEST_RESULT",
+          "expectedValue": "PASSED"
+        }
+      ],
+      "dependencyState": [],
+      "workspaceFacts": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "unresolvedState": [],
+      "omittedItems": [
+        {
+          "itemId": "ITEM-P46-L7-05-S3-HIST-0",
+          "priority": "P6",
+          "reason": "EXCEEDS_BUDGET_4096_BYTES",
+          "byteSize": 3850
+        }
+      ],
+      "includedItemIds": [
+        "ITEM-P46-L7-05-S3-OBJ",
+        "ITEM-P46-L7-05-S3-CONTRACT-0",
+        "ITEM-P46-L7-05-S3-ASSERTION-0",
+        "ITEM-P46-L7-05-S3-WS-0",
+        "ITEM-P46-L7-05-S3-OBS-0"
+      ],
+      "sourceHashes": {
+        "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+        "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+        "anchorDigest": "2493827160594837261504938271605948372615049382716059483726150493"
+      },
+      "totalSemanticBytes": 1360,
+      "budgetLimitBytes": 4096,
+      "requiredSemanticRecall": 1,
+      "projectionHash": "c2b70954e4ee6023d12b1c3c05c9a97d7dbbd6c9f3e138eab427c9f82fd8c3ce"
+    }
+  ]
+}
