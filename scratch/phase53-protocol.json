@@ -1,0 +1,110 @@
+{
+  "phase": "53",
+  "protocolVersion": "emerald-phase53-global-reconciliation-v1",
+  "frozenAt": "2026-10-19T16:23:53.463Z",
+  "experimentalVariable": "governed_global_invariant_reconciliation",
+  "frozenBaselineCommit": "494f0f9",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "models": {
+    "executor": {
+      "model": "qwen2.5-coder:1.5b",
+      "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "parameterCount": 1540000000,
+      "quantization": "Q4_K_M",
+      "role": "LOCAL_EXECUTOR"
+    },
+    "semanticReasoner": {
+      "model": "qwen2.5-coder:3b",
+      "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameterCount": 3100000000,
+      "quantization": "Q4_K_M",
+      "role": "SEMANTIC_REASONER"
+    },
+    "critic": {
+      "model": "granite3-dense:2b",
+      "digest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+      "parameterCount": 2600000000,
+      "quantization": "Q4_K_M",
+      "role": "OPTIONAL_CRITIC"
+    }
+  },
+  "taskCohort": {
+    "cohortSize": 15,
+    "difficultTasksCount": 10,
+    "levelDistribution": {
+      "L5": 5,
+      "L6": 5,
+      "L7": 5
+    },
+    "selectionRule": "15 parent tasks derived from Phase 46-52 cohort, focusing on the 10 difficult tasks (5 L6 multi-file and 5 L7 repository-scale SWE-bench tasks)."
+  },
+  "conditions": [
+    {
+      "conditionId": "CONDITION_A_PHASE52_CONTROL",
+      "name": "Phase 52 Control",
+      "description": "Promoted Phase 52 configuration (Slice + Contracts + Governed Subtask DAG + Local Executor) without global invariant reconciliation.",
+      "hasStaticReconciliation": false,
+      "hasDataFlowReconciliation": false,
+      "hasSymbolicAnalysis": false,
+      "hasGlobalRepair": false
+    },
+    {
+      "conditionId": "CONDITION_B_STATIC_CONTRACT_RECONCILIATION",
+      "name": "Static Cross-Subtask Contract Reconciliation",
+      "description": "Pairwise static subtask contract comparison, interface/state conflict detection, and deterministic conflict graph construction.",
+      "hasStaticReconciliation": true,
+      "hasDataFlowReconciliation": false,
+      "hasSymbolicAnalysis": false,
+      "hasGlobalRepair": false
+    },
+    {
+      "conditionId": "CONDITION_C_DATAFLOW_CONTROL_FLOW_RECONCILIATION",
+      "name": "Global Dataflow / Control-Flow Reconciliation",
+      "description": "Condition B plus deterministic repository analysis tracing cross-subtask dataflow paths, shared state, and call graphs.",
+      "hasStaticReconciliation": true,
+      "hasDataFlowReconciliation": true,
+      "hasSymbolicAnalysis": false,
+      "hasGlobalRepair": false
+    },
+    {
+      "conditionId": "CONDITION_D_BOUNDED_SYMBOLIC_BEHAVIORAL_RECONCILIATION",
+      "name": "Bounded Symbolic / Behavioral Reconciliation + Global Repair",
+      "description": "Condition C plus bounded behavioral/symbolic analysis (constant propagation, regex checks, AST precedence) and bounded global repair (<=2 attempts).",
+      "hasStaticReconciliation": true,
+      "hasDataFlowReconciliation": true,
+      "hasSymbolicAnalysis": true,
+      "hasGlobalRepair": true
+    }
+  ],
+  "callBudgets": {
+    "maxSymbolicPaths": 32,
+    "maxSymbolicSteps": 128,
+    "maxCrossSubtaskEdges": 64,
+    "maxReconciliationRounds": 2,
+    "maxGlobalRepairs": 2,
+    "maxTotalModelCalls": 14,
+    "exceededFailureCode": "GLOBAL_ANALYSIS_BUDGET_EXCEEDED"
+  },
+  "failureTaxonomy": [
+    "INVARIANT_EXTRACTION_FAILURE",
+    "CONTRACT_CONFLICT_FAILURE",
+    "GLOBAL_DATAFLOW_FAILURE",
+    "SYMBOLIC_ANALYSIS_FAILURE",
+    "GLOBAL_REPAIR_FAILURE",
+    "COMPOSITION_FAILURE",
+    "REPOSITORY_SEMANTIC_FAILURE",
+    "CLEAN_ROOM_VERIFICATION_FAILURE",
+    "POLICY_FAILURE",
+    "EVIDENCE_FAILURE",
+    "BUDGET_FAILURE",
+    "ENVIRONMENT_FAILURE"
+  ]
+}

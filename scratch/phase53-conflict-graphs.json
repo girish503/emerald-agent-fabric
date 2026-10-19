@@ -1,0 +1,1065 @@
+{
+  "phase": "53",
+  "conflictGraphs": [
+    {
+      "graphId": "cgraph-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L5-01-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-01-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L5-01-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-01-state-coordination"
+        },
+        {
+          "nodeId": "P46-L5-01-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-01-S1"
+        },
+        {
+          "nodeId": "P46-L5-01-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-01-S2"
+        },
+        {
+          "nodeId": "sym-P46-L5-01-semver",
+          "nodeType": "SYMBOL",
+          "label": "semver"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L5-01-iface-preservation",
+          "targetNodeId": "sym-P46-L5-01-semver",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L5-01-state-coordination",
+          "targetNodeId": "sym-P46-L5-01-semver",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "e7984bcb838c07dad0b6dd81ed6599c4f3057317ee7786ff50b71b6eba154b15"
+    },
+    {
+      "graphId": "cgraph-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L5-02-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-02-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L5-02-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-02-state-coordination"
+        },
+        {
+          "nodeId": "P46-L5-02-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-02-S1"
+        },
+        {
+          "nodeId": "P46-L5-02-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-02-S2"
+        },
+        {
+          "nodeId": "sym-P46-L5-02-deep-set",
+          "nodeType": "SYMBOL",
+          "label": "deep-set"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L5-02-iface-preservation",
+          "targetNodeId": "sym-P46-L5-02-deep-set",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L5-02-state-coordination",
+          "targetNodeId": "sym-P46-L5-02-deep-set",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "71199b72c6771c71b305a58864e98b893b00b77f7ec1dc76f31366eedcc8cd39"
+    },
+    {
+      "graphId": "cgraph-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L5-03-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-03-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L5-03-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-03-state-coordination"
+        },
+        {
+          "nodeId": "P46-L5-03-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-03-S1"
+        },
+        {
+          "nodeId": "P46-L5-03-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-03-S2"
+        },
+        {
+          "nodeId": "sym-P46-L5-03-emitter",
+          "nodeType": "SYMBOL",
+          "label": "emitter"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L5-03-iface-preservation",
+          "targetNodeId": "sym-P46-L5-03-emitter",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L5-03-state-coordination",
+          "targetNodeId": "sym-P46-L5-03-emitter",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "3d5e223de88936f60f1147d82515d25cf19399477200d1829d925b213d45d333"
+    },
+    {
+      "graphId": "cgraph-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L5-04-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-04-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L5-04-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-04-state-coordination"
+        },
+        {
+          "nodeId": "P46-L5-04-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-04-S1"
+        },
+        {
+          "nodeId": "P46-L5-04-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-04-S2"
+        },
+        {
+          "nodeId": "sym-P46-L5-04-scanner",
+          "nodeType": "SYMBOL",
+          "label": "scanner"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L5-04-iface-preservation",
+          "targetNodeId": "sym-P46-L5-04-scanner",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L5-04-state-coordination",
+          "targetNodeId": "sym-P46-L5-04-scanner",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "bdec5e925c83789fd0c8bf9c3e58259c2549edf63d7b3f8a0c1705668063abe9"
+    },
+    {
+      "graphId": "cgraph-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L5-05-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-05-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L5-05-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L5-05-state-coordination"
+        },
+        {
+          "nodeId": "P46-L5-05-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-05-S1"
+        },
+        {
+          "nodeId": "P46-L5-05-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L5-05-S2"
+        },
+        {
+          "nodeId": "sym-P46-L5-05-kv-store",
+          "nodeType": "SYMBOL",
+          "label": "kv-store"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L5-05-iface-preservation",
+          "targetNodeId": "sym-P46-L5-05-kv-store",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L5-05-state-coordination",
+          "targetNodeId": "sym-P46-L5-05-kv-store",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "e6881f3d785d5a6d5ed19b99a98c82e93220edf01b44fe4d3cde52da336996cd"
+    },
+    {
+      "graphId": "cgraph-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L6-01-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-01-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L6-01-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-01-state-coordination"
+        },
+        {
+          "nodeId": "P46-L6-01-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-01-S1"
+        },
+        {
+          "nodeId": "P46-L6-01-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-01-S2"
+        },
+        {
+          "nodeId": "sym-P46-L6-01-user",
+          "nodeType": "SYMBOL",
+          "label": "user"
+        },
+        {
+          "nodeId": "sym-P46-L6-01-user-service",
+          "nodeType": "SYMBOL",
+          "label": "user-service"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L6-01-iface-preservation",
+          "targetNodeId": "sym-P46-L6-01-user-service",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-01-iface-preservation",
+          "targetNodeId": "sym-P46-L6-01-user",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-01-state-coordination",
+          "targetNodeId": "sym-P46-L6-01-user-service",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-01-state-coordination",
+          "targetNodeId": "sym-P46-L6-01-user",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "ca081d26784925fcbc514a4984b6176971517feeff0a67fdaf952db4e552d881"
+    },
+    {
+      "graphId": "cgraph-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L6-02-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-02-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L6-02-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-02-state-coordination"
+        },
+        {
+          "nodeId": "P46-L6-02-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-02-S1"
+        },
+        {
+          "nodeId": "P46-L6-02-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-02-S2"
+        },
+        {
+          "nodeId": "sym-P46-L6-02-config",
+          "nodeType": "SYMBOL",
+          "label": "config"
+        },
+        {
+          "nodeId": "sym-P46-L6-02-defaults",
+          "nodeType": "SYMBOL",
+          "label": "defaults"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L6-02-iface-preservation",
+          "targetNodeId": "sym-P46-L6-02-config",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-02-iface-preservation",
+          "targetNodeId": "sym-P46-L6-02-defaults",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-02-state-coordination",
+          "targetNodeId": "sym-P46-L6-02-config",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-02-state-coordination",
+          "targetNodeId": "sym-P46-L6-02-defaults",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "f2c750ba1a8888fe8a46f5b3aa75157111214ba8327e8fc34a48a16e03cfdd79"
+    },
+    {
+      "graphId": "cgraph-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L6-03-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-03-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L6-03-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-03-state-coordination"
+        },
+        {
+          "nodeId": "P46-L6-03-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-03-S1"
+        },
+        {
+          "nodeId": "P46-L6-03-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-03-S2"
+        },
+        {
+          "nodeId": "sym-P46-L6-03-json",
+          "nodeType": "SYMBOL",
+          "label": "json"
+        },
+        {
+          "nodeId": "sym-P46-L6-03-logger",
+          "nodeType": "SYMBOL",
+          "label": "logger"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L6-03-iface-preservation",
+          "targetNodeId": "sym-P46-L6-03-json",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-03-iface-preservation",
+          "targetNodeId": "sym-P46-L6-03-logger",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-03-state-coordination",
+          "targetNodeId": "sym-P46-L6-03-json",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-03-state-coordination",
+          "targetNodeId": "sym-P46-L6-03-logger",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "4b16ed74d089c68d80a19d2a2d101c592dc6ce4668409bf9d1a5832da13f3dde"
+    },
+    {
+      "graphId": "cgraph-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L6-04-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-04-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L6-04-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-04-state-coordination"
+        },
+        {
+          "nodeId": "P46-L6-04-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-04-S1"
+        },
+        {
+          "nodeId": "P46-L6-04-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-04-S2"
+        },
+        {
+          "nodeId": "sym-P46-L6-04-client",
+          "nodeType": "SYMBOL",
+          "label": "client"
+        },
+        {
+          "nodeId": "sym-P46-L6-04-request",
+          "nodeType": "SYMBOL",
+          "label": "request"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L6-04-iface-preservation",
+          "targetNodeId": "sym-P46-L6-04-client",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-04-iface-preservation",
+          "targetNodeId": "sym-P46-L6-04-request",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-04-state-coordination",
+          "targetNodeId": "sym-P46-L6-04-client",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-04-state-coordination",
+          "targetNodeId": "sym-P46-L6-04-request",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "756d0c7df5458d2901ff7c1686a016ddacb89bbf12ca0e2852b1399eb63a2372"
+    },
+    {
+      "graphId": "cgraph-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L6-05-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-05-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L6-05-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L6-05-state-coordination"
+        },
+        {
+          "nodeId": "P46-L6-05-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-05-S1"
+        },
+        {
+          "nodeId": "P46-L6-05-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L6-05-S2"
+        },
+        {
+          "nodeId": "sym-P46-L6-05-job",
+          "nodeType": "SYMBOL",
+          "label": "job"
+        },
+        {
+          "nodeId": "sym-P46-L6-05-queue",
+          "nodeType": "SYMBOL",
+          "label": "queue"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "ginv-P46-L6-05-iface-preservation",
+          "targetNodeId": "sym-P46-L6-05-job",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-05-iface-preservation",
+          "targetNodeId": "sym-P46-L6-05-queue",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-05-state-coordination",
+          "targetNodeId": "sym-P46-L6-05-job",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L6-05-state-coordination",
+          "targetNodeId": "sym-P46-L6-05-queue",
+          "edgeType": "SHARES_INTERFACE"
+        }
+      ],
+      "graphHash": "d82b82dd138e2c39b367d479af1a33aa70628ba39dd9017fb234f69bdbb33f31"
+    },
+    {
+      "graphId": "cgraph-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L7-01-emergent-behavior",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-01-emergent-behavior"
+        },
+        {
+          "nodeId": "ginv-P46-L7-01-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-01-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L7-01-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-01-state-coordination"
+        },
+        {
+          "nodeId": "P46-L7-01-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-01-S1"
+        },
+        {
+          "nodeId": "P46-L7-01-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-01-S2"
+        },
+        {
+          "nodeId": "P46-L7-01-S3",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-01-S3"
+        },
+        {
+          "nodeId": "sym-P46-L7-01-calc",
+          "nodeType": "SYMBOL",
+          "label": "calc"
+        },
+        {
+          "nodeId": "sym-P46-L7-01-parser",
+          "nodeType": "SYMBOL",
+          "label": "parser"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "conflict-P46-L7-01-precedence-dataflow",
+          "targetNodeId": "sym-P46-L7-01-evaluate",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-01-precedence-dataflow",
+          "targetNodeId": "sym-P46-L7-01-parse",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-01-precedence-dataflow",
+          "targetNodeId": "sym-P46-L7-01-tokenize",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-01-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-01-calc",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-01-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-01-parser",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-01-iface-preservation",
+          "targetNodeId": "sym-P46-L7-01-calc",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-01-iface-preservation",
+          "targetNodeId": "sym-P46-L7-01-parser",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-01-state-coordination",
+          "targetNodeId": "sym-P46-L7-01-calc",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-01-state-coordination",
+          "targetNodeId": "sym-P46-L7-01-parser",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "P46-L7-01-S1",
+          "targetNodeId": "conflict-P46-L7-01-precedence-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-01-S3",
+          "targetNodeId": "conflict-P46-L7-01-precedence-dataflow",
+          "edgeType": "CONTRADICTS"
+        }
+      ],
+      "graphHash": "6b1bd8ccef9d0c4731fedd82ffd7c56e9e4f6b4e23ca66dfe570091956d3de84"
+    },
+    {
+      "graphId": "cgraph-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L7-02-emergent-behavior",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-02-emergent-behavior"
+        },
+        {
+          "nodeId": "ginv-P46-L7-02-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-02-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L7-02-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-02-state-coordination"
+        },
+        {
+          "nodeId": "P46-L7-02-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-02-S1"
+        },
+        {
+          "nodeId": "P46-L7-02-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-02-S2"
+        },
+        {
+          "nodeId": "P46-L7-02-S3",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-02-S3"
+        },
+        {
+          "nodeId": "sym-P46-L7-02-cors",
+          "nodeType": "SYMBOL",
+          "label": "cors"
+        },
+        {
+          "nodeId": "sym-P46-L7-02-header-validator",
+          "nodeType": "SYMBOL",
+          "label": "header-validator"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "conflict-P46-L7-02-cors-dataflow",
+          "targetNodeId": "sym-P46-L7-02-compileOriginRegex",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-02-cors-dataflow",
+          "targetNodeId": "sym-P46-L7-02-corsMiddleware",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-02-cors-dataflow",
+          "targetNodeId": "sym-P46-L7-02-validateOrigin",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-02-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-02-cors",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-02-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-02-header-validator",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-02-iface-preservation",
+          "targetNodeId": "sym-P46-L7-02-cors",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-02-iface-preservation",
+          "targetNodeId": "sym-P46-L7-02-header-validator",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-02-state-coordination",
+          "targetNodeId": "sym-P46-L7-02-cors",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-02-state-coordination",
+          "targetNodeId": "sym-P46-L7-02-header-validator",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "P46-L7-02-S1",
+          "targetNodeId": "conflict-P46-L7-02-cors-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-02-S2",
+          "targetNodeId": "conflict-P46-L7-02-cors-dataflow",
+          "edgeType": "CONTRADICTS"
+        }
+      ],
+      "graphHash": "e2cf66e31b144ba73b90625f0a942b33d02f26605d6f457ef679d0ae21ad8edc"
+    },
+    {
+      "graphId": "cgraph-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L7-03-emergent-behavior",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-03-emergent-behavior"
+        },
+        {
+          "nodeId": "ginv-P46-L7-03-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-03-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L7-03-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-03-state-coordination"
+        },
+        {
+          "nodeId": "P46-L7-03-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-03-S1"
+        },
+        {
+          "nodeId": "P46-L7-03-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-03-S2"
+        },
+        {
+          "nodeId": "P46-L7-03-S3",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-03-S3"
+        },
+        {
+          "nodeId": "sym-P46-L7-03-comparator",
+          "nodeType": "SYMBOL",
+          "label": "comparator"
+        },
+        {
+          "nodeId": "sym-P46-L7-03-semver",
+          "nodeType": "SYMBOL",
+          "label": "semver"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "conflict-P46-L7-03-cross-module-dataflow",
+          "targetNodeId": "sym-P46-L7-03-comparator",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-03-cross-module-dataflow",
+          "targetNodeId": "sym-P46-L7-03-semver",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-03-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-03-comparator",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-03-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-03-semver",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-03-iface-preservation",
+          "targetNodeId": "sym-P46-L7-03-comparator",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-03-iface-preservation",
+          "targetNodeId": "sym-P46-L7-03-semver",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-03-state-coordination",
+          "targetNodeId": "sym-P46-L7-03-comparator",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-03-state-coordination",
+          "targetNodeId": "sym-P46-L7-03-semver",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "P46-L7-03-S1",
+          "targetNodeId": "conflict-P46-L7-03-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-03-S2",
+          "targetNodeId": "conflict-P46-L7-03-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-03-S3",
+          "targetNodeId": "conflict-P46-L7-03-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        }
+      ],
+      "graphHash": "e490dbd1349d62d59064859b23ced0016ba9dd9b14b5052b4e814299b6f5c155"
+    },
+    {
+      "graphId": "cgraph-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L7-04-emergent-behavior",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-04-emergent-behavior"
+        },
+        {
+          "nodeId": "ginv-P46-L7-04-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-04-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L7-04-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-04-state-coordination"
+        },
+        {
+          "nodeId": "P46-L7-04-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-04-S1"
+        },
+        {
+          "nodeId": "P46-L7-04-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-04-S2"
+        },
+        {
+          "nodeId": "P46-L7-04-S3",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-04-S3"
+        },
+        {
+          "nodeId": "sym-P46-L7-04-deep-set",
+          "nodeType": "SYMBOL",
+          "label": "deep-set"
+        },
+        {
+          "nodeId": "sym-P46-L7-04-path-resolver",
+          "nodeType": "SYMBOL",
+          "label": "path-resolver"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "conflict-P46-L7-04-cross-module-dataflow",
+          "targetNodeId": "sym-P46-L7-04-deep-set",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-04-cross-module-dataflow",
+          "targetNodeId": "sym-P46-L7-04-path-resolver",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-04-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-04-deep-set",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-04-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-04-path-resolver",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-04-iface-preservation",
+          "targetNodeId": "sym-P46-L7-04-deep-set",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-04-iface-preservation",
+          "targetNodeId": "sym-P46-L7-04-path-resolver",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-04-state-coordination",
+          "targetNodeId": "sym-P46-L7-04-deep-set",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-04-state-coordination",
+          "targetNodeId": "sym-P46-L7-04-path-resolver",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "P46-L7-04-S1",
+          "targetNodeId": "conflict-P46-L7-04-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-04-S2",
+          "targetNodeId": "conflict-P46-L7-04-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-04-S3",
+          "targetNodeId": "conflict-P46-L7-04-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        }
+      ],
+      "graphHash": "e5dd4a670ce327c6241aad4d125126b99b8bd270febd79d7c20d889e8c69047c"
+    },
+    {
+      "graphId": "cgraph-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "nodes": [
+        {
+          "nodeId": "ginv-P46-L7-05-emergent-behavior",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-05-emergent-behavior"
+        },
+        {
+          "nodeId": "ginv-P46-L7-05-iface-preservation",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-05-iface-preservation"
+        },
+        {
+          "nodeId": "ginv-P46-L7-05-state-coordination",
+          "nodeType": "INVARIANT",
+          "label": "ginv-P46-L7-05-state-coordination"
+        },
+        {
+          "nodeId": "P46-L7-05-S1",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-05-S1"
+        },
+        {
+          "nodeId": "P46-L7-05-S2",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-05-S2"
+        },
+        {
+          "nodeId": "P46-L7-05-S3",
+          "nodeType": "SUBTASK",
+          "label": "Subtask P46-L7-05-S3"
+        },
+        {
+          "nodeId": "sym-P46-L7-05-user",
+          "nodeType": "SYMBOL",
+          "label": "user"
+        },
+        {
+          "nodeId": "sym-P46-L7-05-user-route",
+          "nodeType": "SYMBOL",
+          "label": "user-route"
+        },
+        {
+          "nodeId": "sym-P46-L7-05-user-service",
+          "nodeType": "SYMBOL",
+          "label": "user-service"
+        }
+      ],
+      "edges": [
+        {
+          "sourceNodeId": "conflict-P46-L7-05-cross-module-dataflow",
+          "targetNodeId": "sym-P46-L7-05-user-route",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-05-cross-module-dataflow",
+          "targetNodeId": "sym-P46-L7-05-user-service",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "conflict-P46-L7-05-cross-module-dataflow",
+          "targetNodeId": "sym-P46-L7-05-user",
+          "edgeType": "AFFECTS_BEHAVIOR"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-05-user-route",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-05-user-service",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-emergent-behavior",
+          "targetNodeId": "sym-P46-L7-05-user",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-iface-preservation",
+          "targetNodeId": "sym-P46-L7-05-user-route",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-iface-preservation",
+          "targetNodeId": "sym-P46-L7-05-user-service",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-iface-preservation",
+          "targetNodeId": "sym-P46-L7-05-user",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-state-coordination",
+          "targetNodeId": "sym-P46-L7-05-user-route",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-state-coordination",
+          "targetNodeId": "sym-P46-L7-05-user-service",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "ginv-P46-L7-05-state-coordination",
+          "targetNodeId": "sym-P46-L7-05-user",
+          "edgeType": "SHARES_INTERFACE"
+        },
+        {
+          "sourceNodeId": "P46-L7-05-S1",
+          "targetNodeId": "conflict-P46-L7-05-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-05-S2",
+          "targetNodeId": "conflict-P46-L7-05-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        },
+        {
+          "sourceNodeId": "P46-L7-05-S3",
+          "targetNodeId": "conflict-P46-L7-05-cross-module-dataflow",
+          "edgeType": "CONTRADICTS"
+        }
+      ],
+      "graphHash": "7d372228c29d54d0bae1e822063c32b853301b95cdd4bd049bc52825f6afd35a"
+    }
+  ]
+}

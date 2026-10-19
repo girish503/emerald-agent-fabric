@@ -1,0 +1,361 @@
+{
+  "phase": "53",
+  "symbolicAnalyses": [
+    {
+      "analysisId": "sanalysis-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "823ad3f661586ed243b04d832467a06064b54c64181b284968c0bd50aa22a61c"
+    },
+    {
+      "analysisId": "sanalysis-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "ca2a287209f60ed46816e803352b5a309e46f77ed861839171ab55b42742963c"
+    },
+    {
+      "analysisId": "sanalysis-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "26f87148fd26d8594d410a23161e672e52c2e78bdadbf3f8ba99ec216d225a31"
+    },
+    {
+      "analysisId": "sanalysis-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "2c648d8d2df622af4917865333d0294343c40615b2f7394155224b9c2dd7dd39"
+    },
+    {
+      "analysisId": "sanalysis-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "f961c03b346e294571d1c9619ad239aa31e667965f4c7f1d7ecb861e047ffb57"
+    },
+    {
+      "analysisId": "sanalysis-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "91f325da5977cd2f59c4eed1029c9bccdd36d7709b73da4d5a981ecadfd4997a"
+    },
+    {
+      "analysisId": "sanalysis-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "2a3c1e1e076d5677535a4d86b4bd7e7d36c14c0e1a16f72f8b4d34ba44a862db"
+    },
+    {
+      "analysisId": "sanalysis-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "96bcf0112ddde07153ced370c10b66196219a3aa431159aacb5549489fd3501c"
+    },
+    {
+      "analysisId": "sanalysis-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "189a7c6e4b8f62d50b12a3eb5723e4ab993040e774a2181fda895ebb6545b453"
+    },
+    {
+      "analysisId": "sanalysis-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [],
+      "diagnostics": [],
+      "budgetExhausted": false,
+      "contentHash": "168fb22f56592e1904d2ffaf384ee77ce3ff896c83bdbd83783584e9f188dbca"
+    },
+    {
+      "analysisId": "sanalysis-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [
+        {
+          "conflictId": "sconf-P46-L7-01-precedence",
+          "taskId": "P46-L7-01",
+          "subtasks": [
+            "P46-L7-01-S1",
+            "P46-L7-01-S3"
+          ],
+          "symbols": [
+            "parse",
+            "evaluate"
+          ],
+          "conflictType": "BEHAVIORAL_CONFLICT",
+          "invariant": "Multiplication and exponentiation operator precedence strictly preserved",
+          "evidence": [
+            "Symbolic input '-2**2' evaluated: observed 'UnaryMinusExpression(base=PowerExpression(2, 2)) -> parsed as (-2)**2 without explicit parentheses'",
+            "Required binding power hierarchy: 'Unary minus binding power (3) < Exponentiation binding power (4) right-associative'"
+          ],
+          "severity": "CRITICAL",
+          "deterministicHash": "f77cebead9a09bd842a8e410fb1773d14034fc17db5a4f1e0900fb9bdb1d76a6"
+        }
+      ],
+      "diagnostics": [
+        {
+          "diagnosticId": "sdiag-P46-L7-01-precedence",
+          "taskId": "P46-L7-01",
+          "producer": "Parser.parseExpression()",
+          "consumer": "Evaluator.evaluate()",
+          "invariant": "Operator precedence must be preserved across compound expressions.",
+          "observed": "UnaryMinusExpression(base=PowerExpression(2, 2)) -> parsed as (-2)**2 without explicit parentheses",
+          "required": "Unary minus binding power (3) < Exponentiation binding power (4) right-associative",
+          "affectedSubtasks": [
+            "P46-L7-01-S1",
+            "P46-L7-01-S3"
+          ],
+          "requiredRepairScope": "src/parser.js expression grammar Pratt binding powers",
+          "evidence": [
+            "Symbolic input '-2**2' evaluated: observed 'UnaryMinusExpression(base=PowerExpression(2, 2)) -> parsed as (-2)**2 without explicit parentheses'",
+            "Required binding power hierarchy: 'Unary minus binding power (3) < Exponentiation binding power (4) right-associative'"
+          ],
+          "contentHash": "bb7fb4723454c2a3057d9b810031f6f5d9d0703550284c724fe30a2105f366c2"
+        }
+      ],
+      "budgetExhausted": false,
+      "contentHash": "bac1e17d4fba49fe2b6518be5de6c8382b7a1eb972c3cd4639ecf118abc77b1d"
+    },
+    {
+      "analysisId": "sanalysis-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [
+        {
+          "conflictId": "sconf-P46-L7-02-cors-regex",
+          "taskId": "P46-L7-02",
+          "subtasks": [
+            "P46-L7-02-S1",
+            "P46-L7-02-S2"
+          ],
+          "symbols": [
+            "compileOriginRegex",
+            "corsMiddleware"
+          ],
+          "conflictType": "BEHAVIORAL_CONFLICT",
+          "invariant": "CORS regex must support wildcard subdomains with port specifications",
+          "evidence": [
+            "Symbolic input 'http://sub.domain.com:3000' failed wildcard match due to unhandled port specification",
+            "Response header Access-Control-Allow-Origin requires reflection of matching request origin"
+          ],
+          "severity": "CRITICAL",
+          "deterministicHash": "377563b3b712ff2a8a930d27ceee75476a610a0a80b9fd8a3f6fd47e3836280a"
+        }
+      ],
+      "diagnostics": [
+        {
+          "diagnosticId": "sdiag-P46-L7-02-cors-regex",
+          "taskId": "P46-L7-02",
+          "producer": "compileOriginRegex()",
+          "consumer": "corsMiddleware()",
+          "invariant": "Origin validation must reflect exact request origin and handle port specifications.",
+          "observed": "Wildcard regex fails on origins with explicit port numbers",
+          "required": "Regex must capture protocol, wildcard subdomain, and optional port (:([0-9]+))?",
+          "affectedSubtasks": [
+            "P46-L7-02-S1",
+            "P46-L7-02-S2"
+          ],
+          "requiredRepairScope": "src/cors.js regex compile and origin reflection logic",
+          "evidence": [
+            "Symbolic input 'http://sub.domain.com:3000' failed wildcard match due to unhandled port specification",
+            "Response header Access-Control-Allow-Origin requires reflection of matching request origin"
+          ],
+          "contentHash": "59ad8ebd4348586fc1b2054b5e08012fea964edf7b8eb59dfe35f1fc46bb5b4f"
+        }
+      ],
+      "budgetExhausted": false,
+      "contentHash": "4ad61f6a8bca52de4535022ea7d1ea91bb0c22bab511792933bde48139d8960f"
+    },
+    {
+      "analysisId": "sanalysis-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [
+        {
+          "conflictId": "sconf-P46-L7-03-emergent-symbolic",
+          "taskId": "P46-L7-03",
+          "subtasks": [
+            "P46-L7-03-S1",
+            "P46-L7-03-S2",
+            "P46-L7-03-S3"
+          ],
+          "symbols": [
+            "comparator",
+            "semver"
+          ],
+          "conflictType": "BEHAVIORAL_CONFLICT",
+          "invariant": "Whole-program emergent behavior matches gold specification",
+          "evidence": [
+            "Symbolic trace across subtasks P46-L7-03-S1, P46-L7-03-S2, P46-L7-03-S3 revealed uncoordinated cross-file dataflow assumptions"
+          ],
+          "severity": "HIGH",
+          "deterministicHash": "d942be39731e76ea967eec4c4907906c20270ff1488f6e3d5fe1c3b1cfd4cba3"
+        }
+      ],
+      "diagnostics": [
+        {
+          "diagnosticId": "sdiag-P46-L7-03-emergent",
+          "taskId": "P46-L7-03",
+          "producer": "Decomposed Subtask Pipeline",
+          "consumer": "Composed Repository Environment",
+          "invariant": "Whole-program emergent behavior matches repository clean-room assertions.",
+          "observed": "Subtasks pass locally on isolated mocks but fail composed emergent invariants",
+          "required": "Composed system must coordinate state and interface protocols atomically",
+          "affectedSubtasks": [
+            "P46-L7-03-S1",
+            "P46-L7-03-S2",
+            "P46-L7-03-S3"
+          ],
+          "requiredRepairScope": "Cross-file coordinator and shared state synchronization",
+          "evidence": [
+            "Symbolic trace across subtasks P46-L7-03-S1, P46-L7-03-S2, P46-L7-03-S3 revealed uncoordinated cross-file dataflow assumptions"
+          ],
+          "contentHash": "9d181fb7c901e431a0341d8882844f465d5426a644c2c1e0221e13d972274f23"
+        }
+      ],
+      "budgetExhausted": false,
+      "contentHash": "063ba46fdb804e3b38af833d6b6233acc3f4316e086854b0cdb3e7c2f85c45d6"
+    },
+    {
+      "analysisId": "sanalysis-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [
+        {
+          "conflictId": "sconf-P46-L7-04-emergent-symbolic",
+          "taskId": "P46-L7-04",
+          "subtasks": [
+            "P46-L7-04-S1",
+            "P46-L7-04-S2",
+            "P46-L7-04-S3"
+          ],
+          "symbols": [
+            "deep-set",
+            "path-resolver"
+          ],
+          "conflictType": "BEHAVIORAL_CONFLICT",
+          "invariant": "Whole-program emergent behavior matches gold specification",
+          "evidence": [
+            "Symbolic trace across subtasks P46-L7-04-S1, P46-L7-04-S2, P46-L7-04-S3 revealed uncoordinated cross-file dataflow assumptions"
+          ],
+          "severity": "HIGH",
+          "deterministicHash": "3543cbad21debf09a4482b9d3e9781b7ecc15233d535f5bb065602d87b68b841"
+        }
+      ],
+      "diagnostics": [
+        {
+          "diagnosticId": "sdiag-P46-L7-04-emergent",
+          "taskId": "P46-L7-04",
+          "producer": "Decomposed Subtask Pipeline",
+          "consumer": "Composed Repository Environment",
+          "invariant": "Whole-program emergent behavior matches repository clean-room assertions.",
+          "observed": "Subtasks pass locally on isolated mocks but fail composed emergent invariants",
+          "required": "Composed system must coordinate state and interface protocols atomically",
+          "affectedSubtasks": [
+            "P46-L7-04-S1",
+            "P46-L7-04-S2",
+            "P46-L7-04-S3"
+          ],
+          "requiredRepairScope": "Cross-file coordinator and shared state synchronization",
+          "evidence": [
+            "Symbolic trace across subtasks P46-L7-04-S1, P46-L7-04-S2, P46-L7-04-S3 revealed uncoordinated cross-file dataflow assumptions"
+          ],
+          "contentHash": "3f56db0a9ad31e523159648c2782543a42aeaf2d1aad5af1ef6449a6106320db"
+        }
+      ],
+      "budgetExhausted": false,
+      "contentHash": "f18372de09e3bfb4c7bc90de0b5ec7010eae315d101091ffdfe41dbae4d5a345"
+    },
+    {
+      "analysisId": "sanalysis-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "pathsExplored": 8,
+      "stepsExecuted": 32,
+      "behavioralConflictsDetected": [
+        {
+          "conflictId": "sconf-P46-L7-05-emergent-symbolic",
+          "taskId": "P46-L7-05",
+          "subtasks": [
+            "P46-L7-05-S1",
+            "P46-L7-05-S2",
+            "P46-L7-05-S3"
+          ],
+          "symbols": [
+            "user",
+            "user-route",
+            "user-service"
+          ],
+          "conflictType": "BEHAVIORAL_CONFLICT",
+          "invariant": "Whole-program emergent behavior matches gold specification",
+          "evidence": [
+            "Symbolic trace across subtasks P46-L7-05-S1, P46-L7-05-S2, P46-L7-05-S3 revealed uncoordinated cross-file dataflow assumptions"
+          ],
+          "severity": "HIGH",
+          "deterministicHash": "38cc8d4b0914e3b453fe5510f0c865592e795fc681d3c6cbc9607df412646cbb"
+        }
+      ],
+      "diagnostics": [
+        {
+          "diagnosticId": "sdiag-P46-L7-05-emergent",
+          "taskId": "P46-L7-05",
+          "producer": "Decomposed Subtask Pipeline",
+          "consumer": "Composed Repository Environment",
+          "invariant": "Whole-program emergent behavior matches repository clean-room assertions.",
+          "observed": "Subtasks pass locally on isolated mocks but fail composed emergent invariants",
+          "required": "Composed system must coordinate state and interface protocols atomically",
+          "affectedSubtasks": [
+            "P46-L7-05-S1",
+            "P46-L7-05-S2",
+            "P46-L7-05-S3"
+          ],
+          "requiredRepairScope": "Cross-file coordinator and shared state synchronization",
+          "evidence": [
+            "Symbolic trace across subtasks P46-L7-05-S1, P46-L7-05-S2, P46-L7-05-S3 revealed uncoordinated cross-file dataflow assumptions"
+          ],
+          "contentHash": "e56c6be317f8b1179992952fa85352f39e829b5df3631d4de0b7787a3ccbabe1"
+        }
+      ],
+      "budgetExhausted": false,
+      "contentHash": "695ecb7e70b8a72737cf8faab1d6e1370f619e537b8603094b4920586909bcba"
+    }
+  ]
+}

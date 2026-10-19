@@ -1,0 +1,1145 @@
+{
+  "phase": "53",
+  "taskInvariants": [
+    {
+      "taskId": "P46-L5-01",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L5-01-iface-preservation",
+          "taskId": "P46-L5-01",
+          "sourceContracts": [
+            "contract-P46-L5-01-interface"
+          ],
+          "symbols": [
+            "semver"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-01"
+          ],
+          "contentHash": "9f464566500cddeb73ebf6b05a02cbfa9249d0d962ffa901e6237ab249fe2b78"
+        },
+        {
+          "invariantId": "ginv-P46-L5-01-state-coordination",
+          "taskId": "P46-L5-01",
+          "sourceContracts": [
+            "contract-P46-L5-01-state"
+          ],
+          "symbols": [
+            "semver"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-01"
+          ],
+          "contentHash": "b6104f31e2e8d2250f2906997fb28474eb2b864557ac25ec06e458b6cb9f432e"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-02",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L5-02-iface-preservation",
+          "taskId": "P46-L5-02",
+          "sourceContracts": [
+            "contract-P46-L5-02-interface"
+          ],
+          "symbols": [
+            "deep-set"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-02"
+          ],
+          "contentHash": "d07f38873e16cb26b750b4b7620729599cd5430dcea18ea246393cf0e6037e72"
+        },
+        {
+          "invariantId": "ginv-P46-L5-02-state-coordination",
+          "taskId": "P46-L5-02",
+          "sourceContracts": [
+            "contract-P46-L5-02-state"
+          ],
+          "symbols": [
+            "deep-set"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-02"
+          ],
+          "contentHash": "1e5a27e4cf84a6da5305a617b9e7bbcb64dd6151ca46b28b46341227088f62cb"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-03",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L5-03-iface-preservation",
+          "taskId": "P46-L5-03",
+          "sourceContracts": [
+            "contract-P46-L5-03-interface"
+          ],
+          "symbols": [
+            "emitter"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-03"
+          ],
+          "contentHash": "3bdfbd26f9ac875d6e9f3825e909869e79f917f8291c896929e99e182aba86be"
+        },
+        {
+          "invariantId": "ginv-P46-L5-03-state-coordination",
+          "taskId": "P46-L5-03",
+          "sourceContracts": [
+            "contract-P46-L5-03-state"
+          ],
+          "symbols": [
+            "emitter"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-03"
+          ],
+          "contentHash": "b6eb68de4f54f21aa7455a77572a20918520fd819f049358f12977a5639c6e2b"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-04",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L5-04-iface-preservation",
+          "taskId": "P46-L5-04",
+          "sourceContracts": [
+            "contract-P46-L5-04-interface"
+          ],
+          "symbols": [
+            "scanner"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-04"
+          ],
+          "contentHash": "66ff737a6891ba3ad9097c6dcbf74c8de528c2ba9694738f5282db508fcd57b7"
+        },
+        {
+          "invariantId": "ginv-P46-L5-04-state-coordination",
+          "taskId": "P46-L5-04",
+          "sourceContracts": [
+            "contract-P46-L5-04-state"
+          ],
+          "symbols": [
+            "scanner"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-04"
+          ],
+          "contentHash": "011fd0107dd045d41d0528e0a97adc9e9d56ee2d94806e1c463a8bc4a3a74e2d"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-05",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L5-05-iface-preservation",
+          "taskId": "P46-L5-05",
+          "sourceContracts": [
+            "contract-P46-L5-05-interface"
+          ],
+          "symbols": [
+            "kv-store"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-05"
+          ],
+          "contentHash": "7609b6f91431ab34df43cfec47cc4f20ddaf9c5c3edb17053db05f456fc97095"
+        },
+        {
+          "invariantId": "ginv-P46-L5-05-state-coordination",
+          "taskId": "P46-L5-05",
+          "sourceContracts": [
+            "contract-P46-L5-05-state"
+          ],
+          "symbols": [
+            "kv-store"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L5-05"
+          ],
+          "contentHash": "b60e0d20aa319b0ba0f67178c9c2ed49f299c1994938cef68b3b415e12e22afb"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-01",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L6-01-iface-preservation",
+          "taskId": "P46-L6-01",
+          "sourceContracts": [
+            "contract-P46-L6-01-interface"
+          ],
+          "symbols": [
+            "user",
+            "user-service"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/services/user-service.js -> src/models/user.js via IMPORT",
+            "Dataflow src/services/user-service.js -> src/models/user.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-01"
+          ],
+          "contentHash": "891b94f3052c874847a29886687c2974d1db0e0cd60703549699bbd1a43205d8"
+        },
+        {
+          "invariantId": "ginv-P46-L6-01-state-coordination",
+          "taskId": "P46-L6-01",
+          "sourceContracts": [
+            "contract-P46-L6-01-state",
+            "contract-P46-L6-01-cross-module"
+          ],
+          "symbols": [
+            "user",
+            "user-service"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-01"
+          ],
+          "contentHash": "918c694385224565e7e83a045ba7d9e9779cdbaff25515e81d8336cb01633163"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-02",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L6-02-iface-preservation",
+          "taskId": "P46-L6-02",
+          "sourceContracts": [
+            "contract-P46-L6-02-interface"
+          ],
+          "symbols": [
+            "config",
+            "defaults"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/defaults.js -> src/config.js via IMPORT",
+            "Dataflow src/defaults.js -> src/config.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-02"
+          ],
+          "contentHash": "944a8a4a77e2843def5a37066fad9e219920509d60c049441610d127f386e2ec"
+        },
+        {
+          "invariantId": "ginv-P46-L6-02-state-coordination",
+          "taskId": "P46-L6-02",
+          "sourceContracts": [
+            "contract-P46-L6-02-state",
+            "contract-P46-L6-02-cross-module"
+          ],
+          "symbols": [
+            "config",
+            "defaults"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-02"
+          ],
+          "contentHash": "63261f8b35b4017f4a4acab258ac80473165ba81369b6b26c36c57a2249ed975"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-03",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L6-03-iface-preservation",
+          "taskId": "P46-L6-03",
+          "sourceContracts": [
+            "contract-P46-L6-03-interface"
+          ],
+          "symbols": [
+            "json",
+            "logger"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/logger.js -> src/formatters/json.js via IMPORT",
+            "Dataflow src/logger.js -> src/formatters/json.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-03"
+          ],
+          "contentHash": "04caebf01fa985c2a8389434e406df3b08147ce496dd368437f3bc94bcf3162e"
+        },
+        {
+          "invariantId": "ginv-P46-L6-03-state-coordination",
+          "taskId": "P46-L6-03",
+          "sourceContracts": [
+            "contract-P46-L6-03-state",
+            "contract-P46-L6-03-cross-module"
+          ],
+          "symbols": [
+            "json",
+            "logger"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-03"
+          ],
+          "contentHash": "6c3174f4203779830eccc7db4e94175df62c3f389560161c4db6a16e5f24a2bf"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-04",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L6-04-iface-preservation",
+          "taskId": "P46-L6-04",
+          "sourceContracts": [
+            "contract-P46-L6-04-interface"
+          ],
+          "symbols": [
+            "client",
+            "request"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/client.js -> src/request.js via IMPORT",
+            "Dataflow src/client.js -> src/request.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-04"
+          ],
+          "contentHash": "001103733817f99f12b412c8525e6d4304cfcf7ffb6fce2003b37ca68965a365"
+        },
+        {
+          "invariantId": "ginv-P46-L6-04-state-coordination",
+          "taskId": "P46-L6-04",
+          "sourceContracts": [
+            "contract-P46-L6-04-state",
+            "contract-P46-L6-04-cross-module"
+          ],
+          "symbols": [
+            "client",
+            "request"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-04"
+          ],
+          "contentHash": "beed793e61b16ca3ebdc3b3f8f16f1bbe6e1b49643837e2e35ce3dbab7391a32"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-05",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L6-05-iface-preservation",
+          "taskId": "P46-L6-05",
+          "sourceContracts": [
+            "contract-P46-L6-05-interface"
+          ],
+          "symbols": [
+            "job",
+            "queue"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/queue.js -> src/job.js via IMPORT",
+            "Dataflow src/queue.js -> src/job.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-05"
+          ],
+          "contentHash": "a1173e731315222caaba2a0a3c9e7a9ea61379ba11f05fc14056418f1648ee6c"
+        },
+        {
+          "invariantId": "ginv-P46-L6-05-state-coordination",
+          "taskId": "P46-L6-05",
+          "sourceContracts": [
+            "contract-P46-L6-05-state",
+            "contract-P46-L6-05-cross-module"
+          ],
+          "symbols": [
+            "job",
+            "queue"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L6-05"
+          ],
+          "contentHash": "b42a0c4105e41bc6dfe195334123daad9929aa14024f41e9e3783bc8d728810e"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-01",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L7-01-iface-preservation",
+          "taskId": "P46-L7-01",
+          "sourceContracts": [
+            "contract-P46-L7-01-interface"
+          ],
+          "symbols": [
+            "calc",
+            "parser"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/parser.js -> src/calc.js via IMPORT",
+            "Dataflow src/parser.js -> src/calc.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-01"
+          ],
+          "contentHash": "c4c6a6b95cd02e153aa8d3934093a18b3f51c73919aa45c79fb71c68712594fd"
+        },
+        {
+          "invariantId": "ginv-P46-L7-01-state-coordination",
+          "taskId": "P46-L7-01",
+          "sourceContracts": [
+            "contract-P46-L7-01-state",
+            "contract-P46-L7-01-cross-module"
+          ],
+          "symbols": [
+            "calc",
+            "parser"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-01"
+          ],
+          "contentHash": "7c56c10b1bc9f397874edaad8e06b812d4ff3c26347cd7789273369563aad617"
+        },
+        {
+          "invariantId": "ginv-P46-L7-01-emergent-behavior",
+          "taskId": "P46-L7-01",
+          "sourceContracts": [
+            "contract-P46-L7-01-interface",
+            "contract-P46-L7-01-state",
+            "contract-P46-L7-01-cross-module"
+          ],
+          "symbols": [
+            "calc",
+            "parser"
+          ],
+          "preconditions": [
+            "Decomposed subtasks satisfy local unit contracts"
+          ],
+          "postconditions": [
+            "Operator precedence between unary minus and exponentiation strictly preserved in compound AST"
+          ],
+          "stateRelations": [
+            "Global compound parsing / middleware execution consistency"
+          ],
+          "dataFlowRelations": [
+            "End-to-end token stream and header flow verification"
+          ],
+          "behavioralProperties": [
+            "Whole-program emergent behavior matches gold specification"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-01"
+          ],
+          "contentHash": "515497636d43c3a619b9ac69a5880603b7d815b6b8590c8db0370df84745a900"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L7-02-iface-preservation",
+          "taskId": "P46-L7-02",
+          "sourceContracts": [
+            "contract-P46-L7-02-interface"
+          ],
+          "symbols": [
+            "cors",
+            "header-validator"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/header-validator.js -> src/cors.js via IMPORT",
+            "Dataflow src/header-validator.js -> src/cors.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-02"
+          ],
+          "contentHash": "9a819bd8b952b318a9addb8dabf8a0ac779528a19d6dd3c1a3138dddae81ccb7"
+        },
+        {
+          "invariantId": "ginv-P46-L7-02-state-coordination",
+          "taskId": "P46-L7-02",
+          "sourceContracts": [
+            "contract-P46-L7-02-state",
+            "contract-P46-L7-02-cross-module"
+          ],
+          "symbols": [
+            "cors",
+            "header-validator"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-02"
+          ],
+          "contentHash": "af8533f89eed45ba3eba19425710db434be9ca601297ad77ec9c5b7f95f90503"
+        },
+        {
+          "invariantId": "ginv-P46-L7-02-emergent-behavior",
+          "taskId": "P46-L7-02",
+          "sourceContracts": [
+            "contract-P46-L7-02-interface",
+            "contract-P46-L7-02-state",
+            "contract-P46-L7-02-cross-module"
+          ],
+          "symbols": [
+            "cors",
+            "header-validator"
+          ],
+          "preconditions": [
+            "Decomposed subtasks satisfy local unit contracts"
+          ],
+          "postconditions": [
+            "Origin validation matches wildcards and reflects exact request origin into Access-Control-Allow-Origin"
+          ],
+          "stateRelations": [
+            "Global compound parsing / middleware execution consistency"
+          ],
+          "dataFlowRelations": [
+            "End-to-end token stream and header flow verification"
+          ],
+          "behavioralProperties": [
+            "Whole-program emergent behavior matches gold specification"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-02"
+          ],
+          "contentHash": "403488bc118fd6d0769ea8aecc6d6851c01c6ac1c1689dcb29be669056d10a6b"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L7-03-iface-preservation",
+          "taskId": "P46-L7-03",
+          "sourceContracts": [
+            "contract-P46-L7-03-interface"
+          ],
+          "symbols": [
+            "comparator",
+            "semver"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/comparator.js -> src/semver.js via IMPORT",
+            "Dataflow src/comparator.js -> src/semver.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-03"
+          ],
+          "contentHash": "b5c2b953e40f7f5b6d0bd7fa582b6e9ab50508ee3011a6018177acee1af31a78"
+        },
+        {
+          "invariantId": "ginv-P46-L7-03-state-coordination",
+          "taskId": "P46-L7-03",
+          "sourceContracts": [
+            "contract-P46-L7-03-state",
+            "contract-P46-L7-03-cross-module"
+          ],
+          "symbols": [
+            "comparator",
+            "semver"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-03"
+          ],
+          "contentHash": "be2be7bc917096ae813dab817cb04e2a708383cf9fb6b454fd28b754d657e451"
+        },
+        {
+          "invariantId": "ginv-P46-L7-03-emergent-behavior",
+          "taskId": "P46-L7-03",
+          "sourceContracts": [
+            "contract-P46-L7-03-interface",
+            "contract-P46-L7-03-state",
+            "contract-P46-L7-03-cross-module"
+          ],
+          "symbols": [
+            "comparator",
+            "semver"
+          ],
+          "preconditions": [
+            "Decomposed subtasks satisfy local unit contracts"
+          ],
+          "postconditions": [
+            "Composed multi-module pipeline satisfies repository clean-room assertions"
+          ],
+          "stateRelations": [
+            "Global compound parsing / middleware execution consistency"
+          ],
+          "dataFlowRelations": [
+            "End-to-end token stream and header flow verification"
+          ],
+          "behavioralProperties": [
+            "Whole-program emergent behavior matches gold specification"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-03"
+          ],
+          "contentHash": "797d5e52a4da4b63d406dc82e3f27e141b5ef234135894cd54d56849b58d2aa4"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L7-04-iface-preservation",
+          "taskId": "P46-L7-04",
+          "sourceContracts": [
+            "contract-P46-L7-04-interface"
+          ],
+          "symbols": [
+            "deep-set",
+            "path-resolver"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/path-resolver.js -> src/deep-set.js via IMPORT",
+            "Dataflow src/path-resolver.js -> src/deep-set.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-04"
+          ],
+          "contentHash": "dfce07a19bc3f4969fd0773bcee31fcb44c1de48bb0790c7b9230b309155b723"
+        },
+        {
+          "invariantId": "ginv-P46-L7-04-state-coordination",
+          "taskId": "P46-L7-04",
+          "sourceContracts": [
+            "contract-P46-L7-04-state",
+            "contract-P46-L7-04-cross-module"
+          ],
+          "symbols": [
+            "deep-set",
+            "path-resolver"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-04"
+          ],
+          "contentHash": "410c6cfaa17c1fb11d400d4a97df018db4c431ae80434af25fde791fdb206e24"
+        },
+        {
+          "invariantId": "ginv-P46-L7-04-emergent-behavior",
+          "taskId": "P46-L7-04",
+          "sourceContracts": [
+            "contract-P46-L7-04-interface",
+            "contract-P46-L7-04-state",
+            "contract-P46-L7-04-cross-module"
+          ],
+          "symbols": [
+            "deep-set",
+            "path-resolver"
+          ],
+          "preconditions": [
+            "Decomposed subtasks satisfy local unit contracts"
+          ],
+          "postconditions": [
+            "Composed multi-module pipeline satisfies repository clean-room assertions"
+          ],
+          "stateRelations": [
+            "Global compound parsing / middleware execution consistency"
+          ],
+          "dataFlowRelations": [
+            "End-to-end token stream and header flow verification"
+          ],
+          "behavioralProperties": [
+            "Whole-program emergent behavior matches gold specification"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-04"
+          ],
+          "contentHash": "31f3ecf83b95474bec45952e6d08cc9f2623cc4c11950b67aaa057837b0136bb"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "invariants": [
+        {
+          "invariantId": "ginv-P46-L7-05-iface-preservation",
+          "taskId": "P46-L7-05",
+          "sourceContracts": [
+            "contract-P46-L7-05-interface"
+          ],
+          "symbols": [
+            "user",
+            "user-route",
+            "user-service"
+          ],
+          "preconditions": [
+            "All subtask public symbols exported with stable signatures"
+          ],
+          "postconditions": [
+            "Inter-module caller-callee bindings resolve identically"
+          ],
+          "stateRelations": [
+            "Immutable interface declarations across files"
+          ],
+          "dataFlowRelations": [
+            "Dataflow src/services/user-service.js -> src/models/user.js via IMPORT",
+            "Dataflow src/services/user-service.js -> src/models/user.js via CALL",
+            "Dataflow src/routes/user-route.js -> src/services/user-service.js via IMPORT",
+            "Dataflow src/routes/user-route.js -> src/services/user-service.js via CALL"
+          ],
+          "behavioralProperties": [
+            "Public API contract backward compatibility"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-05"
+          ],
+          "contentHash": "74e6b01137dc83e967882e43cf1d6d46e9636bab0f7a4b10dca4d4b02c38dd6c"
+        },
+        {
+          "invariantId": "ginv-P46-L7-05-state-coordination",
+          "taskId": "P46-L7-05",
+          "sourceContracts": [
+            "contract-P46-L7-05-state",
+            "contract-P46-L7-05-cross-module"
+          ],
+          "symbols": [
+            "user",
+            "user-route",
+            "user-service"
+          ],
+          "preconditions": [
+            "Clean initial working tree and memory state"
+          ],
+          "postconditions": [
+            "No uncoordinated asynchronous status transition or race condition"
+          ],
+          "stateRelations": [
+            "Atomic state transitions across composed modules"
+          ],
+          "dataFlowRelations": [
+            "Shared status flags and event subscriptions remain monotonic"
+          ],
+          "behavioralProperties": [
+            "Global lifecycle state consistency"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-05"
+          ],
+          "contentHash": "fa9cd8af7b64de4e4343e788910537526d2e9e187aa75fa5e5555ecacebca57a"
+        },
+        {
+          "invariantId": "ginv-P46-L7-05-emergent-behavior",
+          "taskId": "P46-L7-05",
+          "sourceContracts": [
+            "contract-P46-L7-05-interface",
+            "contract-P46-L7-05-state",
+            "contract-P46-L7-05-cross-module"
+          ],
+          "symbols": [
+            "user",
+            "user-route",
+            "user-service"
+          ],
+          "preconditions": [
+            "Decomposed subtasks satisfy local unit contracts"
+          ],
+          "postconditions": [
+            "Composed multi-module pipeline satisfies repository clean-room assertions"
+          ],
+          "stateRelations": [
+            "Global compound parsing / middleware execution consistency"
+          ],
+          "dataFlowRelations": [
+            "End-to-end token stream and header flow verification"
+          ],
+          "behavioralProperties": [
+            "Whole-program emergent behavior matches gold specification"
+          ],
+          "provenance": [
+            "slice:slice-P46-L7-05"
+          ],
+          "contentHash": "73919430e7dd9a061dae88f174936ee76413c9f984dd0dd4ae3317ba6a770a12"
+        }
+      ]
+    }
+  ]
+}
