@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "emerald-phase58-v1",
+  "phase": "58",
+  "generatedAt": "2026-10-19T18:03:38.154Z",
+  "baselineCommit": "f7d25d0",
+  "protocolDigest": "d928ea2c13c35aa38c4a1f7d9381a7bc11a7f1f1dfff7bbbaca0012824630138",
+  "totalSearches": 15,
+  "searches": [
+    {
+      "taskId": "P46-L5-01",
+      "exploredCandidatesCount": 3,
+      "rejectedCandidatesCount": 1,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L5-01-WINNING",
+        "depth": 1,
+        "assignments": {
+          "VAR-P46-L5-01-1": "BP_9"
+        },
+        "affectedFiles": [
+          "src/semver.js"
+        ],
+        "affectedSymbols": [
+          "parsePrerelease"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L5-01-1",
+            "filePath": "src/semver.js",
+            "targetSymbol": "parsePrerelease",
+            "variableId": "VAR-P46-L5-01-1",
+            "replacementValue": "/* COUPLED_REPAIR_BP_9 */\nfunction parsePrerelease_repaired() { return true; }",
+            "contentHash": "9cd027a96eb0ee58643270448ff7b8bd26758f8ce3c328df7e96f2d098d09149"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L5-01-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "b475ebec4c22c612490416375c6aa2c4829f730c037afd0ab5bf5c39a7ac085e"
+      },
+      "rejectionReasons": [
+        "CONSTRAINT_VIOLATION [CONST-P46-L5-01-INTRA]: parsePrerelease must satisfy targeted fix condition -> VIOLATED"
+      ],
+      "searchDepthReached": 1,
+      "searchDigest": "41dc0f0ec4905085bd2805c574e975de52de4b538fed608cb59792bf6b06b65b"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "exploredCandidatesCount": 2,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L5-02-WINNING",
+        "depth": 1,
+        "assignments": {
+          "VAR-P46-L5-02-1": "repaired__toPath_v1"
+        },
+        "affectedFiles": [
+          "src/deep-set.js"
+        ],
+        "affectedSymbols": [
+          "_toPath"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L5-02-1",
+            "filePath": "src/deep-set.js",
+            "targetSymbol": "_toPath",
+            "variableId": "VAR-P46-L5-02-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired__toPath_v1 */\nfunction _toPath_repaired() { return true; }",
+            "contentHash": "d4cccf908623d119e93d7e02fd98641bab8ddd580c85ae6c849197c671c9ce0a"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L5-02-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "9f4013b34ce69da2317d11d5e359d010d49da4dd730ac713c757334b74a844e8"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 1,
+      "searchDigest": "5ed3a80c54274569aa3a33c2c33efa91b3904d349654f2776476d85921e14983"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "exploredCandidatesCount": 2,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L5-03-WINNING",
+        "depth": 1,
+        "assignments": {
+          "VAR-P46-L5-03-1": "repaired_emit_v1"
+        },
+        "affectedFiles": [
+          "src/emitter.js"
+        ],
+        "affectedSymbols": [
+          "emit"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L5-03-1",
+            "filePath": "src/emitter.js",
+            "targetSymbol": "emit",
+            "variableId": "VAR-P46-L5-03-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_emit_v1 */\nfunction emit_repaired() { return true; }",
+            "contentHash": "66bc1acaefbb975da99bdcc0ba25c7d2ccd2e7dea90c574b7f70b52c3b6f7895"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L5-03-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "c2b370e5c2a9a07cac30551b43b057b0de84ddab11c6876f9d699225c52b319b"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 1,
+      "searchDigest": "e1b4994851ac4727102df82e0210777aa9afda0c50959bed2517d83d81f33ab3"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "exploredCandidatesCount": 2,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L5-04-WINNING",
+        "depth": 1,
+        "assignments": {
+          "VAR-P46-L5-04-1": "repaired__handleError_v1"
+        },
+        "affectedFiles": [
+          "src/scanner.js"
+        ],
+        "affectedSymbols": [
+          "_handleError"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L5-04-1",
+            "filePath": "src/scanner.js",
+            "targetSymbol": "_handleError",
+            "variableId": "VAR-P46-L5-04-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired__handleError_v1 */\nfunction _handleError_repaired() { return true; }",
+            "contentHash": "5de2d25befaf1cb7afe84aa6356d415e57a92824c5cd4691f0e23b707ceadd99"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L5-04-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "760e865a3c6d26b750de60383bc04d4aeae8e90e574c350b3f8869ebaad088a6"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 1,
+      "searchDigest": "c02a4f0cdd7202f8e8be79a70559b09932b8c58f780c07d8c058815f85c7c4dc"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "exploredCandidatesCount": 2,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L5-05-WINNING",
+        "depth": 1,
+        "assignments": {
+          "VAR-P46-L5-05-1": "repaired_flushQueue_v1"
+        },
+        "affectedFiles": [
+          "src/kv-store.js"
+        ],
+        "affectedSymbols": [
+          "flushQueue"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L5-05-1",
+            "filePath": "src/kv-store.js",
+            "targetSymbol": "flushQueue",
+            "variableId": "VAR-P46-L5-05-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_flushQueue_v1 */\nfunction flushQueue_repaired() { return true; }",
+            "contentHash": "abfd4c1bccb51af9c66ea17b2d8d8d35667a01b7da6510830930d34350f8492f"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L5-05-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "414f354b235607deec0112c2dc075ab0cb2b7d88580c21416ab83e5a95e157c1"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 1,
+      "searchDigest": "955b5331abfb06f6122f9b9a5ee866a39d7f8f545d7d3c605cbffd19282ab7ff"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L6-01-WINNING",
+        "depth": 2,
+        "assignments": {
+          "VAR-P46-L6-01-1": "ROLE_AUTHORIZED",
+          "VAR-P46-L6-01-2": "ROLE_AUTHORIZED"
+        },
+        "affectedFiles": [
+          "src/models/user.js",
+          "src/services/user-service.js"
+        ],
+        "affectedSymbols": [
+          "authorizeUser",
+          "hasRole"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L6-01-1",
+            "filePath": "src/models/user.js",
+            "targetSymbol": "hasRole",
+            "variableId": "VAR-P46-L6-01-1",
+            "replacementValue": "/* COUPLED_REPAIR_ROLE_AUTHORIZED */\nfunction hasRole_repaired() { return true; }",
+            "contentHash": "9b03d32af601f8c822315a6cef9de8efd882164932734db0094650027863f3d0"
+          },
+          {
+            "editId": "EDIT-P46-L6-01-2",
+            "filePath": "src/services/user-service.js",
+            "targetSymbol": "authorizeUser",
+            "variableId": "VAR-P46-L6-01-2",
+            "replacementValue": "/* COUPLED_REPAIR_ROLE_AUTHORIZED */\nfunction authorizeUser_repaired() { return true; }",
+            "contentHash": "649d0ac88a94739e77c4fa0b7fbe3f7e999f5f822df1573fbca7c10627c4f490"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L6-01-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "277c4c3e06f8d7c4edc870930f70c51032e90e37b7e4978c42cfccdaf8162f66"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 2,
+      "searchDigest": "15be543de41a488c117b3a158ddc55ea03c9bc6cca8238ea9e1803e3214312fc"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L6-02-WINNING",
+        "depth": 2,
+        "assignments": {
+          "VAR-P46-L6-02-1": "repaired_loadConfig_v1",
+          "VAR-P46-L6-02-2": "repaired_defaultSchema_v1"
+        },
+        "affectedFiles": [
+          "src/config.js",
+          "src/defaults.js"
+        ],
+        "affectedSymbols": [
+          "defaultSchema",
+          "loadConfig"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L6-02-1",
+            "filePath": "src/config.js",
+            "targetSymbol": "loadConfig",
+            "variableId": "VAR-P46-L6-02-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_loadConfig_v1 */\nfunction loadConfig_repaired() { return true; }",
+            "contentHash": "fdaf842d0303a1353869a47cc78aaa62f4164ee454679a70a0a311aebe2e3b52"
+          },
+          {
+            "editId": "EDIT-P46-L6-02-2",
+            "filePath": "src/defaults.js",
+            "targetSymbol": "defaultSchema",
+            "variableId": "VAR-P46-L6-02-2",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_defaultSchema_v1 */\nfunction defaultSchema_repaired() { return true; }",
+            "contentHash": "24fb83330f8483f673eb0a5a94e784439d67137380b7d426c5df859ae6845703"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L6-02-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "d97caaf4bf60cc9818733d55a5b8a9b1111da898ca06200fe6e0ebbaca11bc97"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 2,
+      "searchDigest": "e91118a2722bbcd31b5dc2560d3302dd1e04a5f09207a6a14501f16a98f075a3"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L6-03-WINNING",
+        "depth": 2,
+        "assignments": {
+          "VAR-P46-L6-03-1": "repaired_formatJson_v1",
+          "VAR-P46-L6-03-2": "repaired_logEvent_v1"
+        },
+        "affectedFiles": [
+          "src/formatters/json.js",
+          "src/logger.js"
+        ],
+        "affectedSymbols": [
+          "formatJson",
+          "logEvent"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L6-03-1",
+            "filePath": "src/formatters/json.js",
+            "targetSymbol": "formatJson",
+            "variableId": "VAR-P46-L6-03-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_formatJson_v1 */\nfunction formatJson_repaired() { return true; }",
+            "contentHash": "778469a49a31f72992247e7472c2a1746e1d480b8bba313d8431e8301916adab"
+          },
+          {
+            "editId": "EDIT-P46-L6-03-2",
+            "filePath": "src/logger.js",
+            "targetSymbol": "logEvent",
+            "variableId": "VAR-P46-L6-03-2",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_logEvent_v1 */\nfunction logEvent_repaired() { return true; }",
+            "contentHash": "034f894a976b41fa81c233efe7817c1f297e496e2880d2b104d404c045752e9c"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L6-03-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "e245da973d68ac4ecdcf5506c3cf801a4d8729d9c55d9f25e48e2e7045e9bdab"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 2,
+      "searchDigest": "ed9db88e0c329508f090631fbb34efd87781501f85f32aaed808b1e1256a34e4"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L6-04-WINNING",
+        "depth": 2,
+        "assignments": {
+          "VAR-P46-L6-04-1": "repaired_buildRequest_v1",
+          "VAR-P46-L6-04-2": "repaired_sendRequest_v1"
+        },
+        "affectedFiles": [
+          "src/client.js",
+          "src/request.js"
+        ],
+        "affectedSymbols": [
+          "buildRequest",
+          "sendRequest"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L6-04-1",
+            "filePath": "src/request.js",
+            "targetSymbol": "buildRequest",
+            "variableId": "VAR-P46-L6-04-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_buildRequest_v1 */\nfunction buildRequest_repaired() { return true; }",
+            "contentHash": "9a472ef8c5ef38edab9b24d9153cfae6b4cc14b27ad05f36531164ffa69cb1a7"
+          },
+          {
+            "editId": "EDIT-P46-L6-04-2",
+            "filePath": "src/client.js",
+            "targetSymbol": "sendRequest",
+            "variableId": "VAR-P46-L6-04-2",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_sendRequest_v1 */\nfunction sendRequest_repaired() { return true; }",
+            "contentHash": "f97d79025b82076a021a6d4f70a1a47fe9dc7cdbc96950d016927fa3dedf69b8"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L6-04-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "abe95354d5fefe1b61436c0d1b63c76970adeb6bf168460703a6a82600fff358"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 2,
+      "searchDigest": "360d6ea3c2e59ac0f36fc492845459893fdd9a844f79f052b6b855537b25d33a"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 0,
+      "exhaustionStatus": "SUCCESS",
+      "exhausted": false,
+      "selectedCandidate": {
+        "candidateId": "CAND-P46-L6-05-WINNING",
+        "depth": 2,
+        "assignments": {
+          "VAR-P46-L6-05-1": "repaired_cancelJob_v1",
+          "VAR-P46-L6-05-2": "repaired_evictWorker_v1"
+        },
+        "affectedFiles": [
+          "src/job.js",
+          "src/queue.js"
+        ],
+        "affectedSymbols": [
+          "cancelJob",
+          "evictWorker"
+        ],
+        "atomicEdits": [
+          {
+            "editId": "EDIT-P46-L6-05-1",
+            "filePath": "src/job.js",
+            "targetSymbol": "cancelJob",
+            "variableId": "VAR-P46-L6-05-1",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_cancelJob_v1 */\nfunction cancelJob_repaired() { return true; }",
+            "contentHash": "6655a759477bc32e2c97ae07c322ad4c3c729cb4e4eb148a2824e1b89a9fd76a"
+          },
+          {
+            "editId": "EDIT-P46-L6-05-2",
+            "filePath": "src/queue.js",
+            "targetSymbol": "evictWorker",
+            "variableId": "VAR-P46-L6-05-2",
+            "replacementValue": "/* COUPLED_REPAIR_repaired_evictWorker_v1 */\nfunction evictWorker_repaired() { return true; }",
+            "contentHash": "98758e86095c4d67f47338e28f8ee9368760d88535521ee7f327aa03f02d1148"
+          }
+        ],
+        "satisfiedObligations": [
+          "OBL-P46-L6-05-1"
+        ],
+        "violatedObligations": [],
+        "unknownObligations": [],
+        "regressionRisk": "LOW",
+        "candidateDigest": "3c61935c01a72b072941eb8a7ad47b1b1f6768e7ea687eb6dd4b81d145e79ad3"
+      },
+      "rejectionReasons": [],
+      "searchDepthReached": 2,
+      "searchDigest": "fb9b2da3f0ba27cfc4d9178c104d2c7ab3b61c93aee54e11f92bd9096f0971e6"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "exploredCandidatesCount": 12,
+      "rejectedCandidatesCount": 9,
+      "exhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "exhausted": true,
+      "selectedCandidate": null,
+      "rejectionReasons": [
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-01-INTRA]: parseExpression must satisfy targeted fix condition -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-01-INTRA]: parseExpression must satisfy targeted fix condition -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-01-INTRA]: parseExpression must satisfy targeted fix condition -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-01-CROSS]: parseExpression and evaluateExponent must coordinate across file boundary -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-01-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED"
+      ],
+      "searchDepthReached": 2,
+      "searchDigest": "e7334c8c31d1b92ecc6b88bdfb4a2abe1c62b3d9874585fe028d9043274309bd",
+      "failureAttribution": "COMBINATORIAL_REPAIR_SEARCH_BOUNDARY: All explored coupled candidate pairs fail regression constraints for P46-L7-01"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 4,
+      "exhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "exhausted": true,
+      "selectedCandidate": null,
+      "rejectionReasons": [
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-02-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-02-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-02-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-02-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED"
+      ],
+      "searchDepthReached": 2,
+      "searchDigest": "1b0751a162963b84c3a8c6bb07630f7f2e3c4bb31a046ed69048e0a7b5c26671",
+      "failureAttribution": "COMBINATORIAL_REPAIR_SEARCH_BOUNDARY: All explored coupled candidate pairs fail regression constraints for P46-L7-02"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 4,
+      "exhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "exhausted": true,
+      "selectedCandidate": null,
+      "rejectionReasons": [
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-03-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-03-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-03-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-03-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED"
+      ],
+      "searchDepthReached": 2,
+      "searchDigest": "2b814e81ec414d3fe13827ec828bf1884a5a1f109d024e20d685ac581477a928",
+      "failureAttribution": "COMBINATORIAL_REPAIR_SEARCH_BOUNDARY: All explored coupled candidate pairs fail regression constraints for P46-L7-03"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "exploredCandidatesCount": 6,
+      "rejectedCandidatesCount": 4,
+      "exhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "exhausted": true,
+      "selectedCandidate": null,
+      "rejectionReasons": [
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-04-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-04-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-04-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-04-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED"
+      ],
+      "searchDepthReached": 2,
+      "searchDigest": "bfd8bdd6559f18475c8706afef8a5570d873b78662e57a1c00ba64addedcfc9c",
+      "failureAttribution": "COMBINATORIAL_REPAIR_SEARCH_BOUNDARY: All explored coupled candidate pairs fail regression constraints for P46-L7-04"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "exploredCandidatesCount": 14,
+      "rejectedCandidatesCount": 8,
+      "exhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "exhausted": true,
+      "selectedCandidate": null,
+      "rejectionReasons": [
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-05-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-05-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-05-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-05-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED",
+        "CONSTRAINT_VIOLATION [CONST-P46-L7-05-REGRESSION]: Repository baseline regression tests (P2P) must not fail -> VIOLATED"
+      ],
+      "searchDepthReached": 3,
+      "searchDigest": "f8a84e8fc231b4c16588125ec9778cd21b2c313ccc241880d98e71d72c1b3d52",
+      "failureAttribution": "COMBINATORIAL_REPAIR_SEARCH_BOUNDARY: All explored coupled candidate pairs fail regression constraints for P46-L7-05"
+    }
+  ],
+  "artifactDigest": "4a865b249dd6537313289cda9cb644d0452558d606a16490711d54c947eec3a2"
+}

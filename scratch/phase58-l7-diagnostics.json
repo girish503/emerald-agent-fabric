@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "emerald-phase58-v1",
+  "phase": "58",
+  "generatedAt": "2026-10-19T18:03:38.173Z",
+  "baselineCommit": "f7d25d0",
+  "protocolDigest": "d928ea2c13c35aa38c4a1f7d9381a7bc11a7f1f1dfff7bbbaca0012824630138",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "repairVariables": [
+        "VAR-P46-L7-01-1 (src/parser.js:parseExpression:BINDING_POWER)",
+        "VAR-P46-L7-01-2 (src/calc.js:evaluateExponent:BINDING_POWER)"
+      ],
+      "constraintsEvaluated": [
+        "CONST-P46-L7-01-INTRA",
+        "CONST-P46-L7-01-CROSS",
+        "CONST-P46-L7-01-REGRESSION"
+      ],
+      "candidatesExplored": 9,
+      "candidatesRejected": 9,
+      "searchDepth": 2,
+      "searchExhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "failureAttribution": "COMBINATORIAL_REPAIR_SEARCH_BOUNDARY: All explored coupled binding power pairs fail regression test test/calc-p2p.test.js because Pratt infix juxtaposition requires coupled tokenizer state manipulation outside candidate variable domain."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "repairVariables": [
+        "VAR-P46-L7-02-1 (src/cors.js:compileOriginPattern:REGEX_CONSTRUCTION)",
+        "VAR-P46-L7-02-2 (src/header-validator.js:validateHeaders:REGEX_CONSTRUCTION)"
+      ],
+      "constraintsEvaluated": [
+        "CONST-P46-L7-02-INTRA",
+        "CONST-P46-L7-02-CROSS",
+        "CONST-P46-L7-02-REGRESSION"
+      ],
+      "candidatesExplored": 4,
+      "candidatesRejected": 4,
+      "searchDepth": 2,
+      "searchExhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "failureAttribution": "COMBINATORIAL_REPAIR_SEARCH_BOUNDARY: Explored coupled regex candidate pairs fail regression test test/cors-p2p.test.js because header reflection credential preservation requires synchronized dual-module synthesis."
+    }
+  ],
+  "artifactDigest": "c62c16065466b58291527705f5a7c0c6422ec7397ca691466285438958bf54d6"
+}

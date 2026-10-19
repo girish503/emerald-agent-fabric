@@ -1,0 +1,566 @@
+{
+  "schemaVersion": "emerald-phase58-v1",
+  "phase": "58",
+  "generatedAt": "2026-10-19T18:03:38.148Z",
+  "baselineCommit": "f7d25d0",
+  "protocolDigest": "d928ea2c13c35aa38c4a1f7d9381a7bc11a7f1f1dfff7bbbaca0012824630138",
+  "totalTasks": 15,
+  "tasks": [
+    {
+      "taskId": "P46-L5-01",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-01-1",
+          "semanticContractId": "CTR-P46-L5-01-1",
+          "affectedModules": [
+            "src/semver.js",
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "comparePrerelease",
+            "parsePrerelease"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from parsePrerelease"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for parsePrerelease"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for parsePrerelease"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-01-1"
+          ],
+          "contentHash": "4decfde9764301deca191938390745980610bb1adec266e283624d6bae9db73e",
+          "provenanceHash": "4decfde9764301deca191938390745980610bb1adec266e283624d6bae9db73e"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-02",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-02-1",
+          "semanticContractId": "CTR-P46-L5-02-1",
+          "affectedModules": [
+            "src/deep-set.js",
+            "src/deep-set.js"
+          ],
+          "affectedSymbols": [
+            "_setInternal",
+            "_toPath"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from _toPath"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for _toPath"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for _toPath"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-02-1"
+          ],
+          "contentHash": "aa40862c8b1174924197ae9872b33cb76a94de21bc25a44e7f6c7b0a7f764e43",
+          "provenanceHash": "aa40862c8b1174924197ae9872b33cb76a94de21bc25a44e7f6c7b0a7f764e43"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-03",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-03-1",
+          "semanticContractId": "CTR-P46-L5-03-1",
+          "affectedModules": [
+            "src/emitter.js",
+            "src/emitter.js"
+          ],
+          "affectedSymbols": [
+            "dispatchListener",
+            "emit"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from emit"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for emit"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for emit"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-03-1"
+          ],
+          "contentHash": "5c249bb9abc21dd1d49694db2a716b91d5f9f8a876875c5b71a1bc9276e0a468",
+          "provenanceHash": "5c249bb9abc21dd1d49694db2a716b91d5f9f8a876875c5b71a1bc9276e0a468"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-04",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-04-1",
+          "semanticContractId": "CTR-P46-L5-04-1",
+          "affectedModules": [
+            "src/scanner.js",
+            "src/scanner.js"
+          ],
+          "affectedSymbols": [
+            "_handleError",
+            "scanDirectory"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from _handleError"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for _handleError"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for _handleError"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-04-1"
+          ],
+          "contentHash": "02a350324c8cf236d456a049cc66b0d13e33ec1854bbf148b5b81266fccb785a",
+          "provenanceHash": "02a350324c8cf236d456a049cc66b0d13e33ec1854bbf148b5b81266fccb785a"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-05",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-05-1",
+          "semanticContractId": "CTR-P46-L5-05-1",
+          "affectedModules": [
+            "src/kv-store.js",
+            "src/kv-store.js"
+          ],
+          "affectedSymbols": [
+            "flushQueue",
+            "readCache"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from flushQueue"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for flushQueue"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for flushQueue"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-05-1"
+          ],
+          "contentHash": "592eb40ef3aaae839761efab708a3fab57b7fade3ae00fcf739a0fedb11ea023",
+          "provenanceHash": "592eb40ef3aaae839761efab708a3fab57b7fade3ae00fcf739a0fedb11ea023"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-01",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-01-1",
+          "semanticContractId": "CTR-P46-L6-01-1",
+          "affectedModules": [
+            "src/models/user.js",
+            "src/services/user-service.js"
+          ],
+          "affectedSymbols": [
+            "authorizeUser",
+            "hasRole"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from hasRole"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for hasRole"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for hasRole"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-01-1"
+          ],
+          "contentHash": "bf2624e76b557830ad466a7725a939df379c0e6903416081acddab668c920a8a",
+          "provenanceHash": "bf2624e76b557830ad466a7725a939df379c0e6903416081acddab668c920a8a"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-02",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-02-1",
+          "semanticContractId": "CTR-P46-L6-02-1",
+          "affectedModules": [
+            "src/config.js",
+            "src/defaults.js"
+          ],
+          "affectedSymbols": [
+            "defaultSchema",
+            "loadConfig"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from loadConfig"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for loadConfig"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for loadConfig"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-02-1"
+          ],
+          "contentHash": "9695f5913d624dc61d94aee7d0bfbe28e35716dd3b902c6b0077178bafa2f7e7",
+          "provenanceHash": "9695f5913d624dc61d94aee7d0bfbe28e35716dd3b902c6b0077178bafa2f7e7"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-03",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-03-1",
+          "semanticContractId": "CTR-P46-L6-03-1",
+          "affectedModules": [
+            "src/formatters/json.js",
+            "src/logger.js"
+          ],
+          "affectedSymbols": [
+            "formatJson",
+            "logEvent"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from formatJson"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for formatJson"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for formatJson"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-03-1"
+          ],
+          "contentHash": "bb5d305e1eeae00af10247849dfe0935e83f4a53aaff7ed4a635c5abb6fff69d",
+          "provenanceHash": "bb5d305e1eeae00af10247849dfe0935e83f4a53aaff7ed4a635c5abb6fff69d"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-04",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-04-1",
+          "semanticContractId": "CTR-P46-L6-04-1",
+          "affectedModules": [
+            "src/client.js",
+            "src/request.js"
+          ],
+          "affectedSymbols": [
+            "buildRequest",
+            "sendRequest"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from buildRequest"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for buildRequest"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for buildRequest"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-04-1"
+          ],
+          "contentHash": "9a1aec0c3d223b8334b503cc98861c1444d544dffb594759dcf06a129f3a934a",
+          "provenanceHash": "9a1aec0c3d223b8334b503cc98861c1444d544dffb594759dcf06a129f3a934a"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-05",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-05-1",
+          "semanticContractId": "CTR-P46-L6-05-1",
+          "affectedModules": [
+            "src/job.js",
+            "src/queue.js"
+          ],
+          "affectedSymbols": [
+            "cancelJob",
+            "evictWorker"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from cancelJob"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for cancelJob"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for cancelJob"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-05-1"
+          ],
+          "contentHash": "f14457dc77cb528bfa655edbb5c0e1d53ba0152ff21be40a1f71e1f5aa4bff68",
+          "provenanceHash": "f14457dc77cb528bfa655edbb5c0e1d53ba0152ff21be40a1f71e1f5aa4bff68"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-01",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-01-1",
+          "semanticContractId": "CTR-P46-L7-01-1",
+          "affectedModules": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "evaluateExponent",
+            "parseExpression"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from parseExpression"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for parseExpression"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for parseExpression"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-01-1"
+          ],
+          "contentHash": "772406640acd9c9b6cadab26ed836b6a41d184470a3344ad3382cff67666efd1",
+          "provenanceHash": "772406640acd9c9b6cadab26ed836b6a41d184470a3344ad3382cff67666efd1"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-02-1",
+          "semanticContractId": "CTR-P46-L7-02-1",
+          "affectedModules": [
+            "src/cors.js",
+            "src/header-validator.js"
+          ],
+          "affectedSymbols": [
+            "compileOriginPattern",
+            "validateHeaders"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from compileOriginPattern"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for compileOriginPattern"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for compileOriginPattern"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-02-1"
+          ],
+          "contentHash": "b1a26e002c6ba59f1c11f0d4e9b76843c3e7a5bfdf37d42ccd36b2786654a0ec",
+          "provenanceHash": "b1a26e002c6ba59f1c11f0d4e9b76843c3e7a5bfdf37d42ccd36b2786654a0ec"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-03-1",
+          "semanticContractId": "CTR-P46-L7-03-1",
+          "affectedModules": [
+            "src/comparator.js",
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "compareSemVer",
+            "sortPrerelease"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from sortPrerelease"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for sortPrerelease"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for sortPrerelease"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-03-1"
+          ],
+          "contentHash": "4cc24b884cd402493c1e5bb2d8708955805100e2d9c542a5eaa3d7151fbbc1ca",
+          "provenanceHash": "4cc24b884cd402493c1e5bb2d8708955805100e2d9c542a5eaa3d7151fbbc1ca"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-04-1",
+          "semanticContractId": "CTR-P46-L7-04-1",
+          "affectedModules": [
+            "src/deep-set.js",
+            "src/path-resolver.js"
+          ],
+          "affectedSymbols": [
+            "resolveObjectPath",
+            "setDeepProperty"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from setDeepProperty"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for setDeepProperty"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for setDeepProperty"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-04-1"
+          ],
+          "contentHash": "e9a5809ad6a9b70d075eece247cdebef255f201cd9ededf8cf97c76cd8075988",
+          "provenanceHash": "e9a5809ad6a9b70d075eece247cdebef255f201cd9ededf8cf97c76cd8075988"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "obligationsCount": 1,
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-05-1",
+          "semanticContractId": "CTR-P46-L7-05-1",
+          "affectedModules": [
+            "src/models/user.js",
+            "src/services/user-service.js"
+          ],
+          "affectedSymbols": [
+            "authorizeRole",
+            "evaluateRoleHierarchy"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from authorizeRole"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for authorizeRole"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for authorizeRole"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-05-1"
+          ],
+          "contentHash": "2759c6864c42247160002270ed78c7cfcbfe7c4beb2004b1d83a1f055ba87311",
+          "provenanceHash": "2759c6864c42247160002270ed78c7cfcbfe7c4beb2004b1d83a1f055ba87311"
+        }
+      ]
+    }
+  ],
+  "artifactDigest": "ee148050d75a49ee24813c39ebed10a328a9475ccea79f1aeb944c724f41e593"
+}

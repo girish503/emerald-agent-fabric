@@ -1,0 +1,1977 @@
+{
+  "schemaVersion": "emerald-phase58-v1",
+  "phase": "58",
+  "generatedAt": "2026-10-19T18:03:38.151Z",
+  "baselineCommit": "f7d25d0",
+  "protocolDigest": "d928ea2c13c35aa38c4a1f7d9381a7bc11a7f1f1dfff7bbbaca0012824630138",
+  "totalGraphs": 15,
+  "graphs": [
+    {
+      "graphId": "REPAIR-GRAPH-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L5-01-1",
+          "variableType": "BINDING_POWER",
+          "filePath": "src/semver.js",
+          "targetFile": "src/semver.js",
+          "targetSymbol": "parsePrerelease",
+          "currentValue": "BP_8",
+          "candidateValues": [
+            "BP_8",
+            "BP_9",
+            "BP_10"
+          ],
+          "domain": [
+            "BP_8",
+            "BP_9",
+            "BP_10"
+          ],
+          "contentHash": "4827f628eef20bbf4a92b4b25782690d425120bb033a4a0af087c2653dae8cd3",
+          "variableDigest": "4827f628eef20bbf4a92b4b25782690d425120bb033a4a0af087c2653dae8cd3"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-01-1",
+          "semanticContractId": "CTR-P46-L5-01-1",
+          "affectedModules": [
+            "src/semver.js",
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "comparePrerelease",
+            "parsePrerelease"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from parsePrerelease"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for parsePrerelease"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for parsePrerelease"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-01-1"
+          ],
+          "contentHash": "4decfde9764301deca191938390745980610bb1adec266e283624d6bae9db73e",
+          "provenanceHash": "4decfde9764301deca191938390745980610bb1adec266e283624d6bae9db73e"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L5-01-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L5-01-1"
+          ],
+          "condition": "parsePrerelease must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L5-01-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L5-01-1"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L5-01-INTRA",
+          "toNode": "VAR:VAR-P46-L5-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L5-01-REGRESSION",
+          "toNode": "VAR:VAR-P46-L5-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L5-01-1",
+          "toNode": "OBL:OBL-P46-L5-01-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L5-01-1"
+      ],
+      "repairGraphDigest": "dd1e161b38960b9120f08a5cecc2caf415f5fe3f2780f897b6c16ab947a55111"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L5-02-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/deep-set.js",
+          "targetFile": "src/deep-set.js",
+          "targetSymbol": "_toPath",
+          "currentValue": "default__toPath",
+          "candidateValues": [
+            "repaired__toPath_v1",
+            "repaired__toPath_v2"
+          ],
+          "domain": [
+            "repaired__toPath_v1",
+            "repaired__toPath_v2"
+          ],
+          "contentHash": "4cbf3af23a61cd3de1c08ab279caa5483955f77edcadaa46908897699726b0ec",
+          "variableDigest": "4cbf3af23a61cd3de1c08ab279caa5483955f77edcadaa46908897699726b0ec"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-02-1",
+          "semanticContractId": "CTR-P46-L5-02-1",
+          "affectedModules": [
+            "src/deep-set.js",
+            "src/deep-set.js"
+          ],
+          "affectedSymbols": [
+            "_setInternal",
+            "_toPath"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from _toPath"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for _toPath"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for _toPath"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-02-1"
+          ],
+          "contentHash": "aa40862c8b1174924197ae9872b33cb76a94de21bc25a44e7f6c7b0a7f764e43",
+          "provenanceHash": "aa40862c8b1174924197ae9872b33cb76a94de21bc25a44e7f6c7b0a7f764e43"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L5-02-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L5-02-1"
+          ],
+          "condition": "_toPath must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L5-02-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L5-02-1"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L5-02-INTRA",
+          "toNode": "VAR:VAR-P46-L5-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L5-02-REGRESSION",
+          "toNode": "VAR:VAR-P46-L5-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L5-02-1",
+          "toNode": "OBL:OBL-P46-L5-02-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L5-02-1"
+      ],
+      "repairGraphDigest": "cab121045216ce6e6f24814ca8210166851a72c14f754cd321304a72141939e8"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L5-03-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/emitter.js",
+          "targetFile": "src/emitter.js",
+          "targetSymbol": "emit",
+          "currentValue": "default_emit",
+          "candidateValues": [
+            "repaired_emit_v1",
+            "repaired_emit_v2"
+          ],
+          "domain": [
+            "repaired_emit_v1",
+            "repaired_emit_v2"
+          ],
+          "contentHash": "e7ddf505049820890f76e647deeb9c980f38c7480a1a8f868ca4999ff52f558a",
+          "variableDigest": "e7ddf505049820890f76e647deeb9c980f38c7480a1a8f868ca4999ff52f558a"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-03-1",
+          "semanticContractId": "CTR-P46-L5-03-1",
+          "affectedModules": [
+            "src/emitter.js",
+            "src/emitter.js"
+          ],
+          "affectedSymbols": [
+            "dispatchListener",
+            "emit"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from emit"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for emit"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for emit"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-03-1"
+          ],
+          "contentHash": "5c249bb9abc21dd1d49694db2a716b91d5f9f8a876875c5b71a1bc9276e0a468",
+          "provenanceHash": "5c249bb9abc21dd1d49694db2a716b91d5f9f8a876875c5b71a1bc9276e0a468"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L5-03-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L5-03-1"
+          ],
+          "condition": "emit must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L5-03-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L5-03-1"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L5-03-INTRA",
+          "toNode": "VAR:VAR-P46-L5-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L5-03-REGRESSION",
+          "toNode": "VAR:VAR-P46-L5-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L5-03-1",
+          "toNode": "OBL:OBL-P46-L5-03-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L5-03-1"
+      ],
+      "repairGraphDigest": "64c518ea1ac02918ddf303bf97aaf85d1e4f0a4ed5660436c3aba20967590307"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L5-04-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/scanner.js",
+          "targetFile": "src/scanner.js",
+          "targetSymbol": "_handleError",
+          "currentValue": "default__handleError",
+          "candidateValues": [
+            "repaired__handleError_v1",
+            "repaired__handleError_v2"
+          ],
+          "domain": [
+            "repaired__handleError_v1",
+            "repaired__handleError_v2"
+          ],
+          "contentHash": "245931bea149fcac9e663ff97e70cb9e7ef1d5b9c2eb97b50b5e04b44e7e01aa",
+          "variableDigest": "245931bea149fcac9e663ff97e70cb9e7ef1d5b9c2eb97b50b5e04b44e7e01aa"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-04-1",
+          "semanticContractId": "CTR-P46-L5-04-1",
+          "affectedModules": [
+            "src/scanner.js",
+            "src/scanner.js"
+          ],
+          "affectedSymbols": [
+            "_handleError",
+            "scanDirectory"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from _handleError"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for _handleError"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for _handleError"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-04-1"
+          ],
+          "contentHash": "02a350324c8cf236d456a049cc66b0d13e33ec1854bbf148b5b81266fccb785a",
+          "provenanceHash": "02a350324c8cf236d456a049cc66b0d13e33ec1854bbf148b5b81266fccb785a"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L5-04-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L5-04-1"
+          ],
+          "condition": "_handleError must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L5-04-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L5-04-1"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L5-04-INTRA",
+          "toNode": "VAR:VAR-P46-L5-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L5-04-REGRESSION",
+          "toNode": "VAR:VAR-P46-L5-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L5-04-1",
+          "toNode": "OBL:OBL-P46-L5-04-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L5-04-1"
+      ],
+      "repairGraphDigest": "d4865bb8e69514f89c0e28e7ae99af6f0d637051841759b072e5c2873dd74000"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L5-05-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/kv-store.js",
+          "targetFile": "src/kv-store.js",
+          "targetSymbol": "flushQueue",
+          "currentValue": "default_flushQueue",
+          "candidateValues": [
+            "repaired_flushQueue_v1",
+            "repaired_flushQueue_v2"
+          ],
+          "domain": [
+            "repaired_flushQueue_v1",
+            "repaired_flushQueue_v2"
+          ],
+          "contentHash": "fe2e38a266fbe596f380f07be97a02deb10e4870047f873f823c3566badd1248",
+          "variableDigest": "fe2e38a266fbe596f380f07be97a02deb10e4870047f873f823c3566badd1248"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L5-05-1",
+          "semanticContractId": "CTR-P46-L5-05-1",
+          "affectedModules": [
+            "src/kv-store.js",
+            "src/kv-store.js"
+          ],
+          "affectedSymbols": [
+            "flushQueue",
+            "readCache"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from flushQueue"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for flushQueue"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for flushQueue"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L5-05-1"
+          ],
+          "contentHash": "592eb40ef3aaae839761efab708a3fab57b7fade3ae00fcf739a0fedb11ea023",
+          "provenanceHash": "592eb40ef3aaae839761efab708a3fab57b7fade3ae00fcf739a0fedb11ea023"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L5-05-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L5-05-1"
+          ],
+          "condition": "flushQueue must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L5-05-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L5-05-1"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L5-05-INTRA",
+          "toNode": "VAR:VAR-P46-L5-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L5-05-REGRESSION",
+          "toNode": "VAR:VAR-P46-L5-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L5-05-1",
+          "toNode": "OBL:OBL-P46-L5-05-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L5-05-1"
+      ],
+      "repairGraphDigest": "6de4f1a19a2fb576863bf971079c94aa709ca83bb99c9f5873f1c7638ef6e918"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L6-01-1",
+          "variableType": "STATE_TRANSITION",
+          "filePath": "src/models/user.js",
+          "targetFile": "src/models/user.js",
+          "targetSymbol": "hasRole",
+          "currentValue": "ROLE_UNAUTHORIZED",
+          "candidateValues": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "domain": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "contentHash": "df80c97fa85a2ab01f64ffa39db4e6c763592bfb320bb43c55ae5c9b3c80aa5a",
+          "variableDigest": "df80c97fa85a2ab01f64ffa39db4e6c763592bfb320bb43c55ae5c9b3c80aa5a"
+        },
+        {
+          "variableId": "VAR-P46-L6-01-2",
+          "variableType": "STATE_TRANSITION",
+          "filePath": "src/services/user-service.js",
+          "targetFile": "src/services/user-service.js",
+          "targetSymbol": "authorizeUser",
+          "currentValue": "ROLE_UNAUTHORIZED",
+          "candidateValues": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "domain": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "contentHash": "bda5dd099bebb8698d8aeae06eacf2f8b0af9a582a3be05a40ed3d353624f678",
+          "variableDigest": "bda5dd099bebb8698d8aeae06eacf2f8b0af9a582a3be05a40ed3d353624f678"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-01-1",
+          "semanticContractId": "CTR-P46-L6-01-1",
+          "affectedModules": [
+            "src/models/user.js",
+            "src/services/user-service.js"
+          ],
+          "affectedSymbols": [
+            "authorizeUser",
+            "hasRole"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from hasRole"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for hasRole"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for hasRole"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-01-1"
+          ],
+          "contentHash": "bf2624e76b557830ad466a7725a939df379c0e6903416081acddab668c920a8a",
+          "provenanceHash": "bf2624e76b557830ad466a7725a939df379c0e6903416081acddab668c920a8a"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L6-01-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-01-1"
+          ],
+          "condition": "hasRole must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L6-01-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-01-1",
+            "VAR-P46-L6-01-2"
+          ],
+          "condition": "hasRole and authorizeUser must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L6-01-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L6-01-1",
+            "VAR-P46-L6-01-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L6-01-CROSS",
+          "toNode": "VAR:VAR-P46-L6-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-01-CROSS",
+          "toNode": "VAR:VAR-P46-L6-01-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-01-INTRA",
+          "toNode": "VAR:VAR-P46-L6-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-01-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-01-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-01-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-01-1",
+          "toNode": "OBL:OBL-P46-L6-01-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-01-2",
+          "toNode": "OBL:OBL-P46-L6-01-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L6-01-1",
+        "VAR-P46-L6-01-2"
+      ],
+      "repairGraphDigest": "49a46fa180b7d6d57bbe4d279283e8078580553bd01bccff1b8217889cfb53d8"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L6-02-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/config.js",
+          "targetFile": "src/config.js",
+          "targetSymbol": "loadConfig",
+          "currentValue": "default_loadConfig",
+          "candidateValues": [
+            "repaired_loadConfig_v1",
+            "repaired_loadConfig_v2"
+          ],
+          "domain": [
+            "repaired_loadConfig_v1",
+            "repaired_loadConfig_v2"
+          ],
+          "contentHash": "8631b94f43412afee7f252cf52c4ec4bcae31590a4178d796584fcb15645c921",
+          "variableDigest": "8631b94f43412afee7f252cf52c4ec4bcae31590a4178d796584fcb15645c921"
+        },
+        {
+          "variableId": "VAR-P46-L6-02-2",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/defaults.js",
+          "targetFile": "src/defaults.js",
+          "targetSymbol": "defaultSchema",
+          "currentValue": "default_defaultSchema",
+          "candidateValues": [
+            "repaired_defaultSchema_v1",
+            "repaired_defaultSchema_v2"
+          ],
+          "domain": [
+            "repaired_defaultSchema_v1",
+            "repaired_defaultSchema_v2"
+          ],
+          "contentHash": "427c02b8632afd15f6951312c5ed2fd5a814c7755b2d294560d4443158723510",
+          "variableDigest": "427c02b8632afd15f6951312c5ed2fd5a814c7755b2d294560d4443158723510"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-02-1",
+          "semanticContractId": "CTR-P46-L6-02-1",
+          "affectedModules": [
+            "src/config.js",
+            "src/defaults.js"
+          ],
+          "affectedSymbols": [
+            "defaultSchema",
+            "loadConfig"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from loadConfig"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for loadConfig"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for loadConfig"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-02-1"
+          ],
+          "contentHash": "9695f5913d624dc61d94aee7d0bfbe28e35716dd3b902c6b0077178bafa2f7e7",
+          "provenanceHash": "9695f5913d624dc61d94aee7d0bfbe28e35716dd3b902c6b0077178bafa2f7e7"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L6-02-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-02-1"
+          ],
+          "condition": "loadConfig must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L6-02-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-02-1",
+            "VAR-P46-L6-02-2"
+          ],
+          "condition": "loadConfig and defaultSchema must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L6-02-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L6-02-1",
+            "VAR-P46-L6-02-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L6-02-CROSS",
+          "toNode": "VAR:VAR-P46-L6-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-02-CROSS",
+          "toNode": "VAR:VAR-P46-L6-02-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-02-INTRA",
+          "toNode": "VAR:VAR-P46-L6-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-02-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-02-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-02-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-02-1",
+          "toNode": "OBL:OBL-P46-L6-02-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-02-2",
+          "toNode": "OBL:OBL-P46-L6-02-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L6-02-1",
+        "VAR-P46-L6-02-2"
+      ],
+      "repairGraphDigest": "06b9e238209bd74155c8ce2a28127344a7babbef53d92b395e23c6506348aaef"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L6-03-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/formatters/json.js",
+          "targetFile": "src/formatters/json.js",
+          "targetSymbol": "formatJson",
+          "currentValue": "default_formatJson",
+          "candidateValues": [
+            "repaired_formatJson_v1",
+            "repaired_formatJson_v2"
+          ],
+          "domain": [
+            "repaired_formatJson_v1",
+            "repaired_formatJson_v2"
+          ],
+          "contentHash": "d9b794f37991bd1e9fd23ed0c8bfe302ac47dc1b81d0950ba190a6a069773b24",
+          "variableDigest": "d9b794f37991bd1e9fd23ed0c8bfe302ac47dc1b81d0950ba190a6a069773b24"
+        },
+        {
+          "variableId": "VAR-P46-L6-03-2",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/logger.js",
+          "targetFile": "src/logger.js",
+          "targetSymbol": "logEvent",
+          "currentValue": "default_logEvent",
+          "candidateValues": [
+            "repaired_logEvent_v1",
+            "repaired_logEvent_v2"
+          ],
+          "domain": [
+            "repaired_logEvent_v1",
+            "repaired_logEvent_v2"
+          ],
+          "contentHash": "52f0191cd58224fe6a7f407838720321346a8259edee66b0e26c20e6614b8f03",
+          "variableDigest": "52f0191cd58224fe6a7f407838720321346a8259edee66b0e26c20e6614b8f03"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-03-1",
+          "semanticContractId": "CTR-P46-L6-03-1",
+          "affectedModules": [
+            "src/formatters/json.js",
+            "src/logger.js"
+          ],
+          "affectedSymbols": [
+            "formatJson",
+            "logEvent"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from formatJson"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for formatJson"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for formatJson"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-03-1"
+          ],
+          "contentHash": "bb5d305e1eeae00af10247849dfe0935e83f4a53aaff7ed4a635c5abb6fff69d",
+          "provenanceHash": "bb5d305e1eeae00af10247849dfe0935e83f4a53aaff7ed4a635c5abb6fff69d"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L6-03-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-03-1"
+          ],
+          "condition": "formatJson must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L6-03-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-03-1",
+            "VAR-P46-L6-03-2"
+          ],
+          "condition": "formatJson and logEvent must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L6-03-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L6-03-1",
+            "VAR-P46-L6-03-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L6-03-CROSS",
+          "toNode": "VAR:VAR-P46-L6-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-03-CROSS",
+          "toNode": "VAR:VAR-P46-L6-03-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-03-INTRA",
+          "toNode": "VAR:VAR-P46-L6-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-03-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-03-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-03-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-03-1",
+          "toNode": "OBL:OBL-P46-L6-03-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-03-2",
+          "toNode": "OBL:OBL-P46-L6-03-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L6-03-1",
+        "VAR-P46-L6-03-2"
+      ],
+      "repairGraphDigest": "a76a4a5aa71509105bf5c3ea269c953365db57779080748b674772e08401e447"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L6-04-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/request.js",
+          "targetFile": "src/request.js",
+          "targetSymbol": "buildRequest",
+          "currentValue": "default_buildRequest",
+          "candidateValues": [
+            "repaired_buildRequest_v1",
+            "repaired_buildRequest_v2"
+          ],
+          "domain": [
+            "repaired_buildRequest_v1",
+            "repaired_buildRequest_v2"
+          ],
+          "contentHash": "7bdb4a142f356b84d74c15f692b50458d9eec32f623e93e702494f10577fcf8c",
+          "variableDigest": "7bdb4a142f356b84d74c15f692b50458d9eec32f623e93e702494f10577fcf8c"
+        },
+        {
+          "variableId": "VAR-P46-L6-04-2",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/client.js",
+          "targetFile": "src/client.js",
+          "targetSymbol": "sendRequest",
+          "currentValue": "default_sendRequest",
+          "candidateValues": [
+            "repaired_sendRequest_v1",
+            "repaired_sendRequest_v2"
+          ],
+          "domain": [
+            "repaired_sendRequest_v1",
+            "repaired_sendRequest_v2"
+          ],
+          "contentHash": "72c4f82e53c6fdd143e03d6108e038e0113f7056baebbd5eccdce9cecb79a79e",
+          "variableDigest": "72c4f82e53c6fdd143e03d6108e038e0113f7056baebbd5eccdce9cecb79a79e"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-04-1",
+          "semanticContractId": "CTR-P46-L6-04-1",
+          "affectedModules": [
+            "src/client.js",
+            "src/request.js"
+          ],
+          "affectedSymbols": [
+            "buildRequest",
+            "sendRequest"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from buildRequest"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for buildRequest"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for buildRequest"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-04-1"
+          ],
+          "contentHash": "9a1aec0c3d223b8334b503cc98861c1444d544dffb594759dcf06a129f3a934a",
+          "provenanceHash": "9a1aec0c3d223b8334b503cc98861c1444d544dffb594759dcf06a129f3a934a"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L6-04-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-04-1"
+          ],
+          "condition": "buildRequest must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L6-04-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-04-1",
+            "VAR-P46-L6-04-2"
+          ],
+          "condition": "buildRequest and sendRequest must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L6-04-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L6-04-1",
+            "VAR-P46-L6-04-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L6-04-CROSS",
+          "toNode": "VAR:VAR-P46-L6-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-04-CROSS",
+          "toNode": "VAR:VAR-P46-L6-04-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-04-INTRA",
+          "toNode": "VAR:VAR-P46-L6-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-04-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-04-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-04-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-04-1",
+          "toNode": "OBL:OBL-P46-L6-04-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-04-2",
+          "toNode": "OBL:OBL-P46-L6-04-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L6-04-1",
+        "VAR-P46-L6-04-2"
+      ],
+      "repairGraphDigest": "d491f36aaeeb4b43ae20aa57ff9d2c546865ef990a427f38a1052bb31285d00e"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L6-05-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/job.js",
+          "targetFile": "src/job.js",
+          "targetSymbol": "cancelJob",
+          "currentValue": "default_cancelJob",
+          "candidateValues": [
+            "repaired_cancelJob_v1",
+            "repaired_cancelJob_v2"
+          ],
+          "domain": [
+            "repaired_cancelJob_v1",
+            "repaired_cancelJob_v2"
+          ],
+          "contentHash": "bd7095faded766e999b2582d40c2ab09590a011d77d6d274b9c7dbfcf5c28c14",
+          "variableDigest": "bd7095faded766e999b2582d40c2ab09590a011d77d6d274b9c7dbfcf5c28c14"
+        },
+        {
+          "variableId": "VAR-P46-L6-05-2",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/queue.js",
+          "targetFile": "src/queue.js",
+          "targetSymbol": "evictWorker",
+          "currentValue": "default_evictWorker",
+          "candidateValues": [
+            "repaired_evictWorker_v1",
+            "repaired_evictWorker_v2"
+          ],
+          "domain": [
+            "repaired_evictWorker_v1",
+            "repaired_evictWorker_v2"
+          ],
+          "contentHash": "6359bc25dbc0acb09d0ae6d467464769e6c134315d6418eebd7949640afa9a49",
+          "variableDigest": "6359bc25dbc0acb09d0ae6d467464769e6c134315d6418eebd7949640afa9a49"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L6-05-1",
+          "semanticContractId": "CTR-P46-L6-05-1",
+          "affectedModules": [
+            "src/job.js",
+            "src/queue.js"
+          ],
+          "affectedSymbols": [
+            "cancelJob",
+            "evictWorker"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from cancelJob"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for cancelJob"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for cancelJob"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L6-05-1"
+          ],
+          "contentHash": "f14457dc77cb528bfa655edbb5c0e1d53ba0152ff21be40a1f71e1f5aa4bff68",
+          "provenanceHash": "f14457dc77cb528bfa655edbb5c0e1d53ba0152ff21be40a1f71e1f5aa4bff68"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L6-05-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-05-1"
+          ],
+          "condition": "cancelJob must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L6-05-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L6-05-1",
+            "VAR-P46-L6-05-2"
+          ],
+          "condition": "cancelJob and evictWorker must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L6-05-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L6-05-1",
+            "VAR-P46-L6-05-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L6-05-CROSS",
+          "toNode": "VAR:VAR-P46-L6-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-05-CROSS",
+          "toNode": "VAR:VAR-P46-L6-05-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-05-INTRA",
+          "toNode": "VAR:VAR-P46-L6-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-05-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L6-05-REGRESSION",
+          "toNode": "VAR:VAR-P46-L6-05-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-05-1",
+          "toNode": "OBL:OBL-P46-L6-05-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L6-05-2",
+          "toNode": "OBL:OBL-P46-L6-05-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L6-05-1",
+        "VAR-P46-L6-05-2"
+      ],
+      "repairGraphDigest": "f7276f02446ce874e3c287fc823b8d54c1114f5d4725a63d493c5e541f0028c8"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L7-01-1",
+          "variableType": "BINDING_POWER",
+          "filePath": "src/calc.js",
+          "targetFile": "src/calc.js",
+          "targetSymbol": "parseExpression",
+          "currentValue": "BP_8",
+          "candidateValues": [
+            "BP_8",
+            "BP_9",
+            "BP_10"
+          ],
+          "domain": [
+            "BP_8",
+            "BP_9",
+            "BP_10"
+          ],
+          "contentHash": "9de7edea2518813080c0338ee1308096a2f75de2535c92184b9e4addfeafae49",
+          "variableDigest": "9de7edea2518813080c0338ee1308096a2f75de2535c92184b9e4addfeafae49"
+        },
+        {
+          "variableId": "VAR-P46-L7-01-2",
+          "variableType": "BINDING_POWER",
+          "filePath": "src/parser.js",
+          "targetFile": "src/parser.js",
+          "targetSymbol": "evaluateExponent",
+          "currentValue": "BP_8",
+          "candidateValues": [
+            "BP_8",
+            "BP_9",
+            "BP_10"
+          ],
+          "domain": [
+            "BP_8",
+            "BP_9",
+            "BP_10"
+          ],
+          "contentHash": "5eb5ac8af370a0a6bbdf30150e7eefada036df2e30894d0d66dbbed5adfe8a8c",
+          "variableDigest": "5eb5ac8af370a0a6bbdf30150e7eefada036df2e30894d0d66dbbed5adfe8a8c"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-01-1",
+          "semanticContractId": "CTR-P46-L7-01-1",
+          "affectedModules": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "evaluateExponent",
+            "parseExpression"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from parseExpression"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for parseExpression"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for parseExpression"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-01-1"
+          ],
+          "contentHash": "772406640acd9c9b6cadab26ed836b6a41d184470a3344ad3382cff67666efd1",
+          "provenanceHash": "772406640acd9c9b6cadab26ed836b6a41d184470a3344ad3382cff67666efd1"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L7-01-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-01-1"
+          ],
+          "condition": "parseExpression must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L7-01-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-01-1",
+            "VAR-P46-L7-01-2"
+          ],
+          "condition": "parseExpression and evaluateExponent must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L7-01-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L7-01-1",
+            "VAR-P46-L7-01-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L7-01-CROSS",
+          "toNode": "VAR:VAR-P46-L7-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-01-CROSS",
+          "toNode": "VAR:VAR-P46-L7-01-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-01-INTRA",
+          "toNode": "VAR:VAR-P46-L7-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-01-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-01-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-01-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-01-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-01-1",
+          "toNode": "OBL:OBL-P46-L7-01-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-01-2",
+          "toNode": "OBL:OBL-P46-L7-01-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L7-01-1",
+        "VAR-P46-L7-01-2"
+      ],
+      "repairGraphDigest": "e1c38db81be0d7227380a6eb2f013760b5f7091e81980ab5ebe780be5b7c4517"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L7-02-1",
+          "variableType": "REGEX_CONSTRUCTION",
+          "filePath": "src/cors.js",
+          "targetFile": "src/cors.js",
+          "targetSymbol": "compileOriginPattern",
+          "currentValue": "REGEX_NO_PORT",
+          "candidateValues": [
+            "REGEX_OPTIONAL_PORT",
+            "REGEX_STRICT_PORT"
+          ],
+          "domain": [
+            "REGEX_OPTIONAL_PORT",
+            "REGEX_STRICT_PORT"
+          ],
+          "contentHash": "f538ea9659d24a4f2cd9dc6f7f399234d1e6bace2c3752125a5418a98289a3a6",
+          "variableDigest": "f538ea9659d24a4f2cd9dc6f7f399234d1e6bace2c3752125a5418a98289a3a6"
+        },
+        {
+          "variableId": "VAR-P46-L7-02-2",
+          "variableType": "REGEX_CONSTRUCTION",
+          "filePath": "src/header-validator.js",
+          "targetFile": "src/header-validator.js",
+          "targetSymbol": "validateHeaders",
+          "currentValue": "REGEX_NO_PORT",
+          "candidateValues": [
+            "REGEX_OPTIONAL_PORT",
+            "REGEX_STRICT_PORT"
+          ],
+          "domain": [
+            "REGEX_OPTIONAL_PORT",
+            "REGEX_STRICT_PORT"
+          ],
+          "contentHash": "12b94d328df6e995bcd4d03a01f6bbb372d850656b6c022c16e9f07e4ac9d76c",
+          "variableDigest": "12b94d328df6e995bcd4d03a01f6bbb372d850656b6c022c16e9f07e4ac9d76c"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-02-1",
+          "semanticContractId": "CTR-P46-L7-02-1",
+          "affectedModules": [
+            "src/cors.js",
+            "src/header-validator.js"
+          ],
+          "affectedSymbols": [
+            "compileOriginPattern",
+            "validateHeaders"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from compileOriginPattern"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for compileOriginPattern"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for compileOriginPattern"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-02-1"
+          ],
+          "contentHash": "b1a26e002c6ba59f1c11f0d4e9b76843c3e7a5bfdf37d42ccd36b2786654a0ec",
+          "provenanceHash": "b1a26e002c6ba59f1c11f0d4e9b76843c3e7a5bfdf37d42ccd36b2786654a0ec"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L7-02-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-02-1"
+          ],
+          "condition": "compileOriginPattern must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L7-02-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-02-1",
+            "VAR-P46-L7-02-2"
+          ],
+          "condition": "compileOriginPattern and validateHeaders must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L7-02-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L7-02-1",
+            "VAR-P46-L7-02-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L7-02-CROSS",
+          "toNode": "VAR:VAR-P46-L7-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-02-CROSS",
+          "toNode": "VAR:VAR-P46-L7-02-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-02-INTRA",
+          "toNode": "VAR:VAR-P46-L7-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-02-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-02-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-02-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-02-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-02-1",
+          "toNode": "OBL:OBL-P46-L7-02-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-02-2",
+          "toNode": "OBL:OBL-P46-L7-02-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L7-02-1",
+        "VAR-P46-L7-02-2"
+      ],
+      "repairGraphDigest": "6829df136d2adfcfb2814ed0f9fd803ef3ea0855541cb7d5b94fad0ed3fc9607"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L7-03-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/semver.js",
+          "targetFile": "src/semver.js",
+          "targetSymbol": "sortPrerelease",
+          "currentValue": "default_sortPrerelease",
+          "candidateValues": [
+            "repaired_sortPrerelease_v1",
+            "repaired_sortPrerelease_v2"
+          ],
+          "domain": [
+            "repaired_sortPrerelease_v1",
+            "repaired_sortPrerelease_v2"
+          ],
+          "contentHash": "c904985c093b1ba73787dd3d3157fcda09b4faff1af97e1e1951a4e94aa87417",
+          "variableDigest": "c904985c093b1ba73787dd3d3157fcda09b4faff1af97e1e1951a4e94aa87417"
+        },
+        {
+          "variableId": "VAR-P46-L7-03-2",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/comparator.js",
+          "targetFile": "src/comparator.js",
+          "targetSymbol": "compareSemVer",
+          "currentValue": "default_compareSemVer",
+          "candidateValues": [
+            "repaired_compareSemVer_v1",
+            "repaired_compareSemVer_v2"
+          ],
+          "domain": [
+            "repaired_compareSemVer_v1",
+            "repaired_compareSemVer_v2"
+          ],
+          "contentHash": "cde36d5aee261c41a82e54074bc6d48217d59ea3a6d2a877b581beadb28b1d33",
+          "variableDigest": "cde36d5aee261c41a82e54074bc6d48217d59ea3a6d2a877b581beadb28b1d33"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-03-1",
+          "semanticContractId": "CTR-P46-L7-03-1",
+          "affectedModules": [
+            "src/comparator.js",
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "compareSemVer",
+            "sortPrerelease"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from sortPrerelease"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for sortPrerelease"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for sortPrerelease"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-03-1"
+          ],
+          "contentHash": "4cc24b884cd402493c1e5bb2d8708955805100e2d9c542a5eaa3d7151fbbc1ca",
+          "provenanceHash": "4cc24b884cd402493c1e5bb2d8708955805100e2d9c542a5eaa3d7151fbbc1ca"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L7-03-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-03-1"
+          ],
+          "condition": "sortPrerelease must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L7-03-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-03-1",
+            "VAR-P46-L7-03-2"
+          ],
+          "condition": "sortPrerelease and compareSemVer must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L7-03-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L7-03-1",
+            "VAR-P46-L7-03-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L7-03-CROSS",
+          "toNode": "VAR:VAR-P46-L7-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-03-CROSS",
+          "toNode": "VAR:VAR-P46-L7-03-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-03-INTRA",
+          "toNode": "VAR:VAR-P46-L7-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-03-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-03-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-03-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-03-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-03-1",
+          "toNode": "OBL:OBL-P46-L7-03-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-03-2",
+          "toNode": "OBL:OBL-P46-L7-03-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L7-03-1",
+        "VAR-P46-L7-03-2"
+      ],
+      "repairGraphDigest": "d8cf8b4eca0af6a7ff10db467f9da28ea2dfb6b6db731a2d392fed9ae4db1f7b"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L7-04-1",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/deep-set.js",
+          "targetFile": "src/deep-set.js",
+          "targetSymbol": "setDeepProperty",
+          "currentValue": "default_setDeepProperty",
+          "candidateValues": [
+            "repaired_setDeepProperty_v1",
+            "repaired_setDeepProperty_v2"
+          ],
+          "domain": [
+            "repaired_setDeepProperty_v1",
+            "repaired_setDeepProperty_v2"
+          ],
+          "contentHash": "3b5d18b20c5778b0bf558d77d882bb4707e805d14ea7e9a3aef2fee3576be622",
+          "variableDigest": "3b5d18b20c5778b0bf558d77d882bb4707e805d14ea7e9a3aef2fee3576be622"
+        },
+        {
+          "variableId": "VAR-P46-L7-04-2",
+          "variableType": "FUNCTION_SIGNATURE",
+          "filePath": "src/path-resolver.js",
+          "targetFile": "src/path-resolver.js",
+          "targetSymbol": "resolveObjectPath",
+          "currentValue": "default_resolveObjectPath",
+          "candidateValues": [
+            "repaired_resolveObjectPath_v1",
+            "repaired_resolveObjectPath_v2"
+          ],
+          "domain": [
+            "repaired_resolveObjectPath_v1",
+            "repaired_resolveObjectPath_v2"
+          ],
+          "contentHash": "d30e9f18c6f313792a4a0ec7c296d8fbc2aaf8b121c9091b402f06a63ededc04",
+          "variableDigest": "d30e9f18c6f313792a4a0ec7c296d8fbc2aaf8b121c9091b402f06a63ededc04"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-04-1",
+          "semanticContractId": "CTR-P46-L7-04-1",
+          "affectedModules": [
+            "src/deep-set.js",
+            "src/path-resolver.js"
+          ],
+          "affectedSymbols": [
+            "resolveObjectPath",
+            "setDeepProperty"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from setDeepProperty"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for setDeepProperty"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for setDeepProperty"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-04-1"
+          ],
+          "contentHash": "e9a5809ad6a9b70d075eece247cdebef255f201cd9ededf8cf97c76cd8075988",
+          "provenanceHash": "e9a5809ad6a9b70d075eece247cdebef255f201cd9ededf8cf97c76cd8075988"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L7-04-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-04-1"
+          ],
+          "condition": "setDeepProperty must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L7-04-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-04-1",
+            "VAR-P46-L7-04-2"
+          ],
+          "condition": "setDeepProperty and resolveObjectPath must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L7-04-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L7-04-1",
+            "VAR-P46-L7-04-2"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L7-04-CROSS",
+          "toNode": "VAR:VAR-P46-L7-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-04-CROSS",
+          "toNode": "VAR:VAR-P46-L7-04-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-04-INTRA",
+          "toNode": "VAR:VAR-P46-L7-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-04-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-04-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-04-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-04-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-04-1",
+          "toNode": "OBL:OBL-P46-L7-04-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-04-2",
+          "toNode": "OBL:OBL-P46-L7-04-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L7-04-1",
+        "VAR-P46-L7-04-2"
+      ],
+      "repairGraphDigest": "dabbb84e6ec0797295a601e9637c495be87aafcb288f9e0e97214e80877254bd"
+    },
+    {
+      "graphId": "REPAIR-GRAPH-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "variables": [
+        {
+          "variableId": "VAR-P46-L7-05-1",
+          "variableType": "STATE_TRANSITION",
+          "filePath": "src/models/user.js",
+          "targetFile": "src/models/user.js",
+          "targetSymbol": "authorizeRole",
+          "currentValue": "ROLE_UNAUTHORIZED",
+          "candidateValues": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "domain": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "contentHash": "615047398857b85d89b8ae07e3a046a5554cd2c3d41f8ebd50d18cc4ef1dfa38",
+          "variableDigest": "615047398857b85d89b8ae07e3a046a5554cd2c3d41f8ebd50d18cc4ef1dfa38"
+        },
+        {
+          "variableId": "VAR-P46-L7-05-2",
+          "variableType": "STATE_TRANSITION",
+          "filePath": "src/services/user-service.js",
+          "targetFile": "src/services/user-service.js",
+          "targetSymbol": "evaluateRoleHierarchy",
+          "currentValue": "ROLE_UNAUTHORIZED",
+          "candidateValues": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "domain": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "contentHash": "34e54d09a464b0a4eb9d84d11d86da02a04403c2292400ac20697766f4c1e479",
+          "variableDigest": "34e54d09a464b0a4eb9d84d11d86da02a04403c2292400ac20697766f4c1e479"
+        },
+        {
+          "variableId": "VAR-P46-L7-05-3",
+          "variableType": "STATE_TRANSITION",
+          "filePath": "src/routes/user-route.js",
+          "targetFile": "src/routes/user-route.js",
+          "targetSymbol": "authorizeRole",
+          "currentValue": "ROLE_UNAUTHORIZED",
+          "candidateValues": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "domain": [
+            "ROLE_AUTHORIZED",
+            "ROLE_INHERITED"
+          ],
+          "contentHash": "b0441db60f3639657c939d7ea0d5b6b0eeb183354b1cf746b700be191d17da0c",
+          "variableDigest": "b0441db60f3639657c939d7ea0d5b6b0eeb183354b1cf746b700be191d17da0c"
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "OBL-P46-L7-05-1",
+          "semanticContractId": "CTR-P46-L7-05-1",
+          "affectedModules": [
+            "src/models/user.js",
+            "src/services/user-service.js"
+          ],
+          "affectedSymbols": [
+            "authorizeRole",
+            "evaluateRoleHierarchy"
+          ],
+          "preconditions": [
+            "ASSUMES: Callers assume valid return format from authorizeRole"
+          ],
+          "requiredPostconditions": [
+            "GUARANTEES: Preserve interface for authorizeRole"
+          ],
+          "requiredGuarantees": [
+            "GUARANTEES: Preserve interface for authorizeRole"
+          ],
+          "forbiddenPostconditions": [
+            "MUTATE_FROZEN_INTERFACE",
+            "REGRESSION_VIOLATION"
+          ],
+          "priority": 1,
+          "provenance": [
+            "CONTRACT:CTR-P46-L7-05-1"
+          ],
+          "contentHash": "2759c6864c42247160002270ed78c7cfcbfe7c4beb2004b1d83a1f055ba87311",
+          "provenanceHash": "2759c6864c42247160002270ed78c7cfcbfe7c4beb2004b1d83a1f055ba87311"
+        }
+      ],
+      "constraints": [
+        {
+          "constraintId": "CONST-P46-L7-05-INTRA",
+          "kind": "INTRA_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-05-1"
+          ],
+          "condition": "authorizeRole must satisfy targeted fix condition"
+        },
+        {
+          "constraintId": "CONST-P46-L7-05-CROSS",
+          "kind": "CROSS_MODULE",
+          "variableIds": [
+            "VAR-P46-L7-05-1",
+            "VAR-P46-L7-05-2"
+          ],
+          "condition": "authorizeRole and evaluateRoleHierarchy must coordinate across file boundary"
+        },
+        {
+          "constraintId": "CONST-P46-L7-05-REGRESSION",
+          "kind": "REGRESSION_PRESERVATION",
+          "variableIds": [
+            "VAR-P46-L7-05-1",
+            "VAR-P46-L7-05-2",
+            "VAR-P46-L7-05-3"
+          ],
+          "condition": "Repository baseline regression tests (P2P) must not fail"
+        }
+      ],
+      "edges": [
+        {
+          "fromNode": "CONST:CONST-P46-L7-05-CROSS",
+          "toNode": "VAR:VAR-P46-L7-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-05-CROSS",
+          "toNode": "VAR:VAR-P46-L7-05-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-05-INTRA",
+          "toNode": "VAR:VAR-P46-L7-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-05-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-05-1",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-05-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-05-2",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "CONST:CONST-P46-L7-05-REGRESSION",
+          "toNode": "VAR:VAR-P46-L7-05-3",
+          "rel": "CONSTRAINS"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-05-1",
+          "toNode": "OBL:OBL-P46-L7-05-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-05-2",
+          "toNode": "OBL:OBL-P46-L7-05-1",
+          "rel": "SATISFIES"
+        },
+        {
+          "fromNode": "VAR:VAR-P46-L7-05-3",
+          "toNode": "OBL:OBL-P46-L7-05-1",
+          "rel": "SATISFIES"
+        }
+      ],
+      "topologicalOrder": [
+        "VAR-P46-L7-05-1",
+        "VAR-P46-L7-05-2",
+        "VAR-P46-L7-05-3"
+      ],
+      "repairGraphDigest": "0ead88d0a5ffb819423909954d539688440f18a75bc9153cd92afb61b451eb9e"
+    }
+  ],
+  "artifactDigest": "4cb14a49b918fe85e477d567eb78929004a5850a7117430ee0b4a6a345b9f7d7"
+}
