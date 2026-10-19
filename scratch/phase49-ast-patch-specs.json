@@ -1,0 +1,996 @@
+{
+  "phase": "49",
+  "protocolVersion": "emerald-phase49-ast-synthesis-v1",
+  "totalPatchSpecs": 45,
+  "allowedOperations": [
+    "REPLACE_EXPRESSION",
+    "REPLACE_STATEMENT",
+    "REPLACE_FUNCTION_BODY",
+    "INSERT_STATEMENT",
+    "DELETE_STATEMENT",
+    "REPLACE_RETURN_EXPRESSION"
+  ],
+  "patchSpecs": [
+    {
+      "patchId": "PATCH-P46-L5-01-S1",
+      "parentTaskId": "P46-L5-01",
+      "subTaskId": "P46-L5-01-S1",
+      "targetFile": "src/semver.js",
+      "targetSymbol": "parsePrerelease",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "f856d670b0f034c74a3c3e448c3cc269fd4c8b7e7e2e481c97c6790714daf9ca",
+      "sourceHashBefore": "bb752b487f310ec174cdafa760adc22cb7b656a4b502af63fa57621acc01019d",
+      "sampleSnippet": "function parsePrerelease() { return false; }",
+      "replacement": "{\n  // Governed AST patch for parsePrerelease\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/semver.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-01-S2",
+      "parentTaskId": "P46-L5-01",
+      "subTaskId": "P46-L5-01-S2",
+      "targetFile": "src/semver.js",
+      "targetSymbol": "comparePrerelease",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "569f4d433d23b9411da3859f9e0814fb76bbd661cfbfa8d63a25a5635e7e442a",
+      "sourceHashBefore": "dd0c217b77cd5ca3d443c7fc96c8c22e354924e09bfb69b35795e74bebc44b3f",
+      "sampleSnippet": "function comparePrerelease() { return false; }",
+      "replacement": "{\n  // Governed AST patch for comparePrerelease\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/semver.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-02-S1",
+      "parentTaskId": "P46-L5-02",
+      "subTaskId": "P46-L5-02-S1",
+      "targetFile": "src/deep-set.js",
+      "targetSymbol": "_toPath",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "22685ce8f4028a9f73d923f41131f2c3ab1e8692e949582b0fabf351b8a5c860",
+      "sourceHashBefore": "4c723536cc84ba4faaa6cf78c5662a8ef5d28b05c729a0fce7adae2867a2012e",
+      "sampleSnippet": "function _toPath() { return false; }",
+      "replacement": "{\n  // Governed AST patch for _toPath\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/deep-set.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-02-S2",
+      "parentTaskId": "P46-L5-02",
+      "subTaskId": "P46-L5-02-S2",
+      "targetFile": "src/deep-set.js",
+      "targetSymbol": "deepSet",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "780b765a8c4eee466a1c09f9cb227c73032a53c716e2e60c8d47cc42b1fa48ce",
+      "sourceHashBefore": "cf439cfdd8e4595f0b03963a67486b6599104239aff45fa2762e94dcdbe1cc67",
+      "sampleSnippet": "function deepSet() { return false; }",
+      "replacement": "{\n  // Governed AST patch for deepSet\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/deep-set.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-03-S1",
+      "parentTaskId": "P46-L5-03",
+      "subTaskId": "P46-L5-03-S1",
+      "targetFile": "src/emitter.js",
+      "targetSymbol": "emit",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "c2c06f86c5d3c1b90fb2cb2154d2038742498b1a2c81cd42def610c9419bf77d",
+      "sourceHashBefore": "3782aeb05026a3fb68ba58f6dd5ef9a7c615ff0a4505bd7637ce4f8cf9f2b541",
+      "sampleSnippet": "function emit() { return false; }",
+      "replacement": "{\n  // Governed AST patch for emit\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/emitter.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-03-S2",
+      "parentTaskId": "P46-L5-03",
+      "subTaskId": "P46-L5-03-S2",
+      "targetFile": "src/emitter.js",
+      "targetSymbol": "dispatchListener",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "6f9c4d676b6ebf14099c4779486d0f34e8587c884748e10ac1b05e98617818cc",
+      "sourceHashBefore": "af2765b722b40f267a908da33c5e09328ba324ca27cb35bce1591e2e4f1d8990",
+      "sampleSnippet": "function dispatchListener() { return false; }",
+      "replacement": "{\n  // Governed AST patch for dispatchListener\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/emitter.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-04-S1",
+      "parentTaskId": "P46-L5-04",
+      "subTaskId": "P46-L5-04-S1",
+      "targetFile": "src/scanner.js",
+      "targetSymbol": "_handleError",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "550fce5b12eb956de805a016155db3dedd83eab76d29bd4647b07241a3c217eb",
+      "sourceHashBefore": "65457918032d6cc736077a72b88919325fd3ff09ea75aaf1c9b915db15e8eb7c",
+      "sampleSnippet": "function _handleError() { return false; }",
+      "replacement": "{\n  // Governed AST patch for _handleError\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/scanner.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-04-S2",
+      "parentTaskId": "P46-L5-04",
+      "subTaskId": "P46-L5-04-S2",
+      "targetFile": "src/scanner.js",
+      "targetSymbol": "scanDirectory",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "ba6da03aafc59c4dede98c9105726b37766255e9245fb8e091949a26e6a5572b",
+      "sourceHashBefore": "18d5adfa7a8d5cb29a51e65e33bdf285e0c29ccde7384320766791894db4ab39",
+      "sampleSnippet": "function scanDirectory() { return false; }",
+      "replacement": "{\n  // Governed AST patch for scanDirectory\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/scanner.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-04-S3",
+      "parentTaskId": "P46-L5-04",
+      "subTaskId": "P46-L5-04-S3",
+      "targetFile": "src/scanner.js",
+      "targetSymbol": "scanDirectoryAccumulator",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "7a5fc9f56c775b934138d54a17ecb49065b64a6e4354132f539f7268e5b47d11",
+      "sourceHashBefore": "6644bff2de2aab8152ae3b9ab6013b4900e7c0f52b1680d4351729106ed0c7be",
+      "sampleSnippet": "function scanDirectoryAccumulator() { return false; }",
+      "replacement": "{\n  // Governed AST patch for scanDirectoryAccumulator\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/scanner.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-05-S1",
+      "parentTaskId": "P46-L5-05",
+      "subTaskId": "P46-L5-05-S1",
+      "targetFile": "src/kv-store.js",
+      "targetSymbol": "drainBuffer",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "95872262893bc08bb6866bb2f7b553dc4c2e13db0396943327c9d1684bfe0442",
+      "sourceHashBefore": "01851aa3e67c73df5e2fbf320375e324229740a57b1d861d7b23d16aac494b2a",
+      "sampleSnippet": "function drainBuffer() { return false; }",
+      "replacement": "{\n  // Governed AST patch for drainBuffer\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/kv-store.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-05-S2",
+      "parentTaskId": "P46-L5-05",
+      "subTaskId": "P46-L5-05-S2",
+      "targetFile": "src/kv-store.js",
+      "targetSymbol": "get",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "85c4896cfb8aa788b64e2a7e4f79e9131a6734af3210723ba3e532fc09997cf3",
+      "sourceHashBefore": "04d41157c437c9fb6411116d271af8eef144d0daea3d9241f000a449002947b3",
+      "sampleSnippet": "function get() { return false; }",
+      "replacement": "{\n  // Governed AST patch for get\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/kv-store.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L5-05-S3",
+      "parentTaskId": "P46-L5-05",
+      "subTaskId": "P46-L5-05-S3",
+      "targetFile": "src/kv-store.js",
+      "targetSymbol": "flush",
+      "targetNodeType": "FunctionDeclaration",
+      "operation": "REPLACE_FUNCTION_BODY",
+      "expectedTargetHash": "a97527b4f0027d99b81ecdd2685345b0687c6e3916780410df0a04cada8a0535",
+      "sourceHashBefore": "bdebcf3ba42c2d8c684b858bf9d68a9b3172e4a7da618412e79665a2f86c2358",
+      "sampleSnippet": "function flush() { return false; }",
+      "replacement": "{\n  // Governed AST patch for flush\n  return true;\n}",
+      "allowedScopeFiles": [
+        "src/kv-store.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-01-S1",
+      "parentTaskId": "P46-L6-01",
+      "subTaskId": "P46-L6-01-S1",
+      "targetFile": "src/models/user.js",
+      "targetSymbol": "User.prototype.hasRole",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "98bb2a6141a0e03b09c19cc929ee8f7a3c7ddfe19c7669dd02944fd0b3067009",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-01-S2",
+      "parentTaskId": "P46-L6-01",
+      "subTaskId": "P46-L6-01-S2",
+      "targetFile": "src/models/user.js",
+      "targetSymbol": "authorizeUser",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "8ea4b983bd5fa858ff4504e5fb1aef4ced0ee438aaa5ea9c7c624b708478b96e",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-01-S3",
+      "parentTaskId": "P46-L6-01",
+      "subTaskId": "P46-L6-01-S3",
+      "targetFile": "src/models/user.js",
+      "targetSymbol": "authorizeUserNullGuard",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "b49189f621fe36c84c2a24e0e2319c4ed1754180dcb17d89bf5f75b08c07fcf3",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-02-S1",
+      "parentTaskId": "P46-L6-02",
+      "subTaskId": "P46-L6-02-S1",
+      "targetFile": "src/config.js",
+      "targetSymbol": "defaultConfig",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "37fbae18339bf3ebf4324de88c01339b0997ac2da95d659435280a44299ee331",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-02-S2",
+      "parentTaskId": "P46-L6-02",
+      "subTaskId": "P46-L6-02-S2",
+      "targetFile": "src/config.js",
+      "targetSymbol": "mergeConfig",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "f11f2e3bbedc6cd258be460e6a6475d7f5eec70b92b9bec6ad715950c84b5433",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-02-S3",
+      "parentTaskId": "P46-L6-02",
+      "subTaskId": "P46-L6-02-S3",
+      "targetFile": "src/config.js",
+      "targetSymbol": "loadConfig",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "ede926216a65e7bf973642078fa332d1d56504b9bd01efa97dbbf68b40b6132b",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/config.js",
+        "src/defaults.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-03-S1",
+      "parentTaskId": "P46-L6-03",
+      "subTaskId": "P46-L6-03-S1",
+      "targetFile": "src/formatters/json.js",
+      "targetSymbol": "formatJson",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "81f2c465a4edb12d46816b62eb4d04566bf1ec7f21af96caf6b0e5d2d171b191",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-03-S2",
+      "parentTaskId": "P46-L6-03",
+      "subTaskId": "P46-L6-03-S2",
+      "targetFile": "src/formatters/json.js",
+      "targetSymbol": "Logger.prototype.log",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "b56d6f287f2284c395c497f96ae7054f49464055cbd8df4ea3c0ea3bdb10f65f",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-03-S3",
+      "parentTaskId": "P46-L6-03",
+      "subTaskId": "P46-L6-03-S3",
+      "targetFile": "src/formatters/json.js",
+      "targetSymbol": "formatJsonCircularHandling",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "5d7e554e95a3dd46117f121521f7b2bff2a1aeb0669d6163ce0902a732544468",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/formatters/json.js",
+        "src/logger.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-04-S1",
+      "parentTaskId": "P46-L6-04",
+      "subTaskId": "P46-L6-04-S1",
+      "targetFile": "src/request.js",
+      "targetSymbol": "lowerCaseHeaders",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "f3f919b6338c996b53a7cb6f1edf17bbcb1dea808ffdd09f6bf43870d8356a61",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-04-S2",
+      "parentTaskId": "P46-L6-04",
+      "subTaskId": "P46-L6-04-S2",
+      "targetFile": "src/request.js",
+      "targetSymbol": "sendRequest",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "5337ce99e6cbbdba6d04e65602937b0639444d79014febc9be3efba5e8f5e3b8",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-04-S3",
+      "parentTaskId": "P46-L6-04",
+      "subTaskId": "P46-L6-04-S3",
+      "targetFile": "src/request.js",
+      "targetSymbol": "preserveContentTypeBoundary",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "da10f8f6740f14c2ab92b7e607590036cccf498c42adcf9c64d11375b689fdce",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/request.js",
+        "src/client.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-05-S1",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S1",
+      "targetFile": "src/job.js",
+      "targetSymbol": "Job.prototype.markCancelled",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "d77f03e7b27afe11de5b4ece3b1a616041a0b8959be4d3f923132c2632875fa8",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-05-S2",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S2",
+      "targetFile": "src/job.js",
+      "targetSymbol": "Queue.prototype.cancelJob",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "2e664335f457bc1376eab06eaf40dfff3aebd8d13a874eaa51bc7c57825a448b",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-05-S3",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S3",
+      "targetFile": "src/job.js",
+      "targetSymbol": "Queue.prototype.removeActiveJob",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "bef34fa1cb4c9face1c27fba3a00e0d307a61da758d40f54afdf2b11c008653b",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L6-05-S4",
+      "parentTaskId": "P46-L6-05",
+      "subTaskId": "P46-L6-05-S4",
+      "targetFile": "src/job.js",
+      "targetSymbol": "JobCancellationIdempotency",
+      "targetNodeType": "ReturnStatement",
+      "operation": "REPLACE_RETURN_EXPRESSION",
+      "expectedTargetHash": "ec9835b15ff87a840b88bf7aa007f13af69df8a01fd0432673ee926b1e315775",
+      "sourceHashBefore": "fdbe98d9ca8dbbd8f926c33b4eb5c9641f90f338956685c80d8ad8ef10aa27c5",
+      "sampleSnippet": "return prevResult;",
+      "replacement": "result && result.normalized ? result.normalized : prevResult",
+      "allowedScopeFiles": [
+        "src/job.js",
+        "src/queue.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-01-S1",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S1",
+      "targetFile": "src/calc.js",
+      "targetSymbol": "tokenizeExpression",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "f63d66bb8e8cb7b1d6853117604e0dcf62baa94185a426af46b5755b03f2ac24",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-01-S2",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S2",
+      "targetFile": "src/calc.js",
+      "targetSymbol": "powerOperation",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "8c87e59fced570889f44d77ad631296a3e0410354ba0a093a022294bc2b2b2b1",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-01-S3",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S3",
+      "targetFile": "src/calc.js",
+      "targetSymbol": "evaluateAST",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "697ef550b330fb7accbff7f49426eb1d3d5969fe85274422c103f1fd7a1a2e5c",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-01-S4",
+      "parentTaskId": "P46-L7-01",
+      "subTaskId": "P46-L7-01-S4",
+      "targetFile": "src/calc.js",
+      "targetSymbol": "calcErrorHandling",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "0d94404ee05945893eccc0497df8d7b17e20db623be2a3bb5699b2adb3ba529b",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-02-S1",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S1",
+      "targetFile": "src/cors.js",
+      "targetSymbol": "stripControlChars",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "2a730c52115e7c5c7ded56373a8dbd036a9354c57f348c19b1ac3d60cd2abdd0",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-02-S2",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S2",
+      "targetFile": "src/cors.js",
+      "targetSymbol": "setCorsOrigin",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "901331b3fc40da865338af15a6a8c1535e54c4b8eb30e3c06827d9b2ba1aef7a",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-02-S3",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S3",
+      "targetFile": "src/cors.js",
+      "targetSymbol": "validateCredentialsExclusion",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "7107292bb5e1e07504785a2d6310eb400e4ac881292a58a88ca77937786422aa",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-02-S4",
+      "parentTaskId": "P46-L7-02",
+      "subTaskId": "P46-L7-02-S4",
+      "targetFile": "src/cors.js",
+      "targetSymbol": "rejectInvalidOrigin",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "22abf13a9d49ae1bbbf98da079d513435ad5d18b3a6710e80744572ee46d1ab9",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-03-S1",
+      "parentTaskId": "P46-L7-03",
+      "subTaskId": "P46-L7-03-S1",
+      "targetFile": "src/semver.js",
+      "targetSymbol": "parseBuildMetadata",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "18b9a94b43b8ae19c34a83086060beb3b5be8219d9b886b400c06f5dd3799cd6",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-03-S2",
+      "parentTaskId": "P46-L7-03",
+      "subTaskId": "P46-L7-03-S2",
+      "targetFile": "src/semver.js",
+      "targetSymbol": "compareVersionsIgnoringBuildMetadata",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "041d9e7170c5fbc8097e301a9ed8369c49197577454e4399f6a2f981d96ebc2b",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-03-S3",
+      "parentTaskId": "P46-L7-03",
+      "subTaskId": "P46-L7-03-S3",
+      "targetFile": "src/semver.js",
+      "targetSymbol": "semverSort",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "a2388457a2914a478d7782f54bdecb0663aa666240bdf1194df6a7a71820e7de",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-04-S1",
+      "parentTaskId": "P46-L7-04",
+      "subTaskId": "P46-L7-04-S1",
+      "targetFile": "src/deep-set.js",
+      "targetSymbol": "safePathSegments",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "63e68f5122bdfeeaa5c42dd147f499b01e4189d0b549fcf17f12801bb065e82f",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-04-S2",
+      "parentTaskId": "P46-L7-04",
+      "subTaskId": "P46-L7-04-S2",
+      "targetFile": "src/deep-set.js",
+      "targetSymbol": "deepSetTraverse",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "e1c33656efdac3ed0759ce847194cb57ec63c142e72a6f38d586edaa979ab67c",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-04-S3",
+      "parentTaskId": "P46-L7-04",
+      "subTaskId": "P46-L7-04-S3",
+      "targetFile": "src/deep-set.js",
+      "targetSymbol": "deepSetLeafGuard",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "31b30c28c554064416a4b152b30e7ee01b72de4c8916d951fff90b871b99d818",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/deep-set.js",
+        "src/path-resolver.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-05-S1",
+      "parentTaskId": "P46-L7-05",
+      "subTaskId": "P46-L7-05-S1",
+      "targetFile": "src/models/user.js",
+      "targetSymbol": "ROLE_HIERARCHY",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "b7848fa09b384ea081e387e7825321e4498610a1ca88257e1557720fab96eda9",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-05-S2",
+      "parentTaskId": "P46-L7-05",
+      "subTaskId": "P46-L7-05-S2",
+      "targetFile": "src/models/user.js",
+      "targetSymbol": "checkPermissionHierarchical",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "2d070ce23bdc850139f106e1af96210ec2baf054dc531b7bdd92257029e1cb2c",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    },
+    {
+      "patchId": "PATCH-P46-L7-05-S3",
+      "parentTaskId": "P46-L7-05",
+      "subTaskId": "P46-L7-05-S3",
+      "targetFile": "src/models/user.js",
+      "targetSymbol": "requireRoleMiddleware",
+      "targetNodeType": "BinaryExpression",
+      "operation": "REPLACE_EXPRESSION",
+      "expectedTargetHash": "7dcdef9b2e4d434ffaaa6140ba3969ecf593585b0d31cb03beb22ee8b79a3d81",
+      "sourceHashBefore": "81c773e43d5d4cecc08d24e8daaa5b07962c48a94a3ebc77a8e2342a26df95a8",
+      "sampleSnippet": "base ** exponent",
+      "replacement": "(base < 0 ? -(Math.abs(base) ** exponent) : base ** exponent)",
+      "allowedScopeFiles": [
+        "src/models/user.js",
+        "src/services/user-service.js",
+        "src/routes/user-route.js"
+      ],
+      "validationRules": {
+        "requireSingleTarget": true,
+        "disallowWholeFileReplacement": true,
+        "enforceReparse": true
+      }
+    }
+  ]
+}

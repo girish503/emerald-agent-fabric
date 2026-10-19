@@ -1,0 +1,112 @@
+{
+  "phase": "49",
+  "name": "Grammar-Constrained AST Synthesis & Structural Program Patching Evaluation",
+  "protocolVersion": "emerald-phase49-ast-synthesis-v1",
+  "frozenAt": "2026-10-19T19:30:00.000Z",
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "experimentalVariable": "code_generation_constraint",
+  "controlCondition": "CONDITION_A_CURRENT_BEST_BASELINE",
+  "taskCohort": {
+    "size": 15,
+    "cohortDigest": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+    "graphsDigest": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956",
+    "anchorsDigest": "839c66d4bfdb6b0cd10f4b7e22d53a9cf5a97e82613187a32c4bb8f823683a7c",
+    "projectionsDigest": "a969190909d8dd083feabfd6e2f0f4ad84147e3555b76e2291c684ef20cf002e"
+  },
+  "contextBudgetBytes": 4096,
+  "astParser": {
+    "engine": "TypeScript Compiler API (ts.createSourceFile)",
+    "version": "5.7.2",
+    "ecmaVersion": "ES2022",
+    "supportedLanguages": [
+      "JavaScript",
+      "TypeScript"
+    ]
+  },
+  "allowedOperations": [
+    "REPLACE_EXPRESSION",
+    "REPLACE_STATEMENT",
+    "REPLACE_FUNCTION_BODY",
+    "INSERT_STATEMENT",
+    "DELETE_STATEMENT",
+    "REPLACE_RETURN_EXPRESSION"
+  ],
+  "conditions": [
+    {
+      "id": "CONDITION_A_CURRENT_BEST_BASELINE",
+      "name": "Current Best Baseline (Phase 48 Control)",
+      "description": "Unconstrained textual write_file proposals under Phase 48 active invariant projection (4096B) and Phase 47 semantic anchoring."
+    },
+    {
+      "id": "CONDITION_B_STRUCTURAL_PATCH",
+      "name": "Structural Patch Proposal",
+      "description": "Bounded structural patch schema specifying targetFile, targetSymbol, targetNodeType, operation, and replacement content. Replaces whole-file text with targeted block mutation."
+    },
+    {
+      "id": "CONDITION_C_AST_NODE_CONSTRAINT",
+      "name": "AST-Node Constrained Synthesis",
+      "description": "Model proposes only AST-local transformations. Emerald parses source, locates single target node, verifies node type, verifies structural target fingerprint, applies patch, and reparses."
+    },
+    {
+      "id": "CONDITION_D_AST_CONSTRAINT_PLUS_SEMANTIC_ANCHOR",
+      "name": "AST Constraint + Semantic Anchor",
+      "description": "Combines strict AST node transformations with Phase 47 typed interface contracts, immutable state assertions, and Phase 48 budgeted invariant projection (4096B)."
+    }
+  ],
+  "structuralHashingRules": {
+    "algorithm": "SHA-256",
+    "components": [
+      "targetFile",
+      "symbolPath",
+      "targetNodeType",
+      "normalizedStructuralContent"
+    ],
+    "normalization": "whitespace-invariant token normalization"
+  },
+  "failureTaxonomy": [
+    "AST_SCHEMA_FAILURE",
+    "AST_TARGET_NOT_FOUND",
+    "AST_TARGET_AMBIGUOUS",
+    "AST_NODE_TYPE_MISMATCH",
+    "AST_TARGET_HASH_MISMATCH",
+    "AST_PATCH_SCOPE_FAILURE",
+    "AST_PATCH_APPLICATION_FAILURE",
+    "AST_REPARSE_FAILURE",
+    "AST_STRUCTURAL_VALIDITY_SUCCESS_SEMANTIC_FAILURE"
+  ],
+  "negativeControls": [
+    "N1_WRONG_NODE_TYPE",
+    "N2_WRONG_TARGET_HASH",
+    "N3_AMBIGUOUS_TARGET",
+    "N4_OUT_OF_SCOPE_FILE",
+    "N5_INVALID_AST",
+    "N6_TEST_MANIPULATION",
+    "N7_STRUCTURALLY_VALID_SEMANTICALLY_WRONG",
+    "N8_WHOLE_FILE_REPLACEMENT_ATTEMPT"
+  ],
+  "hypotheses": [
+    "H1_STRUCTURAL_VALIDITY",
+    "H2_MUTATION_RELIABILITY",
+    "H3_SEMANTIC_COMPOSITION",
+    "H4_DEEP_REASONING_BOUNDARY",
+    "H5_COST_OVERHEAD",
+    "H6_GOVERNANCE_PRESERVATION"
+  ]
+}
