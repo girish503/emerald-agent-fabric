@@ -1,0 +1,624 @@
+{
+  "phase": "46",
+  "protocolVersion": "emerald-phase46-task-decomposition-v1",
+  "frozenAt": "2026-10-19T11:45:00.000Z",
+  "totalParentTasks": 15,
+  "totalSubTasks": 46,
+  "graphs": [
+    {
+      "parentTaskId": "P46-L5-01",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L5-01-S1",
+          "parentTaskId": "P46-L5-01",
+          "sequenceNumber": 1,
+          "objective": "Implement parsePrerelease() segment splitting in src/semver.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/semver.js"],
+          "verificationSpec": { "command": "node test/unit/semver-parse.test.js", "target": "src/semver.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L5-01-S2",
+          "parentTaskId": "P46-L5-01",
+          "sequenceNumber": 2,
+          "objective": "Coordinate comparePrerelease() with parsed segment comparator in src/semver.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/semver.js"],
+          "verificationSpec": { "command": "node test/unit/semver-compare.test.js", "target": "src/semver.js" },
+          "dependencySubTaskIds": ["P46-L5-01-S1"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L5-02",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L5-02-S1",
+          "parentTaskId": "P46-L5-02",
+          "sequenceNumber": 1,
+          "objective": "Implement _toPath key sanitizer blocking __proto__ and prototype in src/deep-set.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/deep-set.js"],
+          "verificationSpec": { "command": "node test/unit/deep-path.test.js", "target": "src/deep-set.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L5-02-S2",
+          "parentTaskId": "P46-L5-02",
+          "sequenceNumber": 2,
+          "objective": "Wire key check into _setInternal traversal guard in src/deep-set.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/deep-set.js"],
+          "verificationSpec": { "command": "node test/unit/deep-set-guard.test.js", "target": "src/deep-set.js" },
+          "dependencySubTaskIds": ["P46-L5-02-S1"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L5-03",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L5-03-S1",
+          "parentTaskId": "P46-L5-03",
+          "sequenceNumber": 1,
+          "objective": "Extract and spread variadic arguments in emit() in src/emitter.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/emitter.js"],
+          "verificationSpec": { "command": "node test/unit/emitter-spread.test.js", "target": "src/emitter.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L5-03-S2",
+          "parentTaskId": "P46-L5-03",
+          "sequenceNumber": 2,
+          "objective": "Update dispatchListener helper to pass spread args in src/emitter.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/emitter.js"],
+          "verificationSpec": { "command": "node test/unit/emitter-dispatch.test.js", "target": "src/emitter.js" },
+          "dependencySubTaskIds": ["P46-L5-03-S1"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L5-04",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L5-04-S1",
+          "parentTaskId": "P46-L5-04",
+          "sequenceNumber": 1,
+          "objective": "Implement _handleError to swallow EACCES and emit warning event in src/scanner.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/scanner.js"],
+          "verificationSpec": { "command": "node test/unit/scanner-err.test.js", "target": "src/scanner.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L5-04-S2",
+          "parentTaskId": "P46-L5-04",
+          "sequenceNumber": 2,
+          "objective": "Wrap directory entry iteration in try/catch calling _handleError in src/scanner.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/scanner.js"],
+          "verificationSpec": { "command": "node test/unit/scanner-walk.test.js", "target": "src/scanner.js" },
+          "dependencySubTaskIds": ["P46-L5-04-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L5-04-S3",
+          "parentTaskId": "P46-L5-04",
+          "sequenceNumber": 3,
+          "objective": "Ensure scanned path accumulator preserves valid entries despite errors in src/scanner.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/scanner.js"],
+          "verificationSpec": { "command": "node test/unit/scanner-accum.test.js", "target": "src/scanner.js" },
+          "dependencySubTaskIds": ["P46-L5-04-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L5-05",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L5-05-S1",
+          "parentTaskId": "P46-L5-05",
+          "sequenceNumber": 1,
+          "objective": "Implement write buffer queue drain mechanism in src/kv-store.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/kv-store.js"],
+          "verificationSpec": { "command": "node test/unit/kv-drain.test.js", "target": "src/kv-store.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L5-05-S2",
+          "parentTaskId": "P46-L5-05",
+          "sequenceNumber": 2,
+          "objective": "Wire pending write buffer check into readCache lookup in src/kv-store.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/kv-store.js"],
+          "verificationSpec": { "command": "node test/unit/kv-read.test.js", "target": "src/kv-store.js" },
+          "dependencySubTaskIds": ["P46-L5-05-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L5-05-S3",
+          "parentTaskId": "P46-L5-05",
+          "sequenceNumber": 3,
+          "objective": "Ensure synchronous flush() waits on pending queue completion in src/kv-store.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/kv-store.js"],
+          "verificationSpec": { "command": "node test/unit/kv-sync.test.js", "target": "src/kv-store.js" },
+          "dependencySubTaskIds": ["P46-L5-05-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L6-01",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L6-01-S1",
+          "parentTaskId": "P46-L6-01",
+          "sequenceNumber": 1,
+          "objective": "Implement hasRole(role) method on User model in src/models/user.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/models/user.js"],
+          "verificationSpec": { "command": "node test/unit/user-model.test.js", "target": "src/models/user.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-01-S2",
+          "parentTaskId": "P46-L6-01",
+          "sequenceNumber": 2,
+          "objective": "Update authorizeUser in src/services/user-service.js to check user.hasRole(role)",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/services/user-service.js"],
+          "verificationSpec": { "command": "node test/unit/user-service.test.js", "target": "src/services/user-service.js" },
+          "dependencySubTaskIds": ["P46-L6-01-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-01-S3",
+          "parentTaskId": "P46-L6-01",
+          "sequenceNumber": 3,
+          "objective": "Handle undefined/null user gracefully in authorizeUser in src/services/user-service.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/services/user-service.js"],
+          "verificationSpec": { "command": "node test/unit/user-guard.test.js", "target": "src/services/user-service.js" },
+          "dependencySubTaskIds": ["P46-L6-01-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L6-02",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L6-02-S1",
+          "parentTaskId": "P46-L6-02",
+          "sequenceNumber": 1,
+          "objective": "Define default configuration object export in src/defaults.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/defaults.js"],
+          "verificationSpec": { "command": "node test/unit/defaults.test.js", "target": "src/defaults.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-02-S2",
+          "parentTaskId": "P46-L6-02",
+          "sequenceNumber": 2,
+          "objective": "Import defaults into src/config.js and merge with loaded user config",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/config.js"],
+          "verificationSpec": { "command": "node test/unit/config-merge.test.js", "target": "src/config.js" },
+          "dependencySubTaskIds": ["P46-L6-02-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-02-S3",
+          "parentTaskId": "P46-L6-02",
+          "sequenceNumber": 3,
+          "objective": "Catch ENOENT in loadConfigFile and return defaults in src/config.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/config.js"],
+          "verificationSpec": { "command": "node test/unit/config-fallback.test.js", "target": "src/config.js" },
+          "dependencySubTaskIds": ["P46-L6-02-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L6-03",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L6-03-S1",
+          "parentTaskId": "P46-L6-03",
+          "sequenceNumber": 1,
+          "objective": "Extract JSON formatting logic into formatJson() in src/formatters/json.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/formatters/json.js"],
+          "verificationSpec": { "command": "node test/unit/json-format.test.js", "target": "src/formatters/json.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-03-S2",
+          "parentTaskId": "P46-L6-03",
+          "sequenceNumber": 2,
+          "objective": "Wire formatJson into Logger.prototype.log in src/logger.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/logger.js"],
+          "verificationSpec": { "command": "node test/unit/logger-wire.test.js", "target": "src/logger.js" },
+          "dependencySubTaskIds": ["P46-L6-03-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-03-S3",
+          "parentTaskId": "P46-L6-03",
+          "sequenceNumber": 3,
+          "objective": "Ensure circular reference safety in formatJson in src/formatters/json.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/formatters/json.js"],
+          "verificationSpec": { "command": "node test/unit/json-circular.test.js", "target": "src/formatters/json.js" },
+          "dependencySubTaskIds": ["P46-L6-03-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L6-04",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L6-04-S1",
+          "parentTaskId": "P46-L6-04",
+          "sequenceNumber": 1,
+          "objective": "Implement lowerCaseHeaders() normalizer in src/request.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/request.js"],
+          "verificationSpec": { "command": "node test/unit/request-headers.test.js", "target": "src/request.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-04-S2",
+          "parentTaskId": "P46-L6-04",
+          "sequenceNumber": 2,
+          "objective": "Update sendRequest in src/client.js to invoke normalizer on outgoing headers",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/client.js"],
+          "verificationSpec": { "command": "node test/unit/client-transport.test.js", "target": "src/client.js" },
+          "dependencySubTaskIds": ["P46-L6-04-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-04-S3",
+          "parentTaskId": "P46-L6-04",
+          "sequenceNumber": 3,
+          "objective": "Add Content-Type preservation guard in src/request.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/request.js"],
+          "verificationSpec": { "command": "node test/unit/request-preserve.test.js", "target": "src/request.js" },
+          "dependencySubTaskIds": ["P46-L6-04-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L6-05",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L6-05-S1",
+          "parentTaskId": "P46-L6-05",
+          "sequenceNumber": 1,
+          "objective": "Implement markCancelled() state transition and guard in src/job.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/job.js"],
+          "verificationSpec": { "command": "node test/unit/job-status.test.js", "target": "src/job.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-05-S2",
+          "parentTaskId": "P46-L6-05",
+          "sequenceNumber": 2,
+          "objective": "Update cancelJob in src/queue.js to signal active worker eviction",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/queue.js"],
+          "verificationSpec": { "command": "node test/unit/queue-evict.test.js", "target": "src/queue.js" },
+          "dependencySubTaskIds": ["P46-L6-05-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-05-S3",
+          "parentTaskId": "P46-L6-05",
+          "sequenceNumber": 3,
+          "objective": "Ensure worker clean termination handler removes job from active pool in src/queue.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/queue.js"],
+          "verificationSpec": { "command": "node test/unit/queue-cleanup.test.js", "target": "src/queue.js" },
+          "dependencySubTaskIds": ["P46-L6-05-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L6-05-S4",
+          "parentTaskId": "P46-L6-05",
+          "sequenceNumber": 4,
+          "objective": "Handle already completed job cancellation idempotency in src/job.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/job.js"],
+          "verificationSpec": { "command": "node test/unit/job-idempotent.test.js", "target": "src/job.js" },
+          "dependencySubTaskIds": ["P46-L6-05-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L7-01",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L7-01-S1",
+          "parentTaskId": "P46-L7-01",
+          "sequenceNumber": 1,
+          "objective": "Fix negative exponent tokenization in src/parser.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/parser.js"],
+          "verificationSpec": { "command": "node test/unit/calc-tok.test.js", "target": "src/parser.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-01-S2",
+          "parentTaskId": "P46-L7-01",
+          "sequenceNumber": 2,
+          "objective": "Fix power evaluation operator precedence for negative exponents in src/calc.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/calc.js"],
+          "verificationSpec": { "command": "node test/unit/calc-pow.test.js", "target": "src/calc.js" },
+          "dependencySubTaskIds": ["P46-L7-01-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-01-S3",
+          "parentTaskId": "P46-L7-01",
+          "sequenceNumber": 3,
+          "objective": "Wire parsed AST node visitor into main compute() pipeline in src/calc.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/calc.js"],
+          "verificationSpec": { "command": "node test/unit/calc-compute.test.js", "target": "src/calc.js" },
+          "dependencySubTaskIds": ["P46-L7-01-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-01-S4",
+          "parentTaskId": "P46-L7-01",
+          "sequenceNumber": 4,
+          "objective": "Ensure zero-division and invalid exponent error formatting in src/calc.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/calc.js"],
+          "verificationSpec": { "command": "node test/unit/calc-err.test.js", "target": "src/calc.js" },
+          "dependencySubTaskIds": ["P46-L7-01-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L7-02",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L7-02-S1",
+          "parentTaskId": "P46-L7-02",
+          "sequenceNumber": 1,
+          "objective": "Implement strict newline and CRLF stripping in src/header-validator.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/header-validator.js"],
+          "verificationSpec": { "command": "node test/unit/cors-strip.test.js", "target": "src/header-validator.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-02-S2",
+          "parentTaskId": "P46-L7-02",
+          "sequenceNumber": 2,
+          "objective": "Integrate sanitized header validator into CORS origin reflection in src/cors.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/cors.js"],
+          "verificationSpec": { "command": "node test/unit/cors-reflect.test.js", "target": "src/cors.js" },
+          "dependencySubTaskIds": ["P46-L7-02-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-02-S3",
+          "parentTaskId": "P46-L7-02",
+          "sequenceNumber": 3,
+          "objective": "Enforce wildcards and credentials mutual exclusion check in src/cors.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/cors.js"],
+          "verificationSpec": { "command": "node test/unit/cors-wildcard.test.js", "target": "src/cors.js" },
+          "dependencySubTaskIds": ["P46-L7-02-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-02-S4",
+          "parentTaskId": "P46-L7-02",
+          "sequenceNumber": 4,
+          "objective": "Ensure invalid origin rejection returns 403 Forbidden status in src/cors.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/cors.js"],
+          "verificationSpec": { "command": "node test/unit/cors-status.test.js", "target": "src/cors.js" },
+          "dependencySubTaskIds": ["P46-L7-02-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L7-03",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L7-03-S1",
+          "parentTaskId": "P46-L7-03",
+          "sequenceNumber": 1,
+          "objective": "Implement metadata token tokenizer in src/semver.js",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/semver.js"],
+          "verificationSpec": { "command": "node test/unit/semver-tok.test.js", "target": "src/semver.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-03-S2",
+          "parentTaskId": "P46-L7-03",
+          "sequenceNumber": 2,
+          "objective": "Add build metadata ignore rule in version comparator in src/comparator.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/comparator.js"],
+          "verificationSpec": { "command": "node test/unit/semver-comp.test.js", "target": "src/comparator.js" },
+          "dependencySubTaskIds": ["P46-L7-03-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-03-S3",
+          "parentTaskId": "P46-L7-03",
+          "sequenceNumber": 3,
+          "objective": "Wire metadata-aware compare into semver.sort() in src/semver.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/semver.js"],
+          "verificationSpec": { "command": "node test/unit/semver-sort.test.js", "target": "src/semver.js" },
+          "dependencySubTaskIds": ["P46-L7-03-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L7-04",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L7-04-S1",
+          "parentTaskId": "P46-L7-04",
+          "sequenceNumber": 1,
+          "objective": "Implement path segment resolver in src/path-resolver.js filtering __proto__ and constructor",
+          "complexityLevel": "L3",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/path-resolver.js"],
+          "verificationSpec": { "command": "node test/unit/path-resolve.test.js", "target": "src/path-resolver.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-04-S2",
+          "parentTaskId": "P46-L7-04",
+          "sequenceNumber": 2,
+          "objective": "Integrate safe path resolver into deep-set main loop in src/deep-set.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/deep-set.js"],
+          "verificationSpec": { "command": "node test/unit/deep-loop.test.js", "target": "src/deep-set.js" },
+          "dependencySubTaskIds": ["P46-L7-04-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-04-S3",
+          "parentTaskId": "P46-L7-04",
+          "sequenceNumber": 3,
+          "objective": "Add hasOwnProperty guard on prototype leaf assignments in src/deep-set.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/deep-set.js"],
+          "verificationSpec": { "command": "node test/unit/deep-leaf.test.js", "target": "src/deep-set.js" },
+          "dependencySubTaskIds": ["P46-L7-04-S2"],
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "parentTaskId": "P46-L7-05",
+      "subTasks": [
+        {
+          "subTaskId": "P46-L7-05-S1",
+          "parentTaskId": "P46-L7-05",
+          "sequenceNumber": 1,
+          "objective": "Implement role hierarchy tree in src/models/user.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/models/user.js"],
+          "verificationSpec": { "command": "node test/unit/user-tree.test.js", "target": "src/models/user.js" },
+          "dependencySubTaskIds": [],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-05-S2",
+          "parentTaskId": "P46-L7-05",
+          "sequenceNumber": 2,
+          "objective": "Implement hierarchical permission resolver in src/services/user-service.js",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/services/user-service.js"],
+          "verificationSpec": { "command": "node test/unit/user-perm.test.js", "target": "src/services/user-service.js" },
+          "dependencySubTaskIds": ["P46-L7-05-S1"],
+          "status": "PENDING"
+        },
+        {
+          "subTaskId": "P46-L7-05-S3",
+          "parentTaskId": "P46-L7-05",
+          "sequenceNumber": 3,
+          "objective": "Wire authorization middleware in src/routes/user-route.js calling permission resolver",
+          "complexityLevel": "L4",
+          "allowedTools": ["read_file", "write_file", "run_command"],
+          "workspaceScope": ["src/routes/user-route.js"],
+          "verificationSpec": { "command": "node test/unit/user-route.test.js", "target": "src/routes/user-route.js" },
+          "dependencySubTaskIds": ["P46-L7-05-S2"],
+          "status": "PENDING"
+        }
+      ]
+    }
+  ]
+}

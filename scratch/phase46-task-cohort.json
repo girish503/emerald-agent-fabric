@@ -1,0 +1,163 @@
+{
+  "phase": "46",
+  "protocolVersion": "emerald-phase46-task-decomposition-v1",
+  "frozenAt": "2026-10-19T11:45:00.000Z",
+  "taskCohortSize": 15,
+  "levelDistribution": {
+    "L5_derived": 5,
+    "L6_derived": 5,
+    "L7_derived": 5
+  },
+  "parentTasks": [
+    {
+      "parentTaskId": "P46-L5-01",
+      "derivedFrom": "EAF-L5-01",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "title": "SemVer prerelease parser and comparator coordination",
+      "targetFiles": ["src/semver.js"],
+      "baselineF2PTest": "test/semver-prerelease.test.js",
+      "baselineP2PTest": "test/semver-core.test.js",
+      "description": "Coordinate parsePrerelease() and comparePrerelease() across hyphenated segments."
+    },
+    {
+      "parentTaskId": "P46-L5-02",
+      "derivedFrom": "EAF-L5-02",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "title": "Prototype pollution guard in deep-set",
+      "targetFiles": ["src/deep-set.js"],
+      "baselineF2PTest": "test/deep-set-pollution.test.js",
+      "baselineP2PTest": "test/deep-set-core.test.js",
+      "description": "Coordinate _toPath() key sanitization and _setInternal() traversal to block __proto__."
+    },
+    {
+      "parentTaskId": "P46-L5-03",
+      "derivedFrom": "EAF-L5-03",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "title": "Event emitter argument spreading and dispatch",
+      "targetFiles": ["src/emitter.js"],
+      "baselineF2PTest": "test/emitter-args.test.js",
+      "baselineP2PTest": "test/emitter-core.test.js",
+      "description": "Coordinate emit() argument array spreading and listener dispatch callback helper."
+    },
+    {
+      "parentTaskId": "P46-L5-04",
+      "derivedFrom": "EAF-L5-04",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "title": "Graceful EACCES error handling in directory scanner",
+      "targetFiles": ["src/scanner.js"],
+      "baselineF2PTest": "test/scanner-eacces.test.js",
+      "baselineP2PTest": "test/scanner-core.test.js",
+      "description": "Coordinate _handleError() warning emission and scanDirectory() traversal continuation."
+    },
+    {
+      "parentTaskId": "P46-L5-05",
+      "derivedFrom": "EAF-L5-05",
+      "complexityTier": "L5_MULTI_FUNCTION",
+      "title": "KV-store buffer flush synchronization",
+      "targetFiles": ["src/kv-store.js"],
+      "baselineF2PTest": "test/kv-flush.test.js",
+      "baselineP2PTest": "test/kv-core.test.js",
+      "description": "Coordinate write buffer flush queue and read cache lookup in src/kv-store.js."
+    },
+    {
+      "parentTaskId": "P46-L6-01",
+      "derivedFrom": "EAF-L6-01",
+      "complexityTier": "L6_MULTI_FILE",
+      "title": "Multi-file role authorization in user-service",
+      "targetFiles": ["src/models/user.js", "src/services/user-service.js"],
+      "baselineF2PTest": "test/user-service-roles.test.js",
+      "baselineP2PTest": "test/user-service-auth.test.js",
+      "description": "Implement hasRole on User in src/models/user.js and wire check in src/services/user-service.js."
+    },
+    {
+      "parentTaskId": "P46-L6-02",
+      "derivedFrom": "EAF-L6-02",
+      "complexityTier": "L6_MULTI_FILE",
+      "title": "Multi-file missing config fallback coordination",
+      "targetFiles": ["src/config.js", "src/defaults.js"],
+      "baselineF2PTest": "test/config-fallback.test.js",
+      "baselineP2PTest": "test/config-core.test.js",
+      "description": "Coordinate fallback loader in src/config.js and default schema in src/defaults.js."
+    },
+    {
+      "parentTaskId": "P46-L6-03",
+      "derivedFrom": "EAF-L6-03",
+      "complexityTier": "L6_MULTI_FILE",
+      "title": "Multi-file JSON formatter refactoring and logger wiring",
+      "targetFiles": ["src/formatters/json.js", "src/logger.js"],
+      "baselineF2PTest": "test/logger-formatter.test.js",
+      "baselineP2PTest": "test/logger-core.test.js",
+      "description": "Extract formatter to src/formatters/json.js and wire into src/logger.js."
+    },
+    {
+      "parentTaskId": "P46-L6-04",
+      "derivedFrom": "EAF-L6-04",
+      "complexityTier": "L6_MULTI_FILE",
+      "title": "Multi-file HTTP header normalization across client modules",
+      "targetFiles": ["src/request.js", "src/client.js"],
+      "baselineF2PTest": "test/client-headers.test.js",
+      "baselineP2PTest": "test/client-core.test.js",
+      "description": "Coordinate request builder in src/request.js and transport client in src/client.js."
+    },
+    {
+      "parentTaskId": "P46-L6-05",
+      "derivedFrom": "EAF-L6-05",
+      "complexityTier": "L6_MULTI_FILE",
+      "title": "Multi-file job cancellation in queue manager",
+      "targetFiles": ["src/job.js", "src/queue.js"],
+      "baselineF2PTest": "test/queue-cancel.test.js",
+      "baselineP2PTest": "test/queue-core.test.js",
+      "description": "Coordinate status transition in src/job.js and worker eviction in src/queue.js."
+    },
+    {
+      "parentTaskId": "P46-L7-01",
+      "derivedFrom": "EAF-L7-01",
+      "complexityTier": "L7_FULL_SWE",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "targetFiles": ["src/calc.js", "src/parser.js"],
+      "baselineF2PTest": "test/calc-f2p.test.js",
+      "baselineP2PTest": "test/calc-p2p.test.js",
+      "description": "Repository-scale SWE-bench task EAF-BM-01 in emerald/calc repository."
+    },
+    {
+      "parentTaskId": "P46-L7-02",
+      "derivedFrom": "EAF-L7-02",
+      "complexityTier": "L7_FULL_SWE",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "targetFiles": ["src/cors.js", "src/header-validator.js"],
+      "baselineF2PTest": "test/cors-f2p.test.js",
+      "baselineP2PTest": "test/cors-p2p.test.js",
+      "description": "Repository-scale SWE-bench task EAF-BM-03 in express/cors-validator."
+    },
+    {
+      "parentTaskId": "P46-L7-03",
+      "derivedFrom": "EAF-L7-03",
+      "complexityTier": "L7_FULL_SWE",
+      "title": "SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+      "targetFiles": ["src/semver.js", "src/comparator.js"],
+      "baselineF2PTest": "test/semver-f2p.test.js",
+      "baselineP2PTest": "test/semver-p2p.test.js",
+      "description": "Repository-scale SWE-bench task EAF-BM-04 in emerald/semver-lite."
+    },
+    {
+      "parentTaskId": "P46-L7-04",
+      "derivedFrom": "EAF-L7-04",
+      "complexityTier": "L7_FULL_SWE",
+      "title": "SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+      "targetFiles": ["src/deep-set.js", "src/path-resolver.js"],
+      "baselineF2PTest": "test/deep-f2p.test.js",
+      "baselineP2PTest": "test/deep-p2p.test.js",
+      "description": "Repository-scale SWE-bench task EAF-BM-07 in lodash/deep-set."
+    },
+    {
+      "parentTaskId": "P46-L7-05",
+      "derivedFrom": "EAF-L7-05",
+      "complexityTier": "L7_FULL_SWE",
+      "title": "SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+      "targetFiles": ["src/models/user.js", "src/services/user-service.js", "src/routes/user-route.js"],
+      "baselineF2PTest": "test/user-f2p.test.js",
+      "baselineP2PTest": "test/user-p2p.test.js",
+      "description": "Repository-scale SWE-bench task EAF-BM-11 in emerald/user-service."
+    }
+  ]
+}

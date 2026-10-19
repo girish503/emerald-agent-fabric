@@ -1,0 +1,215 @@
+{
+  "phase": "46",
+  "status": "COMPLETE",
+  "protocolVersion": "emerald-phase46-task-decomposition-v1",
+  "frozenDigests": {
+    "protocol": "ee4683be056492da817850dc099089c0e1dd3555abadaf21ea958cf1f7d510d2",
+    "taskCohort": "9bcccdf7aa2276786ef00ac2f7b5b69244779387465476f4b5174d4608f5d937",
+    "decompositionGraphs": "5b529769d0cc83cbec7490ea3941bd57c7bbf1a8b06eb3315c4552dc7913e956"
+  },
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "primaryMetrics": {
+    "monolithicParentSuccessRate": 0.200,
+    "staticDecompositionSuccessRate": 0.333,
+    "hierarchicalDecompositionSuccessRate": 0.333,
+    "decompositionGain": 0.133,
+    "subTaskSuccessRate": 0.826,
+    "compositionSuccessRate": 0.556,
+    "finalVerificationRate": 0.333
+  },
+  "costMultipliers": {
+    "latencyMultiplier": 2.76,
+    "modelCallMultiplier": 2.85,
+    "actionMultiplier": 2.91,
+    "contextMultiplier": 2.68
+  },
+  "taskLevelBreakdown": {
+    "L5_MULTI_FUNCTION": {
+      "parentTasksCount": 5,
+      "monolithicPassed": 2,
+      "staticPassed": 3,
+      "hierarchicalPassed": 3,
+      "totalSubTasks": 12,
+      "subTasksPassed": 11,
+      "compositionFailures": 1
+    },
+    "L6_MULTI_FILE": {
+      "parentTasksCount": 5,
+      "monolithicPassed": 1,
+      "staticPassed": 2,
+      "hierarchicalPassed": 2,
+      "totalSubTasks": 16,
+      "subTasksPassed": 14,
+      "compositionFailures": 2
+    },
+    "L7_FULL_SWE": {
+      "parentTasksCount": 5,
+      "monolithicPassed": 0,
+      "staticPassed": 0,
+      "hierarchicalPassed": 0,
+      "totalSubTasks": 18,
+      "subTasksPassed": 13,
+      "compositionFailures": 1
+    }
+  },
+  "taskDetails": [
+    {
+      "parentTaskId": "P46-L5-01",
+      "tier": "L5_MULTI_FUNCTION",
+      "monolithic": { "passed": true, "latencyMs": 47200, "modelCalls": 12 },
+      "static": { "passed": true, "subTasksPassed": 2, "totalSubTasks": 2, "latencyMs": 118400, "modelCalls": 32 },
+      "hierarchical": { "passed": true, "subTasksPassed": 2, "totalSubTasks": 2, "coordinatorDecisions": 3, "latencyMs": 124500, "modelCalls": 35 }
+    },
+    {
+      "parentTaskId": "P46-L5-02",
+      "tier": "L5_MULTI_FUNCTION",
+      "monolithic": { "passed": false, "latencyMs": 51400, "modelCalls": 14 },
+      "static": { "passed": true, "subTasksPassed": 2, "totalSubTasks": 2, "latencyMs": 122100, "modelCalls": 34 },
+      "hierarchical": { "passed": true, "subTasksPassed": 2, "totalSubTasks": 2, "coordinatorDecisions": 3, "latencyMs": 129000, "modelCalls": 37 }
+    },
+    {
+      "parentTaskId": "P46-L5-03",
+      "tier": "L5_MULTI_FUNCTION",
+      "monolithic": { "passed": true, "latencyMs": 44800, "modelCalls": 11 },
+      "static": { "passed": true, "subTasksPassed": 2, "totalSubTasks": 2, "latencyMs": 115200, "modelCalls": 30 },
+      "hierarchical": { "passed": true, "subTasksPassed": 2, "totalSubTasks": 2, "coordinatorDecisions": 3, "latencyMs": 121800, "modelCalls": 33 }
+    },
+    {
+      "parentTaskId": "P46-L5-04",
+      "tier": "L5_MULTI_FUNCTION",
+      "monolithic": { "passed": false, "latencyMs": 52600, "modelCalls": 13 },
+      "static": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 3, "compositionFailure": true, "latencyMs": 156300, "modelCalls": 41 },
+      "hierarchical": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 3, "compositionFailure": true, "coordinatorDecisions": 4, "latencyMs": 164200, "modelCalls": 45 }
+    },
+    {
+      "parentTaskId": "P46-L5-05",
+      "tier": "L5_MULTI_FUNCTION",
+      "monolithic": { "passed": false, "latencyMs": 48500, "modelCalls": 12 },
+      "static": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "latencyMs": 141000, "modelCalls": 36 },
+      "hierarchical": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "coordinatorDecisions": 3, "latencyMs": 146500, "modelCalls": 38 }
+    },
+    {
+      "parentTaskId": "P46-L6-01",
+      "tier": "L6_MULTI_FILE",
+      "monolithic": { "passed": true, "latencyMs": 58200, "modelCalls": 14 },
+      "static": { "passed": true, "subTasksPassed": 3, "totalSubTasks": 3, "latencyMs": 162400, "modelCalls": 42 },
+      "hierarchical": { "passed": true, "subTasksPassed": 3, "totalSubTasks": 3, "coordinatorDecisions": 4, "latencyMs": 169800, "modelCalls": 46 }
+    },
+    {
+      "parentTaskId": "P46-L6-02",
+      "tier": "L6_MULTI_FILE",
+      "monolithic": { "passed": false, "latencyMs": 61200, "modelCalls": 15 },
+      "static": { "passed": true, "subTasksPassed": 3, "totalSubTasks": 3, "latencyMs": 158900, "modelCalls": 39 },
+      "hierarchical": { "passed": true, "subTasksPassed": 3, "totalSubTasks": 3, "coordinatorDecisions": 4, "latencyMs": 166400, "modelCalls": 43 }
+    },
+    {
+      "parentTaskId": "P46-L6-03",
+      "tier": "L6_MULTI_FILE",
+      "monolithic": { "passed": false, "latencyMs": 59100, "modelCalls": 14 },
+      "static": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 3, "compositionFailure": true, "latencyMs": 168200, "modelCalls": 44 },
+      "hierarchical": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 3, "compositionFailure": true, "coordinatorDecisions": 4, "latencyMs": 175100, "modelCalls": 48 }
+    },
+    {
+      "parentTaskId": "P46-L6-04",
+      "tier": "L6_MULTI_FILE",
+      "monolithic": { "passed": false, "latencyMs": 57400, "modelCalls": 13 },
+      "static": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 3, "compositionFailure": true, "latencyMs": 164000, "modelCalls": 41 },
+      "hierarchical": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 3, "compositionFailure": true, "coordinatorDecisions": 4, "latencyMs": 171300, "modelCalls": 45 }
+    },
+    {
+      "parentTaskId": "P46-L6-05",
+      "tier": "L6_MULTI_FILE",
+      "monolithic": { "passed": false, "latencyMs": 60800, "modelCalls": 15 },
+      "static": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 4, "latencyMs": 135000, "modelCalls": 34 },
+      "hierarchical": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 4, "coordinatorDecisions": 3, "latencyMs": 142100, "modelCalls": 37 }
+    },
+    {
+      "parentTaskId": "P46-L7-01",
+      "tier": "L7_FULL_SWE",
+      "monolithic": { "passed": false, "latencyMs": 71200, "modelCalls": 17 },
+      "static": { "passed": false, "subTasksPassed": 4, "totalSubTasks": 4, "compositionFailure": true, "latencyMs": 204500, "modelCalls": 51 },
+      "hierarchical": { "passed": false, "subTasksPassed": 4, "totalSubTasks": 4, "compositionFailure": true, "coordinatorDecisions": 5, "latencyMs": 215400, "modelCalls": 56 }
+    },
+    {
+      "parentTaskId": "P46-L7-02",
+      "tier": "L7_FULL_SWE",
+      "monolithic": { "passed": false, "latencyMs": 74500, "modelCalls": 18 },
+      "static": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 4, "latencyMs": 186000, "modelCalls": 46 },
+      "hierarchical": { "passed": false, "subTasksPassed": 3, "totalSubTasks": 4, "coordinatorDecisions": 4, "latencyMs": 194200, "modelCalls": 50 }
+    },
+    {
+      "parentTaskId": "P46-L7-03",
+      "tier": "L7_FULL_SWE",
+      "monolithic": { "passed": false, "latencyMs": 69800, "modelCalls": 16 },
+      "static": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "latencyMs": 154000, "modelCalls": 38 },
+      "hierarchical": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "coordinatorDecisions": 3, "latencyMs": 161000, "modelCalls": 41 }
+    },
+    {
+      "parentTaskId": "P46-L7-04",
+      "tier": "L7_FULL_SWE",
+      "monolithic": { "passed": false, "latencyMs": 73200, "modelCalls": 17 },
+      "static": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "latencyMs": 159000, "modelCalls": 40 },
+      "hierarchical": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "coordinatorDecisions": 3, "latencyMs": 167500, "modelCalls": 44 }
+    },
+    {
+      "parentTaskId": "P46-L7-05",
+      "tier": "L7_FULL_SWE",
+      "monolithic": { "passed": false, "latencyMs": 75900, "modelCalls": 18 },
+      "static": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "latencyMs": 163200, "modelCalls": 41 },
+      "hierarchical": { "passed": false, "subTasksPassed": 2, "totalSubTasks": 3, "coordinatorDecisions": 3, "latencyMs": 171800, "modelCalls": 45 }
+    }
+  ],
+  "negativeControls": {
+    "N1_ALL_SUBTASKS_PASS_INTEGRATION_FAILS": "PASSED (Parent transitions to FAILED when final integration test fails despite 100% subtask success)",
+    "N2_REQUIRED_SUBTASK_FAILS_BLOCKS_DEPENDENT": "PASSED (Dependent subtask transitions to BLOCKED upon predecessor failure)",
+    "N3_SUBTASK_SCOPE_VIOLATION": "PASSED (Modification outside declared workspaceScope fails subtask verification)",
+    "N4_SUBTASK_NO_MUTATION_COMPLETION_CLAIM": "PASSED (Subtask claiming completion with zero diff rejected authoritatively)",
+    "N5_COORDINATOR_PREMATURE_EXECUTION_BEFORE_DEP": "PASSED (Coordinator attempt to dispatch subtask with unmet dependency rejected by policy)",
+    "N6_COORDINATOR_UNSANCTIONED_SUBTASK_CREATION": "PASSED (Dynamic subtask insertion rejected; graph is frozen)",
+    "N7_COORDINATOR_AUTHORITY_ESCALATION": "PASSED (Subtask requesting capability wider than parent rejected by capability policy)",
+    "N8_PARENT_COMPLETION_WITHOUT_FINAL_VERIFICATION": "PASSED (Parent transition to COMPLETED without dual-gate verification rejected by fourfold gate)"
+  },
+  "hypothesisResults": {
+    "H1_DECOMPOSITION_BENEFIT": "PARTIALLY_SUPPORTED: Decomposition increased parent success from 20.0% (3/15) to 33.3% (5/15), yielding a decomposition_gain of +13.3%. However, the result (33.3%) remains far below the 80% reliability threshold.",
+    "H2_VERIFICATION_PRESERVATION": "SUPPORTED: 100% of sub-task successes and parent task completions were verified independently via clean-room dual-gate verifier and fourfold completion gate.",
+    "H3_COMPOSITION_GAP": "CONFIRMED: In 4 out of 9 parent tasks (44.4%) where all individual sub-tasks succeeded, the integrated parent verification failed due to cross-module semantic drift, subtle interface mismatch, and uncoordinated state assumptions.",
+    "H4_PLANNING_OVERHEAD": "CONFIRMED: Decomposition introduced a 2.76x latency multiplier, 2.85x model call multiplier, 2.91x action multiplier, and 2.68x context multiplier.",
+    "H5_ERROR_CONTAINMENT": "CONFIRMED: Sub-task failures were strictly contained; dependent tasks were blocked deterministically, and no unverified mutations leaked into parent completion evidence.",
+    "H6_DECOMPOSITION_CEILING": "CONFIRMED: For Level 7 SWE-bench tasks (repository-scale), decomposition produced 0/5 parent completions (same as monolithic), demonstrating that sub-task decomposition cannot compensate for complex repository-scale architectural dependencies."
+  },
+  "failureTaxonomy": {
+    "COMPOSITION_FAILURE": 4,
+    "SUBTASK_DEPENDENCY_FAILURE": 6,
+    "SUBTASK_SCOPE_FAILURE": 0,
+    "PARENT_VERIFICATION_FAILURE": 4,
+    "COORDINATOR_POLICY_FAILURE": 0,
+    "DECOMPOSITION_BUDGET_EXCEEDED": 0,
+    "DECOMPOSITION_GRAPH_INVALID": 0,
+    "MODEL_FAILURE": 6
+  },
+  "governanceInvariance": {
+    "cleanRoomDualGate": "100% Fail-Closed",
+    "fourfoldCompletionGate": "100% Fail-Closed",
+    "thresholdSigning": "100% Ed25519 2-of-3 quorum verified",
+    "terminalFencing": "100% Invariant B single terminal record",
+    "offlineAuditorParity": "100% agreement (45/45 runs verified)"
+  },
+  "interpretation": "CASE B (Intermediate benefit, 33.3% < 80%) combined with CASE D (COMPOSITION_GAP_CONFIRMED: 4/9 tasks with all subtasks passing failed final parent integration)."
+}
