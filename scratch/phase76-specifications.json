@@ -1,0 +1,5195 @@
+{
+  "count": 45,
+  "specifications": [
+    {
+      "specificationId": "spec_spec-a_P46-L5-01",
+      "taskId": "P46-L5-01",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L5-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "069134b2b07ee77b23316d5a1a8fb5d53f997a1899953331f701eb2e9443162a"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "6f08ce38c3323a51e5ab9b8df9ef718c0e185b0ddec2dd318331dc92308f8c22"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L5-01",
+      "taskId": "P46-L5-01",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L5-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "81dee3d7981988f1a8b915b5f5764735f8f85d4a9b0b0b88911bbdc365318ce7"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "5849a4b5724d81b883b6b391a996294281a9c1433aba41979845ee7918cc1e16"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L5-01",
+      "taskId": "P46-L5-01",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L5-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "37df3ca88bbca5de61642e88072eaafd797753bf1af5f21c79747e9615c3067b"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L5-01",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L5-01",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "ab3b43ae56988e2933d7ae8571a709d9b0e302416f19f954215a45c4fd9b27d9"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L5-02",
+      "taskId": "P46-L5-02",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L5-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "fc1c38cb06bfc292e3a7a12fa707cff01b7d4f51502565eaba5e71945783de21"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "4a3ceacb114348d1446e4f2d9ac0fe59a5f2c0717cc5151b73225d942230274b"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L5-02",
+      "taskId": "P46-L5-02",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L5-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "7a6130594f33b0a3d97b837e42ef1a64dc7af70787bf6a5c8befa96a238edeb6"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "69eacc9faa03ae0efb76b0035f660f47ae50ef0f20ab7cb41ab92724feff37f8"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L5-02",
+      "taskId": "P46-L5-02",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L5-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "9cd995263ac4330c8721ed59b86c437273c22aa9d9709a82ceb60af5798fe189"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L5-02",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L5-02",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "156f16a31a4b236ba0f6dc3d5dccc73fdca5b7348f172d22cb5f9904dc7ffd3c"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L5-03",
+      "taskId": "P46-L5-03",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L5-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "36e788e14110931603665dd90540c47d56032657553da0f0abcb7e69be339d1e"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "dfd3ea007204722fdf6810bd9d3b7aeec5371412535d984b8262f46d9391431f"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L5-03",
+      "taskId": "P46-L5-03",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L5-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "60304a80e5846b6aaaf6718db165a885548aa2d177eeb8564aa065f0bf6c1618"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "b4c263ba86665048695f80ee12ec9b7ecc76494956967de7fffbfd305c977862"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L5-03",
+      "taskId": "P46-L5-03",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L5-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "36bcfc7a0660fd4249b5f04b95d43ec69be6281123f4b051a1d433473fb5ca92"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L5-03",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L5-03",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "698bc99ed5e3cee6cfab59b0202652e8757232d51d82165b56e51431de8f15bc"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L5-04",
+      "taskId": "P46-L5-04",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L5-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "8513ada54bf3c1ca0f14e3806778a9c9e9bb4a81a7b9f1c33b731ebd78ecb2d2"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "32a3cb3802062cf6505c5585b98457ca8a64373a38d4f894ec769d1b850acabf"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L5-04",
+      "taskId": "P46-L5-04",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L5-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "6a0bd811056fe403bb917fdfc8bb11e7d8c97ce5a512a24cceae6db7a9839787"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "93fe794c81e3192933b1096516ecf47f8abf9b873d4ab8efbcb293d80ccc648d"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L5-04",
+      "taskId": "P46-L5-04",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L5-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "dd0308ccf83e44cd4f90f7a85743ea5d9efe707d09260bdd190545159b6cfc56"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L5-04",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L5-04",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "e5124a5d9742beb3607fc41a81d41e0f60287852d7ab2e4cafc68b77713a6a3b"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L5-05",
+      "taskId": "P46-L5-05",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L5-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "02b16622117cf1ae7b98e20ea617ea80e0719ed63d81c447b8f08f5ef6e6f09e"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "1877c6eae6648e71cbca00e50db38daa4616586b8b7e8e62fd622bfe6db6ce0f"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L5-05",
+      "taskId": "P46-L5-05",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L5-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "13266756500654b81b2ee24325811607471e93f2cc34bdb22cbab77054e9a51a"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "c9e0268d491c9bd7c44c929d3a2094182b9e7c6f9b7b4e53b0fbd2577256f456"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L5-05",
+      "taskId": "P46-L5-05",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L5-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/semver.js"
+        ],
+        "semanticDomain": "ALGORITHMIC",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "a40524f4cc67369313e57abe6198e17085fd0ce35a1d27b7006462ae4950e342"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/semver.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L5-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L5-05",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L5-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L5-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L5-05",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L5-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L5-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "5992d45bcad0398820b5622da1105c2df3cebeea04d0c94be323061eedf90a01"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L6-01",
+      "taskId": "P46-L6-01",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L6-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "d0077ec8a23dd39af4c958b24232e1431fbd05542eabaefbcb49fa33a9b4a301"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "4fe1b750f03bb83f229a3ff8f63715574c8b5809a6e9f75d1b194d6ad0e82496"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L6-01",
+      "taskId": "P46-L6-01",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L6-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "7633fd64e4e15ba16a3f0a6910c7787df44bcc42e848c2f32a8a51343b3e6921"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-01",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "82b158d2145fd44cf8952df34cf36c8de51c7960901ffc4b2006054c897ee3b9"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L6-01",
+      "taskId": "P46-L6-01",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L6-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "5a0a751c2aa755f9b72f7cfbb1f37b748ee2ec520504f67596bf02682fa2b6b2"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-01",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L6-01",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L6-01",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "96bf207571d6677914ac1194e5637c1104b3dd0f2cb7879658f254e8bbc99d65"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L6-02",
+      "taskId": "P46-L6-02",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L6-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "a90bdf4ae9b7a7da06f65f6da6080a11ef2a6ac7d06c22c17762047a4b593661"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "414fd17e99fb449577cb3facee3bb99500ade07087f2fa087b89809f1a278062"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L6-02",
+      "taskId": "P46-L6-02",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L6-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "f04944f7bea8c75ae9e408768132380a53ba84fc82660fab1474f70dbc9eec96"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-02",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "7451456803d955ed18db52e623a61c7d2936408cdf7122c4634a2046e10eff3a"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L6-02",
+      "taskId": "P46-L6-02",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L6-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "6c30a0c177c4490da2da5af02fbc5e26fd7c435a76d79e6c0f54f64cd4a115e4"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-02",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L6-02",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L6-02",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "31ab19746b4fb57cac4c2a84c7af65e29306b53bc2bcd9d840d3689be9859466"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L6-03",
+      "taskId": "P46-L6-03",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L6-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "b1c61d795583b31536c0093672a71a70d9fd7fe01ebc4feeeba1833f21c8447f"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "116ae6c8ac2d249cf582cd2c2cc946fe6274ded6a61126fd51afebf7ef763466"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L6-03",
+      "taskId": "P46-L6-03",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L6-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "4a9f76aaf702b61a95d90537e8de29ab2e0bb6a9d15f5ea2d56b6bc1ad169787"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-03",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "908b76743a98ee819b274e5eca188606aea60fb73c338684a03c36c895d741cd"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L6-03",
+      "taskId": "P46-L6-03",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L6-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "b34f93481a1e015bedd10ccc0abaf0ede92162f3bb3bda989d496aa3b6e1b46f"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-03",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L6-03",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L6-03",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "11104f3d3453cba337b742a28aebf4fe31dca192c0a0eb2a64421ca3645800af"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L6-04",
+      "taskId": "P46-L6-04",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L6-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "022f63d4538c8b21318a733ae6ff9f8ad74f5bf8dec1e24818dac6f33d9d7ccf"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "f4c7d618700f0452fb42c387f5cc46038ed935e6254ef228bc59af958ccf39c2"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L6-04",
+      "taskId": "P46-L6-04",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L6-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "bfa536bf532b2c6b9867edc0625ca14e757c279a2a64c45c9f758c33bc4e80fb"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-04",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "c1ea9b76b61a6d68bbe73a2e6f61978e58cf9e32a066d3b2a257a5d4ed31e35a"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L6-04",
+      "taskId": "P46-L6-04",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L6-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "40c166e656611f045966523cfda12d58e700f2f0da3cd6b7c537ac51cb61a078"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-04",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L6-04",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L6-04",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "ab05bb448f577511886c6653c331a4e96fef69b78add9cf320f92f2d7a93727a"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L6-05",
+      "taskId": "P46-L6-05",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L6-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "bfb63a29e7d5f07e6c183da009e303b3be08a631f4a3515e65930b000ef3b8ca"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "d7c320c46645a49a0fb8a9802edebc4bc82e2720c6cfdd1da4949530e837bb45"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L6-05",
+      "taskId": "P46-L6-05",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L6-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "ac790ba2cd4326a200caa981e25ab559063e75de27a6e2977252905e295bb95f"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-05",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "d62cf1ecbffca972d0a68b7aaa7b576e1191b9f83c68c34ec8140028b779ddd4"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L6-05",
+      "taskId": "P46-L6-05",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L6-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "semanticDomain": "DISTRIBUTED_API",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "284456b6f1789b102a5671366920acd88395e097564b01870bf638b5ea6be3a2"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/middleware/cors.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/routes/api.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L6-05",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/middleware/cors.js",
+          "targetModule": "src/routes/api.js",
+          "relationType": "REPRESENTATION_PARITY",
+          "description": "Middleware header projection must equal Route handler accepted header format"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L6-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L6-05",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L6-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L6-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L6-05",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L6-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L6-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "cdae761c944845a1f224abe7d4dae8f0373e9fca0b5e39b6e3930e634b5622cc"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L7-01",
+      "taskId": "P46-L7-01",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L7-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "2c31677ca50a0cfbe8bac36be938170d3281174b084dac5290da8be185b156da"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "b4c05b41fe6f11ac5f4c918e7993ea226b8cb502e565c20133ccdb7827e86b24"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L7-01",
+      "taskId": "P46-L7-01",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L7-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "c2fa814761908965c51f1aef934d8b47a98fb2605c438f3327f349007e9ef35f"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-01",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "37fe270d06bd831a18dea72c6dd831ef9e0413e4ae4c72183a388685d305cbae"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L7-01",
+      "taskId": "P46-L7-01",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L7-01",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "104b2f077b908059e9b0c81c3e9d0479de8a4d3fd780f381db114526e056293d"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-01",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-01",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L7-01",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-01",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-01",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L7-01",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-01",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-01",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "4eaca54cf4dd3d5c88185b49895a40a164eee2c02e2d90f2f48df658b402d3d9"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L7-02",
+      "taskId": "P46-L7-02",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L7-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "7c0f9ae0ab3e665e8c6a72736a5871ea168ee9ef02ddcf6274841fb7bf9520a9"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "9a4ef24a852ed01a94a4dab0c558a5a6d4967653c7c3159f67f80ec32b76b444"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L7-02",
+      "taskId": "P46-L7-02",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L7-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "4856e02fe47994becea8240f97cc0b27e6d2757cffa47b57358eee07128efa05"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-02",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "6915295a65ff7a59e8ea2b986d70ae6af9f9e2efd88e5eed07d26d0ed56c6e19"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L7-02",
+      "taskId": "P46-L7-02",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L7-02",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "558a6151136371424c8252eea2c5f1e58dde1fa115e343ba490b350a0ce362a4"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-02",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-02",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L7-02",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-02",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-02",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L7-02",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-02",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-02",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "5adeb7cf74b93ff3ddeb9fb79ddcd8e5cb07fb2d6eac7925807168220de98fda"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L7-03",
+      "taskId": "P46-L7-03",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L7-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "47637989eccb95b8e4b5e7b071680882d85dbfe208093f65e344ad32f097d5c3"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "01bb6b26861b0ab2bdf3a190ee461aeb8fe30eff9379c4f08ba9ba3182b32cee"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L7-03",
+      "taskId": "P46-L7-03",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L7-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "f05727352423deeb064f8db217ebfc8a06a591fb3dfc59dac3956a951ae4516e"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-03",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "8c3d0faed3af2bbc49fbf4ca9205feb4db629aa72706abec2e7ab2239ba8a46b"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L7-03",
+      "taskId": "P46-L7-03",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L7-03",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "6b6e54d512ce76f25418038f27edd8dd42074a5723a4fc6894971b843a74ad32"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-03",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-03",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L7-03",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-03",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-03",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L7-03",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-03",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-03",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "05682e5883ed17cc18a14b3be85b3cf9f4d2dec9f7e67f72310e65c832a4e062"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L7-04",
+      "taskId": "P46-L7-04",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L7-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "dd33477fc3e21c0c91fc49184df289c3cc052b897f8b974be7b1f9a3015cf702"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "82e67ec324baa76fa1e9241633828bdb9ef8abef07bd657ba5a9fc1ac04438df"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L7-04",
+      "taskId": "P46-L7-04",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L7-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "c25244ace2d77d37642685209957bb2fd61edec178a4b019dbe094be13cb9b4a"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-04",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "546ee6b1a9d3ed9285e84b394ee7be486b221320c33d0b62d492efef4646dc11"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L7-04",
+      "taskId": "P46-L7-04",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L7-04",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "18da076aa022ab9dc80a22c469b8634edb5a48926ee4597d30ba360af4b122f7"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-04",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-04",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L7-04",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-04",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-04",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L7-04",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-04",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-04",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "6442f8b687eaaae13cdf5a2274e381f66ee367f9fffb766ba5330ba516844973"
+    },
+    {
+      "specificationId": "spec_spec-a_P46-L7-05",
+      "taskId": "P46-L7-05",
+      "level": "SPEC-A",
+      "provenance": {
+        "specificationId": "spec_spec-a_P46-L7-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "OBSERVABLE",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "6dc4c1c7ec77f050dc9ad95aee52779509b69c577fabe3273f4cea9fb01f4df3"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "60434184037e846186026ed6e0fe85bf53e3582fd6f51dc660fc39d24aea0177"
+    },
+    {
+      "specificationId": "spec_spec-b_P46-L7-05",
+      "taskId": "P46-L7-05",
+      "level": "SPEC-B",
+      "provenance": {
+        "specificationId": "spec_spec-b_P46-L7-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "RELATIONAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "7664c9c8311d2e9cd889243136d41192d4597d0a1bac04955f3823a8db1e3c95"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-05",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "40dd67cacc18389ad76a54c6a479052bc33c7b03aaedac32d94dea0630b6c686"
+    },
+    {
+      "specificationId": "spec_spec-c_P46-L7-05",
+      "taskId": "P46-L7-05",
+      "level": "SPEC-C",
+      "provenance": {
+        "specificationId": "spec_spec-c_P46-L7-05",
+        "version": "1.0.0",
+        "scope": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "semanticDomain": "COMPILER_PARSER",
+        "authoringMode": "FULL_FORMAL",
+        "author": "EMERALD_FORMAL_SPEC_ENGINE",
+        "canonicalHash": "5da5bea842f753ee6d5fff910c1c1293915186ed97d538ed7f39e569253dcc00"
+      },
+      "stateDomains": [
+        {
+          "domainId": "dom_0",
+          "name": "src/calc.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        },
+        {
+          "domainId": "dom_1",
+          "name": "src/parser.js",
+          "states": [
+            "IDLE",
+            "PROCESSING",
+            "VALIDATED",
+            "TERMINAL"
+          ],
+          "defaultState": "IDLE",
+          "isObservable": true
+        }
+      ],
+      "variables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "domainType": "string",
+          "isObservable": true,
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_error_flag",
+          "name": "hasError",
+          "domainType": "boolean",
+          "isObservable": true,
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_start",
+          "name": "PROCESS_START",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_complete",
+          "name": "PROCESS_COMPLETE",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "relations": [
+        {
+          "relationId": "rel_cross_P46-L7-05",
+          "name": "CrossModuleInterfaceConsistency",
+          "sourceModule": "src/calc.js",
+          "targetModule": "src/parser.js",
+          "relationType": "TOKEN_PARSER_PARITY",
+          "description": "Parser interpretation must maintain token lookahead parity with tokenizer boundary"
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv_obs_P46-L7-05",
+          "description": "Observable input/output functional mapping preserved",
+          "ruleType": "OBSERVABLE_SAFETY",
+          "expression": "output === expected(input)",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv_sync_P46-L7-05",
+          "description": "Full state synchronization contract between interacting compilation units",
+          "ruleType": "CROSS_MODULE_SYNCHRONIZATION",
+          "expression": "state(source).sequence === state(target).sequence",
+          "failClosed": true
+        }
+      ],
+      "preconditions": [
+        {
+          "preconditionId": "pre_P46-L7-05",
+          "description": "Input argument strictly conforming to type schema",
+          "condition": "typeof input !== 'undefined'"
+        }
+      ],
+      "postconditions": [
+        {
+          "postconditionId": "post_P46-L7-05",
+          "description": "Output must preserve non-corrupted state",
+          "condition": "state.hasError === false"
+        }
+      ],
+      "orderingConstraints": [
+        {
+          "constraintId": "ord_P46-L7-05",
+          "eventBefore": "ev_start",
+          "eventAfter": "ev_complete",
+          "strict": true
+        }
+      ],
+      "safetyProperties": [
+        {
+          "propertyId": "safe_P46-L7-05",
+          "description": "System never reaches unhandled exception state",
+          "formula": "G(status != 'CRASH')"
+        }
+      ],
+      "livenessProperties": [
+        {
+          "propertyId": "live_P46-L7-05",
+          "description": "System eventually returns to IDLE or reaches TERMINAL",
+          "formula": "F(status == 'TERMINAL')"
+        }
+      ],
+      "canonicalHash": "aed1f7cc5e1e2b61783279457cc8be38fcf7fa3966f6ccb2872abee5b45beea0"
+    }
+  ]
+}

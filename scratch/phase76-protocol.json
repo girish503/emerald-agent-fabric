@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "emerald-phase76-v1",
+  "phase": "76",
+  "protocolVersion": "emerald-phase76-formal-behavioral-specification-sufficiency-v1",
+  "frozenAt": "2026-10-20T14:30:00.000Z",
+  "baselineCommit": "f779420",
+  "parentCommit": "d0aa004",
+  "experimentalVariable": "formal_behavioral_specification_sufficiency",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000
+  },
+  "specificationLevels": [
+    "SPEC-A",
+    "SPEC-B",
+    "SPEC-C"
+  ],
+  "conditions": [
+    "CONDITION_A_PHASE75_CONTROL",
+    "CONDITION_B_SPEC_A",
+    "CONDITION_C_SPEC_B",
+    "CONDITION_D_SPEC_C"
+  ],
+  "taskCohort": {
+    "count": 15,
+    "tasks": [
+      "P46-L5-01",
+      "P46-L5-02",
+      "P46-L5-03",
+      "P46-L5-04",
+      "P46-L5-05",
+      "P46-L6-01",
+      "P46-L6-02",
+      "P46-L6-03",
+      "P46-L6-04",
+      "P46-L6-05",
+      "P46-L7-01",
+      "P46-L7-02",
+      "P46-L7-03",
+      "P46-L7-04",
+      "P46-L7-05"
+    ],
+    "cohortDigest": "0b6801537f60f2400e71467db0f39c52366126548bb0439a107eaa5ca28a1dc8"
+  },
+  "protocolDigest": "c9a9e30a2f11903afeedbb5edad78129c4c65326abad20beb559bd9faea20c9d"
+}
