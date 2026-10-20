@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "emerald-phase67-v1",
+  "phase": "67",
+  "protocolDigest": "9591d40ab38fe7a6723cc620d900345096febeba77f246c19baaccef26e257b0",
+  "totalRefinements": 20,
+  "refinements": [
+    {
+      "refinementId": "REF-CE-P46-L5-01-01",
+      "sourceCounterexampleId": "CE-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SUBTRACT(lhs, NEGATE(rhs)))",
+      "contentHash": "fbcd831e196ddb55b108bdd419c67b8c5a4d32aa218533b9e1bb84b8a17b92d1"
+    },
+    {
+      "refinementId": "REF-CE-P46-L5-02-01",
+      "sourceCounterexampleId": "CE-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SUBTRACT(lhs, NEGATE(rhs)))",
+      "contentHash": "d69100d5f6a206bd8847e6667420173a2b7c9e9f9ea1bb2ae272418e9f15cddc"
+    },
+    {
+      "refinementId": "REF-CE-P46-L5-03-01",
+      "sourceCounterexampleId": "CE-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SUBTRACT(lhs, NEGATE(rhs)))",
+      "contentHash": "b47154410631f962301dcb8a964c8c1b025948bc49c1dae63267f1fe953f2fb4"
+    },
+    {
+      "refinementId": "REF-CE-P46-L5-04-01",
+      "sourceCounterexampleId": "CE-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SUBTRACT(lhs, NEGATE(rhs)))",
+      "contentHash": "06d8db34dc630a8c24187b0ebd534685f0d93a5bea231ab86e1789ab93e270dc"
+    },
+    {
+      "refinementId": "REF-CE-P46-L5-05-01",
+      "sourceCounterexampleId": "CE-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SUBTRACT(lhs, NEGATE(rhs)))",
+      "contentHash": "2db616143358faae90de41ef9ef5e53fd4fdc56bc011143ebb280d89ec033be3"
+    },
+    {
+      "refinementId": "REF-CE-P46-L6-01-01",
+      "sourceCounterexampleId": "CE-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins))",
+      "contentHash": "0c8af0ede2362a6e80b14ec85768b472d7fce50d9fa183e6110e4de5f1452cbc"
+    },
+    {
+      "refinementId": "REF-CE-P46-L6-02-01",
+      "sourceCounterexampleId": "CE-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins))",
+      "contentHash": "735acb2beeef6cf1c7c3d1ddb2df85a01cc025faea44a951105271cfdb09452b"
+    },
+    {
+      "refinementId": "REF-CE-P46-L6-03-01",
+      "sourceCounterexampleId": "CE-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins))",
+      "contentHash": "cc8347ec2a313057105787a57b741595d1530f3a7b9188e7a02e2f556b71d404"
+    },
+    {
+      "refinementId": "REF-CE-P46-L6-04-01",
+      "sourceCounterexampleId": "CE-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins))",
+      "contentHash": "e692374f2a9d3ae5dd26114f5466a90fc0750dd0b8c1a19c9f678ae74de96d62"
+    },
+    {
+      "refinementId": "REF-CE-P46-L6-05-01",
+      "sourceCounterexampleId": "CE-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins))",
+      "contentHash": "a9e7606d5783fabec9f6eef56ea6e18e29916ec14c8b20dc29d2f1c6b9feee14"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-01-01",
+      "sourceCounterexampleId": "CE-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence))",
+      "contentHash": "d80e410cd8ec7f0b0b8b6ce0ba3b67f5c42def4cb2d520b508f07c08d050cbc7"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-01-02",
+      "sourceCounterexampleId": "CE-P46-L7-01-02",
+      "taskId": "P46-L7-01",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(MUTUAL_EXCLUSION(coordinator.abort, participant.commit))",
+      "contentHash": "242045d3445e55a144c00a4376816bf82d7df36a634a402040ff6faa45bd6674"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-02-01",
+      "sourceCounterexampleId": "CE-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence))",
+      "contentHash": "99f3705231ccd43a77ca44af1128e180c525ed839900ee4178fab4baa324c7e8"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-02-02",
+      "sourceCounterexampleId": "CE-P46-L7-02-02",
+      "taskId": "P46-L7-02",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(MUTUAL_EXCLUSION(coordinator.abort, participant.commit))",
+      "contentHash": "aa2fadca20386b340f6d5b7e6b8a75b96b4d4194f2889a059b7fef0c9069120e"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-03-01",
+      "sourceCounterexampleId": "CE-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence))",
+      "contentHash": "96be8b4c561decc78736cff9dce99a4bbaabda550d6cb551aae4f8ca139e4f48"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-03-02",
+      "sourceCounterexampleId": "CE-P46-L7-03-02",
+      "taskId": "P46-L7-03",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(MUTUAL_EXCLUSION(coordinator.abort, participant.commit))",
+      "contentHash": "72fe4316e02266b0c6f45e1f991194ffc0393fb945140c585e494065ee2a80e4"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-04-01",
+      "sourceCounterexampleId": "CE-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence))",
+      "contentHash": "0c975f61d0e69fb650b471a3e829e179da944e6ab31a0fa71e6337c182b925a4"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-04-02",
+      "sourceCounterexampleId": "CE-P46-L7-04-02",
+      "taskId": "P46-L7-04",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(MUTUAL_EXCLUSION(coordinator.abort, participant.commit))",
+      "contentHash": "5df9e49ddf63380e9f9e2e7261b47747f404570dd256a0c293391621267f6512"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-05-01",
+      "sourceCounterexampleId": "CE-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence))",
+      "contentHash": "eff3fd7bf3060ddda68730e6192881a8d6aea8e01be76519b0a7123f0326c4f2"
+    },
+    {
+      "refinementId": "REF-CE-P46-L7-05-02",
+      "sourceCounterexampleId": "CE-P46-L7-05-02",
+      "taskId": "P46-L7-05",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "refinementRule": "ENFORCE_SEMANTIC_INVARIANT(MUTUAL_EXCLUSION(coordinator.abort, participant.commit))",
+      "contentHash": "f368ca2b8e74452105d114eef8f8610f30e978109d6d35d5b4705af12c441d1c"
+    }
+  ]
+}

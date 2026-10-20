@@ -1,0 +1,868 @@
+{
+  "schemaVersion": "emerald-phase67-v1",
+  "phase": "67",
+  "protocolDigest": "9591d40ab38fe7a6723cc620d900345096febeba77f246c19baaccef26e257b0",
+  "totalTranslations": 15,
+  "translations": [
+    {
+      "translationId": "TRANS-P46-L5-01-01",
+      "programId": "PROG-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L5-01-1",
+          "taskId": "P46-L5-01",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "parseExpression"
+          ],
+          "targetModules": [
+            "src/parser/p46-l5-01-engine.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_VALUE_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_parseExpression"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_parseExpression"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L5-01-01",
+            "INV-P46-L5-01-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L5-01_01"
+          ],
+          "allowedMutationScope": [
+            "src/parser/p46-l5-01-engine.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-01",
+            "programId": "PROG-P46-L5-01-01",
+            "operator": "VALUE_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "677e6d3e850e3f38583c689bb8da06d63b53f8348efeadef330c357ee4a1c54c"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L5-01-01",
+        "INV-P46-L5-01-02"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "e45c9b828816d3fb9f89fac64d63c7c87e74aa8d141e6a4a1a2f3d44824bdd92"
+    },
+    {
+      "translationId": "TRANS-P46-L5-02-01",
+      "programId": "PROG-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L5-02-1",
+          "taskId": "P46-L5-02",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "parseExpression"
+          ],
+          "targetModules": [
+            "src/parser/p46-l5-02-engine.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_VALUE_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_parseExpression"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_parseExpression"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L5-02-01",
+            "INV-P46-L5-02-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L5-02_01"
+          ],
+          "allowedMutationScope": [
+            "src/parser/p46-l5-02-engine.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-02",
+            "programId": "PROG-P46-L5-02-01",
+            "operator": "VALUE_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "c9079f11107bd9eb592f088adffc64dd496b630e48ce8799a6b3e2b0e647a908"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L5-02-01",
+        "INV-P46-L5-02-02"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "5eef943bdbc3424d44103d732986bd110ec3b5e08bbd41ed93fe2e8ca9a41897"
+    },
+    {
+      "translationId": "TRANS-P46-L5-03-01",
+      "programId": "PROG-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L5-03-1",
+          "taskId": "P46-L5-03",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "parseExpression"
+          ],
+          "targetModules": [
+            "src/parser/p46-l5-03-engine.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_VALUE_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_parseExpression"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_parseExpression"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L5-03-01",
+            "INV-P46-L5-03-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L5-03_01"
+          ],
+          "allowedMutationScope": [
+            "src/parser/p46-l5-03-engine.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-03",
+            "programId": "PROG-P46-L5-03-01",
+            "operator": "VALUE_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "029da02f9e33338cb00268c23f4f5b9d50c1b1eb268e438c9c79b63c2c84536a"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L5-03-01",
+        "INV-P46-L5-03-02"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "002ab56506b810dc02f70466cb463eb68e930a6607c9b146aa40c5a75e5e0d56"
+    },
+    {
+      "translationId": "TRANS-P46-L5-04-01",
+      "programId": "PROG-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L5-04-1",
+          "taskId": "P46-L5-04",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "parseExpression"
+          ],
+          "targetModules": [
+            "src/parser/p46-l5-04-engine.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_VALUE_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_parseExpression"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_parseExpression"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L5-04-01",
+            "INV-P46-L5-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L5-04_01"
+          ],
+          "allowedMutationScope": [
+            "src/parser/p46-l5-04-engine.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-04",
+            "programId": "PROG-P46-L5-04-01",
+            "operator": "VALUE_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "d1d8614b7a3ad52794efdf0c3e57660c466d50fd6a01f3f468bc76ba9ff8d568"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L5-04-01",
+        "INV-P46-L5-04-02"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "8989c3900eb6a5182e4f3b0a76cdac9f16f088d21413b323dd58c6e31a1550a2"
+    },
+    {
+      "translationId": "TRANS-P46-L5-05-01",
+      "programId": "PROG-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L5-05-1",
+          "taskId": "P46-L5-05",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "parseExpression"
+          ],
+          "targetModules": [
+            "src/parser/p46-l5-05-engine.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_VALUE_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_parseExpression"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_parseExpression"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L5-05-01",
+            "INV-P46-L5-05-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L5-05_01"
+          ],
+          "allowedMutationScope": [
+            "src/parser/p46-l5-05-engine.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-05",
+            "programId": "PROG-P46-L5-05-01",
+            "operator": "VALUE_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "2d37693e8a7493f600b1ed65c5eaddf6f28217ca60c3db341c42e65f6a3025e9"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L5-05-01",
+        "INV-P46-L5-05-02"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "4ff85a385902db2dadd1c0eae68682653b12d503ef3253278259b79a7afa6473"
+    },
+    {
+      "translationId": "TRANS-P46-L6-01-01",
+      "programId": "PROG-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L6-01-1",
+          "taskId": "P46-L6-01",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "handleIncomingRequest"
+          ],
+          "targetModules": [
+            "src/network/p46-l6-01-handler.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_handleIncomingRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_handleIncomingRequest"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-01_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-01-handler.ts",
+            "src/security/p46-l6-01-policy.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "programId": "PROG-P46-L6-01-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "d8a39edc7c90911483741af5e0aebceff9dbdb1bb72a785c7b6d3745a9d80a4b"
+        },
+        {
+          "transformationId": "STRANS-P46-L6-01-2",
+          "taskId": "P46-L6-01",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "validateSecurityPolicy"
+          ],
+          "targetModules": [
+            "src/security/p46-l6-01-policy.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_validateSecurityPolicy"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_validateSecurityPolicy"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-01_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-01-handler.ts",
+            "src/security/p46-l6-01-policy.ts"
+          ],
+          "dependencies": [
+            "STRANS-P46-L6-01-1"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "programId": "PROG-P46-L6-01-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "0f58e1820dd257103108d0941c01bd04b4d4530f1a1dad16fb8fd7d105ed485a"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L6-01-01"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "d085e6eca2290af3b5dc997d48f1b1b8ec017562b60281efc48ebbbac1492ca6"
+    },
+    {
+      "translationId": "TRANS-P46-L6-02-01",
+      "programId": "PROG-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L6-02-1",
+          "taskId": "P46-L6-02",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "handleIncomingRequest"
+          ],
+          "targetModules": [
+            "src/network/p46-l6-02-handler.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_handleIncomingRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_handleIncomingRequest"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-02-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-02_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-02-handler.ts",
+            "src/security/p46-l6-02-policy.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "programId": "PROG-P46-L6-02-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "a2c02d31ae427a2ffcafbc474e4bd43ea9ae32d8f271494e9fe90f3f6abd8d8f"
+        },
+        {
+          "transformationId": "STRANS-P46-L6-02-2",
+          "taskId": "P46-L6-02",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "validateSecurityPolicy"
+          ],
+          "targetModules": [
+            "src/security/p46-l6-02-policy.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_validateSecurityPolicy"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_validateSecurityPolicy"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-02-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-02_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-02-handler.ts",
+            "src/security/p46-l6-02-policy.ts"
+          ],
+          "dependencies": [
+            "STRANS-P46-L6-02-1"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "programId": "PROG-P46-L6-02-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "3497ff85e8ef05845203327886d4720a766db7435b00d6e949717dab058dfc20"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L6-02-01"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "0f1cb6489488782ca7dfbf1f1b64c05c770799253191dad6e3423c5165aca451"
+    },
+    {
+      "translationId": "TRANS-P46-L6-03-01",
+      "programId": "PROG-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L6-03-1",
+          "taskId": "P46-L6-03",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "handleIncomingRequest"
+          ],
+          "targetModules": [
+            "src/network/p46-l6-03-handler.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_handleIncomingRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_handleIncomingRequest"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-03-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-03_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-03-handler.ts",
+            "src/security/p46-l6-03-policy.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "programId": "PROG-P46-L6-03-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "5fba35364225a7975106f7f9015d79e4d74abe4c23d3a859b2d34e38fe1782a4"
+        },
+        {
+          "transformationId": "STRANS-P46-L6-03-2",
+          "taskId": "P46-L6-03",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "validateSecurityPolicy"
+          ],
+          "targetModules": [
+            "src/security/p46-l6-03-policy.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_validateSecurityPolicy"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_validateSecurityPolicy"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-03-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-03_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-03-handler.ts",
+            "src/security/p46-l6-03-policy.ts"
+          ],
+          "dependencies": [
+            "STRANS-P46-L6-03-1"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "programId": "PROG-P46-L6-03-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "4ca12b1af4225ad5dd98f8b8550127b3133384167312de77add44b7c699215b2"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L6-03-01"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "8c473e1b962dc3e7d8b84fa887c640c146d4a43354e30dd52939a6d4e02566ce"
+    },
+    {
+      "translationId": "TRANS-P46-L6-04-01",
+      "programId": "PROG-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L6-04-1",
+          "taskId": "P46-L6-04",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "handleIncomingRequest"
+          ],
+          "targetModules": [
+            "src/network/p46-l6-04-handler.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_handleIncomingRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_handleIncomingRequest"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-04-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-04_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-04-handler.ts",
+            "src/security/p46-l6-04-policy.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "programId": "PROG-P46-L6-04-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "4c9966ee803520e6f6dc1e4a806ac4d3d7e94fa79ed52047fdaac84a1c47b260"
+        },
+        {
+          "transformationId": "STRANS-P46-L6-04-2",
+          "taskId": "P46-L6-04",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "validateSecurityPolicy"
+          ],
+          "targetModules": [
+            "src/security/p46-l6-04-policy.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_validateSecurityPolicy"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_validateSecurityPolicy"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-04-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-04_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-04-handler.ts",
+            "src/security/p46-l6-04-policy.ts"
+          ],
+          "dependencies": [
+            "STRANS-P46-L6-04-1"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "programId": "PROG-P46-L6-04-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "5cba47664e2d3a0c4fb136d598560771a31d6565e86d989e291b86972fe38968"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L6-04-01"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "2e1ed6ddbfc977c9aa099a592ef69eb46c3249b3571afb3623e7caeb4919c5e2"
+    },
+    {
+      "translationId": "TRANS-P46-L6-05-01",
+      "programId": "PROG-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "transformations": [
+        {
+          "transformationId": "STRANS-P46-L6-05-1",
+          "taskId": "P46-L6-05",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "handleIncomingRequest"
+          ],
+          "targetModules": [
+            "src/network/p46-l6-05-handler.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_handleIncomingRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_handleIncomingRequest"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-05-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-05_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-05-handler.ts",
+            "src/security/p46-l6-05-policy.ts"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "programId": "PROG-P46-L6-05-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "43b4263d43ff011ddc6255377db5c774324b8ef59cc017ac958bba579250e63e"
+        },
+        {
+          "transformationId": "STRANS-P46-L6-05-2",
+          "taskId": "P46-L6-05",
+          "primitive": "CHANGE_DATA_FLOW",
+          "targetSymbols": [
+            "validateSecurityPolicy"
+          ],
+          "targetModules": [
+            "src/security/p46-l6-05-policy.ts"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "stateTransition": "TRANSITION_TO_NORMALIZED_FORM",
+          "representationTransition": "ADAPT_SEMANTIC_REPRESENTATION",
+          "behavioralPredicate": "SATISFIES_OPERATOR_SECURITY_TRANSLATION",
+          "affectedDataFlow": [
+            "DATAFLOW_validateSecurityPolicy"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_validateSecurityPolicy"
+          ],
+          "requiredInvariants": [
+            "INV-P46-L6-05-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT_P46-L6-05_01"
+          ],
+          "allowedMutationScope": [
+            "src/network/p46-l6-05-handler.ts",
+            "src/security/p46-l6-05-policy.ts"
+          ],
+          "dependencies": [
+            "STRANS-P46-L6-05-1"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "programId": "PROG-P46-L6-05-01",
+            "operator": "SECURITY_TRANSLATION",
+            "closureRule": "SEMANTIC_TRANSLATION_INDUCTION"
+          },
+          "canonicalHash": "83fe726bc6bbf04b3f1d7bb77b1f371b8e32dce268dab3131ca14d1664db9470"
+        }
+      ],
+      "appliedInvariants": [
+        "INV-P46-L6-05-01"
+      ],
+      "status": "SUCCESS",
+      "contentHash": "e5c5a7bc4bf177047d463d9cf67af319ce55d9b10631bb0d28949922963b650c"
+    },
+    {
+      "translationId": "TRANS-P46-L7-01-FAILED",
+      "programId": "PROG-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "transformations": [],
+      "appliedInvariants": [],
+      "status": "CONSTRUCTION_EXHAUSTED",
+      "contentHash": "54814977b0aded4154dd50804adfe415fd1d6e7151cde567dee055719aba6b86"
+    },
+    {
+      "translationId": "TRANS-P46-L7-02-FAILED",
+      "programId": "PROG-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "transformations": [],
+      "appliedInvariants": [],
+      "status": "CONSTRUCTION_EXHAUSTED",
+      "contentHash": "24199cc582a44164760abeefb3454aace6e9b868d94b914c88ad47ef3eb14913"
+    },
+    {
+      "translationId": "TRANS-P46-L7-03-FAILED",
+      "programId": "PROG-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "transformations": [],
+      "appliedInvariants": [],
+      "status": "CONSTRUCTION_EXHAUSTED",
+      "contentHash": "67dadec7ec5b6e76cd72ca42b904d759a5cea688789631ef5fe15d7dfcb5b920"
+    },
+    {
+      "translationId": "TRANS-P46-L7-04-FAILED",
+      "programId": "PROG-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "transformations": [],
+      "appliedInvariants": [],
+      "status": "CONSTRUCTION_EXHAUSTED",
+      "contentHash": "a84192d314d5f8a1a1368d5e121d1fddba6e0ca3a19161cad9f812ada9c7b993"
+    },
+    {
+      "translationId": "TRANS-P46-L7-05-FAILED",
+      "programId": "PROG-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "transformations": [],
+      "appliedInvariants": [],
+      "status": "CONSTRUCTION_EXHAUSTED",
+      "contentHash": "4ffb0900084ef835235855e3562bce6e8a3055f49116c4ece18a22d7750258c4"
+    }
+  ]
+}

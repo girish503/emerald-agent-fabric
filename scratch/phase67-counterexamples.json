@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "emerald-phase67-v1",
+  "phase": "67",
+  "protocolDigest": "9591d40ab38fe7a6723cc620d900345096febeba77f246c19baaccef26e257b0",
+  "totalCounterexamples": 20,
+  "counterexamples": [
+    {
+      "taskId": "P46-L5-01",
+      "counterexampleId": "CE-P46-L5-01-01",
+      "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "contentHash": "c0d5ea76752e4bf1a6594937282e48c690133d10b98c32928a291d4b88a2ce17"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "counterexampleId": "CE-P46-L5-02-01",
+      "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "contentHash": "fab8c228993ac5856b391c26718a55220f329e6edc445aca175f96e266d812d8"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "counterexampleId": "CE-P46-L5-03-01",
+      "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "contentHash": "5e153d0634a4d1a601766567ea0ff196fdd54050fcc97e711d5b766eb38d9749"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "counterexampleId": "CE-P46-L5-04-01",
+      "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "contentHash": "2be85836d729ccb903277b101fdd82d01768294c9947d322c8434eb1ec27f5f0"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "counterexampleId": "CE-P46-L5-05-01",
+      "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+      "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+      "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))",
+      "contentHash": "82e70ffd60adb2ff31a3ceab102dccaab9f40a4517401b0d6cd95a3d9edc924d"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "counterexampleId": "CE-P46-L6-01-01",
+      "failureSymptom": "Wildcard origin reflected when credentials are true",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "contentHash": "5c1ea939174110deda70ee2505c0b80f0cdcf10a1ef70cfa3a9ad4867b8b74b6"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "counterexampleId": "CE-P46-L6-02-01",
+      "failureSymptom": "Wildcard origin reflected when credentials are true",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "contentHash": "4910f0a2afbe53fdf10a352fd09c58e7e53200bc1c4efba18701c0da4be18756"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "counterexampleId": "CE-P46-L6-03-01",
+      "failureSymptom": "Wildcard origin reflected when credentials are true",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "contentHash": "274449423450b1212f91f14ab59e6d0af67a91165638dcd4ef26041ba5686f3b"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "counterexampleId": "CE-P46-L6-04-01",
+      "failureSymptom": "Wildcard origin reflected when credentials are true",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "contentHash": "c7b8180d1fb7f9dfcd98354ba8d6fd51edc5aa59e72361544972394f6d76f6d1"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "counterexampleId": "CE-P46-L6-05-01",
+      "failureSymptom": "Wildcard origin reflected when credentials are true",
+      "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+      "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)",
+      "contentHash": "2c3367093fcf0fd765523a00966cc24d66f5770e521108dd338533b8cd8a1473"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "counterexampleId": "CE-P46-L7-01-01",
+      "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "contentHash": "9b193cb34b4ef95a154fda9786865a6c714d5232074673c38b4ec182edc79f62"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "counterexampleId": "CE-P46-L7-01-02",
+      "failureSymptom": "Split-brain state during distributed transaction timeout",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "contentHash": "b0162d23b2b16b74776b1196d4e9ee09230edbefa9dd7672716a68cb7e5ad860"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "counterexampleId": "CE-P46-L7-02-01",
+      "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "contentHash": "15dc75f101ac2d4fb58ce662b7d19286d76c306f1dd18f18f0f3ad7a87aab810"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "counterexampleId": "CE-P46-L7-02-02",
+      "failureSymptom": "Split-brain state during distributed transaction timeout",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "contentHash": "d5b599be7aa4ed31e9f959e8367ac83ee9ed3d4385e94bcd05acea2b6d1920d1"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "counterexampleId": "CE-P46-L7-03-01",
+      "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "contentHash": "2e90311ffa6107cf7866fd3b6781ea5c911a8d60ec36f13ab8c9f9e65deb8a4a"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "counterexampleId": "CE-P46-L7-03-02",
+      "failureSymptom": "Split-brain state during distributed transaction timeout",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "contentHash": "60acfabb2edcba448980cf7b0b090695ac24125f8f338baa3232e82579cbca10"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "counterexampleId": "CE-P46-L7-04-01",
+      "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "contentHash": "ed458a193ee96d0dbba402c2bd308c1f67f2ed8db195ba07d9f93c7134fb0a50"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "counterexampleId": "CE-P46-L7-04-02",
+      "failureSymptom": "Split-brain state during distributed transaction timeout",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "contentHash": "df4a49ebd6731f2036752d05642b14280b0fcb2dd4fcac613f675dd445366c42"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "counterexampleId": "CE-P46-L7-05-01",
+      "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+      "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+      "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)",
+      "contentHash": "4b17cb124bbbe84afd33d251fdc0997ea01b899d756ea4cc5ab123328652eec5"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "counterexampleId": "CE-P46-L7-05-02",
+      "failureSymptom": "Split-brain state during distributed transaction timeout",
+      "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+      "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)",
+      "contentHash": "60926ec7404c0cb270c7dc095908ae36876458a59e89ac85fba3273f60c775bf"
+    }
+  ]
+}

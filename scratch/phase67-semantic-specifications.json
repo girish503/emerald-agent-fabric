@@ -1,0 +1,2103 @@
+{
+  "schemaVersion": "emerald-phase67-v1",
+  "phase": "67",
+  "protocolDigest": "9591d40ab38fe7a6723cc620d900345096febeba77f246c19baaccef26e257b0",
+  "totalSpecifications": 15,
+  "specifications": [
+    {
+      "specificationId": "SPEC-P46-L5-01-V1",
+      "taskId": "P46-L5-01",
+      "sourceProgramSemantics": "Binary and unary operator precedence bindings evaluated in incorrect associative order",
+      "targetBehavioralSemantics": "Prefix unary operators bind tighter than exponentiation; negative indices clamp properly",
+      "semanticPreconditions": [
+        "PRE:VALID_EXPRESSION_STRING"
+      ],
+      "semanticPostconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L5-01-01",
+          "description": "Prefix unary operator takes precedence over exponentiation",
+          "rule": "BINDING_POWER(PREFIX_UNARY) > BINDING_POWER(EXPONENTIATION)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L5-01-02",
+          "description": "Standard binary addition and multiplication laws preserved",
+          "rule": "PRESERVE(COMMUTATIVE_ADDITION) && PRESERVE(ASSOCIATIVE_MULTIPLICATION)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_STRING",
+          "to": "TOKEN_STREAM",
+          "adapter": "lexString"
+        },
+        {
+          "from": "TOKEN_STREAM",
+          "to": "AST_EXPRESSION",
+          "adapter": "buildAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "parserState",
+          "sourceVal": "PARSING",
+          "targetVal": "COMPLETED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "CHECK_PREFIX_FIRST",
+        "PARSE_BINARY_SECOND"
+      ],
+      "dataFlowRequirements": [
+        "TOKENS_TO_OPERATOR_STACK",
+        "NODES_TO_EVALUATION_RESULT"
+      ],
+      "errorBehavior": [
+        "SYNTAX_ERROR_ON_DANGLING_OPERATOR"
+      ],
+      "securityBehavior": [
+        "RESOURCE_BOUNDED_RECURSION_DEPTH"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L5-01-01",
+          "input": {
+            "query": "test_input_for_P46-L5-01"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L5-01"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/parser/p46-l5-01-engine.ts",
+          "contentHash": "c20f7010a585c487ea416c0110dec1795005b7a6af1ed505090981120ed4b2f0"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L5-01-01",
+          "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+          "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+          "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/parser/p46-l5-01-engine.ts"
+        ],
+        "symbols": [
+          "parseExpression",
+          "evaluateOperator"
+        ]
+      },
+      "affectedSymbols": [
+        "parseExpression",
+        "evaluateOperator"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "15dab9ecebb7b5cad17fc2c3edfa39afd06ba31d62229ea0f98d96b4fffe22f1"
+    },
+    {
+      "specificationId": "SPEC-P46-L5-02-V1",
+      "taskId": "P46-L5-02",
+      "sourceProgramSemantics": "Binary and unary operator precedence bindings evaluated in incorrect associative order",
+      "targetBehavioralSemantics": "Prefix unary operators bind tighter than exponentiation; negative indices clamp properly",
+      "semanticPreconditions": [
+        "PRE:VALID_EXPRESSION_STRING"
+      ],
+      "semanticPostconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L5-02-01",
+          "description": "Prefix unary operator takes precedence over exponentiation",
+          "rule": "BINDING_POWER(PREFIX_UNARY) > BINDING_POWER(EXPONENTIATION)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L5-02-02",
+          "description": "Standard binary addition and multiplication laws preserved",
+          "rule": "PRESERVE(COMMUTATIVE_ADDITION) && PRESERVE(ASSOCIATIVE_MULTIPLICATION)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_STRING",
+          "to": "TOKEN_STREAM",
+          "adapter": "lexString"
+        },
+        {
+          "from": "TOKEN_STREAM",
+          "to": "AST_EXPRESSION",
+          "adapter": "buildAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "parserState",
+          "sourceVal": "PARSING",
+          "targetVal": "COMPLETED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "CHECK_PREFIX_FIRST",
+        "PARSE_BINARY_SECOND"
+      ],
+      "dataFlowRequirements": [
+        "TOKENS_TO_OPERATOR_STACK",
+        "NODES_TO_EVALUATION_RESULT"
+      ],
+      "errorBehavior": [
+        "SYNTAX_ERROR_ON_DANGLING_OPERATOR"
+      ],
+      "securityBehavior": [
+        "RESOURCE_BOUNDED_RECURSION_DEPTH"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L5-02-01",
+          "input": {
+            "query": "test_input_for_P46-L5-02"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L5-02"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/parser/p46-l5-02-engine.ts",
+          "contentHash": "9324b8c8fee86080feddc43f7c6a79983f39654a0b5d7fc03d41f32d6bf55436"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L5-02-01",
+          "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+          "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+          "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/parser/p46-l5-02-engine.ts"
+        ],
+        "symbols": [
+          "parseExpression",
+          "evaluateOperator"
+        ]
+      },
+      "affectedSymbols": [
+        "parseExpression",
+        "evaluateOperator"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "b2f5bdeff5d77e4e96bf384901e0501c05ce422b2a636131f4e93ec5b528139e"
+    },
+    {
+      "specificationId": "SPEC-P46-L5-03-V1",
+      "taskId": "P46-L5-03",
+      "sourceProgramSemantics": "Binary and unary operator precedence bindings evaluated in incorrect associative order",
+      "targetBehavioralSemantics": "Prefix unary operators bind tighter than exponentiation; negative indices clamp properly",
+      "semanticPreconditions": [
+        "PRE:VALID_EXPRESSION_STRING"
+      ],
+      "semanticPostconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L5-03-01",
+          "description": "Prefix unary operator takes precedence over exponentiation",
+          "rule": "BINDING_POWER(PREFIX_UNARY) > BINDING_POWER(EXPONENTIATION)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L5-03-02",
+          "description": "Standard binary addition and multiplication laws preserved",
+          "rule": "PRESERVE(COMMUTATIVE_ADDITION) && PRESERVE(ASSOCIATIVE_MULTIPLICATION)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_STRING",
+          "to": "TOKEN_STREAM",
+          "adapter": "lexString"
+        },
+        {
+          "from": "TOKEN_STREAM",
+          "to": "AST_EXPRESSION",
+          "adapter": "buildAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "parserState",
+          "sourceVal": "PARSING",
+          "targetVal": "COMPLETED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "CHECK_PREFIX_FIRST",
+        "PARSE_BINARY_SECOND"
+      ],
+      "dataFlowRequirements": [
+        "TOKENS_TO_OPERATOR_STACK",
+        "NODES_TO_EVALUATION_RESULT"
+      ],
+      "errorBehavior": [
+        "SYNTAX_ERROR_ON_DANGLING_OPERATOR"
+      ],
+      "securityBehavior": [
+        "RESOURCE_BOUNDED_RECURSION_DEPTH"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L5-03-01",
+          "input": {
+            "query": "test_input_for_P46-L5-03"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L5-03"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/parser/p46-l5-03-engine.ts",
+          "contentHash": "a3568a1dc6d50313a00628856b4881f4e128875e1b2d4c4f06d35c908204d00e"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L5-03-01",
+          "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+          "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+          "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/parser/p46-l5-03-engine.ts"
+        ],
+        "symbols": [
+          "parseExpression",
+          "evaluateOperator"
+        ]
+      },
+      "affectedSymbols": [
+        "parseExpression",
+        "evaluateOperator"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "032b7054e948c44370939c8901e47a3f6ff9cd26b21a3492c9c630dc23770f0a"
+    },
+    {
+      "specificationId": "SPEC-P46-L5-04-V1",
+      "taskId": "P46-L5-04",
+      "sourceProgramSemantics": "Binary and unary operator precedence bindings evaluated in incorrect associative order",
+      "targetBehavioralSemantics": "Prefix unary operators bind tighter than exponentiation; negative indices clamp properly",
+      "semanticPreconditions": [
+        "PRE:VALID_EXPRESSION_STRING"
+      ],
+      "semanticPostconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L5-04-01",
+          "description": "Prefix unary operator takes precedence over exponentiation",
+          "rule": "BINDING_POWER(PREFIX_UNARY) > BINDING_POWER(EXPONENTIATION)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L5-04-02",
+          "description": "Standard binary addition and multiplication laws preserved",
+          "rule": "PRESERVE(COMMUTATIVE_ADDITION) && PRESERVE(ASSOCIATIVE_MULTIPLICATION)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_STRING",
+          "to": "TOKEN_STREAM",
+          "adapter": "lexString"
+        },
+        {
+          "from": "TOKEN_STREAM",
+          "to": "AST_EXPRESSION",
+          "adapter": "buildAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "parserState",
+          "sourceVal": "PARSING",
+          "targetVal": "COMPLETED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "CHECK_PREFIX_FIRST",
+        "PARSE_BINARY_SECOND"
+      ],
+      "dataFlowRequirements": [
+        "TOKENS_TO_OPERATOR_STACK",
+        "NODES_TO_EVALUATION_RESULT"
+      ],
+      "errorBehavior": [
+        "SYNTAX_ERROR_ON_DANGLING_OPERATOR"
+      ],
+      "securityBehavior": [
+        "RESOURCE_BOUNDED_RECURSION_DEPTH"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L5-04-01",
+          "input": {
+            "query": "test_input_for_P46-L5-04"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L5-04"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/parser/p46-l5-04-engine.ts",
+          "contentHash": "de0925f8653b9256bd0ecbec106c1889d35762593401b6500e9988a0d2d7a297"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L5-04-01",
+          "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+          "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+          "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/parser/p46-l5-04-engine.ts"
+        ],
+        "symbols": [
+          "parseExpression",
+          "evaluateOperator"
+        ]
+      },
+      "affectedSymbols": [
+        "parseExpression",
+        "evaluateOperator"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "72d3fc39032aa2c77962fa7a76bf3c6973b573d97a5a8fa31357e523d94f35f3"
+    },
+    {
+      "specificationId": "SPEC-P46-L5-05-V1",
+      "taskId": "P46-L5-05",
+      "sourceProgramSemantics": "Binary and unary operator precedence bindings evaluated in incorrect associative order",
+      "targetBehavioralSemantics": "Prefix unary operators bind tighter than exponentiation; negative indices clamp properly",
+      "semanticPreconditions": [
+        "PRE:VALID_EXPRESSION_STRING"
+      ],
+      "semanticPostconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L5-05-01",
+          "description": "Prefix unary operator takes precedence over exponentiation",
+          "rule": "BINDING_POWER(PREFIX_UNARY) > BINDING_POWER(EXPONENTIATION)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L5-05-02",
+          "description": "Standard binary addition and multiplication laws preserved",
+          "rule": "PRESERVE(COMMUTATIVE_ADDITION) && PRESERVE(ASSOCIATIVE_MULTIPLICATION)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_STRING",
+          "to": "TOKEN_STREAM",
+          "adapter": "lexString"
+        },
+        {
+          "from": "TOKEN_STREAM",
+          "to": "AST_EXPRESSION",
+          "adapter": "buildAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "parserState",
+          "sourceVal": "PARSING",
+          "targetVal": "COMPLETED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "CHECK_PREFIX_FIRST",
+        "PARSE_BINARY_SECOND"
+      ],
+      "dataFlowRequirements": [
+        "TOKENS_TO_OPERATOR_STACK",
+        "NODES_TO_EVALUATION_RESULT"
+      ],
+      "errorBehavior": [
+        "SYNTAX_ERROR_ON_DANGLING_OPERATOR"
+      ],
+      "securityBehavior": [
+        "RESOURCE_BOUNDED_RECURSION_DEPTH"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L5-05-01",
+          "input": {
+            "query": "test_input_for_P46-L5-05"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L5-05"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/parser/p46-l5-05-engine.ts",
+          "contentHash": "5651fef1f7055647fdf248522dd8ac516461b9acf422e9b026c2aab8a1d49bcc"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L5-05-01",
+          "failureSymptom": "5 - -2 parsed as (5 -) - 2 or -2 ** 2 parsed as -(2 ** 2)",
+          "semanticDiagnosis": "Binary subtraction does not accept unary-negative operand",
+          "requiredRelationship": "SUBTRACT(lhs, NEGATE(rhs))"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/parser/p46-l5-05-engine.ts"
+        ],
+        "symbols": [
+          "parseExpression",
+          "evaluateOperator"
+        ]
+      },
+      "affectedSymbols": [
+        "parseExpression",
+        "evaluateOperator"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "41f6e0f147f94d2da5991e41cbef15376ac90a0547e3c2192fcaadc53e768bd8"
+    },
+    {
+      "specificationId": "SPEC-P46-L6-01-V1",
+      "taskId": "P46-L6-01",
+      "sourceProgramSemantics": "Permissive header evaluation permitting unvetted origin reflection under credentials",
+      "targetBehavioralSemantics": "Origin reflection restricted to authenticated whitelist under credentialed CORS policy",
+      "semanticPreconditions": [
+        "PRE:VALID_HTTP_REQUEST",
+        "PRE:CREDENTIALS_FLAG_PRESENT"
+      ],
+      "semanticPostconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L6-01-01",
+          "description": "No wildcard CORS when credentials flag is set",
+          "rule": "!(origin == '*' && allowCredentials == true)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_HEADERS_MAP",
+          "to": "NORMALIZED_CORS_POLICY",
+          "adapter": "normalizeHeaders"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "policyEvaluated",
+          "sourceVal": false,
+          "targetVal": true
+        }
+      ],
+      "controlFlowRequirements": [
+        "VALIDATE_ORIGIN_FIRST",
+        "EMIT_HEADERS_ONLY_ON_MATCH"
+      ],
+      "dataFlowRequirements": [
+        "REQUEST_ORIGIN_TO_WHITELIST_CHECK",
+        "POLICY_TO_RESPONSE_HEADERS"
+      ],
+      "errorBehavior": [
+        "FORBIDDEN_ON_UNAUTHORIZED_ORIGIN"
+      ],
+      "securityBehavior": [
+        "STRICT_ORIGIN_VALIDATION",
+        "PREVENT_CREDENTIAL_LEAKAGE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L6-01-01",
+          "input": {
+            "query": "test_input_for_P46-L6-01"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L6-01"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/network/p46-l6-01-handler.ts",
+          "contentHash": "f4ac898d45526e871c4aa568dfd58f6a3a00fbbfa93e60b763afd935dc7a81b6"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L6-01-01",
+          "failureSymptom": "Wildcard origin reflected when credentials are true",
+          "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+          "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/network/p46-l6-01-handler.ts",
+          "src/security/p46-l6-01-policy.ts"
+        ],
+        "symbols": [
+          "handleIncomingRequest",
+          "validateSecurityPolicy"
+        ]
+      },
+      "affectedSymbols": [
+        "handleIncomingRequest",
+        "validateSecurityPolicy"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "1153c473454204a2ddecaeac47ea05ffacaa2fac60b29846a5c56c4d93007648"
+    },
+    {
+      "specificationId": "SPEC-P46-L6-02-V1",
+      "taskId": "P46-L6-02",
+      "sourceProgramSemantics": "Permissive header evaluation permitting unvetted origin reflection under credentials",
+      "targetBehavioralSemantics": "Origin reflection restricted to authenticated whitelist under credentialed CORS policy",
+      "semanticPreconditions": [
+        "PRE:VALID_HTTP_REQUEST",
+        "PRE:CREDENTIALS_FLAG_PRESENT"
+      ],
+      "semanticPostconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L6-02-01",
+          "description": "No wildcard CORS when credentials flag is set",
+          "rule": "!(origin == '*' && allowCredentials == true)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_HEADERS_MAP",
+          "to": "NORMALIZED_CORS_POLICY",
+          "adapter": "normalizeHeaders"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "policyEvaluated",
+          "sourceVal": false,
+          "targetVal": true
+        }
+      ],
+      "controlFlowRequirements": [
+        "VALIDATE_ORIGIN_FIRST",
+        "EMIT_HEADERS_ONLY_ON_MATCH"
+      ],
+      "dataFlowRequirements": [
+        "REQUEST_ORIGIN_TO_WHITELIST_CHECK",
+        "POLICY_TO_RESPONSE_HEADERS"
+      ],
+      "errorBehavior": [
+        "FORBIDDEN_ON_UNAUTHORIZED_ORIGIN"
+      ],
+      "securityBehavior": [
+        "STRICT_ORIGIN_VALIDATION",
+        "PREVENT_CREDENTIAL_LEAKAGE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L6-02-01",
+          "input": {
+            "query": "test_input_for_P46-L6-02"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L6-02"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/network/p46-l6-02-handler.ts",
+          "contentHash": "10788452790ccd5f68c024f77260fe17b1e34fed555da3450d6b8ec87e39b658"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L6-02-01",
+          "failureSymptom": "Wildcard origin reflected when credentials are true",
+          "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+          "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/network/p46-l6-02-handler.ts",
+          "src/security/p46-l6-02-policy.ts"
+        ],
+        "symbols": [
+          "handleIncomingRequest",
+          "validateSecurityPolicy"
+        ]
+      },
+      "affectedSymbols": [
+        "handleIncomingRequest",
+        "validateSecurityPolicy"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "bd2cc68807c9e9a5b89b99175016a3d18e42803b9cf9a47aa234b86a7a00b776"
+    },
+    {
+      "specificationId": "SPEC-P46-L6-03-V1",
+      "taskId": "P46-L6-03",
+      "sourceProgramSemantics": "Permissive header evaluation permitting unvetted origin reflection under credentials",
+      "targetBehavioralSemantics": "Origin reflection restricted to authenticated whitelist under credentialed CORS policy",
+      "semanticPreconditions": [
+        "PRE:VALID_HTTP_REQUEST",
+        "PRE:CREDENTIALS_FLAG_PRESENT"
+      ],
+      "semanticPostconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L6-03-01",
+          "description": "No wildcard CORS when credentials flag is set",
+          "rule": "!(origin == '*' && allowCredentials == true)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_HEADERS_MAP",
+          "to": "NORMALIZED_CORS_POLICY",
+          "adapter": "normalizeHeaders"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "policyEvaluated",
+          "sourceVal": false,
+          "targetVal": true
+        }
+      ],
+      "controlFlowRequirements": [
+        "VALIDATE_ORIGIN_FIRST",
+        "EMIT_HEADERS_ONLY_ON_MATCH"
+      ],
+      "dataFlowRequirements": [
+        "REQUEST_ORIGIN_TO_WHITELIST_CHECK",
+        "POLICY_TO_RESPONSE_HEADERS"
+      ],
+      "errorBehavior": [
+        "FORBIDDEN_ON_UNAUTHORIZED_ORIGIN"
+      ],
+      "securityBehavior": [
+        "STRICT_ORIGIN_VALIDATION",
+        "PREVENT_CREDENTIAL_LEAKAGE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L6-03-01",
+          "input": {
+            "query": "test_input_for_P46-L6-03"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L6-03"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/network/p46-l6-03-handler.ts",
+          "contentHash": "f69ad350d1912ac09839a9081075f637724787f6f0b3723949a80843d731dfec"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L6-03-01",
+          "failureSymptom": "Wildcard origin reflected when credentials are true",
+          "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+          "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/network/p46-l6-03-handler.ts",
+          "src/security/p46-l6-03-policy.ts"
+        ],
+        "symbols": [
+          "handleIncomingRequest",
+          "validateSecurityPolicy"
+        ]
+      },
+      "affectedSymbols": [
+        "handleIncomingRequest",
+        "validateSecurityPolicy"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "b004a083f3e65a6dd71356b9ec265336152635da8d3fa053db819887ea7eceeb"
+    },
+    {
+      "specificationId": "SPEC-P46-L6-04-V1",
+      "taskId": "P46-L6-04",
+      "sourceProgramSemantics": "Permissive header evaluation permitting unvetted origin reflection under credentials",
+      "targetBehavioralSemantics": "Origin reflection restricted to authenticated whitelist under credentialed CORS policy",
+      "semanticPreconditions": [
+        "PRE:VALID_HTTP_REQUEST",
+        "PRE:CREDENTIALS_FLAG_PRESENT"
+      ],
+      "semanticPostconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L6-04-01",
+          "description": "No wildcard CORS when credentials flag is set",
+          "rule": "!(origin == '*' && allowCredentials == true)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_HEADERS_MAP",
+          "to": "NORMALIZED_CORS_POLICY",
+          "adapter": "normalizeHeaders"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "policyEvaluated",
+          "sourceVal": false,
+          "targetVal": true
+        }
+      ],
+      "controlFlowRequirements": [
+        "VALIDATE_ORIGIN_FIRST",
+        "EMIT_HEADERS_ONLY_ON_MATCH"
+      ],
+      "dataFlowRequirements": [
+        "REQUEST_ORIGIN_TO_WHITELIST_CHECK",
+        "POLICY_TO_RESPONSE_HEADERS"
+      ],
+      "errorBehavior": [
+        "FORBIDDEN_ON_UNAUTHORIZED_ORIGIN"
+      ],
+      "securityBehavior": [
+        "STRICT_ORIGIN_VALIDATION",
+        "PREVENT_CREDENTIAL_LEAKAGE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L6-04-01",
+          "input": {
+            "query": "test_input_for_P46-L6-04"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L6-04"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/network/p46-l6-04-handler.ts",
+          "contentHash": "69476fe2ffa1f925029eb5f312130abf1e09199e6844861fe872915e76e2f4e2"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L6-04-01",
+          "failureSymptom": "Wildcard origin reflected when credentials are true",
+          "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+          "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/network/p46-l6-04-handler.ts",
+          "src/security/p46-l6-04-policy.ts"
+        ],
+        "symbols": [
+          "handleIncomingRequest",
+          "validateSecurityPolicy"
+        ]
+      },
+      "affectedSymbols": [
+        "handleIncomingRequest",
+        "validateSecurityPolicy"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "88cc257c8c04459ec138fd6c011709947323f946f99d75723473285bb7bcf0c4"
+    },
+    {
+      "specificationId": "SPEC-P46-L6-05-V1",
+      "taskId": "P46-L6-05",
+      "sourceProgramSemantics": "Permissive header evaluation permitting unvetted origin reflection under credentials",
+      "targetBehavioralSemantics": "Origin reflection restricted to authenticated whitelist under credentialed CORS policy",
+      "semanticPreconditions": [
+        "PRE:VALID_HTTP_REQUEST",
+        "PRE:CREDENTIALS_FLAG_PRESENT"
+      ],
+      "semanticPostconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L6-05-01",
+          "description": "No wildcard CORS when credentials flag is set",
+          "rule": "!(origin == '*' && allowCredentials == true)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_HEADERS_MAP",
+          "to": "NORMALIZED_CORS_POLICY",
+          "adapter": "normalizeHeaders"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "policyEvaluated",
+          "sourceVal": false,
+          "targetVal": true
+        }
+      ],
+      "controlFlowRequirements": [
+        "VALIDATE_ORIGIN_FIRST",
+        "EMIT_HEADERS_ONLY_ON_MATCH"
+      ],
+      "dataFlowRequirements": [
+        "REQUEST_ORIGIN_TO_WHITELIST_CHECK",
+        "POLICY_TO_RESPONSE_HEADERS"
+      ],
+      "errorBehavior": [
+        "FORBIDDEN_ON_UNAUTHORIZED_ORIGIN"
+      ],
+      "securityBehavior": [
+        "STRICT_ORIGIN_VALIDATION",
+        "PREVENT_CREDENTIAL_LEAKAGE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L6-05-01",
+          "input": {
+            "query": "test_input_for_P46-L6-05"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L6-05"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/network/p46-l6-05-handler.ts",
+          "contentHash": "a720da69d447368e559b09b7186db23749a03dcb92c800835ca612945081a0d7"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L6-05-01",
+          "failureSymptom": "Wildcard origin reflected when credentials are true",
+          "semanticDiagnosis": "Origin policy returns '*' instead of specific requesting origin",
+          "requiredRelationship": "REFLECT_EXPLICIT_OR_REJECT(request.origin, allowedOrigins)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/network/p46-l6-05-handler.ts",
+          "src/security/p46-l6-05-policy.ts"
+        ],
+        "symbols": [
+          "handleIncomingRequest",
+          "validateSecurityPolicy"
+        ]
+      },
+      "affectedSymbols": [
+        "handleIncomingRequest",
+        "validateSecurityPolicy"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "b5a7ae3867c62b16998050688092c0b9f8d63cf4b1686a78f47c46391a4c6cc4"
+    },
+    {
+      "specificationId": "SPEC-P46-L7-01-V1",
+      "taskId": "P46-L7-01",
+      "sourceProgramSemantics": "Uncoupled multi-pass pipeline exhibiting desynchronized state and lookahead gap",
+      "targetBehavioralSemantics": "Synchronized cross-module program execution preserving AST token alignment and transaction semantics",
+      "semanticPreconditions": [
+        "PRE:VALID_TOKEN_STREAM",
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "semanticPostconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L7-01-01",
+          "description": "Global cross-module token stream monotonicity",
+          "rule": "MONOTONIC_STREAM(token_stream) && SYNCHRONIZED_LOOKAHEAD(parser, lexer)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L7-01-02",
+          "description": "Strict isolation across transaction participants",
+          "rule": "ISOLATION_LEVEL(SERIALIZABLE) && NO_DIRTY_READS(coordinator, participant)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_TOKEN_STREAM",
+          "to": "TYPED_TOKEN_SEQUENCE",
+          "adapter": "tokenizeAndValidate"
+        },
+        {
+          "from": "UNTYPED_AST",
+          "to": "ANNOTATED_SEMANTIC_AST",
+          "adapter": "typeCheckAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "coordinatorState",
+          "sourceVal": "ACTIVE",
+          "targetVal": "PREPARED"
+        },
+        {
+          "stateKey": "participantState",
+          "sourceVal": "INIT",
+          "targetVal": "COMMITTED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "SEQUENTIAL_DISPATCH",
+        "TWO_PHASE_BARRIER",
+        "ROLLBACK_ON_ERROR"
+      ],
+      "dataFlowRequirements": [
+        "TOKEN_TO_PARSER",
+        "AST_TO_CODEGEN",
+        "STATE_LOG_TO_STORAGE"
+      ],
+      "errorBehavior": [
+        "PANIC_ON_CORRUPT_STREAM",
+        "ABORT_ON_NETWORK_TIMEOUT"
+      ],
+      "securityBehavior": [
+        "ENFORCE_SANDBOX_MEMORY_LIMIT",
+        "FORBID_UNTRUSTED_BYTECODE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L7-01-01",
+          "input": {
+            "query": "test_input_for_P46-L7-01"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L7-01"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/core/p46-l7-01-lexer.ts",
+          "contentHash": "d7e5e6a3f72f7eeaa08dfe96a3c63c17c730496c71391d76373f7d8332e34d5d"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L7-01-01",
+          "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+          "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+          "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)"
+        },
+        {
+          "counterexampleId": "CE-P46-L7-01-02",
+          "failureSymptom": "Split-brain state during distributed transaction timeout",
+          "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+          "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/core/p46-l7-01-lexer.ts",
+          "src/core/p46-l7-01-parser.ts",
+          "src/core/p46-l7-01-ast.ts",
+          "src/core/p46-l7-01-codegen.ts"
+        ],
+        "symbols": [
+          "tokenize",
+          "parseExpression",
+          "evaluateNode",
+          "emitBytecode"
+        ]
+      },
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluateNode",
+        "emitBytecode"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "6bb7039693202c62ff494168bde5c53b384ae972074c1b5b38cd6a5048327be5"
+    },
+    {
+      "specificationId": "SPEC-P46-L7-02-V1",
+      "taskId": "P46-L7-02",
+      "sourceProgramSemantics": "Uncoupled multi-pass pipeline exhibiting desynchronized state and lookahead gap",
+      "targetBehavioralSemantics": "Synchronized cross-module program execution preserving AST token alignment and transaction semantics",
+      "semanticPreconditions": [
+        "PRE:VALID_TOKEN_STREAM",
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "semanticPostconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L7-02-01",
+          "description": "Global cross-module token stream monotonicity",
+          "rule": "MONOTONIC_STREAM(token_stream) && SYNCHRONIZED_LOOKAHEAD(parser, lexer)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L7-02-02",
+          "description": "Strict isolation across transaction participants",
+          "rule": "ISOLATION_LEVEL(SERIALIZABLE) && NO_DIRTY_READS(coordinator, participant)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_TOKEN_STREAM",
+          "to": "TYPED_TOKEN_SEQUENCE",
+          "adapter": "tokenizeAndValidate"
+        },
+        {
+          "from": "UNTYPED_AST",
+          "to": "ANNOTATED_SEMANTIC_AST",
+          "adapter": "typeCheckAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "coordinatorState",
+          "sourceVal": "ACTIVE",
+          "targetVal": "PREPARED"
+        },
+        {
+          "stateKey": "participantState",
+          "sourceVal": "INIT",
+          "targetVal": "COMMITTED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "SEQUENTIAL_DISPATCH",
+        "TWO_PHASE_BARRIER",
+        "ROLLBACK_ON_ERROR"
+      ],
+      "dataFlowRequirements": [
+        "TOKEN_TO_PARSER",
+        "AST_TO_CODEGEN",
+        "STATE_LOG_TO_STORAGE"
+      ],
+      "errorBehavior": [
+        "PANIC_ON_CORRUPT_STREAM",
+        "ABORT_ON_NETWORK_TIMEOUT"
+      ],
+      "securityBehavior": [
+        "ENFORCE_SANDBOX_MEMORY_LIMIT",
+        "FORBID_UNTRUSTED_BYTECODE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L7-02-01",
+          "input": {
+            "query": "test_input_for_P46-L7-02"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L7-02"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/core/p46-l7-02-lexer.ts",
+          "contentHash": "9c8130b41e9ac4b0e9b1cb4bc685ba50de608a1a62cdf50d5ec8800952bab322"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L7-02-01",
+          "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+          "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+          "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)"
+        },
+        {
+          "counterexampleId": "CE-P46-L7-02-02",
+          "failureSymptom": "Split-brain state during distributed transaction timeout",
+          "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+          "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/core/p46-l7-02-lexer.ts",
+          "src/core/p46-l7-02-parser.ts",
+          "src/core/p46-l7-02-ast.ts",
+          "src/core/p46-l7-02-codegen.ts"
+        ],
+        "symbols": [
+          "tokenize",
+          "parseExpression",
+          "evaluateNode",
+          "emitBytecode"
+        ]
+      },
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluateNode",
+        "emitBytecode"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "c2bea5c1c340f87453d03e6a98f06b352c7c6914da7c5a8fe68c03326b4ab631"
+    },
+    {
+      "specificationId": "SPEC-P46-L7-03-V1",
+      "taskId": "P46-L7-03",
+      "sourceProgramSemantics": "Uncoupled multi-pass pipeline exhibiting desynchronized state and lookahead gap",
+      "targetBehavioralSemantics": "Synchronized cross-module program execution preserving AST token alignment and transaction semantics",
+      "semanticPreconditions": [
+        "PRE:VALID_TOKEN_STREAM",
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "semanticPostconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L7-03-01",
+          "description": "Global cross-module token stream monotonicity",
+          "rule": "MONOTONIC_STREAM(token_stream) && SYNCHRONIZED_LOOKAHEAD(parser, lexer)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L7-03-02",
+          "description": "Strict isolation across transaction participants",
+          "rule": "ISOLATION_LEVEL(SERIALIZABLE) && NO_DIRTY_READS(coordinator, participant)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_TOKEN_STREAM",
+          "to": "TYPED_TOKEN_SEQUENCE",
+          "adapter": "tokenizeAndValidate"
+        },
+        {
+          "from": "UNTYPED_AST",
+          "to": "ANNOTATED_SEMANTIC_AST",
+          "adapter": "typeCheckAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "coordinatorState",
+          "sourceVal": "ACTIVE",
+          "targetVal": "PREPARED"
+        },
+        {
+          "stateKey": "participantState",
+          "sourceVal": "INIT",
+          "targetVal": "COMMITTED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "SEQUENTIAL_DISPATCH",
+        "TWO_PHASE_BARRIER",
+        "ROLLBACK_ON_ERROR"
+      ],
+      "dataFlowRequirements": [
+        "TOKEN_TO_PARSER",
+        "AST_TO_CODEGEN",
+        "STATE_LOG_TO_STORAGE"
+      ],
+      "errorBehavior": [
+        "PANIC_ON_CORRUPT_STREAM",
+        "ABORT_ON_NETWORK_TIMEOUT"
+      ],
+      "securityBehavior": [
+        "ENFORCE_SANDBOX_MEMORY_LIMIT",
+        "FORBID_UNTRUSTED_BYTECODE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L7-03-01",
+          "input": {
+            "query": "test_input_for_P46-L7-03"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L7-03"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/core/p46-l7-03-lexer.ts",
+          "contentHash": "f613abbf6cb4f49e8e8f9e7c41c1edb3955199a525257c1202d9793a3cad728b"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L7-03-01",
+          "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+          "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+          "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)"
+        },
+        {
+          "counterexampleId": "CE-P46-L7-03-02",
+          "failureSymptom": "Split-brain state during distributed transaction timeout",
+          "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+          "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/core/p46-l7-03-lexer.ts",
+          "src/core/p46-l7-03-parser.ts",
+          "src/core/p46-l7-03-ast.ts",
+          "src/core/p46-l7-03-codegen.ts"
+        ],
+        "symbols": [
+          "tokenize",
+          "parseExpression",
+          "evaluateNode",
+          "emitBytecode"
+        ]
+      },
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluateNode",
+        "emitBytecode"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "74f6064ed3dec232ac1c0d97aecae8f5f3f093da5d3c3ecbf752ab37092cfcec"
+    },
+    {
+      "specificationId": "SPEC-P46-L7-04-V1",
+      "taskId": "P46-L7-04",
+      "sourceProgramSemantics": "Uncoupled multi-pass pipeline exhibiting desynchronized state and lookahead gap",
+      "targetBehavioralSemantics": "Synchronized cross-module program execution preserving AST token alignment and transaction semantics",
+      "semanticPreconditions": [
+        "PRE:VALID_TOKEN_STREAM",
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "semanticPostconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L7-04-01",
+          "description": "Global cross-module token stream monotonicity",
+          "rule": "MONOTONIC_STREAM(token_stream) && SYNCHRONIZED_LOOKAHEAD(parser, lexer)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L7-04-02",
+          "description": "Strict isolation across transaction participants",
+          "rule": "ISOLATION_LEVEL(SERIALIZABLE) && NO_DIRTY_READS(coordinator, participant)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_TOKEN_STREAM",
+          "to": "TYPED_TOKEN_SEQUENCE",
+          "adapter": "tokenizeAndValidate"
+        },
+        {
+          "from": "UNTYPED_AST",
+          "to": "ANNOTATED_SEMANTIC_AST",
+          "adapter": "typeCheckAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "coordinatorState",
+          "sourceVal": "ACTIVE",
+          "targetVal": "PREPARED"
+        },
+        {
+          "stateKey": "participantState",
+          "sourceVal": "INIT",
+          "targetVal": "COMMITTED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "SEQUENTIAL_DISPATCH",
+        "TWO_PHASE_BARRIER",
+        "ROLLBACK_ON_ERROR"
+      ],
+      "dataFlowRequirements": [
+        "TOKEN_TO_PARSER",
+        "AST_TO_CODEGEN",
+        "STATE_LOG_TO_STORAGE"
+      ],
+      "errorBehavior": [
+        "PANIC_ON_CORRUPT_STREAM",
+        "ABORT_ON_NETWORK_TIMEOUT"
+      ],
+      "securityBehavior": [
+        "ENFORCE_SANDBOX_MEMORY_LIMIT",
+        "FORBID_UNTRUSTED_BYTECODE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L7-04-01",
+          "input": {
+            "query": "test_input_for_P46-L7-04"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L7-04"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/core/p46-l7-04-lexer.ts",
+          "contentHash": "fcea82793638aca9307074f7feb16cc77e73a8909954d7f2de26df9fedce1732"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L7-04-01",
+          "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+          "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+          "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)"
+        },
+        {
+          "counterexampleId": "CE-P46-L7-04-02",
+          "failureSymptom": "Split-brain state during distributed transaction timeout",
+          "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+          "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/core/p46-l7-04-lexer.ts",
+          "src/core/p46-l7-04-parser.ts",
+          "src/core/p46-l7-04-ast.ts",
+          "src/core/p46-l7-04-codegen.ts"
+        ],
+        "symbols": [
+          "tokenize",
+          "parseExpression",
+          "evaluateNode",
+          "emitBytecode"
+        ]
+      },
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluateNode",
+        "emitBytecode"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "42047da50428be3a68be976f3048c5af304a29c8b59c4d95e055ec812624f004"
+    },
+    {
+      "specificationId": "SPEC-P46-L7-05-V1",
+      "taskId": "P46-L7-05",
+      "sourceProgramSemantics": "Uncoupled multi-pass pipeline exhibiting desynchronized state and lookahead gap",
+      "targetBehavioralSemantics": "Synchronized cross-module program execution preserving AST token alignment and transaction semantics",
+      "semanticPreconditions": [
+        "PRE:VALID_TOKEN_STREAM",
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "semanticPostconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "preservedInvariants": [
+        {
+          "invariantId": "INV-P46-L7-05-01",
+          "description": "Global cross-module token stream monotonicity",
+          "rule": "MONOTONIC_STREAM(token_stream) && SYNCHRONIZED_LOOKAHEAD(parser, lexer)",
+          "type": "INVARIANT_AS_CONSTRUCTION_GUIDANCE"
+        },
+        {
+          "invariantId": "INV-P46-L7-05-02",
+          "description": "Strict isolation across transaction participants",
+          "rule": "ISOLATION_LEVEL(SERIALIZABLE) && NO_DIRTY_READS(coordinator, participant)",
+          "type": "INVARIANT_AS_CONSTRAINT"
+        }
+      ],
+      "representationMappings": [
+        {
+          "from": "RAW_TOKEN_STREAM",
+          "to": "TYPED_TOKEN_SEQUENCE",
+          "adapter": "tokenizeAndValidate"
+        },
+        {
+          "from": "UNTYPED_AST",
+          "to": "ANNOTATED_SEMANTIC_AST",
+          "adapter": "typeCheckAST"
+        }
+      ],
+      "stateMappings": [
+        {
+          "stateKey": "coordinatorState",
+          "sourceVal": "ACTIVE",
+          "targetVal": "PREPARED"
+        },
+        {
+          "stateKey": "participantState",
+          "sourceVal": "INIT",
+          "targetVal": "COMMITTED"
+        }
+      ],
+      "controlFlowRequirements": [
+        "SEQUENTIAL_DISPATCH",
+        "TWO_PHASE_BARRIER",
+        "ROLLBACK_ON_ERROR"
+      ],
+      "dataFlowRequirements": [
+        "TOKEN_TO_PARSER",
+        "AST_TO_CODEGEN",
+        "STATE_LOG_TO_STORAGE"
+      ],
+      "errorBehavior": [
+        "PANIC_ON_CORRUPT_STREAM",
+        "ABORT_ON_NETWORK_TIMEOUT"
+      ],
+      "securityBehavior": [
+        "ENFORCE_SANDBOX_MEMORY_LIMIT",
+        "FORBID_UNTRUSTED_BYTECODE"
+      ],
+      "observableExamples": [
+        {
+          "exampleId": "EX-P46-L7-05-01",
+          "input": {
+            "query": "test_input_for_P46-L7-05"
+          },
+          "initialState": {
+            "initialized": true,
+            "step": 0
+          },
+          "expectedState": {
+            "initialized": true,
+            "step": 1,
+            "completed": true
+          },
+          "expectedRepresentation": {
+            "format": "CANONICAL_SEMANTIC_REPRESENTATION"
+          },
+          "expectedOutput": {
+            "status": "OK",
+            "taskId": "P46-L7-05"
+          },
+          "expectedErrors": [],
+          "expectedSecurityBehavior": [
+            "BOUNDED_MEMORY_CHECK",
+            "POLICY_COMPLIANCE"
+          ],
+          "preservedObservations": [
+            "DETERMINISTIC_EVALUATION",
+            "REGRESSION_SUITE_PASS"
+          ],
+          "provenance": "FROZEN_BEHAVIORAL_TEST_src/core/p46-l7-05-lexer.ts",
+          "contentHash": "d959e89068c2bcd6187941a1b71e13c57ca4698c21814c1605cb623faca528b9"
+        }
+      ],
+      "counterexamples": [
+        {
+          "counterexampleId": "CE-P46-L7-05-01",
+          "failureSymptom": "Lookahead desynchronization across juxtaposed operators in multi-module pipeline",
+          "semanticDiagnosis": "Lexer emits lookahead token without parser precedence synchronization",
+          "requiredRelationship": "SYNCHRONIZE(lexer.lookahead, parser.operatorPrecedence)"
+        },
+        {
+          "counterexampleId": "CE-P46-L7-05-02",
+          "failureSymptom": "Split-brain state during distributed transaction timeout",
+          "semanticDiagnosis": "Coordinator aborts participant while participant proceeds to commit",
+          "requiredRelationship": "MUTUAL_EXCLUSION(coordinator.abort, participant.commit)"
+        }
+      ],
+      "mutationScope": {
+        "files": [
+          "src/core/p46-l7-05-lexer.ts",
+          "src/core/p46-l7-05-parser.ts",
+          "src/core/p46-l7-05-ast.ts",
+          "src/core/p46-l7-05-codegen.ts"
+        ],
+        "symbols": [
+          "tokenize",
+          "parseExpression",
+          "evaluateNode",
+          "emitBytecode"
+        ]
+      },
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluateNode",
+        "emitBytecode"
+      ],
+      "forbiddenSymbols": [
+        "eval",
+        "Function",
+        "child_process",
+        "fs.writeSyncUnsafe"
+      ],
+      "synthesisBounds": {
+        "maxSemanticNodes": 64,
+        "maxSemanticHoles": 16,
+        "maxProgramDepth": 8,
+        "maxSemanticConstructors": 64,
+        "maxTranslationSteps": 64,
+        "maxCounterexampleIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxRepairAttempts": 3,
+        "maxWallClockMs": 120000
+      },
+      "contentHash": "8a2daf76fd1ece58b1e3fd8a3f4c6adacb9060baade6f45cb4cba26403edfa57"
+    }
+  ]
+}

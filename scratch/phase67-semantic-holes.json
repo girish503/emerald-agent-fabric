@@ -1,0 +1,653 @@
+{
+  "schemaVersion": "emerald-phase67-v1",
+  "phase": "67",
+  "protocolDigest": "9591d40ab38fe7a6723cc620d900345096febeba77f246c19baaccef26e257b0",
+  "totalHoles": 25,
+  "holes": [
+    {
+      "holeId": "HOLE-P46-L5-01-01",
+      "targetNodeId": "NODE-P46-L5-01-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct prefix unary operator precedence tighter than exponentiation",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "invariantObligations": [
+        "INV-P46-L5-01-01",
+        "INV-P46-L5-01-02"
+      ],
+      "scope": "src/parser/p46-l5-01-engine.ts",
+      "completed": false,
+      "contentHash": "72476391b9ea1d89ab9c43b4aea7ba2c965e2070be6b939221bd097242c7c332"
+    },
+    {
+      "holeId": "HOLE-P46-L5-02-01",
+      "targetNodeId": "NODE-P46-L5-02-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct prefix unary operator precedence tighter than exponentiation",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "invariantObligations": [
+        "INV-P46-L5-02-01",
+        "INV-P46-L5-02-02"
+      ],
+      "scope": "src/parser/p46-l5-02-engine.ts",
+      "completed": false,
+      "contentHash": "cec03c45e1c6f25984703e08f85687b555384085ef472c9be2818bcb3e974192"
+    },
+    {
+      "holeId": "HOLE-P46-L5-03-01",
+      "targetNodeId": "NODE-P46-L5-03-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct prefix unary operator precedence tighter than exponentiation",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "invariantObligations": [
+        "INV-P46-L5-03-01",
+        "INV-P46-L5-03-02"
+      ],
+      "scope": "src/parser/p46-l5-03-engine.ts",
+      "completed": false,
+      "contentHash": "be78a0ea32d153ce496e5377a8f44dfce055d17c977b651f7dd229ef85826cec"
+    },
+    {
+      "holeId": "HOLE-P46-L5-04-01",
+      "targetNodeId": "NODE-P46-L5-04-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct prefix unary operator precedence tighter than exponentiation",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "invariantObligations": [
+        "INV-P46-L5-04-01",
+        "INV-P46-L5-04-02"
+      ],
+      "scope": "src/parser/p46-l5-04-engine.ts",
+      "completed": false,
+      "contentHash": "4eeabc5f4dddb69290a323dc4615e1963cf01388294025bd538238023ad37f51"
+    },
+    {
+      "holeId": "HOLE-P46-L5-05-01",
+      "targetNodeId": "NODE-P46-L5-05-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct prefix unary operator precedence tighter than exponentiation",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+      ],
+      "invariantObligations": [
+        "INV-P46-L5-05-01",
+        "INV-P46-L5-05-02"
+      ],
+      "scope": "src/parser/p46-l5-05-engine.ts",
+      "completed": false,
+      "contentHash": "f521caefc6c37f4273863e17b3fa0f5a3d65b3ae42a9bf75a582322f5c1d2e16"
+    },
+    {
+      "holeId": "HOLE-P46-L6-01-01",
+      "targetNodeId": "NODE-P46-L6-01-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct origin header reflection satisfying non-wildcard credential policy",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "invariantObligations": [
+        "INV-P46-L6-01-01"
+      ],
+      "scope": "src/network/p46-l6-01-handler.ts",
+      "completed": false,
+      "contentHash": "c634db07295db644e2a638454644ab01331203c37508507c537973276dcc5e1c"
+    },
+    {
+      "holeId": "HOLE-P46-L6-02-01",
+      "targetNodeId": "NODE-P46-L6-02-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct origin header reflection satisfying non-wildcard credential policy",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "invariantObligations": [
+        "INV-P46-L6-02-01"
+      ],
+      "scope": "src/network/p46-l6-02-handler.ts",
+      "completed": false,
+      "contentHash": "e01518023028682b1e00b5483a82dbcee774fb59863bd3d5270b71015f6cc8d7"
+    },
+    {
+      "holeId": "HOLE-P46-L6-03-01",
+      "targetNodeId": "NODE-P46-L6-03-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct origin header reflection satisfying non-wildcard credential policy",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "invariantObligations": [
+        "INV-P46-L6-03-01"
+      ],
+      "scope": "src/network/p46-l6-03-handler.ts",
+      "completed": false,
+      "contentHash": "2569de12e31fb266d0def13e9fa251af83d90e041091a6fae677d6a6cf7af387"
+    },
+    {
+      "holeId": "HOLE-P46-L6-04-01",
+      "targetNodeId": "NODE-P46-L6-04-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct origin header reflection satisfying non-wildcard credential policy",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "invariantObligations": [
+        "INV-P46-L6-04-01"
+      ],
+      "scope": "src/network/p46-l6-04-handler.ts",
+      "completed": false,
+      "contentHash": "a3a58cd5464e1b41f4cb2e470c9147ea6f21bb66cb1639d61c37feb27c0b6a26"
+    },
+    {
+      "holeId": "HOLE-P46-L6-05-01",
+      "targetNodeId": "NODE-P46-L6-05-06-TRANSFORM",
+      "expectedSemanticType": "VALUE",
+      "requiredBehavior": "Construct origin header reflection satisfying non-wildcard credential policy",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:SAFE_CORS_HEADERS_EMITTED",
+        "POST:NO_WILDCARD_CREDENTIALS"
+      ],
+      "invariantObligations": [
+        "INV-P46-L6-05-01"
+      ],
+      "scope": "src/network/p46-l6-05-handler.ts",
+      "completed": false,
+      "contentHash": "8ee519ef2b050cc3757728c15583400cdccf0e399868b3c97f8719272302c703"
+    },
+    {
+      "holeId": "HOLE-P46-L7-01-01",
+      "targetNodeId": "NODE-P46-L7-01-06-TRANSFORM",
+      "expectedSemanticType": "COLLECTION",
+      "requiredBehavior": "Construct globally coherent multi-module token/AST synchronization",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-01-01",
+        "INV-P46-L7-01-02"
+      ],
+      "scope": "src/core/p46-l7-01-lexer.ts",
+      "completed": false,
+      "contentHash": "96ab3028fe8c9738b2fef43f4dc9148b21ce686d8e9dc538e58d7f5642791d53"
+    },
+    {
+      "holeId": "HOLE-P46-L7-01-02",
+      "targetNodeId": "NODE-P46-L7-01-06-TRANSFORM",
+      "expectedSemanticType": "STATE",
+      "requiredBehavior": "Construct two-phase atomic state rollback barrier across distributed participants",
+      "availableInputs": [
+        "current_state",
+        "transformed_result"
+      ],
+      "allowedOutputs": [
+        "atomic_state_barrier"
+      ],
+      "preconditions": [
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "postconditions": [
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-01-02"
+      ],
+      "scope": "src/core/p46-l7-01-parser.ts",
+      "completed": false,
+      "contentHash": "ca82bb6b36a577d66f0182c987933069a101e261a4b0d140483c2c50220b6e46"
+    },
+    {
+      "holeId": "HOLE-P46-L7-01-03",
+      "targetNodeId": "NODE-P46-L7-01-06-TRANSFORM",
+      "expectedSemanticType": "DATA_FLOW",
+      "requiredBehavior": "Construct co-inductive lookahead buffer alignment without token truncation",
+      "availableInputs": [
+        "raw_input",
+        "atomic_state_barrier"
+      ],
+      "allowedOutputs": [
+        "aligned_stream"
+      ],
+      "preconditions": [
+        "PRE:ALIGNED_AST_NODES"
+      ],
+      "postconditions": [
+        "POST:NO_LOOKAHEAD_GAP"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-01-01"
+      ],
+      "scope": "src/core/p46-l7-01-ast.ts",
+      "completed": false,
+      "contentHash": "d25df6110c0821966a375fd0663b1e8eb5a961a2993c9ad5d751f1eb3615ac02"
+    },
+    {
+      "holeId": "HOLE-P46-L7-02-01",
+      "targetNodeId": "NODE-P46-L7-02-06-TRANSFORM",
+      "expectedSemanticType": "COLLECTION",
+      "requiredBehavior": "Construct globally coherent multi-module token/AST synchronization",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-02-01",
+        "INV-P46-L7-02-02"
+      ],
+      "scope": "src/core/p46-l7-02-lexer.ts",
+      "completed": false,
+      "contentHash": "5369cba062f3f84b6ca6aa1cb2c594a8548621fcf4418a898776a80f3e9beaed"
+    },
+    {
+      "holeId": "HOLE-P46-L7-02-02",
+      "targetNodeId": "NODE-P46-L7-02-06-TRANSFORM",
+      "expectedSemanticType": "STATE",
+      "requiredBehavior": "Construct two-phase atomic state rollback barrier across distributed participants",
+      "availableInputs": [
+        "current_state",
+        "transformed_result"
+      ],
+      "allowedOutputs": [
+        "atomic_state_barrier"
+      ],
+      "preconditions": [
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "postconditions": [
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-02-02"
+      ],
+      "scope": "src/core/p46-l7-02-parser.ts",
+      "completed": false,
+      "contentHash": "09a245dfc170c72d0c28d18a1184fd3f31724a85399a0094fbdaab0b0581aae0"
+    },
+    {
+      "holeId": "HOLE-P46-L7-02-03",
+      "targetNodeId": "NODE-P46-L7-02-06-TRANSFORM",
+      "expectedSemanticType": "DATA_FLOW",
+      "requiredBehavior": "Construct co-inductive lookahead buffer alignment without token truncation",
+      "availableInputs": [
+        "raw_input",
+        "atomic_state_barrier"
+      ],
+      "allowedOutputs": [
+        "aligned_stream"
+      ],
+      "preconditions": [
+        "PRE:ALIGNED_AST_NODES"
+      ],
+      "postconditions": [
+        "POST:NO_LOOKAHEAD_GAP"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-02-01"
+      ],
+      "scope": "src/core/p46-l7-02-ast.ts",
+      "completed": false,
+      "contentHash": "66dc671cea5f96c1a7ebc3a9ec107171c9900110195c853164e46ef75c913887"
+    },
+    {
+      "holeId": "HOLE-P46-L7-03-01",
+      "targetNodeId": "NODE-P46-L7-03-06-TRANSFORM",
+      "expectedSemanticType": "COLLECTION",
+      "requiredBehavior": "Construct globally coherent multi-module token/AST synchronization",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-03-01",
+        "INV-P46-L7-03-02"
+      ],
+      "scope": "src/core/p46-l7-03-lexer.ts",
+      "completed": false,
+      "contentHash": "3d99d98159033c53f555644a001c6d9edb66fa839322ff7e9aca988b63f5a58e"
+    },
+    {
+      "holeId": "HOLE-P46-L7-03-02",
+      "targetNodeId": "NODE-P46-L7-03-06-TRANSFORM",
+      "expectedSemanticType": "STATE",
+      "requiredBehavior": "Construct two-phase atomic state rollback barrier across distributed participants",
+      "availableInputs": [
+        "current_state",
+        "transformed_result"
+      ],
+      "allowedOutputs": [
+        "atomic_state_barrier"
+      ],
+      "preconditions": [
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "postconditions": [
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-03-02"
+      ],
+      "scope": "src/core/p46-l7-03-parser.ts",
+      "completed": false,
+      "contentHash": "d59dc14751fafad8bb458477536ecd3721a004c494b63e2ef15b5c6ff9f4c783"
+    },
+    {
+      "holeId": "HOLE-P46-L7-03-03",
+      "targetNodeId": "NODE-P46-L7-03-06-TRANSFORM",
+      "expectedSemanticType": "DATA_FLOW",
+      "requiredBehavior": "Construct co-inductive lookahead buffer alignment without token truncation",
+      "availableInputs": [
+        "raw_input",
+        "atomic_state_barrier"
+      ],
+      "allowedOutputs": [
+        "aligned_stream"
+      ],
+      "preconditions": [
+        "PRE:ALIGNED_AST_NODES"
+      ],
+      "postconditions": [
+        "POST:NO_LOOKAHEAD_GAP"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-03-01"
+      ],
+      "scope": "src/core/p46-l7-03-ast.ts",
+      "completed": false,
+      "contentHash": "bcab6d8f4f71fd57cdc358794f12edea7f56ea8f278acd513ea2192f2c8a814f"
+    },
+    {
+      "holeId": "HOLE-P46-L7-04-01",
+      "targetNodeId": "NODE-P46-L7-04-06-TRANSFORM",
+      "expectedSemanticType": "COLLECTION",
+      "requiredBehavior": "Construct globally coherent multi-module token/AST synchronization",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-04-01",
+        "INV-P46-L7-04-02"
+      ],
+      "scope": "src/core/p46-l7-04-lexer.ts",
+      "completed": false,
+      "contentHash": "574986e83d346216aa7a0c27c65b97af41907ae13b58058ef460fd5c5ca5473c"
+    },
+    {
+      "holeId": "HOLE-P46-L7-04-02",
+      "targetNodeId": "NODE-P46-L7-04-06-TRANSFORM",
+      "expectedSemanticType": "STATE",
+      "requiredBehavior": "Construct two-phase atomic state rollback barrier across distributed participants",
+      "availableInputs": [
+        "current_state",
+        "transformed_result"
+      ],
+      "allowedOutputs": [
+        "atomic_state_barrier"
+      ],
+      "preconditions": [
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "postconditions": [
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-04-02"
+      ],
+      "scope": "src/core/p46-l7-04-parser.ts",
+      "completed": false,
+      "contentHash": "80ff2e2829b2a56041c5063ec718424f90048a2648191f00319917318d8bcf4e"
+    },
+    {
+      "holeId": "HOLE-P46-L7-04-03",
+      "targetNodeId": "NODE-P46-L7-04-06-TRANSFORM",
+      "expectedSemanticType": "DATA_FLOW",
+      "requiredBehavior": "Construct co-inductive lookahead buffer alignment without token truncation",
+      "availableInputs": [
+        "raw_input",
+        "atomic_state_barrier"
+      ],
+      "allowedOutputs": [
+        "aligned_stream"
+      ],
+      "preconditions": [
+        "PRE:ALIGNED_AST_NODES"
+      ],
+      "postconditions": [
+        "POST:NO_LOOKAHEAD_GAP"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-04-01"
+      ],
+      "scope": "src/core/p46-l7-04-ast.ts",
+      "completed": false,
+      "contentHash": "502f896b1a76003cf403cefdf9eac57169fbfbbec97e602eaaea77bebc2a5abf"
+    },
+    {
+      "holeId": "HOLE-P46-L7-05-01",
+      "targetNodeId": "NODE-P46-L7-05-06-TRANSFORM",
+      "expectedSemanticType": "COLLECTION",
+      "requiredBehavior": "Construct globally coherent multi-module token/AST synchronization",
+      "availableInputs": [
+        "raw_input",
+        "security_authorized"
+      ],
+      "allowedOutputs": [
+        "transformed_result"
+      ],
+      "preconditions": [
+        "PRE:AUTHORIZED_EXECUTION"
+      ],
+      "postconditions": [
+        "POST:ALIGNED_AST_NODES",
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-05-01",
+        "INV-P46-L7-05-02"
+      ],
+      "scope": "src/core/p46-l7-05-lexer.ts",
+      "completed": false,
+      "contentHash": "e6e42b698f0c8e7a1602e793a50cf835f7db7048d551c2ebf79ada581a7df9af"
+    },
+    {
+      "holeId": "HOLE-P46-L7-05-02",
+      "targetNodeId": "NODE-P46-L7-05-06-TRANSFORM",
+      "expectedSemanticType": "STATE",
+      "requiredBehavior": "Construct two-phase atomic state rollback barrier across distributed participants",
+      "availableInputs": [
+        "current_state",
+        "transformed_result"
+      ],
+      "allowedOutputs": [
+        "atomic_state_barrier"
+      ],
+      "preconditions": [
+        "PRE:VALID_TRANSACTION_STATE"
+      ],
+      "postconditions": [
+        "POST:ATOMIC_COMMIT_OR_ABORT"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-05-02"
+      ],
+      "scope": "src/core/p46-l7-05-parser.ts",
+      "completed": false,
+      "contentHash": "97b6863983cfe017e87b3e6f1ee2fbd87114ea6f00b1c0e1df16cabc6ac363be"
+    },
+    {
+      "holeId": "HOLE-P46-L7-05-03",
+      "targetNodeId": "NODE-P46-L7-05-06-TRANSFORM",
+      "expectedSemanticType": "DATA_FLOW",
+      "requiredBehavior": "Construct co-inductive lookahead buffer alignment without token truncation",
+      "availableInputs": [
+        "raw_input",
+        "atomic_state_barrier"
+      ],
+      "allowedOutputs": [
+        "aligned_stream"
+      ],
+      "preconditions": [
+        "PRE:ALIGNED_AST_NODES"
+      ],
+      "postconditions": [
+        "POST:NO_LOOKAHEAD_GAP"
+      ],
+      "invariantObligations": [
+        "INV-P46-L7-05-01"
+      ],
+      "scope": "src/core/p46-l7-05-ast.ts",
+      "completed": false,
+      "contentHash": "b698ec92de988cd0c580988ea13fa968929fa1ecfbf9add1a8f66b78bc5cceb2"
+    }
+  ]
+}

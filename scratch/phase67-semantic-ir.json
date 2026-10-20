@@ -1,0 +1,4278 @@
+{
+  "schemaVersion": "emerald-phase67-v1",
+  "phase": "67",
+  "protocolDigest": "9591d40ab38fe7a6723cc620d900345096febeba77f246c19baaccef26e257b0",
+  "totalIRs": 15,
+  "irs": [
+    {
+      "irId": "IR-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L5-01-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "e8f72b4032ec0ed5c167b7fb81de51381e1fafca509142b3c1c31d3f3c2ba121"
+        },
+        {
+          "nodeId": "NODE-P46-L5-01-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "stateKeys": [
+              "parserState"
+            ]
+          },
+          "contentHash": "20ccfcda10bd96dca61ca50bb7d673fc71c49690489964ddd458bc2a492c0d85"
+        },
+        {
+          "nodeId": "NODE-P46-L5-01-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L5-01-01",
+              "INV-P46-L5-01-02"
+            ]
+          },
+          "contentHash": "c039bc46c4e08fd3bdc7868e2b68283dbf8a94d274021fafeaf572031e118953"
+        },
+        {
+          "nodeId": "NODE-P46-L5-01-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "ef57df8c587b386cebae3c08d1108f3134e9555405589dc60a09acb5fb9f2ce6"
+        },
+        {
+          "nodeId": "NODE-P46-L5-01-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "policies": [
+              "RESOURCE_BOUNDED_RECURSION_DEPTH"
+            ]
+          },
+          "contentHash": "d7f6f6e1e171ab81396c722cffb2cc5a1880eda8326128d2a90eb13f6bdee739"
+        },
+        {
+          "nodeId": "NODE-P46-L5-01-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "targetSymbols": [
+              "parseExpression",
+              "evaluateOperator"
+            ]
+          },
+          "contentHash": "136733f5314b4e356f0f2495bc5a5b314981a37c16c42baf524a15d1d93cf7cc"
+        },
+        {
+          "nodeId": "NODE-P46-L5-01-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L5-01-01"
+            ]
+          },
+          "contentHash": "e96d7a5fd8169371e50b949ecb70d76417f1abb9f970fd83ec49ad447a570ca2"
+        },
+        {
+          "nodeId": "NODE-P46-L5-01-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L5-01-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "ad3b7c99eb211c132a5b4276717cdcd5e7e4956db8c35c712dd9499d44c14c4e"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L5-01-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L5-01-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L5-01-01-INPUT",
+          "to": "NODE-P46-L5-01-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-01-01-INPUT",
+          "to": "NODE-P46-L5-01-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-01-02-STATE_READ",
+          "to": "NODE-P46-L5-01-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L5-01-03-VALIDATE",
+          "to": "NODE-P46-L5-01-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L5-01-01-INPUT",
+          "to": "NODE-P46-L5-01-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-01-04-GUARD",
+          "to": "NODE-P46-L5-01-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L5-01-01-INPUT",
+          "to": "NODE-P46-L5-01-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-01-05-SECURITY",
+          "to": "NODE-P46-L5-01-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L5-01-06-TRANSFORM",
+          "to": "NODE-P46-L5-01-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L5-01-07-OUTPUT",
+          "to": "NODE-P46-L5-01-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L5-01-01-INPUT",
+          "to": "NODE-P46-L5-01-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L5-01-02-STATE_READ",
+          "to": "NODE-P46-L5-01-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L5-01-03-VALIDATE",
+          "to": "NODE-P46-L5-01-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L5-01-04-GUARD",
+          "to": "NODE-P46-L5-01-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L5-01-05-SECURITY",
+          "to": "NODE-P46-L5-01-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L5-01-06-TRANSFORM",
+          "to": "NODE-P46-L5-01-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L5-01-07-OUTPUT",
+          "to": "NODE-P46-L5-01-08-RETURN"
+        }
+      ],
+      "contentHash": "dd958160406d2b1285a8c1efd3b7d7f5351ca493b0dc7b8e192b53b3d029f1f3"
+    },
+    {
+      "irId": "IR-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L5-02-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "39cf26db4aad6f6306ac8315323a5afd6a5a793512576560feeb91a0871724d9"
+        },
+        {
+          "nodeId": "NODE-P46-L5-02-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "stateKeys": [
+              "parserState"
+            ]
+          },
+          "contentHash": "9920478406148a23d9780d3eb5b7b5161797ec9de3dc6674c0b54a404082fb66"
+        },
+        {
+          "nodeId": "NODE-P46-L5-02-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L5-02-01",
+              "INV-P46-L5-02-02"
+            ]
+          },
+          "contentHash": "d9255ec0a62d5d39ec9b19eb9d0b6c642862e95c48851758960fb27d5e6f9bb1"
+        },
+        {
+          "nodeId": "NODE-P46-L5-02-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "28af56d396f4b29f3776d2920d9f66cb121487c05175451715291349fd583ca6"
+        },
+        {
+          "nodeId": "NODE-P46-L5-02-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "policies": [
+              "RESOURCE_BOUNDED_RECURSION_DEPTH"
+            ]
+          },
+          "contentHash": "98449bbfcf1fcebd83c1024514ba8cf93dcf372c768dd4607836ca510534a52d"
+        },
+        {
+          "nodeId": "NODE-P46-L5-02-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "targetSymbols": [
+              "parseExpression",
+              "evaluateOperator"
+            ]
+          },
+          "contentHash": "1ca0a0c7b75bf7777e84694c07f22ed0912ca5bf1d4dd301393d9342b12e10c8"
+        },
+        {
+          "nodeId": "NODE-P46-L5-02-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L5-02-01"
+            ]
+          },
+          "contentHash": "09008b9a9b4e8ecf6d8ed882dc2560af71c0cd8d9739375c5d10344b4b02f586"
+        },
+        {
+          "nodeId": "NODE-P46-L5-02-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L5-02-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "d55e0d5947928851ec0ad358a647428645011895229e548875cedb8e9d1a07f6"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L5-02-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L5-02-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L5-02-01-INPUT",
+          "to": "NODE-P46-L5-02-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-02-01-INPUT",
+          "to": "NODE-P46-L5-02-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-02-02-STATE_READ",
+          "to": "NODE-P46-L5-02-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L5-02-03-VALIDATE",
+          "to": "NODE-P46-L5-02-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L5-02-01-INPUT",
+          "to": "NODE-P46-L5-02-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-02-04-GUARD",
+          "to": "NODE-P46-L5-02-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L5-02-01-INPUT",
+          "to": "NODE-P46-L5-02-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-02-05-SECURITY",
+          "to": "NODE-P46-L5-02-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L5-02-06-TRANSFORM",
+          "to": "NODE-P46-L5-02-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L5-02-07-OUTPUT",
+          "to": "NODE-P46-L5-02-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L5-02-01-INPUT",
+          "to": "NODE-P46-L5-02-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L5-02-02-STATE_READ",
+          "to": "NODE-P46-L5-02-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L5-02-03-VALIDATE",
+          "to": "NODE-P46-L5-02-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L5-02-04-GUARD",
+          "to": "NODE-P46-L5-02-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L5-02-05-SECURITY",
+          "to": "NODE-P46-L5-02-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L5-02-06-TRANSFORM",
+          "to": "NODE-P46-L5-02-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L5-02-07-OUTPUT",
+          "to": "NODE-P46-L5-02-08-RETURN"
+        }
+      ],
+      "contentHash": "abce0634617af03da5d1a6c91bf717e23e9e8cc2f2254822aca9591b3033cd12"
+    },
+    {
+      "irId": "IR-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L5-03-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "c51fa92f79313f5b27449455f1922e20cb798d0fd81e9d9b199bcf387b3bf8f0"
+        },
+        {
+          "nodeId": "NODE-P46-L5-03-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "stateKeys": [
+              "parserState"
+            ]
+          },
+          "contentHash": "f65eec7e38b38b6cbfeb7b5783c0ce7f4352f6a5a0dc026bff543f0acd596cd1"
+        },
+        {
+          "nodeId": "NODE-P46-L5-03-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L5-03-01",
+              "INV-P46-L5-03-02"
+            ]
+          },
+          "contentHash": "0c333b811ba91ff513d5535dc8ba4efcd65ca4105c9fe6bd2749732221b37670"
+        },
+        {
+          "nodeId": "NODE-P46-L5-03-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "598325d81abb72501458445e6a911d408d0208ea9a43f553f5ee2bd38f787ba7"
+        },
+        {
+          "nodeId": "NODE-P46-L5-03-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "policies": [
+              "RESOURCE_BOUNDED_RECURSION_DEPTH"
+            ]
+          },
+          "contentHash": "5cc1de22c5ceff3b4e1665f08245bf19c643729274029539b3388815e0a8d48a"
+        },
+        {
+          "nodeId": "NODE-P46-L5-03-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "targetSymbols": [
+              "parseExpression",
+              "evaluateOperator"
+            ]
+          },
+          "contentHash": "357135d27370dc3e7ed21b04da1094d436c1ef1de99dad9a6a2fb9c112549d61"
+        },
+        {
+          "nodeId": "NODE-P46-L5-03-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L5-03-01"
+            ]
+          },
+          "contentHash": "fc57379c4d6d4c3839684d89756aa55e0dda23d0655cd41dbfdc9e9cbf57ebb6"
+        },
+        {
+          "nodeId": "NODE-P46-L5-03-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L5-03-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "18216c0e8cc1339bc0557afb937de672e49d76e2fc1cdefe4ee9ff8bee350cd6"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L5-03-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L5-03-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L5-03-01-INPUT",
+          "to": "NODE-P46-L5-03-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-03-01-INPUT",
+          "to": "NODE-P46-L5-03-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-03-02-STATE_READ",
+          "to": "NODE-P46-L5-03-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L5-03-03-VALIDATE",
+          "to": "NODE-P46-L5-03-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L5-03-01-INPUT",
+          "to": "NODE-P46-L5-03-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-03-04-GUARD",
+          "to": "NODE-P46-L5-03-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L5-03-01-INPUT",
+          "to": "NODE-P46-L5-03-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-03-05-SECURITY",
+          "to": "NODE-P46-L5-03-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L5-03-06-TRANSFORM",
+          "to": "NODE-P46-L5-03-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L5-03-07-OUTPUT",
+          "to": "NODE-P46-L5-03-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L5-03-01-INPUT",
+          "to": "NODE-P46-L5-03-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L5-03-02-STATE_READ",
+          "to": "NODE-P46-L5-03-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L5-03-03-VALIDATE",
+          "to": "NODE-P46-L5-03-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L5-03-04-GUARD",
+          "to": "NODE-P46-L5-03-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L5-03-05-SECURITY",
+          "to": "NODE-P46-L5-03-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L5-03-06-TRANSFORM",
+          "to": "NODE-P46-L5-03-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L5-03-07-OUTPUT",
+          "to": "NODE-P46-L5-03-08-RETURN"
+        }
+      ],
+      "contentHash": "2cd83c444a841a4962462dd47c978b1cb0ea8ca704a5a77ab4a097261dee1964"
+    },
+    {
+      "irId": "IR-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L5-04-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "ae2106c4704febe7e307fa57e846a2ad7dbd5cf49e11eb195aa1d4a6964fab0b"
+        },
+        {
+          "nodeId": "NODE-P46-L5-04-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "stateKeys": [
+              "parserState"
+            ]
+          },
+          "contentHash": "fbacae5ff0d849e6e3bba8afc3ec5f9d3486677c44084fef95aad81b94381896"
+        },
+        {
+          "nodeId": "NODE-P46-L5-04-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L5-04-01",
+              "INV-P46-L5-04-02"
+            ]
+          },
+          "contentHash": "de680139b38b8a95617dca1a2dd33d82aeaf6c9d04ca4fbee45fee53f4a186c6"
+        },
+        {
+          "nodeId": "NODE-P46-L5-04-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "73fcd5c4bf5c5dda075eaf34f59238c9f737d687888079444961587bc9e91d86"
+        },
+        {
+          "nodeId": "NODE-P46-L5-04-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "policies": [
+              "RESOURCE_BOUNDED_RECURSION_DEPTH"
+            ]
+          },
+          "contentHash": "ef707e6f9ed275babd667d15ca79195e656c381215ae82bcd6fe6fbf2e2ba695"
+        },
+        {
+          "nodeId": "NODE-P46-L5-04-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "targetSymbols": [
+              "parseExpression",
+              "evaluateOperator"
+            ]
+          },
+          "contentHash": "2fcba124c835d02006d0ffb27a5b26dd0dfa99b8b698f4ffefab716ebe27d389"
+        },
+        {
+          "nodeId": "NODE-P46-L5-04-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L5-04-01"
+            ]
+          },
+          "contentHash": "2194e2666588e45e7a13741aec4f30665ed1c8758b40ccac2c9258b9ad4fff1e"
+        },
+        {
+          "nodeId": "NODE-P46-L5-04-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L5-04-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "e08e405dde265edd842df55c6a4b7657c06866d18968dce5f0b39cda5697dddb"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L5-04-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L5-04-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L5-04-01-INPUT",
+          "to": "NODE-P46-L5-04-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-04-01-INPUT",
+          "to": "NODE-P46-L5-04-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-04-02-STATE_READ",
+          "to": "NODE-P46-L5-04-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L5-04-03-VALIDATE",
+          "to": "NODE-P46-L5-04-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L5-04-01-INPUT",
+          "to": "NODE-P46-L5-04-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-04-04-GUARD",
+          "to": "NODE-P46-L5-04-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L5-04-01-INPUT",
+          "to": "NODE-P46-L5-04-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-04-05-SECURITY",
+          "to": "NODE-P46-L5-04-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L5-04-06-TRANSFORM",
+          "to": "NODE-P46-L5-04-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L5-04-07-OUTPUT",
+          "to": "NODE-P46-L5-04-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L5-04-01-INPUT",
+          "to": "NODE-P46-L5-04-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L5-04-02-STATE_READ",
+          "to": "NODE-P46-L5-04-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L5-04-03-VALIDATE",
+          "to": "NODE-P46-L5-04-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L5-04-04-GUARD",
+          "to": "NODE-P46-L5-04-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L5-04-05-SECURITY",
+          "to": "NODE-P46-L5-04-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L5-04-06-TRANSFORM",
+          "to": "NODE-P46-L5-04-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L5-04-07-OUTPUT",
+          "to": "NODE-P46-L5-04-08-RETURN"
+        }
+      ],
+      "contentHash": "93f3576f4aaa02d52d123fbb989667b4a4937cac339bffaf4e7bd581bd4b4f93"
+    },
+    {
+      "irId": "IR-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L5-05-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_EXPRESSION_STRING"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "4a6934eb8e0962a17b5bf05ff858c05e81dd8f3d967abcfd81547c9ecfec8a94"
+        },
+        {
+          "nodeId": "NODE-P46-L5-05-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "stateKeys": [
+              "parserState"
+            ]
+          },
+          "contentHash": "3c4d17d6a15a828dd74ab11833f5f84860d715bfa8d05e36e938d8e1dce7d42c"
+        },
+        {
+          "nodeId": "NODE-P46-L5-05-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L5-05-01",
+              "INV-P46-L5-05-02"
+            ]
+          },
+          "contentHash": "e04acc4e00092013c307328184292608f71cb5cb01f31241c3ae78999c90c4e5"
+        },
+        {
+          "nodeId": "NODE-P46-L5-05-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "ca8571785323b2e2150b82a187412e42bf067705ab52434ee41f2466fc39f09d"
+        },
+        {
+          "nodeId": "NODE-P46-L5-05-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "policies": [
+              "RESOURCE_BOUNDED_RECURSION_DEPTH"
+            ]
+          },
+          "contentHash": "8a9fbb29a1e90a9b26b07d55f638f0a5e38b4112392ab48c5eccb716814daf85"
+        },
+        {
+          "nodeId": "NODE-P46-L5-05-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:CORRECT_ARITHMETIC_PRECEDENCE"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "targetSymbols": [
+              "parseExpression",
+              "evaluateOperator"
+            ]
+          },
+          "contentHash": "8bda843759acb6240b948224a9af9149eafb48f9f80b9df7c8fecd9df0b4a5f1"
+        },
+        {
+          "nodeId": "NODE-P46-L5-05-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L5-05-01"
+            ]
+          },
+          "contentHash": "cd9d3f783f0ebbbdd50fc43bc6eb820a33556023bec822d001a430c9f5029c7c"
+        },
+        {
+          "nodeId": "NODE-P46-L5-05-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L5-05-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "3d99e7ad2c188b1a671d282b38914ad92e840a44d075503b0fb4ab820cd35fbb"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L5-05-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L5-05-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L5-05-01-INPUT",
+          "to": "NODE-P46-L5-05-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-05-01-INPUT",
+          "to": "NODE-P46-L5-05-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-05-02-STATE_READ",
+          "to": "NODE-P46-L5-05-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L5-05-03-VALIDATE",
+          "to": "NODE-P46-L5-05-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L5-05-01-INPUT",
+          "to": "NODE-P46-L5-05-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-05-04-GUARD",
+          "to": "NODE-P46-L5-05-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L5-05-01-INPUT",
+          "to": "NODE-P46-L5-05-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L5-05-05-SECURITY",
+          "to": "NODE-P46-L5-05-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L5-05-06-TRANSFORM",
+          "to": "NODE-P46-L5-05-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L5-05-07-OUTPUT",
+          "to": "NODE-P46-L5-05-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L5-05-01-INPUT",
+          "to": "NODE-P46-L5-05-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L5-05-02-STATE_READ",
+          "to": "NODE-P46-L5-05-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L5-05-03-VALIDATE",
+          "to": "NODE-P46-L5-05-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L5-05-04-GUARD",
+          "to": "NODE-P46-L5-05-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L5-05-05-SECURITY",
+          "to": "NODE-P46-L5-05-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L5-05-06-TRANSFORM",
+          "to": "NODE-P46-L5-05-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L5-05-07-OUTPUT",
+          "to": "NODE-P46-L5-05-08-RETURN"
+        }
+      ],
+      "contentHash": "5cc119011485e9f1bcb9eb316ba7ea7628951c283a85c7cb738d293bfab52aa5"
+    },
+    {
+      "irId": "IR-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L6-01-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "bc4ee58c2fa413eb5be01c4bf9f767be9769caa8e398854235e1b0cf24e53138"
+        },
+        {
+          "nodeId": "NODE-P46-L6-01-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "stateKeys": [
+              "policyEvaluated"
+            ]
+          },
+          "contentHash": "dcec5aa3c7b8cae56922eb0933612febb0acad3281ad69e31417be37c2bc1358"
+        },
+        {
+          "nodeId": "NODE-P46-L6-01-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L6-01-01"
+            ]
+          },
+          "contentHash": "9f8a69a2ee13a03f4d64240f92950f573af6803a65f8e36635fa1ae6cea42d33"
+        },
+        {
+          "nodeId": "NODE-P46-L6-01-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "30726490f0751fcb94c0662cd01e6d353ea6bb79c7627b923577594cec968ddc"
+        },
+        {
+          "nodeId": "NODE-P46-L6-01-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "policies": [
+              "STRICT_ORIGIN_VALIDATION",
+              "PREVENT_CREDENTIAL_LEAKAGE"
+            ]
+          },
+          "contentHash": "169b387f923e61b6bcad8e6b5ec3bccb28a6302f8da6a15106b7516060de21b5"
+        },
+        {
+          "nodeId": "NODE-P46-L6-01-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "targetSymbols": [
+              "handleIncomingRequest",
+              "validateSecurityPolicy"
+            ]
+          },
+          "contentHash": "ecc91ca6faabf2aa560f47db85284bb44691f69178999a781821334dca1e0667"
+        },
+        {
+          "nodeId": "NODE-P46-L6-01-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L6-01-01"
+            ]
+          },
+          "contentHash": "d42381785bc1f4d2caa23d118f9831922b9a38b869128ddbefebd3b77b2cff5f"
+        },
+        {
+          "nodeId": "NODE-P46-L6-01-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L6-01-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "59a3a475cfe375a591fe43bdfd9a61965a171bf4bf514f5328949d924f3f394c"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L6-01-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L6-01-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L6-01-01-INPUT",
+          "to": "NODE-P46-L6-01-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-01-01-INPUT",
+          "to": "NODE-P46-L6-01-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-01-02-STATE_READ",
+          "to": "NODE-P46-L6-01-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L6-01-03-VALIDATE",
+          "to": "NODE-P46-L6-01-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L6-01-01-INPUT",
+          "to": "NODE-P46-L6-01-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-01-04-GUARD",
+          "to": "NODE-P46-L6-01-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L6-01-01-INPUT",
+          "to": "NODE-P46-L6-01-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-01-05-SECURITY",
+          "to": "NODE-P46-L6-01-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L6-01-06-TRANSFORM",
+          "to": "NODE-P46-L6-01-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L6-01-07-OUTPUT",
+          "to": "NODE-P46-L6-01-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L6-01-01-INPUT",
+          "to": "NODE-P46-L6-01-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L6-01-02-STATE_READ",
+          "to": "NODE-P46-L6-01-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L6-01-03-VALIDATE",
+          "to": "NODE-P46-L6-01-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L6-01-04-GUARD",
+          "to": "NODE-P46-L6-01-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L6-01-05-SECURITY",
+          "to": "NODE-P46-L6-01-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L6-01-06-TRANSFORM",
+          "to": "NODE-P46-L6-01-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L6-01-07-OUTPUT",
+          "to": "NODE-P46-L6-01-08-RETURN"
+        }
+      ],
+      "contentHash": "78d52a95a0e6df69ff60d223a935ada2ce787a9f1fafd5e75e6e76f1b9697d74"
+    },
+    {
+      "irId": "IR-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L6-02-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "1e29f3bdeb450913c1dc84e3df8bdeade0807a6869858ea595ecbf34617ee95a"
+        },
+        {
+          "nodeId": "NODE-P46-L6-02-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "stateKeys": [
+              "policyEvaluated"
+            ]
+          },
+          "contentHash": "69edea1b27d367fb219b33ad43926f15bea8932337561e01b9c044e7d83d1e3a"
+        },
+        {
+          "nodeId": "NODE-P46-L6-02-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L6-02-01"
+            ]
+          },
+          "contentHash": "48c78c8c99ec4b2d151d8e9ad9598157494ca26a9b447364f7e19c485130062f"
+        },
+        {
+          "nodeId": "NODE-P46-L6-02-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "75119092f04c4a81866c9559a6cb7a2c7c4fff394881de9e1169226113acfd96"
+        },
+        {
+          "nodeId": "NODE-P46-L6-02-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "policies": [
+              "STRICT_ORIGIN_VALIDATION",
+              "PREVENT_CREDENTIAL_LEAKAGE"
+            ]
+          },
+          "contentHash": "1c576f1a71dc167c69455ee1d2ace8d55d9b24ca6240f6baad90eeb51eaf4915"
+        },
+        {
+          "nodeId": "NODE-P46-L6-02-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "targetSymbols": [
+              "handleIncomingRequest",
+              "validateSecurityPolicy"
+            ]
+          },
+          "contentHash": "d4c221e7f9b599953744aad9957364e9322b61026502bb5d534f7a3c615aabd9"
+        },
+        {
+          "nodeId": "NODE-P46-L6-02-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L6-02-01"
+            ]
+          },
+          "contentHash": "17bfe2f93869b4f685a59cc0693b866bcbdc44af460bb3782d9e555541b76860"
+        },
+        {
+          "nodeId": "NODE-P46-L6-02-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L6-02-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "7708e3c046f9cc1525703599adf82292d74347d61c749996af3e7fec39af2b4a"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L6-02-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L6-02-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L6-02-01-INPUT",
+          "to": "NODE-P46-L6-02-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-02-01-INPUT",
+          "to": "NODE-P46-L6-02-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-02-02-STATE_READ",
+          "to": "NODE-P46-L6-02-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L6-02-03-VALIDATE",
+          "to": "NODE-P46-L6-02-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L6-02-01-INPUT",
+          "to": "NODE-P46-L6-02-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-02-04-GUARD",
+          "to": "NODE-P46-L6-02-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L6-02-01-INPUT",
+          "to": "NODE-P46-L6-02-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-02-05-SECURITY",
+          "to": "NODE-P46-L6-02-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L6-02-06-TRANSFORM",
+          "to": "NODE-P46-L6-02-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L6-02-07-OUTPUT",
+          "to": "NODE-P46-L6-02-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L6-02-01-INPUT",
+          "to": "NODE-P46-L6-02-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L6-02-02-STATE_READ",
+          "to": "NODE-P46-L6-02-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L6-02-03-VALIDATE",
+          "to": "NODE-P46-L6-02-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L6-02-04-GUARD",
+          "to": "NODE-P46-L6-02-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L6-02-05-SECURITY",
+          "to": "NODE-P46-L6-02-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L6-02-06-TRANSFORM",
+          "to": "NODE-P46-L6-02-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L6-02-07-OUTPUT",
+          "to": "NODE-P46-L6-02-08-RETURN"
+        }
+      ],
+      "contentHash": "4d0edb2494eb0063d3ef104e96076871983780372a5d347f48935c217e1501ba"
+    },
+    {
+      "irId": "IR-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L6-03-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "2daffefefd3919e779ab6b0501c719f541559b9e82adbc1e035f6186e56be8c0"
+        },
+        {
+          "nodeId": "NODE-P46-L6-03-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "stateKeys": [
+              "policyEvaluated"
+            ]
+          },
+          "contentHash": "d06d194799433b93b7fad4962d3e3b1349f89a1cf7910539265da3eb99d819af"
+        },
+        {
+          "nodeId": "NODE-P46-L6-03-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L6-03-01"
+            ]
+          },
+          "contentHash": "16865b19e3b2c9c9958135eec8d75925b0f5b6d2eda5d7618c5e97cee99c9dab"
+        },
+        {
+          "nodeId": "NODE-P46-L6-03-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "fc11ef093fd3574816a6d9cc95243a60ec0fec73b57883de52b82b56a131050e"
+        },
+        {
+          "nodeId": "NODE-P46-L6-03-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "policies": [
+              "STRICT_ORIGIN_VALIDATION",
+              "PREVENT_CREDENTIAL_LEAKAGE"
+            ]
+          },
+          "contentHash": "1bcf49777c816798447fde8674d269c7e4947fba8e22c83c20f64b9559f1cd59"
+        },
+        {
+          "nodeId": "NODE-P46-L6-03-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "targetSymbols": [
+              "handleIncomingRequest",
+              "validateSecurityPolicy"
+            ]
+          },
+          "contentHash": "a62de0d46e93a36efc8277d6d39775028c774f5f7f80832cbf631c95bd542d47"
+        },
+        {
+          "nodeId": "NODE-P46-L6-03-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L6-03-01"
+            ]
+          },
+          "contentHash": "a7e679c1ecd143a5c14366864656a7d0732eed5ed0bc909e42ae6a33565c14e9"
+        },
+        {
+          "nodeId": "NODE-P46-L6-03-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L6-03-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "1abfce9c28c8bdb7825db0d899d081f72cf399131e34423625e4aef91b359b2d"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L6-03-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L6-03-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L6-03-01-INPUT",
+          "to": "NODE-P46-L6-03-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-03-01-INPUT",
+          "to": "NODE-P46-L6-03-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-03-02-STATE_READ",
+          "to": "NODE-P46-L6-03-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L6-03-03-VALIDATE",
+          "to": "NODE-P46-L6-03-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L6-03-01-INPUT",
+          "to": "NODE-P46-L6-03-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-03-04-GUARD",
+          "to": "NODE-P46-L6-03-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L6-03-01-INPUT",
+          "to": "NODE-P46-L6-03-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-03-05-SECURITY",
+          "to": "NODE-P46-L6-03-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L6-03-06-TRANSFORM",
+          "to": "NODE-P46-L6-03-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L6-03-07-OUTPUT",
+          "to": "NODE-P46-L6-03-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L6-03-01-INPUT",
+          "to": "NODE-P46-L6-03-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L6-03-02-STATE_READ",
+          "to": "NODE-P46-L6-03-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L6-03-03-VALIDATE",
+          "to": "NODE-P46-L6-03-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L6-03-04-GUARD",
+          "to": "NODE-P46-L6-03-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L6-03-05-SECURITY",
+          "to": "NODE-P46-L6-03-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L6-03-06-TRANSFORM",
+          "to": "NODE-P46-L6-03-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L6-03-07-OUTPUT",
+          "to": "NODE-P46-L6-03-08-RETURN"
+        }
+      ],
+      "contentHash": "bac24f59eb241304e86afbf725e672e88212ec62bc4d13154e1b08759f852033"
+    },
+    {
+      "irId": "IR-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L6-04-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "457c092b54855cf9ca90ed9fb137f868d6ad2d17c10050fb2a78c60482b5c3a2"
+        },
+        {
+          "nodeId": "NODE-P46-L6-04-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "stateKeys": [
+              "policyEvaluated"
+            ]
+          },
+          "contentHash": "f1153cc32a926a50a0228e904d770dbba4a73d8a2bdd3884fe1cd1bb9939b258"
+        },
+        {
+          "nodeId": "NODE-P46-L6-04-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L6-04-01"
+            ]
+          },
+          "contentHash": "ca0558882bd0365cfb63aa54b179e3c8860135fb6b55e8c52b8bf4a1a4abc018"
+        },
+        {
+          "nodeId": "NODE-P46-L6-04-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "d5c0fc9e2a6dc290b7d003968c2be9d7bc0856e2695f90f9ffc2c4ef9c5f6f95"
+        },
+        {
+          "nodeId": "NODE-P46-L6-04-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "policies": [
+              "STRICT_ORIGIN_VALIDATION",
+              "PREVENT_CREDENTIAL_LEAKAGE"
+            ]
+          },
+          "contentHash": "86c1c2e7de4aca80c0e9a8eebcf5fa4d400c184f92ff27338f9c145e9c20d2bb"
+        },
+        {
+          "nodeId": "NODE-P46-L6-04-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "targetSymbols": [
+              "handleIncomingRequest",
+              "validateSecurityPolicy"
+            ]
+          },
+          "contentHash": "c00858f25044749b723ee82ff290ef2ecb056c8c2e42cde1f481362d1882fe9e"
+        },
+        {
+          "nodeId": "NODE-P46-L6-04-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L6-04-01"
+            ]
+          },
+          "contentHash": "8255fa8972b1eab8e28956c64318e399b8627b7ca5e7ad27c4f0076e8599d1c8"
+        },
+        {
+          "nodeId": "NODE-P46-L6-04-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L6-04-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "4fd99ca52dc757615012212d195336d0bef05857c791e860c33e5a66ce7305fd"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L6-04-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L6-04-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L6-04-01-INPUT",
+          "to": "NODE-P46-L6-04-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-04-01-INPUT",
+          "to": "NODE-P46-L6-04-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-04-02-STATE_READ",
+          "to": "NODE-P46-L6-04-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L6-04-03-VALIDATE",
+          "to": "NODE-P46-L6-04-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L6-04-01-INPUT",
+          "to": "NODE-P46-L6-04-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-04-04-GUARD",
+          "to": "NODE-P46-L6-04-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L6-04-01-INPUT",
+          "to": "NODE-P46-L6-04-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-04-05-SECURITY",
+          "to": "NODE-P46-L6-04-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L6-04-06-TRANSFORM",
+          "to": "NODE-P46-L6-04-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L6-04-07-OUTPUT",
+          "to": "NODE-P46-L6-04-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L6-04-01-INPUT",
+          "to": "NODE-P46-L6-04-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L6-04-02-STATE_READ",
+          "to": "NODE-P46-L6-04-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L6-04-03-VALIDATE",
+          "to": "NODE-P46-L6-04-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L6-04-04-GUARD",
+          "to": "NODE-P46-L6-04-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L6-04-05-SECURITY",
+          "to": "NODE-P46-L6-04-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L6-04-06-TRANSFORM",
+          "to": "NODE-P46-L6-04-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L6-04-07-OUTPUT",
+          "to": "NODE-P46-L6-04-08-RETURN"
+        }
+      ],
+      "contentHash": "103e63a99e68f500bc6e3863505974e209ae30cf769fe7b0ec9b14e5b3d0e8f9"
+    },
+    {
+      "irId": "IR-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L6-05-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_HTTP_REQUEST",
+            "PRE:CREDENTIALS_FLAG_PRESENT"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "c20308d6cec957868aad366ca1278b198d55c1c4cc319d0e8bdf8fd1b217c531"
+        },
+        {
+          "nodeId": "NODE-P46-L6-05-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "stateKeys": [
+              "policyEvaluated"
+            ]
+          },
+          "contentHash": "014bb71d0166a86735565db63263cd655683a0fbb29293845e02e39041fdc336"
+        },
+        {
+          "nodeId": "NODE-P46-L6-05-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L6-05-01"
+            ]
+          },
+          "contentHash": "7328fc8864761121aecdc35ff381973b8f6da59d00fbd4b46936224b562fa85f"
+        },
+        {
+          "nodeId": "NODE-P46-L6-05-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "d794be83e7faa57b9adf24a7ed6de151e60abe98fce9f76acd13a8a8ce0b25a6"
+        },
+        {
+          "nodeId": "NODE-P46-L6-05-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "policies": [
+              "STRICT_ORIGIN_VALIDATION",
+              "PREVENT_CREDENTIAL_LEAKAGE"
+            ]
+          },
+          "contentHash": "bd7dc05597cb788ade792fb0230d0ee05d5f5c68815bb70e42d862b500de49cb"
+        },
+        {
+          "nodeId": "NODE-P46-L6-05-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "VALUE",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:SAFE_CORS_HEADERS_EMITTED",
+            "POST:NO_WILDCARD_CREDENTIALS"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "targetSymbols": [
+              "handleIncomingRequest",
+              "validateSecurityPolicy"
+            ]
+          },
+          "contentHash": "145322794082404f8bdeced09443ae41ceb594fb5eb876ba693ae0c40655df9e"
+        },
+        {
+          "nodeId": "NODE-P46-L6-05-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L6-05-01"
+            ]
+          },
+          "contentHash": "1c77291f43c4b817c760cacb9c4d73f8c3c60c18a350657a46735d09e7058b7e"
+        },
+        {
+          "nodeId": "NODE-P46-L6-05-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L6-05-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "bb3af80a87a025746a08e4b7ce6feb28b6518edb0e9a2d3fcb2d233ab76b5dd0"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L6-05-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L6-05-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L6-05-01-INPUT",
+          "to": "NODE-P46-L6-05-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-05-01-INPUT",
+          "to": "NODE-P46-L6-05-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-05-02-STATE_READ",
+          "to": "NODE-P46-L6-05-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L6-05-03-VALIDATE",
+          "to": "NODE-P46-L6-05-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L6-05-01-INPUT",
+          "to": "NODE-P46-L6-05-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-05-04-GUARD",
+          "to": "NODE-P46-L6-05-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L6-05-01-INPUT",
+          "to": "NODE-P46-L6-05-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L6-05-05-SECURITY",
+          "to": "NODE-P46-L6-05-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L6-05-06-TRANSFORM",
+          "to": "NODE-P46-L6-05-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L6-05-07-OUTPUT",
+          "to": "NODE-P46-L6-05-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L6-05-01-INPUT",
+          "to": "NODE-P46-L6-05-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L6-05-02-STATE_READ",
+          "to": "NODE-P46-L6-05-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L6-05-03-VALIDATE",
+          "to": "NODE-P46-L6-05-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L6-05-04-GUARD",
+          "to": "NODE-P46-L6-05-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L6-05-05-SECURITY",
+          "to": "NODE-P46-L6-05-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L6-05-06-TRANSFORM",
+          "to": "NODE-P46-L6-05-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L6-05-07-OUTPUT",
+          "to": "NODE-P46-L6-05-08-RETURN"
+        }
+      ],
+      "contentHash": "d9ffb34a40ef81aacab5fae386fc47515cbe74f45875fb518f7b091210b08841"
+    },
+    {
+      "irId": "IR-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L7-01-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_TOKEN_STREAM",
+            "PRE:VALID_TRANSACTION_STATE"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "b8c3df4542b89c936b707dead24436aa4818ed0adf16189bc4de3b3720e6a79c"
+        },
+        {
+          "nodeId": "NODE-P46-L7-01-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "stateKeys": [
+              "coordinatorState",
+              "participantState"
+            ]
+          },
+          "contentHash": "221c7c74e2d8cefda339eeb8a1021c74d2ae30986c6e106a5edd98bcd7053aa0"
+        },
+        {
+          "nodeId": "NODE-P46-L7-01-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L7-01-01",
+              "INV-P46-L7-01-02"
+            ]
+          },
+          "contentHash": "dd47291cd39411dcbf0f956d59878d15a8e91a879bdb03ec5fb1008490b5d90d"
+        },
+        {
+          "nodeId": "NODE-P46-L7-01-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "5530b33e9123f760421d777e4f99da707e6abd81f74172d5db50aad12f59b3f4"
+        },
+        {
+          "nodeId": "NODE-P46-L7-01-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "policies": [
+              "ENFORCE_SANDBOX_MEMORY_LIMIT",
+              "FORBID_UNTRUSTED_BYTECODE"
+            ]
+          },
+          "contentHash": "01507e1707bb4b17d800d831f13151884d7468eb7cee762340ea58e05cc25d3d"
+        },
+        {
+          "nodeId": "NODE-P46-L7-01-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "COLLECTION",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:ALIGNED_AST_NODES",
+            "POST:ATOMIC_COMMIT_OR_ABORT"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "targetSymbols": [
+              "tokenize",
+              "parseExpression",
+              "evaluateNode",
+              "emitBytecode"
+            ]
+          },
+          "contentHash": "cc1873a0671fd02da7bf11f03233df42fb50428525c14b60d032883621a1628a"
+        },
+        {
+          "nodeId": "NODE-P46-L7-01-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L7-01-01"
+            ]
+          },
+          "contentHash": "2f8bc96f8323b119dd3c5392a4e68ae1fdef0ae735b0b76217ff242aa39195ff"
+        },
+        {
+          "nodeId": "NODE-P46-L7-01-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L7-01-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "a1644ce33c388b28f659f542a6391e22a1370c0a81210e45a226d6c0b11c488d"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L7-01-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L7-01-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L7-01-01-INPUT",
+          "to": "NODE-P46-L7-01-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-01-01-INPUT",
+          "to": "NODE-P46-L7-01-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-01-02-STATE_READ",
+          "to": "NODE-P46-L7-01-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L7-01-03-VALIDATE",
+          "to": "NODE-P46-L7-01-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L7-01-01-INPUT",
+          "to": "NODE-P46-L7-01-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-01-04-GUARD",
+          "to": "NODE-P46-L7-01-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L7-01-01-INPUT",
+          "to": "NODE-P46-L7-01-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-01-05-SECURITY",
+          "to": "NODE-P46-L7-01-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L7-01-06-TRANSFORM",
+          "to": "NODE-P46-L7-01-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L7-01-07-OUTPUT",
+          "to": "NODE-P46-L7-01-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L7-01-01-INPUT",
+          "to": "NODE-P46-L7-01-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L7-01-02-STATE_READ",
+          "to": "NODE-P46-L7-01-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L7-01-03-VALIDATE",
+          "to": "NODE-P46-L7-01-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L7-01-04-GUARD",
+          "to": "NODE-P46-L7-01-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L7-01-05-SECURITY",
+          "to": "NODE-P46-L7-01-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L7-01-06-TRANSFORM",
+          "to": "NODE-P46-L7-01-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L7-01-07-OUTPUT",
+          "to": "NODE-P46-L7-01-08-RETURN"
+        }
+      ],
+      "contentHash": "dbe65580e586bb501ea7fbad59cfea40a19b9820dad36108d3da6611539d438f"
+    },
+    {
+      "irId": "IR-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L7-02-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_TOKEN_STREAM",
+            "PRE:VALID_TRANSACTION_STATE"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "a7dd5df22d9f5bd829dd9d1e10bb01fc80fc0347f378811c83bcb6d370b4b993"
+        },
+        {
+          "nodeId": "NODE-P46-L7-02-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "stateKeys": [
+              "coordinatorState",
+              "participantState"
+            ]
+          },
+          "contentHash": "3a080bcb4b0037f4f37316a62ba5d8f390e3fc6642a516af318ea614e30dada7"
+        },
+        {
+          "nodeId": "NODE-P46-L7-02-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L7-02-01",
+              "INV-P46-L7-02-02"
+            ]
+          },
+          "contentHash": "b766a17bda9e9c6ea43315c343c52405f2e7b7377233037c050a4b55a002c853"
+        },
+        {
+          "nodeId": "NODE-P46-L7-02-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "140369b00147776c440118020f1eeac6a8f2e7415034d584a660efba1dd69162"
+        },
+        {
+          "nodeId": "NODE-P46-L7-02-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "policies": [
+              "ENFORCE_SANDBOX_MEMORY_LIMIT",
+              "FORBID_UNTRUSTED_BYTECODE"
+            ]
+          },
+          "contentHash": "471b6f5af49428cf089478f8ab99e556e526171bc8f6768793310927a2f1813e"
+        },
+        {
+          "nodeId": "NODE-P46-L7-02-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "COLLECTION",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:ALIGNED_AST_NODES",
+            "POST:ATOMIC_COMMIT_OR_ABORT"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "targetSymbols": [
+              "tokenize",
+              "parseExpression",
+              "evaluateNode",
+              "emitBytecode"
+            ]
+          },
+          "contentHash": "b810ae58f870ea0c24d468b7a1e2581e57fcbac9b021fc704c49d46d6ac05b7d"
+        },
+        {
+          "nodeId": "NODE-P46-L7-02-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L7-02-01"
+            ]
+          },
+          "contentHash": "c1d7619e9a7d795edc4d23cf27ff944c6c85dd6f7ddc7fb86553ba0179a758c4"
+        },
+        {
+          "nodeId": "NODE-P46-L7-02-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L7-02-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "91d91ead1e3356ef88f11b763d1442a88536136dfb2397a12b5265d18918cd1f"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L7-02-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L7-02-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L7-02-01-INPUT",
+          "to": "NODE-P46-L7-02-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-02-01-INPUT",
+          "to": "NODE-P46-L7-02-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-02-02-STATE_READ",
+          "to": "NODE-P46-L7-02-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L7-02-03-VALIDATE",
+          "to": "NODE-P46-L7-02-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L7-02-01-INPUT",
+          "to": "NODE-P46-L7-02-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-02-04-GUARD",
+          "to": "NODE-P46-L7-02-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L7-02-01-INPUT",
+          "to": "NODE-P46-L7-02-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-02-05-SECURITY",
+          "to": "NODE-P46-L7-02-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L7-02-06-TRANSFORM",
+          "to": "NODE-P46-L7-02-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L7-02-07-OUTPUT",
+          "to": "NODE-P46-L7-02-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L7-02-01-INPUT",
+          "to": "NODE-P46-L7-02-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L7-02-02-STATE_READ",
+          "to": "NODE-P46-L7-02-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L7-02-03-VALIDATE",
+          "to": "NODE-P46-L7-02-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L7-02-04-GUARD",
+          "to": "NODE-P46-L7-02-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L7-02-05-SECURITY",
+          "to": "NODE-P46-L7-02-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L7-02-06-TRANSFORM",
+          "to": "NODE-P46-L7-02-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L7-02-07-OUTPUT",
+          "to": "NODE-P46-L7-02-08-RETURN"
+        }
+      ],
+      "contentHash": "ff49d2d821d2c108d8539535d17e3b63d5a908635c6c6b8dea3175dc2881d6ca"
+    },
+    {
+      "irId": "IR-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L7-03-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_TOKEN_STREAM",
+            "PRE:VALID_TRANSACTION_STATE"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "45ce98f69cf85a58e17b52ba633fed51b8fe42745010cc24c386b557240e7cce"
+        },
+        {
+          "nodeId": "NODE-P46-L7-03-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "stateKeys": [
+              "coordinatorState",
+              "participantState"
+            ]
+          },
+          "contentHash": "5fa9e225c321c182748cd2a1aa510496e57eca88781345662bc9c59407e906e8"
+        },
+        {
+          "nodeId": "NODE-P46-L7-03-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L7-03-01",
+              "INV-P46-L7-03-02"
+            ]
+          },
+          "contentHash": "3b01ec51980699cb897efc369bf7bdfa97be468451f1bea87b61d54db5e0b3d6"
+        },
+        {
+          "nodeId": "NODE-P46-L7-03-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "6311bcde333acd0770db379d42a9708a6fd4f5625a860728faf56c4f6ad9babd"
+        },
+        {
+          "nodeId": "NODE-P46-L7-03-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "policies": [
+              "ENFORCE_SANDBOX_MEMORY_LIMIT",
+              "FORBID_UNTRUSTED_BYTECODE"
+            ]
+          },
+          "contentHash": "4cc5f57d073a9a65f1fd7dac617a633128a83c523a968cc45c744286c5cb8607"
+        },
+        {
+          "nodeId": "NODE-P46-L7-03-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "COLLECTION",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:ALIGNED_AST_NODES",
+            "POST:ATOMIC_COMMIT_OR_ABORT"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "targetSymbols": [
+              "tokenize",
+              "parseExpression",
+              "evaluateNode",
+              "emitBytecode"
+            ]
+          },
+          "contentHash": "478f9ffe978f969421fd581187d714d0a74b74365fc3aa421a26779bed97b41a"
+        },
+        {
+          "nodeId": "NODE-P46-L7-03-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L7-03-01"
+            ]
+          },
+          "contentHash": "a7ff5d80aadb8e393787278982faf4b6c417d53ed9f36c8e2195e233fbc9fcf0"
+        },
+        {
+          "nodeId": "NODE-P46-L7-03-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L7-03-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "c174f2dda1faab6e49b9b71c01777ebd62f70e0f34d387a64ed29dc3d284d135"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L7-03-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L7-03-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L7-03-01-INPUT",
+          "to": "NODE-P46-L7-03-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-03-01-INPUT",
+          "to": "NODE-P46-L7-03-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-03-02-STATE_READ",
+          "to": "NODE-P46-L7-03-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L7-03-03-VALIDATE",
+          "to": "NODE-P46-L7-03-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L7-03-01-INPUT",
+          "to": "NODE-P46-L7-03-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-03-04-GUARD",
+          "to": "NODE-P46-L7-03-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L7-03-01-INPUT",
+          "to": "NODE-P46-L7-03-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-03-05-SECURITY",
+          "to": "NODE-P46-L7-03-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L7-03-06-TRANSFORM",
+          "to": "NODE-P46-L7-03-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L7-03-07-OUTPUT",
+          "to": "NODE-P46-L7-03-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L7-03-01-INPUT",
+          "to": "NODE-P46-L7-03-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L7-03-02-STATE_READ",
+          "to": "NODE-P46-L7-03-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L7-03-03-VALIDATE",
+          "to": "NODE-P46-L7-03-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L7-03-04-GUARD",
+          "to": "NODE-P46-L7-03-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L7-03-05-SECURITY",
+          "to": "NODE-P46-L7-03-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L7-03-06-TRANSFORM",
+          "to": "NODE-P46-L7-03-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L7-03-07-OUTPUT",
+          "to": "NODE-P46-L7-03-08-RETURN"
+        }
+      ],
+      "contentHash": "4bb377c27a08cbafaf2eca5a3a0cd37381869c434fe38c1af3c99c642afbe321"
+    },
+    {
+      "irId": "IR-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L7-04-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_TOKEN_STREAM",
+            "PRE:VALID_TRANSACTION_STATE"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "d5cf6f1b551f37db91887b4d3ee5d66906e4431709725a1786dcdee91254126c"
+        },
+        {
+          "nodeId": "NODE-P46-L7-04-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "stateKeys": [
+              "coordinatorState",
+              "participantState"
+            ]
+          },
+          "contentHash": "80415db98feb9b32f04254913a9cac7cbfc4ac04e91bf09116510a984c5181b6"
+        },
+        {
+          "nodeId": "NODE-P46-L7-04-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L7-04-01",
+              "INV-P46-L7-04-02"
+            ]
+          },
+          "contentHash": "14c98c876448435004b96372c6144bfa59d260a51365d200f8baf48fac1ba873"
+        },
+        {
+          "nodeId": "NODE-P46-L7-04-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "01f86bcafbc7626f9de664cc9833b9f23e495c75854f536261aee60382eeb671"
+        },
+        {
+          "nodeId": "NODE-P46-L7-04-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "policies": [
+              "ENFORCE_SANDBOX_MEMORY_LIMIT",
+              "FORBID_UNTRUSTED_BYTECODE"
+            ]
+          },
+          "contentHash": "b41c8f06fbb22212c706a59fc87c0bca529a75b42d2f0afcc8250d29e7fd949f"
+        },
+        {
+          "nodeId": "NODE-P46-L7-04-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "COLLECTION",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:ALIGNED_AST_NODES",
+            "POST:ATOMIC_COMMIT_OR_ABORT"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "targetSymbols": [
+              "tokenize",
+              "parseExpression",
+              "evaluateNode",
+              "emitBytecode"
+            ]
+          },
+          "contentHash": "8d408e0d117bc8668e314ec0a1ecad558aec3867166f1cbed8aa95efc65ab086"
+        },
+        {
+          "nodeId": "NODE-P46-L7-04-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L7-04-01"
+            ]
+          },
+          "contentHash": "c6a943fed5601332c3f55a19ea8a913f6818292e2d3d3925dcae264802cf3bf6"
+        },
+        {
+          "nodeId": "NODE-P46-L7-04-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L7-04-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "e31f3cf8572c3c6262d4f5a03adab8b9ef0a1404896a60b9f7ac6684280547c3"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L7-04-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L7-04-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L7-04-01-INPUT",
+          "to": "NODE-P46-L7-04-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-04-01-INPUT",
+          "to": "NODE-P46-L7-04-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-04-02-STATE_READ",
+          "to": "NODE-P46-L7-04-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L7-04-03-VALIDATE",
+          "to": "NODE-P46-L7-04-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L7-04-01-INPUT",
+          "to": "NODE-P46-L7-04-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-04-04-GUARD",
+          "to": "NODE-P46-L7-04-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L7-04-01-INPUT",
+          "to": "NODE-P46-L7-04-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-04-05-SECURITY",
+          "to": "NODE-P46-L7-04-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L7-04-06-TRANSFORM",
+          "to": "NODE-P46-L7-04-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L7-04-07-OUTPUT",
+          "to": "NODE-P46-L7-04-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L7-04-01-INPUT",
+          "to": "NODE-P46-L7-04-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L7-04-02-STATE_READ",
+          "to": "NODE-P46-L7-04-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L7-04-03-VALIDATE",
+          "to": "NODE-P46-L7-04-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L7-04-04-GUARD",
+          "to": "NODE-P46-L7-04-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L7-04-05-SECURITY",
+          "to": "NODE-P46-L7-04-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L7-04-06-TRANSFORM",
+          "to": "NODE-P46-L7-04-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L7-04-07-OUTPUT",
+          "to": "NODE-P46-L7-04-08-RETURN"
+        }
+      ],
+      "contentHash": "a86d63ac6fd1bd5dbccf89056bdb26f005407ac972a77935bdd746121913366b"
+    },
+    {
+      "irId": "IR-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "nodes": [
+        {
+          "nodeId": "NODE-P46-L7-05-01-INPUT",
+          "opcode": "INPUT",
+          "semanticType": "REPRESENTATION",
+          "inputs": [],
+          "outputs": [
+            "raw_input"
+          ],
+          "preconditions": [
+            "PRE:VALID_TOKEN_STREAM",
+            "PRE:VALID_TRANSACTION_STATE"
+          ],
+          "postconditions": [
+            "POST:INPUT_LOADED"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "role": "entry_receiver"
+          },
+          "contentHash": "0264d56ede1df25c2981e4a38508e8e5408142ce563f8d37ca3c8668b37d60e9"
+        },
+        {
+          "nodeId": "NODE-P46-L7-05-02-STATE_READ",
+          "opcode": "STATE_READ",
+          "semanticType": "STATE",
+          "inputs": [
+            "raw_input"
+          ],
+          "outputs": [
+            "current_state"
+          ],
+          "preconditions": [
+            "PRE:SYSTEM_INITIALIZED"
+          ],
+          "postconditions": [
+            "POST:STATE_CAPTURED"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "stateKeys": [
+              "coordinatorState",
+              "participantState"
+            ]
+          },
+          "contentHash": "b124d7633375ce531819320fd83429bffecdbfe41fa2b4add5bd20999db68790"
+        },
+        {
+          "nodeId": "NODE-P46-L7-05-03-VALIDATE",
+          "opcode": "VALIDATION",
+          "semanticType": "BOOLEAN",
+          "inputs": [
+            "raw_input",
+            "current_state"
+          ],
+          "outputs": [
+            "is_valid_request"
+          ],
+          "preconditions": [
+            "PRE:INPUT_LOADED"
+          ],
+          "postconditions": [
+            "POST:INPUT_VALIDATED"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "invariants": [
+              "INV-P46-L7-05-01",
+              "INV-P46-L7-05-02"
+            ]
+          },
+          "contentHash": "5cc662089ad29f480e8d9672c126eb9c3132312df2a2b3b01016bad14b4f6e10"
+        },
+        {
+          "nodeId": "NODE-P46-L7-05-04-GUARD",
+          "opcode": "CONTROL_GUARD",
+          "semanticType": "CONTROL_FLOW",
+          "inputs": [
+            "is_valid_request"
+          ],
+          "outputs": [
+            "proceed_execution"
+          ],
+          "preconditions": [
+            "PRE:IS_VALID_BOOLEAN"
+          ],
+          "postconditions": [
+            "POST:EXECUTION_BRANCH_SELECTED"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "check": "ASSERT_TRUE(is_valid_request)"
+          },
+          "contentHash": "79989e1c1f9b6f77e654b1c9f387a644b0cacace50893101da3c44f74dc245eb"
+        },
+        {
+          "nodeId": "NODE-P46-L7-05-05-SECURITY",
+          "opcode": "SECURITY_CHECK",
+          "semanticType": "SECURITY_POLICY",
+          "inputs": [
+            "raw_input",
+            "proceed_execution"
+          ],
+          "outputs": [
+            "security_authorized"
+          ],
+          "preconditions": [
+            "PRE:SECURITY_POLICY_DEFINED"
+          ],
+          "postconditions": [
+            "POST:ORIGIN_AND_CAPABILITIES_VERIFIED"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "policies": [
+              "ENFORCE_SANDBOX_MEMORY_LIMIT",
+              "FORBID_UNTRUSTED_BYTECODE"
+            ]
+          },
+          "contentHash": "dc6aa68a6c7336139cb52179aeec80d817ac31e9ebcfb370f4a676ada77e5442"
+        },
+        {
+          "nodeId": "NODE-P46-L7-05-06-TRANSFORM",
+          "opcode": "TRANSFORM",
+          "semanticType": "COLLECTION",
+          "inputs": [
+            "raw_input",
+            "security_authorized"
+          ],
+          "outputs": [
+            "transformed_result"
+          ],
+          "preconditions": [
+            "PRE:AUTHORIZED_EXECUTION"
+          ],
+          "postconditions": [
+            "POST:ALIGNED_AST_NODES",
+            "POST:ATOMIC_COMMIT_OR_ABORT"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "targetSymbols": [
+              "tokenize",
+              "parseExpression",
+              "evaluateNode",
+              "emitBytecode"
+            ]
+          },
+          "contentHash": "6a8b0a8ff66346405cd0ff461599053c5aefffe08d7fbf5e5f4a4c08a567e7f5"
+        },
+        {
+          "nodeId": "NODE-P46-L7-05-07-OUTPUT",
+          "opcode": "OUTPUT",
+          "semanticType": "VALUE",
+          "inputs": [
+            "transformed_result"
+          ],
+          "outputs": [
+            "final_output"
+          ],
+          "preconditions": [
+            "PRE:TRANSFORMED_RESULT_AVAILABLE"
+          ],
+          "postconditions": [
+            "POST:OUTPUT_SERIALIZED"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "observableOutputs": [
+              "EX-P46-L7-05-01"
+            ]
+          },
+          "contentHash": "030d5b7c17ae9cbff6fed1e3fa0fa7467978da5a22df8a08deb2001fb0af8843"
+        },
+        {
+          "nodeId": "NODE-P46-L7-05-08-RETURN",
+          "opcode": "RETURN",
+          "semanticType": "VOID",
+          "inputs": [
+            "final_output"
+          ],
+          "outputs": [],
+          "preconditions": [
+            "PRE:FINAL_OUTPUT_READY"
+          ],
+          "postconditions": [
+            "POST:TERMINAL_STATE_REACHED"
+          ],
+          "provenance": "SPEC-P46-L7-05-V1",
+          "metadata": {
+            "terminal": true
+          },
+          "contentHash": "bfd2b7170b908cc64683b9b4a68dee6b67679b58b45ebaca7222e0ceb7fb131c"
+        }
+      ],
+      "entryNodeId": "NODE-P46-L7-05-01-INPUT",
+      "exitNodeIds": [
+        "NODE-P46-L7-05-08-RETURN"
+      ],
+      "dataFlowEdges": [
+        {
+          "from": "NODE-P46-L7-05-01-INPUT",
+          "to": "NODE-P46-L7-05-02-STATE_READ",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-05-01-INPUT",
+          "to": "NODE-P46-L7-05-03-VALIDATE",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-05-02-STATE_READ",
+          "to": "NODE-P46-L7-05-03-VALIDATE",
+          "variable": "current_state"
+        },
+        {
+          "from": "NODE-P46-L7-05-03-VALIDATE",
+          "to": "NODE-P46-L7-05-04-GUARD",
+          "variable": "is_valid_request"
+        },
+        {
+          "from": "NODE-P46-L7-05-01-INPUT",
+          "to": "NODE-P46-L7-05-05-SECURITY",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-05-04-GUARD",
+          "to": "NODE-P46-L7-05-05-SECURITY",
+          "variable": "proceed_execution"
+        },
+        {
+          "from": "NODE-P46-L7-05-01-INPUT",
+          "to": "NODE-P46-L7-05-06-TRANSFORM",
+          "variable": "raw_input"
+        },
+        {
+          "from": "NODE-P46-L7-05-05-SECURITY",
+          "to": "NODE-P46-L7-05-06-TRANSFORM",
+          "variable": "security_authorized"
+        },
+        {
+          "from": "NODE-P46-L7-05-06-TRANSFORM",
+          "to": "NODE-P46-L7-05-07-OUTPUT",
+          "variable": "transformed_result"
+        },
+        {
+          "from": "NODE-P46-L7-05-07-OUTPUT",
+          "to": "NODE-P46-L7-05-08-RETURN",
+          "variable": "final_output"
+        }
+      ],
+      "controlFlowEdges": [
+        {
+          "from": "NODE-P46-L7-05-01-INPUT",
+          "to": "NODE-P46-L7-05-02-STATE_READ"
+        },
+        {
+          "from": "NODE-P46-L7-05-02-STATE_READ",
+          "to": "NODE-P46-L7-05-03-VALIDATE"
+        },
+        {
+          "from": "NODE-P46-L7-05-03-VALIDATE",
+          "to": "NODE-P46-L7-05-04-GUARD"
+        },
+        {
+          "from": "NODE-P46-L7-05-04-GUARD",
+          "to": "NODE-P46-L7-05-05-SECURITY",
+          "condition": "proceed_execution == true"
+        },
+        {
+          "from": "NODE-P46-L7-05-05-SECURITY",
+          "to": "NODE-P46-L7-05-06-TRANSFORM",
+          "condition": "security_authorized == true"
+        },
+        {
+          "from": "NODE-P46-L7-05-06-TRANSFORM",
+          "to": "NODE-P46-L7-05-07-OUTPUT"
+        },
+        {
+          "from": "NODE-P46-L7-05-07-OUTPUT",
+          "to": "NODE-P46-L7-05-08-RETURN"
+        }
+      ],
+      "contentHash": "7f6c84ed70d523dd41376b7ee219974562914b12624ed81618e0390ebc9e5968"
+    }
+  ]
+}
