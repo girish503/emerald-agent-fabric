@@ -1,0 +1,273 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "totalCounterexamples": 20,
+  "counterexamples": [
+    {
+      "counterexampleId": "CE-REL-P46-L5-01-01",
+      "violatedRelation": "VALIDATES(VERSION, RANGE)",
+      "observedRelation": "FAILS_WITH(VERSION, UNDERFLOW)",
+      "expectedRelation": "PRESERVES(VERSION, MIN_BOUND)",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "refinement": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "provenance": "FAILING_TEST_BOUNDARY_PRERELEASE",
+      "contentHash": "ad45458fc5b4e0d295b6d4ed3db569d2b2225e5f9a56e09eb866c8b43a58b454"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L5-02-01",
+      "violatedRelation": "VALIDATES(VERSION, RANGE)",
+      "observedRelation": "FAILS_WITH(VERSION, UNDERFLOW)",
+      "expectedRelation": "PRESERVES(VERSION, MIN_BOUND)",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "refinement": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "provenance": "FAILING_TEST_BOUNDARY_PRERELEASE",
+      "contentHash": "d283a614ac6acd79b4ecb4ca3f9c91b7ef32045efb40ce3bffe80af933cc880d"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L5-03-01",
+      "violatedRelation": "VALIDATES(VERSION, RANGE)",
+      "observedRelation": "FAILS_WITH(VERSION, UNDERFLOW)",
+      "expectedRelation": "PRESERVES(VERSION, MIN_BOUND)",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "refinement": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "provenance": "FAILING_TEST_BOUNDARY_PRERELEASE",
+      "contentHash": "e78d3ba4ca91e00ceb28be3d2ce246abf738533da29057c19b31b98d02da8e47"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L5-04-01",
+      "violatedRelation": "VALIDATES(VERSION, RANGE)",
+      "observedRelation": "FAILS_WITH(VERSION, UNDERFLOW)",
+      "expectedRelation": "PRESERVES(VERSION, MIN_BOUND)",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "refinement": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "provenance": "FAILING_TEST_BOUNDARY_PRERELEASE",
+      "contentHash": "084454a1e921c21a68cc9cd002c81dc2598bf0133cec297b72d72354b5c8733d"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L5-05-01",
+      "violatedRelation": "VALIDATES(VERSION, RANGE)",
+      "observedRelation": "FAILS_WITH(VERSION, UNDERFLOW)",
+      "expectedRelation": "PRESERVES(VERSION, MIN_BOUND)",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "refinement": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "provenance": "FAILING_TEST_BOUNDARY_PRERELEASE",
+      "contentHash": "20b4f3f4e148c3fce91464c2f64090b9176e021e6b2848fcbf52ccf4129eb7cd"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L6-01-01",
+      "violatedRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "observedRelation": "REPRESENTS(INPUT, UNDEFINED_FIELD)",
+      "expectedRelation": "REPRESENTS(INPUT, DEFAULT_VALUE)",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "refinement": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "provenance": "FAILING_TEST_OPTIONAL_DEFAULTS",
+      "contentHash": "9b60d21f6d420d9b32e797e12f88e4945b3e34d58032ae9f8f7566e70ba09652"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L6-02-01",
+      "violatedRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "observedRelation": "REPRESENTS(INPUT, UNDEFINED_FIELD)",
+      "expectedRelation": "REPRESENTS(INPUT, DEFAULT_VALUE)",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "refinement": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "provenance": "FAILING_TEST_OPTIONAL_DEFAULTS",
+      "contentHash": "71b7105a853ec5312f782063fd13c053ded007e090dd906dc4cc6bee8bc57d82"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L6-03-01",
+      "violatedRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "observedRelation": "REPRESENTS(INPUT, UNDEFINED_FIELD)",
+      "expectedRelation": "REPRESENTS(INPUT, DEFAULT_VALUE)",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "refinement": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "provenance": "FAILING_TEST_OPTIONAL_DEFAULTS",
+      "contentHash": "ebe6ba6a407f3299389bfadefdf17f1f7036b967ae356023c67ce755c3234b59"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L6-04-01",
+      "violatedRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "observedRelation": "REPRESENTS(INPUT, UNDEFINED_FIELD)",
+      "expectedRelation": "REPRESENTS(INPUT, DEFAULT_VALUE)",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "refinement": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "provenance": "FAILING_TEST_OPTIONAL_DEFAULTS",
+      "contentHash": "b45fe464db487ccab65408e9b2c7974fca89cc2f1db08c5a997af610da787274"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L6-05-01",
+      "violatedRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "observedRelation": "REPRESENTS(INPUT, UNDEFINED_FIELD)",
+      "expectedRelation": "REPRESENTS(INPUT, DEFAULT_VALUE)",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "refinement": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "provenance": "FAILING_TEST_OPTIONAL_DEFAULTS",
+      "contentHash": "fde556551223221b70fc7cac8c4964db3e6de68ad8c126c8c5fc6ea778b01825"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-01-01",
+      "violatedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "observedRelation": "PRECEDES(EXPONENT_OPERATOR, PREFIX_UNARY_OPERATOR)",
+      "expectedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "refinement": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "provenance": "FAILING_TEST_NEGATIVE_EXPONENT",
+      "contentHash": "c7da36d42884cc408cf2c85fdd88e59406f1fee96743b86e944ac80722dea838"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-01-02",
+      "violatedRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "observedRelation": "AUTHORIZES(CREDENTIALS, WILDCARD_ORIGIN)",
+      "expectedRelation": "REJECTS(CREDENTIALS, WILDCARD_ORIGIN)",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "refinement": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "provenance": "FAILING_TEST_CORS_CREDENTIAL_INJECTION",
+      "contentHash": "452103d3564aff11b416e83a1df4f8b3e573841506bcbb170620738ea43527c8"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-02-01",
+      "violatedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "observedRelation": "PRECEDES(EXPONENT_OPERATOR, PREFIX_UNARY_OPERATOR)",
+      "expectedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "refinement": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "provenance": "FAILING_TEST_NEGATIVE_EXPONENT",
+      "contentHash": "013798816b2bc52a41b1bdcdba754acbedce3f7a24a7df28229505acdedf54aa"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-02-02",
+      "violatedRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "observedRelation": "AUTHORIZES(CREDENTIALS, WILDCARD_ORIGIN)",
+      "expectedRelation": "REJECTS(CREDENTIALS, WILDCARD_ORIGIN)",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "refinement": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "provenance": "FAILING_TEST_CORS_CREDENTIAL_INJECTION",
+      "contentHash": "d4b5bd017a70e4a96708b10783d76ecbdfb7351639803e71347b4222c1cb2dce"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-03-01",
+      "violatedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "observedRelation": "PRECEDES(EXPONENT_OPERATOR, PREFIX_UNARY_OPERATOR)",
+      "expectedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "refinement": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "provenance": "FAILING_TEST_NEGATIVE_EXPONENT",
+      "contentHash": "220095294aeec90517e23f2619cab383e2a9eb0cb0c7d83592b29d20efd79e7e"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-03-02",
+      "violatedRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "observedRelation": "AUTHORIZES(CREDENTIALS, WILDCARD_ORIGIN)",
+      "expectedRelation": "REJECTS(CREDENTIALS, WILDCARD_ORIGIN)",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "refinement": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "provenance": "FAILING_TEST_CORS_CREDENTIAL_INJECTION",
+      "contentHash": "a6d10e543abaf23cc996d93bc361061e97e24d42c0bb4dff042f29e077c3bb3a"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-04-01",
+      "violatedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "observedRelation": "PRECEDES(EXPONENT_OPERATOR, PREFIX_UNARY_OPERATOR)",
+      "expectedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "refinement": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "provenance": "FAILING_TEST_NEGATIVE_EXPONENT",
+      "contentHash": "401bf3536d380d2d3b2f257088ced8706867c5c34777d3475699d00ceca1a373"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-04-02",
+      "violatedRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "observedRelation": "AUTHORIZES(CREDENTIALS, WILDCARD_ORIGIN)",
+      "expectedRelation": "REJECTS(CREDENTIALS, WILDCARD_ORIGIN)",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "refinement": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "provenance": "FAILING_TEST_CORS_CREDENTIAL_INJECTION",
+      "contentHash": "43184c63114f25394ad191ae3542d8aaad981984821ce5277ed6826d89999547"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-05-01",
+      "violatedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "observedRelation": "PRECEDES(EXPONENT_OPERATOR, PREFIX_UNARY_OPERATOR)",
+      "expectedRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "refinement": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "provenance": "FAILING_TEST_NEGATIVE_EXPONENT",
+      "contentHash": "6e71055ea59d7a1e113a26a64792fa393d19d6598e3247cefa7fab9c7c9c7a9e"
+    },
+    {
+      "counterexampleId": "CE-REL-P46-L7-05-02",
+      "violatedRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "observedRelation": "AUTHORIZES(CREDENTIALS, WILDCARD_ORIGIN)",
+      "expectedRelation": "REJECTS(CREDENTIALS, WILDCARD_ORIGIN)",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "refinement": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "provenance": "FAILING_TEST_CORS_CREDENTIAL_INJECTION",
+      "contentHash": "2367b2973a8007d63588093ec282edc1676d8c5c9c96e639fed2fbcc9dd719a3"
+    }
+  ]
+}

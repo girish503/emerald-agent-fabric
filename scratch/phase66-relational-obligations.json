@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "totalObligations": 15,
+  "obligations": [
+    {
+      "obligationId": "OBL-REL-P46-L5-01-03",
+      "sourceEntities": [
+        "parseSemVer"
+      ],
+      "destinationEntities": [
+        "compareSemVer"
+      ],
+      "relationType": "VALIDATES",
+      "expectedRelation": "SATISFIES_VALIDATES(parseSemVer, compareSemVer)",
+      "currentRelation": "VIOLATES_VALIDATES(parseSemVer, compareSemVer)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_parseSemVer_AND_compareSemVer",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L5-01-03"
+      ],
+      "affectedSymbols": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "7e99681ef63a9ac2a16f9bbcaa61a71653b452063d3de4d1dae88beccdfbad6f"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L5-02-03",
+      "sourceEntities": [
+        "parseSemVer"
+      ],
+      "destinationEntities": [
+        "compareSemVer"
+      ],
+      "relationType": "VALIDATES",
+      "expectedRelation": "SATISFIES_VALIDATES(parseSemVer, compareSemVer)",
+      "currentRelation": "VIOLATES_VALIDATES(parseSemVer, compareSemVer)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_parseSemVer_AND_compareSemVer",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L5-02-03"
+      ],
+      "affectedSymbols": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "df185bd6b72549e2fe71ae768ca68095b6380eb067627985f50af002132e9867"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L5-03-03",
+      "sourceEntities": [
+        "parseSemVer"
+      ],
+      "destinationEntities": [
+        "compareSemVer"
+      ],
+      "relationType": "VALIDATES",
+      "expectedRelation": "SATISFIES_VALIDATES(parseSemVer, compareSemVer)",
+      "currentRelation": "VIOLATES_VALIDATES(parseSemVer, compareSemVer)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_parseSemVer_AND_compareSemVer",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L5-03-03"
+      ],
+      "affectedSymbols": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "0c49f8479dbf157b3904585d258be13dbdad3e99d4bc87220b12ae1bc1b511f4"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L5-04-03",
+      "sourceEntities": [
+        "parseSemVer"
+      ],
+      "destinationEntities": [
+        "compareSemVer"
+      ],
+      "relationType": "VALIDATES",
+      "expectedRelation": "SATISFIES_VALIDATES(parseSemVer, compareSemVer)",
+      "currentRelation": "VIOLATES_VALIDATES(parseSemVer, compareSemVer)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_parseSemVer_AND_compareSemVer",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L5-04-03"
+      ],
+      "affectedSymbols": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "0b136d45622f84669283550df9bced1ff69d4743483bcc41f2e3b095c95f49b2"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L5-05-03",
+      "sourceEntities": [
+        "parseSemVer"
+      ],
+      "destinationEntities": [
+        "compareSemVer"
+      ],
+      "relationType": "VALIDATES",
+      "expectedRelation": "SATISFIES_VALIDATES(parseSemVer, compareSemVer)",
+      "currentRelation": "VIOLATES_VALIDATES(parseSemVer, compareSemVer)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_parseSemVer_AND_compareSemVer",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L5-05-03"
+      ],
+      "affectedSymbols": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "d8e615484adb64d8ce17211ce9a8610f4d283d7cba3b0a622fb5018e58c62c36"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L6-01-03",
+      "sourceEntities": [
+        "sanitizeOrigin"
+      ],
+      "destinationEntities": [
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "relationType": "AUTHORIZES",
+      "expectedRelation": "SATISFIES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "currentRelation": "VIOLATES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_sanitizeOrigin_AND_SECURITY_ORIGIN_POLICY",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L6-01-03"
+      ],
+      "affectedSymbols": [
+        "sanitizeOrigin",
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "contentHash": "1a6dc542938dcd8653fa7d77b417a32ad2f24dba31ab4f324bf48a9d7287b252"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L6-02-03",
+      "sourceEntities": [
+        "sanitizeOrigin"
+      ],
+      "destinationEntities": [
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "relationType": "AUTHORIZES",
+      "expectedRelation": "SATISFIES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "currentRelation": "VIOLATES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_sanitizeOrigin_AND_SECURITY_ORIGIN_POLICY",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L6-02-03"
+      ],
+      "affectedSymbols": [
+        "sanitizeOrigin",
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "contentHash": "1a9e596216afb8c046f9422677670d5195775a098bc25abcf532db234a6ed768"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L6-03-03",
+      "sourceEntities": [
+        "sanitizeOrigin"
+      ],
+      "destinationEntities": [
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "relationType": "AUTHORIZES",
+      "expectedRelation": "SATISFIES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "currentRelation": "VIOLATES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_sanitizeOrigin_AND_SECURITY_ORIGIN_POLICY",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L6-03-03"
+      ],
+      "affectedSymbols": [
+        "sanitizeOrigin",
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "contentHash": "2fd9ec1c9ff59a96fcd534befaa802e2cf5754a864e43c38f4e959d333de3ade"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L6-04-03",
+      "sourceEntities": [
+        "sanitizeOrigin"
+      ],
+      "destinationEntities": [
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "relationType": "AUTHORIZES",
+      "expectedRelation": "SATISFIES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "currentRelation": "VIOLATES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_sanitizeOrigin_AND_SECURITY_ORIGIN_POLICY",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L6-04-03"
+      ],
+      "affectedSymbols": [
+        "sanitizeOrigin",
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "contentHash": "c6876f8be837234bedcaef1ed33d99de219301497a35d72948de396899cd30da"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L6-05-03",
+      "sourceEntities": [
+        "sanitizeOrigin"
+      ],
+      "destinationEntities": [
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "relationType": "AUTHORIZES",
+      "expectedRelation": "SATISFIES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "currentRelation": "VIOLATES_AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_sanitizeOrigin_AND_SECURITY_ORIGIN_POLICY",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L6-05-03"
+      ],
+      "affectedSymbols": [
+        "sanitizeOrigin",
+        "SECURITY_ORIGIN_POLICY"
+      ],
+      "contentHash": "fa7265d6ffb72096a564af309d1779636b839163270914eade664696ce7ee78c"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L7-01-05",
+      "sourceEntities": [
+        "PREFIX_UNARY_OPERATOR"
+      ],
+      "destinationEntities": [
+        "EXPONENT_OPERATOR"
+      ],
+      "relationType": "PRECEDES",
+      "expectedRelation": "SATISFIES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "currentRelation": "VIOLATES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_PREFIX_UNARY_OPERATOR_AND_EXPONENT_OPERATOR",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L7-01-05"
+      ],
+      "affectedSymbols": [
+        "PREFIX_UNARY_OPERATOR",
+        "EXPONENT_OPERATOR"
+      ],
+      "contentHash": "17f5bafe36c49f11563bd9b312d78203dd0896d946de7cd7d295c8a9dc792c25"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L7-02-05",
+      "sourceEntities": [
+        "PREFIX_UNARY_OPERATOR"
+      ],
+      "destinationEntities": [
+        "EXPONENT_OPERATOR"
+      ],
+      "relationType": "PRECEDES",
+      "expectedRelation": "SATISFIES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "currentRelation": "VIOLATES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_PREFIX_UNARY_OPERATOR_AND_EXPONENT_OPERATOR",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L7-02-05"
+      ],
+      "affectedSymbols": [
+        "PREFIX_UNARY_OPERATOR",
+        "EXPONENT_OPERATOR"
+      ],
+      "contentHash": "20b6e2f661aaf6c7d7033473c109f24fd08379c34bb0f8bc74b062ef712b3c71"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L7-03-05",
+      "sourceEntities": [
+        "PREFIX_UNARY_OPERATOR"
+      ],
+      "destinationEntities": [
+        "EXPONENT_OPERATOR"
+      ],
+      "relationType": "PRECEDES",
+      "expectedRelation": "SATISFIES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "currentRelation": "VIOLATES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_PREFIX_UNARY_OPERATOR_AND_EXPONENT_OPERATOR",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L7-03-05"
+      ],
+      "affectedSymbols": [
+        "PREFIX_UNARY_OPERATOR",
+        "EXPONENT_OPERATOR"
+      ],
+      "contentHash": "3f7438f4b8bbc3c7ce465d9d6746991048d071dac43d4ee83243d01c3bd1866b"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L7-04-05",
+      "sourceEntities": [
+        "PREFIX_UNARY_OPERATOR"
+      ],
+      "destinationEntities": [
+        "EXPONENT_OPERATOR"
+      ],
+      "relationType": "PRECEDES",
+      "expectedRelation": "SATISFIES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "currentRelation": "VIOLATES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_PREFIX_UNARY_OPERATOR_AND_EXPONENT_OPERATOR",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L7-04-05"
+      ],
+      "affectedSymbols": [
+        "PREFIX_UNARY_OPERATOR",
+        "EXPONENT_OPERATOR"
+      ],
+      "contentHash": "7d769bc35e3bece60f8e74e3eba5539bc9a20b33bb301a187133f1616763a6ab"
+    },
+    {
+      "obligationId": "OBL-REL-P46-L7-05-05",
+      "sourceEntities": [
+        "PREFIX_UNARY_OPERATOR"
+      ],
+      "destinationEntities": [
+        "EXPONENT_OPERATOR"
+      ],
+      "relationType": "PRECEDES",
+      "expectedRelation": "SATISFIES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "currentRelation": "VIOLATES_PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "invariant": "PRESERVE_COORDINATION_ACROSS_PREFIX_UNARY_OPERATOR_AND_EXPONENT_OPERATOR",
+      "evidence": "FAILING_ISSUE_TEST_OBSERVATION",
+      "confidence": 0.95,
+      "repairVariables": [
+        "RVAR-REL-P46-L7-05-05"
+      ],
+      "affectedSymbols": [
+        "PREFIX_UNARY_OPERATOR",
+        "EXPONENT_OPERATOR"
+      ],
+      "contentHash": "107da731a7b038ebb7554f24c3b1c96f4682b29110539934de608d2546f30187"
+    }
+  ]
+}

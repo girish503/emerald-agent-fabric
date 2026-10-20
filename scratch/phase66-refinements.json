@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "totalRefinements": 20,
+  "refinements": [
+    {
+      "refinementId": "REF-CE-REL-P46-L5-01-01",
+      "sourceCounterexampleId": "CE-REL-P46-L5-01-01",
+      "targetRelation": "VALIDATES(VERSION, RANGE)",
+      "refinementRule": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "090b3b121c4bb1c118f957f65843764464465e75afc6175511f31e888efbc501"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L5-02-01",
+      "sourceCounterexampleId": "CE-REL-P46-L5-02-01",
+      "targetRelation": "VALIDATES(VERSION, RANGE)",
+      "refinementRule": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "3871123462642dd62c1257f8b8a8407c57334b061771ba3b00ea4fed0a80f2d3"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L5-03-01",
+      "sourceCounterexampleId": "CE-REL-P46-L5-03-01",
+      "targetRelation": "VALIDATES(VERSION, RANGE)",
+      "refinementRule": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "4a6cfd100007d4df8c7b585c2850849554f5c567425e8d585c57b4a5cfb103f1"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L5-04-01",
+      "sourceCounterexampleId": "CE-REL-P46-L5-04-01",
+      "targetRelation": "VALIDATES(VERSION, RANGE)",
+      "refinementRule": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "f3af943518d031a25aff69a4d5304160d117dd7616f6387831be0f80e962a315"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L5-05-01",
+      "sourceCounterexampleId": "CE-REL-P46-L5-05-01",
+      "targetRelation": "VALIDATES(VERSION, RANGE)",
+      "refinementRule": "INSERT_RANGE_UNDERFLOW_GUARD",
+      "affectedEntities": [
+        "parseSemVer",
+        "compareSemVer"
+      ],
+      "contentHash": "e6c3c905972f421a237135423e548c9995616c814037219a96fafba61815eade"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L6-01-01",
+      "sourceCounterexampleId": "CE-REL-P46-L6-01-01",
+      "targetRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "refinementRule": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "contentHash": "ea1307acc41bf18c8dfff9fbd79b154b704a277823fca55f95051349f8351ce3"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L6-02-01",
+      "sourceCounterexampleId": "CE-REL-P46-L6-02-01",
+      "targetRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "refinementRule": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "contentHash": "a34a2b5e02df750a4d9670631fab2fd0fbb708c1a5c58c59b422b42672b60cc0"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L6-03-01",
+      "sourceCounterexampleId": "CE-REL-P46-L6-03-01",
+      "targetRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "refinementRule": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "contentHash": "3ef1dc7462f8c65c3005a273bce7a99aa09c30d5e686ed297a5b05fbafe03650"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L6-04-01",
+      "sourceCounterexampleId": "CE-REL-P46-L6-04-01",
+      "targetRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "refinementRule": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "contentHash": "be5dbe8cb6074bd3f596486651befeefdebc419f986a8d2a66a565ca4e57eb2a"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L6-05-01",
+      "sourceCounterexampleId": "CE-REL-P46-L6-05-01",
+      "targetRelation": "REPRESENTS(INPUT, STRUCTURED_RECORD)",
+      "refinementRule": "INSERT_SCHEMA_DEFAULT_GUARD",
+      "affectedEntities": [
+        "loadConfig",
+        "defaultSchema"
+      ],
+      "contentHash": "9e9a57b313894e43aaa64a05aad5b33c39f25ca93d769d3aaf79248e8e2b9829"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-01-01",
+      "sourceCounterexampleId": "CE-REL-P46-L7-01-01",
+      "targetRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "refinementRule": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "contentHash": "262bc5c06a84899837560df0efe88861507bed519012238d1fb0989b25db1a8f"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-01-02",
+      "sourceCounterexampleId": "CE-REL-P46-L7-01-02",
+      "targetRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "refinementRule": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "contentHash": "1dfab6279bb67ee4aad2509a113070abe8939b47dc853f45b72d0aa288e6589f"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-02-01",
+      "sourceCounterexampleId": "CE-REL-P46-L7-02-01",
+      "targetRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "refinementRule": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "contentHash": "ea8351422bfafd917ee46089e58c9abb1e279696bc396b3ac0a7392724fab0eb"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-02-02",
+      "sourceCounterexampleId": "CE-REL-P46-L7-02-02",
+      "targetRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "refinementRule": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "contentHash": "19106b0b58bf06563b079ef2f4f4dc9d5b1dd17868635f80d7df617da2882150"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-03-01",
+      "sourceCounterexampleId": "CE-REL-P46-L7-03-01",
+      "targetRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "refinementRule": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "contentHash": "b7dab9b60150b281f2ca104df59d0ed0b5928b1319ba3e38ab6d7a21deb86333"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-03-02",
+      "sourceCounterexampleId": "CE-REL-P46-L7-03-02",
+      "targetRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "refinementRule": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "contentHash": "2f1cb234cf0c581524235ee86d1165ea126dd55ae127d90b6a8cc6b1356eab92"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-04-01",
+      "sourceCounterexampleId": "CE-REL-P46-L7-04-01",
+      "targetRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "refinementRule": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "contentHash": "75b83604855279ad15e2306ce04f4f943afd31fe81fd51830717bbd5b48b4aee"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-04-02",
+      "sourceCounterexampleId": "CE-REL-P46-L7-04-02",
+      "targetRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "refinementRule": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "contentHash": "c2c1cc2043b40bde989929fbc5156525332f5169ec193ded122a2bd2cdab84c1"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-05-01",
+      "sourceCounterexampleId": "CE-REL-P46-L7-05-01",
+      "targetRelation": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+      "refinementRule": "ADAPT_BINDING_POWER_LOOKAHEAD_RULE",
+      "affectedEntities": [
+        "parseExpression",
+        "evaluate",
+        "lookahead"
+      ],
+      "contentHash": "6738b2fa7528fcf408454941a84bf4ba0ea2a51fc928ce332c9abed46e5e6d6c"
+    },
+    {
+      "refinementId": "REF-CE-REL-P46-L7-05-02",
+      "sourceCounterexampleId": "CE-REL-P46-L7-05-02",
+      "targetRelation": "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)",
+      "refinementRule": "DISALLOW_WILDCARD_ORIGIN_REFLECTION_WHEN_CREDENTIALS_TRUE",
+      "affectedEntities": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "contentHash": "7ad699291bf111af9ee259fdebcd124aa7f6a889cf5944d5fffd119fc5af9d0b"
+    }
+  ]
+}

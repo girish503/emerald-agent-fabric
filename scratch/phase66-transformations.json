@@ -1,0 +1,908 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "totalTransformations": 75,
+  "transformations": [
+    {
+      "transformationId": "RTRANS-P46-L5-01-OBL-REL-P46-L5-01-03-1",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L5-01-03",
+      "contentHash": "e6a7d17f8f5a857c0542d8e82c2e49356c393757e10b5691e0e3dd907a359d68"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-01-OBL-REL-P46-L5-01-03-2",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L5-01-03",
+      "contentHash": "40d55b552de1ae472d90de27e732ecaf3c53a0ebaa57d702f1f8582c9672e0a3"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-01-OBL-REL-P46-L5-01-03-3",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L5-01-03",
+      "contentHash": "344c2de29885a55c77da0c5174ce46f6e1380155c7f9bd446b5f905062544076"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-01-OBL-REL-P46-L5-01-03-4",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L5-01-03",
+      "contentHash": "9637bfd77985d5f49742e9950de727956c709ac9933108c67ddc1e76bf4e82d8"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-01-OBL-REL-P46-L5-01-03-5",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L5-01-03",
+      "contentHash": "d83b1d87327153d4f1bd7c4456094685a2090aa159f58ea52b0a247bf2a6a928"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-02-OBL-REL-P46-L5-02-03-1",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L5-02-03",
+      "contentHash": "dfcf763bf7e85ae6c31939d54a4bb7222916995bdd686e8361007873bc96ac84"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-02-OBL-REL-P46-L5-02-03-2",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L5-02-03",
+      "contentHash": "8428a2f656b9ad0d15ebd3f8dc034502058e0e5c85eb47d0ca329f195fd4de5a"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-02-OBL-REL-P46-L5-02-03-3",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L5-02-03",
+      "contentHash": "d5a147a820abe8d14292e3ec9a3c6c6abcaf427568ef7ead025205e475e3ac59"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-02-OBL-REL-P46-L5-02-03-4",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L5-02-03",
+      "contentHash": "8e22135f0ad0634d10f2b683fc4977bd6a045cd86f93fc4cc6e3a904781f02f0"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-02-OBL-REL-P46-L5-02-03-5",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L5-02-03",
+      "contentHash": "f81af1c7361e09fc6176ccdf8c670fbfe112559c612c11da78de1849ac3f027c"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-03-OBL-REL-P46-L5-03-03-1",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L5-03-03",
+      "contentHash": "fb6fc4cd1009963d709cf0e52b85aeec90db5a02a17873eff853e9daec241a95"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-03-OBL-REL-P46-L5-03-03-2",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L5-03-03",
+      "contentHash": "2c290cdb3854da04a80aa8f26b1f000ac67acc8de7f653bc579cb1cdda9a3c0d"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-03-OBL-REL-P46-L5-03-03-3",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L5-03-03",
+      "contentHash": "90c995a25961c8c35fdfca98c52369688b19cff8d7f07a1b45c2ceab56384b99"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-03-OBL-REL-P46-L5-03-03-4",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L5-03-03",
+      "contentHash": "82edc250c2f3153ac0f6bffd98f8699f56035a948f5e40c66b61394545eca9ec"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-03-OBL-REL-P46-L5-03-03-5",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L5-03-03",
+      "contentHash": "398b2fc62003d5ce269f18a7915a966a5e71a9f4e6444218c1345ea8724db7d8"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-04-OBL-REL-P46-L5-04-03-1",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L5-04-03",
+      "contentHash": "8f3bff5bb88ad2b8f995baa78db3b1f01b8860f98217f17355b289c9659e47d3"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-04-OBL-REL-P46-L5-04-03-2",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L5-04-03",
+      "contentHash": "119e6e32cf945674f0c1db375502487a533139b5b747ef35d3be6b5328c412cb"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-04-OBL-REL-P46-L5-04-03-3",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L5-04-03",
+      "contentHash": "1bb58f106b2f800ef800a821ea9e4a9fb8c50349192efb412d1c3050dbbdf416"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-04-OBL-REL-P46-L5-04-03-4",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L5-04-03",
+      "contentHash": "c5a63fc3b574add69fd9db3283fd29c683d74b64f9b1a149c98df40b5f0ef7e1"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-04-OBL-REL-P46-L5-04-03-5",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L5-04-03",
+      "contentHash": "1a738154945473225e0ff23e36f0246508fdd82a77d358dc8e5ad086c8551594"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-05-OBL-REL-P46-L5-05-03-1",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L5-05-03",
+      "contentHash": "5c0539253844b8f0b925638a1af0d259a1d0e813a858f27f815047cc10fa2504"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-05-OBL-REL-P46-L5-05-03-2",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L5-05-03",
+      "contentHash": "8a05cfc2520dea0748e00be9c2d12a11d883fa9e2e234b93a092ac2179cc5600"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-05-OBL-REL-P46-L5-05-03-3",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L5-05-03",
+      "contentHash": "5eafefe950faec8edaeb70c3acd6afba1a74146294eb6d97b35d77c31a23bf01"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-05-OBL-REL-P46-L5-05-03-4",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L5-05-03",
+      "contentHash": "9165ebf4a4fdf1fbfd8d8c8e03b517589c363d9542f85d738552c41a6dfcfa59"
+    },
+    {
+      "transformationId": "RTRANS-P46-L5-05-OBL-REL-P46-L5-05-03-5",
+      "type": "INSERT_GUARD",
+      "targetEntity": "parseSemVer",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L5-05-03",
+      "contentHash": "794478ac08361699d57663d28b3f88f8229e0c4a77f3d376de0898667c302185"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-01-OBL-REL-P46-L6-01-03-1",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L6-01-03",
+      "contentHash": "d1358b2ec82835c3eda8931a01e691f608f3a015643cd166b0f5240463be4294"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-01-OBL-REL-P46-L6-01-03-2",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L6-01-03",
+      "contentHash": "100e5739b9c712e955c8e5a977872c6769a7ff0c965ae944850d945dab619eb8"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-01-OBL-REL-P46-L6-01-03-3",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L6-01-03",
+      "contentHash": "d844d29d5405500d33896c05c53d8f40e85add4ddc3a9612ca41656e08779346"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-01-OBL-REL-P46-L6-01-03-4",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L6-01-03",
+      "contentHash": "1348d8fff4261058af33487a6cc10b4cc9f688a3947864c6e8978b20ed83d0ab"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-01-OBL-REL-P46-L6-01-03-5",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L6-01-03",
+      "contentHash": "0f53d64bb999df5f0c340f19de1dffee989a74a8e08cd7fa2f168ffab86843ef"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-02-OBL-REL-P46-L6-02-03-1",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L6-02-03",
+      "contentHash": "869828816d67f8707ce8049c9e07a6af42bf92dc291e0e56fa3986e0c9cc7408"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-02-OBL-REL-P46-L6-02-03-2",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L6-02-03",
+      "contentHash": "e055321fa4c03d4f8594b36217e89199755bfa17455f9779d7d490290d49fdc3"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-02-OBL-REL-P46-L6-02-03-3",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L6-02-03",
+      "contentHash": "542957d186a607da1d8cc179b499e783e77632fc37676cdaa7419410651de7d1"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-02-OBL-REL-P46-L6-02-03-4",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L6-02-03",
+      "contentHash": "2dd412862e1692a4bb9891cbe8d855d761eca3c6e469018f6d350e065ce43d3b"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-02-OBL-REL-P46-L6-02-03-5",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L6-02-03",
+      "contentHash": "9e36a01c5fef2c4e8627e63dbd32d34165845cc2140baadd91cb6d9c355cf7c3"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-03-OBL-REL-P46-L6-03-03-1",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L6-03-03",
+      "contentHash": "8e3df5b5a91714610bbecaa7578ebb9d761d4d0f5b2961a6c92f5ced7f07481f"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-03-OBL-REL-P46-L6-03-03-2",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L6-03-03",
+      "contentHash": "9dc1d01884a8f001ffd3cfdc7279c5ea66259a5a608ad21833db5c3bd05a325e"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-03-OBL-REL-P46-L6-03-03-3",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L6-03-03",
+      "contentHash": "eda82bf0061bac3f0c322d2951b9b3c52baac1835587f1dbfa7d582f238f1423"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-03-OBL-REL-P46-L6-03-03-4",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L6-03-03",
+      "contentHash": "8b00d04e70adc733e85ff5999e8c033daf0edabbe6c210f1c6c89a07db48b0ac"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-03-OBL-REL-P46-L6-03-03-5",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L6-03-03",
+      "contentHash": "007e8b8e017eeea5769f5f7160f002ba0c21d7dc1145d365e47f9eee6b0749f9"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-04-OBL-REL-P46-L6-04-03-1",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L6-04-03",
+      "contentHash": "548e081edaddac1a6b7b906d2b298cbb0c0490bd96264aa2c5fbc7167e216228"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-04-OBL-REL-P46-L6-04-03-2",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L6-04-03",
+      "contentHash": "8dd6a562c393ce0512e6648191294497c1268c2fca454f0a2558f0c7f5c031b0"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-04-OBL-REL-P46-L6-04-03-3",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L6-04-03",
+      "contentHash": "c6c1a9d7404fbb1db175846283d323da1e637cea6ed9ced105e7bd1b376e1bf7"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-04-OBL-REL-P46-L6-04-03-4",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L6-04-03",
+      "contentHash": "4a82302cf7569fef0a9b1a661732386df4f24046d9c94557dc5c23d595761d53"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-04-OBL-REL-P46-L6-04-03-5",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L6-04-03",
+      "contentHash": "90f9415e68bc527f9d0d90c89ba817f607995faa71732b83f09e13068006172e"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-05-OBL-REL-P46-L6-05-03-1",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L6-05-03",
+      "contentHash": "548de66db4302957f6839d11fdebf8d48e581d5615e744fe3d5dd7b1993ec4d3"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-05-OBL-REL-P46-L6-05-03-2",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L6-05-03",
+      "contentHash": "a155508e25f9e06f105d9718c41a813bf00cf0b1f8583f7cdf4dab6b740328f8"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-05-OBL-REL-P46-L6-05-03-3",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L6-05-03",
+      "contentHash": "6fa1e1620aeb72b5ba2ba23a9e8200645b96a9c646411cf7d1e49a563089a5f6"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-05-OBL-REL-P46-L6-05-03-4",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L6-05-03",
+      "contentHash": "8b8fcd870e39b7527b1499a4ac2de99ad5f54e7f5e5b2e9b6f76be9a7a61a79d"
+    },
+    {
+      "transformationId": "RTRANS-P46-L6-05-OBL-REL-P46-L6-05-03-5",
+      "type": "CHANGE_SECURITY_POLICY",
+      "targetEntity": "sanitizeOrigin",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_INPUT",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L6-05-03",
+      "contentHash": "130bf3727c3283f932a397d51182dfc1a4efb9019d55dc3e13af35302eccd1db"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-01-OBL-REL-P46-L7-01-05-1",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L7-01-05",
+      "contentHash": "c39b624702ecdbf46664266c23a5e5e4be89423d347b503117304f856dd02704"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-01-OBL-REL-P46-L7-01-05-2",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L7-01-05",
+      "contentHash": "7897f82a7e166a0f4027cedff1b782157e2a9174aed7049ec5c5a36317cf9ca7"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-01-OBL-REL-P46-L7-01-05-3",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L7-01-05",
+      "contentHash": "15e75a4d58c51cba7d0abae6a3b1ce26a8a33b8bf408f3cfbe385f710754e3bd"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-01-OBL-REL-P46-L7-01-05-4",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L7-01-05",
+      "contentHash": "f687b92b9bb31401b1f7f7158f0cbc558cef548366fa5794be4325f7a110a434"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-01-OBL-REL-P46-L7-01-05-5",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L7-01-05",
+      "contentHash": "27c62f376d820ac5a8d3ecf14a5e9d93049b19e2ca4294d957552372286afdf9"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-02-OBL-REL-P46-L7-02-05-1",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L7-02-05",
+      "contentHash": "8477a237ebd9d24de46fd37ca6029fcf1e9dffbfe4ffa332ca676cb3f6ee8584"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-02-OBL-REL-P46-L7-02-05-2",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L7-02-05",
+      "contentHash": "baf57e8dd000112064be79acea4d68c600b61c04e41bd75887cc6387c5e6fc7e"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-02-OBL-REL-P46-L7-02-05-3",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L7-02-05",
+      "contentHash": "723fc02f25ac4c1f2525a0baaad8e98925bd4dce08ce8227bc3a5a041be413a0"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-02-OBL-REL-P46-L7-02-05-4",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L7-02-05",
+      "contentHash": "5a4c3da22e51f0bca4313ec7236ed86526b09a25dfdd01cb4f503bb310cc2bd0"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-02-OBL-REL-P46-L7-02-05-5",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L7-02-05",
+      "contentHash": "5b8e97e6ed1c0eea4a2e68eac9ba9942d6f9df1bcfc105f79a38a736c3655a24"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-03-OBL-REL-P46-L7-03-05-1",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L7-03-05",
+      "contentHash": "559703c776e1b0256149384fbea7a2b7c9a657113e5e30551d824fa782e1da9d"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-03-OBL-REL-P46-L7-03-05-2",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L7-03-05",
+      "contentHash": "a0f2381cb59b9215e67229d3e15f339deebdf181da80272fe1dcd2ad3253d14a"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-03-OBL-REL-P46-L7-03-05-3",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L7-03-05",
+      "contentHash": "17a8473c7984fa732f2c12735400621d05253ad8672fbd19cc9a90a8c977cdf3"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-03-OBL-REL-P46-L7-03-05-4",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L7-03-05",
+      "contentHash": "3b8066b65ffbb299faaa56d94fa69813dc30f4ff6aeacd3b3c09d96209951232"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-03-OBL-REL-P46-L7-03-05-5",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L7-03-05",
+      "contentHash": "d46a6e9a628ec797d55be815b1acf35cb9bb4e7c1ad56d301047822a23e2183f"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-04-OBL-REL-P46-L7-04-05-1",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L7-04-05",
+      "contentHash": "5a5188426ad61cb2f40f78216685c4bae8c2defaaa02e4609dd72bdb02de8156"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-04-OBL-REL-P46-L7-04-05-2",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L7-04-05",
+      "contentHash": "e7fb570ca8dda275aa55650f5b016dc2acada5df2afd027fb384d25892e2c35a"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-04-OBL-REL-P46-L7-04-05-3",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L7-04-05",
+      "contentHash": "97ea485902a7a154ce927449afd2e441eb7e6f4f0743b935adbdcaeddbb501e8"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-04-OBL-REL-P46-L7-04-05-4",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L7-04-05",
+      "contentHash": "7e7f63822743eae4c68b9e54076d062121035b391163b188735e324755585dcb"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-04-OBL-REL-P46-L7-04-05-5",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L7-04-05",
+      "contentHash": "bf9aa60e6596738dd8314c87eea505d67644d7436c90ac0e9e51137d2ca26018"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-05-OBL-REL-P46-L7-05-05-1",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 1,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 1 for OBL-REL-P46-L7-05-05",
+      "contentHash": "cd188d05ca8c864488b749ba91272c9050de4c9cbbc1b5fb23ba0a00d17eb8fd"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-05-OBL-REL-P46-L7-05-05-2",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 2,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 2 for OBL-REL-P46-L7-05-05",
+      "contentHash": "2f0c3bf7195ce197e2bdef4e97150063d195bad844580366d3eb59f0ab8f45fb"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-05-OBL-REL-P46-L7-05-05-3",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 3,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 3 for OBL-REL-P46-L7-05-05",
+      "contentHash": "ec62b7559f5d84e4c8a7b05989916bfb930e7a6fb69f39e3ff9d59657426f359"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-05-OBL-REL-P46-L7-05-05-4",
+      "type": "CHANGE_OPERATOR_BINDING",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 4,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 4 for OBL-REL-P46-L7-05-05",
+      "contentHash": "74fa488ec32e95fddc956b2b4bf151cb13882b32dbad3cede4d68a7375a93d43"
+    },
+    {
+      "transformationId": "RTRANS-P46-L7-05-OBL-REL-P46-L7-05-05-5",
+      "type": "CHANGE_CONTROL_PRECEDENCE",
+      "targetEntity": "PREFIX_UNARY_OPERATOR",
+      "parameters": {
+        "iteration": 5,
+        "targetRep": "RAW_STRING",
+        "allowWildcardCredentials": false
+      },
+      "rationale": "Relational repair candidate 5 for OBL-REL-P46-L7-05-05",
+      "contentHash": "26fd7f12aa2f55a0be107bcdb17dfe5754c75f60fb9e4fa8e1c3c2a217fc92b3"
+    }
+  ]
+}

@@ -1,0 +1,2218 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "totalSpecifications": 15,
+  "specifications": [
+    {
+      "specificationId": "REL-SPEC-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "affectedProgramSurface": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "symbols": [
+        "parseSemVer",
+        "compareSemVer",
+        "validateRange",
+        "formatVersion"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L5-01"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L5-01"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L5-01-01",
+          "operator": "FLOWS",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "FLOWS(parseSemVer, compareSemVer)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "51c303da31c3e3825aa184ea66eb765db9112f00d206408043936a63188b0d2b"
+        },
+        {
+          "relationId": "REL-P46-L5-01-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "compareSemVer",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(compareSemVer, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "103da27d0b067c4995c0e4a44c98075c83d1042e1da6b72939876be899824012"
+        },
+        {
+          "relationId": "REL-P46-L5-01-03",
+          "operator": "VALIDATES",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "VALIDATES(parseSemVer, compareSemVer)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "500eecf08ee018ea3de4a52f46844d822eb7b9f26e7bf03420d017eb77d9c6e2"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L5-01"
+      ],
+      "temporalConstraints": [
+        "BEFORE(parseSemVer, compareSemVer)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L5-01-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L5-01"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L5-01"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/semver.js",
+          "contentHash": "efcd3f7b923770fbcd0577914c1ba85d00a4aeb7565320760f3db8d2c23438e6"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L5-01-UNDERFLOW_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "bf28ea42de452ef8b36471b8bff3fcd220d9104de8b960bc80aee244cacae28d"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "affectedProgramSurface": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "symbols": [
+        "parseSemVer",
+        "compareSemVer",
+        "validateRange",
+        "formatVersion"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L5-02"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L5-02"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L5-02-01",
+          "operator": "FLOWS",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "FLOWS(parseSemVer, compareSemVer)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "5156ba637488f05c755e85b115bacdb73732bb28ac09de489709979ef3ee3946"
+        },
+        {
+          "relationId": "REL-P46-L5-02-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "compareSemVer",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(compareSemVer, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "c5e8f9647b1d0bcf036b6329e8103ef4f4c69eb2e437b42fb013c4202a4b2bd0"
+        },
+        {
+          "relationId": "REL-P46-L5-02-03",
+          "operator": "VALIDATES",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "VALIDATES(parseSemVer, compareSemVer)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "533d123ab6140bfaa5ea499c703b6f911220ebd19d8f941afdeb1f3e782428a7"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L5-02"
+      ],
+      "temporalConstraints": [
+        "BEFORE(parseSemVer, compareSemVer)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L5-02-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L5-02"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L5-02"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/semver.js",
+          "contentHash": "e68e73caabd16a0b7de3448983468e25c1d561a36ebf48cf86d75b8625de9bec"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L5-02-UNDERFLOW_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "fce797ae78d3ed84e22995192f5e528380949de4f329959061ed8f690249c3fe"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "affectedProgramSurface": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "symbols": [
+        "parseSemVer",
+        "compareSemVer",
+        "validateRange",
+        "formatVersion"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L5-03"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L5-03"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L5-03-01",
+          "operator": "FLOWS",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "FLOWS(parseSemVer, compareSemVer)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "38c428b799e463d59afcea6653f471af897b4dd845dc1e05ca2f948b3493440d"
+        },
+        {
+          "relationId": "REL-P46-L5-03-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "compareSemVer",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(compareSemVer, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "f4080ffa0b13819ea58f26cfe6afef4a6923d9f925ff9434827139fcca4ac4ab"
+        },
+        {
+          "relationId": "REL-P46-L5-03-03",
+          "operator": "VALIDATES",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "VALIDATES(parseSemVer, compareSemVer)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "34c1004aa4a93a1d8df0a2366fd65b24e3a66b85a36ba5f243de8e3a7bb0ce9b"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L5-03"
+      ],
+      "temporalConstraints": [
+        "BEFORE(parseSemVer, compareSemVer)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L5-03-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L5-03"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L5-03"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/semver.js",
+          "contentHash": "3a5fe9ede100b9ac4828b9ba289f4a9056f2a9c51c53e999fdf9252ca5ff5a5a"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L5-03-UNDERFLOW_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "c243a1fb9846fa611fbe4e02c9d93bf7b209f628ebee245820a099bc58793b67"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "affectedProgramSurface": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "symbols": [
+        "parseSemVer",
+        "compareSemVer",
+        "validateRange",
+        "formatVersion"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L5-04"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L5-04"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L5-04-01",
+          "operator": "FLOWS",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "FLOWS(parseSemVer, compareSemVer)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "c0f56daea5e33b682dd0670709c26236338cd95cbb28491c8be50cfc2e9a0129"
+        },
+        {
+          "relationId": "REL-P46-L5-04-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "compareSemVer",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(compareSemVer, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "888887d19c5d6f1e5a5df6acebc52a515f1a04407f67274658e37e2655737a7b"
+        },
+        {
+          "relationId": "REL-P46-L5-04-03",
+          "operator": "VALIDATES",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "VALIDATES(parseSemVer, compareSemVer)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "101f85cb2e72385da5da536b2a78bddce8956b916c1474fb2eeef4cbba69b8ad"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L5-04"
+      ],
+      "temporalConstraints": [
+        "BEFORE(parseSemVer, compareSemVer)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L5-04-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L5-04"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L5-04"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/semver.js",
+          "contentHash": "041f7a4808bd8bae3739f0f57b0887c08ec870b998f53d38e003d2eaa3e4a3d4"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L5-04-UNDERFLOW_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "cd3961ffb614ad3c8e3c79b527e206a4f423bd2d05d2508fdcf6cfe47c7b659c"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "affectedProgramSurface": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "symbols": [
+        "parseSemVer",
+        "compareSemVer",
+        "validateRange",
+        "formatVersion"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L5-05"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L5-05"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L5-05-01",
+          "operator": "FLOWS",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "FLOWS(parseSemVer, compareSemVer)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "3885c63daf72c34e68aa7dd1b3bf2303198903c12a1ddcb1dcdb2f8103f4cbfc"
+        },
+        {
+          "relationId": "REL-P46-L5-05-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "compareSemVer",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(compareSemVer, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "8626f59c3f6d25af864dfdc194573accedd402a0655ce967a1d436c4fedd3f41"
+        },
+        {
+          "relationId": "REL-P46-L5-05-03",
+          "operator": "VALIDATES",
+          "sourceEntity": "parseSemVer",
+          "targetEntity": "compareSemVer",
+          "predicate": "VALIDATES(parseSemVer, compareSemVer)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "fa0aa9dcd1549d0df4e0a6dca1676a6f716e2df4cd277312383362cdc9f87684"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L5-05"
+      ],
+      "temporalConstraints": [
+        "BEFORE(parseSemVer, compareSemVer)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L5-05-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L5-05"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L5-05"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/semver.js",
+          "contentHash": "cce0251abe03f3b6d980f5c7c30fecbdb5fec67571d49e697e939c55b3ac787d"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L5-05-UNDERFLOW_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/semver.js",
+        "src/comparator.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "73175943a12c5c6046a8676fd89b79845d73aac367d579067dff0ba3c4b60b74"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "affectedProgramSurface": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "symbols": [
+        "validateHeader",
+        "sanitizeOrigin",
+        "matchPattern",
+        "authorizeRequest"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L6-01"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L6-01"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L6-01-01",
+          "operator": "FLOWS",
+          "sourceEntity": "validateHeader",
+          "targetEntity": "sanitizeOrigin",
+          "predicate": "FLOWS(validateHeader, sanitizeOrigin)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "ec0765ba0582ef7ee86c600fd0db7f933969c0957c95fe91a976ba422a728d92"
+        },
+        {
+          "relationId": "REL-P46-L6-01-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(sanitizeOrigin, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "401a6f60ef52a4d58fed8530fbb65743f9a1c59d37c28c541e09834b7dc15856"
+        },
+        {
+          "relationId": "REL-P46-L6-01-03",
+          "operator": "AUTHORIZES",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "SECURITY_ORIGIN_POLICY",
+          "predicate": "AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "351221e9e23945a1c8713d7a91258a0f786b2792af7ed9133150d5d8e2f84bbd"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L6-01"
+      ],
+      "temporalConstraints": [
+        "BEFORE(validateHeader, sanitizeOrigin)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L6-01-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L6-01"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L6-01"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/cors.js",
+          "contentHash": "9a3fafc4a3a55cdf23bb81bc1e219254f1b0d6998a5cd1e668a93f5440525852"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L6-01-SCHEMA_DEFAULTS_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "988948d30fb92bc792e07974d7b3475e36564787582aac3d6c252ed5a3eec36b"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "affectedProgramSurface": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "symbols": [
+        "validateHeader",
+        "sanitizeOrigin",
+        "matchPattern",
+        "authorizeRequest"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L6-02"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L6-02"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L6-02-01",
+          "operator": "FLOWS",
+          "sourceEntity": "validateHeader",
+          "targetEntity": "sanitizeOrigin",
+          "predicate": "FLOWS(validateHeader, sanitizeOrigin)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "001853dbd47c08f68e61a5fdcc999053ce34a0ce596c87ec9948d1de164b82bc"
+        },
+        {
+          "relationId": "REL-P46-L6-02-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(sanitizeOrigin, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "1ceb235ec9d00ec2d92431b7fec638096f4421f8ebeb435729dc7301b1d45cbe"
+        },
+        {
+          "relationId": "REL-P46-L6-02-03",
+          "operator": "AUTHORIZES",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "SECURITY_ORIGIN_POLICY",
+          "predicate": "AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "218a8283ba7c4901736fc3d89a19c714316424defe7f0616fd66eb93c8cb8830"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L6-02"
+      ],
+      "temporalConstraints": [
+        "BEFORE(validateHeader, sanitizeOrigin)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L6-02-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L6-02"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L6-02"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/cors.js",
+          "contentHash": "c1582192cac0e2a853f7bae72ad11bd4ec0e27423bedf5c633b838522f89a89e"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L6-02-SCHEMA_DEFAULTS_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "3d2d9874f77b7022928c66cffccbe074173ebb6b0c762e2cbc9f1cbe562e77e7"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "affectedProgramSurface": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "symbols": [
+        "validateHeader",
+        "sanitizeOrigin",
+        "matchPattern",
+        "authorizeRequest"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L6-03"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L6-03"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L6-03-01",
+          "operator": "FLOWS",
+          "sourceEntity": "validateHeader",
+          "targetEntity": "sanitizeOrigin",
+          "predicate": "FLOWS(validateHeader, sanitizeOrigin)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "daae8f9a22501d6971a09b57e2fc9e4fcdb769ea3e11aa1ab90bacf33e29be61"
+        },
+        {
+          "relationId": "REL-P46-L6-03-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(sanitizeOrigin, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "d4b91e0806195d317c78bbade2d006d02aaf300a7edaf2f95349881c5e6b4e2b"
+        },
+        {
+          "relationId": "REL-P46-L6-03-03",
+          "operator": "AUTHORIZES",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "SECURITY_ORIGIN_POLICY",
+          "predicate": "AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "6e5ec0e85d4d3463d59f7377f0027faa4652cbde5bcef6e852fb333fcb4c81b0"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L6-03"
+      ],
+      "temporalConstraints": [
+        "BEFORE(validateHeader, sanitizeOrigin)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L6-03-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L6-03"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L6-03"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/cors.js",
+          "contentHash": "28d1f6f1b7fe8ba3e1fb0f296fa282494dceb72b7701e5eecb7cc8107a7c3630"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L6-03-SCHEMA_DEFAULTS_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "f15edba6254d99f3b88292986072482570fe139aff65e6f5ac444eeca6745a30"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "affectedProgramSurface": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "symbols": [
+        "validateHeader",
+        "sanitizeOrigin",
+        "matchPattern",
+        "authorizeRequest"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L6-04"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L6-04"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L6-04-01",
+          "operator": "FLOWS",
+          "sourceEntity": "validateHeader",
+          "targetEntity": "sanitizeOrigin",
+          "predicate": "FLOWS(validateHeader, sanitizeOrigin)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "c3b71fa0ce792fdbe45ef5baefeb205d9ba09cf119eeb799332f7bfaaa6f2df4"
+        },
+        {
+          "relationId": "REL-P46-L6-04-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(sanitizeOrigin, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "9904879c295e686c0ee9ea5a5a7f4830e0f24c9b25b331e476675e5a917a191f"
+        },
+        {
+          "relationId": "REL-P46-L6-04-03",
+          "operator": "AUTHORIZES",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "SECURITY_ORIGIN_POLICY",
+          "predicate": "AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "f7f3cffb63208d65a8c92cd6a2455690592f50bb0f1c6aafca780d7c364a1136"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L6-04"
+      ],
+      "temporalConstraints": [
+        "BEFORE(validateHeader, sanitizeOrigin)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L6-04-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L6-04"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L6-04"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/cors.js",
+          "contentHash": "594f0d8436002ce27e87e6d6be9d0d24b8a95417514c030d91bd24bb098495f8"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L6-04-SCHEMA_DEFAULTS_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "3ed6d4b7c858ad75ac6081a5c1c8945d9c9c1341dd97fcf58a6155578bd609e7"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "affectedProgramSurface": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "symbols": [
+        "validateHeader",
+        "sanitizeOrigin",
+        "matchPattern",
+        "authorizeRequest"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_INPUT",
+        "STRUCTURED_RECORD"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L6-05"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L6-05"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L6-05-01",
+          "operator": "FLOWS",
+          "sourceEntity": "validateHeader",
+          "targetEntity": "sanitizeOrigin",
+          "predicate": "FLOWS(validateHeader, sanitizeOrigin)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "c11df1cbd6a074378bef92dcbb78af6601fb65774cc8b4c71868124e1ee39fde"
+        },
+        {
+          "relationId": "REL-P46-L6-05-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "STRUCTURED_RECORD",
+          "predicate": "REPRESENTS(sanitizeOrigin, STRUCTURED_RECORD)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "0f5283d19a7a0459549e5b91a14bbf74b2b9cbcc0a0a142e95ff08d0a9672953"
+        },
+        {
+          "relationId": "REL-P46-L6-05-03",
+          "operator": "AUTHORIZES",
+          "sourceEntity": "sanitizeOrigin",
+          "targetEntity": "SECURITY_ORIGIN_POLICY",
+          "predicate": "AUTHORIZES(sanitizeOrigin, SECURITY_ORIGIN_POLICY)",
+          "isPreserved": false,
+          "confidence": 0.95,
+          "contentHash": "17fba52aa903ed4fd584533b77ba40f1dd1ef0aa55233d114277b25f2e82eb9f"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L6-05"
+      ],
+      "temporalConstraints": [
+        "BEFORE(validateHeader, sanitizeOrigin)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L6-05-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L6-05"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L6-05"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/cors.js",
+          "contentHash": "32798d07478b8bcc80fd29db2a4067e19e7c74b5ca6d61eee1fceaba02199e9e"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L6-05-SCHEMA_DEFAULTS_CONFLICT"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/cors.js",
+        "src/validator.js",
+        "src/auth.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "07b6409467c397c71eedf0954a78aade6e65bb4adda039bb6e961360bd88da9e"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "affectedProgramSurface": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "symbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate",
+        "bindingPower",
+        "lookahead"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_STRING",
+        "TOKEN_STREAM",
+        "AST_NODE",
+        "EVAL_RESULT"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L7-01"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L7-01"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L7-01-01",
+          "operator": "FLOWS",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "FLOWS(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "27290d60bd7422f3019a0c7f6079efb8a0eeedd31acc2d8caaadde467f616b04"
+        },
+        {
+          "relationId": "REL-P46-L7-01-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "AST_EXPRESSION",
+          "predicate": "REPRESENTS(parseExpression, AST_EXPRESSION)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "1e76f69339881cb186a44847fa7c89a657f2f14b5735c4c108b52136e11eda69"
+        },
+        {
+          "relationId": "REL-P46-L7-01-03",
+          "operator": "CONSUMES",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "tokenize",
+          "predicate": "CONSUMES(parseExpression, tokenize)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "066b118c7bfe7aa804dc1a0e0f66bcc0cd971b25f4c1fc518ace89328cf62401"
+        },
+        {
+          "relationId": "REL-P46-L7-01-04",
+          "operator": "PRODUCES",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "PRODUCES(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "dfa5cf906d966734d3d7376c63933e14314bd831e690fbd3e44aa1b73ea3ac51"
+        },
+        {
+          "relationId": "REL-P46-L7-01-05",
+          "operator": "PRECEDES",
+          "sourceEntity": "PREFIX_UNARY_OPERATOR",
+          "targetEntity": "EXPONENT_OPERATOR",
+          "predicate": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+          "isPreserved": false,
+          "confidence": 0.9,
+          "contentHash": "b1d55e8e34ead0830d0abec3490a35b0e8d2f9f2f515523cac5e0dc300a13f72"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L7-01"
+      ],
+      "temporalConstraints": [
+        "BEFORE(tokenize, parseExpression)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L7-01-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L7-01"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L7-01"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/calc.js",
+          "contentHash": "cdbb6fd00d89df2fae2b6549c10a6163652f981ee799f95dc996a2c3bd46d409"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L7-01-LOOKAHEAD_MISMATCH",
+        "CE-REL-P46-L7-01-PRECEDENCE_COLLISION"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "c8f7149779f157526e718a3411287b4b7959464b259531d67e13b136451f41f5"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "affectedProgramSurface": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "symbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate",
+        "bindingPower",
+        "lookahead"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_STRING",
+        "TOKEN_STREAM",
+        "AST_NODE",
+        "EVAL_RESULT"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L7-02"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L7-02"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L7-02-01",
+          "operator": "FLOWS",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "FLOWS(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "92766737b1a9cddaf273f7b25fe509ef118b26b74c5b50c18207e115158c23bc"
+        },
+        {
+          "relationId": "REL-P46-L7-02-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "AST_EXPRESSION",
+          "predicate": "REPRESENTS(parseExpression, AST_EXPRESSION)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "e6143cd8cf89e82e22c258f8141723112de99344844ceea96096916ea1458a98"
+        },
+        {
+          "relationId": "REL-P46-L7-02-03",
+          "operator": "CONSUMES",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "tokenize",
+          "predicate": "CONSUMES(parseExpression, tokenize)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "d781b434664e2df1c30e8a45efe51372a7b0d72be476b4c1d6bd21bfb54e3daa"
+        },
+        {
+          "relationId": "REL-P46-L7-02-04",
+          "operator": "PRODUCES",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "PRODUCES(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "4a7e628a8fdde87bbd96e54417b85efa57b4d80a2c9b6506295a5d35e20bb43a"
+        },
+        {
+          "relationId": "REL-P46-L7-02-05",
+          "operator": "PRECEDES",
+          "sourceEntity": "PREFIX_UNARY_OPERATOR",
+          "targetEntity": "EXPONENT_OPERATOR",
+          "predicate": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+          "isPreserved": false,
+          "confidence": 0.9,
+          "contentHash": "afc49c36be26a37ca1786786489b467d08baa411e5ddffc610f598900fb2fb42"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L7-02"
+      ],
+      "temporalConstraints": [
+        "BEFORE(tokenize, parseExpression)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L7-02-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L7-02"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L7-02"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/calc.js",
+          "contentHash": "2d16c6da3da829374ebfc03c010753cdcd480368d42e13c44f5b4ef4938ca33b"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L7-02-LOOKAHEAD_MISMATCH",
+        "CE-REL-P46-L7-02-PRECEDENCE_COLLISION"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "25e52ddbe6dff6354ca25bbda8650d1edc4910be281e08d38d51ec6e3c785905"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "affectedProgramSurface": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "symbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate",
+        "bindingPower",
+        "lookahead"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_STRING",
+        "TOKEN_STREAM",
+        "AST_NODE",
+        "EVAL_RESULT"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L7-03"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L7-03"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L7-03-01",
+          "operator": "FLOWS",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "FLOWS(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "1094d85e83ef12a97251b3bb9bec0e4fa4494a92cd3b9f1bd21dae315af71609"
+        },
+        {
+          "relationId": "REL-P46-L7-03-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "AST_EXPRESSION",
+          "predicate": "REPRESENTS(parseExpression, AST_EXPRESSION)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "b37b6e4b9e8f7652c30569b73aa106b7a2a70e920729d371a330d2be29a5ee17"
+        },
+        {
+          "relationId": "REL-P46-L7-03-03",
+          "operator": "CONSUMES",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "tokenize",
+          "predicate": "CONSUMES(parseExpression, tokenize)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "15359a7ba0264f62ee70b3d2b5c2d2b63e46a65f9558a75e960a787ed12075b1"
+        },
+        {
+          "relationId": "REL-P46-L7-03-04",
+          "operator": "PRODUCES",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "PRODUCES(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "80b53dd9985188bf5fad6a696d6f9047d2a7a30db055991a44b81d6fdc63fe32"
+        },
+        {
+          "relationId": "REL-P46-L7-03-05",
+          "operator": "PRECEDES",
+          "sourceEntity": "PREFIX_UNARY_OPERATOR",
+          "targetEntity": "EXPONENT_OPERATOR",
+          "predicate": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+          "isPreserved": false,
+          "confidence": 0.9,
+          "contentHash": "8bcad8b7979aaf90f00ddd021bbe96cfc587cd8e6f219668809b53b5cd38c511"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L7-03"
+      ],
+      "temporalConstraints": [
+        "BEFORE(tokenize, parseExpression)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L7-03-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L7-03"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L7-03"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/calc.js",
+          "contentHash": "fc7700b6cb2ba80d89d73ff880713be64da4f31469f9ddf5e9548312c31eea93"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L7-03-LOOKAHEAD_MISMATCH",
+        "CE-REL-P46-L7-03-PRECEDENCE_COLLISION"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "72592728d86a87d23391d4d6d5673351cb24681b666875c25c9a93ecf7241d09"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "affectedProgramSurface": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "symbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate",
+        "bindingPower",
+        "lookahead"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_STRING",
+        "TOKEN_STREAM",
+        "AST_NODE",
+        "EVAL_RESULT"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L7-04"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L7-04"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L7-04-01",
+          "operator": "FLOWS",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "FLOWS(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "3bbee3bd055cfb49b77669b0feb23ef89d743fa0f51ece99101fc47f67b549f9"
+        },
+        {
+          "relationId": "REL-P46-L7-04-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "AST_EXPRESSION",
+          "predicate": "REPRESENTS(parseExpression, AST_EXPRESSION)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "d95215da505789b057f507b11b7f0c6c1bfc432028462af9147243e470d73ca3"
+        },
+        {
+          "relationId": "REL-P46-L7-04-03",
+          "operator": "CONSUMES",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "tokenize",
+          "predicate": "CONSUMES(parseExpression, tokenize)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "9b0caee45fc90a2eb4a737742cd4ca2a55e93f7aeb6af9b9e08a33ae3e3b448f"
+        },
+        {
+          "relationId": "REL-P46-L7-04-04",
+          "operator": "PRODUCES",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "PRODUCES(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "016059db4bc1eb305a473a437725201a2ba5e55847b7d2c766b3def30b2f1643"
+        },
+        {
+          "relationId": "REL-P46-L7-04-05",
+          "operator": "PRECEDES",
+          "sourceEntity": "PREFIX_UNARY_OPERATOR",
+          "targetEntity": "EXPONENT_OPERATOR",
+          "predicate": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+          "isPreserved": false,
+          "confidence": 0.9,
+          "contentHash": "6f5eec43391d7aefcfd7533c973b2377dda8ffb3faeca82581618922a976d9b3"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L7-04"
+      ],
+      "temporalConstraints": [
+        "BEFORE(tokenize, parseExpression)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L7-04-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L7-04"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L7-04"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/calc.js",
+          "contentHash": "ea428cb51e477214a82dcc5784184adfbe9b23641b2148e5648714fd4f5d1e97"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L7-04-LOOKAHEAD_MISMATCH",
+        "CE-REL-P46-L7-04-PRECEDENCE_COLLISION"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "4850a3bccf7f7f85ce682b1bac8cf01cb679a346c08ee0a9d5bb5c70183a0d26"
+    },
+    {
+      "specificationId": "REL-SPEC-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "affectedProgramSurface": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "symbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate",
+        "bindingPower",
+        "lookahead"
+      ],
+      "types": [
+        "STRING",
+        "NUMBER",
+        "BOOLEAN",
+        "RECORD",
+        "STATE"
+      ],
+      "states": [
+        "UNINITIALIZED",
+        "PARSING",
+        "EVALUATING",
+        "TERMINAL_VALID"
+      ],
+      "representations": [
+        "RAW_STRING",
+        "TOKEN_STREAM",
+        "AST_NODE",
+        "EVAL_RESULT"
+      ],
+      "inputs": [
+        "INPUT_STREAM_FOR_P46-L7-05"
+      ],
+      "outputs": [
+        "OUTPUT_RESULT_FOR_P46-L7-05"
+      ],
+      "observations": [
+        "PASSES_EXISTING_REGRESSION_SUITE"
+      ],
+      "semanticRelations": [
+        {
+          "relationId": "REL-P46-L7-05-01",
+          "operator": "FLOWS",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "FLOWS(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 1,
+          "contentHash": "cb7764e906de24872f6c46a3c402610c39ddbdf21acaa40b50c8c8e0360ebf42"
+        },
+        {
+          "relationId": "REL-P46-L7-05-02",
+          "operator": "REPRESENTS",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "AST_EXPRESSION",
+          "predicate": "REPRESENTS(parseExpression, AST_EXPRESSION)",
+          "isPreserved": true,
+          "confidence": 0.95,
+          "contentHash": "f62d98786571fc359887ea473516bc6cbff68d18ca2d9fb809b4bce0bc681f77"
+        },
+        {
+          "relationId": "REL-P46-L7-05-03",
+          "operator": "CONSUMES",
+          "sourceEntity": "parseExpression",
+          "targetEntity": "tokenize",
+          "predicate": "CONSUMES(parseExpression, tokenize)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "641da2079e1f608cc2adb3db523357c9fbd4c11dff2a3a28b61d5076dc652eed"
+        },
+        {
+          "relationId": "REL-P46-L7-05-04",
+          "operator": "PRODUCES",
+          "sourceEntity": "tokenize",
+          "targetEntity": "parseExpression",
+          "predicate": "PRODUCES(tokenize, parseExpression)",
+          "isPreserved": true,
+          "confidence": 0.98,
+          "contentHash": "88fbc92c5841f4a747147d6f07844f3547acb82f38856cc2dde0fbc1d81478f6"
+        },
+        {
+          "relationId": "REL-P46-L7-05-05",
+          "operator": "PRECEDES",
+          "sourceEntity": "PREFIX_UNARY_OPERATOR",
+          "targetEntity": "EXPONENT_OPERATOR",
+          "predicate": "PRECEDES(PREFIX_UNARY_OPERATOR, EXPONENT_OPERATOR)",
+          "isPreserved": false,
+          "confidence": 0.9,
+          "contentHash": "2d8cdfb70ad820f4b18f52f07a9306f9f6b6a07e75237e116661c77cc9da5eb8"
+        }
+      ],
+      "globalInvariants": [
+        "GLOBAL_INVARIANT_FOR_P46-L7-05"
+      ],
+      "temporalConstraints": [
+        "BEFORE(tokenize, parseExpression)"
+      ],
+      "securityConstraints": [
+        "PRESERVE_SECURITY_BOUNDARIES"
+      ],
+      "errorConstraints": [
+        "PRESERVE_ERROR_PROPAGATION"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "REX-P46-L7-05-01",
+          "inputs": [
+            "INPUT_REPRESENTATION_FOR_P46-L7-05"
+          ],
+          "initialState": "INITIAL_UNINITIALIZED",
+          "expectedStateRelations": [
+            "STATE_TRANSITION(INITIAL, READY)"
+          ],
+          "expectedOutputs": [
+            "VALID_EVALUATION_RESULT_FOR_P46-L7-05"
+          ],
+          "expectedErrorRelations": [
+            "FAILS_WITH(INVALID_ARGUMENT, ERROR_TYPE)"
+          ],
+          "expectedSecurityRelations": [
+            "AUTHORIZES(CREDENTIALS, SECURE_DOMAIN)"
+          ],
+          "preservedObservations": [
+            "OBSERVATIONALLY_EQUIVALENT(PASSING_TEST_BASE)"
+          ],
+          "provenance": "OBSERVABLE_BASE_TEST_src/calc.js",
+          "contentHash": "6c633c1817ad7e5615e55beadbb4cce1ea7df94a6751190e72c234a509360a55"
+        }
+      ],
+      "counterexamples": [
+        "CE-REL-P46-L7-05-LOOKAHEAD_MISMATCH",
+        "CE-REL-P46-L7-05-PRECEDENCE_COLLISION"
+      ],
+      "preservedBehavior": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "mutationScope": [
+        "src/calc.js",
+        "src/parser.js",
+        "src/tokenizer.js"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "synthesisBounds": {
+        "maxRelationalVariables": 64,
+        "maxRelations": 128,
+        "maxObligations": 64,
+        "maxTransformationCandidates": 100,
+        "maxSynthesisDepth": 8,
+        "maxRefinementIterations": 6,
+        "maxAffectedFiles": 6,
+        "maxAffectedSymbols": 64,
+        "maxSearchWallClockMs": 120000,
+        "maxRepairAttempts": 3
+      },
+      "contentHash": "a9e0adde55ca19c2bf1547c927b74fbbe269dd5f2a9e43ace83dd3d70c87b4c3"
+    }
+  ]
+}

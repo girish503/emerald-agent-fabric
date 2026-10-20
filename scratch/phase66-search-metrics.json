@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "representationMetrics": {
+    "totalRelations": 128,
+    "relationCategories": 20,
+    "relationalVariables": 64,
+    "obligationCount": 15,
+    "graphNodes": 85,
+    "graphEdges": 112,
+    "graphCycles": 5
+  },
+  "synthesisMetrics": {
+    "candidatesGenerated": 100,
+    "candidatesTypeRejected": 35,
+    "candidatesRelationalRejected": 40,
+    "candidatesCompiled": 25,
+    "uniqueSolutions": 20,
+    "equivalenceClasses": 10
+  },
+  "refinementMetrics": {
+    "totalCounterexamples": 20,
+    "totalRefinements": 20,
+    "maxIterations": 6,
+    "convergenceRate": "66.7%",
+    "searchExhaustionRate": "100.0% (L7)"
+  },
+  "correctnessMetrics": {
+    "localConsistencyRate": "100.0%",
+    "globalConsistencyRate": "92.0%",
+    "invariantPreservation": "100.0%",
+    "regressionPreservation": "100.0%",
+    "l7CleanRoomSuccess": "0/5 (0.0%)"
+  },
+  "costMetrics": {
+    "latencyMeanMs": 480,
+    "latencyL7Ms": 1880,
+    "modelCallsMean": 2,
+    "modelCallsL7": 5,
+    "financialCostUSD": 0
+  }
+}

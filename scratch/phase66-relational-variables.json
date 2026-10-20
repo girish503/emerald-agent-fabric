@@ -1,0 +1,943 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "totalVariables": 55,
+  "variables": [
+    {
+      "variableId": "RVAR-P46-L5-01-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-01-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "7779441588b7ee15630fb4c3018c3d4480c7e35760054f0c9f05478397646318"
+    },
+    {
+      "variableId": "RVAR-P46-L5-01-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "compareSemVer",
+      "provenance": "RELATION:REL-P46-L5-01-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "d7f200e7b1e16208a47744f1592c99de28a2ee97bfc698094ddb41d40432c894"
+    },
+    {
+      "variableId": "RVAR-P46-L5-01-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-01-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "ea754f8153da6988d30b5d9ee0ddefb0691dc3a6683e19240715474ff0dcdae8"
+    },
+    {
+      "variableId": "RVAR-P46-L5-02-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-02-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "ef1e38881e208ad0744c8dc266f93d6af7fe3747a55cb5a44cf01f6137156208"
+    },
+    {
+      "variableId": "RVAR-P46-L5-02-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "compareSemVer",
+      "provenance": "RELATION:REL-P46-L5-02-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "8b01a2e0bfab0fc63a52caab0dd7d16a0829299303e27f55ca65f65153285e02"
+    },
+    {
+      "variableId": "RVAR-P46-L5-02-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-02-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "524537bc09407a9b6371d145916091371337fce991b71498f7fb1a3b2702add0"
+    },
+    {
+      "variableId": "RVAR-P46-L5-03-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-03-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "d51b9415d734dc40c6138e95bc7b4d9a7f31cc17b21af5b1e676ff3c7ae8d45c"
+    },
+    {
+      "variableId": "RVAR-P46-L5-03-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "compareSemVer",
+      "provenance": "RELATION:REL-P46-L5-03-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "09c0bdf7f5c63f370feb705e57719c880517a3d198805f889a31dbf7a1de51a3"
+    },
+    {
+      "variableId": "RVAR-P46-L5-03-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-03-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "9907c8726057f3822a1b48db191d6919dfabffded6000984d1654fc41365bae8"
+    },
+    {
+      "variableId": "RVAR-P46-L5-04-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-04-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "771062d4b88486468ccf80bcb963797a90156bcd82ad46cb6b5640b670ff2dbf"
+    },
+    {
+      "variableId": "RVAR-P46-L5-04-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "compareSemVer",
+      "provenance": "RELATION:REL-P46-L5-04-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "77a2dc286909c594a84049c3f726aba8cf8cf982c11a5ec9f40b204e4b178df8"
+    },
+    {
+      "variableId": "RVAR-P46-L5-04-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-04-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "3027510892f541125bae6333de330ef023d5b88426dc9d65e0eaedd19d9da3b2"
+    },
+    {
+      "variableId": "RVAR-P46-L5-05-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-05-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "1496400b92e5ad68070930182c66191a38611342ba2eeb41b727cd5a9d49bc8e"
+    },
+    {
+      "variableId": "RVAR-P46-L5-05-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "compareSemVer",
+      "provenance": "RELATION:REL-P46-L5-05-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "6ee1a33ad7bbc7ce10d13112771c1f12cf5aa23b0a525630aa46a4f3d6b8571e"
+    },
+    {
+      "variableId": "RVAR-P46-L5-05-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseSemVer",
+      "provenance": "RELATION:REL-P46-L5-05-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "56138ef8cab1d1726f6dd1aad11a568c28971bdccb1985a9be06281f5a63df60"
+    },
+    {
+      "variableId": "RVAR-P46-L6-01-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "validateHeader",
+      "provenance": "RELATION:REL-P46-L6-01-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "be57f684d70c3cbd4a2ced9ec320831bd46655faa90d2b6a968b9ea7a29830b3"
+    },
+    {
+      "variableId": "RVAR-P46-L6-01-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-01-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "a80a5e0dd383d5cb58d9c70ab873c2310bb258892bf01dcc5b5f2fa9aba76f83"
+    },
+    {
+      "variableId": "RVAR-P46-L6-01-3",
+      "variableType": "SECURITY_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-01-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "d4a9ca6d0d02a89a94b7bdfa9b2484ecaefae7c52e1222efc6dedf5cadb58073"
+    },
+    {
+      "variableId": "RVAR-P46-L6-02-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "validateHeader",
+      "provenance": "RELATION:REL-P46-L6-02-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "40cbb81d70344c3b8dc979316ec2770d30a8c0675e3490ef257034163ee55d12"
+    },
+    {
+      "variableId": "RVAR-P46-L6-02-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-02-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "f11540d4192c09b8753e1eb5cb7cdef89781279ccdee90566682ed934388fddd"
+    },
+    {
+      "variableId": "RVAR-P46-L6-02-3",
+      "variableType": "SECURITY_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-02-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "05001cec4c4c5b41b22eb779393258c1ba8af5257827358dcd2a3b52fb6e01d6"
+    },
+    {
+      "variableId": "RVAR-P46-L6-03-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "validateHeader",
+      "provenance": "RELATION:REL-P46-L6-03-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "f6c72d88330a58e8a74194241409dcbf8c6e25b0bb015fa47168c3aea86af0f1"
+    },
+    {
+      "variableId": "RVAR-P46-L6-03-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-03-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "9f4c6f37e0226cf4f6604fa1a7ff4bfdeb513719d774349a8a57483848e42be0"
+    },
+    {
+      "variableId": "RVAR-P46-L6-03-3",
+      "variableType": "SECURITY_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-03-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "2d43c17a3358757974388a451e9cddaa5f9e60574e7cb6518d93d0d1e0f63bbb"
+    },
+    {
+      "variableId": "RVAR-P46-L6-04-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "validateHeader",
+      "provenance": "RELATION:REL-P46-L6-04-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "c607075c349dadd25f87fa28c6890cd1c377c214dc33002dbe1c4980a6a79fb9"
+    },
+    {
+      "variableId": "RVAR-P46-L6-04-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-04-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "589c18fb3d1d0311223320981c5d6fb859f1fd905f7d2b1c138d68e389758041"
+    },
+    {
+      "variableId": "RVAR-P46-L6-04-3",
+      "variableType": "SECURITY_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-04-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "5a27b465347d480a5e3f163e43c5e1aec0454cbd5780a16e10a6a0496e8f413b"
+    },
+    {
+      "variableId": "RVAR-P46-L6-05-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "validateHeader",
+      "provenance": "RELATION:REL-P46-L6-05-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "e935c99a9219e2ad97f7b05d3669d3e2405a95d2b4dbe235c0387863b097bdc2"
+    },
+    {
+      "variableId": "RVAR-P46-L6-05-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-05-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "995d09aee6eee961485db76a56af65d121f976c735ab7784f88050223c8b42d6"
+    },
+    {
+      "variableId": "RVAR-P46-L6-05-3",
+      "variableType": "SECURITY_VARIABLE",
+      "scope": "sanitizeOrigin",
+      "provenance": "RELATION:REL-P46-L6-05-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "cb2f7bc4dca67b5a45d0baf0339c28e1b6e7ef16435475d8c49c8cb33ea861d8"
+    },
+    {
+      "variableId": "RVAR-P46-L7-01-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-01-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "c3d2b724528e4cc4fda49f5d24d3f84c4beea250ebf5d622374094fbe4a8c772"
+    },
+    {
+      "variableId": "RVAR-P46-L7-01-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-01-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "20db19afca813a48639c5f67449ba43941a1330fcb4ffe840f225fa4f0282c50"
+    },
+    {
+      "variableId": "RVAR-P46-L7-01-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-01-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "b9035c6aae4d97001eb68d31323cdb98f550fe795f13be4385edd322790dc0fa"
+    },
+    {
+      "variableId": "RVAR-P46-L7-01-4",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-01-04",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "6dc9a6a92bb6b0d8e4a8660c5653b7ab49fec08a5a0c5e3eb5a9eb2a7d7acd08"
+    },
+    {
+      "variableId": "RVAR-P46-L7-01-5",
+      "variableType": "CONTROL_VARIABLE",
+      "scope": "PREFIX_UNARY_OPERATOR",
+      "provenance": "RELATION:REL-P46-L7-01-05",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "1eea2a2aebec0ccb673c9f8b416a952a8e94dee0f6a6142d2161387f36e43ba5"
+    },
+    {
+      "variableId": "RVAR-P46-L7-02-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-02-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "78e5eeeb39fc178b71915a14366f090da6dcc86e545ea02bbf5fff73fcdbf824"
+    },
+    {
+      "variableId": "RVAR-P46-L7-02-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-02-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "48893c341775213df35a9a5da8fa925c6ebef87ffa029f97c40eabdb1941f876"
+    },
+    {
+      "variableId": "RVAR-P46-L7-02-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-02-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "03c57ebe8ffcc8b66f8deacb3e282d8d14e3ef2bcba2c9d436506941fc79a890"
+    },
+    {
+      "variableId": "RVAR-P46-L7-02-4",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-02-04",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "89749bfc313b37f16ddbd136ed6a272158f1b7c34930a03e6bb0b256fc879c7a"
+    },
+    {
+      "variableId": "RVAR-P46-L7-02-5",
+      "variableType": "CONTROL_VARIABLE",
+      "scope": "PREFIX_UNARY_OPERATOR",
+      "provenance": "RELATION:REL-P46-L7-02-05",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "92dccb33145c0c7a010a206ec4b44b7facb1fee0545c339ea3709d6854caf61e"
+    },
+    {
+      "variableId": "RVAR-P46-L7-03-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-03-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "0edc8e2ae53d5ba64286f8fd873293d5ec9eaf2e89c4052952bcd1f76b0e00ae"
+    },
+    {
+      "variableId": "RVAR-P46-L7-03-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-03-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "7c76a4f7f8af0f9891a1e4e26ab7bf4c5884ae41bd4b0a6655076191b0ba5ca9"
+    },
+    {
+      "variableId": "RVAR-P46-L7-03-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-03-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "b261def4f7985e3c9885633a0477c9b88a0d33e93e6b188ff0e3020675ec5f90"
+    },
+    {
+      "variableId": "RVAR-P46-L7-03-4",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-03-04",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "6a60bdb54e8460a0394e64205fb200a0e86113f664735e48d0fbd54fa7bf37d1"
+    },
+    {
+      "variableId": "RVAR-P46-L7-03-5",
+      "variableType": "CONTROL_VARIABLE",
+      "scope": "PREFIX_UNARY_OPERATOR",
+      "provenance": "RELATION:REL-P46-L7-03-05",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "0ba33a26abfd3ff125b290c4da28f5cd717377d592964b673789f9f68330f051"
+    },
+    {
+      "variableId": "RVAR-P46-L7-04-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-04-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "7fe64297f1edce07f3a2a9b31c6ce7140a8c862ed3dae243b24b7decd205e5e5"
+    },
+    {
+      "variableId": "RVAR-P46-L7-04-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-04-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "05e8ac945219bbceb83cae88d5713ea33023935f41d4331613c20600927b001e"
+    },
+    {
+      "variableId": "RVAR-P46-L7-04-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-04-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "ee940fbff4c56486f7cad9b0885747f1b7865b8b69cd9416e66a3a2fd623179a"
+    },
+    {
+      "variableId": "RVAR-P46-L7-04-4",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-04-04",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "41c66f64c931ebd3df19da13469a62f3c3033c1748a37cb8a618097901384ea9"
+    },
+    {
+      "variableId": "RVAR-P46-L7-04-5",
+      "variableType": "CONTROL_VARIABLE",
+      "scope": "PREFIX_UNARY_OPERATOR",
+      "provenance": "RELATION:REL-P46-L7-04-05",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "426d0ceca960d5121e1b0d877f09ee347d478f31d5cc57768397e81a3dcca1f5"
+    },
+    {
+      "variableId": "RVAR-P46-L7-05-1",
+      "variableType": "DATAFLOW_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-05-01",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "cc27828794804b32db009484a11ec18ea1de5300a864980bb591ff96cc2d7e5a"
+    },
+    {
+      "variableId": "RVAR-P46-L7-05-2",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-05-02",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "d912c100bb5ee94df0fac607957245412f9df97bc3e922b23cc63e9436b025ec"
+    },
+    {
+      "variableId": "RVAR-P46-L7-05-3",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "parseExpression",
+      "provenance": "RELATION:REL-P46-L7-05-03",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "5957b43ba19783d7cf69d4071e8826ba36ddbc25bbb6e351d9b5133e4e91de03"
+    },
+    {
+      "variableId": "RVAR-P46-L7-05-4",
+      "variableType": "TRANSFORMATION_VARIABLE",
+      "scope": "tokenize",
+      "provenance": "RELATION:REL-P46-L7-05-04",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "28edfc76404d61ac365cca734f4827d8949f9c167efcea42186b7e0587967af3"
+    },
+    {
+      "variableId": "RVAR-P46-L7-05-5",
+      "variableType": "CONTROL_VARIABLE",
+      "scope": "PREFIX_UNARY_OPERATOR",
+      "provenance": "RELATION:REL-P46-L7-05-05",
+      "allowedDomain": [
+        "NOP",
+        "GUARD",
+        "TRANSFORM",
+        "REWRITE",
+        "PRECEDENCE_ADAPT"
+      ],
+      "constraints": [
+        "PRESERVE_TEST_PASS"
+      ],
+      "contentHash": "ceb1a1dd3943cb019b6387a933813eaf2ba119485f800f6a6ddd1fe70d120d3d"
+    }
+  ]
+}

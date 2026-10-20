@@ -1,0 +1,1343 @@
+{
+  "schemaVersion": "emerald-phase66-v1",
+  "phase": "66",
+  "protocolDigest": "5c4549f50c0781890af3ca3af3b55858d6e843eb67e86bff4b80f2981446fdfe",
+  "totalGraphs": 15,
+  "graphs": [
+    {
+      "graphId": "REL-GRAPH-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "nodes": [
+        {
+          "id": "parseSemVer",
+          "type": "SYMBOL",
+          "label": "parseSemVer"
+        },
+        {
+          "id": "compareSemVer",
+          "type": "SYMBOL",
+          "label": "compareSemVer"
+        },
+        {
+          "id": "validateRange",
+          "type": "SYMBOL",
+          "label": "validateRange"
+        },
+        {
+          "id": "formatVersion",
+          "type": "SYMBOL",
+          "label": "formatVersion"
+        },
+        {
+          "id": "src/semver.js",
+          "type": "MODULE",
+          "label": "src/semver.js"
+        },
+        {
+          "id": "src/comparator.js",
+          "type": "MODULE",
+          "label": "src/comparator.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "compareSemVer",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "VALIDATES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "131d1460b3b39bee29b71b31522c54fdd90e7efc15451be63afa6ec61261235d"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "nodes": [
+        {
+          "id": "parseSemVer",
+          "type": "SYMBOL",
+          "label": "parseSemVer"
+        },
+        {
+          "id": "compareSemVer",
+          "type": "SYMBOL",
+          "label": "compareSemVer"
+        },
+        {
+          "id": "validateRange",
+          "type": "SYMBOL",
+          "label": "validateRange"
+        },
+        {
+          "id": "formatVersion",
+          "type": "SYMBOL",
+          "label": "formatVersion"
+        },
+        {
+          "id": "src/semver.js",
+          "type": "MODULE",
+          "label": "src/semver.js"
+        },
+        {
+          "id": "src/comparator.js",
+          "type": "MODULE",
+          "label": "src/comparator.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "compareSemVer",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "VALIDATES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "bdc35419104123e21351a5fa9185157778914e0a11f2250f03099ba2782ca79f"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "nodes": [
+        {
+          "id": "parseSemVer",
+          "type": "SYMBOL",
+          "label": "parseSemVer"
+        },
+        {
+          "id": "compareSemVer",
+          "type": "SYMBOL",
+          "label": "compareSemVer"
+        },
+        {
+          "id": "validateRange",
+          "type": "SYMBOL",
+          "label": "validateRange"
+        },
+        {
+          "id": "formatVersion",
+          "type": "SYMBOL",
+          "label": "formatVersion"
+        },
+        {
+          "id": "src/semver.js",
+          "type": "MODULE",
+          "label": "src/semver.js"
+        },
+        {
+          "id": "src/comparator.js",
+          "type": "MODULE",
+          "label": "src/comparator.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "compareSemVer",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "VALIDATES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "496198631a9566e6c19922adfa1006076918065a3664f191396752a29356af9f"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "nodes": [
+        {
+          "id": "parseSemVer",
+          "type": "SYMBOL",
+          "label": "parseSemVer"
+        },
+        {
+          "id": "compareSemVer",
+          "type": "SYMBOL",
+          "label": "compareSemVer"
+        },
+        {
+          "id": "validateRange",
+          "type": "SYMBOL",
+          "label": "validateRange"
+        },
+        {
+          "id": "formatVersion",
+          "type": "SYMBOL",
+          "label": "formatVersion"
+        },
+        {
+          "id": "src/semver.js",
+          "type": "MODULE",
+          "label": "src/semver.js"
+        },
+        {
+          "id": "src/comparator.js",
+          "type": "MODULE",
+          "label": "src/comparator.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "compareSemVer",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "VALIDATES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "a5b69e8cc42809fb2a018b2e3cd0bc384d78bbf19ea85c456a3c8af7ecc0d526"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "nodes": [
+        {
+          "id": "parseSemVer",
+          "type": "SYMBOL",
+          "label": "parseSemVer"
+        },
+        {
+          "id": "compareSemVer",
+          "type": "SYMBOL",
+          "label": "compareSemVer"
+        },
+        {
+          "id": "validateRange",
+          "type": "SYMBOL",
+          "label": "validateRange"
+        },
+        {
+          "id": "formatVersion",
+          "type": "SYMBOL",
+          "label": "formatVersion"
+        },
+        {
+          "id": "src/semver.js",
+          "type": "MODULE",
+          "label": "src/semver.js"
+        },
+        {
+          "id": "src/comparator.js",
+          "type": "MODULE",
+          "label": "src/comparator.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "compareSemVer",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseSemVer",
+          "to": "compareSemVer",
+          "relation": "VALIDATES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "e337c1b9218159c7c619cf60a6710827f0edd0c9750d15d8e63732f8fe3f81c4"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "nodes": [
+        {
+          "id": "validateHeader",
+          "type": "SYMBOL",
+          "label": "validateHeader"
+        },
+        {
+          "id": "sanitizeOrigin",
+          "type": "SYMBOL",
+          "label": "sanitizeOrigin"
+        },
+        {
+          "id": "matchPattern",
+          "type": "SYMBOL",
+          "label": "matchPattern"
+        },
+        {
+          "id": "authorizeRequest",
+          "type": "SYMBOL",
+          "label": "authorizeRequest"
+        },
+        {
+          "id": "src/cors.js",
+          "type": "MODULE",
+          "label": "src/cors.js"
+        },
+        {
+          "id": "src/validator.js",
+          "type": "MODULE",
+          "label": "src/validator.js"
+        },
+        {
+          "id": "src/auth.js",
+          "type": "MODULE",
+          "label": "src/auth.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "validateHeader",
+          "to": "sanitizeOrigin",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "SECURITY_ORIGIN_POLICY",
+          "relation": "AUTHORIZES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "38943474d1bfeb744a2131e43235b38896ac18cd92b6888fad5f21f22d475a4d"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "nodes": [
+        {
+          "id": "validateHeader",
+          "type": "SYMBOL",
+          "label": "validateHeader"
+        },
+        {
+          "id": "sanitizeOrigin",
+          "type": "SYMBOL",
+          "label": "sanitizeOrigin"
+        },
+        {
+          "id": "matchPattern",
+          "type": "SYMBOL",
+          "label": "matchPattern"
+        },
+        {
+          "id": "authorizeRequest",
+          "type": "SYMBOL",
+          "label": "authorizeRequest"
+        },
+        {
+          "id": "src/cors.js",
+          "type": "MODULE",
+          "label": "src/cors.js"
+        },
+        {
+          "id": "src/validator.js",
+          "type": "MODULE",
+          "label": "src/validator.js"
+        },
+        {
+          "id": "src/auth.js",
+          "type": "MODULE",
+          "label": "src/auth.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "validateHeader",
+          "to": "sanitizeOrigin",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "SECURITY_ORIGIN_POLICY",
+          "relation": "AUTHORIZES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "d8ccafd8cb8f860252f8e4561b37b21d09ea54cab204f33905d057f1e9107e71"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "nodes": [
+        {
+          "id": "validateHeader",
+          "type": "SYMBOL",
+          "label": "validateHeader"
+        },
+        {
+          "id": "sanitizeOrigin",
+          "type": "SYMBOL",
+          "label": "sanitizeOrigin"
+        },
+        {
+          "id": "matchPattern",
+          "type": "SYMBOL",
+          "label": "matchPattern"
+        },
+        {
+          "id": "authorizeRequest",
+          "type": "SYMBOL",
+          "label": "authorizeRequest"
+        },
+        {
+          "id": "src/cors.js",
+          "type": "MODULE",
+          "label": "src/cors.js"
+        },
+        {
+          "id": "src/validator.js",
+          "type": "MODULE",
+          "label": "src/validator.js"
+        },
+        {
+          "id": "src/auth.js",
+          "type": "MODULE",
+          "label": "src/auth.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "validateHeader",
+          "to": "sanitizeOrigin",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "SECURITY_ORIGIN_POLICY",
+          "relation": "AUTHORIZES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "70f747eb196844a10ae875049766236de01fd60a39694dceaace0b81a135e651"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "nodes": [
+        {
+          "id": "validateHeader",
+          "type": "SYMBOL",
+          "label": "validateHeader"
+        },
+        {
+          "id": "sanitizeOrigin",
+          "type": "SYMBOL",
+          "label": "sanitizeOrigin"
+        },
+        {
+          "id": "matchPattern",
+          "type": "SYMBOL",
+          "label": "matchPattern"
+        },
+        {
+          "id": "authorizeRequest",
+          "type": "SYMBOL",
+          "label": "authorizeRequest"
+        },
+        {
+          "id": "src/cors.js",
+          "type": "MODULE",
+          "label": "src/cors.js"
+        },
+        {
+          "id": "src/validator.js",
+          "type": "MODULE",
+          "label": "src/validator.js"
+        },
+        {
+          "id": "src/auth.js",
+          "type": "MODULE",
+          "label": "src/auth.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "validateHeader",
+          "to": "sanitizeOrigin",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "SECURITY_ORIGIN_POLICY",
+          "relation": "AUTHORIZES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "3edfec53e3093221687db81e02b6de3430eb0d27f52ad708cf6bec92623ec2f2"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "nodes": [
+        {
+          "id": "validateHeader",
+          "type": "SYMBOL",
+          "label": "validateHeader"
+        },
+        {
+          "id": "sanitizeOrigin",
+          "type": "SYMBOL",
+          "label": "sanitizeOrigin"
+        },
+        {
+          "id": "matchPattern",
+          "type": "SYMBOL",
+          "label": "matchPattern"
+        },
+        {
+          "id": "authorizeRequest",
+          "type": "SYMBOL",
+          "label": "authorizeRequest"
+        },
+        {
+          "id": "src/cors.js",
+          "type": "MODULE",
+          "label": "src/cors.js"
+        },
+        {
+          "id": "src/validator.js",
+          "type": "MODULE",
+          "label": "src/validator.js"
+        },
+        {
+          "id": "src/auth.js",
+          "type": "MODULE",
+          "label": "src/auth.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "validateHeader",
+          "to": "sanitizeOrigin",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "STRUCTURED_RECORD",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "sanitizeOrigin",
+          "to": "SECURITY_ORIGIN_POLICY",
+          "relation": "AUTHORIZES",
+          "weight": 0.95
+        }
+      ],
+      "cycles": [],
+      "contentHash": "2211d6515b605098800fc8ef468d85c3959d5487e382b2f230d3def308cfb703"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "nodes": [
+        {
+          "id": "tokenize",
+          "type": "SYMBOL",
+          "label": "tokenize"
+        },
+        {
+          "id": "parseExpression",
+          "type": "SYMBOL",
+          "label": "parseExpression"
+        },
+        {
+          "id": "evaluate",
+          "type": "SYMBOL",
+          "label": "evaluate"
+        },
+        {
+          "id": "bindingPower",
+          "type": "SYMBOL",
+          "label": "bindingPower"
+        },
+        {
+          "id": "lookahead",
+          "type": "SYMBOL",
+          "label": "lookahead"
+        },
+        {
+          "id": "src/calc.js",
+          "type": "MODULE",
+          "label": "src/calc.js"
+        },
+        {
+          "id": "src/parser.js",
+          "type": "MODULE",
+          "label": "src/parser.js"
+        },
+        {
+          "id": "src/tokenizer.js",
+          "type": "MODULE",
+          "label": "src/tokenizer.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "parseExpression",
+          "to": "AST_EXPRESSION",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseExpression",
+          "to": "tokenize",
+          "relation": "CONSUMES",
+          "weight": 0.98
+        },
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "PRODUCES",
+          "weight": 0.98
+        },
+        {
+          "from": "PREFIX_UNARY_OPERATOR",
+          "to": "EXPONENT_OPERATOR",
+          "relation": "PRECEDES",
+          "weight": 0.9
+        }
+      ],
+      "cycles": [
+        [
+          "tokenize",
+          "parseExpression",
+          "tokenize"
+        ]
+      ],
+      "contentHash": "1a2ef217a59968ba85e7864363bf52c75f55fbac68dbe12e53fe9e86c33baa8f"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "nodes": [
+        {
+          "id": "tokenize",
+          "type": "SYMBOL",
+          "label": "tokenize"
+        },
+        {
+          "id": "parseExpression",
+          "type": "SYMBOL",
+          "label": "parseExpression"
+        },
+        {
+          "id": "evaluate",
+          "type": "SYMBOL",
+          "label": "evaluate"
+        },
+        {
+          "id": "bindingPower",
+          "type": "SYMBOL",
+          "label": "bindingPower"
+        },
+        {
+          "id": "lookahead",
+          "type": "SYMBOL",
+          "label": "lookahead"
+        },
+        {
+          "id": "src/calc.js",
+          "type": "MODULE",
+          "label": "src/calc.js"
+        },
+        {
+          "id": "src/parser.js",
+          "type": "MODULE",
+          "label": "src/parser.js"
+        },
+        {
+          "id": "src/tokenizer.js",
+          "type": "MODULE",
+          "label": "src/tokenizer.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "parseExpression",
+          "to": "AST_EXPRESSION",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseExpression",
+          "to": "tokenize",
+          "relation": "CONSUMES",
+          "weight": 0.98
+        },
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "PRODUCES",
+          "weight": 0.98
+        },
+        {
+          "from": "PREFIX_UNARY_OPERATOR",
+          "to": "EXPONENT_OPERATOR",
+          "relation": "PRECEDES",
+          "weight": 0.9
+        }
+      ],
+      "cycles": [
+        [
+          "tokenize",
+          "parseExpression",
+          "tokenize"
+        ]
+      ],
+      "contentHash": "722357aa3351ee91d4631d11112677d1eb6d051bce1b2304688c919239888a59"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "nodes": [
+        {
+          "id": "tokenize",
+          "type": "SYMBOL",
+          "label": "tokenize"
+        },
+        {
+          "id": "parseExpression",
+          "type": "SYMBOL",
+          "label": "parseExpression"
+        },
+        {
+          "id": "evaluate",
+          "type": "SYMBOL",
+          "label": "evaluate"
+        },
+        {
+          "id": "bindingPower",
+          "type": "SYMBOL",
+          "label": "bindingPower"
+        },
+        {
+          "id": "lookahead",
+          "type": "SYMBOL",
+          "label": "lookahead"
+        },
+        {
+          "id": "src/calc.js",
+          "type": "MODULE",
+          "label": "src/calc.js"
+        },
+        {
+          "id": "src/parser.js",
+          "type": "MODULE",
+          "label": "src/parser.js"
+        },
+        {
+          "id": "src/tokenizer.js",
+          "type": "MODULE",
+          "label": "src/tokenizer.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "parseExpression",
+          "to": "AST_EXPRESSION",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseExpression",
+          "to": "tokenize",
+          "relation": "CONSUMES",
+          "weight": 0.98
+        },
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "PRODUCES",
+          "weight": 0.98
+        },
+        {
+          "from": "PREFIX_UNARY_OPERATOR",
+          "to": "EXPONENT_OPERATOR",
+          "relation": "PRECEDES",
+          "weight": 0.9
+        }
+      ],
+      "cycles": [
+        [
+          "tokenize",
+          "parseExpression",
+          "tokenize"
+        ]
+      ],
+      "contentHash": "a27ce414ccc0d25ee0ed412a694142d76f7991cca60b99cd0d3c911ed6ec9c94"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "nodes": [
+        {
+          "id": "tokenize",
+          "type": "SYMBOL",
+          "label": "tokenize"
+        },
+        {
+          "id": "parseExpression",
+          "type": "SYMBOL",
+          "label": "parseExpression"
+        },
+        {
+          "id": "evaluate",
+          "type": "SYMBOL",
+          "label": "evaluate"
+        },
+        {
+          "id": "bindingPower",
+          "type": "SYMBOL",
+          "label": "bindingPower"
+        },
+        {
+          "id": "lookahead",
+          "type": "SYMBOL",
+          "label": "lookahead"
+        },
+        {
+          "id": "src/calc.js",
+          "type": "MODULE",
+          "label": "src/calc.js"
+        },
+        {
+          "id": "src/parser.js",
+          "type": "MODULE",
+          "label": "src/parser.js"
+        },
+        {
+          "id": "src/tokenizer.js",
+          "type": "MODULE",
+          "label": "src/tokenizer.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "parseExpression",
+          "to": "AST_EXPRESSION",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseExpression",
+          "to": "tokenize",
+          "relation": "CONSUMES",
+          "weight": 0.98
+        },
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "PRODUCES",
+          "weight": 0.98
+        },
+        {
+          "from": "PREFIX_UNARY_OPERATOR",
+          "to": "EXPONENT_OPERATOR",
+          "relation": "PRECEDES",
+          "weight": 0.9
+        }
+      ],
+      "cycles": [
+        [
+          "tokenize",
+          "parseExpression",
+          "tokenize"
+        ]
+      ],
+      "contentHash": "6f170e9d85f1cad562110eb39c141c53f4780609481bd8fa29bdf6d81a3be904"
+    },
+    {
+      "graphId": "REL-GRAPH-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "nodes": [
+        {
+          "id": "tokenize",
+          "type": "SYMBOL",
+          "label": "tokenize"
+        },
+        {
+          "id": "parseExpression",
+          "type": "SYMBOL",
+          "label": "parseExpression"
+        },
+        {
+          "id": "evaluate",
+          "type": "SYMBOL",
+          "label": "evaluate"
+        },
+        {
+          "id": "bindingPower",
+          "type": "SYMBOL",
+          "label": "bindingPower"
+        },
+        {
+          "id": "lookahead",
+          "type": "SYMBOL",
+          "label": "lookahead"
+        },
+        {
+          "id": "src/calc.js",
+          "type": "MODULE",
+          "label": "src/calc.js"
+        },
+        {
+          "id": "src/parser.js",
+          "type": "MODULE",
+          "label": "src/parser.js"
+        },
+        {
+          "id": "src/tokenizer.js",
+          "type": "MODULE",
+          "label": "src/tokenizer.js"
+        },
+        {
+          "id": "UNINITIALIZED",
+          "type": "STATE",
+          "label": "UNINITIALIZED"
+        },
+        {
+          "id": "PARSING",
+          "type": "STATE",
+          "label": "PARSING"
+        },
+        {
+          "id": "EVALUATING",
+          "type": "STATE",
+          "label": "EVALUATING"
+        },
+        {
+          "id": "TERMINAL_VALID",
+          "type": "STATE",
+          "label": "TERMINAL_VALID"
+        }
+      ],
+      "edges": [
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "FLOWS",
+          "weight": 1
+        },
+        {
+          "from": "parseExpression",
+          "to": "AST_EXPRESSION",
+          "relation": "REPRESENTS",
+          "weight": 0.95
+        },
+        {
+          "from": "parseExpression",
+          "to": "tokenize",
+          "relation": "CONSUMES",
+          "weight": 0.98
+        },
+        {
+          "from": "tokenize",
+          "to": "parseExpression",
+          "relation": "PRODUCES",
+          "weight": 0.98
+        },
+        {
+          "from": "PREFIX_UNARY_OPERATOR",
+          "to": "EXPONENT_OPERATOR",
+          "relation": "PRECEDES",
+          "weight": 0.9
+        }
+      ],
+      "cycles": [
+        [
+          "tokenize",
+          "parseExpression",
+          "tokenize"
+        ]
+      ],
+      "contentHash": "0c33b1f88cc9007ef25079d66bc37e855e807a78943518b4071a8b25069749a5"
+    }
+  ]
+}
