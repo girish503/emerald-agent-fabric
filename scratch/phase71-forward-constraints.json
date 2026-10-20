@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "emerald-phase71-v1",
+  "totalEvaluated": 15,
+  "constraints": [
+    {
+      "taskId": "P46-L5-01",
+      "nodeId": "NODE-fcde2ec80ee1f99c",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "PURE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L5-02",
+      "nodeId": "NODE-530859ef34f6a30c",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "PURE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L5-03",
+      "nodeId": "NODE-642c178e79d53529",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "PURE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L5-04",
+      "nodeId": "NODE-a73412642b92a9ee",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "PURE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L5-05",
+      "nodeId": "NODE-c28db4c7cbb33f35",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "PURE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L6-01",
+      "nodeId": "NODE-e2233ae3ba03401e",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L6-02",
+      "nodeId": "NODE-4ecc1aa8535725ce",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L6-03",
+      "nodeId": "NODE-88251771e7e253ca",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L6-04",
+      "nodeId": "NODE-d8da6f695360e274",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L6-05",
+      "nodeId": "NODE-fdb088d07c6fb5f1",
+      "effectContainmentValid": true,
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": null
+    },
+    {
+      "taskId": "P46-L7-01",
+      "nodeId": "NODE-48524c8fa8c7afce",
+      "effectContainmentValid": false,
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": "FORWARD_CONSTRAINT_PRUNE: Forbidden state transition from PRATT_PRECEDENCE_STRICT to INVALID_UNALIGNED_STATE"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "nodeId": "NODE-b7338af5067245f8",
+      "effectContainmentValid": false,
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": "FORWARD_CONSTRAINT_PRUNE: Forbidden state transition from PRATT_PRECEDENCE_STRICT to INVALID_UNALIGNED_STATE"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "nodeId": "NODE-b9449784943fd023",
+      "effectContainmentValid": false,
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": "FORWARD_CONSTRAINT_PRUNE: Forbidden state transition from PRATT_PRECEDENCE_STRICT to INVALID_UNALIGNED_STATE"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "nodeId": "NODE-65b5e97a695083b0",
+      "effectContainmentValid": false,
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": "FORWARD_CONSTRAINT_PRUNE: Forbidden state transition from PRATT_PRECEDENCE_STRICT to INVALID_UNALIGNED_STATE"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "nodeId": "NODE-7e6df85088120d70",
+      "effectContainmentValid": false,
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "evaluatedEffects": [
+        "PURE"
+      ],
+      "forwardPruneReason": "FORWARD_CONSTRAINT_PRUNE: Forbidden state transition from PRATT_PRECEDENCE_STRICT to INVALID_UNALIGNED_STATE"
+    }
+  ]
+}

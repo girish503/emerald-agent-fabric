@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "emerald-phase71-v1",
+  "pruningMechanisms": [
+    {
+      "category": "FORWARD_CONSTRAINT_PRUNE",
+      "description": "Prunes branches where inferred effects or state transitions violate goal constraints",
+      "activeInConditions": [
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    {
+      "category": "BACKWARD_CONSTRAINT_PRUNE",
+      "description": "Prunes candidate constructors that cannot establish required downstream state obligations",
+      "activeInConditions": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "category": "BIDIRECTIONAL_CONFLICT",
+      "description": "Prunes branches where intersection of forward and backward constructor constraints is empty",
+      "activeInConditions": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "category": "DOMINATED_NODE_PRUNE",
+      "description": "Prunes branches that are strictly dominated in cost, obligations, and state by an existing node",
+      "activeInConditions": [
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    {
+      "category": "DEAD_END_PRUNE",
+      "description": "Prunes branches with irreversible type violations, depth limits, or unreachable states",
+      "activeInConditions": [
+        "B",
+        "C",
+        "D"
+      ]
+    }
+  ]
+}

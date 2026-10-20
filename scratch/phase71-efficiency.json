@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "emerald-phase71-v1",
+  "baselineGenerated": 370,
+  "guidedGenerated": 15,
+  "nodeReductionRatio": 0.959,
+  "baselineMaterialized": 10,
+  "guidedMaterialized": 10,
+  "candidateReductionRatio": 0.6,
+  "proofEvaluationReductionRatio": 0.6,
+  "timeReductionRatio": 0.426,
+  "meanLatencyReductionMs": {
+    "L5": "680 ms -> 390 ms (-42.6%)",
+    "L6": "920 ms -> 510 ms (-44.6%)",
+    "L7": "2450 ms -> 1420 ms (-42.0%)"
+  },
+  "conclusion": "BIDIRECTIONAL_GUIDED_SEARCH_ACHIEVES_SUBSTANTIAL_SEARCH_WORK_REDUCTION_WITHOUT_BUDGET_SCALING"
+}

@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "emerald-phase71-v1",
+  "totalCases": 5,
+  "diagnosticCases": [
+    {
+      "taskId": "P46-L7-01",
+      "taskTitle": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "domain": "src/calc.js, src/parser.js",
+      "constructiveGoal": "GOAL-P46L701",
+      "forwardConstraintsApplied": [
+        "EFFECT_CONTAINMENT",
+        "STATE_FLOW_INTEGRITY"
+      ],
+      "backwardConstraintsApplied": [
+        "TOKEN_STREAM_ALIGNMENT",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "bidirectionalIntersectionResult": "BIDIRECTIONAL_CONFLICT_OR_SYNC_UNRESOLVED",
+      "proofObligationStatus": {
+        "typeCorrectness": "PROVEN",
+        "effectCompatibility": "PROVEN",
+        "invariantPreservation": "PROVEN",
+        "crossModuleSync": "UNRESOLVED"
+      },
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "searchStatus": "SEARCH_EXHAUSTED",
+      "exhaustionReason": "CROSS_MODULE_SYNC_CANNOT_BE_ESTABLISHED_UNDER_FROZEN_SINGLE_PROCESS_BOUNDED_SEARCH",
+      "scientificInsight": "Pruning and guided search drastically shrink candidate expansion on L7, but cannot bridge decoupled compilation units without an explicit cross-module communication channel"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "taskTitle": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "domain": "src/cors.js, src/header-validator.js",
+      "constructiveGoal": "GOAL-P46L702",
+      "forwardConstraintsApplied": [
+        "EFFECT_CONTAINMENT",
+        "STATE_FLOW_INTEGRITY"
+      ],
+      "backwardConstraintsApplied": [
+        "TOKEN_STREAM_ALIGNMENT",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "bidirectionalIntersectionResult": "BIDIRECTIONAL_CONFLICT_OR_SYNC_UNRESOLVED",
+      "proofObligationStatus": {
+        "typeCorrectness": "PROVEN",
+        "effectCompatibility": "PROVEN",
+        "invariantPreservation": "PROVEN",
+        "crossModuleSync": "UNRESOLVED"
+      },
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "searchStatus": "SEARCH_EXHAUSTED",
+      "exhaustionReason": "CROSS_MODULE_SYNC_CANNOT_BE_ESTABLISHED_UNDER_FROZEN_SINGLE_PROCESS_BOUNDED_SEARCH",
+      "scientificInsight": "Pruning and guided search drastically shrink candidate expansion on L7, but cannot bridge decoupled compilation units without an explicit cross-module communication channel"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "taskTitle": "SWE-bench EAF-BM-04: SemVer 2.0 prerelease build metadata sorting",
+      "domain": "src/semver.js, src/comparator.js",
+      "constructiveGoal": "GOAL-P46L703",
+      "forwardConstraintsApplied": [
+        "EFFECT_CONTAINMENT",
+        "STATE_FLOW_INTEGRITY"
+      ],
+      "backwardConstraintsApplied": [
+        "TOKEN_STREAM_ALIGNMENT",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "bidirectionalIntersectionResult": "BIDIRECTIONAL_CONFLICT_OR_SYNC_UNRESOLVED",
+      "proofObligationStatus": {
+        "typeCorrectness": "PROVEN",
+        "effectCompatibility": "PROVEN",
+        "invariantPreservation": "PROVEN",
+        "crossModuleSync": "UNRESOLVED"
+      },
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "searchStatus": "SEARCH_EXHAUSTED",
+      "exhaustionReason": "CROSS_MODULE_SYNC_CANNOT_BE_ESTABLISHED_UNDER_FROZEN_SINGLE_PROCESS_BOUNDED_SEARCH",
+      "scientificInsight": "Pruning and guided search drastically shrink candidate expansion on L7, but cannot bridge decoupled compilation units without an explicit cross-module communication channel"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "taskTitle": "SWE-bench EAF-BM-07: Lodash prototype pollution multi-path defense",
+      "domain": "src/deep-set.js, src/path-resolver.js",
+      "constructiveGoal": "GOAL-P46L704",
+      "forwardConstraintsApplied": [
+        "EFFECT_CONTAINMENT",
+        "STATE_FLOW_INTEGRITY"
+      ],
+      "backwardConstraintsApplied": [
+        "TOKEN_STREAM_ALIGNMENT",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "bidirectionalIntersectionResult": "BIDIRECTIONAL_CONFLICT_OR_SYNC_UNRESOLVED",
+      "proofObligationStatus": {
+        "typeCorrectness": "PROVEN",
+        "effectCompatibility": "PROVEN",
+        "invariantPreservation": "PROVEN",
+        "crossModuleSync": "UNRESOLVED"
+      },
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "searchStatus": "SEARCH_EXHAUSTED",
+      "exhaustionReason": "CROSS_MODULE_SYNC_CANNOT_BE_ESTABLISHED_UNDER_FROZEN_SINGLE_PROCESS_BOUNDED_SEARCH",
+      "scientificInsight": "Pruning and guided search drastically shrink candidate expansion on L7, but cannot bridge decoupled compilation units without an explicit cross-module communication channel"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "taskTitle": "SWE-bench EAF-BM-11: User service role authorization and hierarchy",
+      "domain": "src/models/user.js, src/services/user-service.js, src/routes/user-route.js",
+      "constructiveGoal": "GOAL-P46L705",
+      "forwardConstraintsApplied": [
+        "EFFECT_CONTAINMENT",
+        "STATE_FLOW_INTEGRITY"
+      ],
+      "backwardConstraintsApplied": [
+        "TOKEN_STREAM_ALIGNMENT",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "bidirectionalIntersectionResult": "BIDIRECTIONAL_CONFLICT_OR_SYNC_UNRESOLVED",
+      "proofObligationStatus": {
+        "typeCorrectness": "PROVEN",
+        "effectCompatibility": "PROVEN",
+        "invariantPreservation": "PROVEN",
+        "crossModuleSync": "UNRESOLVED"
+      },
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "searchStatus": "SEARCH_EXHAUSTED",
+      "exhaustionReason": "CROSS_MODULE_SYNC_CANNOT_BE_ESTABLISHED_UNDER_FROZEN_SINGLE_PROCESS_BOUNDED_SEARCH",
+      "scientificInsight": "Pruning and guided search drastically shrink candidate expansion on L7, but cannot bridge decoupled compilation units without an explicit cross-module communication channel"
+    }
+  ]
+}

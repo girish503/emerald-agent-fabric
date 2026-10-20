@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "emerald-phase71-v1",
+  "strategies": [
+    {
+      "condition": "A",
+      "name": "Phase 70 Enumeration Control",
+      "forwardPropagation": false,
+      "backwardPropagation": false,
+      "bidirectionalIntersection": false,
+      "branchScoring": false,
+      "dominancePruning": false,
+      "deadEndDetection": false
+    },
+    {
+      "condition": "B",
+      "name": "Forward Guided Search",
+      "forwardPropagation": true,
+      "backwardPropagation": false,
+      "bidirectionalIntersection": false,
+      "branchScoring": true,
+      "dominancePruning": true,
+      "deadEndDetection": true
+    },
+    {
+      "condition": "C",
+      "name": "Bidirectional Guided Search",
+      "forwardPropagation": true,
+      "backwardPropagation": true,
+      "bidirectionalIntersection": true,
+      "branchScoring": true,
+      "dominancePruning": true,
+      "deadEndDetection": true
+    },
+    {
+      "condition": "D",
+      "name": "Full Governed Guided Search",
+      "forwardPropagation": true,
+      "backwardPropagation": true,
+      "bidirectionalIntersection": true,
+      "branchScoring": true,
+      "dominancePruning": true,
+      "deadEndDetection": true,
+      "priorPhaseEvidenceIntegrated": [
+        "PHASE57_SEMANTIC_SPECS",
+        "PHASE59_CEGAR_CONSTRAINTS",
+        "PHASE61_JOINT_CONSTRAINTS",
+        "PHASE63_HIGHER_ORDER_INVARIANTS",
+        "PHASE66_RELATIONAL_CONSTRAINTS",
+        "PHASE68_GROUNDED_EVIDENCE",
+        "PHASE69_ACTIVE_DISCOVERY"
+      ]
+    }
+  ]
+}

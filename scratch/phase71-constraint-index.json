@@ -1,0 +1,2031 @@
+{
+  "schemaVersion": "emerald-phase71-v1",
+  "totalIndices": 15,
+  "indices": [
+    {
+      "indexId": "CINDEX-P46L501",
+      "taskId": "P46-L5-01",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_STRING",
+        "REQUIRED_INPUT_STRING",
+        "REQUIRED_INPUT_INTEGER",
+        "ALLOWED_EFFECT_PURE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "SEMVER_PARSER_ISOLATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "04cca346daee4bc239a8d852db85c698ad741a5fe3bc624dc295d13a76647193"
+    },
+    {
+      "indexId": "CINDEX-P46L502",
+      "taskId": "P46-L5-02",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_STRING",
+        "REQUIRED_INPUT_STRING",
+        "REQUIRED_INPUT_INTEGER",
+        "ALLOWED_EFFECT_PURE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "SEMVER_PARSER_ISOLATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "cd20444da3e5a278e96ff8d7ece2891e6cd5b361e3edc174f63ca5ffe5697f34"
+    },
+    {
+      "indexId": "CINDEX-P46L503",
+      "taskId": "P46-L5-03",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_STRING",
+        "REQUIRED_INPUT_STRING",
+        "REQUIRED_INPUT_INTEGER",
+        "ALLOWED_EFFECT_PURE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "SEMVER_PARSER_ISOLATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "18c42088e6e3ea12e439c0590b4147566411cf5dcfff18dc1c833fc79f620a64"
+    },
+    {
+      "indexId": "CINDEX-P46L504",
+      "taskId": "P46-L5-04",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_STRING",
+        "REQUIRED_INPUT_STRING",
+        "REQUIRED_INPUT_INTEGER",
+        "ALLOWED_EFFECT_PURE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "SEMVER_PARSER_ISOLATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "3e296c5bcdb9704a6999c4ec78a91aa1db9a861f152241826066fb303d5dd87f"
+    },
+    {
+      "indexId": "CINDEX-P46L505",
+      "taskId": "P46-L5-05",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_STRING",
+        "REQUIRED_INPUT_STRING",
+        "REQUIRED_INPUT_INTEGER",
+        "ALLOWED_EFFECT_PURE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "SEMVER_PARSER_ISOLATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "a031e6951b13a6c31e13fe5db6110fd20b00532a34e5d2c02ceb7524dd3b8017"
+    },
+    {
+      "indexId": "CINDEX-P46L601",
+      "taskId": "P46-L6-01",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_BOOLEAN",
+        "REQUIRED_INPUT_ORIGIN",
+        "REQUIRED_INPUT_HEADER_MAP",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_PRODUCE_VALUE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "CORS_ORIGIN_VERIFICATION",
+        "HEADER_MAP_PROPAGATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "19a3438ac4c941fd04a5aebb0eedcf51d12fdf8af40f33f4e80c0e6ef3303761"
+    },
+    {
+      "indexId": "CINDEX-P46L602",
+      "taskId": "P46-L6-02",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_BOOLEAN",
+        "REQUIRED_INPUT_ORIGIN",
+        "REQUIRED_INPUT_HEADER_MAP",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_PRODUCE_VALUE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "CORS_ORIGIN_VERIFICATION",
+        "HEADER_MAP_PROPAGATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "ca191613cac50e247294c8f2787263c342461005516f107e2a1c798743065abc"
+    },
+    {
+      "indexId": "CINDEX-P46L603",
+      "taskId": "P46-L6-03",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_BOOLEAN",
+        "REQUIRED_INPUT_ORIGIN",
+        "REQUIRED_INPUT_HEADER_MAP",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_PRODUCE_VALUE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "CORS_ORIGIN_VERIFICATION",
+        "HEADER_MAP_PROPAGATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "9d017969383f17184dfe2e4c7621313e3222d45261e93c308ba85296c999e0a2"
+    },
+    {
+      "indexId": "CINDEX-P46L604",
+      "taskId": "P46-L6-04",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_BOOLEAN",
+        "REQUIRED_INPUT_ORIGIN",
+        "REQUIRED_INPUT_HEADER_MAP",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_PRODUCE_VALUE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "CORS_ORIGIN_VERIFICATION",
+        "HEADER_MAP_PROPAGATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "1a3228160e7e358922bdab3445376f651ec1ecee4076b3dbbcd0bc471da29313"
+    },
+    {
+      "indexId": "CINDEX-P46L605",
+      "taskId": "P46-L6-05",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_BOOLEAN",
+        "REQUIRED_INPUT_ORIGIN",
+        "REQUIRED_INPUT_HEADER_MAP",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_PRODUCE_VALUE"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_RETURN_VALUE_INTEGRITY"
+      ],
+      "crossModuleContracts": [
+        "CORS_ORIGIN_VERIFICATION",
+        "HEADER_MAP_PROPAGATION"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_94PCT",
+        "FACT_INVOCATION_PROFILE_SINGLE_STAGE"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_55PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [],
+      "contentHash": "2609d9bc60ade496a284899a1f76be9e623c8b8db51d5699ccf32d25262f3b18"
+    },
+    {
+      "indexId": "CINDEX-P46L701",
+      "taskId": "P46-L7-01",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_PROGRAM",
+        "REQUIRED_INPUT_TOKEN_STREAM",
+        "REQUIRED_INPUT_PROGRAM_STATE",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_WRITE_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_TRANSACTIONAL"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_TOKEN_STREAM_ALIGNMENT"
+      ],
+      "crossModuleContracts": [
+        "CROSS_MODULE_SYNC_TOKEN_STREAM",
+        "COORDINATE_PARSER_RECOVERY"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_86PCT",
+        "FACT_INVOCATION_PROFILE_MULTI_TRANSACTION"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_33PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [
+        {
+          "from": "PRATT_PRECEDENCE_STRICT",
+          "to": "INVALID_UNALIGNED_STATE"
+        }
+      ],
+      "contentHash": "4e4a1d1d3fb5a6eb4120c6b769f94ac5616e682a6c65fdbae23e2ac997e8cb25"
+    },
+    {
+      "indexId": "CINDEX-P46L702",
+      "taskId": "P46-L7-02",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_PROGRAM",
+        "REQUIRED_INPUT_TOKEN_STREAM",
+        "REQUIRED_INPUT_PROGRAM_STATE",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_WRITE_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_TRANSACTIONAL"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_TOKEN_STREAM_ALIGNMENT"
+      ],
+      "crossModuleContracts": [
+        "CROSS_MODULE_SYNC_TOKEN_STREAM",
+        "COORDINATE_PARSER_RECOVERY"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_86PCT",
+        "FACT_INVOCATION_PROFILE_MULTI_TRANSACTION"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_33PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [
+        {
+          "from": "PRATT_PRECEDENCE_STRICT",
+          "to": "INVALID_UNALIGNED_STATE"
+        }
+      ],
+      "contentHash": "e78c7c4d270eab4045085e340ee0e856f17e7db92060768233e9f5549ca660a5"
+    },
+    {
+      "indexId": "CINDEX-P46L703",
+      "taskId": "P46-L7-03",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_PROGRAM",
+        "REQUIRED_INPUT_TOKEN_STREAM",
+        "REQUIRED_INPUT_PROGRAM_STATE",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_WRITE_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_TRANSACTIONAL"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_TOKEN_STREAM_ALIGNMENT"
+      ],
+      "crossModuleContracts": [
+        "CROSS_MODULE_SYNC_TOKEN_STREAM",
+        "COORDINATE_PARSER_RECOVERY"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_86PCT",
+        "FACT_INVOCATION_PROFILE_MULTI_TRANSACTION"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_33PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [
+        {
+          "from": "PRATT_PRECEDENCE_STRICT",
+          "to": "INVALID_UNALIGNED_STATE"
+        }
+      ],
+      "contentHash": "765ec623959429d173f0e93a4dcb67ee949faa04a19a81fe6750028f098d3aa9"
+    },
+    {
+      "indexId": "CINDEX-P46L704",
+      "taskId": "P46-L7-04",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_PROGRAM",
+        "REQUIRED_INPUT_TOKEN_STREAM",
+        "REQUIRED_INPUT_PROGRAM_STATE",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_WRITE_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_TRANSACTIONAL"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_TOKEN_STREAM_ALIGNMENT"
+      ],
+      "crossModuleContracts": [
+        "CROSS_MODULE_SYNC_TOKEN_STREAM",
+        "COORDINATE_PARSER_RECOVERY"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_86PCT",
+        "FACT_INVOCATION_PROFILE_MULTI_TRANSACTION"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_33PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [
+        {
+          "from": "PRATT_PRECEDENCE_STRICT",
+          "to": "INVALID_UNALIGNED_STATE"
+        }
+      ],
+      "contentHash": "b30c880294e7bd0029ba3a8601abfad93a45face87a2dce2cf9321b047d7254b"
+    },
+    {
+      "indexId": "CINDEX-P46L705",
+      "taskId": "P46-L7-05",
+      "goalConstraints": [
+        "REQUIRED_OUTPUT_PROGRAM",
+        "REQUIRED_INPUT_TOKEN_STREAM",
+        "REQUIRED_INPUT_PROGRAM_STATE",
+        "ALLOWED_EFFECT_READ_STATE",
+        "ALLOWED_EFFECT_WRITE_STATE",
+        "ALLOWED_EFFECT_CONTROL_FLOW",
+        "ALLOWED_EFFECT_TRANSACTIONAL"
+      ],
+      "semanticInvariants": [
+        "INVARIANT_INPUT_VALIDATION_PRESERVATION",
+        "INVARIANT_STATE_CONSISTENCY_PRESERVATION",
+        "INVARIANT_TOKEN_STREAM_ALIGNMENT"
+      ],
+      "crossModuleContracts": [
+        "CROSS_MODULE_SYNC_TOKEN_STREAM",
+        "COORDINATE_PARSER_RECOVERY"
+      ],
+      "proofObligations": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "groundedFacts": [
+        "FACT_BRANCH_COVERAGE_86PCT",
+        "FACT_INVOCATION_PROFILE_MULTI_TRANSACTION"
+      ],
+      "activeDiscoveryFacts": [
+        "ACTIVE_UNCERTAINTY_REDUCTION_33PCT",
+        "ACTIVE_BRANCH_EXPLORATION_DIRECTED"
+      ],
+      "typeCompatibilityMap": {
+        "STRING": [
+          "STRING",
+          "TOKEN"
+        ],
+        "TOKEN": [
+          "TOKEN",
+          "TOKEN_STREAM"
+        ],
+        "TOKEN_STREAM": [
+          "TOKEN_STREAM"
+        ],
+        "ORIGIN": [
+          "ORIGIN",
+          "STRING"
+        ],
+        "HEADER_MAP": [
+          "HEADER_MAP"
+        ],
+        "BOOLEAN": [
+          "BOOLEAN"
+        ],
+        "INTEGER": [
+          "INTEGER",
+          "NUMBER"
+        ],
+        "NUMBER": [
+          "NUMBER"
+        ],
+        "STATE": [
+          "STATE",
+          "PROGRAM_STATE"
+        ],
+        "PROGRAM": [
+          "PROGRAM"
+        ],
+        "PROGRAM_STATE": [
+          "PROGRAM_STATE",
+          "STATE"
+        ],
+        "SYMBOL": [
+          "SYMBOL"
+        ],
+        "SYMBOL_SET": [
+          "SYMBOL_SET"
+        ],
+        "PORT": [
+          "PORT",
+          "INTEGER"
+        ],
+        "HEADER": [
+          "HEADER",
+          "STRING"
+        ]
+      },
+      "effectCompatibilityMap": {
+        "PURE": [
+          "PURE"
+        ],
+        "READ_STATE": [
+          "PURE",
+          "READ_STATE"
+        ],
+        "WRITE_STATE": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE"
+        ],
+        "CONTROL_FLOW": [
+          "PURE",
+          "CONTROL_FLOW"
+        ],
+        "PRODUCE_VALUE": [
+          "PURE",
+          "PRODUCE_VALUE"
+        ],
+        "CONSUME_VALUE": [
+          "PURE",
+          "CONSUME_VALUE"
+        ],
+        "MUTATE_PROGRAM": [
+          "PURE",
+          "MUTATE_PROGRAM"
+        ],
+        "TRANSACTIONAL": [
+          "PURE",
+          "READ_STATE",
+          "WRITE_STATE",
+          "TRANSACTIONAL"
+        ],
+        "RECOVERY": [
+          "PURE",
+          "RECOVERY",
+          "WRITE_STATE"
+        ]
+      },
+      "forbiddenTransitions": [
+        {
+          "from": "PRATT_PRECEDENCE_STRICT",
+          "to": "INVALID_UNALIGNED_STATE"
+        }
+      ],
+      "contentHash": "f048bb0e0bef12797499fe483013c12bb66389cd0c518d6a875607a68cf24deb"
+    }
+  ]
+}
