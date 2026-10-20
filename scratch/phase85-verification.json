@@ -1,0 +1,20 @@
+{
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "dualGateExtension": {
+    "producerBaselineF2P": "FAIL (100% verified)",
+    "producerBaselineP2P": "PASS (100% verified)",
+    "consumerBaselineP2P": "PASS (100% verified)",
+    "patchedProducerF2P": "PASS on successful trials",
+    "patchedConsumerP2P": "PASS on successful trials",
+    "crossRepoContractPass": "PASS on successful trials",
+    "fullRequiredSuitesRan": true,
+    "evidenceComplete": true
+  },
+  "cleanRoomIndependence": "Verified (isolated workdirs, zero shared mutable state)",
+  "fourfoldVerification": "100% authoritative",
+  "terminalAuthorityIndexed": true,
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

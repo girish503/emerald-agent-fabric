@@ -1,0 +1,21 @@
+{
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "timings": {
+    "contextProjectionMeanMs": 2.1,
+    "contractReconciliationMeanMs": 1.2,
+    "executionSimulationMeanMs": 15,
+    "cleanRoomVerificationMeanMs": 25,
+    "totalWorkflowMeanMs": 43.3
+  },
+  "crossRepositoryOverheadPercent": 12.8,
+  "memoryOverheadPerRepoKb": 4.3,
+  "concurrencyEvaluation": {
+    "maxParallelRepositories": 2,
+    "observedParallelSpeedup": 1,
+    "recommendation": "Preserve maxParallelRepositories = 2"
+  },
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

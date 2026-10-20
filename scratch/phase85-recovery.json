@@ -1,0 +1,90 @@
+{
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "totalStagesSimulated": 11,
+  "recoveredStages": 11,
+  "preservedIdentityCount": 11,
+  "preservedFencingCount": 11,
+  "stages": [
+    {
+      "stageNumber": 1,
+      "stageName": "Repository Discovery",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 2,
+      "stageName": "Identity Construction",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 3,
+      "stageName": "Dependency Graph Creation",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 4,
+      "stageName": "Contract Extraction",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 5,
+      "stageName": "Contract Reconciliation",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 6,
+      "stageName": "Producer Repair",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 7,
+      "stageName": "Consumer Repair",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 8,
+      "stageName": "Partial Repair",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 9,
+      "stageName": "Cross-Repository Verification",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 10,
+      "stageName": "Evidence Composition",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    },
+    {
+      "stageNumber": 11,
+      "stageName": "Terminal Authority",
+      "recovered": true,
+      "preservedIdentity": true,
+      "preservedFencing": true
+    }
+  ],
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

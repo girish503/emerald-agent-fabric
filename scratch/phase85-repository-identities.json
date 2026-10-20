@@ -1,0 +1,371 @@
+{
+  "identitiesDigest": "30968fbaa4f647c44efac37579586560cbef8225542e7c77ccea3b189d6aca3a",
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "totalRepositories": 45,
+  "repositories": [
+    {
+      "repositoryId": "analytics-consumer",
+      "sourceRevision": "rev-ana-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "c2d4c0f737744fbb6df5388007b67919bbb73b3f331b6820de399eede2f35150",
+      "dependencyManifestDigest": "8621e1a019434d540cd378b13ec1eab60459836a73e18e6d1f0b450527291c2f",
+      "canonicalRootDigest": "850081972eaba04d4e2129952ad2d5ea94241d80432cf62f3345556637227f11"
+    },
+    {
+      "repositoryId": "api-gateway",
+      "sourceRevision": "rev-gw-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "1694dd863e7b09247f333215cf2a15a2266ed61af48260bbeac74e3d5c5709b8",
+      "dependencyManifestDigest": "0d2d8a66e725036ee1b7414b505930dbd2844ba9e46a45e4595129b43d90f0de",
+      "canonicalRootDigest": "b5ad6423b256048c7d6c5e69f08dc83845e747dd6c121e812f8e83d08ec43419"
+    },
+    {
+      "repositoryId": "api-server",
+      "sourceRevision": "rev-srv-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "5b06a5afcedc4a70f9e9b17b557f2f56b3f5cab580e538826b5ada62c5d16bf0",
+      "dependencyManifestDigest": "00053d60a4da55bbf292208ef5b8961c2b425897847eaf00a5db1bcffa031997",
+      "canonicalRootDigest": "6d39454a955d1e51dab163e784b879704a7159a0000a79af994f2fa1b0105d6b"
+    },
+    {
+      "repositoryId": "audit-gateway",
+      "sourceRevision": "rev-ag-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "15e41797f534a252df543a304e67744ef53ad70c5737477f312a93fecc4dca83",
+      "dependencyManifestDigest": "80174aeb541d717f5907a209c47e94066caf7a48239b24934d90d249fd34b177",
+      "canonicalRootDigest": "516cab2b5131d69bcd7cc7690d659b87c3fe2f47b7c6073929c8bb4119e8ea86"
+    },
+    {
+      "repositoryId": "auth-service",
+      "sourceRevision": "rev-auth-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "9abc31c90a53d5ab3216b1c23f061f1a0781b52a3277d6865935571f09d3a090",
+      "dependencyManifestDigest": "fed8c71abf8eb92a470cd579cd0e21e0cf6d67389d3811a802384549170990b9",
+      "canonicalRootDigest": "1bf31c82ca80295e607d36cd38291003b1d9a29c14e7557368d337cec0dbd57d"
+    },
+    {
+      "repositoryId": "billing-client",
+      "sourceRevision": "rev-bill-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "b26414dbc94130d8112207cd528e950a1efe15770b2b4aedd4a86f3bd22756f0",
+      "dependencyManifestDigest": "88fd329c3fef23e33d29f40a7f7690e41981a74a5024098f7c4fc79e9c468de2",
+      "canonicalRootDigest": "1107383c5b4b35afde9c63d3e4e53ccf6301218a6e4ce81374dbc1b084baf39a"
+    },
+    {
+      "repositoryId": "buffer-coordinator",
+      "sourceRevision": "rev-buf-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "88b0550f704568cfecd2a16da2644707d3ee84b0c38478c88bbe679cd6ba4ca0",
+      "dependencyManifestDigest": "8c161dcd4bd251a474b96945ceeac7c1bd564b1eab5aa994096a478eb21476ef",
+      "canonicalRootDigest": "a0c43bbd327fb88524cd7d20f0f67646adeb4a141129c5a64f20d8c429e90333"
+    },
+    {
+      "repositoryId": "checkout-ui",
+      "sourceRevision": "rev-ui-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "7174784e7a35404ee991fdd780f3a1ecd433cd38aa0735a7b407c760c0dfc5a5",
+      "dependencyManifestDigest": "97bac41ac7513bd99e3554cac5b343470deaa1edce7a3ad619d025244e14b07d",
+      "canonicalRootDigest": "5adf6bcb0444977f4553d8d0aef7a91aa4139592fb4929effaf67232066ae2c9"
+    },
+    {
+      "repositoryId": "client-sdk",
+      "sourceRevision": "rev-sdk-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "26cff69f4c02980190d6ff8e68e2c18a0de2c75e54a96da4e93dd84b36501a33",
+      "dependencyManifestDigest": "25b9b3320108ddf20aa2e4904089a498b11b61cd508a0d444cef5a49b9acd486",
+      "canonicalRootDigest": "706b1106e7d0b7230155cef33a63b79eb3841753ed6279e440ec18560575c8ac"
+    },
+    {
+      "repositoryId": "cluster-manager",
+      "sourceRevision": "rev-cm-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "401e111915896f8dc7212fbb5e3d17bf0bbd7d08f049dd63104c730e2485028a",
+      "dependencyManifestDigest": "9cd9bcf9e145c121a0dc48b81d9f9322beb24271774ee2b79f5fd3852d2fdbab",
+      "canonicalRootDigest": "f8b282dd8b197847d7226852725efc322078d00c415df41bcab585ac1455bb5f"
+    },
+    {
+      "repositoryId": "config-provider",
+      "sourceRevision": "rev-cfg-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "25c4ee1f993b40bebf1b9c621321c896a4e354f7bf88089b41c2a0969b42c0cf",
+      "dependencyManifestDigest": "f451256baf7283577fd8f7ada3701cd0692d27027bbb0852b83e716078cc4b3c",
+      "canonicalRootDigest": "864b69cf2fa51260fdc0c49eb721f46eb92279a87e51b7eacafcb91905241864"
+    },
+    {
+      "repositoryId": "core-model",
+      "sourceRevision": "rev-model-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "d501c79605c1787f51a3d0d68cef296527e30ef12800344377ec123ac0f9fd63",
+      "dependencyManifestDigest": "f500c7bac5cd8c8a7220cf8859f5b028bc612fb689f0be06c0d655e9c0c5fc39",
+      "canonicalRootDigest": "8d5677affca066ea5d9dbfc109bcec06f4921ee810ab100a76db5475fbd51ade"
+    },
+    {
+      "repositoryId": "crypto-keystore",
+      "sourceRevision": "rev-key-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "1128e1ccd86fabef6bb183380e6cf8df86c27134a0f680aefb258fce37e94cdf",
+      "dependencyManifestDigest": "3ba60fe922a35df61fd105f61bc1bdc66a87cd10607b37b12441cfef9ae01209",
+      "canonicalRootDigest": "87fb4e09aee5a94f324bcddbc6dd2bfde0977a11ba04cd4d5da525b52a8e74c9"
+    },
+    {
+      "repositoryId": "db-schema",
+      "sourceRevision": "rev-dbs-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "f1c5899596a9f3e7c8d85b0729cd1f5c8ca120935ef384fb416c1edfb3cbd58a",
+      "dependencyManifestDigest": "decbd98d0db4afe9c6cc925d3b22901f3a4d03d3e073e11e9e71295fce1ff754",
+      "canonicalRootDigest": "989ba64652fb2d554313b2c41741e565d7b569422858d7e33a3bb98a450189ae"
+    },
+    {
+      "repositoryId": "event-bus",
+      "sourceRevision": "rev-bus-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "20d7d75a740a2e0780acb898dcd3884e80dd9cf3bc9aeac5636f6338c7df6690",
+      "dependencyManifestDigest": "33d6644eb40d202a00bd63648e2f4289a07be916547eb77f817152857b7e0910",
+      "canonicalRootDigest": "251976c8f9275f02cfabe4418cd6bbff2f36fce7cf40e5fea63adefead27ff4f"
+    },
+    {
+      "repositoryId": "evidence-signer",
+      "sourceRevision": "rev-es-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "6365bb2990d023465d09ad377e5e6294126888a26875b89a81de3216ca8a7c3d",
+      "dependencyManifestDigest": "79233df04d95af4b2d6136aa24fe94381c6595eebddd9eac854d27d3cb9f06f4",
+      "canonicalRootDigest": "401b7fdd2e4759541e50db159a6c062ebf9f90ca60fcdea1d68a478c1a63aac0"
+    },
+    {
+      "repositoryId": "evidence-verifier",
+      "sourceRevision": "rev-ver-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "9df308474973137f47ff78a5ddbce7fc459105b9f4fa1cb8782f7fbcbe86c775",
+      "dependencyManifestDigest": "13c81e9005abfedee0aba9a1c76b6611c3792729c02dc71665c42d74f932fd80",
+      "canonicalRootDigest": "8477179c6ef01772b3a4a5285e5cd4b99165b7a87e8b9edb26373650a297179b"
+    },
+    {
+      "repositoryId": "generated-types",
+      "sourceRevision": "rev-gen-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "eb25622d19fbf6babbc3fb1bc2806bb8d1bdb7a28324be8f8ef73ffbd7143d29",
+      "dependencyManifestDigest": "c4eefd3f067b2e66298ff7b6ad14fbfba57aed4a7db11799366efb0337cfdea0",
+      "canonicalRootDigest": "1957e5d146e75f60d55f0aeda351ff9933954e9e64a0a0d888639106f2ef172f"
+    },
+    {
+      "repositoryId": "grpc-bridge",
+      "sourceRevision": "rev-grpc-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "51c388c5c4045ad3d6900007d549f97f69c5dc3761284565d56804310c089ab4",
+      "dependencyManifestDigest": "e1816ec332607e41fd977e065f16c2acb7b549a20bb7cfdf900cb35ebb1a2682",
+      "canonicalRootDigest": "6b7a446e74042eccea54aec5ee1a3d71ffa9e171935bef47b5b552460b4bb42f"
+    },
+    {
+      "repositoryId": "idl-compiler",
+      "sourceRevision": "rev-idl-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "644c742b6a9d5c2dbceca3775df4cbefe7dcb9f80f8338fce2fbaa8cf524604b",
+      "dependencyManifestDigest": "5b4f3708665e01234dd850a11a5e9e9d44c4c81d1d06511db29a2fe2b49cfafe",
+      "canonicalRootDigest": "847463112dc24f637fd85620124c9af336c66795a6bf6b49efa701587a424aa9"
+    },
+    {
+      "repositoryId": "key-authority",
+      "sourceRevision": "rev-ka-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "5eadca379741e143056bcd11c10ccf59641aa34ed9b4742a01c54e7d949121f7",
+      "dependencyManifestDigest": "fb561da555f8d18b965a4a4d17908e0cbbceda1f579d2d45ac9bfd8fade0352a",
+      "canonicalRootDigest": "631f9be9a37e6d952ca505ac64c6470d820e2daa69d4744d5660768bfe138e7f"
+    },
+    {
+      "repositoryId": "lease-coordinator",
+      "sourceRevision": "rev-lc-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "6fd0384fa571a0c487db9399bf1464d768ed267f62f02e781694302b166fb8c7",
+      "dependencyManifestDigest": "17486d9d2b0423fd08a4468c5924f59aa768c0d1e442ab27cd1c10cbb8aed92b",
+      "canonicalRootDigest": "3d03da6e3322361d476ff934f641edc80482bda50acea52348f41cf53f3d453e"
+    },
+    {
+      "repositoryId": "lease-fencing",
+      "sourceRevision": "rev-lf-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "83db3d1cb2a9ca84b9f11268755c525561e70820a2bfd6dd75144ebfe2cefdcc",
+      "dependencyManifestDigest": "43fedf919bed7943180ab7bfa31dccf5771eba88279b30a0d495d3ecf4c42e45",
+      "canonicalRootDigest": "ab14cb2dc563d04f156799fd80cf053c050cf5fc5f86e686cf1ba139df496859"
+    },
+    {
+      "repositoryId": "logging-lib",
+      "sourceRevision": "rev-log-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "27482ec241def0cea2348aefbea34a5fd5fa0df375c3457a814dbcd1455ca3ef",
+      "dependencyManifestDigest": "b12acb50a33de24227d4acb2089b95d4b3e2361bc3eb17508a0668039e8ab052",
+      "canonicalRootDigest": "6ecb1953e087a752345a62aa7c3a3cfc455f27cf28490afbadce606f10b54c25"
+    },
+    {
+      "repositoryId": "order-service",
+      "sourceRevision": "rev-ord-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "3bd967ca2fbcdf3c59322f7c5a219f74fb3166f14be3712f5ff297814d24e3eb",
+      "dependencyManifestDigest": "fb7f386ad40e265d012f3f2582ed6556e2fb27092810848c1feca6b618882272",
+      "canonicalRootDigest": "312b094acb34544c8427f82cf01d7643a7b844f7a82b504cc0b0b8c241c22c7c"
+    },
+    {
+      "repositoryId": "orm-core",
+      "sourceRevision": "rev-orm-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "29ce4e0abace39b6ca30a826cd8c7e02114e88b9e4d8b22e87b42c5eefaf20b9",
+      "dependencyManifestDigest": "dbc0d20313a41459b6d9be9c7b5f19d87235851cae582cdb4c7ff554214545c5",
+      "canonicalRootDigest": "8f4a17ec1ebe1742fdf2efec92ab0f6a1b1ef01acd5c978c32521b4263c8f5d2"
+    },
+    {
+      "repositoryId": "payment-kernel",
+      "sourceRevision": "rev-pay-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "e5a6f0f9e7432a20752a088e7e60b60e4d643cfb925fc3c9f163632e70ceae31",
+      "dependencyManifestDigest": "1f75fbd6e836699b5a3a31c5c0123df5d33c17e36151aa31ef0a3027685eb643",
+      "canonicalRootDigest": "85d83d7e96cfc4059da63e11f68a52865944a2ceaf55252f8d55ea2f86e6a07e"
+    },
+    {
+      "repositoryId": "proto-definitions",
+      "sourceRevision": "rev-proto-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "7d3b4e1d44d60e55c83224564464d299282f11ad4e70df1620d9a170f8751a35",
+      "dependencyManifestDigest": "c1dbcd22ac53d41d0848527391488f07f3de33ae52c70fc488aebfbf0df0fcad",
+      "canonicalRootDigest": "040937e61fb64d02b8857e8d84383186cb087e29f8fa0fc8c73d8f275c507569"
+    },
+    {
+      "repositoryId": "query-builder",
+      "sourceRevision": "rev-qb-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "d1c053386dde0d96fc2d0ced1bbc92c245755cf71749fa7991a0218ca087e1cc",
+      "dependencyManifestDigest": "bf8e50d5431690b4dd8ef49892a18c477e106265d7f5aa87d2160b9e4db3c834",
+      "canonicalRootDigest": "5cbc390dcf156a00387b5168d798cdeb8bca77afc15bf60b713120cfb248e3ed"
+    },
+    {
+      "repositoryId": "raft-core",
+      "sourceRevision": "rev-raft-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "03464ff6228c1af16c3cf9c9bf5bf8a55156b226508d8ea078e3868262e4151c",
+      "dependencyManifestDigest": "0c8bdc1ef81923a411ed606af10620b9a70a8268854c86cb5fd88ed8fa7a054f",
+      "canonicalRootDigest": "065678b1956fad236dee148420816a1e6688c9ef776a83f61ca713ab55c7ad8c"
+    },
+    {
+      "repositoryId": "rate-limiter",
+      "sourceRevision": "rev-rl-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "6bfcb063df0031f7d154f90d2a24c0c5940446d3607a4ebfe2312f48b5efe74f",
+      "dependencyManifestDigest": "74a2ccaa1c1062adabd8a9707216c564abc780bceae7062a379e5390f00e5ff2",
+      "canonicalRootDigest": "79986e2aefcb170d24b0dd5f9bba5c1f04ba198e246145c735b9fa75999e0d75"
+    },
+    {
+      "repositoryId": "replay-engine",
+      "sourceRevision": "rev-re-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "994e5f3726349225995c50d1d3a40edcf920621046688c84eaa644cb6aef6ccd",
+      "dependencyManifestDigest": "4d05ee657179371d2d699e55bfd5162bc0b846aab891925581e70d946f4c23a5",
+      "canonicalRootDigest": "326a4f5692cd8694e75300fe84843b289addf978ca59e2266d450893b9b1b7d3"
+    },
+    {
+      "repositoryId": "rpc-transport",
+      "sourceRevision": "rev-rpc-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "27dbd3874b4e099cc77d89525604415381da9edc9f6cf51be165540e1607d0f4",
+      "dependencyManifestDigest": "9398fb1a279675c7e5d99799f20bb1f6ae3b006454e7358b7e184794c994bd8a",
+      "canonicalRootDigest": "db713778c141104294f2a32a1f3c2c4d412ca1b2f1f355904fa76490670e894e"
+    },
+    {
+      "repositoryId": "scheduler-core",
+      "sourceRevision": "rev-sc-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "6bc4c29f5bde7cf9f8023207ab7c80d953016713b746626aa2e82348aa996be3",
+      "dependencyManifestDigest": "dc632420967a3827e031e49a0c4e1f38ade5292dd178e16dd9b1ee43c46afe80",
+      "canonicalRootDigest": "1796f397398b0b16f23f5824eefd48f8e52311f23e0da64386a81de45c1f8a01"
+    },
+    {
+      "repositoryId": "schema-registry",
+      "sourceRevision": "rev-sch-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "ff96f96e404445a87f09c22e37a4d1d7dcca70bf884b6c8b46f133886eb257e2",
+      "dependencyManifestDigest": "2f54b958a827f5c16f332fe07e1b7be979a20ac1b704b844b7d0775271ddf33c",
+      "canonicalRootDigest": "49476e40c599edf4ed7ce99d14548e7b967b69d47a90f483b7adf90a97ae75e7"
+    },
+    {
+      "repositoryId": "signer-service",
+      "sourceRevision": "rev-sign-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "eadbf5cac7890641501810087556eb91f61be0615eb6de871a0c6966e3d8a2d9",
+      "dependencyManifestDigest": "ec3a69b1b9cc1f8a569123485c8859aaa6b24a974cd8ace6c053e0764f330d81",
+      "canonicalRootDigest": "7d9c7a7697e00177ab08a3f256db1d228b9b2f0538b3ec271d1a0e15dfb70948"
+    },
+    {
+      "repositoryId": "sink-pipeline",
+      "sourceRevision": "rev-snk-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "868a671d9c59d7826f2f3693291f262a96c6968eafaebe43d75e8934027d2afd",
+      "dependencyManifestDigest": "ff2aa21bbd97d25ea6b71423d3c1edf4d014e85a051287c95ec8286fcb1068c6",
+      "canonicalRootDigest": "10c119306ac91086c14420cc5c5dd63a3609929b31873117a96aba28db122c9b"
+    },
+    {
+      "repositoryId": "state-machine",
+      "sourceRevision": "rev-sm-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "38008fb2e7f0e058ee175d4e977956c09e0a6567ca6ca904b83a801ca7f173ec",
+      "dependencyManifestDigest": "4619e8aa4a36e5f0c75c6277a8b2861fc1d83cb72dcb40e07894d194ebb066d0",
+      "canonicalRootDigest": "f8d3260b5fbf5c0049e18735e621b89a623c8b84e18eb26decf458e2172bc237"
+    },
+    {
+      "repositoryId": "storage-engine",
+      "sourceRevision": "rev-se-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "d7903e19bcc3dd8a281a6797f2bb7bf07be93e5cfbc2135d9e60d955f075c2af",
+      "dependencyManifestDigest": "72bee83392f7f20f03ac40425359fbdef56306ac9170a2b0b3e2d4173eb58dd1",
+      "canonicalRootDigest": "094870c49e3ad3d4439607d86d67b7703780f2d7d36c09a62bcf52e4cde1beb1"
+    },
+    {
+      "repositoryId": "stream-source",
+      "sourceRevision": "rev-src-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "12d42037df0d0e2412eb4d92e126c67644da2df55db9f78e57b9723c70483140",
+      "dependencyManifestDigest": "702a08f458d6984c19b37d15cfc012d3ae7aa379fc18134593f453a490ac8372",
+      "canonicalRootDigest": "5bda62886bbfdd86fdfedd3f05a435511b7314a184ccb643c8df042c8e139315"
+    },
+    {
+      "repositoryId": "task-executor",
+      "sourceRevision": "rev-te-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "d32d6fa9106b63c4130470f64c7f4f8da6055a795ff45f1ddfd81c73a8bc8add",
+      "dependencyManifestDigest": "529b2383c6a3cb9c88d5d136c3ff64a87b96fed908eda20e4c98e54a7042ee08",
+      "canonicalRootDigest": "4d979d998fe6e031e2096ce05adb971c94caa515bdf9c234e11eef6f218b1ecd"
+    },
+    {
+      "repositoryId": "telemetry-agent",
+      "sourceRevision": "rev-telem-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "6034690c4d7927ae94d41a3bfc125581643c1a621e6fcf7e283ba9f58e7b2def",
+      "dependencyManifestDigest": "7db6fa050b7442d9a77fdb61765a047b13b58096c5568339efad718f9da8480f",
+      "canonicalRootDigest": "4ca86beb3d6601be2f7bf107178e3e7db05a27b609e6d50839db2734681850e5"
+    },
+    {
+      "repositoryId": "worker-pool",
+      "sourceRevision": "rev-wp-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "f8c67c940e65458db5efbc5d4acdd5be76e5692930fb162ff2e68dc4fc4e093f",
+      "dependencyManifestDigest": "99b1b41117bb30fff59ec021e02dedd13320dddab8b21fb3f30ec59e248a0b93",
+      "canonicalRootDigest": "8467f76692e078d7affb4a50d10f78b8752a73d0c1829982be0f8fff486495d3"
+    },
+    {
+      "repositoryId": "worker-service",
+      "sourceRevision": "rev-wrk-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "a96afcd2d7aaf5a38db2ec035e5b2b4484f4fa48028c682d7104f7c159960adb",
+      "dependencyManifestDigest": "5f993a5a0b2a49ab1d72701836e19020456252663eccc7cdfed5dca4efe7a042",
+      "canonicalRootDigest": "1e27b991e390707a8f81b7c8e4decebd7fdbfe3265a0d2023f32f632c79513fa"
+    },
+    {
+      "repositoryId": "workflow-engine",
+      "sourceRevision": "rev-wf-v1",
+      "defaultBranchIdentity": "main",
+      "repositoryManifestDigest": "93fbd576f95c8404820bc15a18cc20e35d8347a2ac89ea3a361df8cc6eaba3a0",
+      "dependencyManifestDigest": "06584f1258809b06fb440e85abd1929db716c952dd6d0c053e8b1d296e4a1daa",
+      "canonicalRootDigest": "325aab2a24a21325edc53d8a055a2ac27c31af30268805889f85c755c1a05a05"
+    }
+  ],
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

@@ -1,0 +1,515 @@
+{
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "totalTasks": 15,
+  "distributions": {
+    "L5": 5,
+    "L6": 5,
+    "L7": 5
+  },
+  "topologyTiers": {
+    "tier1_2repos": 5,
+    "tier2_3repos": 5,
+    "tier3_4repos": 5
+  },
+  "tasks": [
+    {
+      "taskId": "task-xrepo-01",
+      "difficulty": "L5",
+      "title": "API signature change between auth service and API gateway",
+      "topologyTier": 1,
+      "repositoryIds": [
+        "auth-service",
+        "api-gateway"
+      ],
+      "producerRepoId": "auth-service",
+      "consumerRepoIds": [
+        "api-gateway"
+      ],
+      "contractKind": "API_SIGNATURE",
+      "initialRevisions": {
+        "auth-service": "rev-auth-v1",
+        "api-gateway": "rev-gw-v1"
+      },
+      "targetRevisions": {
+        "auth-service": "rev-auth-v2",
+        "api-gateway": "rev-gw-v2"
+      },
+      "isCoupled": false,
+      "fullRepositorySizes": {
+        "auth-service": 480000,
+        "api-gateway": 520000
+      }
+    },
+    {
+      "taskId": "task-xrepo-02",
+      "difficulty": "L5",
+      "title": "Type and interface change in core model shared library",
+      "topologyTier": 1,
+      "repositoryIds": [
+        "core-model",
+        "billing-client"
+      ],
+      "producerRepoId": "core-model",
+      "consumerRepoIds": [
+        "billing-client"
+      ],
+      "contractKind": "TYPE_DEFINITION",
+      "initialRevisions": {
+        "core-model": "rev-model-v1",
+        "billing-client": "rev-bill-v1"
+      },
+      "targetRevisions": {
+        "core-model": "rev-model-v2",
+        "billing-client": "rev-bill-v2"
+      },
+      "isCoupled": false,
+      "fullRepositorySizes": {
+        "core-model": 390000,
+        "billing-client": 450000
+      }
+    },
+    {
+      "taskId": "task-xrepo-03",
+      "difficulty": "L5",
+      "title": "Configuration contract change in worker coordination provider",
+      "topologyTier": 1,
+      "repositoryIds": [
+        "config-provider",
+        "worker-service"
+      ],
+      "producerRepoId": "config-provider",
+      "consumerRepoIds": [
+        "worker-service"
+      ],
+      "contractKind": "CONFIGURATION_CONTRACT",
+      "initialRevisions": {
+        "config-provider": "rev-cfg-v1",
+        "worker-service": "rev-wrk-v1"
+      },
+      "targetRevisions": {
+        "config-provider": "rev-cfg-v2",
+        "worker-service": "rev-wrk-v2"
+      },
+      "isCoupled": false,
+      "fullRepositorySizes": {
+        "config-provider": 310000,
+        "worker-service": 590000
+      }
+    },
+    {
+      "taskId": "task-xrepo-04",
+      "difficulty": "L5",
+      "title": "Error taxonomy and error contract update in payment kernel",
+      "topologyTier": 1,
+      "repositoryIds": [
+        "payment-kernel",
+        "checkout-ui"
+      ],
+      "producerRepoId": "payment-kernel",
+      "consumerRepoIds": [
+        "checkout-ui"
+      ],
+      "contractKind": "ERROR_CONTRACT",
+      "initialRevisions": {
+        "payment-kernel": "rev-pay-v1",
+        "checkout-ui": "rev-ui-v1"
+      },
+      "targetRevisions": {
+        "payment-kernel": "rev-pay-v2",
+        "checkout-ui": "rev-ui-v2"
+      },
+      "isCoupled": false,
+      "fullRepositorySizes": {
+        "payment-kernel": 610000,
+        "checkout-ui": 440000
+      }
+    },
+    {
+      "taskId": "task-xrepo-05",
+      "difficulty": "L5",
+      "title": "Version compatibility and dependency bump in telemetry pipeline",
+      "topologyTier": 1,
+      "repositoryIds": [
+        "logging-lib",
+        "telemetry-agent"
+      ],
+      "producerRepoId": "logging-lib",
+      "consumerRepoIds": [
+        "telemetry-agent"
+      ],
+      "contractKind": "API_SIGNATURE",
+      "initialRevisions": {
+        "logging-lib": "rev-log-v1",
+        "telemetry-agent": "rev-telem-v1"
+      },
+      "targetRevisions": {
+        "logging-lib": "rev-log-v2",
+        "telemetry-agent": "rev-telem-v2"
+      },
+      "isCoupled": false,
+      "fullRepositorySizes": {
+        "logging-lib": 280000,
+        "telemetry-agent": 490000
+      }
+    },
+    {
+      "taskId": "task-xrepo-06",
+      "difficulty": "L6",
+      "title": "Three-repository schema evolution across registry, bus, and consumer",
+      "topologyTier": 2,
+      "repositoryIds": [
+        "schema-registry",
+        "event-bus",
+        "analytics-consumer"
+      ],
+      "producerRepoId": "schema-registry",
+      "consumerRepoIds": [
+        "event-bus",
+        "analytics-consumer"
+      ],
+      "contractKind": "SCHEMA_DEFINITION",
+      "initialRevisions": {
+        "schema-registry": "rev-sch-v1",
+        "event-bus": "rev-bus-v1",
+        "analytics-consumer": "rev-ana-v1"
+      },
+      "targetRevisions": {
+        "schema-registry": "rev-sch-v2",
+        "event-bus": "rev-bus-v2",
+        "analytics-consumer": "rev-ana-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "schema-registry": 520000,
+        "event-bus": 680000,
+        "analytics-consumer": 430000
+      }
+    },
+    {
+      "taskId": "task-xrepo-07",
+      "difficulty": "L6",
+      "title": "Binary serialization contract update across protobuf and gRPC bridge",
+      "topologyTier": 2,
+      "repositoryIds": [
+        "proto-definitions",
+        "grpc-bridge",
+        "order-service"
+      ],
+      "producerRepoId": "proto-definitions",
+      "consumerRepoIds": [
+        "grpc-bridge",
+        "order-service"
+      ],
+      "contractKind": "SERIALIZATION_FORMAT",
+      "initialRevisions": {
+        "proto-definitions": "rev-proto-v1",
+        "grpc-bridge": "rev-grpc-v1",
+        "order-service": "rev-ord-v1"
+      },
+      "targetRevisions": {
+        "proto-definitions": "rev-proto-v2",
+        "grpc-bridge": "rev-grpc-v2",
+        "order-service": "rev-ord-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "proto-definitions": 310000,
+        "grpc-bridge": 540000,
+        "order-service": 620000
+      }
+    },
+    {
+      "taskId": "task-xrepo-08",
+      "difficulty": "L6",
+      "title": "Generated IDL artifact and client SDK synchronization",
+      "topologyTier": 2,
+      "repositoryIds": [
+        "idl-compiler",
+        "generated-types",
+        "client-sdk"
+      ],
+      "producerRepoId": "idl-compiler",
+      "consumerRepoIds": [
+        "generated-types",
+        "client-sdk"
+      ],
+      "contractKind": "GENERATED_ARTIFACT",
+      "initialRevisions": {
+        "idl-compiler": "rev-idl-v1",
+        "generated-types": "rev-gen-v1",
+        "client-sdk": "rev-sdk-v1"
+      },
+      "targetRevisions": {
+        "idl-compiler": "rev-idl-v2",
+        "generated-types": "rev-gen-v2",
+        "client-sdk": "rev-sdk-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "idl-compiler": 410000,
+        "generated-types": 290000,
+        "client-sdk": 510000
+      }
+    },
+    {
+      "taskId": "task-xrepo-09",
+      "difficulty": "L6",
+      "title": "Distributed lease state transition protocol across workflow engine and executor",
+      "topologyTier": 2,
+      "repositoryIds": [
+        "workflow-engine",
+        "lease-coordinator",
+        "task-executor"
+      ],
+      "producerRepoId": "workflow-engine",
+      "consumerRepoIds": [
+        "lease-coordinator",
+        "task-executor"
+      ],
+      "contractKind": "STATE_PROTOCOL",
+      "initialRevisions": {
+        "workflow-engine": "rev-wf-v1",
+        "lease-coordinator": "rev-lc-v1",
+        "task-executor": "rev-te-v1"
+      },
+      "targetRevisions": {
+        "workflow-engine": "rev-wf-v2",
+        "lease-coordinator": "rev-lc-v2",
+        "task-executor": "rev-te-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "workflow-engine": 620000,
+        "lease-coordinator": 380000,
+        "task-executor": 590000
+      }
+    },
+    {
+      "taskId": "task-xrepo-10",
+      "difficulty": "L6",
+      "title": "Multi-hop cryptographic verification contract across keystore and evidence verifier",
+      "topologyTier": 2,
+      "repositoryIds": [
+        "crypto-keystore",
+        "signer-service",
+        "evidence-verifier"
+      ],
+      "producerRepoId": "crypto-keystore",
+      "consumerRepoIds": [
+        "signer-service",
+        "evidence-verifier"
+      ],
+      "contractKind": "API_SIGNATURE",
+      "initialRevisions": {
+        "crypto-keystore": "rev-key-v1",
+        "signer-service": "rev-sign-v1",
+        "evidence-verifier": "rev-ver-v1"
+      },
+      "targetRevisions": {
+        "crypto-keystore": "rev-key-v2",
+        "signer-service": "rev-sign-v2",
+        "evidence-verifier": "rev-ver-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "crypto-keystore": 350000,
+        "signer-service": 440000,
+        "evidence-verifier": 510000
+      }
+    },
+    {
+      "taskId": "task-xrepo-11",
+      "difficulty": "L7",
+      "title": "Four-repository consensus protocol upgrade with dynamic RPC framing",
+      "topologyTier": 3,
+      "repositoryIds": [
+        "raft-core",
+        "rpc-transport",
+        "state-machine",
+        "cluster-manager"
+      ],
+      "producerRepoId": "raft-core",
+      "consumerRepoIds": [
+        "rpc-transport",
+        "state-machine",
+        "cluster-manager"
+      ],
+      "contractKind": "STATE_PROTOCOL",
+      "initialRevisions": {
+        "raft-core": "rev-raft-v1",
+        "rpc-transport": "rev-rpc-v1",
+        "state-machine": "rev-sm-v1",
+        "cluster-manager": "rev-cm-v1"
+      },
+      "targetRevisions": {
+        "raft-core": "rev-raft-v2",
+        "rpc-transport": "rev-rpc-v2",
+        "state-machine": "rev-sm-v2",
+        "cluster-manager": "rev-cm-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "raft-core": 750000,
+        "rpc-transport": 490000,
+        "state-machine": 580000,
+        "cluster-manager": 660000
+      }
+    },
+    {
+      "taskId": "task-xrepo-12",
+      "difficulty": "L7",
+      "title": "Cross-repo type specialization and schema migration across ORM and query builder",
+      "topologyTier": 3,
+      "repositoryIds": [
+        "db-schema",
+        "orm-core",
+        "query-builder",
+        "api-server"
+      ],
+      "producerRepoId": "db-schema",
+      "consumerRepoIds": [
+        "orm-core",
+        "query-builder",
+        "api-server"
+      ],
+      "contractKind": "TYPE_DEFINITION",
+      "initialRevisions": {
+        "db-schema": "rev-dbs-v1",
+        "orm-core": "rev-orm-v1",
+        "query-builder": "rev-qb-v1",
+        "api-server": "rev-srv-v1"
+      },
+      "targetRevisions": {
+        "db-schema": "rev-dbs-v2",
+        "orm-core": "rev-orm-v2",
+        "query-builder": "rev-qb-v2",
+        "api-server": "rev-srv-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "db-schema": 420000,
+        "orm-core": 690000,
+        "query-builder": 510000,
+        "api-server": 780000
+      }
+    },
+    {
+      "taskId": "task-xrepo-13",
+      "difficulty": "L7",
+      "title": "Asynchronous backpressure and flow control contract across stream pipeline",
+      "topologyTier": 3,
+      "repositoryIds": [
+        "stream-source",
+        "buffer-coordinator",
+        "rate-limiter",
+        "sink-pipeline"
+      ],
+      "producerRepoId": "stream-source",
+      "consumerRepoIds": [
+        "buffer-coordinator",
+        "rate-limiter",
+        "sink-pipeline"
+      ],
+      "contractKind": "STATE_PROTOCOL",
+      "initialRevisions": {
+        "stream-source": "rev-src-v1",
+        "buffer-coordinator": "rev-buf-v1",
+        "rate-limiter": "rev-rl-v1",
+        "sink-pipeline": "rev-snk-v1"
+      },
+      "targetRevisions": {
+        "stream-source": "rev-src-v2",
+        "buffer-coordinator": "rev-buf-v2",
+        "rate-limiter": "rev-rl-v2",
+        "sink-pipeline": "rev-snk-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "stream-source": 490000,
+        "buffer-coordinator": 430000,
+        "rate-limiter": 370000,
+        "sink-pipeline": 560000
+      }
+    },
+    {
+      "taskId": "task-xrepo-14",
+      "difficulty": "L7",
+      "title": "Zero-downtime distributed lease fencing protocol across worker pool and storage engine",
+      "topologyTier": 3,
+      "repositoryIds": [
+        "lease-fencing",
+        "storage-engine",
+        "worker-pool",
+        "scheduler-core"
+      ],
+      "producerRepoId": "lease-fencing",
+      "consumerRepoIds": [
+        "storage-engine",
+        "worker-pool",
+        "scheduler-core"
+      ],
+      "contractKind": "API_SIGNATURE",
+      "initialRevisions": {
+        "lease-fencing": "rev-lf-v1",
+        "storage-engine": "rev-se-v1",
+        "worker-pool": "rev-wp-v1",
+        "scheduler-core": "rev-sc-v1"
+      },
+      "targetRevisions": {
+        "lease-fencing": "rev-lf-v2",
+        "storage-engine": "rev-se-v2",
+        "worker-pool": "rev-wp-v2",
+        "scheduler-core": "rev-sc-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "lease-fencing": 510000,
+        "storage-engine": 810000,
+        "worker-pool": 490000,
+        "scheduler-core": 640000
+      }
+    },
+    {
+      "taskId": "task-xrepo-15",
+      "difficulty": "L7",
+      "title": "Cryptographic threshold signing and evidence replay composition across 4 nodes",
+      "topologyTier": 3,
+      "repositoryIds": [
+        "evidence-signer",
+        "key-authority",
+        "audit-gateway",
+        "replay-engine"
+      ],
+      "producerRepoId": "evidence-signer",
+      "consumerRepoIds": [
+        "key-authority",
+        "audit-gateway",
+        "replay-engine"
+      ],
+      "contractKind": "API_SIGNATURE",
+      "initialRevisions": {
+        "evidence-signer": "rev-es-v1",
+        "key-authority": "rev-ka-v1",
+        "audit-gateway": "rev-ag-v1",
+        "replay-engine": "rev-re-v1"
+      },
+      "targetRevisions": {
+        "evidence-signer": "rev-es-v2",
+        "key-authority": "rev-ka-v2",
+        "audit-gateway": "rev-ag-v2",
+        "replay-engine": "rev-re-v2"
+      },
+      "isCoupled": true,
+      "fullRepositorySizes": {
+        "evidence-signer": 440000,
+        "key-authority": 380000,
+        "audit-gateway": 520000,
+        "replay-engine": 670000
+      }
+    }
+  ],
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

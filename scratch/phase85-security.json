@@ -1,0 +1,157 @@
+{
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "securityControls": {
+    "phase85Controls": "N281–N300",
+    "totalPhase85Controls": 20,
+    "blockedControls": 20,
+    "passRate": "20/20 (100.0%) fail closed",
+    "cumulativeControls": "N1–N300",
+    "cumulativePassRate": "300/300 (100.0%) fail closed"
+  },
+  "controls": [
+    {
+      "controlId": "N281",
+      "name": "Cross-repository identity spoofing",
+      "blocked": true,
+      "failureCode": "REPOSITORY_IDENTITY_FAILURE",
+      "auditDetails": "Identity digest mismatch was detected and execution aborted."
+    },
+    {
+      "controlId": "N282",
+      "name": "Producer revision substitution",
+      "blocked": true,
+      "failureCode": "CROSS_REPOSITORY_CONTRACT_STALE",
+      "auditDetails": "Producer revision mismatch detected; rejected as stale."
+    },
+    {
+      "controlId": "N283",
+      "name": "Consumer revision substitution",
+      "blocked": true,
+      "failureCode": "CROSS_REPOSITORY_CONTRACT_STALE",
+      "auditDetails": "Consumer revision mismatch detected; rejected as stale."
+    },
+    {
+      "controlId": "N284",
+      "name": "Dependency edge forgery",
+      "blocked": true,
+      "failureCode": "DEPENDENCY_RESOLUTION_FAILURE",
+      "auditDetails": "Forged resolutionEvidenceDigest rejected fail-closed."
+    },
+    {
+      "controlId": "N285",
+      "name": "Contract digest substitution",
+      "blocked": true,
+      "failureCode": "CONTRACT_CONFLICT",
+      "auditDetails": "Computed digest mismatch detected on tampered contract."
+    },
+    {
+      "controlId": "N286",
+      "name": "Contract producer spoofing",
+      "blocked": true,
+      "failureCode": "CONTRACT_CONFLICT",
+      "auditDetails": "Producer repo ID mismatch with dependency edge blocked."
+    },
+    {
+      "controlId": "N287",
+      "name": "Contract consumer spoofing",
+      "blocked": true,
+      "failureCode": "CONTRACT_CONFLICT",
+      "auditDetails": "Consumer repo ID mismatch with dependency edge blocked."
+    },
+    {
+      "controlId": "N288",
+      "name": "Cross-repository path traversal",
+      "blocked": true,
+      "failureCode": "CROSS_REPOSITORY_SCOPE_VIOLATION",
+      "auditDetails": "Relative traversal attempt (../) blocked fail-closed."
+    },
+    {
+      "controlId": "N289",
+      "name": "Symlink workspace escape",
+      "blocked": true,
+      "failureCode": "CROSS_REPOSITORY_SCOPE_VIOLATION",
+      "auditDetails": "Absolute path workspace escape blocked fail-closed."
+    },
+    {
+      "controlId": "N290",
+      "name": "Unauthorized repository read",
+      "blocked": true,
+      "failureCode": "DEPENDENCY_CONTEXT_UNAVAILABLE",
+      "auditDetails": "Remote unapproved repository read denied fail-closed."
+    },
+    {
+      "controlId": "N291",
+      "name": "Unauthorized repository write",
+      "blocked": true,
+      "failureCode": "CROSS_REPOSITORY_SCOPE_VIOLATION",
+      "auditDetails": "Write to unauthorized repository outside repair scope rejected."
+    },
+    {
+      "controlId": "N292",
+      "name": "Cross-repo workspace contamination",
+      "blocked": true,
+      "failureCode": "SECURITY_VIOLATION",
+      "auditDetails": "Contract containing unredacted raw secrets rejected fail-closed."
+    },
+    {
+      "controlId": "N293",
+      "name": "Stale contract replay",
+      "blocked": true,
+      "failureCode": "CROSS_REPOSITORY_CONTRACT_STALE",
+      "auditDetails": "Stale contract rejected due to producer revision drift."
+    },
+    {
+      "controlId": "N294",
+      "name": "Version substitution",
+      "blocked": true,
+      "failureCode": "VERSION_MISMATCH",
+      "auditDetails": "Major version substitution (3.0.0 vs ^1.0.0) rejected."
+    },
+    {
+      "controlId": "N295",
+      "name": "Cross-repo evidence substitution",
+      "blocked": true,
+      "failureCode": "EVIDENCE_COMPOSITION_FAILURE",
+      "auditDetails": "Tampered cross-repository evidence digest rejected."
+    },
+    {
+      "controlId": "N296",
+      "name": "Producer evidence reused for consumer",
+      "blocked": true,
+      "failureCode": "EVIDENCE_COMPOSITION_FAILURE",
+      "auditDetails": "Mismatched repositoryId in verification result blocked."
+    },
+    {
+      "controlId": "N297",
+      "name": "Partial repair marked successful",
+      "blocked": true,
+      "failureCode": "PARTIAL_REPAIR",
+      "auditDetails": "Logical atomicity enforced; partial repair rejected with rollback."
+    },
+    {
+      "controlId": "N298",
+      "name": "Cross-repo verification bypass",
+      "blocked": true,
+      "failureCode": "CROSS_REPOSITORY_VERIFICATION_FAILURE",
+      "auditDetails": "Failed cross-repo contract verification cannot be bypassed."
+    },
+    {
+      "controlId": "N299",
+      "name": "Cross-repo terminal authority injection",
+      "blocked": true,
+      "failureCode": "TERMINAL_AUTHORITY_FAILURE",
+      "auditDetails": "Duplicate terminal authority record rejected by terminal index."
+    },
+    {
+      "controlId": "N300",
+      "name": "Cross-repo gold/reference leakage",
+      "blocked": true,
+      "failureCode": "SECURITY_VIOLATION",
+      "auditDetails": "Reference gold patch path rejected by context propagator."
+    }
+  ],
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

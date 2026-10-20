@@ -1,0 +1,99 @@
+{
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "sampleProjection": {
+    "taskId": "task-xrepo-01",
+    "targetRepositoryId": "auth-service",
+    "repositoryContexts": {
+      "api-gateway": {
+        "repositoryId": "api-gateway",
+        "identityDigest": "b5ad6423b256048c7d6c5e69f08dc83845e747dd6c121e812f8e83d08ec43419",
+        "includedFiles": [
+          "src/consumer.ts"
+        ],
+        "includedSymbols": [
+          "import { processContract } from 'producer'"
+        ],
+        "contractSnippets": [
+          {
+            "contractId": "contract-task-xrepo-01-auth-service-api-gateway",
+            "contractKind": "API_SIGNATURE",
+            "representation": "export interface Contract_task_xrepo_01 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}"
+          }
+        ],
+        "versionInfo": {
+          "declaredVersion": "^1.0.0",
+          "resolvedVersion": "1.0.0",
+          "sourceRevision": "rev-auth-v1"
+        },
+        "testAffinity": [
+          "tests/consumer.test.ts"
+        ],
+        "verificationRequirements": [
+          "verify:api-gateway:unit",
+          "verify:api-gateway:contract"
+        ],
+        "bytesIncluded": 422,
+        "naiveRepoBytes": 520000,
+        "contextReductionPercent": 99.92,
+        "provenanceRoot": "e76976987beb600b94c6fba57d1fcf66fa1cf14124e40c8d53bfc420b556a906",
+        "contextDigest": "e96e73963b28b33376a02fb6384d074d1ff9f92142fff016aa81d6ceb41a791f"
+      },
+      "auth-service": {
+        "repositoryId": "auth-service",
+        "identityDigest": "1bf31c82ca80295e607d36cd38291003b1d9a29c14e7557368d337cec0dbd57d",
+        "includedFiles": [
+          "src/contract.ts",
+          "src/index.ts"
+        ],
+        "includedSymbols": [
+          "export function processContract(): boolean",
+          "export interface Payload"
+        ],
+        "contractSnippets": [
+          {
+            "contractId": "contract-task-xrepo-01-auth-service-api-gateway",
+            "contractKind": "API_SIGNATURE",
+            "representation": "export interface Contract_task_xrepo_01 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}"
+          }
+        ],
+        "versionInfo": {
+          "declaredVersion": "^1.0.0",
+          "resolvedVersion": "1.0.0",
+          "sourceRevision": "rev-auth-v1"
+        },
+        "testAffinity": [
+          "tests/producer.test.ts"
+        ],
+        "verificationRequirements": [
+          "verify:auth-service:unit",
+          "verify:auth-service:contract"
+        ],
+        "bytesIncluded": 458,
+        "naiveRepoBytes": 480000,
+        "contextReductionPercent": 99.9,
+        "provenanceRoot": "f2945dbff56b9f99c7dbb394e10a3afca0b669b5d7c953fc155d43ac12b02db5",
+        "contextDigest": "42559f1b67a87963e2b480c4a79cc2d0931e7b37e7fc69862ea34ebc83749293"
+      }
+    },
+    "totalBytesIncluded": 880,
+    "totalNaiveBytes": 1000000,
+    "overallContextReductionPercent": 99.91,
+    "dependencyDepth": 2,
+    "contractsIncluded": 1,
+    "edgesIncluded": 1,
+    "provenanceCoverage": 1,
+    "projectionDigest": "7fa6c222dd72d62005f693ed3d561ff0404bcaee494c6b773991ed46e44fe7ed"
+  },
+  "metrics": {
+    "averageRawRepositoryBytes": 510000,
+    "averageProjectedContextBytes": 4280,
+    "averageContextReductionPercent": 99.16,
+    "provenanceCoverage": 1,
+    "maxDependencyDepth": 3,
+    "withinBudget": true
+  },
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

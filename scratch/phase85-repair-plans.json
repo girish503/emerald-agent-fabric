@@ -1,0 +1,1105 @@
+{
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "totalPlansFormulated": 60,
+  "plans": [
+    {
+      "planId": "plan-task-xrepo-01-wf-task-xrepo-01-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-01-condition_a_local_control",
+      "repositories": [
+        "auth-service",
+        "api-gateway"
+      ],
+      "repositoryRevisions": {
+        "auth-service": "rev-auth-v2",
+        "api-gateway": "rev-gw-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-01-auth-service-api-gateway"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-01-auth-service",
+          "repositoryId": "auth-service",
+          "targetRevision": "rev-auth-v2",
+          "rationale": "Apply contract alignment for auth-service",
+          "contractId": "contract-task-xrepo-01-auth-service-api-gateway",
+          "patchDigest": "ff19fe8a7accfbaf4eabfdcdd4b65ec53a7f78fdb53f6b8027be6e70c682d4af",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-01-api-gateway",
+          "repositoryId": "api-gateway",
+          "targetRevision": "rev-gw-v2",
+          "rationale": "Apply contract alignment for api-gateway",
+          "contractId": "contract-task-xrepo-01-auth-service-api-gateway",
+          "patchDigest": "d9f8d6551a6b68040403ccc2f8eb23ffcdebc2c79078f6d40e3d4d7afb5edb58",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "auth-service": [
+            "test:auth-service:f2p",
+            "test:auth-service:p2p"
+          ],
+          "api-gateway": [
+            "test:api-gateway:f2p",
+            "test:api-gateway:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-01"
+        ],
+        "requiredSuitesRan": 5
+      },
+      "planDigest": "d411cfafa56a4a65680c161790af6100b37bc3fb3b2c132ab10c442238e9734e"
+    },
+    {
+      "planId": "plan-task-xrepo-02-wf-task-xrepo-02-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-02-condition_a_local_control",
+      "repositories": [
+        "core-model",
+        "billing-client"
+      ],
+      "repositoryRevisions": {
+        "core-model": "rev-model-v2",
+        "billing-client": "rev-bill-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-02-core-model-billing-client"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-02-core-model",
+          "repositoryId": "core-model",
+          "targetRevision": "rev-model-v2",
+          "rationale": "Apply contract alignment for core-model",
+          "contractId": "contract-task-xrepo-02-core-model-billing-client",
+          "patchDigest": "3cd596249461d3b329c31b704467f6482c11ce7cdd7e07a5100647ed86c09a4a",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-02-billing-client",
+          "repositoryId": "billing-client",
+          "targetRevision": "rev-bill-v2",
+          "rationale": "Apply contract alignment for billing-client",
+          "contractId": "contract-task-xrepo-02-core-model-billing-client",
+          "patchDigest": "62f3023c19d51b58a35bd398af3bbebbc194ae3446b15ca8bc9905c0104b30af",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "core-model": [
+            "test:core-model:f2p",
+            "test:core-model:p2p"
+          ],
+          "billing-client": [
+            "test:billing-client:f2p",
+            "test:billing-client:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-02"
+        ],
+        "requiredSuitesRan": 5
+      },
+      "planDigest": "78b4616d187f7c1bbc411ef987daa3b53d3fa2e2ac2b46697d20b555972993f6"
+    },
+    {
+      "planId": "plan-task-xrepo-03-wf-task-xrepo-03-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-03-condition_a_local_control",
+      "repositories": [
+        "config-provider",
+        "worker-service"
+      ],
+      "repositoryRevisions": {
+        "config-provider": "rev-cfg-v2",
+        "worker-service": "rev-wrk-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-03-config-provider-worker-service"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-03-config-provider",
+          "repositoryId": "config-provider",
+          "targetRevision": "rev-cfg-v2",
+          "rationale": "Apply contract alignment for config-provider",
+          "contractId": "contract-task-xrepo-03-config-provider-worker-service",
+          "patchDigest": "d1c89b0dd7c344a808ea2d68de95a6255e57cb39ab8fdaef5993723c283d2e94",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-03-worker-service",
+          "repositoryId": "worker-service",
+          "targetRevision": "rev-wrk-v2",
+          "rationale": "Apply contract alignment for worker-service",
+          "contractId": "contract-task-xrepo-03-config-provider-worker-service",
+          "patchDigest": "e8992699defedb664ecb7d6f78edaae7a53c81f4e5031fe1cee81b9bbbaf0b8e",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "config-provider": [
+            "test:config-provider:f2p",
+            "test:config-provider:p2p"
+          ],
+          "worker-service": [
+            "test:worker-service:f2p",
+            "test:worker-service:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-03"
+        ],
+        "requiredSuitesRan": 5
+      },
+      "planDigest": "909d2e8fd30399f87f76eec460fb39aa06d760bbf44b47f44b9319b65ad89710"
+    },
+    {
+      "planId": "plan-task-xrepo-04-wf-task-xrepo-04-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-04-condition_a_local_control",
+      "repositories": [
+        "payment-kernel",
+        "checkout-ui"
+      ],
+      "repositoryRevisions": {
+        "payment-kernel": "rev-pay-v2",
+        "checkout-ui": "rev-ui-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-04-payment-kernel-checkout-ui"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-04-payment-kernel",
+          "repositoryId": "payment-kernel",
+          "targetRevision": "rev-pay-v2",
+          "rationale": "Apply contract alignment for payment-kernel",
+          "contractId": "contract-task-xrepo-04-payment-kernel-checkout-ui",
+          "patchDigest": "435f7a4332b75d76733aa09fc6288c2e6884ab8d4bc1f78289339235d085fbd2",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-04-checkout-ui",
+          "repositoryId": "checkout-ui",
+          "targetRevision": "rev-ui-v2",
+          "rationale": "Apply contract alignment for checkout-ui",
+          "contractId": "contract-task-xrepo-04-payment-kernel-checkout-ui",
+          "patchDigest": "a861e99e4ac1c12462e86a66316644baf4d5890912250fee383f84142ff1a3f6",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "payment-kernel": [
+            "test:payment-kernel:f2p",
+            "test:payment-kernel:p2p"
+          ],
+          "checkout-ui": [
+            "test:checkout-ui:f2p",
+            "test:checkout-ui:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-04"
+        ],
+        "requiredSuitesRan": 5
+      },
+      "planDigest": "019c042bd76979e24f09d6554a6056ee90c12b77693a1e21ec26b71977d91b8f"
+    },
+    {
+      "planId": "plan-task-xrepo-05-wf-task-xrepo-05-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-05-condition_a_local_control",
+      "repositories": [
+        "logging-lib",
+        "telemetry-agent"
+      ],
+      "repositoryRevisions": {
+        "logging-lib": "rev-log-v2",
+        "telemetry-agent": "rev-telem-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-05-logging-lib-telemetry-agent"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-05-logging-lib",
+          "repositoryId": "logging-lib",
+          "targetRevision": "rev-log-v2",
+          "rationale": "Apply contract alignment for logging-lib",
+          "contractId": "contract-task-xrepo-05-logging-lib-telemetry-agent",
+          "patchDigest": "476e05225c71169aede64fc70028fa6fd3bfa70373f4c87e9ace91841680f063",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-05-telemetry-agent",
+          "repositoryId": "telemetry-agent",
+          "targetRevision": "rev-telem-v2",
+          "rationale": "Apply contract alignment for telemetry-agent",
+          "contractId": "contract-task-xrepo-05-logging-lib-telemetry-agent",
+          "patchDigest": "8e77c3ccdb0e67f12b08efa24c45bb9ec204f3385d3b1e43df446ce3bbc04bc1",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "logging-lib": [
+            "test:logging-lib:f2p",
+            "test:logging-lib:p2p"
+          ],
+          "telemetry-agent": [
+            "test:telemetry-agent:f2p",
+            "test:telemetry-agent:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-05"
+        ],
+        "requiredSuitesRan": 5
+      },
+      "planDigest": "9ec0872d59e2ed65c38c2bc925eec2d2e6443bd040ce1a104d2c1aed29d368f4"
+    },
+    {
+      "planId": "plan-task-xrepo-06-wf-task-xrepo-06-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-06-condition_a_local_control",
+      "repositories": [
+        "schema-registry",
+        "event-bus",
+        "analytics-consumer"
+      ],
+      "repositoryRevisions": {
+        "schema-registry": "rev-sch-v2",
+        "event-bus": "rev-bus-v2",
+        "analytics-consumer": "rev-ana-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-06-schema-registry-event-bus",
+        "contract-task-xrepo-06-schema-registry-analytics-consumer"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-06-schema-registry",
+          "repositoryId": "schema-registry",
+          "targetRevision": "rev-sch-v2",
+          "rationale": "Apply contract alignment for schema-registry",
+          "contractId": "contract-task-xrepo-06-schema-registry-event-bus",
+          "patchDigest": "3e37066a44ab63fb93f15e58be77f675c076c661198f5e3cf693d95d8f4d820b",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-06-event-bus",
+          "repositoryId": "event-bus",
+          "targetRevision": "rev-bus-v2",
+          "rationale": "Apply contract alignment for event-bus",
+          "contractId": "contract-task-xrepo-06-schema-registry-event-bus",
+          "patchDigest": "24ecad995a6f6dce31bfb007455f8b61e403539ef34f6416ade0e7bcf855b9ed",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-06-analytics-consumer",
+          "repositoryId": "analytics-consumer",
+          "targetRevision": "rev-ana-v2",
+          "rationale": "Apply contract alignment for analytics-consumer",
+          "contractId": "contract-task-xrepo-06-schema-registry-event-bus",
+          "patchDigest": "bc75cee7d8f955d5912cb761a82f8f7c66afe0bdcb71f9fd3e05520fef657d9f",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "schema-registry": [
+            "test:schema-registry:f2p",
+            "test:schema-registry:p2p"
+          ],
+          "event-bus": [
+            "test:event-bus:f2p",
+            "test:event-bus:p2p"
+          ],
+          "analytics-consumer": [
+            "test:analytics-consumer:f2p",
+            "test:analytics-consumer:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-06"
+        ],
+        "requiredSuitesRan": 7
+      },
+      "planDigest": "412342fb436b79e3b3cab58656fac05e84fc611cb1232a7d934145bef76a4ad9"
+    },
+    {
+      "planId": "plan-task-xrepo-07-wf-task-xrepo-07-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-07-condition_a_local_control",
+      "repositories": [
+        "proto-definitions",
+        "grpc-bridge",
+        "order-service"
+      ],
+      "repositoryRevisions": {
+        "proto-definitions": "rev-proto-v2",
+        "grpc-bridge": "rev-grpc-v2",
+        "order-service": "rev-ord-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-07-proto-definitions-grpc-bridge",
+        "contract-task-xrepo-07-proto-definitions-order-service"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-07-proto-definitions",
+          "repositoryId": "proto-definitions",
+          "targetRevision": "rev-proto-v2",
+          "rationale": "Apply contract alignment for proto-definitions",
+          "contractId": "contract-task-xrepo-07-proto-definitions-grpc-bridge",
+          "patchDigest": "189a7a387ecbbc9a8d0899874d0558dd9e65c419e5030dea2bf1751dbf48bb67",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-07-grpc-bridge",
+          "repositoryId": "grpc-bridge",
+          "targetRevision": "rev-grpc-v2",
+          "rationale": "Apply contract alignment for grpc-bridge",
+          "contractId": "contract-task-xrepo-07-proto-definitions-grpc-bridge",
+          "patchDigest": "994cb17938af8a13bb9f84ba7416234e023d3182c7532e6a1fd3eb4cbe837c99",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-07-order-service",
+          "repositoryId": "order-service",
+          "targetRevision": "rev-ord-v2",
+          "rationale": "Apply contract alignment for order-service",
+          "contractId": "contract-task-xrepo-07-proto-definitions-grpc-bridge",
+          "patchDigest": "2217e107f146cb04a327dc47a03e26140878f32e491710ea9289e377e8604ec1",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "proto-definitions": [
+            "test:proto-definitions:f2p",
+            "test:proto-definitions:p2p"
+          ],
+          "grpc-bridge": [
+            "test:grpc-bridge:f2p",
+            "test:grpc-bridge:p2p"
+          ],
+          "order-service": [
+            "test:order-service:f2p",
+            "test:order-service:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-07"
+        ],
+        "requiredSuitesRan": 7
+      },
+      "planDigest": "3eb787987ad52f019ad460217b736eb1269f27dbf7b74dfb2ae1be03522b0821"
+    },
+    {
+      "planId": "plan-task-xrepo-08-wf-task-xrepo-08-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-08-condition_a_local_control",
+      "repositories": [
+        "idl-compiler",
+        "generated-types",
+        "client-sdk"
+      ],
+      "repositoryRevisions": {
+        "idl-compiler": "rev-idl-v2",
+        "generated-types": "rev-gen-v2",
+        "client-sdk": "rev-sdk-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-08-idl-compiler-generated-types",
+        "contract-task-xrepo-08-idl-compiler-client-sdk"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-08-idl-compiler",
+          "repositoryId": "idl-compiler",
+          "targetRevision": "rev-idl-v2",
+          "rationale": "Apply contract alignment for idl-compiler",
+          "contractId": "contract-task-xrepo-08-idl-compiler-generated-types",
+          "patchDigest": "9b9dc96c116d9d60846fcc1207e355a35d146f7bb3cf03bc446c8848b130887c",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-08-generated-types",
+          "repositoryId": "generated-types",
+          "targetRevision": "rev-gen-v2",
+          "rationale": "Apply contract alignment for generated-types",
+          "contractId": "contract-task-xrepo-08-idl-compiler-generated-types",
+          "patchDigest": "d3facde5775a5153114915dbfe3398436b95d024ec74a2dd988db3ed95594a84",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-08-client-sdk",
+          "repositoryId": "client-sdk",
+          "targetRevision": "rev-sdk-v2",
+          "rationale": "Apply contract alignment for client-sdk",
+          "contractId": "contract-task-xrepo-08-idl-compiler-generated-types",
+          "patchDigest": "393ef9b60b61670672dde81b6d018447721902429131279b77c7d836efebfa99",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "idl-compiler": [
+            "test:idl-compiler:f2p",
+            "test:idl-compiler:p2p"
+          ],
+          "generated-types": [
+            "test:generated-types:f2p",
+            "test:generated-types:p2p"
+          ],
+          "client-sdk": [
+            "test:client-sdk:f2p",
+            "test:client-sdk:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-08"
+        ],
+        "requiredSuitesRan": 7
+      },
+      "planDigest": "6627123e6fd1b45d9c65093953eee04c1acb8fb486cfab4e60c52d6bb4482426"
+    },
+    {
+      "planId": "plan-task-xrepo-09-wf-task-xrepo-09-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-09-condition_a_local_control",
+      "repositories": [
+        "workflow-engine",
+        "lease-coordinator",
+        "task-executor"
+      ],
+      "repositoryRevisions": {
+        "workflow-engine": "rev-wf-v2",
+        "lease-coordinator": "rev-lc-v2",
+        "task-executor": "rev-te-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-09-workflow-engine-lease-coordinator",
+        "contract-task-xrepo-09-workflow-engine-task-executor"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-09-workflow-engine",
+          "repositoryId": "workflow-engine",
+          "targetRevision": "rev-wf-v2",
+          "rationale": "Apply contract alignment for workflow-engine",
+          "contractId": "contract-task-xrepo-09-workflow-engine-lease-coordinator",
+          "patchDigest": "af3671634c99bc1f71273e4fb44f857916e3faae21035bc7ba84767b68e8b970",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-09-lease-coordinator",
+          "repositoryId": "lease-coordinator",
+          "targetRevision": "rev-lc-v2",
+          "rationale": "Apply contract alignment for lease-coordinator",
+          "contractId": "contract-task-xrepo-09-workflow-engine-lease-coordinator",
+          "patchDigest": "cfba75461135215d8c8783c6da3874d611c22d03c4dd3eea03c0cb31dcad50a9",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-09-task-executor",
+          "repositoryId": "task-executor",
+          "targetRevision": "rev-te-v2",
+          "rationale": "Apply contract alignment for task-executor",
+          "contractId": "contract-task-xrepo-09-workflow-engine-lease-coordinator",
+          "patchDigest": "70024890bd0baea16149f1ceb6918f347d727cea21a7a9c2ab2a54ace49793e6",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "workflow-engine": [
+            "test:workflow-engine:f2p",
+            "test:workflow-engine:p2p"
+          ],
+          "lease-coordinator": [
+            "test:lease-coordinator:f2p",
+            "test:lease-coordinator:p2p"
+          ],
+          "task-executor": [
+            "test:task-executor:f2p",
+            "test:task-executor:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-09"
+        ],
+        "requiredSuitesRan": 7
+      },
+      "planDigest": "3a9f1ad5e505123b6ba34edf350b1f9c1335d8be8c34e21ced320e0356a86ee7"
+    },
+    {
+      "planId": "plan-task-xrepo-10-wf-task-xrepo-10-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-10-condition_a_local_control",
+      "repositories": [
+        "crypto-keystore",
+        "signer-service",
+        "evidence-verifier"
+      ],
+      "repositoryRevisions": {
+        "crypto-keystore": "rev-key-v2",
+        "signer-service": "rev-sign-v2",
+        "evidence-verifier": "rev-ver-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-10-crypto-keystore-signer-service",
+        "contract-task-xrepo-10-crypto-keystore-evidence-verifier"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-10-crypto-keystore",
+          "repositoryId": "crypto-keystore",
+          "targetRevision": "rev-key-v2",
+          "rationale": "Apply contract alignment for crypto-keystore",
+          "contractId": "contract-task-xrepo-10-crypto-keystore-signer-service",
+          "patchDigest": "dec8cea495b4d2910e96c31d4f6215d26ed29727080a70ad2370453c37130ea9",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-10-signer-service",
+          "repositoryId": "signer-service",
+          "targetRevision": "rev-sign-v2",
+          "rationale": "Apply contract alignment for signer-service",
+          "contractId": "contract-task-xrepo-10-crypto-keystore-signer-service",
+          "patchDigest": "1a071f6f02c3417bd6c62184776de0c95277face9a920ef91498f53e4f952b7b",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-10-evidence-verifier",
+          "repositoryId": "evidence-verifier",
+          "targetRevision": "rev-ver-v2",
+          "rationale": "Apply contract alignment for evidence-verifier",
+          "contractId": "contract-task-xrepo-10-crypto-keystore-signer-service",
+          "patchDigest": "da5455a195cb76185b11134da860a6d91976093e7062eb1bd07b6e97cf3f3303",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "crypto-keystore": [
+            "test:crypto-keystore:f2p",
+            "test:crypto-keystore:p2p"
+          ],
+          "signer-service": [
+            "test:signer-service:f2p",
+            "test:signer-service:p2p"
+          ],
+          "evidence-verifier": [
+            "test:evidence-verifier:f2p",
+            "test:evidence-verifier:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-10"
+        ],
+        "requiredSuitesRan": 7
+      },
+      "planDigest": "bb22a71d4fc16da4b5e4b55f247e95cb56ba0b396ad606a2dd2930f5cfb0d700"
+    },
+    {
+      "planId": "plan-task-xrepo-11-wf-task-xrepo-11-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-11-condition_a_local_control",
+      "repositories": [
+        "raft-core",
+        "rpc-transport",
+        "state-machine",
+        "cluster-manager"
+      ],
+      "repositoryRevisions": {
+        "raft-core": "rev-raft-v2",
+        "rpc-transport": "rev-rpc-v2",
+        "state-machine": "rev-sm-v2",
+        "cluster-manager": "rev-cm-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-11-raft-core-rpc-transport",
+        "contract-task-xrepo-11-raft-core-state-machine",
+        "contract-task-xrepo-11-raft-core-cluster-manager"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-11-raft-core",
+          "repositoryId": "raft-core",
+          "targetRevision": "rev-raft-v2",
+          "rationale": "Apply contract alignment for raft-core",
+          "contractId": "contract-task-xrepo-11-raft-core-rpc-transport",
+          "patchDigest": "4a23421d0ac07fb6ea9e23e57ba7e61a920b0c58c4caeab38c495fdc31cb4b47",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-11-rpc-transport",
+          "repositoryId": "rpc-transport",
+          "targetRevision": "rev-rpc-v2",
+          "rationale": "Apply contract alignment for rpc-transport",
+          "contractId": "contract-task-xrepo-11-raft-core-rpc-transport",
+          "patchDigest": "18caf140aad977417fc90f3ee249e9140df1b768f47649979e478d684ff76554",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-11-state-machine",
+          "repositoryId": "state-machine",
+          "targetRevision": "rev-sm-v2",
+          "rationale": "Apply contract alignment for state-machine",
+          "contractId": "contract-task-xrepo-11-raft-core-rpc-transport",
+          "patchDigest": "01e4ee7af463b7da4bdbbeeb6e89b5dbf0b4bad27bce81ab077712c996253815",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-11-cluster-manager",
+          "repositoryId": "cluster-manager",
+          "targetRevision": "rev-cm-v2",
+          "rationale": "Apply contract alignment for cluster-manager",
+          "contractId": "contract-task-xrepo-11-raft-core-rpc-transport",
+          "patchDigest": "e95ad59facf3a782018210a6326b8390a43731b4b97e7e0bc78d9aa373ea0aba",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "raft-core": [
+            "test:raft-core:f2p",
+            "test:raft-core:p2p"
+          ],
+          "rpc-transport": [
+            "test:rpc-transport:f2p",
+            "test:rpc-transport:p2p"
+          ],
+          "state-machine": [
+            "test:state-machine:f2p",
+            "test:state-machine:p2p"
+          ],
+          "cluster-manager": [
+            "test:cluster-manager:f2p",
+            "test:cluster-manager:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-11"
+        ],
+        "requiredSuitesRan": 9
+      },
+      "planDigest": "54a7a003f0579dded84939ad037458f333ff94e71be2a682ca7c019007b84df0"
+    },
+    {
+      "planId": "plan-task-xrepo-12-wf-task-xrepo-12-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-12-condition_a_local_control",
+      "repositories": [
+        "db-schema",
+        "orm-core",
+        "query-builder",
+        "api-server"
+      ],
+      "repositoryRevisions": {
+        "db-schema": "rev-dbs-v2",
+        "orm-core": "rev-orm-v2",
+        "query-builder": "rev-qb-v2",
+        "api-server": "rev-srv-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-12-db-schema-orm-core",
+        "contract-task-xrepo-12-db-schema-query-builder",
+        "contract-task-xrepo-12-db-schema-api-server"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-12-db-schema",
+          "repositoryId": "db-schema",
+          "targetRevision": "rev-dbs-v2",
+          "rationale": "Apply contract alignment for db-schema",
+          "contractId": "contract-task-xrepo-12-db-schema-orm-core",
+          "patchDigest": "7b471c1e8899f91ee7c699da61365e2cff46b3833405b5b5e1c6107171b5917d",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-12-orm-core",
+          "repositoryId": "orm-core",
+          "targetRevision": "rev-orm-v2",
+          "rationale": "Apply contract alignment for orm-core",
+          "contractId": "contract-task-xrepo-12-db-schema-orm-core",
+          "patchDigest": "6d5d07b0d7a7466b6e394be9fcb06c987f760dd77e704618605e5f3d8403162b",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-12-query-builder",
+          "repositoryId": "query-builder",
+          "targetRevision": "rev-qb-v2",
+          "rationale": "Apply contract alignment for query-builder",
+          "contractId": "contract-task-xrepo-12-db-schema-orm-core",
+          "patchDigest": "2057ad9ca801b28d56e7b6d3adb77dce56ab0c412ba8aed68c27b7f5f7fb85cb",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-12-api-server",
+          "repositoryId": "api-server",
+          "targetRevision": "rev-srv-v2",
+          "rationale": "Apply contract alignment for api-server",
+          "contractId": "contract-task-xrepo-12-db-schema-orm-core",
+          "patchDigest": "6bde93ff4404d7248367110a1bc52b23236b7ebbb7211c3cf6590598abb81be4",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "db-schema": [
+            "test:db-schema:f2p",
+            "test:db-schema:p2p"
+          ],
+          "orm-core": [
+            "test:orm-core:f2p",
+            "test:orm-core:p2p"
+          ],
+          "query-builder": [
+            "test:query-builder:f2p",
+            "test:query-builder:p2p"
+          ],
+          "api-server": [
+            "test:api-server:f2p",
+            "test:api-server:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-12"
+        ],
+        "requiredSuitesRan": 9
+      },
+      "planDigest": "d12ece7bcdfb68626e1e6cfd010e554a2ecdd093b82e841b6c490bc25fd6d748"
+    },
+    {
+      "planId": "plan-task-xrepo-13-wf-task-xrepo-13-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-13-condition_a_local_control",
+      "repositories": [
+        "stream-source",
+        "buffer-coordinator",
+        "rate-limiter",
+        "sink-pipeline"
+      ],
+      "repositoryRevisions": {
+        "stream-source": "rev-src-v2",
+        "buffer-coordinator": "rev-buf-v2",
+        "rate-limiter": "rev-rl-v2",
+        "sink-pipeline": "rev-snk-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-13-stream-source-buffer-coordinator",
+        "contract-task-xrepo-13-stream-source-rate-limiter",
+        "contract-task-xrepo-13-stream-source-sink-pipeline"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-13-stream-source",
+          "repositoryId": "stream-source",
+          "targetRevision": "rev-src-v2",
+          "rationale": "Apply contract alignment for stream-source",
+          "contractId": "contract-task-xrepo-13-stream-source-buffer-coordinator",
+          "patchDigest": "6d4c7858c949778a3f5dc1ce79dfb74b67dde8ddc3e10459538e9b004b73d82f",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-13-buffer-coordinator",
+          "repositoryId": "buffer-coordinator",
+          "targetRevision": "rev-buf-v2",
+          "rationale": "Apply contract alignment for buffer-coordinator",
+          "contractId": "contract-task-xrepo-13-stream-source-buffer-coordinator",
+          "patchDigest": "16a8e3f8ae47f3baf340bc9c50d188191af4d1dac68527d3628fec82a53db5f5",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-13-rate-limiter",
+          "repositoryId": "rate-limiter",
+          "targetRevision": "rev-rl-v2",
+          "rationale": "Apply contract alignment for rate-limiter",
+          "contractId": "contract-task-xrepo-13-stream-source-buffer-coordinator",
+          "patchDigest": "cf47f54be0a78df77ee4a2935cca03e06d35dfa491c717e29fcea51aed989aa4",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-13-sink-pipeline",
+          "repositoryId": "sink-pipeline",
+          "targetRevision": "rev-snk-v2",
+          "rationale": "Apply contract alignment for sink-pipeline",
+          "contractId": "contract-task-xrepo-13-stream-source-buffer-coordinator",
+          "patchDigest": "200347383380745915c8fe046c573e09c5c53863addce872aef5a3b6f6b13108",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "stream-source": [
+            "test:stream-source:f2p",
+            "test:stream-source:p2p"
+          ],
+          "buffer-coordinator": [
+            "test:buffer-coordinator:f2p",
+            "test:buffer-coordinator:p2p"
+          ],
+          "rate-limiter": [
+            "test:rate-limiter:f2p",
+            "test:rate-limiter:p2p"
+          ],
+          "sink-pipeline": [
+            "test:sink-pipeline:f2p",
+            "test:sink-pipeline:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-13"
+        ],
+        "requiredSuitesRan": 9
+      },
+      "planDigest": "6c2c85238af733e2ccb2c03478833fce1ef44f237d238213fdb13c148f553f69"
+    },
+    {
+      "planId": "plan-task-xrepo-14-wf-task-xrepo-14-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-14-condition_a_local_control",
+      "repositories": [
+        "lease-fencing",
+        "storage-engine",
+        "worker-pool",
+        "scheduler-core"
+      ],
+      "repositoryRevisions": {
+        "lease-fencing": "rev-lf-v2",
+        "storage-engine": "rev-se-v2",
+        "worker-pool": "rev-wp-v2",
+        "scheduler-core": "rev-sc-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-14-lease-fencing-storage-engine",
+        "contract-task-xrepo-14-lease-fencing-worker-pool",
+        "contract-task-xrepo-14-lease-fencing-scheduler-core"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-14-lease-fencing",
+          "repositoryId": "lease-fencing",
+          "targetRevision": "rev-lf-v2",
+          "rationale": "Apply contract alignment for lease-fencing",
+          "contractId": "contract-task-xrepo-14-lease-fencing-storage-engine",
+          "patchDigest": "6a6918c475522636046526cd947d23fbbaf2d1ae9ae7e7f54b0741227f62e3a4",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-14-storage-engine",
+          "repositoryId": "storage-engine",
+          "targetRevision": "rev-se-v2",
+          "rationale": "Apply contract alignment for storage-engine",
+          "contractId": "contract-task-xrepo-14-lease-fencing-storage-engine",
+          "patchDigest": "7de6ab137189454c9a52f60974cba6a5a52236ed0bd6bac843a514524f9793eb",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-14-worker-pool",
+          "repositoryId": "worker-pool",
+          "targetRevision": "rev-wp-v2",
+          "rationale": "Apply contract alignment for worker-pool",
+          "contractId": "contract-task-xrepo-14-lease-fencing-storage-engine",
+          "patchDigest": "a19c59fc7da7e69af4d8fb1ff07de49167a5578a26e28ff2cdb25853ea988351",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-14-scheduler-core",
+          "repositoryId": "scheduler-core",
+          "targetRevision": "rev-sc-v2",
+          "rationale": "Apply contract alignment for scheduler-core",
+          "contractId": "contract-task-xrepo-14-lease-fencing-storage-engine",
+          "patchDigest": "645b976158d4d7a8e47f74f5fea0d407df192fa9db52279db52d144a4e517f41",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "lease-fencing": [
+            "test:lease-fencing:f2p",
+            "test:lease-fencing:p2p"
+          ],
+          "storage-engine": [
+            "test:storage-engine:f2p",
+            "test:storage-engine:p2p"
+          ],
+          "worker-pool": [
+            "test:worker-pool:f2p",
+            "test:worker-pool:p2p"
+          ],
+          "scheduler-core": [
+            "test:scheduler-core:f2p",
+            "test:scheduler-core:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-14"
+        ],
+        "requiredSuitesRan": 9
+      },
+      "planDigest": "2c409f8b5ab7de21f2e36879e6de9cb06fb792ec86a9915cacfb059eff66f686"
+    },
+    {
+      "planId": "plan-task-xrepo-15-wf-task-xrepo-15-condition_a_local_control",
+      "workflowId": "wf-task-xrepo-15-condition_a_local_control",
+      "repositories": [
+        "evidence-signer",
+        "key-authority",
+        "audit-gateway",
+        "replay-engine"
+      ],
+      "repositoryRevisions": {
+        "evidence-signer": "rev-es-v2",
+        "key-authority": "rev-ka-v2",
+        "audit-gateway": "rev-ag-v2",
+        "replay-engine": "rev-re-v2"
+      },
+      "contractDependencies": [
+        "contract-task-xrepo-15-evidence-signer-key-authority",
+        "contract-task-xrepo-15-evidence-signer-audit-gateway",
+        "contract-task-xrepo-15-evidence-signer-replay-engine"
+      ],
+      "repairUnits": [
+        {
+          "unitId": "unit-task-xrepo-15-evidence-signer",
+          "repositoryId": "evidence-signer",
+          "targetRevision": "rev-es-v2",
+          "rationale": "Apply contract alignment for evidence-signer",
+          "contractId": "contract-task-xrepo-15-evidence-signer-key-authority",
+          "patchDigest": "ad3e148c369f010bfc1285302c0e7bed554308d466541a775efe9e7b9ccc5315",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-15-key-authority",
+          "repositoryId": "key-authority",
+          "targetRevision": "rev-ka-v2",
+          "rationale": "Apply contract alignment for key-authority",
+          "contractId": "contract-task-xrepo-15-evidence-signer-key-authority",
+          "patchDigest": "c9101b149ad75b6d8b035c9efb641c7e3923990521f192905612e3f8ccb4e433",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-15-audit-gateway",
+          "repositoryId": "audit-gateway",
+          "targetRevision": "rev-ag-v2",
+          "rationale": "Apply contract alignment for audit-gateway",
+          "contractId": "contract-task-xrepo-15-evidence-signer-key-authority",
+          "patchDigest": "48bf9da95c412546da54e69490d0376b6cb93b5e2875e264454adc4940d285be",
+          "status": "PENDING"
+        },
+        {
+          "unitId": "unit-task-xrepo-15-replay-engine",
+          "repositoryId": "replay-engine",
+          "targetRevision": "rev-re-v2",
+          "rationale": "Apply contract alignment for replay-engine",
+          "contractId": "contract-task-xrepo-15-evidence-signer-key-authority",
+          "patchDigest": "6535e68e65de8ac82ce2f8bf8d6eb406c1b8cb11cc24728d1fa53f0c29bc2c4c",
+          "status": "PENDING"
+        }
+      ],
+      "crossRepositoryInvariants": [
+        "API_SIGNATURE_COMPATIBILITY",
+        "TYPE_COMPATIBILITY",
+        "PRODUCER_CONSUMER_COMPATIBILITY"
+      ],
+      "verificationPlan": {
+        "repositoryVerificationSuites": {
+          "evidence-signer": [
+            "test:evidence-signer:f2p",
+            "test:evidence-signer:p2p"
+          ],
+          "key-authority": [
+            "test:key-authority:f2p",
+            "test:key-authority:p2p"
+          ],
+          "audit-gateway": [
+            "test:audit-gateway:f2p",
+            "test:audit-gateway:p2p"
+          ],
+          "replay-engine": [
+            "test:replay-engine:f2p",
+            "test:replay-engine:p2p"
+          ]
+        },
+        "crossRepositoryContractSuites": [
+          "test:contract:task-xrepo-15"
+        ],
+        "requiredSuitesRan": 9
+      },
+      "planDigest": "fce60bbebb3fb1780ac41654f1db3f63d689f90eca63555e9a42199b653028c2"
+    }
+  ],
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

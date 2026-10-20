@@ -1,0 +1,123 @@
+{
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "taxonomy": [
+    {
+      "code": "REPOSITORY_IDENTITY_FAILURE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Canonical root or manifest digest mismatch"
+    },
+    {
+      "code": "DEPENDENCY_RESOLUTION_FAILURE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Edge resolution evidence mismatch or missing edge"
+    },
+    {
+      "code": "CONTRACT_EXTRACTION_FAILURE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Unable to extract contract from repository representation"
+    },
+    {
+      "code": "CONTRACT_CONFLICT",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Contract rules or symbols conflict between endpoints"
+    },
+    {
+      "code": "CONTRACT_UNRESOLVED",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Ambiguous or unproven contract requirements"
+    },
+    {
+      "code": "VERSION_MISMATCH",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Version range compatibility violated"
+    },
+    {
+      "code": "SOURCE_REVISION_MISMATCH",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Edge source revision differs from current producer revision"
+    },
+    {
+      "code": "CROSS_REPOSITORY_SCOPE_VIOLATION",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Budget exceeded or path traversal attempted"
+    },
+    {
+      "code": "PARTIAL_REPAIR",
+      "observed": 15,
+      "testCovered": true,
+      "description": "Producer succeeded but consumer failed; logical atomicity failed"
+    },
+    {
+      "code": "PRODUCER_REPAIR_FAILURE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Producer local repair failed"
+    },
+    {
+      "code": "CONSUMER_REPAIR_FAILURE",
+      "observed": 15,
+      "testCovered": true,
+      "description": "Consumer repair adaptation failed under Condition B/C"
+    },
+    {
+      "code": "CROSS_REPOSITORY_VERIFICATION_FAILURE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Cross-repo contract verification suite failed"
+    },
+    {
+      "code": "EVIDENCE_COMPOSITION_FAILURE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Evidence bundle hashing or cross-assignment failed"
+    },
+    {
+      "code": "TERMINAL_AUTHORITY_FAILURE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Attempted duplicate or unverified terminal recording"
+    },
+    {
+      "code": "CROSS_REPOSITORY_TIMEOUT",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Cross-repo workflow exceeded time budget"
+    },
+    {
+      "code": "CROSS_REPOSITORY_CANCELLED",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Workflow cancelled prior to verification"
+    },
+    {
+      "code": "CROSS_REPOSITORY_CONTRACT_STALE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Revision fencing failed; contract revision is stale"
+    },
+    {
+      "code": "DEPENDENCY_CONTEXT_UNAVAILABLE",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Local dependency repository root unavailable"
+    },
+    {
+      "code": "UNKNOWN",
+      "observed": 0,
+      "testCovered": true,
+      "description": "Unclassified unexpected execution failure"
+    }
+  ],
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

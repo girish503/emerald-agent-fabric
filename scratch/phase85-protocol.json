@@ -1,0 +1,31 @@
+{
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "mission": "Governed Cross-Repository Context Propagation and Multi-Project Repair Verification",
+  "scientificQuestion": "Can Emerald represent, propagate, execute, and independently verify a coordinated repair whose correctness depends on contracts between two or more repositories?",
+  "architecturalInvariants": [
+    "Repositories may coordinate through explicit contracts and evidence. They must never share authority implicitly.",
+    "The cross-repository context layer possesses zero terminal authority.",
+    "terminalSuccessCount(workflowId) <= 1 across all participating repositories.",
+    "Logical atomicity: partial repair must never be reported as terminal success (PARTIAL_REPAIR -> ROLLBACK_REQUIRED).",
+    "No physical atomicity assumed; independent clean-room sandboxes per repository.",
+    "Strict revision fencing: stale contract execution is 100% rejected."
+  ],
+  "resourceBudgets": {
+    "maxRepositoriesPerTask": 5,
+    "maxDependencyDepth": 4,
+    "maxDependencyEdges": 8,
+    "maxContractCount": 16,
+    "maxContextBytes": 32768,
+    "maxTotalCrossRepositoryContext": 131072,
+    "maxParallelRepositories": 2,
+    "maxVerificationCommands": 32
+  },
+  "trialMatrix": {
+    "tasks": 15,
+    "conditions": 4,
+    "totalTrials": 60
+  },
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

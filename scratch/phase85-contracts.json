@@ -1,0 +1,821 @@
+{
+  "contractsDigest": "13bf6741ef8c121698310300ed0ad5872165d181951ef437f772325677410801",
+  "phase": 85,
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "totalContracts": 30,
+  "contracts": [
+    {
+      "contractId": "contract-task-xrepo-01-auth-service-api-gateway",
+      "producerRepositoryId": "auth-service",
+      "consumerRepositoryId": "api-gateway",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-auth-v1",
+      "consumerRevision": "rev-gw-v1",
+      "representation": "export interface Contract_task_xrepo_01 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "df4894ac7429f2b979fe8883da4d039c7523ddc7fc167699fdb9dac0854a20ac"
+      },
+      "contractDigest": "95014520db939ef591372e8481bd1c550cc08d5481dbc02aadda41e5c8c54135"
+    },
+    {
+      "contractId": "contract-task-xrepo-02-core-model-billing-client",
+      "producerRepositoryId": "core-model",
+      "consumerRepositoryId": "billing-client",
+      "contractKind": "TYPE_DEFINITION",
+      "producerRevision": "rev-model-v1",
+      "consumerRevision": "rev-bill-v1",
+      "representation": "export interface Contract_task_xrepo_02 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/type_definition.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "44ff0b2ae69d121d9924c559aadf71671d11d65e0b350970cba6f434f589874e"
+      },
+      "contractDigest": "7d212cb701aa067e5977e3fbf87aa0e6babc4761cfcc0cb1e9350ec54272a9b6"
+    },
+    {
+      "contractId": "contract-task-xrepo-03-config-provider-worker-service",
+      "producerRepositoryId": "config-provider",
+      "consumerRepositoryId": "worker-service",
+      "contractKind": "CONFIGURATION_CONTRACT",
+      "producerRevision": "rev-cfg-v1",
+      "consumerRevision": "rev-wrk-v1",
+      "representation": "export interface Contract_task_xrepo_03 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/configuration_contract.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "712a4248e2ff1929d7cca484d0d4942846ab3ccc05cac38ab6d66cd0364b6b1a"
+      },
+      "contractDigest": "2d0a8142e69e417091fe935d7c5356fafd06981978af842d0f5de6c0eb6ac75d"
+    },
+    {
+      "contractId": "contract-task-xrepo-04-payment-kernel-checkout-ui",
+      "producerRepositoryId": "payment-kernel",
+      "consumerRepositoryId": "checkout-ui",
+      "contractKind": "ERROR_CONTRACT",
+      "producerRevision": "rev-pay-v1",
+      "consumerRevision": "rev-ui-v1",
+      "representation": "export interface Contract_task_xrepo_04 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/error_contract.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "e0fafcb5a3e14edea9df884134226815ec69e2e6d139467ce3b10f207b9d437d"
+      },
+      "contractDigest": "02d0a9dab0c096883e0e9de4ee6ebc9b33acf29c865deaf082e17d7be04a3cfd"
+    },
+    {
+      "contractId": "contract-task-xrepo-05-logging-lib-telemetry-agent",
+      "producerRepositoryId": "logging-lib",
+      "consumerRepositoryId": "telemetry-agent",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-log-v1",
+      "consumerRevision": "rev-telem-v1",
+      "representation": "export interface Contract_task_xrepo_05 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "e4a8fcb6d88716c605b9b109e7dbcbb73b254d747415af4643dec22e4ceb45ec"
+      },
+      "contractDigest": "6fa558056cf19e41743a8ed05c171f536645fbb7b422ef20c9cb18f02814b4c3"
+    },
+    {
+      "contractId": "contract-task-xrepo-06-schema-registry-event-bus",
+      "producerRepositoryId": "schema-registry",
+      "consumerRepositoryId": "event-bus",
+      "contractKind": "SCHEMA_DEFINITION",
+      "producerRevision": "rev-sch-v1",
+      "consumerRevision": "rev-bus-v1",
+      "representation": "export interface Contract_task_xrepo_06 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/schema_definition.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "1ebd79bc468c900992d427390bb8e840fea8f241f6332b37418c534573c055c0"
+      },
+      "contractDigest": "9b2a41c9234bf01929487fc68009acfee5ace8e7d90c71a710cb7f18f1949f83"
+    },
+    {
+      "contractId": "contract-task-xrepo-06-schema-registry-analytics-consumer",
+      "producerRepositoryId": "schema-registry",
+      "consumerRepositoryId": "analytics-consumer",
+      "contractKind": "SCHEMA_DEFINITION",
+      "producerRevision": "rev-sch-v1",
+      "consumerRevision": "rev-ana-v1",
+      "representation": "export interface Contract_task_xrepo_06 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/schema_definition.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "5116a434e8ad2bb00dd44713acb9d55172157ddc3a2e601723924f2903ac01ce"
+      },
+      "contractDigest": "5b4d200e7a17958eea6112659cc05b9853762dbbf0928994aa17cf324cf6db71"
+    },
+    {
+      "contractId": "contract-task-xrepo-07-proto-definitions-grpc-bridge",
+      "producerRepositoryId": "proto-definitions",
+      "consumerRepositoryId": "grpc-bridge",
+      "contractKind": "SERIALIZATION_FORMAT",
+      "producerRevision": "rev-proto-v1",
+      "consumerRevision": "rev-grpc-v1",
+      "representation": "export interface Contract_task_xrepo_07 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/serialization_format.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "0df383ede8ad364e65323e621967454fc574e4fbde6a1335863c5b8a318f98c4"
+      },
+      "contractDigest": "d394c9e9a41a23a60aaf73a9cf0ea3e9b11cf5af90729a21ddbb835a9459637b"
+    },
+    {
+      "contractId": "contract-task-xrepo-07-proto-definitions-order-service",
+      "producerRepositoryId": "proto-definitions",
+      "consumerRepositoryId": "order-service",
+      "contractKind": "SERIALIZATION_FORMAT",
+      "producerRevision": "rev-proto-v1",
+      "consumerRevision": "rev-ord-v1",
+      "representation": "export interface Contract_task_xrepo_07 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/serialization_format.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "b0fc45b870c58367efd02f4d30d6cb22f090d159b76de77aac06e0ce9036a6a4"
+      },
+      "contractDigest": "645e30eb759cb8fbade91c6c1b20d1d63b18ba38f11c0765d25d7179705e0764"
+    },
+    {
+      "contractId": "contract-task-xrepo-08-idl-compiler-generated-types",
+      "producerRepositoryId": "idl-compiler",
+      "consumerRepositoryId": "generated-types",
+      "contractKind": "GENERATED_ARTIFACT",
+      "producerRevision": "rev-idl-v1",
+      "consumerRevision": "rev-gen-v1",
+      "representation": "export interface Contract_task_xrepo_08 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/generated_artifact.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "ca4f34806f788418284ce14aa4b19a7a7b2663c3fb4b7e17e721be4913c0efb5"
+      },
+      "contractDigest": "7306ca1659c20d9217650f297fe52b01c041adc7836ba5dfb1605904c7b4746c"
+    },
+    {
+      "contractId": "contract-task-xrepo-08-idl-compiler-client-sdk",
+      "producerRepositoryId": "idl-compiler",
+      "consumerRepositoryId": "client-sdk",
+      "contractKind": "GENERATED_ARTIFACT",
+      "producerRevision": "rev-idl-v1",
+      "consumerRevision": "rev-sdk-v1",
+      "representation": "export interface Contract_task_xrepo_08 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/generated_artifact.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "ced517494c72f3036d3349e1c8eea2c5add1b5bdaaf9bc8e4877ca61325f1259"
+      },
+      "contractDigest": "e95551f5c8f7729bdb9f6ee572446e8f0cd20807bb16ed19b11fafa8b5af4eb1"
+    },
+    {
+      "contractId": "contract-task-xrepo-09-workflow-engine-lease-coordinator",
+      "producerRepositoryId": "workflow-engine",
+      "consumerRepositoryId": "lease-coordinator",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-wf-v1",
+      "consumerRevision": "rev-lc-v1",
+      "representation": "export interface Contract_task_xrepo_09 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "1c7f223ff5a48bc1daa0c285575552b2e4b17d8247f5fa219a4fd2fee81a039b"
+      },
+      "contractDigest": "1843eb7f61f2b919960fc2868e50d24ec76c7139081418eb12fe708984994911"
+    },
+    {
+      "contractId": "contract-task-xrepo-09-workflow-engine-task-executor",
+      "producerRepositoryId": "workflow-engine",
+      "consumerRepositoryId": "task-executor",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-wf-v1",
+      "consumerRevision": "rev-te-v1",
+      "representation": "export interface Contract_task_xrepo_09 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "601a51ba2db7df5125f9c6f781cadbbdd02e5f428f52874c12862509f6a2a746"
+      },
+      "contractDigest": "a0ee85bb965907b563bdd4c2fd2448995866fe527e64553b0992e976629717a7"
+    },
+    {
+      "contractId": "contract-task-xrepo-10-crypto-keystore-signer-service",
+      "producerRepositoryId": "crypto-keystore",
+      "consumerRepositoryId": "signer-service",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-key-v1",
+      "consumerRevision": "rev-sign-v1",
+      "representation": "export interface Contract_task_xrepo_10 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "4704182115cfa3615fb2efdf25e5f92335391f09a11ab64eb397f7bd7dfb45fd"
+      },
+      "contractDigest": "72703a99d8cd09c7379794706b9860b5b3fd70c95473b28515a93acf0f6ee620"
+    },
+    {
+      "contractId": "contract-task-xrepo-10-crypto-keystore-evidence-verifier",
+      "producerRepositoryId": "crypto-keystore",
+      "consumerRepositoryId": "evidence-verifier",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-key-v1",
+      "consumerRevision": "rev-ver-v1",
+      "representation": "export interface Contract_task_xrepo_10 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "196764df5f3b0d22ec7c9c1ef28d3a61684ee2623f202424106289bc986d5b7c"
+      },
+      "contractDigest": "99d82077efd8373d37ed5c44c81e2bd33b4d101778d12e89a9f6f857e8796f71"
+    },
+    {
+      "contractId": "contract-task-xrepo-11-raft-core-rpc-transport",
+      "producerRepositoryId": "raft-core",
+      "consumerRepositoryId": "rpc-transport",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-raft-v1",
+      "consumerRevision": "rev-rpc-v1",
+      "representation": "export interface Contract_task_xrepo_11 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "0e74634ad959e4ae67d3ef95626d4c6a5683517524318d16c9d06e16602687c8"
+      },
+      "contractDigest": "e7431727bdca99bb8f51d9eb99e75a25db17746409aefcb9392c2807c384b0c5"
+    },
+    {
+      "contractId": "contract-task-xrepo-11-raft-core-state-machine",
+      "producerRepositoryId": "raft-core",
+      "consumerRepositoryId": "state-machine",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-raft-v1",
+      "consumerRevision": "rev-sm-v1",
+      "representation": "export interface Contract_task_xrepo_11 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "9d9b3a3e48b2171f215837d50dcecfa5227376e040ad4c0913c69bc4fc8aca23"
+      },
+      "contractDigest": "adbfd5983dadded0ff43148d082453922605c64802138e56f26d7c61f612a140"
+    },
+    {
+      "contractId": "contract-task-xrepo-11-raft-core-cluster-manager",
+      "producerRepositoryId": "raft-core",
+      "consumerRepositoryId": "cluster-manager",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-raft-v1",
+      "consumerRevision": "rev-cm-v1",
+      "representation": "export interface Contract_task_xrepo_11 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "7d2bd7c35916aad3f8a8fa305c9e7360054b1b513165d851b3db7652a73d452d"
+      },
+      "contractDigest": "45399bfe6547909783c430d21a5fe6f6fc1876dd21d21b1813e77272d495ca91"
+    },
+    {
+      "contractId": "contract-task-xrepo-12-db-schema-orm-core",
+      "producerRepositoryId": "db-schema",
+      "consumerRepositoryId": "orm-core",
+      "contractKind": "TYPE_DEFINITION",
+      "producerRevision": "rev-dbs-v1",
+      "consumerRevision": "rev-orm-v1",
+      "representation": "export interface Contract_task_xrepo_12 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/type_definition.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "ae2d58a3aad3455538c918432a0b231ce32827778b0a51825d726452916e0cc3"
+      },
+      "contractDigest": "08e81e7181f5aa39ecb7922d33da663b5036a4033ff7ee5fd4a68f03fcce0a1b"
+    },
+    {
+      "contractId": "contract-task-xrepo-12-db-schema-query-builder",
+      "producerRepositoryId": "db-schema",
+      "consumerRepositoryId": "query-builder",
+      "contractKind": "TYPE_DEFINITION",
+      "producerRevision": "rev-dbs-v1",
+      "consumerRevision": "rev-qb-v1",
+      "representation": "export interface Contract_task_xrepo_12 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/type_definition.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "3312be18c66639abf85a05b901ceb1942b9e8a0c95b41733e2924f4eeeb1753a"
+      },
+      "contractDigest": "c1414e148f7fdf05512d687188e2d560bba757817857742c13d69b295c8a0616"
+    },
+    {
+      "contractId": "contract-task-xrepo-12-db-schema-api-server",
+      "producerRepositoryId": "db-schema",
+      "consumerRepositoryId": "api-server",
+      "contractKind": "TYPE_DEFINITION",
+      "producerRevision": "rev-dbs-v1",
+      "consumerRevision": "rev-srv-v1",
+      "representation": "export interface Contract_task_xrepo_12 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/type_definition.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "b8037f2fb429c3dff700b72deb5e50924541df4458fed8e5448d620f5ef0780d"
+      },
+      "contractDigest": "f7674bc47c8eba42aeb64d4870a879d38c706e30cb85b3cde398dda4c6b260be"
+    },
+    {
+      "contractId": "contract-task-xrepo-13-stream-source-buffer-coordinator",
+      "producerRepositoryId": "stream-source",
+      "consumerRepositoryId": "buffer-coordinator",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-src-v1",
+      "consumerRevision": "rev-buf-v1",
+      "representation": "export interface Contract_task_xrepo_13 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "93fe0aea83eb390698b5d4b1a0817719c4a17432d304c98fe5f740f9fad67bd3"
+      },
+      "contractDigest": "45dc982bddaf68089b7bd8f54609fe1924536c8b01ef4b26261b7ac67ce9955f"
+    },
+    {
+      "contractId": "contract-task-xrepo-13-stream-source-rate-limiter",
+      "producerRepositoryId": "stream-source",
+      "consumerRepositoryId": "rate-limiter",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-src-v1",
+      "consumerRevision": "rev-rl-v1",
+      "representation": "export interface Contract_task_xrepo_13 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "0c8c150fbcba516d6c174259819d0569572a3522248356e0e9deec7230a033ba"
+      },
+      "contractDigest": "ba53ef045f788ce8d4600920c2a161b39ac93f478dfdedd1f8c330fb0432c989"
+    },
+    {
+      "contractId": "contract-task-xrepo-13-stream-source-sink-pipeline",
+      "producerRepositoryId": "stream-source",
+      "consumerRepositoryId": "sink-pipeline",
+      "contractKind": "STATE_PROTOCOL",
+      "producerRevision": "rev-src-v1",
+      "consumerRevision": "rev-snk-v1",
+      "representation": "export interface Contract_task_xrepo_13 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/state_protocol.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "c2402991fe203315f80270def277dd41d2a93a1a6eea06a4e1ce7ffb808ee264"
+      },
+      "contractDigest": "041127e3163682f0a0c705e92941ccc15fb526aa1c3cca735f83da159fb92c31"
+    },
+    {
+      "contractId": "contract-task-xrepo-14-lease-fencing-storage-engine",
+      "producerRepositoryId": "lease-fencing",
+      "consumerRepositoryId": "storage-engine",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-lf-v1",
+      "consumerRevision": "rev-se-v1",
+      "representation": "export interface Contract_task_xrepo_14 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "d4277b229c53e43b4ef9ad3407135b6bb404c2a2932e030c10cc8d422fb637aa"
+      },
+      "contractDigest": "e731b3416d43de2d5f92ff3e67249bf56ff7d783e26324d078e70a0103476262"
+    },
+    {
+      "contractId": "contract-task-xrepo-14-lease-fencing-worker-pool",
+      "producerRepositoryId": "lease-fencing",
+      "consumerRepositoryId": "worker-pool",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-lf-v1",
+      "consumerRevision": "rev-wp-v1",
+      "representation": "export interface Contract_task_xrepo_14 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "7c6d74d3ea2b749e5c3d1617f1b1c84db98257df80121d9755767f22d778ec13"
+      },
+      "contractDigest": "e6091bea35800df0afcd73b554fa5226041c5e6ec5313cc91e26ec39143aec1f"
+    },
+    {
+      "contractId": "contract-task-xrepo-14-lease-fencing-scheduler-core",
+      "producerRepositoryId": "lease-fencing",
+      "consumerRepositoryId": "scheduler-core",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-lf-v1",
+      "consumerRevision": "rev-sc-v1",
+      "representation": "export interface Contract_task_xrepo_14 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "7270724e5a410642b9934809358e1ad10c5c21841d577d0ac0261541f0ea1fd9"
+      },
+      "contractDigest": "86a58224039f0bbbf4628713c40cf002bdea574ee42a341f89f0a0fddbba78cb"
+    },
+    {
+      "contractId": "contract-task-xrepo-15-evidence-signer-key-authority",
+      "producerRepositoryId": "evidence-signer",
+      "consumerRepositoryId": "key-authority",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-es-v1",
+      "consumerRevision": "rev-ka-v1",
+      "representation": "export interface Contract_task_xrepo_15 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "bc342706016fc7ce395a52bc06a2775a52516c5ca54e0068b92c6ffe34ec3cf0"
+      },
+      "contractDigest": "750b97fca548e7a13cf98767027da250603f38ec7da06eedecf6d449c804d953"
+    },
+    {
+      "contractId": "contract-task-xrepo-15-evidence-signer-audit-gateway",
+      "producerRepositoryId": "evidence-signer",
+      "consumerRepositoryId": "audit-gateway",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-es-v1",
+      "consumerRevision": "rev-ag-v1",
+      "representation": "export interface Contract_task_xrepo_15 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "29839f86dea630565da5d380819f9132b2e346005c77a247a639defa551eab4c"
+      },
+      "contractDigest": "408397bc25033ea7be06013ce52afd79e166e4a4957787931ee8126ac6b813d8"
+    },
+    {
+      "contractId": "contract-task-xrepo-15-evidence-signer-replay-engine",
+      "producerRepositoryId": "evidence-signer",
+      "consumerRepositoryId": "replay-engine",
+      "contractKind": "API_SIGNATURE",
+      "producerRevision": "rev-es-v1",
+      "consumerRevision": "rev-re-v1",
+      "representation": "export interface Contract_task_xrepo_15 {\n  readonly version: string;\n  process(payload: unknown): boolean;\n}",
+      "preconditions": [
+        "AUTH_TOKEN_PRESENT",
+        "VALID_PAYLOAD"
+      ],
+      "postconditions": [
+        "ATOMIC_RECEIPT",
+        "STATE_UPDATED"
+      ],
+      "compatibilityRules": [
+        "FORWARD_COMPATIBLE_OPTIONAL_FIELDS"
+      ],
+      "provenance": {
+        "sourceFile": "src/contracts/api_signature.ts",
+        "extractedAt": "2026-10-21T00:35:00.000Z",
+        "extractor": "EmeraldContractExtractor/1.0",
+        "evidenceDigest": "21bdfaa57f4f29aa1a40f76e56dcef74da4db2db4b24517bf9bc64de9fa7fbc9"
+      },
+      "contractDigest": "d742705bd8385f7bbcf7e7ddd1cab81e2c99c9f62219fd20ef2b256c2f9bbaff"
+    }
+  ],
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}

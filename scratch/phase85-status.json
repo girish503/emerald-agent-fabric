@@ -1,0 +1,20 @@
+{
+  "phase": 85,
+  "status": "COMPLETED",
+  "scientificDecision": "CROSS_REPOSITORY_GOVERNANCE_CONFIRMED",
+  "readinessClassification": "CONTROLLED_CROSS_REPOSITORY_PRIMITIVE_READY",
+  "baselineCommit": "8fb44e0da8f781dc1849cdbb57015112dd49c490",
+  "protocolDigest": "3d6913c8f07a67a0b14efae86dd46f280b37da9b826c098f51513771136d9ea7",
+  "cohortDigest": "b868916af9fb2e3a3174b225604db27dbc540efdfac30b5f8340f9bdf6894963",
+  "totalTrials": 60,
+  "conditionA_LocalControl": "0/15 (0.0%)",
+  "conditionB_ContractContext": "5/15 (33.3%)",
+  "conditionC_GovernedCoordination": "10/15 (66.7%)",
+  "conditionD_FullCleanRoom": "10/15 (66.7% autonomous, 100% with collaborative L7)",
+  "partialRepairRateInConditionA": "15/15 (100.0% trapped and rolled back)",
+  "securityControls": "N281–N300 = 20/20 (Cumulative N1–N300 = 300/300 fail closed)",
+  "contextMinimization": "99.16% reduction vs whole repository transmission",
+  "determinism": "3/3 sweeps byte-identical",
+  "crashRecovery": "11/11 stages preserved identity and fencing",
+  "generatedAt": "2026-10-21T00:45:00.000Z"
+}
