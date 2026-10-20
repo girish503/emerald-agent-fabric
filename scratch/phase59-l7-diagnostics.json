@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "emerald-phase59-v1",
+  "phase": "59",
+  "generatedAt": "2026-10-20T03:41:37.887Z",
+  "baselineCommit": "4fc48cc",
+  "protocolDigest": "296065be69b8c360bed6ef5069b943d04401694e93b14a538419dd3a37971f23",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "repairVariables": [
+        "VAR-P46-L7-01-1 (src/parser.js:parseExpression:BINDING_POWER)",
+        "VAR-P46-L7-01-2 (src/calc.js:evaluateExponent:BINDING_POWER)"
+      ],
+      "counterexamplesExtracted": [
+        {
+          "id": "CX-P46-L7-01-CAND-P46-L7-01-ITER-1-REGRESSION_FAILURE",
+          "failureClass": "REGRESSION_FAILURE",
+          "failedAssertion": "test/calc-p2p.test.js: infix juxtaposition with unary minus fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED"
+        }
+      ],
+      "refinementConstraintsDerived": [
+        {
+          "id": "REFINE-P46-L7-01-REGRESSION_FAILURE-CROSS",
+          "scope": "CROSS_MODULE",
+          "forbiddenCombinationsCount": 1,
+          "requiredRelationship": "MUTUAL_EXCLUSION: VAR-P46-L7-01-1 & VAR-P46-L7-01-2 under Pratt unary juxtaposition invariant"
+        }
+      ],
+      "initialSearchSpace": 25,
+      "prunedCandidates": 15,
+      "remainingSearchSpace": 10,
+      "searchReductionRatio": 0.6,
+      "searchExhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "failureAttribution": "REPAIR_SEARCH_COMPLEXITY_BOUNDARY: Bounded CEGAR refinement prunes invalid candidate combinations (15/25) but exhausts search without discovering joint semantic fix for P46-L7-01."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "repairVariables": [
+        "VAR-P46-L7-02-1 (src/cors.js:compileOriginPattern:REGEX_CONSTRUCTION)",
+        "VAR-P46-L7-02-2 (src/header-validator.js:validateHeaders:REGEX_CONSTRUCTION)"
+      ],
+      "counterexamplesExtracted": [
+        {
+          "id": "CX-P46-L7-02-CAND-P46-L7-02-ITER-1-REGRESSION_FAILURE",
+          "failureClass": "REGRESSION_FAILURE",
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED"
+        }
+      ],
+      "refinementConstraintsDerived": [
+        {
+          "id": "REFINE-P46-L7-02-REGRESSION_FAILURE-CROSS",
+          "scope": "CROSS_MODULE",
+          "forbiddenCombinationsCount": 1,
+          "requiredRelationship": "MUTUAL_EXCLUSION: VAR-P46-L7-02-1 & VAR-P46-L7-02-2 under CORS origin reflection invariant"
+        }
+      ],
+      "initialSearchSpace": 25,
+      "prunedCandidates": 15,
+      "remainingSearchSpace": 10,
+      "searchReductionRatio": 0.6,
+      "searchExhaustionStatus": "REPAIR_SEARCH_EXHAUSTED",
+      "failureAttribution": "REPAIR_SEARCH_COMPLEXITY_BOUNDARY: Bounded CEGAR refinement prunes invalid candidate combinations (15/25) but exhausts search without discovering joint semantic fix for P46-L7-02."
+    }
+  ],
+  "artifactDigest": "6580b949dcd80725b66f4675fd8805b3a3dd9843b25c266facb64e9cf665d3ae"
+}

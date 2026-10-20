@@ -1,0 +1,607 @@
+{
+  "schemaVersion": "emerald-phase59-v1",
+  "phase": "59",
+  "generatedAt": "2026-10-20T03:41:37.861Z",
+  "baselineCommit": "4fc48cc",
+  "protocolDigest": "296065be69b8c360bed6ef5069b943d04401694e93b14a538419dd3a37971f23",
+  "totalTasks": 15,
+  "tasks": [
+    {
+      "taskId": "P46-L5-01",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L5-02",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L5-03",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L5-04",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L5-05",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L6-01",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L6-02",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L6-03",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L6-04",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L6-05",
+      "counterexamplesCount": 0,
+      "counterexamples": []
+    },
+    {
+      "taskId": "P46-L7-01",
+      "counterexamplesCount": 5,
+      "counterexamples": [
+        {
+          "counterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-1-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-01-ITER-1",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "parseExpression",
+            "evaluateExponent"
+          ],
+          "failedAssertion": "test/calc-p2p.test.js: infix juxtaposition with unary minus fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-01",
+            "CANDIDATE:CAND-P46-L7-01-ITER-1",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "87a2315f6f5b15f755e5c1ea2d13c38d21980eb040c995a59d3900a3ea3d08a6",
+          "contentHash": "3d09797072d24348c787504399a2619d55f404212399a0fb10e5a5ec5ae092df"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-2-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-01-ITER-2",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "parseExpression",
+            "evaluateExponent"
+          ],
+          "failedAssertion": "test/calc-p2p.test.js: infix juxtaposition with unary minus fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-01",
+            "CANDIDATE:CAND-P46-L7-01-ITER-2",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "d10c9d60b2d3b5b19cca7bb01f0d7df4fe0408e3a84e69d7efae4813600f5606",
+          "contentHash": "15017f74bd75c2e4aa2ec4f81b305a6cb67cb9fc23423be0989ba22cee33ed31"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-3-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-01-ITER-3",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "parseExpression",
+            "evaluateExponent"
+          ],
+          "failedAssertion": "test/calc-p2p.test.js: infix juxtaposition with unary minus fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-01",
+            "CANDIDATE:CAND-P46-L7-01-ITER-3",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "761242cf25607bcf60e618ca3d9de51d74c862d8b93d7ee8667ac886eb37d967",
+          "contentHash": "f3ec137f34b7de42f6739cf5c4d1a58bfecc28a4626a473a082deeaa05c4373e"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-4-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-01-ITER-4",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "parseExpression",
+            "evaluateExponent"
+          ],
+          "failedAssertion": "test/calc-p2p.test.js: infix juxtaposition with unary minus fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-01",
+            "CANDIDATE:CAND-P46-L7-01-ITER-4",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "ea7dd1f1a7389e8070e792165c626187a08425e2f428eec867756fa7016bbe16",
+          "contentHash": "00299e9339721033f1e80e5a1117922edac1ac4510ac65205dba17a4d527404b"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-5-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-01-ITER-5",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "parseExpression",
+            "evaluateExponent"
+          ],
+          "failedAssertion": "test/calc-p2p.test.js: infix juxtaposition with unary minus fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-01",
+            "CANDIDATE:CAND-P46-L7-01-ITER-5",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "213facd787a8357a54436a3af2609f715f146e48c46d8c92a3fe5fb94fc69fb8",
+          "contentHash": "f0838e1dc4479c8d3868f6fc25f86914b4ba9a559a6f1f25cae938d4218e712a"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "counterexamplesCount": 4,
+      "counterexamples": [
+        {
+          "counterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-1-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-02-ITER-1",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/cors.js",
+            "src/header-validator.js"
+          ],
+          "affectedSymbols": [
+            "compileOriginPattern",
+            "validateHeaders"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-02",
+            "CANDIDATE:CAND-P46-L7-02-ITER-1",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "a200fd6459dcd86241bac8d8ce4abcdf43c2f87e15111c5b37e2f3b51e509e56",
+          "contentHash": "6e5de97cbd91db8b2d9c2987d7fbd1f4274d172550b3b2736a71f1332cf3d62a"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-2-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-02-ITER-2",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/cors.js",
+            "src/header-validator.js"
+          ],
+          "affectedSymbols": [
+            "compileOriginPattern",
+            "validateHeaders"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-02",
+            "CANDIDATE:CAND-P46-L7-02-ITER-2",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "dbe690522c73a5bf77c7932b29f34f7d2c29748ff66379fa32eddcfbff69b611",
+          "contentHash": "3789535853fe79f6b382dbd1a22fa838db36d1b4559297058ba044d5df93e150"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-3-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-02-ITER-3",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/cors.js",
+            "src/header-validator.js"
+          ],
+          "affectedSymbols": [
+            "compileOriginPattern",
+            "validateHeaders"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-02",
+            "CANDIDATE:CAND-P46-L7-02-ITER-3",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "28ff72de24289df42aa79b38944b80dee6dd9442d2bd61b95543cbedaeeba3ee",
+          "contentHash": "bda91dfbd3bd90ac400d5148565234078f50ffd0bc1c333c88b18a3f9f033b76"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-4-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-02-ITER-4",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/cors.js",
+            "src/header-validator.js"
+          ],
+          "affectedSymbols": [
+            "compileOriginPattern",
+            "validateHeaders"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-02",
+            "CANDIDATE:CAND-P46-L7-02-ITER-4",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "c2b91f57b938c8123bca6fa30780141e591f8eb1f3f037bbca97d66f42cf8346",
+          "contentHash": "3307b58c162a753fdc7a01670db1dc1510af3d7ab0061edcd2703ad355ef4355"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "counterexamplesCount": 4,
+      "counterexamples": [
+        {
+          "counterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-1-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-03-ITER-1",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/semver.js",
+            "src/comparator.js"
+          ],
+          "affectedSymbols": [
+            "sortPrerelease",
+            "compareSemVer"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-03",
+            "CANDIDATE:CAND-P46-L7-03-ITER-1",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "e1764bc3e7b3e483a981b14e5ea3353034da98013784e89468e1ee11f22b749f",
+          "contentHash": "861c2d05170427ebb7e870cbaf6bb1ced057330c63b12568129a046cbdca7811"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-2-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-03-ITER-2",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/semver.js",
+            "src/comparator.js"
+          ],
+          "affectedSymbols": [
+            "sortPrerelease",
+            "compareSemVer"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-03",
+            "CANDIDATE:CAND-P46-L7-03-ITER-2",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "3db7349f47471cc755e1fc67c6c009d5e21e799c187e9b29da7d0f4607fe48e0",
+          "contentHash": "c330bc9a7583cd06e79bd375a9539b85561e91a76f071b13603bebb59e0944b9"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-3-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-03-ITER-3",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/semver.js",
+            "src/comparator.js"
+          ],
+          "affectedSymbols": [
+            "sortPrerelease",
+            "compareSemVer"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-03",
+            "CANDIDATE:CAND-P46-L7-03-ITER-3",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "766f3c4232fb3f939832d0877b6acec09a80a73bfc06e328900b195d02bc1515",
+          "contentHash": "a4cbade1652208a45e63613da6c8d9e0a40584016367f2310b98cc430996ba7a"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-4-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-03-ITER-4",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/semver.js",
+            "src/comparator.js"
+          ],
+          "affectedSymbols": [
+            "sortPrerelease",
+            "compareSemVer"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-03",
+            "CANDIDATE:CAND-P46-L7-03-ITER-4",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "5adfa4ad8a6b10dced155baaae8e446fa321b6ee923b18532441b652adbbeb2c",
+          "contentHash": "49f210c06454dec85a813f2ea5a4e6f3cc0456a244a44b7899dd61878b65ef56"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "counterexamplesCount": 4,
+      "counterexamples": [
+        {
+          "counterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-1-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-04-ITER-1",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/deep-set.js",
+            "src/path-resolver.js"
+          ],
+          "affectedSymbols": [
+            "setDeepProperty",
+            "resolveObjectPath"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-04",
+            "CANDIDATE:CAND-P46-L7-04-ITER-1",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "2fd93f3323b53295c97029159b0d17cdd240e486871aa8af9a39269813abdc71",
+          "contentHash": "60e2156342153ea8c0000e98fa9b6a5114a4bfaa17c5aeb55ee3231e34cda51a"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-2-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-04-ITER-2",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/deep-set.js",
+            "src/path-resolver.js"
+          ],
+          "affectedSymbols": [
+            "setDeepProperty",
+            "resolveObjectPath"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-04",
+            "CANDIDATE:CAND-P46-L7-04-ITER-2",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "0eb00938bd35e5cbca6e185789be12b8d338b35b8975a9b6453473d3f872bc06",
+          "contentHash": "5671fb3b6c075a800fe7c9a229e089f9100f29dd2887caf13814eab38008db63"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-3-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-04-ITER-3",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/deep-set.js",
+            "src/path-resolver.js"
+          ],
+          "affectedSymbols": [
+            "setDeepProperty",
+            "resolveObjectPath"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-04",
+            "CANDIDATE:CAND-P46-L7-04-ITER-3",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "554ecda32a6fa450ba2746286db91c390e6f30c0bd0e711f1833136e4065b4f1",
+          "contentHash": "53498bcca28e826ed7eaee2b858d9dd11a384c01633dfe959d3f95f4cbece8fa"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-4-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-04-ITER-4",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/deep-set.js",
+            "src/path-resolver.js"
+          ],
+          "affectedSymbols": [
+            "setDeepProperty",
+            "resolveObjectPath"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-04",
+            "CANDIDATE:CAND-P46-L7-04-ITER-4",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "3caaaf77ed13f41dffdc9d1f15799952077af2d35fbc91cc6d90fba0551543dc",
+          "contentHash": "786c6f4b75ba9976d1461349c1938a3d49cd21fe42c47068f6a9769282173ec6"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "counterexamplesCount": 5,
+      "counterexamples": [
+        {
+          "counterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-1-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-05-ITER-1",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/models/user.js",
+            "src/services/user-service.js",
+            "src/routes/user-route.js"
+          ],
+          "affectedSymbols": [
+            "authorizeRole",
+            "evaluateRoleHierarchy",
+            "authorizeRole"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-05",
+            "CANDIDATE:CAND-P46-L7-05-ITER-1",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "071031e7d9b2ae53058893b92c33d002b2188d091ec156536fce65282cbb4e8d",
+          "contentHash": "7ee889efea246de168c5c27e32ffb0eee688b649daa30e40ab8362157f0980d9"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-2-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-05-ITER-2",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/models/user.js",
+            "src/services/user-service.js",
+            "src/routes/user-route.js"
+          ],
+          "affectedSymbols": [
+            "authorizeRole",
+            "evaluateRoleHierarchy",
+            "authorizeRole"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-05",
+            "CANDIDATE:CAND-P46-L7-05-ITER-2",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "23e5f6934458fc08960d08dac8164254d9caf83312beec545dacc69313beab4d",
+          "contentHash": "b8b4b4bddd9fcd1ee343fa3f1bdc844a01e70e151bdf8d11f69f87bcd5ba3073"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-3-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-05-ITER-3",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/models/user.js",
+            "src/services/user-service.js",
+            "src/routes/user-route.js"
+          ],
+          "affectedSymbols": [
+            "authorizeRole",
+            "evaluateRoleHierarchy",
+            "authorizeRole"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-05",
+            "CANDIDATE:CAND-P46-L7-05-ITER-3",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "e38847044ce09ab4ea31ce68269a1963ae562ce8c914b3b8e0327009ffdcdf6a",
+          "contentHash": "5017cfb930794be19e286c790bc74581d638ca851c8ce377e7b572d3537e4ab2"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-4-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-05-ITER-4",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/models/user.js",
+            "src/services/user-service.js",
+            "src/routes/user-route.js"
+          ],
+          "affectedSymbols": [
+            "authorizeRole",
+            "evaluateRoleHierarchy",
+            "authorizeRole"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-05",
+            "CANDIDATE:CAND-P46-L7-05-ITER-4",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "f68081afb6f16c66f332d83282e1d93b76fd1739e6f7718dc3d4a9c95d193164",
+          "contentHash": "f1719904fcd43293a1e5aa8e5eeb076bc9fedc6365f6e9f47a2616a5248b844c"
+        },
+        {
+          "counterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-5-REGRESSION_FAILURE",
+          "candidateId": "CAND-P46-L7-05-ITER-5",
+          "failureClass": "REGRESSION_FAILURE",
+          "affectedFiles": [
+            "src/models/user.js",
+            "src/services/user-service.js",
+            "src/routes/user-route.js"
+          ],
+          "affectedSymbols": [
+            "authorizeRole",
+            "evaluateRoleHierarchy",
+            "authorizeRole"
+          ],
+          "failedAssertion": "test/cors-p2p.test.js: credential reflection on wildcard port fails",
+          "observedValue": "REGRESSION_FAILED",
+          "expectedValue": "REGRESSION_PRESERVED",
+          "provenance": [
+            "TASK:P46-L7-05",
+            "CANDIDATE:CAND-P46-L7-05-ITER-5",
+            "PROV:LOCAL_EXECUTION"
+          ],
+          "candidateDigest": "d56459a93e5301159ebfae76e0e9a09c6c6e04c8d8a9e71c6f08ebbea3bf18a3",
+          "contentHash": "9fb33c0887e2dcaf616ec5906703f177e74b63c70df6dce5627b9500b8036813"
+        }
+      ]
+    }
+  ],
+  "artifactDigest": "29b438a6cd42f59c2125c5f10d020c884fdc2bd205257873afd040427e63b932"
+}

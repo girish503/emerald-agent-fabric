@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "emerald-phase59-v1",
+  "phase": "59",
+  "protocolVersion": "emerald-phase59-cegar-repair-search-v1",
+  "frozenAt": "2026-10-20T03:41:37.821Z",
+  "baselineCommit": "4fc48cc",
+  "experimentalVariable": "counterexample_guided_coupled_repair_search_cegar",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "conditions": {
+    "CONDITION_A_PHASE58_CONTROL": "Frozen Phase 58 coupled repair search",
+    "CONDITION_B_COUNTEREXAMPLE_COLLECTION": "Counterexample extraction and normalization without pruning",
+    "CONDITION_C_CEGAR": "Counterexample-guided abstraction refinement with generalized constraint pruning",
+    "CONDITION_D_FULL_CEGAR_PIPELINE": "Full CEGAR pipeline with transactional repair, clean-room dual-gate, and fourfold verification"
+  },
+  "bounds": {
+    "MAX_CANDIDATES": 25,
+    "MAX_DEPTH": 5,
+    "MAX_BRANCHING_FACTOR": 4,
+    "MAX_AST_NODES": 100,
+    "MAX_FILES": 5,
+    "MAX_EDITS": 10,
+    "MAX_WALL_CLOCK_MS": 30000,
+    "MAX_MEMORY_BYTES": 1073741824,
+    "maxCandidates": 25,
+    "maxSearchDepth": 5,
+    "maxCandidatePerVariable": 25,
+    "maxWallClockMs": 30000
+  },
+  "cohortSize": 15,
+  "totalTrials": 60,
+  "protocolDigest": "296065be69b8c360bed6ef5069b943d04401694e93b14a538419dd3a37971f23"
+}

@@ -1,0 +1,629 @@
+{
+  "schemaVersion": "emerald-phase59-v1",
+  "phase": "59",
+  "generatedAt": "2026-10-20T03:41:37.864Z",
+  "baselineCommit": "4fc48cc",
+  "protocolDigest": "296065be69b8c360bed6ef5069b943d04401694e93b14a538419dd3a37971f23",
+  "totalTasks": 15,
+  "tasks": [
+    {
+      "taskId": "P46-L5-01",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L5-02",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L5-03",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L5-04",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L5-05",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L6-01",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L6-02",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L6-03",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L6-04",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L6-05",
+      "refinementsCount": 0,
+      "refinements": []
+    },
+    {
+      "taskId": "P46-L7-01",
+      "refinementsCount": 5,
+      "refinements": [
+        {
+          "constraintId": "REFINE-P46-L7-01-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-1-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-01-1",
+            "VAR-P46-L7-01-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-01-1": "BP_9",
+              "VAR-P46-L7-01-2": "BP_10"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-01-1 & VAR-P46-L7-01-2 under test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-01-CAND-P46-L7-01-ITER-1-REGRESSION_FAILURE",
+            "INVARIANT:test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "constraintDigest": "9afa54fb648fba31d419d43378853631515cc118da101c69e125f81716796e8f"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-01-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-2-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-01-1",
+            "VAR-P46-L7-01-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-01-1": "BP_10",
+              "VAR-P46-L7-01-2": "BP_8"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-01-1 & VAR-P46-L7-01-2 under test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-01-CAND-P46-L7-01-ITER-2-REGRESSION_FAILURE",
+            "INVARIANT:test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "constraintDigest": "14f18bdbb342d392df41acc7a27890b8c1c179fafba4a4adcf906db84f7e06ee"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-01-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-3-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-01-1",
+            "VAR-P46-L7-01-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-01-1": "BP_8",
+              "VAR-P46-L7-01-2": "BP_9"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-01-1 & VAR-P46-L7-01-2 under test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-01-CAND-P46-L7-01-ITER-3-REGRESSION_FAILURE",
+            "INVARIANT:test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "constraintDigest": "67d7f1037913b821af3ba7cce5c4b07e4d8660840755161a99db325755c0704d"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-01-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-4-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-01-1",
+            "VAR-P46-L7-01-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-01-1": "BP_9",
+              "VAR-P46-L7-01-2": "BP_10"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-01-1 & VAR-P46-L7-01-2 under test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-01-CAND-P46-L7-01-ITER-4-REGRESSION_FAILURE",
+            "INVARIANT:test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "constraintDigest": "8c4b2a45dbbf61485ea8461b81e63329b093c74eac37b1336736e3d9efd9f717"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-01-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-01-CAND-P46-L7-01-ITER-5-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-01-1",
+            "VAR-P46-L7-01-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-01-1": "BP_10",
+              "VAR-P46-L7-01-2": "BP_8"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-01-1 & VAR-P46-L7-01-2 under test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-01-CAND-P46-L7-01-ITER-5-REGRESSION_FAILURE",
+            "INVARIANT:test/calc-p2p.test.js: infix juxtaposition with unary minus fails"
+          ],
+          "constraintDigest": "932b9d9282fbfbe391ee2f46224c71c093f424dde105673d54f72776e1478f3e"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "refinementsCount": 4,
+      "refinements": [
+        {
+          "constraintId": "REFINE-P46-L7-02-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-1-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-02-1",
+            "VAR-P46-L7-02-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-02-1": "REGEX_STRICT_PORT",
+              "VAR-P46-L7-02-2": "REGEX_OPTIONAL_PORT"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-02-1 & VAR-P46-L7-02-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-02-CAND-P46-L7-02-ITER-1-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "1d2d1800300ec70fb1cd25015ea59c4373b66d1a94b00dbfdd0b5f818ad859ee"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-02-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-2-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-02-1",
+            "VAR-P46-L7-02-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-02-1": "REGEX_OPTIONAL_PORT",
+              "VAR-P46-L7-02-2": "REGEX_STRICT_PORT"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-02-1 & VAR-P46-L7-02-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-02-CAND-P46-L7-02-ITER-2-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "a4fcfbd58dc7cfb7ee0484dd81d201ee30896320579da6bc831d1a1bf5d83c7b"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-02-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-3-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-02-1",
+            "VAR-P46-L7-02-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-02-1": "REGEX_STRICT_PORT",
+              "VAR-P46-L7-02-2": "REGEX_OPTIONAL_PORT"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-02-1 & VAR-P46-L7-02-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-02-CAND-P46-L7-02-ITER-3-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "811df6365faa732c815584a9b3ec6109d2d6645d8661502f44c7b111111d7f65"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-02-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-02-CAND-P46-L7-02-ITER-4-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-02-1",
+            "VAR-P46-L7-02-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-02-1": "REGEX_OPTIONAL_PORT",
+              "VAR-P46-L7-02-2": "REGEX_STRICT_PORT"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-02-1 & VAR-P46-L7-02-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-02-CAND-P46-L7-02-ITER-4-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "8bf8c5c0bd0406365a61f8536e34c66422906d6fe625e8089f1c139f2819ffbe"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "refinementsCount": 4,
+      "refinements": [
+        {
+          "constraintId": "REFINE-P46-L7-03-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-1-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-03-1",
+            "VAR-P46-L7-03-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-03-1": "repaired_sortPrerelease_v2",
+              "VAR-P46-L7-03-2": "repaired_compareSemVer_v1"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-03-1 & VAR-P46-L7-03-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-03-CAND-P46-L7-03-ITER-1-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "8814ae3fe3095ad8291834f4ae01e1cc34188d7f942f3f8738d1ccc3fc167e8d"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-03-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-2-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-03-1",
+            "VAR-P46-L7-03-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-03-1": "repaired_sortPrerelease_v1",
+              "VAR-P46-L7-03-2": "repaired_compareSemVer_v2"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-03-1 & VAR-P46-L7-03-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-03-CAND-P46-L7-03-ITER-2-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "f87a5173b75908525b0114288d9e5568bd58620c16312dd72764f20e632eb5bf"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-03-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-3-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-03-1",
+            "VAR-P46-L7-03-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-03-1": "repaired_sortPrerelease_v2",
+              "VAR-P46-L7-03-2": "repaired_compareSemVer_v1"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-03-1 & VAR-P46-L7-03-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-03-CAND-P46-L7-03-ITER-3-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "2d77e78ee0763368022419b37864aec48e787a47eb31a6ccb7026339d6c8b85d"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-03-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-03-CAND-P46-L7-03-ITER-4-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-03-1",
+            "VAR-P46-L7-03-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-03-1": "repaired_sortPrerelease_v1",
+              "VAR-P46-L7-03-2": "repaired_compareSemVer_v2"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-03-1 & VAR-P46-L7-03-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-03-CAND-P46-L7-03-ITER-4-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "f6e7a6003c0de4e73383c7a090068824190a6137281076ed84db6cfca7db1c21"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "refinementsCount": 4,
+      "refinements": [
+        {
+          "constraintId": "REFINE-P46-L7-04-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-1-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-04-1",
+            "VAR-P46-L7-04-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-04-1": "repaired_setDeepProperty_v2",
+              "VAR-P46-L7-04-2": "repaired_resolveObjectPath_v1"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-04-1 & VAR-P46-L7-04-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-04-CAND-P46-L7-04-ITER-1-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "2d2f7014589baf968e9d8e21442be4438197fd7fb1774775a2b1916b2bed5d22"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-04-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-2-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-04-1",
+            "VAR-P46-L7-04-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-04-1": "repaired_setDeepProperty_v1",
+              "VAR-P46-L7-04-2": "repaired_resolveObjectPath_v2"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-04-1 & VAR-P46-L7-04-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-04-CAND-P46-L7-04-ITER-2-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "a4c9697c133fa04c8cd6ebceea3e0996181e15798b45d5cb0fd90c31e82a462f"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-04-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-3-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-04-1",
+            "VAR-P46-L7-04-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-04-1": "repaired_setDeepProperty_v2",
+              "VAR-P46-L7-04-2": "repaired_resolveObjectPath_v1"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-04-1 & VAR-P46-L7-04-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-04-CAND-P46-L7-04-ITER-3-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "74cfa3fcbf67a30c0d74571a4a0cefbf49c5bf2171d97d0bf52354a799cf99e0"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-04-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-04-CAND-P46-L7-04-ITER-4-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-04-1",
+            "VAR-P46-L7-04-2"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-04-1": "repaired_setDeepProperty_v1",
+              "VAR-P46-L7-04-2": "repaired_resolveObjectPath_v2"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-04-1 & VAR-P46-L7-04-2 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-04-CAND-P46-L7-04-ITER-4-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "ccf0770b13098e2fef6d652a8b641d95b7b9977f8afce49bb60eb20422880305"
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "refinementsCount": 5,
+      "refinements": [
+        {
+          "constraintId": "REFINE-P46-L7-05-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-1-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-05-1",
+            "VAR-P46-L7-05-2",
+            "VAR-P46-L7-05-3"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-05-1": "ROLE_INHERITED",
+              "VAR-P46-L7-05-2": "ROLE_AUTHORIZED",
+              "VAR-P46-L7-05-3": "ROLE_INHERITED"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-05-1 & VAR-P46-L7-05-2 & VAR-P46-L7-05-3 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-05-CAND-P46-L7-05-ITER-1-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "2e1f55812c960dd87b098816b21834b25c30710eca2662b2ed82962f00244b66"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-05-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-2-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-05-1",
+            "VAR-P46-L7-05-2",
+            "VAR-P46-L7-05-3"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-05-1": "ROLE_AUTHORIZED",
+              "VAR-P46-L7-05-2": "ROLE_INHERITED",
+              "VAR-P46-L7-05-3": "ROLE_AUTHORIZED"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-05-1 & VAR-P46-L7-05-2 & VAR-P46-L7-05-3 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-05-CAND-P46-L7-05-ITER-2-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "8bbdc0f9bd0b4ffe6a3e8d1edb31412acb12921975286e4a154784f89f9402a7"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-05-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-3-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-05-1",
+            "VAR-P46-L7-05-2",
+            "VAR-P46-L7-05-3"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-05-1": "ROLE_INHERITED",
+              "VAR-P46-L7-05-2": "ROLE_AUTHORIZED",
+              "VAR-P46-L7-05-3": "ROLE_INHERITED"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-05-1 & VAR-P46-L7-05-2 & VAR-P46-L7-05-3 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-05-CAND-P46-L7-05-ITER-3-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "af262dcfdb4dd6672562eb390816c35e348b72282ebaf7b82cd7dca28a7735cb"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-05-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-4-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-05-1",
+            "VAR-P46-L7-05-2",
+            "VAR-P46-L7-05-3"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-05-1": "ROLE_AUTHORIZED",
+              "VAR-P46-L7-05-2": "ROLE_INHERITED",
+              "VAR-P46-L7-05-3": "ROLE_AUTHORIZED"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-05-1 & VAR-P46-L7-05-2 & VAR-P46-L7-05-3 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-05-CAND-P46-L7-05-ITER-4-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "aadee19b08dd74bf91f266a464720b1912bd0bd6f14e70ef6c0b12b46e68e3a0"
+        },
+        {
+          "constraintId": "REFINE-P46-L7-05-REGRESSION_FAILURE-CROSS",
+          "sourceCounterexampleId": "CX-P46-L7-05-CAND-P46-L7-05-ITER-5-REGRESSION_FAILURE",
+          "affectedVariables": [
+            "VAR-P46-L7-05-1",
+            "VAR-P46-L7-05-2",
+            "VAR-P46-L7-05-3"
+          ],
+          "forbiddenCombinations": [
+            {
+              "VAR-P46-L7-05-1": "ROLE_INHERITED",
+              "VAR-P46-L7-05-2": "ROLE_AUTHORIZED",
+              "VAR-P46-L7-05-3": "ROLE_INHERITED"
+            }
+          ],
+          "requiredRelationships": [
+            "MUTUAL_EXCLUSION: VAR-P46-L7-05-1 & VAR-P46-L7-05-2 & VAR-P46-L7-05-3 under test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "scope": "CROSS_MODULE",
+          "confidence": 0.95,
+          "provenance": [
+            "CX:CX-P46-L7-05-CAND-P46-L7-05-ITER-5-REGRESSION_FAILURE",
+            "INVARIANT:test/cors-p2p.test.js: credential reflection on wildcard port fails"
+          ],
+          "constraintDigest": "94ef66a00ad65ebbf9ea6f93e448cc999b12119317ac98dd2bce690ee59562c0"
+        }
+      ]
+    }
+  ],
+  "artifactDigest": "7860d15e8d44e613ad2d4816f41134466edc76462f51524d2ca0a12f0a03777e"
+}
