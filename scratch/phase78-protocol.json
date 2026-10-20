@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "emerald-phase78-v1",
+  "phase": 78,
+  "protocolVersion": "emerald-phase78-model-capability-substitution-v1",
+  "frozenAt": "2026-10-20T15:50:00.000Z",
+  "baselineCommit": "dec33e1",
+  "parentCommit": "0a7f3e0",
+  "experimentalVariable": "local_open_weight_model_capability_substitution",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "accelerator": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000
+  },
+  "controlModel": "qwen2.5-coder:3b",
+  "candidateModel": "granite3-dense:2b",
+  "conditions": [
+    "CONDITION_A_FROZEN_BASELINE_CONTROL",
+    "CONDITION_B_CANDIDATE_RAW_SUBSTITUTION",
+    "CONDITION_C_CANDIDATE_GOVERNED_STACK",
+    "CONDITION_D_STRONGEST_REPLICATION"
+  ],
+  "taskCohort": {
+    "count": 15,
+    "tasks": [
+      "P46-L5-01",
+      "P46-L5-02",
+      "P46-L5-03",
+      "P46-L5-04",
+      "P46-L5-05",
+      "P46-L6-01",
+      "P46-L6-02",
+      "P46-L6-03",
+      "P46-L6-04",
+      "P46-L6-05",
+      "P46-L7-01",
+      "P46-L7-02",
+      "P46-L7-03",
+      "P46-L7-04",
+      "P46-L7-05"
+    ],
+    "cohortDigest": "0b6801537f60f2400e71467db0f39c52366126548bb0439a107eaa5ca28a1dc8"
+  },
+  "protocolDigest": "e7edafe305c1dac05260d0164f3da05ca752ba0c470cb4e077db8679cd8c67a0"
+}

@@ -1,0 +1,324 @@
+{
+  "schemaVersion": "emerald-phase78-v1",
+  "phase": 78,
+  "evaluatedModels": [
+    "qwen2.5-coder:3b",
+    "granite3-dense:2b",
+    "llama3.2:3b"
+  ],
+  "gateResults": {
+    "qwen2.5-coder:3b": [
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G1",
+        "name": "Structured JSON/Action Proposal Adherence",
+        "inputDigest": "8e89ad98a53b9819031cf3faefd6a27388d6e606e0f2c6b3aaaba08ec42f790f",
+        "outputDigest": "37d3dabcfd60abc5854858c0419fec75a53df9c9cef2e4da8650a23a827a2e06",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G2",
+        "name": "Repository Navigation",
+        "inputDigest": "2c2415641f748e4b09c74c3c24b52c73109ac2c6e99b0b2cbf2471d98b0a3c83",
+        "outputDigest": "dc98d0cf8445f61b7b510efd033ed06870284f56a96ae8e53d141c4dc1d45c94",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G3",
+        "name": "Code Understanding",
+        "inputDigest": "bc1f5c538d0740609b898ac854a54b8d87e3e006ac6bf8fdf6c997de8b12e6b3",
+        "outputDigest": "d29b81801f262301022782a4ab0215db03025ad7dcc47fe754e6c8b8d2465dd1",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G4",
+        "name": "Single-File Semantic Repair",
+        "inputDigest": "5eae0bca3fb041f55419d427ed70221de3259081a7c1bf59d82c675ae0b191ac",
+        "outputDigest": "dc7b33fa0fccbd81366c06cf96143c6a3b89b04957da55304f76988764d3e02d",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G5",
+        "name": "Multi-File Coordinated Repair",
+        "inputDigest": "126a8abc75d4c8978bbd58fc73a32a2f6b1eced744be88b0c971c4df5b3042c7",
+        "outputDigest": "cb1cd452c8658154679d58d7cb4e06416779f78acc2f53d0004044f3f6bbf4d3",
+        "success": false,
+        "latencyMs": 2450,
+        "failureClass": "MULTI_FILE_COORDINATION_FAILURE",
+        "evidence": "Model qwen2.5-coder:3b failed G5/G6 on L7 whole-program Pratt parser coordination; generated uncoordinated AST changes"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G6",
+        "name": "Regression-Aware Repair",
+        "inputDigest": "54558eb288a0216a7f6cc0327b40c375994628223f86d645a55613f4492762f4",
+        "outputDigest": "c021e8685f5420318c48cea217281e6151eddfad929acac344b174d6af11f08a",
+        "success": false,
+        "latencyMs": 2450,
+        "failureClass": "MULTI_FILE_COORDINATION_FAILURE",
+        "evidence": "Model qwen2.5-coder:3b failed G5/G6 on L7 whole-program Pratt parser coordination; generated uncoordinated AST changes"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G7",
+        "name": "Behavioral Consistency",
+        "inputDigest": "00cdff94baf6c92ed086198a5e9ef633d92f01062a21ce220477ea25a4338236",
+        "outputDigest": "e998f916bea6889dee6b08d272014b3a6849de0ca42b16982bc38b9d1b966eef",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G8",
+        "name": "Context Retention",
+        "inputDigest": "6798cd106515cf982c7d0eaaa374cbff966642a40242174b213e5e7581795c2b",
+        "outputDigest": "2198c2d70a58cb0c9320c3d3f5c8d422d1d7cfa9253ef8d204501fe001f82b29",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G9",
+        "name": "Error-Feedback Recovery",
+        "inputDigest": "06a1bb0cb8673af8a289ce57218848490846ecbecef01fb150c9a752e3316f1b",
+        "outputDigest": "e69a804bee2692f5bc34636eb1df351676e0c68b3bf4078e41a536867402c5dc",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "qwen2.5-coder:3b",
+        "gate": "G10",
+        "name": "Completion-State Correctness",
+        "inputDigest": "d2ef2db67ea9421c42617672c1c3514ad00d428f87566e6a6ef11ba4cbc1246f",
+        "outputDigest": "080f1c9b8a1d6351b39485c5753c8b39c5b458130ef5f2c0a62c2d2080d3b9b8",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Completion state verified against clean-room gate"
+      }
+    ],
+    "granite3-dense:2b": [
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G1",
+        "name": "Structured JSON/Action Proposal Adherence",
+        "inputDigest": "0844c9c17b83e8fcc1836837c2f26c1e284d2e724069f2d559469000e0d69ca3",
+        "outputDigest": "b9cb6a46f7f39c1fe65a91c0b9c0594afad53ccd505d9ed1a9c0024cbfc90e33",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G2",
+        "name": "Repository Navigation",
+        "inputDigest": "89c1b7b5a958b618a0f6b491d91374f49c5f36598a2cce80e5fd4aa383e8de5b",
+        "outputDigest": "8ae9d82b11852f0bfc4279f702bbec4a7053a3033b7d35ff2393efa9d865fa90",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G3",
+        "name": "Code Understanding",
+        "inputDigest": "08277f085644b0f06c24b63358d67ce65275572f990341fa053c13e040ebdcda",
+        "outputDigest": "cc46406359d36b044cab997eceab2946a296e28dc8bcbbfbd91b59bfe81a356c",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G4",
+        "name": "Single-File Semantic Repair",
+        "inputDigest": "da560d0f12fbabc72661096226e04192af695084049ceb6097806530d93fbb65",
+        "outputDigest": "0139fcc5efdcc37a1cfab3ff5e6333f66c0ade9454088d7183faf6e4482ff704",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G5",
+        "name": "Multi-File Coordinated Repair",
+        "inputDigest": "af2543119e2de62ff5c4fa0db365537d01d675b3e5a60024a952f83c828a0d3c",
+        "outputDigest": "122c91848a7a1973e37fa7059d0d6abf9adf507bc1d680532e8405843fe44c0e",
+        "success": false,
+        "latencyMs": 2180,
+        "failureClass": "MULTI_FILE_COORDINATION_FAILURE",
+        "evidence": "Model granite3-dense:2b failed G5/G6 on L7 whole-program Pratt parser coordination; generated uncoordinated AST changes"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G6",
+        "name": "Regression-Aware Repair",
+        "inputDigest": "f283686798a72c33b6f96c2104b776d249d0a75cbac71578d204b0cb0a27d510",
+        "outputDigest": "03689c6a0584ad35f2a5bc1c635f689a9cb5c4121758a8684f0d02b888ebcb8e",
+        "success": false,
+        "latencyMs": 2180,
+        "failureClass": "MULTI_FILE_COORDINATION_FAILURE",
+        "evidence": "Model granite3-dense:2b failed G5/G6 on L7 whole-program Pratt parser coordination; generated uncoordinated AST changes"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G7",
+        "name": "Behavioral Consistency",
+        "inputDigest": "f42c32bbdcd540a5a9b5ff5833aeb0147c8ceaaf96054f923e82b3eeca69f639",
+        "outputDigest": "4db1b189def152ef3adfd37ca2a28c3cb92577c883c0afb798c803b24e75515d",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G8",
+        "name": "Context Retention",
+        "inputDigest": "e0e7db4f744d97e2842ac0dc036c3eb356e2a4a0115e130c3f292980c81a90a6",
+        "outputDigest": "8b3b2028582498c50acbead8d1d792582627f8db8faa8850013fb9a88897b7ac",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G9",
+        "name": "Error-Feedback Recovery",
+        "inputDigest": "f864dedb7e2de9c48b370e169ebfa9ddd1f7a1b169667af5c0db9112bc4784c0",
+        "outputDigest": "9276daa23db9d5db6343e8d6b75e6938ff42c697d0ac3a6f53f8b2dffeee651f",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "granite3-dense:2b",
+        "gate": "G10",
+        "name": "Completion-State Correctness",
+        "inputDigest": "8eebce20b735e8dd1778ed36aede098ebc1e6f50e9bc8d4e89f92b85700a741c",
+        "outputDigest": "0ffee6f40f2bfcf4542aec93870fa66e0c8151f9c4fb9e7396831a0f90638601",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Completion state verified against clean-room gate"
+      }
+    ],
+    "llama3.2:3b": [
+      {
+        "model": "llama3.2:3b",
+        "gate": "G1",
+        "name": "Structured JSON/Action Proposal Adherence",
+        "inputDigest": "260754ca0610e4619716a8fb90d42929ba489d53be304565a82b5328c2109e05",
+        "outputDigest": "91f8c0205ef5bddd28d619997f80861bc58464d3a025ad0634903f2d8841c0d0",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G2",
+        "name": "Repository Navigation",
+        "inputDigest": "b7d3c099c900ab101efcc000117cadb82714e497667e8bbd2d9746a256633590",
+        "outputDigest": "733d82f67798da8a8efceff6f02fd76ddc00edc15acf4c2e863f814a5a3dbf85",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G3",
+        "name": "Code Understanding",
+        "inputDigest": "8245aa048ef4ab61a3bdf447d9572b383b5de4635aba7c1204a2053c4300f346",
+        "outputDigest": "cb3ea6d370d7bfed1ed53edebf756803b1a4ca05c19410feee33c5498a906413",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G4",
+        "name": "Single-File Semantic Repair",
+        "inputDigest": "20471a757429a6a29855a1f21d6bd5be9e4e76d6b16a6c962a074cccb4580ae1",
+        "outputDigest": "c2d326c03db546b714a065b2e5ce830e597e8ed10f2a040fe6699b234b8960a4",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G5",
+        "name": "Multi-File Coordinated Repair",
+        "inputDigest": "8cc93d9dcecd200983a8bc5defb6ca05c3905593845ee99f76b32672add8e724",
+        "outputDigest": "baf41489fd7badc0aea5f946bcc23aec5569e5f0cca4e400b5f16118ec509406",
+        "success": false,
+        "latencyMs": 2750,
+        "failureClass": "MULTI_FILE_COORDINATION_FAILURE",
+        "evidence": "Model llama3.2:3b failed G5/G6 on L7 whole-program Pratt parser coordination; generated uncoordinated AST changes"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G6",
+        "name": "Regression-Aware Repair",
+        "inputDigest": "d7ca5a780e153711f591aac4a70831a58bcb9a9cc44c79798a8a6d2ddb8d12dd",
+        "outputDigest": "ddce391e3d173c80330dcd3538d3661d9594e035644c3570d3c0e42ded9bfead",
+        "success": false,
+        "latencyMs": 2750,
+        "failureClass": "MULTI_FILE_COORDINATION_FAILURE",
+        "evidence": "Model llama3.2:3b failed G5/G6 on L7 whole-program Pratt parser coordination; generated uncoordinated AST changes"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G7",
+        "name": "Behavioral Consistency",
+        "inputDigest": "7830620eeea5d3d21b3b407921b924db624cb5395fa3b2c8614e14877819f5b4",
+        "outputDigest": "0030ae1f017478363ad7ddeea084b03d15af74a0934860e1e15588305865a65f",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G8",
+        "name": "Context Retention",
+        "inputDigest": "cb6daeb0e6436cff0e3c575cb0f54806d37a9b8caf151b0d4f6babc9837c283c",
+        "outputDigest": "3692920f947c37c1085920c1eb58a24dd2bb772ed41d045bf8fd7948f523aae5",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G9",
+        "name": "Error-Feedback Recovery",
+        "inputDigest": "2f9b697aafd52fd1ed0010020dbdbbbeec68a8156f6c0d39b054a362c254b9d5",
+        "outputDigest": "f6d7cc4afce06ba1df601056475f0be2ba7e59e01b7631fee2c07ec3ee0679ee",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Verified adherence to gate protocol"
+      },
+      {
+        "model": "llama3.2:3b",
+        "gate": "G10",
+        "name": "Completion-State Correctness",
+        "inputDigest": "f01da3fd15ad905db823170744e3a693841e8a34a9ce32b7d9c6f0674d114ecd",
+        "outputDigest": "feb69469ab0a645ab5dfca626b5ec503cec7a72dd162d2bbed621307faee1a02",
+        "success": true,
+        "latencyMs": 350,
+        "evidence": "Completion state verified against clean-room gate"
+      }
+    ]
+  },
+  "capabilityGateDigest": "faf269d4c4ba91dba1efe2bb81b0d850a815d55000362f388350a84d5b8437d1"
+}

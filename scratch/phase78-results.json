@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "emerald-phase78-v1",
+  "baselineControl": "qwen2.5-coder:3b",
+  "strongestCandidate": "granite3-dense:2b",
+  "summary": {
+    "conditionA_Control": "10/15 (66.7%) — L5: 5/5, L6: 5/5, L7: 0/5",
+    "conditionB_CandidateRaw": "9/15 (60.0%) — L5: 5/5, L6: 4/5, L7: 0/5",
+    "conditionC_CandidateGoverned": "10/15 (66.7%) — L5: 5/5, L6: 5/5, L7: 0/5",
+    "conditionD_Replication": "10/15 (66.7%) — L5: 5/5, L6: 5/5, L7: 0/5",
+    "l5Success": "5/5 (100.0%)",
+    "l6Success": "5/5 (100.0%)",
+    "l7Success": "0/5 (0.0%)",
+    "l7CleanRoomSuccess": "0/5 (0.0%)",
+    "oracleAccess": false,
+    "goldLeakage": false,
+    "governanceInvariant": true,
+    "negativeControlsPassed": "170/170 (100.0%)",
+    "cleanRoomVerification": "100% (dual-gate verified)",
+    "fourfoldVerification": "100% (valid)",
+    "offlineAuditor": "100% (replay verified)",
+    "terminalAuthority": "100% (Ed25519 2-of-3 threshold immutable)",
+    "determinism": "100.0% byte-identical",
+    "decision": "MODEL_CAPABILITY_BOUNDARY"
+  },
+  "failureClassification": {
+    "l7FailureCategory": "AUTONOMOUS_DISCOVERY_FAILURE",
+    "rootCause": "MODEL_CAPABILITY_BOUNDARY: Feasible local open-weight models (<4B) lack capacity to discover multi-file recursive lookahead AST repairs under zero-oracle conditions"
+  },
+  "resultsDigest": "6be3b3a035a5e5e1cb7a770de7a229ac8e570a054338c49397bb196c0bc6b095"
+}

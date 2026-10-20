@@ -1,0 +1,27 @@
+{
+  "phase": 78,
+  "baseline": "dec33e1",
+  "status": "COMPLETE",
+  "decision": "MODEL_CAPABILITY_BOUNDARY",
+  "candidateModelsEvaluated": [
+    "granite3-dense:2b",
+    "llama3.2:3b",
+    "smollm2:1.7b",
+    "deepseek-r1:8b"
+  ],
+  "strongestCandidate": "granite3-dense:2b",
+  "l5Success": "5/5 (100.0%)",
+  "l6Success": "5/5 (100.0%)",
+  "l7Success": "0/5 (0.0%)",
+  "l7CleanRoomSuccess": "0/5 (0.0%)",
+  "oracleAccess": false,
+  "goldLeakage": false,
+  "governanceInvariant": true,
+  "negativeControlsPassed": "170/170 (100.0%)",
+  "cleanRoomVerification": "100% (dual-gate verified)",
+  "fourfoldVerification": "100% (valid)",
+  "offlineAuditor": "100% (replay verified)",
+  "terminalAuthority": "100% (Ed25519 2-of-3 threshold immutable)",
+  "determinism": "100.0% byte-identical",
+  "historicalRegression": "PASS"
+}

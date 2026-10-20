@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "emerald-phase78-v1",
+  "phase": 78,
+  "frozenBaselineControl": "qwen2.5-coder:3b",
+  "controlDigest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+  "models": [
+    {
+      "modelTag": "qwen2.5-coder:3b",
+      "immutableDigest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameterCount": "3.1B",
+      "quantization": "Q4_K_M",
+      "architecture": "qwen2",
+      "license": "Qwen Research License Agreement",
+      "contextLength": 32768,
+      "source": "OLLAMA_LOCAL_LIBRARY",
+      "runtime": "ollama-0.40.6",
+      "identityHash": "90fb0d83fb5a4bc73b5bc23ea9670d27e8dcfd11eebf57d12e0b4d7b1c2d13fe"
+    },
+    {
+      "modelTag": "granite3-dense:2b",
+      "immutableDigest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+      "parameterCount": "2.6B",
+      "quantization": "Q4_K_M",
+      "architecture": "granite",
+      "license": "Apache-2.0",
+      "contextLength": 4096,
+      "source": "OLLAMA_LOCAL_LIBRARY",
+      "runtime": "ollama-0.40.6",
+      "identityHash": "1d620697507bfaabf1ccc27fd52f00657951429a87316750956154ba3b604239"
+    },
+    {
+      "modelTag": "llama3.2:3b",
+      "immutableDigest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "parameterCount": "3.2B",
+      "quantization": "Q4_K_M",
+      "architecture": "llama",
+      "license": "Llama-3.2-Community",
+      "contextLength": 131072,
+      "source": "OLLAMA_LOCAL_LIBRARY",
+      "runtime": "ollama-0.40.6",
+      "identityHash": "8c6955d7db626cb46abd8ed6005785ff1f8ea5a126481cc6ccf0e4a923af94b2"
+    },
+    {
+      "modelTag": "smollm2:1.7b",
+      "immutableDigest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+      "parameterCount": "1.7B",
+      "quantization": "Q8_0",
+      "architecture": "llama",
+      "license": "Apache-2.0",
+      "contextLength": 8192,
+      "source": "OLLAMA_LOCAL_LIBRARY",
+      "runtime": "ollama-0.40.6",
+      "identityHash": "3368c1b22dc0de82d0da4fde1b1fe5a5adfc5e84c1bc9e995625cc602a00a0f5"
+    },
+    {
+      "modelTag": "deepseek-r1:8b",
+      "immutableDigest": "6995872bfe4c521a67b32da386cd21d5c6e819b6e0d62f79f64ec83be99f5763",
+      "parameterCount": "8.2B",
+      "quantization": "Q4_K_M",
+      "architecture": "qwen3",
+      "license": "MIT",
+      "contextLength": 131072,
+      "source": "OLLAMA_LOCAL_LIBRARY",
+      "runtime": "ollama-0.40.6",
+      "identityHash": "6e29ed4cfc3fee00cee165e8f2703adbcb6a2286ef846ec20b7cf799c0198693"
+    }
+  ],
+  "identityDigest": "aaba21696383f7d0721112f29cd0745d801338074085765fc83836b1b76ae801"
+}
