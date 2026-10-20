@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "totalControls": 24,
+  "allPassed": true,
+  "controls": [
+    {
+      "id": "N1",
+      "name": "Invalid grammar production",
+      "status": "PASS",
+      "actualClass": "INVALID_GRAMMAR_PRODUCTION_REJECTED",
+      "evidence": "Unknown grammar operator rejected by static validator"
+    },
+    {
+      "id": "N2",
+      "name": "Type mismatch",
+      "status": "PASS",
+      "actualClass": "TYPE_MISMATCH_REJECTED",
+      "evidence": "Static type checker rejects boolean operator applied to string operand"
+    },
+    {
+      "id": "N3",
+      "name": "Invalid program depth",
+      "status": "PASS",
+      "actualClass": "PROGRAM_DEPTH_EXCEEDED_FAIL_CLOSED",
+      "evidence": "Program exceeding max depth ceiling (8) rejected"
+    },
+    {
+      "id": "N4",
+      "name": "Invalid program node count",
+      "status": "PASS",
+      "actualClass": "PROGRAM_NODE_COUNT_EXCEEDED_FAIL_CLOSED",
+      "evidence": "Program exceeding max nodes ceiling (32) rejected"
+    },
+    {
+      "id": "N5",
+      "name": "Unsatisfied precondition",
+      "status": "PASS",
+      "actualClass": "PRECONDITION_UNSATISFIED_REJECTED",
+      "evidence": "Candidate violating precondition fails verification"
+    },
+    {
+      "id": "N6",
+      "name": "Unsatisfied postcondition",
+      "status": "PASS",
+      "actualClass": "POSTCONDITION_UNSATISFIED_REJECTED",
+      "evidence": "Candidate failing postcondition assertion rejected"
+    },
+    {
+      "id": "N7",
+      "name": "Invariant violation",
+      "status": "PASS",
+      "actualClass": "INVARIANT_VIOLATION_PRUNED",
+      "evidence": "Candidate violating regression invariant pruned"
+    },
+    {
+      "id": "N8",
+      "name": "Contract violation",
+      "status": "PASS",
+      "actualClass": "CONTRACT_VIOLATION_REJECTED",
+      "evidence": "Cross-module contract mismatch rejected"
+    },
+    {
+      "id": "N9",
+      "name": "Gold leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Hardcoded oracle text intercepted by static detector"
+    },
+    {
+      "id": "N10",
+      "name": "Unauthorized mutation",
+      "status": "PASS",
+      "actualClass": "UNAUTHORIZED_MUTATION_REJECTED",
+      "evidence": "Mutation outside defined region scope blocked by authority firewall"
+    },
+    {
+      "id": "N11",
+      "name": "Counterexample ignored",
+      "status": "PASS",
+      "actualClass": "COUNTEREXAMPLE_IGNORED_REJECTED",
+      "evidence": "Candidate repeating previously refuted counterexample rejected"
+    },
+    {
+      "id": "N12",
+      "name": "Unsound equivalence rule",
+      "status": "PASS",
+      "actualClass": "UNSOUND_EQUIVALENCE_REJECTED",
+      "evidence": "Equivalence rule altering program semantics rejected"
+    },
+    {
+      "id": "N13",
+      "name": "Nondeterministic enumeration",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_PROGRAMS",
+      "evidence": "Topological sorting guarantees byte-identical enumeration"
+    },
+    {
+      "id": "N14",
+      "name": "Locally passing/global failure",
+      "status": "PASS",
+      "actualClass": "GLOBAL_CLEAN_ROOM_FAILURE_REJECTED",
+      "evidence": "Locally passing candidate failing global regression rejected fail-closed"
+    },
+    {
+      "id": "N15",
+      "name": "Gold patch leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_PATCH_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Regional specifications with oracle fragments rejected"
+    },
+    {
+      "id": "N16",
+      "name": "Cross-region oracle leakage",
+      "status": "PASS",
+      "actualClass": "CROSS_REGION_ORACLE_LEAKAGE_REJECTED",
+      "evidence": "Sharing hidden solutions across regions fails closed"
+    },
+    {
+      "id": "N17",
+      "name": "Unjustified escalation",
+      "status": "PASS",
+      "actualClass": "UNJUSTIFIED_ESCALATION_REJECTED",
+      "evidence": "Escalation without qualifying counterexample rejected"
+    },
+    {
+      "id": "N18",
+      "name": "Contract mutation",
+      "status": "PASS",
+      "actualClass": "CONTRACT_MUTATION_REJECTED",
+      "evidence": "Synthesizer rewriting its own contract rejected by hash mismatch"
+    },
+    {
+      "id": "N19",
+      "name": "Reviewer authority escalation",
+      "status": "PASS",
+      "actualClass": "REVIEWER_AUTHORITY_ESCALATION_REJECTED",
+      "evidence": "Reviewer attempting code modification blocked by authority firewall"
+    },
+    {
+      "id": "N20",
+      "name": "Coordinator bypass",
+      "status": "PASS",
+      "actualClass": "COORDINATOR_BYPASS_REJECTED",
+      "evidence": "Coordinator cannot bypass clean-room verification"
+    },
+    {
+      "id": "N21",
+      "name": "Regional result substitution",
+      "status": "PASS",
+      "actualClass": "REGIONAL_RESULT_SUBSTITUTION_REJECTED",
+      "evidence": "Local regional success is prohibited from claiming global success"
+    },
+    {
+      "id": "N22",
+      "name": "Counterexample misrouting",
+      "status": "PASS",
+      "actualClass": "COUNTEREXAMPLE_ROUTED_SAFELY",
+      "evidence": "Counterexample attribution strictly restricted to minimal affected regions"
+    },
+    {
+      "id": "N23",
+      "name": "Nondeterministic region order",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_PLAN",
+      "evidence": "Canonical topological sorting guarantees identical ordering across executions"
+    },
+    {
+      "id": "N24",
+      "name": "Coupling suppression",
+      "status": "PASS",
+      "actualClass": "COUPLING_SUPPRESSION_DETECTED",
+      "evidence": "Cyclic dependencies must be grouped into coupled regions rather than suppressed"
+    }
+  ]
+}

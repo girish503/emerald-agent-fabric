@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolVersion": "emerald-phase65-modular-inductive-synthesis-v1",
+  "frozenAt": "2026-10-20T06:16:45.426Z",
+  "baselineCommit": "8f2ced7",
+  "experimentalVariable": "modular_contract_decomposition_and_governed_inductive_synthesis",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000
+  },
+  "searchLimits": {
+    "maxRegions": 12,
+    "maxSubproblems": 24,
+    "maxCoupledRegions": 4,
+    "maxRegionalCandidates": 25,
+    "maxJointCandidates": 50,
+    "maxProgramDepth": 8,
+    "maxProgramNodes": 32,
+    "maxCEGISIterations": 6,
+    "maxRegionalResynthesisAttempts": 3,
+    "maxCompositionRounds": 4,
+    "maxAffectedFiles": 6,
+    "maxWallClockMs": 120000
+  },
+  "roles": [
+    "REGION_SYNTHESIZER",
+    "CONTRACT_REVIEWER",
+    "COMPOSITION_REVIEWER",
+    "GOVERNED_COORDINATOR"
+  ],
+  "escalationLevels": {
+    "LEVEL_0_REGIONAL_SYNTHESIS": 0,
+    "LEVEL_1_REGIONAL_CEGIS": 1,
+    "LEVEL_2_COUPLED_REGION_SYNTHESIS": 2,
+    "LEVEL_3_WHOLE_PROGRAM_FALLBACK": 3
+  },
+  "counterexampleCategories": [
+    "LOCAL_TYPE_FAILURE",
+    "LOCAL_BEHAVIOR_FAILURE",
+    "LOCAL_INVARIANT_FAILURE",
+    "INTERFACE_CONTRACT_FAILURE",
+    "REPRESENTATION_MISMATCH",
+    "STATE_PROPAGATION_FAILURE",
+    "CROSS_REGION_BEHAVIOR_FAILURE",
+    "GLOBAL_INVARIANT_FAILURE",
+    "COMPOSITION_FAILURE",
+    "UNKNOWN"
+  ],
+  "conditions": [
+    "CONDITION_A_PHASE64_CONTROL",
+    "CONDITION_B_STATIC_MODULAR",
+    "CONDITION_C_MODULAR_CEGIS",
+    "CONDITION_D_FULL_GOVERNED_MODULAR"
+  ],
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672"
+}

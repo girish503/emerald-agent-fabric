@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "totalEscalations": 10,
+  "records": [
+    {
+      "escalationId": "ESC-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "initialScope": [
+        "P46-L6-01-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L6-01-REG-01"
+      ],
+      "newLevel": 1,
+      "reason": "INTERFACE_CONTRACT_FAILURE_TRIGGERS_REGIONAL_CEGIS",
+      "qualifyingCounterexampleId": "CE-P46-L6-01-01",
+      "candidateCount": 16,
+      "result": "CONVERGED",
+      "contentHash": "02bc5acf701fa5872701fd269053647873cd6722c704a9e3ad4c78aa306f7597"
+    },
+    {
+      "escalationId": "ESC-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "initialScope": [
+        "P46-L6-02-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L6-02-REG-01"
+      ],
+      "newLevel": 1,
+      "reason": "INTERFACE_CONTRACT_FAILURE_TRIGGERS_REGIONAL_CEGIS",
+      "qualifyingCounterexampleId": "CE-P46-L6-02-01",
+      "candidateCount": 16,
+      "result": "CONVERGED",
+      "contentHash": "bb29bfa33231c85fad1c62cf5ddccdd7105b8b1a025d557b01701d4bcfbf416b"
+    },
+    {
+      "escalationId": "ESC-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "initialScope": [
+        "P46-L6-03-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L6-03-REG-01"
+      ],
+      "newLevel": 1,
+      "reason": "INTERFACE_CONTRACT_FAILURE_TRIGGERS_REGIONAL_CEGIS",
+      "qualifyingCounterexampleId": "CE-P46-L6-03-01",
+      "candidateCount": 16,
+      "result": "CONVERGED",
+      "contentHash": "a6b79be431bcdb47a3672fc15e063ab60999cc34d0726db8e3cf8a685e3cee76"
+    },
+    {
+      "escalationId": "ESC-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "initialScope": [
+        "P46-L6-04-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L6-04-REG-01"
+      ],
+      "newLevel": 1,
+      "reason": "INTERFACE_CONTRACT_FAILURE_TRIGGERS_REGIONAL_CEGIS",
+      "qualifyingCounterexampleId": "CE-P46-L6-04-01",
+      "candidateCount": 16,
+      "result": "CONVERGED",
+      "contentHash": "ec6d7ccab2a41fab47284722d6bd02ed84d06e1ca087e0166b50d168e12d1773"
+    },
+    {
+      "escalationId": "ESC-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "initialScope": [
+        "P46-L6-05-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L6-05-REG-01"
+      ],
+      "newLevel": 1,
+      "reason": "INTERFACE_CONTRACT_FAILURE_TRIGGERS_REGIONAL_CEGIS",
+      "qualifyingCounterexampleId": "CE-P46-L6-05-01",
+      "candidateCount": 16,
+      "result": "CONVERGED",
+      "contentHash": "48c577e8c631f17ace8a1be7780f578d464a3665c7d204bc72dc122c60f71979"
+    },
+    {
+      "escalationId": "ESC-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "initialScope": [
+        "P46-L7-01-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L7-01-REG-01",
+        "P46-L7-01-REG-02"
+      ],
+      "newLevel": 2,
+      "reason": "REPRESENTATION_MISMATCH_TRIGGERS_COUPLED_SYNTHESIS",
+      "qualifyingCounterexampleId": "CE-P46-L7-01-01",
+      "candidateCount": 50,
+      "result": "EXHAUSTED",
+      "contentHash": "d9e0f34c277ee1124250728b230cfbd1479b0e12326f7be7ca4cf469c84e4c7e"
+    },
+    {
+      "escalationId": "ESC-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "initialScope": [
+        "P46-L7-02-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L7-02-REG-01",
+        "P46-L7-02-REG-02"
+      ],
+      "newLevel": 2,
+      "reason": "REPRESENTATION_MISMATCH_TRIGGERS_COUPLED_SYNTHESIS",
+      "qualifyingCounterexampleId": "CE-P46-L7-02-01",
+      "candidateCount": 50,
+      "result": "EXHAUSTED",
+      "contentHash": "8ed48256b27e286903d35a7d564d1728964410e7a68de10dfa41bc8448c8c85f"
+    },
+    {
+      "escalationId": "ESC-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "initialScope": [
+        "P46-L7-03-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L7-03-REG-01",
+        "P46-L7-03-REG-02"
+      ],
+      "newLevel": 2,
+      "reason": "REPRESENTATION_MISMATCH_TRIGGERS_COUPLED_SYNTHESIS",
+      "qualifyingCounterexampleId": "CE-P46-L7-03-01",
+      "candidateCount": 50,
+      "result": "EXHAUSTED",
+      "contentHash": "e21f6796ec7c00985c4568ac5463ecbf39c85b8e4e44d9386e9ccd7d99629111"
+    },
+    {
+      "escalationId": "ESC-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "initialScope": [
+        "P46-L7-04-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L7-04-REG-01",
+        "P46-L7-04-REG-02"
+      ],
+      "newLevel": 2,
+      "reason": "REPRESENTATION_MISMATCH_TRIGGERS_COUPLED_SYNTHESIS",
+      "qualifyingCounterexampleId": "CE-P46-L7-04-01",
+      "candidateCount": 50,
+      "result": "EXHAUSTED",
+      "contentHash": "6345a0ea815c097eed20e18633dd220bddfbb5498aaa7a23c98320c368924f1e"
+    },
+    {
+      "escalationId": "ESC-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "initialScope": [
+        "P46-L7-05-REG-01"
+      ],
+      "initialLevel": 0,
+      "newScope": [
+        "P46-L7-05-REG-01",
+        "P46-L7-05-REG-02"
+      ],
+      "newLevel": 2,
+      "reason": "REPRESENTATION_MISMATCH_TRIGGERS_COUPLED_SYNTHESIS",
+      "qualifyingCounterexampleId": "CE-P46-L7-05-01",
+      "candidateCount": 50,
+      "result": "EXHAUSTED",
+      "contentHash": "fe0a5a55a72f76465400f91b4b5be038c9ad09eb42bd913c12fac165af103ba8"
+    }
+  ]
+}

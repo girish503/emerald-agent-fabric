@@ -1,0 +1,608 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "totalPlans": 15,
+  "plans": [
+    {
+      "planId": "MOD-PLAN-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "regions": [
+        "REGION-P46-L5-01-01"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L5-01-01"
+        ],
+        "edges": []
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L5-01-01"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L5-01-01"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "89e38e5f3bd090689f429ff45ddac13c0ec30d9c40bb25a2720f971d66afef05"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "regions": [
+        "REGION-P46-L5-02-01"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L5-02-01"
+        ],
+        "edges": []
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L5-02-01"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L5-02-01"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "6ab1758bd15308a64fef1d92a2ed642c11d022386abc69fb713d895a1f7fa11d"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "regions": [
+        "REGION-P46-L5-03-01"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L5-03-01"
+        ],
+        "edges": []
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L5-03-01"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L5-03-01"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "2aa7d850c0184f1460cdddf8405079aeab2ba77436f99a5611c815ae80d13e9e"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "regions": [
+        "REGION-P46-L5-04-01"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L5-04-01"
+        ],
+        "edges": []
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L5-04-01"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L5-04-01"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "575c9049dd7f0fe036e94cf46bbe786bce2aec8ce066af96c74b767bd9ff1c10"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "regions": [
+        "REGION-P46-L5-05-01"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L5-05-01"
+        ],
+        "edges": []
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L5-05-01"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L5-05-01"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "2d78ae33d247865b2c22b006c7a0a5d599d9e55cb2e1029dd1770014337200b6"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "regions": [
+        "REGION-P46-L6-01-01",
+        "REGION-P46-L6-01-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L6-01-01",
+          "REGION-P46-L6-01-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L6-01-01",
+            "to": "REGION-P46-L6-01-02"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L6-01-01",
+        "REGION-P46-L6-01-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L6-01-01"
+        ],
+        [
+          "REGION-P46-L6-01-02"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "5461b135d4e68e5649d9be9125f1443c8332bb44e4ede516f5a5504cd4f227f5"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "regions": [
+        "REGION-P46-L6-02-01",
+        "REGION-P46-L6-02-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L6-02-01",
+          "REGION-P46-L6-02-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L6-02-01",
+            "to": "REGION-P46-L6-02-02"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L6-02-01",
+        "REGION-P46-L6-02-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L6-02-01"
+        ],
+        [
+          "REGION-P46-L6-02-02"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "c3d78b00316c3980c4164b6b6c39a1d3b7762d7d8d233b382eb016b19137a11d"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "regions": [
+        "REGION-P46-L6-03-01",
+        "REGION-P46-L6-03-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L6-03-01",
+          "REGION-P46-L6-03-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L6-03-01",
+            "to": "REGION-P46-L6-03-02"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L6-03-01",
+        "REGION-P46-L6-03-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L6-03-01"
+        ],
+        [
+          "REGION-P46-L6-03-02"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "5be4355551b3a5b7a3606b5c47f2266112695a32153c03f3ceb21390a1e5db0e"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "regions": [
+        "REGION-P46-L6-04-01",
+        "REGION-P46-L6-04-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L6-04-01",
+          "REGION-P46-L6-04-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L6-04-01",
+            "to": "REGION-P46-L6-04-02"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L6-04-01",
+        "REGION-P46-L6-04-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L6-04-01"
+        ],
+        [
+          "REGION-P46-L6-04-02"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "1c96142323d65010cfaf5706f9d7dd5d19a8a0cece3f82aac59bd7b35c7fd82e"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "regions": [
+        "REGION-P46-L6-05-01",
+        "REGION-P46-L6-05-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L6-05-01",
+          "REGION-P46-L6-05-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L6-05-01",
+            "to": "REGION-P46-L6-05-02"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L6-05-01",
+        "REGION-P46-L6-05-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L6-05-01"
+        ],
+        [
+          "REGION-P46-L6-05-02"
+        ]
+      ],
+      "coupledRegionGroups": [],
+      "synthesisStrategy": "INDEPENDENT_REGION_SYNTHESIS",
+      "contentHash": "cdee2ad0c92caf83f5ce67ae1e1b657b4e6acfc26d99f61f69d802dedb9f5144"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "regions": [
+        "REGION-P46-L7-01-01",
+        "REGION-P46-L7-01-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L7-01-01",
+          "REGION-P46-L7-01-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L7-01-01",
+            "to": "REGION-P46-L7-01-02"
+          },
+          {
+            "from": "REGION-P46-L7-01-02",
+            "to": "REGION-P46-L7-01-01"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L7-01-01",
+        "REGION-P46-L7-01-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L7-01-01",
+          "REGION-P46-L7-01-02"
+        ]
+      ],
+      "coupledRegionGroups": [
+        {
+          "groupId": "COUPLED-GRP-P46-L7-01-01",
+          "regions": [
+            "REGION-P46-L7-01-01",
+            "REGION-P46-L7-01-02"
+          ],
+          "cyclicDependencies": [
+            {
+              "from": "REGION-P46-L7-01-01",
+              "to": "REGION-P46-L7-01-02"
+            },
+            {
+              "from": "REGION-P46-L7-01-02",
+              "to": "REGION-P46-L7-01-01"
+            }
+          ],
+          "jointObligations": [
+            "OBL-REGION-P46-L7-01-01-TO-REGION-P46-L7-01-02",
+            "OBL-FEEDBACK-REGION-P46-L7-01-02-TO-REGION-P46-L7-01-01"
+          ],
+          "reason": "BIDIRECTIONAL_TOKEN_STREAM_AND_PRECEDENCE_DEPENDENCY",
+          "contentHash": "283176f6a146b07074a639c560bb118ed74b98537ca5b065469ca0e30770018e"
+        }
+      ],
+      "synthesisStrategy": "COUPLED_REGION_SYNTHESIS",
+      "contentHash": "7be78c66bc497828fbb15436b24e78cfe439ffe2f78717310dc2938bac3ec7e6"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "regions": [
+        "REGION-P46-L7-02-01",
+        "REGION-P46-L7-02-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L7-02-01",
+          "REGION-P46-L7-02-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L7-02-01",
+            "to": "REGION-P46-L7-02-02"
+          },
+          {
+            "from": "REGION-P46-L7-02-02",
+            "to": "REGION-P46-L7-02-01"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L7-02-01",
+        "REGION-P46-L7-02-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L7-02-01",
+          "REGION-P46-L7-02-02"
+        ]
+      ],
+      "coupledRegionGroups": [
+        {
+          "groupId": "COUPLED-GRP-P46-L7-02-01",
+          "regions": [
+            "REGION-P46-L7-02-01",
+            "REGION-P46-L7-02-02"
+          ],
+          "cyclicDependencies": [
+            {
+              "from": "REGION-P46-L7-02-01",
+              "to": "REGION-P46-L7-02-02"
+            },
+            {
+              "from": "REGION-P46-L7-02-02",
+              "to": "REGION-P46-L7-02-01"
+            }
+          ],
+          "jointObligations": [
+            "OBL-REGION-P46-L7-02-01-TO-REGION-P46-L7-02-02",
+            "OBL-FEEDBACK-REGION-P46-L7-02-02-TO-REGION-P46-L7-02-01"
+          ],
+          "reason": "BIDIRECTIONAL_TOKEN_STREAM_AND_PRECEDENCE_DEPENDENCY",
+          "contentHash": "fd6a09ad01ad36b3265ff81ae385a0a557c073bda65f2fea747a5c4db3a6765f"
+        }
+      ],
+      "synthesisStrategy": "COUPLED_REGION_SYNTHESIS",
+      "contentHash": "a9a75d70b7eac6228b440c04b5186d3190d222902fdd630570a168b989454ea2"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "regions": [
+        "REGION-P46-L7-03-01",
+        "REGION-P46-L7-03-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L7-03-01",
+          "REGION-P46-L7-03-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L7-03-01",
+            "to": "REGION-P46-L7-03-02"
+          },
+          {
+            "from": "REGION-P46-L7-03-02",
+            "to": "REGION-P46-L7-03-01"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L7-03-01",
+        "REGION-P46-L7-03-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L7-03-01",
+          "REGION-P46-L7-03-02"
+        ]
+      ],
+      "coupledRegionGroups": [
+        {
+          "groupId": "COUPLED-GRP-P46-L7-03-01",
+          "regions": [
+            "REGION-P46-L7-03-01",
+            "REGION-P46-L7-03-02"
+          ],
+          "cyclicDependencies": [
+            {
+              "from": "REGION-P46-L7-03-01",
+              "to": "REGION-P46-L7-03-02"
+            },
+            {
+              "from": "REGION-P46-L7-03-02",
+              "to": "REGION-P46-L7-03-01"
+            }
+          ],
+          "jointObligations": [
+            "OBL-REGION-P46-L7-03-01-TO-REGION-P46-L7-03-02",
+            "OBL-FEEDBACK-REGION-P46-L7-03-02-TO-REGION-P46-L7-03-01"
+          ],
+          "reason": "BIDIRECTIONAL_TOKEN_STREAM_AND_PRECEDENCE_DEPENDENCY",
+          "contentHash": "f282ebaa33ddbedde6e327b2bbe93bdd617efe2cefc8ead8836e7c85c3619f3f"
+        }
+      ],
+      "synthesisStrategy": "COUPLED_REGION_SYNTHESIS",
+      "contentHash": "d5d9bdd8aca0d6f67f9ab9a5aba89bcc2ea07ead150c8d8b3f025dac662162d4"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "regions": [
+        "REGION-P46-L7-04-01",
+        "REGION-P46-L7-04-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L7-04-01",
+          "REGION-P46-L7-04-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L7-04-01",
+            "to": "REGION-P46-L7-04-02"
+          },
+          {
+            "from": "REGION-P46-L7-04-02",
+            "to": "REGION-P46-L7-04-01"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L7-04-01",
+        "REGION-P46-L7-04-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L7-04-01",
+          "REGION-P46-L7-04-02"
+        ]
+      ],
+      "coupledRegionGroups": [
+        {
+          "groupId": "COUPLED-GRP-P46-L7-04-01",
+          "regions": [
+            "REGION-P46-L7-04-01",
+            "REGION-P46-L7-04-02"
+          ],
+          "cyclicDependencies": [
+            {
+              "from": "REGION-P46-L7-04-01",
+              "to": "REGION-P46-L7-04-02"
+            },
+            {
+              "from": "REGION-P46-L7-04-02",
+              "to": "REGION-P46-L7-04-01"
+            }
+          ],
+          "jointObligations": [
+            "OBL-REGION-P46-L7-04-01-TO-REGION-P46-L7-04-02",
+            "OBL-FEEDBACK-REGION-P46-L7-04-02-TO-REGION-P46-L7-04-01"
+          ],
+          "reason": "BIDIRECTIONAL_TOKEN_STREAM_AND_PRECEDENCE_DEPENDENCY",
+          "contentHash": "8e5ee4020834f3ed2082b89a146c7d4704e034274956efc01d0e3f4dcb3b4d00"
+        }
+      ],
+      "synthesisStrategy": "COUPLED_REGION_SYNTHESIS",
+      "contentHash": "8ae614202c4f8af1f0405254b58203c45ad8127aef23de0bfdf2e13753cc8e75"
+    },
+    {
+      "planId": "MOD-PLAN-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "regions": [
+        "REGION-P46-L7-05-01",
+        "REGION-P46-L7-05-02"
+      ],
+      "dependencyDag": {
+        "nodes": [
+          "REGION-P46-L7-05-01",
+          "REGION-P46-L7-05-02"
+        ],
+        "edges": [
+          {
+            "from": "REGION-P46-L7-05-01",
+            "to": "REGION-P46-L7-05-02"
+          },
+          {
+            "from": "REGION-P46-L7-05-02",
+            "to": "REGION-P46-L7-05-01"
+          }
+        ]
+      },
+      "topologicalOrdering": [
+        "REGION-P46-L7-05-01",
+        "REGION-P46-L7-05-02"
+      ],
+      "stronglyConnectedComponents": [
+        [
+          "REGION-P46-L7-05-01",
+          "REGION-P46-L7-05-02"
+        ]
+      ],
+      "coupledRegionGroups": [
+        {
+          "groupId": "COUPLED-GRP-P46-L7-05-01",
+          "regions": [
+            "REGION-P46-L7-05-01",
+            "REGION-P46-L7-05-02"
+          ],
+          "cyclicDependencies": [
+            {
+              "from": "REGION-P46-L7-05-01",
+              "to": "REGION-P46-L7-05-02"
+            },
+            {
+              "from": "REGION-P46-L7-05-02",
+              "to": "REGION-P46-L7-05-01"
+            }
+          ],
+          "jointObligations": [
+            "OBL-REGION-P46-L7-05-01-TO-REGION-P46-L7-05-02",
+            "OBL-FEEDBACK-REGION-P46-L7-05-02-TO-REGION-P46-L7-05-01"
+          ],
+          "reason": "BIDIRECTIONAL_TOKEN_STREAM_AND_PRECEDENCE_DEPENDENCY",
+          "contentHash": "fc9d5f8fb54f26cd38fd5367bd05fa5ece9b0f610b6d777eb42ed44385a63947"
+        }
+      ],
+      "synthesisStrategy": "COUPLED_REGION_SYNTHESIS",
+      "contentHash": "815b12a7280dc78ee8d140d7e3fca24dd73d0443cdca4458a382d0a6925af946"
+    }
+  ]
+}

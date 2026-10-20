@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "synthesisMetrics": {
+    "regionalProgramsGenerated": 240,
+    "wholeProgramProgramsGenerated": 45,
+    "typeRejectionRate": "34.5%",
+    "semanticRejectionRate": "28.0%",
+    "cegisRejectionRate": "18.5%",
+    "equivalencePruningRate": "72.4%",
+    "candidateExecutionCount": 65,
+    "uniquePrograms": 52,
+    "equivalenceClasses": 21
+  },
+  "modularityMetrics": {
+    "totalRegions": 25,
+    "meanRegionSize": 1.8,
+    "maxRegionSize": 3,
+    "crossRegionEdges": 15,
+    "coupledGroupsCount": 5,
+    "meanCouplingWidth": 2,
+    "dependencyDagDepth": 2,
+    "maxFanout": 2,
+    "boundaryObligationsCount": 15
+  },
+  "cegisMetrics": {
+    "totalCounterexamples": 20,
+    "totalRefinements": 35,
+    "maxIterations": 6,
+    "convergenceRate": "66.7%",
+    "meanConvergenceIteration": 2.3,
+    "l7ExhaustionRate": "100.0%"
+  },
+  "compositionMetrics": {
+    "regionalSuccessRate": "100.0%",
+    "contractSuccessRate": "100.0%",
+    "coupledCompositionRate": "66.7%",
+    "globalCleanRoomSuccess": "66.7%"
+  }
+}

@@ -1,0 +1,2408 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "totalCandidateSets": 25,
+  "candidateSets": [
+    {
+      "regionId": "REGION-P46-L5-01-01",
+      "candidateCount": 6,
+      "rejectedCount": 4,
+      "typeRejectionCount": 1,
+      "semanticRejectionCount": 1,
+      "counterexampleRejectionCount": 1,
+      "equivalentProgramEliminationCount": 1,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L5-01-01",
+          "programId": "REG-PROG-REGION-P46-L5-01-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "3498e72242689d9a65725505530d4045b6e83875b0fa63d40aaf55c1ff87feb1"
+        },
+        {
+          "regionId": "REGION-P46-L5-01-01",
+          "programId": "REG-PROG-REGION-P46-L5-01-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "495469652c56773ae4dacfbcfd5e687be928f336db888edca6cbff4fe4e54afc"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L5-01-01-01",
+        "REG-PROG-REGION-P46-L5-01-01-02"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L5-02-01",
+      "candidateCount": 6,
+      "rejectedCount": 4,
+      "typeRejectionCount": 1,
+      "semanticRejectionCount": 1,
+      "counterexampleRejectionCount": 1,
+      "equivalentProgramEliminationCount": 1,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L5-02-01",
+          "programId": "REG-PROG-REGION-P46-L5-02-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "a06a80daa0b0eb9cb8b9c748d3707e449ec7ff82cee3bf5f0fdc95113ff47932"
+        },
+        {
+          "regionId": "REGION-P46-L5-02-01",
+          "programId": "REG-PROG-REGION-P46-L5-02-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "89472b79c00088ce2e1c595e747f3b31ea03e0066441ae1ebb64dbb5511e6ddf"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L5-02-01-01",
+        "REG-PROG-REGION-P46-L5-02-01-02"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L5-03-01",
+      "candidateCount": 6,
+      "rejectedCount": 4,
+      "typeRejectionCount": 1,
+      "semanticRejectionCount": 1,
+      "counterexampleRejectionCount": 1,
+      "equivalentProgramEliminationCount": 1,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L5-03-01",
+          "programId": "REG-PROG-REGION-P46-L5-03-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "7996fb851719cbc22c3869aefcdc61c0c17d1b108e6ec68d43d3d7bd13b100ec"
+        },
+        {
+          "regionId": "REGION-P46-L5-03-01",
+          "programId": "REG-PROG-REGION-P46-L5-03-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "cff180047f8e8d368a3257abcb9b71985d067da0a84e3db6bde8532c7ebb6507"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L5-03-01-01",
+        "REG-PROG-REGION-P46-L5-03-01-02"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L5-04-01",
+      "candidateCount": 6,
+      "rejectedCount": 4,
+      "typeRejectionCount": 1,
+      "semanticRejectionCount": 1,
+      "counterexampleRejectionCount": 1,
+      "equivalentProgramEliminationCount": 1,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L5-04-01",
+          "programId": "REG-PROG-REGION-P46-L5-04-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "744cb2c291ed06dcdee94bf21f28087b4b583659c50213f90591e508fb536586"
+        },
+        {
+          "regionId": "REGION-P46-L5-04-01",
+          "programId": "REG-PROG-REGION-P46-L5-04-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "802d0388ebeb5beea5165ebaa21414018b831ee5dc8823018a1c15311ac32be9"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L5-04-01-01",
+        "REG-PROG-REGION-P46-L5-04-01-02"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L5-05-01",
+      "candidateCount": 6,
+      "rejectedCount": 4,
+      "typeRejectionCount": 1,
+      "semanticRejectionCount": 1,
+      "counterexampleRejectionCount": 1,
+      "equivalentProgramEliminationCount": 1,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L5-05-01",
+          "programId": "REG-PROG-REGION-P46-L5-05-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "80bbe434cddece8b4fcba04c68751f9f7724b32786f076306030e948019ead7c"
+        },
+        {
+          "regionId": "REGION-P46-L5-05-01",
+          "programId": "REG-PROG-REGION-P46-L5-05-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_compareSemVer_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L5-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [
+            "compareSemVer",
+            "parseSemVer"
+          ],
+          "contentHash": "d0c57c52dc87deed572d19a166a0b4563879a2cf1431048ea597aa9b89bee9ed"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L5-05-01-01",
+        "REG-PROG-REGION-P46-L5-05-01-02"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-01-01",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-01-01",
+          "programId": "REG-PROG-REGION-P46-L6-01-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "a4129d74c1f30411a823cf809ddeddcdb6d7c5ad0ad530a0626cc2c358a2a1e1"
+        },
+        {
+          "regionId": "REGION-P46-L6-01-01",
+          "programId": "REG-PROG-REGION-P46-L6-01-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "940963736d6abdce177316a251eaa3d8c577389c91a7d9e9da4f38e1e7f0d078"
+        },
+        {
+          "regionId": "REGION-P46-L6-01-01",
+          "programId": "REG-PROG-REGION-P46-L6-01-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "7ddbc74e8dc1c1f9ca7643069996d8a94ebb41f3f224ec32eb386a9d973f2b09"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-01-01-01",
+        "REG-PROG-REGION-P46-L6-01-01-02",
+        "REG-PROG-REGION-P46-L6-01-01-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-01-02",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-01-02",
+          "programId": "REG-PROG-REGION-P46-L6-01-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "793fdf9568b70295a9bc9cbd1994c09661a3698e44cf2298c3e99a9b0bf5a8ab"
+        },
+        {
+          "regionId": "REGION-P46-L6-01-02",
+          "programId": "REG-PROG-REGION-P46-L6-01-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "21dd318f9b4b9a4b6bdfef161e52947292aadf94f2270d3d842cd1a9a3d98b05"
+        },
+        {
+          "regionId": "REGION-P46-L6-01-02",
+          "programId": "REG-PROG-REGION-P46-L6-01-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "9fa3c481ba30f70cb5f3b137f4ee0fecf06869dfaf7e948256916bac4e1bb8f2"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-01-02-01",
+        "REG-PROG-REGION-P46-L6-01-02-02",
+        "REG-PROG-REGION-P46-L6-01-02-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-02-01",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-02-01",
+          "programId": "REG-PROG-REGION-P46-L6-02-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "f9e45bd7b4580f31c41a7a53832a5e8e4a3574e6274d985b52ee6a72ed9ac244"
+        },
+        {
+          "regionId": "REGION-P46-L6-02-01",
+          "programId": "REG-PROG-REGION-P46-L6-02-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "bb064b74972ca27a743aad7d396749797446b60953afb84557a55b1e86b92b0b"
+        },
+        {
+          "regionId": "REGION-P46-L6-02-01",
+          "programId": "REG-PROG-REGION-P46-L6-02-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "32ad4da6e88561fc7a34ebe8cb6475579b1c061c4e27fab89f151fab7b241012"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-02-01-01",
+        "REG-PROG-REGION-P46-L6-02-01-02",
+        "REG-PROG-REGION-P46-L6-02-01-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-02-02",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-02-02",
+          "programId": "REG-PROG-REGION-P46-L6-02-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "e6740cf84b770089aa96ee69afed85eb33e82e6a14f2d2c84b10261174ff4527"
+        },
+        {
+          "regionId": "REGION-P46-L6-02-02",
+          "programId": "REG-PROG-REGION-P46-L6-02-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "f0418f9c59123280397d1763df6f02607e25784a5b3388da601d6e01fdf5d186"
+        },
+        {
+          "regionId": "REGION-P46-L6-02-02",
+          "programId": "REG-PROG-REGION-P46-L6-02-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "dad9a8d8fbecac4b051890624c520d72d5f28b54e58687ad960bbfdf5fc0d0ba"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-02-02-01",
+        "REG-PROG-REGION-P46-L6-02-02-02",
+        "REG-PROG-REGION-P46-L6-02-02-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-03-01",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-03-01",
+          "programId": "REG-PROG-REGION-P46-L6-03-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "61eb01c5d0d1c7f46e78219e35854ea6c302f867fa002717c9ea122f1ab084a5"
+        },
+        {
+          "regionId": "REGION-P46-L6-03-01",
+          "programId": "REG-PROG-REGION-P46-L6-03-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "4ad2fac67dfebac0d94cbfea6733e56b537a1b1656288418b3d4e3516f9ccd52"
+        },
+        {
+          "regionId": "REGION-P46-L6-03-01",
+          "programId": "REG-PROG-REGION-P46-L6-03-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "d10170ba2fcca90828b21968c000c94dbbf6c74bc16208b7541117484d1530dd"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-03-01-01",
+        "REG-PROG-REGION-P46-L6-03-01-02",
+        "REG-PROG-REGION-P46-L6-03-01-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-03-02",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-03-02",
+          "programId": "REG-PROG-REGION-P46-L6-03-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "2d46803b7142e4324cf120eba9ffcb8a90d78074d062fcd8e338acef70c1b0d3"
+        },
+        {
+          "regionId": "REGION-P46-L6-03-02",
+          "programId": "REG-PROG-REGION-P46-L6-03-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "fd788e89da6e2cbf6e38611a7ce73cf57468518f68ec9df08eaad5e133949462"
+        },
+        {
+          "regionId": "REGION-P46-L6-03-02",
+          "programId": "REG-PROG-REGION-P46-L6-03-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "4d4f5f2c47cb1fc44f8ac464d86c8fa035b7d99f07567169a0fa6daaa39291d8"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-03-02-01",
+        "REG-PROG-REGION-P46-L6-03-02-02",
+        "REG-PROG-REGION-P46-L6-03-02-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-04-01",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-04-01",
+          "programId": "REG-PROG-REGION-P46-L6-04-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "93b0e9bbb264384b100367a23b8fdc931cec9e6d18964c97b2f769fabec4dc5a"
+        },
+        {
+          "regionId": "REGION-P46-L6-04-01",
+          "programId": "REG-PROG-REGION-P46-L6-04-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "099383331c19b1d13f09737f4f1698a558a13115e83c161b9590498528f4e6e2"
+        },
+        {
+          "regionId": "REGION-P46-L6-04-01",
+          "programId": "REG-PROG-REGION-P46-L6-04-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "5bcaad4a2bc201e63572c06a53caad574f4ba6830b894c13fdc124d1e0a0dd17"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-04-01-01",
+        "REG-PROG-REGION-P46-L6-04-01-02",
+        "REG-PROG-REGION-P46-L6-04-01-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-04-02",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-04-02",
+          "programId": "REG-PROG-REGION-P46-L6-04-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "6f1b540cb929392488ba95a167319c6d3040e9e9345c1e5813ed7c56e4a4b6a7"
+        },
+        {
+          "regionId": "REGION-P46-L6-04-02",
+          "programId": "REG-PROG-REGION-P46-L6-04-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "2775ec1a902e20f77c6c38389f9c7e2b0b5fc1a22d32a858398c6aa3e1e7aad1"
+        },
+        {
+          "regionId": "REGION-P46-L6-04-02",
+          "programId": "REG-PROG-REGION-P46-L6-04-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "473e1f3926ae88a7540e8c83f09351125146357c329eb21f7e653990f5fa8aa3"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-04-02-01",
+        "REG-PROG-REGION-P46-L6-04-02-02",
+        "REG-PROG-REGION-P46-L6-04-02-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-05-01",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-05-01",
+          "programId": "REG-PROG-REGION-P46-L6-05-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "db369494ec73adb43a1967a063dd3c4517f6f39c385e95a5973cadbd1f0e5017"
+        },
+        {
+          "regionId": "REGION-P46-L6-05-01",
+          "programId": "REG-PROG-REGION-P46-L6-05-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "dc20fc45bec1b5ee7873e182321e9f093ed573ea5999e69645327df61ddd0353"
+        },
+        {
+          "regionId": "REGION-P46-L6-05-01",
+          "programId": "REG-PROG-REGION-P46-L6-05-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_sanitizeOrigin_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L6-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [
+            "sanitizeOrigin"
+          ],
+          "contentHash": "ffa95656c6d7175cfc0e06e0239ee275adc1dc2094df749e9e6fbbc0e4ddc951"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-05-01-01",
+        "REG-PROG-REGION-P46-L6-05-01-02",
+        "REG-PROG-REGION-P46-L6-05-01-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L6-05-02",
+      "candidateCount": 12,
+      "rejectedCount": 9,
+      "typeRejectionCount": 3,
+      "semanticRejectionCount": 2,
+      "counterexampleRejectionCount": 2,
+      "equivalentProgramEliminationCount": 2,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L6-05-02",
+          "programId": "REG-PROG-REGION-P46-L6-05-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "4fd7f730d87e15f9bbc37b49c97a5f86aa9c4a89c81c29c92839d4a40d6f398a"
+        },
+        {
+          "regionId": "REGION-P46-L6-05-02",
+          "programId": "REG-PROG-REGION-P46-L6-05-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "171f028b2b74edce417fb8e0c748006a3b5f4e2c61afafc9808506e4840072b0"
+        },
+        {
+          "regionId": "REGION-P46-L6-05-02",
+          "programId": "REG-PROG-REGION-P46-L6-05-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_validateHeader_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/validator.js"
+          ],
+          "dependencies": [
+            "validateHeader"
+          ],
+          "contentHash": "d32ff6ec3fea8906142233f73e81364fad68fa2e236c2836ac2b1513d8c8c759"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L6-05-02-01",
+        "REG-PROG-REGION-P46-L6-05-02-02",
+        "REG-PROG-REGION-P46-L6-05-02-03"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-01-01",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "programId": "REG-PROG-REGION-P46-L7-01-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "7ccd4facf2e8a14b1c5c715d9167c3a972855179cce112b69bd3a49e47bfe5ef"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "programId": "REG-PROG-REGION-P46-L7-01-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "103f63f402b34861b295d91c8c052522de6eb42b10b44277dd97ea055fedee29"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "programId": "REG-PROG-REGION-P46-L7-01-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "b2e0716372132dfcbc67b9379b311df701627072829c8abf75ebe32e5092658c"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "programId": "REG-PROG-REGION-P46-L7-01-01-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_4",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "a254041667fdc1db2155186568beea8b97555e9b5eaa234c233c778d6a0afb90"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "programId": "REG-PROG-REGION-P46-L7-01-01-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_5",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "ac6149da3dd08c3fcccf0aeffa7f27b5959c7abcc86a1f20f536d8221596bd29"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "programId": "REG-PROG-REGION-P46-L7-01-01-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_6",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-01",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "9a099662d86ed4c6ccbd13adf8d5d5316c23555742c2b0491314ed7c86284143"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-01-01-01",
+        "REG-PROG-REGION-P46-L7-01-01-02",
+        "REG-PROG-REGION-P46-L7-01-01-03",
+        "REG-PROG-REGION-P46-L7-01-01-04",
+        "REG-PROG-REGION-P46-L7-01-01-05",
+        "REG-PROG-REGION-P46-L7-01-01-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-01-02",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "programId": "REG-PROG-REGION-P46-L7-01-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "dd54e35e4a60394a6b42a324a8a877aa42a25d87d590313ea752d85c1af792d4"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "programId": "REG-PROG-REGION-P46-L7-01-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "0052ce67d61165053495f759490816bcda3762e6e13828c84908ce9b7be6fa7f"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "programId": "REG-PROG-REGION-P46-L7-01-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "54a195a7a87f105469acf69f13ef1a712be04ac547b8828c39b00ca625e977a1"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "programId": "REG-PROG-REGION-P46-L7-01-02-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_4",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "ee388cbb097af35bb0c853d8d6ad0dc664f8f6962727b37ed24bbcb1915c52c5"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "programId": "REG-PROG-REGION-P46-L7-01-02-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_5",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "d513d9a5360fcf810a7614db2e8a4fcdd0cd13ce480323c1b3b837297757622d"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "programId": "REG-PROG-REGION-P46-L7-01-02-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_6",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "0fecff8e0e1314c761457323b559efe3e08e35d972d5373edee26bfd6f8325bd"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-01-02-01",
+        "REG-PROG-REGION-P46-L7-01-02-02",
+        "REG-PROG-REGION-P46-L7-01-02-03",
+        "REG-PROG-REGION-P46-L7-01-02-04",
+        "REG-PROG-REGION-P46-L7-01-02-05",
+        "REG-PROG-REGION-P46-L7-01-02-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-02-01",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "programId": "REG-PROG-REGION-P46-L7-02-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "60a43735dcab1735033e795eed818f6739d366483c538f917a21b19cfb063319"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "programId": "REG-PROG-REGION-P46-L7-02-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "931e0b233a889c2cdc1bb8151805c8d7aa320e89f602e84a4fa84c066b552cb9"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "programId": "REG-PROG-REGION-P46-L7-02-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "8a7e9abe98dc783ecbb29c0c883db2a63335abe9508ca00f2bf5b05dc303a3bf"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "programId": "REG-PROG-REGION-P46-L7-02-01-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_4",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "402345216a1d257d12a7a340184e062f591970acd7c3b1f5e04f8284e89dd76d"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "programId": "REG-PROG-REGION-P46-L7-02-01-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_5",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "0a4e70489e67b9ed8cd812e9a582ce203d6503adae9f828403ba803e72b65bf3"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "programId": "REG-PROG-REGION-P46-L7-02-01-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_6",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-02",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "27c76f019bbbc2b5a72410efe3fe996914dadc86fb14089761cc464c3fbf8bc0"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-02-01-01",
+        "REG-PROG-REGION-P46-L7-02-01-02",
+        "REG-PROG-REGION-P46-L7-02-01-03",
+        "REG-PROG-REGION-P46-L7-02-01-04",
+        "REG-PROG-REGION-P46-L7-02-01-05",
+        "REG-PROG-REGION-P46-L7-02-01-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-02-02",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "programId": "REG-PROG-REGION-P46-L7-02-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "c2fc8a70fa8b230bcfb57a4b20cffb9882d5bceb08e0a3d273ab86c0adccaea8"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "programId": "REG-PROG-REGION-P46-L7-02-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "9da5b8976d2e8daa36fdebfca9e4b4aef42d107442118bfce9cdafc21758e161"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "programId": "REG-PROG-REGION-P46-L7-02-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "4709b499a3a0eb858ca8dffbc86150846f325ad9165d2fd0daeb4f9d7fd97805"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "programId": "REG-PROG-REGION-P46-L7-02-02-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_4",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "bf9b9e03faad77c44b803abccded9acdba2a003195d8f86e11b2a79d67d00c7f"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "programId": "REG-PROG-REGION-P46-L7-02-02-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_5",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "0aa32baa262f812c081d04e303066ff1991a8e248cfbcde80927d067c22f2d8e"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "programId": "REG-PROG-REGION-P46-L7-02-02-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_6",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "d98512f5222568b1d366bfcff9c21917a6f24d1cbac504bd5dde80f3f495e749"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-02-02-01",
+        "REG-PROG-REGION-P46-L7-02-02-02",
+        "REG-PROG-REGION-P46-L7-02-02-03",
+        "REG-PROG-REGION-P46-L7-02-02-04",
+        "REG-PROG-REGION-P46-L7-02-02-05",
+        "REG-PROG-REGION-P46-L7-02-02-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-03-01",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-03-01",
+          "programId": "REG-PROG-REGION-P46-L7-03-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "6fd4b54feda0c0badea64f10c552fddc670aa42ec99d58cba80981b9ec2d17c2"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-01",
+          "programId": "REG-PROG-REGION-P46-L7-03-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "4b92a78cdd9b38e0dbf3a28396eac09b56188ee8e964f61f7cd92b164b330bdc"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-01",
+          "programId": "REG-PROG-REGION-P46-L7-03-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "87c8b83cdf51a114d489f6dbb0851042e19c7fec1f106b893b06c82fa907fc0e"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-01",
+          "programId": "REG-PROG-REGION-P46-L7-03-01-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_4",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "17ee2fcfe3a0e90788132cdf3acb13c3e57723dba21cf0f22c7acd26d54bce3c"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-01",
+          "programId": "REG-PROG-REGION-P46-L7-03-01-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_5",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "00e0152b0e0721faebf421705bb949612d03fc69d994ecec48e9d7584dae6995"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-01",
+          "programId": "REG-PROG-REGION-P46-L7-03-01-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_6",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-03",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "7190a94d7cfc4e240ff543a55935f83c02f83fd4b5e3303593bc9892c67d5681"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-03-01-01",
+        "REG-PROG-REGION-P46-L7-03-01-02",
+        "REG-PROG-REGION-P46-L7-03-01-03",
+        "REG-PROG-REGION-P46-L7-03-01-04",
+        "REG-PROG-REGION-P46-L7-03-01-05",
+        "REG-PROG-REGION-P46-L7-03-01-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-03-02",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-03-02",
+          "programId": "REG-PROG-REGION-P46-L7-03-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "9e46863231cb7ee860f0e702e0c9fe819712f1055da7ab8f20a4875960711c1c"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-02",
+          "programId": "REG-PROG-REGION-P46-L7-03-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "1c3b6a46710adbc3a85f657e0de93a52ab24dd4fdcb09361655b0281681e392f"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-02",
+          "programId": "REG-PROG-REGION-P46-L7-03-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "b0414780efc689b7b6e59c66f6f2680da26274cb7ef6e9315a73766f87810349"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-02",
+          "programId": "REG-PROG-REGION-P46-L7-03-02-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_4",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "880016692e61b3407ddf3b1e5607f9637c42375e80f8a40dbce7e426c6bc4714"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-02",
+          "programId": "REG-PROG-REGION-P46-L7-03-02-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_5",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "dc23ce4f55f864b06da5ce6abd94eb18f51eb14380e73233447b410475b1aba7"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-02",
+          "programId": "REG-PROG-REGION-P46-L7-03-02-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_6",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "00fd703cdda76686cf0c0287576e78fde2120310f02576c8ace664e9677758be"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-03-02-01",
+        "REG-PROG-REGION-P46-L7-03-02-02",
+        "REG-PROG-REGION-P46-L7-03-02-03",
+        "REG-PROG-REGION-P46-L7-03-02-04",
+        "REG-PROG-REGION-P46-L7-03-02-05",
+        "REG-PROG-REGION-P46-L7-03-02-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-04-01",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-04-01",
+          "programId": "REG-PROG-REGION-P46-L7-04-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "686196d7b7ae69b84d6f7eefcffe41274328c6969d51058c9f6619d86157b53c"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-01",
+          "programId": "REG-PROG-REGION-P46-L7-04-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "026380777bcc0ef4e2724b1227a6431afa34f9b9494d63df31e2e930cd218214"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-01",
+          "programId": "REG-PROG-REGION-P46-L7-04-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "fc15c2a08c0b1f5cbc743962b145c1617c32ff71aa0ec02db77f2c24b32d8036"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-01",
+          "programId": "REG-PROG-REGION-P46-L7-04-01-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_4",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "5bbf98d05022e3db27e73ab3e8d9404cdf771b5a6af0b5f931c6b7e154ccb7f1"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-01",
+          "programId": "REG-PROG-REGION-P46-L7-04-01-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_5",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "928cbbcae3e2c21b19bc1c5ef09ca219cd53ba556399193b0ef9ce787a08f510"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-01",
+          "programId": "REG-PROG-REGION-P46-L7-04-01-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_6",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-04",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "0dab60c4d85d3c61479e087d735033f47362098f593771426d16ee7774e88f62"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-04-01-01",
+        "REG-PROG-REGION-P46-L7-04-01-02",
+        "REG-PROG-REGION-P46-L7-04-01-03",
+        "REG-PROG-REGION-P46-L7-04-01-04",
+        "REG-PROG-REGION-P46-L7-04-01-05",
+        "REG-PROG-REGION-P46-L7-04-01-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-04-02",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-04-02",
+          "programId": "REG-PROG-REGION-P46-L7-04-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "be30295a73e94c04a21b5929d88e898ad3b84f45262fd98be44fef2e2de43674"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-02",
+          "programId": "REG-PROG-REGION-P46-L7-04-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "f1ea1bdb911102da169ed4445c6bbf42d7649bcc412eed5127ee92615e80e424"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-02",
+          "programId": "REG-PROG-REGION-P46-L7-04-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "ca26e0d6b4d958093089374351987b8ab51ff746aa4bcd2923a30808d73dbac7"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-02",
+          "programId": "REG-PROG-REGION-P46-L7-04-02-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_4",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "f0ac8da060317456c2760c58fcf3e63b33d2b328db522e702268ede16a4afc28"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-02",
+          "programId": "REG-PROG-REGION-P46-L7-04-02-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_5",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "e4f9460e0ed65539d64ed53bc2bf355505087bfef723ea80b9f82bed62de7eee"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-02",
+          "programId": "REG-PROG-REGION-P46-L7-04-02-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_6",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "1f49a5fe77d62d0f5a1358a9ddebdbef0b6b290bdd5afd7b8d469b79348d29d8"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-04-02-01",
+        "REG-PROG-REGION-P46-L7-04-02-02",
+        "REG-PROG-REGION-P46-L7-04-02-03",
+        "REG-PROG-REGION-P46-L7-04-02-04",
+        "REG-PROG-REGION-P46-L7-04-02-05",
+        "REG-PROG-REGION-P46-L7-04-02-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-05-01",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-05-01",
+          "programId": "REG-PROG-REGION-P46-L7-05-01-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_1",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "b9a45b575335445e87513a3768de52542794d7e56dffcbfafec4ae3bc6aee70c"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-01",
+          "programId": "REG-PROG-REGION-P46-L7-05-01-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_2",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "4ca4814966ba6d852c2e84ba13f3858a508e50532f3d875b4cb7cfa61daf3c37"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-01",
+          "programId": "REG-PROG-REGION-P46-L7-05-01-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_3",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "455ef3a67030d19d201ed4c86a54f7370220b4e01a122b5085ebf9fbb27f20cb"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-01",
+          "programId": "REG-PROG-REGION-P46-L7-05-01-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_4",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "97f0ed23db564bb8166912b67488e52c706ea587bbef92a1801588225d14c2d9"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-01",
+          "programId": "REG-PROG-REGION-P46-L7-05-01-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_5",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "cd985f4b368f07976b9cf8445a81522436379a9c6d570425993351e9d75818ca"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-01",
+          "programId": "REG-PROG-REGION-P46-L7-05-01-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_evaluate_CANDIDATE_6",
+          "consumedContracts": [],
+          "producedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "preservedInvariants": [
+            "LOCAL_INV:INVARIANT_P46-L7-05",
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [
+            "evaluate",
+            "tokenize"
+          ],
+          "contentHash": "f60536ff63568a001bf3fb7e93a5e5384ac54680a3186f87312458d0039c6eac"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-05-01-01",
+        "REG-PROG-REGION-P46-L7-05-01-02",
+        "REG-PROG-REGION-P46-L7-05-01-03",
+        "REG-PROG-REGION-P46-L7-05-01-04",
+        "REG-PROG-REGION-P46-L7-05-01-05",
+        "REG-PROG-REGION-P46-L7-05-01-06"
+      ]
+    },
+    {
+      "regionId": "REGION-P46-L7-05-02",
+      "candidateCount": 25,
+      "rejectedCount": 19,
+      "typeRejectionCount": 6,
+      "semanticRejectionCount": 5,
+      "counterexampleRejectionCount": 4,
+      "equivalentProgramEliminationCount": 4,
+      "survivingCandidates": [
+        {
+          "regionId": "REGION-P46-L7-05-02",
+          "programId": "REG-PROG-REGION-P46-L7-05-02-01",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_1",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "998782d68324c0872f7d378105d2320643e365da14884f85274466c9b8ce30bd"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-02",
+          "programId": "REG-PROG-REGION-P46-L7-05-02-02",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_2",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "c64bae8085b1a9a3c5f864945bb2aa9e53e07838dad1c015e4e3552b21b9ba68"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-02",
+          "programId": "REG-PROG-REGION-P46-L7-05-02-03",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_3",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "924a59316563150da1ff529fdb6a616082b7a474acdcf35f9db1c2ac1cfeb513"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-02",
+          "programId": "REG-PROG-REGION-P46-L7-05-02-04",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_4",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "c4f596e69eef68295c9a21c45ab8a11091411459a08a2a48e2ff35ca1c207f23"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-02",
+          "programId": "REG-PROG-REGION-P46-L7-05-02-05",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_5",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "594c279b53aa8ed9a5b3d5f1d7c59f53770cc246b6f758fd09087181490ab9b5"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-02",
+          "programId": "REG-PROG-REGION-P46-L7-05-02-06",
+          "semanticBehaviorSummary": "SYNTHESIZED_BEHAVIOR_FOR_parseExpression_CANDIDATE_6",
+          "consumedContracts": [
+            "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+          ],
+          "producedContracts": [],
+          "preservedInvariants": [
+            "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+          ],
+          "mutationScope": [
+            "src/parser.js"
+          ],
+          "dependencies": [
+            "parseExpression"
+          ],
+          "contentHash": "44629aa2dd275534547ce33ad96dccebb12d6f75623f7b08868f6c2196485559"
+        }
+      ],
+      "deterministicOrdering": [
+        "REG-PROG-REGION-P46-L7-05-02-01",
+        "REG-PROG-REGION-P46-L7-05-02-02",
+        "REG-PROG-REGION-P46-L7-05-02-03",
+        "REG-PROG-REGION-P46-L7-05-02-04",
+        "REG-PROG-REGION-P46-L7-05-02-05",
+        "REG-PROG-REGION-P46-L7-05-02-06"
+      ]
+    }
+  ]
+}

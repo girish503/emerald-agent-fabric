@@ -1,0 +1,328 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "totalCounterexamples": 20,
+  "counterexamples": [
+    {
+      "counterexampleId": "CE-P46-L5-01-01",
+      "category": "LOCAL_BEHAVIOR_FAILURE",
+      "affectedRegions": [
+        "P46-L5-01-REG-01"
+      ],
+      "affectedContracts": [],
+      "provenance": "BOUNDARY_UNIT_TEST",
+      "refinementScope": [
+        "LOCAL_ARITHMETIC_GUARD"
+      ],
+      "evidence": "Boundary condition underflow triggered exception",
+      "contentHash": "6fd0eef499b6e3cab980f684affb6d9a6c972967e83c0146f163581c1bd5adc8"
+    },
+    {
+      "counterexampleId": "CE-P46-L5-02-01",
+      "category": "LOCAL_BEHAVIOR_FAILURE",
+      "affectedRegions": [
+        "P46-L5-02-REG-01"
+      ],
+      "affectedContracts": [],
+      "provenance": "BOUNDARY_UNIT_TEST",
+      "refinementScope": [
+        "LOCAL_ARITHMETIC_GUARD"
+      ],
+      "evidence": "Boundary condition underflow triggered exception",
+      "contentHash": "8e5584f70808f56241e73a75085deeb14ad6e7c30e1e4bff2e4bb57f787039ad"
+    },
+    {
+      "counterexampleId": "CE-P46-L5-03-01",
+      "category": "LOCAL_BEHAVIOR_FAILURE",
+      "affectedRegions": [
+        "P46-L5-03-REG-01"
+      ],
+      "affectedContracts": [],
+      "provenance": "BOUNDARY_UNIT_TEST",
+      "refinementScope": [
+        "LOCAL_ARITHMETIC_GUARD"
+      ],
+      "evidence": "Boundary condition underflow triggered exception",
+      "contentHash": "6c0a210d4da40f1b91a2c25d1a361624afbea3f5d61a5846c4b7af844c5bae2d"
+    },
+    {
+      "counterexampleId": "CE-P46-L5-04-01",
+      "category": "LOCAL_BEHAVIOR_FAILURE",
+      "affectedRegions": [
+        "P46-L5-04-REG-01"
+      ],
+      "affectedContracts": [],
+      "provenance": "BOUNDARY_UNIT_TEST",
+      "refinementScope": [
+        "LOCAL_ARITHMETIC_GUARD"
+      ],
+      "evidence": "Boundary condition underflow triggered exception",
+      "contentHash": "2bd507c22df93a4e955288a5b0827b2c48d2a5f199f5cfa0a59cbcc8db4574a8"
+    },
+    {
+      "counterexampleId": "CE-P46-L5-05-01",
+      "category": "LOCAL_BEHAVIOR_FAILURE",
+      "affectedRegions": [
+        "P46-L5-05-REG-01"
+      ],
+      "affectedContracts": [],
+      "provenance": "BOUNDARY_UNIT_TEST",
+      "refinementScope": [
+        "LOCAL_ARITHMETIC_GUARD"
+      ],
+      "evidence": "Boundary condition underflow triggered exception",
+      "contentHash": "935ace9f6bed1c85328654235e6589086e82d81e01fc065420c8528281bc58ee"
+    },
+    {
+      "counterexampleId": "CE-P46-L6-01-01",
+      "category": "INTERFACE_CONTRACT_FAILURE",
+      "affectedRegions": [
+        "P46-L6-01-REG-01"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L6-01-REG-01-TO-P46-L6-01-REG-02"
+      ],
+      "provenance": "SCHEMA_DEFAULT_TEST",
+      "refinementScope": [
+        "DEFAULT_NORMALIZER"
+      ],
+      "evidence": "Missing optional parameter failed contract schema validation",
+      "contentHash": "3e4dbbb05d60094cffb3b35b970e747db37e48f99c8c4e84a0922aed4eb8e32f"
+    },
+    {
+      "counterexampleId": "CE-P46-L6-02-01",
+      "category": "INTERFACE_CONTRACT_FAILURE",
+      "affectedRegions": [
+        "P46-L6-02-REG-01"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L6-02-REG-01-TO-P46-L6-02-REG-02"
+      ],
+      "provenance": "SCHEMA_DEFAULT_TEST",
+      "refinementScope": [
+        "DEFAULT_NORMALIZER"
+      ],
+      "evidence": "Missing optional parameter failed contract schema validation",
+      "contentHash": "c9cfa15b26a2e5373bfe07e0f515e0fe2aae9f0865e45617009d3e0b5d7b35b3"
+    },
+    {
+      "counterexampleId": "CE-P46-L6-03-01",
+      "category": "INTERFACE_CONTRACT_FAILURE",
+      "affectedRegions": [
+        "P46-L6-03-REG-01"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L6-03-REG-01-TO-P46-L6-03-REG-02"
+      ],
+      "provenance": "SCHEMA_DEFAULT_TEST",
+      "refinementScope": [
+        "DEFAULT_NORMALIZER"
+      ],
+      "evidence": "Missing optional parameter failed contract schema validation",
+      "contentHash": "cc3c8c4c6ac45dfa7a6d2d5c7fe6aaf43c41b40c249fe1bfba0a2b462fd66531"
+    },
+    {
+      "counterexampleId": "CE-P46-L6-04-01",
+      "category": "INTERFACE_CONTRACT_FAILURE",
+      "affectedRegions": [
+        "P46-L6-04-REG-01"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L6-04-REG-01-TO-P46-L6-04-REG-02"
+      ],
+      "provenance": "SCHEMA_DEFAULT_TEST",
+      "refinementScope": [
+        "DEFAULT_NORMALIZER"
+      ],
+      "evidence": "Missing optional parameter failed contract schema validation",
+      "contentHash": "bc3513e95e0bd5a61076b3a2aeabf661349664837ffb875614334e1b97ecdec1"
+    },
+    {
+      "counterexampleId": "CE-P46-L6-05-01",
+      "category": "INTERFACE_CONTRACT_FAILURE",
+      "affectedRegions": [
+        "P46-L6-05-REG-01"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L6-05-REG-01-TO-P46-L6-05-REG-02"
+      ],
+      "provenance": "SCHEMA_DEFAULT_TEST",
+      "refinementScope": [
+        "DEFAULT_NORMALIZER"
+      ],
+      "evidence": "Missing optional parameter failed contract schema validation",
+      "contentHash": "2631f1542ab6d9fbf26402ce650ab754a18df5e896a78c28cb8b9fb793234242"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-01-01",
+      "category": "REPRESENTATION_MISMATCH",
+      "affectedRegions": [
+        "P46-L7-01-REG-01",
+        "P46-L7-01-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L7-01-REG-01-TO-P46-L7-01-REG-02"
+      ],
+      "provenance": "TOKEN_STREAM_LOOKAHEAD_TEST",
+      "refinementScope": [
+        "LOOKAHEAD_BUFFER",
+        "PRECEDENCE_TABLE"
+      ],
+      "evidence": "Parser lookahead buffer received binary minus token where prefix unary minus expected",
+      "contentHash": "19d2119933e6b9e000d680bc0d187bee3c39f44af20d3fdec9163690de0b3346"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-01-02",
+      "category": "STATE_PROPAGATION_FAILURE",
+      "affectedRegions": [
+        "P46-L7-01-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-FEEDBACK-P46-L7-01-REG-02-TO-P46-L7-01-REG-01"
+      ],
+      "provenance": "CREDENTIAL_ORIGIN_REFLECTION_TEST",
+      "refinementScope": [
+        "HEADER_SANITIZER"
+      ],
+      "evidence": "Origin reflection allowed wildcard credentials header against security policy",
+      "contentHash": "c424578f808bc34fcc8f657ea0c7648e0451c4adfd82eaafbb508807c0d7a61a"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-02-01",
+      "category": "REPRESENTATION_MISMATCH",
+      "affectedRegions": [
+        "P46-L7-02-REG-01",
+        "P46-L7-02-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L7-02-REG-01-TO-P46-L7-02-REG-02"
+      ],
+      "provenance": "TOKEN_STREAM_LOOKAHEAD_TEST",
+      "refinementScope": [
+        "LOOKAHEAD_BUFFER",
+        "PRECEDENCE_TABLE"
+      ],
+      "evidence": "Parser lookahead buffer received binary minus token where prefix unary minus expected",
+      "contentHash": "b9240e95095c771d1d0969a69dc4f59a7e129c0f673826d1c1ace8b0070cd0b0"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-02-02",
+      "category": "STATE_PROPAGATION_FAILURE",
+      "affectedRegions": [
+        "P46-L7-02-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-FEEDBACK-P46-L7-02-REG-02-TO-P46-L7-02-REG-01"
+      ],
+      "provenance": "CREDENTIAL_ORIGIN_REFLECTION_TEST",
+      "refinementScope": [
+        "HEADER_SANITIZER"
+      ],
+      "evidence": "Origin reflection allowed wildcard credentials header against security policy",
+      "contentHash": "348a26b97f7d4b2751af5b116c594e5e50b523a28099639bd0df02b8f26e3593"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-03-01",
+      "category": "REPRESENTATION_MISMATCH",
+      "affectedRegions": [
+        "P46-L7-03-REG-01",
+        "P46-L7-03-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L7-03-REG-01-TO-P46-L7-03-REG-02"
+      ],
+      "provenance": "TOKEN_STREAM_LOOKAHEAD_TEST",
+      "refinementScope": [
+        "LOOKAHEAD_BUFFER",
+        "PRECEDENCE_TABLE"
+      ],
+      "evidence": "Parser lookahead buffer received binary minus token where prefix unary minus expected",
+      "contentHash": "798392bb479e401ac7bad0ecc5615a525ac04d1cb230228dc58aeaf83b93ce80"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-03-02",
+      "category": "STATE_PROPAGATION_FAILURE",
+      "affectedRegions": [
+        "P46-L7-03-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-FEEDBACK-P46-L7-03-REG-02-TO-P46-L7-03-REG-01"
+      ],
+      "provenance": "CREDENTIAL_ORIGIN_REFLECTION_TEST",
+      "refinementScope": [
+        "HEADER_SANITIZER"
+      ],
+      "evidence": "Origin reflection allowed wildcard credentials header against security policy",
+      "contentHash": "4289772db20dc6858b821aed9f323fe92b1d497974282cd0917e109a29965889"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-04-01",
+      "category": "REPRESENTATION_MISMATCH",
+      "affectedRegions": [
+        "P46-L7-04-REG-01",
+        "P46-L7-04-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L7-04-REG-01-TO-P46-L7-04-REG-02"
+      ],
+      "provenance": "TOKEN_STREAM_LOOKAHEAD_TEST",
+      "refinementScope": [
+        "LOOKAHEAD_BUFFER",
+        "PRECEDENCE_TABLE"
+      ],
+      "evidence": "Parser lookahead buffer received binary minus token where prefix unary minus expected",
+      "contentHash": "aeaf5b6b6aca0ca4e2f473c2fb732c17d0dfd4799c99128b6bc29f4845c17c21"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-04-02",
+      "category": "STATE_PROPAGATION_FAILURE",
+      "affectedRegions": [
+        "P46-L7-04-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-FEEDBACK-P46-L7-04-REG-02-TO-P46-L7-04-REG-01"
+      ],
+      "provenance": "CREDENTIAL_ORIGIN_REFLECTION_TEST",
+      "refinementScope": [
+        "HEADER_SANITIZER"
+      ],
+      "evidence": "Origin reflection allowed wildcard credentials header against security policy",
+      "contentHash": "be260f290429c1228b42e3b21f97561632d75dc559bac8273b9e62c26ff11ecc"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-05-01",
+      "category": "REPRESENTATION_MISMATCH",
+      "affectedRegions": [
+        "P46-L7-05-REG-01",
+        "P46-L7-05-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-P46-L7-05-REG-01-TO-P46-L7-05-REG-02"
+      ],
+      "provenance": "TOKEN_STREAM_LOOKAHEAD_TEST",
+      "refinementScope": [
+        "LOOKAHEAD_BUFFER",
+        "PRECEDENCE_TABLE"
+      ],
+      "evidence": "Parser lookahead buffer received binary minus token where prefix unary minus expected",
+      "contentHash": "2b677d142e8c4d1cbc418a370ae37dc99cab5d0367110157dd052ebdb053c0bc"
+    },
+    {
+      "counterexampleId": "CE-P46-L7-05-02",
+      "category": "STATE_PROPAGATION_FAILURE",
+      "affectedRegions": [
+        "P46-L7-05-REG-02"
+      ],
+      "affectedContracts": [
+        "OBL-FEEDBACK-P46-L7-05-REG-02-TO-P46-L7-05-REG-01"
+      ],
+      "provenance": "CREDENTIAL_ORIGIN_REFLECTION_TEST",
+      "refinementScope": [
+        "HEADER_SANITIZER"
+      ],
+      "evidence": "Origin reflection allowed wildcard credentials header against security policy",
+      "contentHash": "7a1f75ddd6272929c1d3624b26192dd8c3fa429a5d2e44485317520363083a12"
+    }
+  ]
+}

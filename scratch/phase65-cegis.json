@@ -1,0 +1,458 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "totalCegisRecords": 50,
+  "records": [
+    {
+      "taskId": "P46-L5-01",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L5-01-IT1",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L5-02",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L5-02-IT1",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L5-03",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L5-03-IT1",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L5-04",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L5-04-IT1",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L5-05",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L5-05-IT1",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L6-01",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L6-01-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-01-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-01",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L6-01",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L6-01-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-01-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-01",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L6-01",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L6-01-IT3",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L6-02",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L6-02-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-02-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-02",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L6-02",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L6-02-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-02-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-02",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L6-02",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L6-02-IT3",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L6-03",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L6-03-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-03-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-03",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L6-03",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L6-03-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-03-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-03",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L6-03",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L6-03-IT3",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L6-04",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L6-04-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-04-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-04",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L6-04",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L6-04-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-04-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-04",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L6-04",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L6-04-IT3",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L6-05",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L6-05-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-05-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-05",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L6-05",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L6-05-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L6-05-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L6-05",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L6-05",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L6-05-IT3",
+      "verified": true,
+      "counterexampleExtracted": null,
+      "refinementRule": null,
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L7-01",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L7-01-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-01-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-01",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L7-01",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L7-01-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-01-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-01",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L7-01",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L7-01-IT3",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-01-IT3",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-01",
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L7-01",
+      "iteration": 4,
+      "candidateEvaluated": "CAND-P46-L7-01-IT4",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-01-IT4",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-01",
+      "durationMs": 60
+    },
+    {
+      "taskId": "P46-L7-01",
+      "iteration": 5,
+      "candidateEvaluated": "CAND-P46-L7-01-IT5",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-01-IT5",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-01",
+      "durationMs": 65
+    },
+    {
+      "taskId": "P46-L7-01",
+      "iteration": 6,
+      "candidateEvaluated": "CAND-P46-L7-01-IT6",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-01-IT6",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-01",
+      "durationMs": 70
+    },
+    {
+      "taskId": "P46-L7-02",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L7-02-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-02-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-02",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L7-02",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L7-02-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-02-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-02",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L7-02",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L7-02-IT3",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-02-IT3",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-02",
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L7-02",
+      "iteration": 4,
+      "candidateEvaluated": "CAND-P46-L7-02-IT4",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-02-IT4",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-02",
+      "durationMs": 60
+    },
+    {
+      "taskId": "P46-L7-02",
+      "iteration": 5,
+      "candidateEvaluated": "CAND-P46-L7-02-IT5",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-02-IT5",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-02",
+      "durationMs": 65
+    },
+    {
+      "taskId": "P46-L7-02",
+      "iteration": 6,
+      "candidateEvaluated": "CAND-P46-L7-02-IT6",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-02-IT6",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-02",
+      "durationMs": 70
+    },
+    {
+      "taskId": "P46-L7-03",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L7-03-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-03-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-03",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L7-03",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L7-03-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-03-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-03",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L7-03",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L7-03-IT3",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-03-IT3",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-03",
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L7-03",
+      "iteration": 4,
+      "candidateEvaluated": "CAND-P46-L7-03-IT4",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-03-IT4",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-03",
+      "durationMs": 60
+    },
+    {
+      "taskId": "P46-L7-03",
+      "iteration": 5,
+      "candidateEvaluated": "CAND-P46-L7-03-IT5",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-03-IT5",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-03",
+      "durationMs": 65
+    },
+    {
+      "taskId": "P46-L7-03",
+      "iteration": 6,
+      "candidateEvaluated": "CAND-P46-L7-03-IT6",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-03-IT6",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-03",
+      "durationMs": 70
+    },
+    {
+      "taskId": "P46-L7-04",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L7-04-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-04-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-04",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L7-04",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L7-04-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-04-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-04",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L7-04",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L7-04-IT3",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-04-IT3",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-04",
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L7-04",
+      "iteration": 4,
+      "candidateEvaluated": "CAND-P46-L7-04-IT4",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-04-IT4",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-04",
+      "durationMs": 60
+    },
+    {
+      "taskId": "P46-L7-04",
+      "iteration": 5,
+      "candidateEvaluated": "CAND-P46-L7-04-IT5",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-04-IT5",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-04",
+      "durationMs": 65
+    },
+    {
+      "taskId": "P46-L7-04",
+      "iteration": 6,
+      "candidateEvaluated": "CAND-P46-L7-04-IT6",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-04-IT6",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-04",
+      "durationMs": 70
+    },
+    {
+      "taskId": "P46-L7-05",
+      "iteration": 1,
+      "candidateEvaluated": "CAND-P46-L7-05-IT1",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-05-IT1",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-05",
+      "durationMs": 45
+    },
+    {
+      "taskId": "P46-L7-05",
+      "iteration": 2,
+      "candidateEvaluated": "CAND-P46-L7-05-IT2",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-05-IT2",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-05",
+      "durationMs": 50
+    },
+    {
+      "taskId": "P46-L7-05",
+      "iteration": 3,
+      "candidateEvaluated": "CAND-P46-L7-05-IT3",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-05-IT3",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-05",
+      "durationMs": 55
+    },
+    {
+      "taskId": "P46-L7-05",
+      "iteration": 4,
+      "candidateEvaluated": "CAND-P46-L7-05-IT4",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-05-IT4",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-05",
+      "durationMs": 60
+    },
+    {
+      "taskId": "P46-L7-05",
+      "iteration": 5,
+      "candidateEvaluated": "CAND-P46-L7-05-IT5",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-05-IT5",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-05",
+      "durationMs": 65
+    },
+    {
+      "taskId": "P46-L7-05",
+      "iteration": 6,
+      "candidateEvaluated": "CAND-P46-L7-05-IT6",
+      "verified": false,
+      "counterexampleExtracted": "CE-P46-L7-05-IT6",
+      "refinementRule": "REFINE_GRAMMAR_FOR_P46-L7-05",
+      "durationMs": 70
+    }
+  ]
+}

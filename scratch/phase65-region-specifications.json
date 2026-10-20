@@ -1,0 +1,1448 @@
+{
+  "schemaVersion": "emerald-phase65-v1",
+  "phase": "65",
+  "protocolDigest": "a059975bf7d3660b93ba6d9ec6a5e6a2500ec191e61b5d0dcb432b38add7b672",
+  "totalSpecifications": 25,
+  "specifications": [
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L5-01-01",
+      "regionId": "REGION-P46-L5-01-01",
+      "inputTypes": [
+        "INTEGER",
+        "STRING"
+      ],
+      "outputTypes": [
+        "INTEGER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L5-01-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L5-01-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L5-01"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L5-01-01-1",
+          "input": "INPUT_FOR_compareSemVer",
+          "observedOutput": "OUTPUT_FOR_compareSemVer",
+          "relevantState": "STATE_FOR_REGION-P46-L5-01-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L5-01-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L5-01-01-RANGE_UNDERFLOW"
+      ],
+      "allowedSymbols": [
+        "compareSemVer",
+        "parseSemVer"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/semver.js"
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "782925af56c3cecbb7a6cadb7f7f0bc183eefbe61e2d1716db4d2b215bcac4ce"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L5-02-01",
+      "regionId": "REGION-P46-L5-02-01",
+      "inputTypes": [
+        "INTEGER",
+        "STRING"
+      ],
+      "outputTypes": [
+        "INTEGER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L5-02-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L5-02-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L5-02"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L5-02-01-1",
+          "input": "INPUT_FOR_compareSemVer",
+          "observedOutput": "OUTPUT_FOR_compareSemVer",
+          "relevantState": "STATE_FOR_REGION-P46-L5-02-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L5-02-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L5-02-01-RANGE_UNDERFLOW"
+      ],
+      "allowedSymbols": [
+        "compareSemVer",
+        "parseSemVer"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/semver.js"
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "ac00025684f5f5d659bea216a585c192a58f11607bab1473e6647dc73bf8eac4"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L5-03-01",
+      "regionId": "REGION-P46-L5-03-01",
+      "inputTypes": [
+        "INTEGER",
+        "STRING"
+      ],
+      "outputTypes": [
+        "INTEGER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L5-03-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L5-03-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L5-03"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L5-03-01-1",
+          "input": "INPUT_FOR_compareSemVer",
+          "observedOutput": "OUTPUT_FOR_compareSemVer",
+          "relevantState": "STATE_FOR_REGION-P46-L5-03-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L5-03-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L5-03-01-RANGE_UNDERFLOW"
+      ],
+      "allowedSymbols": [
+        "compareSemVer",
+        "parseSemVer"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/semver.js"
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "525a5312c4c8ec9ba5f2c255a07a5d2b2e02880d1be54a80406af19cb59a01da"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L5-04-01",
+      "regionId": "REGION-P46-L5-04-01",
+      "inputTypes": [
+        "INTEGER",
+        "STRING"
+      ],
+      "outputTypes": [
+        "INTEGER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L5-04-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L5-04-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L5-04"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L5-04-01-1",
+          "input": "INPUT_FOR_compareSemVer",
+          "observedOutput": "OUTPUT_FOR_compareSemVer",
+          "relevantState": "STATE_FOR_REGION-P46-L5-04-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L5-04-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L5-04-01-RANGE_UNDERFLOW"
+      ],
+      "allowedSymbols": [
+        "compareSemVer",
+        "parseSemVer"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/semver.js"
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "a0fb14b51c4beb8d059637eb6013bc7756aef2fb5dcb74ef83636dd255f53b89"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L5-05-01",
+      "regionId": "REGION-P46-L5-05-01",
+      "inputTypes": [
+        "INTEGER",
+        "STRING"
+      ],
+      "outputTypes": [
+        "INTEGER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L5-05-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L5-05-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L5-05"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L5-05-01-1",
+          "input": "INPUT_FOR_compareSemVer",
+          "observedOutput": "OUTPUT_FOR_compareSemVer",
+          "relevantState": "STATE_FOR_REGION-P46-L5-05-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L5-05-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L5-05-01-RANGE_UNDERFLOW"
+      ],
+      "allowedSymbols": [
+        "compareSemVer",
+        "parseSemVer"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/semver.js"
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "2f276cef602beb49136d2f39fa328cab2cfd89600607718263bba593dc3d7303"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-01-01",
+      "regionId": "REGION-P46-L6-01-01",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-01-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-01-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L6-01"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-01-01-1",
+          "input": "INPUT_FOR_sanitizeOrigin",
+          "observedOutput": "OUTPUT_FOR_sanitizeOrigin",
+          "relevantState": "STATE_FOR_REGION-P46-L6-01-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-01-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-01-01-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "sanitizeOrigin"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/cors.js"
+      ],
+      "affectedFiles": [
+        "src/cors.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "ca9eccaa1abc9027bdec8d1c2697628d5c190b2dc662793950f7281fde44169b"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-01-02",
+      "regionId": "REGION-P46-L6-01-02",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-01-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-01-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L6-01-01_TO_REGION-P46-L6-01-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-01-02-1",
+          "input": "INPUT_FOR_validateHeader",
+          "observedOutput": "OUTPUT_FOR_validateHeader",
+          "relevantState": "STATE_FOR_REGION-P46-L6-01-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-01-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-01-02-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "validateHeader"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/validator.js"
+      ],
+      "affectedFiles": [
+        "src/validator.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "9db6cb443b2b084b7b3c84ec3909a6876fbb02c0b702f1506a240be0a044f506"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-02-01",
+      "regionId": "REGION-P46-L6-02-01",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-02-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-02-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L6-02"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-02-01-1",
+          "input": "INPUT_FOR_sanitizeOrigin",
+          "observedOutput": "OUTPUT_FOR_sanitizeOrigin",
+          "relevantState": "STATE_FOR_REGION-P46-L6-02-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-02-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-02-01-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "sanitizeOrigin"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/cors.js"
+      ],
+      "affectedFiles": [
+        "src/cors.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "69088c6c6ad625915156286c39da06cfc7690582f98c0d38e370cce82d706ef0"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-02-02",
+      "regionId": "REGION-P46-L6-02-02",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-02-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-02-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L6-02-01_TO_REGION-P46-L6-02-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-02-02-1",
+          "input": "INPUT_FOR_validateHeader",
+          "observedOutput": "OUTPUT_FOR_validateHeader",
+          "relevantState": "STATE_FOR_REGION-P46-L6-02-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-02-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-02-02-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "validateHeader"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/validator.js"
+      ],
+      "affectedFiles": [
+        "src/validator.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "792eb759d451c7fbb156d538ff681f48d114f0c524fe790c008ea8ab32782b6c"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-03-01",
+      "regionId": "REGION-P46-L6-03-01",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-03-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-03-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L6-03"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-03-01-1",
+          "input": "INPUT_FOR_sanitizeOrigin",
+          "observedOutput": "OUTPUT_FOR_sanitizeOrigin",
+          "relevantState": "STATE_FOR_REGION-P46-L6-03-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-03-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-03-01-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "sanitizeOrigin"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/cors.js"
+      ],
+      "affectedFiles": [
+        "src/cors.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "b918b0196cf4a8ce94edeb8c2ecedb8c724516dc34fda6926dce0d9e18812505"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-03-02",
+      "regionId": "REGION-P46-L6-03-02",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-03-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-03-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L6-03-01_TO_REGION-P46-L6-03-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-03-02-1",
+          "input": "INPUT_FOR_validateHeader",
+          "observedOutput": "OUTPUT_FOR_validateHeader",
+          "relevantState": "STATE_FOR_REGION-P46-L6-03-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-03-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-03-02-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "validateHeader"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/validator.js"
+      ],
+      "affectedFiles": [
+        "src/validator.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "85a2f5c219be7d1ec53059abf5e01af0494846c39dc113c60884eb11aa055d62"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-04-01",
+      "regionId": "REGION-P46-L6-04-01",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-04-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-04-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L6-04"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-04-01-1",
+          "input": "INPUT_FOR_sanitizeOrigin",
+          "observedOutput": "OUTPUT_FOR_sanitizeOrigin",
+          "relevantState": "STATE_FOR_REGION-P46-L6-04-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-04-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-04-01-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "sanitizeOrigin"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/cors.js"
+      ],
+      "affectedFiles": [
+        "src/cors.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "cb446442ff7d86d5929d8248dafa2bfa434ba8382c4de9d2568109c789b66547"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-04-02",
+      "regionId": "REGION-P46-L6-04-02",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-04-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-04-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L6-04-01_TO_REGION-P46-L6-04-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-04-02-1",
+          "input": "INPUT_FOR_validateHeader",
+          "observedOutput": "OUTPUT_FOR_validateHeader",
+          "relevantState": "STATE_FOR_REGION-P46-L6-04-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-04-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-04-02-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "validateHeader"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/validator.js"
+      ],
+      "affectedFiles": [
+        "src/validator.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "0eca73453393504f4266e71113c94cba3b417e98fd1ab3365cc1def65e588f10"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-05-01",
+      "regionId": "REGION-P46-L6-05-01",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-05-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-05-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L6-05"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-05-01-1",
+          "input": "INPUT_FOR_sanitizeOrigin",
+          "observedOutput": "OUTPUT_FOR_sanitizeOrigin",
+          "relevantState": "STATE_FOR_REGION-P46-L6-05-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-05-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-05-01-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "sanitizeOrigin"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/cors.js"
+      ],
+      "affectedFiles": [
+        "src/cors.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "f3077e0d2e23edcf58914f67db0a214eb497d44c2f8b0f728439d8b4002d07e1"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L6-05-02",
+      "regionId": "REGION-P46-L6-05-02",
+      "inputTypes": [
+        "RECORD",
+        "STRING"
+      ],
+      "outputTypes": [
+        "RECORD"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L6-05-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L6-05-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L6-05-01_TO_REGION-P46-L6-05-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L6-05-02-1",
+          "input": "INPUT_FOR_validateHeader",
+          "observedOutput": "OUTPUT_FOR_validateHeader",
+          "relevantState": "STATE_FOR_REGION-P46-L6-05-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L6-05-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L6-05-02-VALIDATION_EDGE_CASE"
+      ],
+      "allowedSymbols": [
+        "validateHeader"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/validator.js"
+      ],
+      "affectedFiles": [
+        "src/validator.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "febc7fd922dcf28b57ed76cdff4e3d168109c6e61cd9ffda99364c5a6a0b2939"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-01-01",
+      "regionId": "REGION-P46-L7-01-01",
+      "inputTypes": [
+        "STRING",
+        "STATE"
+      ],
+      "outputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-01-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-01-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L7-01"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-01-01-1",
+          "input": "INPUT_FOR_evaluate",
+          "observedOutput": "OUTPUT_FOR_evaluate",
+          "relevantState": "STATE_FOR_REGION-P46-L7-01-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-01-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-01-01-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "evaluate",
+        "tokenize"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/calc.js"
+      ],
+      "affectedFiles": [
+        "src/calc.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "a123b1ec7ba09996b9033acb8cecd5a76df5fbdc0c5906fd8ed1721bb4bc2f0f"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-01-02",
+      "regionId": "REGION-P46-L7-01-02",
+      "inputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "outputTypes": [
+        "RECORD",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-01-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-01-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L7-01-01_TO_REGION-P46-L7-01-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-01-02-1",
+          "input": "INPUT_FOR_parseExpression",
+          "observedOutput": "OUTPUT_FOR_parseExpression",
+          "relevantState": "STATE_FOR_REGION-P46-L7-01-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-01-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-01-02-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "parseExpression"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/parser.js"
+      ],
+      "affectedFiles": [
+        "src/parser.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "dd41725ac12be04b56ec5b23a6a50277f42dadabe4fe21936061e004bb9f5c18"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-02-01",
+      "regionId": "REGION-P46-L7-02-01",
+      "inputTypes": [
+        "STRING",
+        "STATE"
+      ],
+      "outputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-02-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-02-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L7-02"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-02-01-1",
+          "input": "INPUT_FOR_evaluate",
+          "observedOutput": "OUTPUT_FOR_evaluate",
+          "relevantState": "STATE_FOR_REGION-P46-L7-02-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-02-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-02-01-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "evaluate",
+        "tokenize"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/calc.js"
+      ],
+      "affectedFiles": [
+        "src/calc.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "a0f0a11b7a319395b15147a36971dc26bf14ea4e6ac9a2154e0cc83d214a5c68"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-02-02",
+      "regionId": "REGION-P46-L7-02-02",
+      "inputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "outputTypes": [
+        "RECORD",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-02-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-02-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L7-02-01_TO_REGION-P46-L7-02-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-02-02-1",
+          "input": "INPUT_FOR_parseExpression",
+          "observedOutput": "OUTPUT_FOR_parseExpression",
+          "relevantState": "STATE_FOR_REGION-P46-L7-02-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-02-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-02-02-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "parseExpression"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/parser.js"
+      ],
+      "affectedFiles": [
+        "src/parser.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "21dce319ceac47ea3822833f95fcf84ac188c658bf548a327631694487e9565f"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-03-01",
+      "regionId": "REGION-P46-L7-03-01",
+      "inputTypes": [
+        "STRING",
+        "STATE"
+      ],
+      "outputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-03-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-03-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L7-03"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-03-01-1",
+          "input": "INPUT_FOR_evaluate",
+          "observedOutput": "OUTPUT_FOR_evaluate",
+          "relevantState": "STATE_FOR_REGION-P46-L7-03-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-03-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-03-01-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "evaluate",
+        "tokenize"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/calc.js"
+      ],
+      "affectedFiles": [
+        "src/calc.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "b944abc0fa7c5608185aa6018a3b339260d4c33480fc83a626dbdbb8fd10a9c9"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-03-02",
+      "regionId": "REGION-P46-L7-03-02",
+      "inputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "outputTypes": [
+        "RECORD",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-03-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-03-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L7-03-01_TO_REGION-P46-L7-03-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-03-02-1",
+          "input": "INPUT_FOR_parseExpression",
+          "observedOutput": "OUTPUT_FOR_parseExpression",
+          "relevantState": "STATE_FOR_REGION-P46-L7-03-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-03-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-03-02-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "parseExpression"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/parser.js"
+      ],
+      "affectedFiles": [
+        "src/parser.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "fd3eb2078f73852f842bc012ce3af24d0f476852c42323764e62e0d8c80601ab"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-04-01",
+      "regionId": "REGION-P46-L7-04-01",
+      "inputTypes": [
+        "STRING",
+        "STATE"
+      ],
+      "outputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-04-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-04-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L7-04"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-04-01-1",
+          "input": "INPUT_FOR_evaluate",
+          "observedOutput": "OUTPUT_FOR_evaluate",
+          "relevantState": "STATE_FOR_REGION-P46-L7-04-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-04-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-04-01-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "evaluate",
+        "tokenize"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/calc.js"
+      ],
+      "affectedFiles": [
+        "src/calc.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "36adc41af73501b45fd723ddce721193ddf04debec2a9378df3797dbbd970c9f"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-04-02",
+      "regionId": "REGION-P46-L7-04-02",
+      "inputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "outputTypes": [
+        "RECORD",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-04-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-04-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L7-04-01_TO_REGION-P46-L7-04-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-04-02-1",
+          "input": "INPUT_FOR_parseExpression",
+          "observedOutput": "OUTPUT_FOR_parseExpression",
+          "relevantState": "STATE_FOR_REGION-P46-L7-04-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-04-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-04-02-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "parseExpression"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/parser.js"
+      ],
+      "affectedFiles": [
+        "src/parser.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "5296c72f39626e3c77b29dfd2a836133f79f894fd9df75050d6630b555ec2287"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-05-01",
+      "regionId": "REGION-P46-L7-05-01",
+      "inputTypes": [
+        "STRING",
+        "STATE"
+      ],
+      "outputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-05-01"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-05-01"
+      ],
+      "localInvariants": [
+        "LOCAL_INV:INVARIANT_P46-L7-05"
+      ],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [],
+      "outgoingContracts": [
+        "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+      ],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-05-01-1",
+          "input": "INPUT_FOR_evaluate",
+          "observedOutput": "OUTPUT_FOR_evaluate",
+          "relevantState": "STATE_FOR_REGION-P46-L7-05-01",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-05-01",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-05-01-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "evaluate",
+        "tokenize"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/calc.js"
+      ],
+      "affectedFiles": [
+        "src/calc.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "f28bdab466d45e506630d86b54a30e1e4a4bb0278d56cdb35a8c23f70a243109"
+    },
+    {
+      "specificationId": "REG-SPEC-REGION-P46-L7-05-02",
+      "regionId": "REGION-P46-L7-05-02",
+      "inputTypes": [
+        "COLLECTION",
+        "STATE"
+      ],
+      "outputTypes": [
+        "RECORD",
+        "STATE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_REGION-P46-L7-05-02"
+      ],
+      "postconditions": [
+        "POST:VALID_OUTPUT_FOR_REGION-P46-L7-05-02"
+      ],
+      "localInvariants": [],
+      "preservedGlobalInvariants": [
+        "GLOBAL_INV:PRESERVE_TEST_SUITE_PASS"
+      ],
+      "incomingContracts": [
+        "CONTRACT_REGION-P46-L7-05-01_TO_REGION-P46-L7-05-02"
+      ],
+      "outgoingContracts": [],
+      "behavioralExamples": [
+        {
+          "exampleId": "EX-REGION-P46-L7-05-02-1",
+          "input": "INPUT_FOR_parseExpression",
+          "observedOutput": "OUTPUT_FOR_parseExpression",
+          "relevantState": "STATE_FOR_REGION-P46-L7-05-02",
+          "expectedProperty": "SATISFIES_CONTRACT-P46-L7-05-02",
+          "provenance": "TEST_unit",
+          "testSource": "unit"
+        }
+      ],
+      "counterexamples": [
+        "CE-REGION-P46-L7-05-02-LOCAL_LOOKAHEAD_MISMATCH"
+      ],
+      "allowedSymbols": [
+        "parseExpression"
+      ],
+      "forbiddenSymbols": [
+        "__UNAUTHORIZED_GLOBAL__",
+        "process.exit",
+        "eval"
+      ],
+      "mutationScope": [
+        "src/parser.js"
+      ],
+      "affectedFiles": [
+        "src/parser.js"
+      ],
+      "maxProgramDepth": 8,
+      "maxProgramNodes": 32,
+      "contentHash": "6129ed73d8366c922fd9042955efa6f9c6b01c477f883dea44407ffd1ef02e71"
+    }
+  ]
+}
