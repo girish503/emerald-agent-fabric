@@ -1,0 +1,2055 @@
+{
+  "count": 50,
+  "transitions": [
+    {
+      "taskId": "P46-L5-01",
+      "transitionId": "tr_s_init_to_s_parsing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_parse_segment",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_segment"
+      ],
+      "consumedEvents": [
+        "ev_parse_segment"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-01",
+      "transitionId": "tr_s_parsing_to_s_terminal",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_validate_prerelease",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "consumedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-02",
+      "transitionId": "tr_s_init_to_s_parsing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_parse_segment",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_segment"
+      ],
+      "consumedEvents": [
+        "ev_parse_segment"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-02",
+      "transitionId": "tr_s_parsing_to_s_terminal",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_validate_prerelease",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "consumedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-03",
+      "transitionId": "tr_s_init_to_s_parsing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_parse_segment",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_segment"
+      ],
+      "consumedEvents": [
+        "ev_parse_segment"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-03",
+      "transitionId": "tr_s_parsing_to_s_terminal",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_validate_prerelease",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "consumedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-04",
+      "transitionId": "tr_s_init_to_s_parsing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_parse_segment",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_segment"
+      ],
+      "consumedEvents": [
+        "ev_parse_segment"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-04",
+      "transitionId": "tr_s_parsing_to_s_terminal",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_validate_prerelease",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "consumedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-05",
+      "transitionId": "tr_s_init_to_s_parsing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_parse_segment",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_segment"
+      ],
+      "consumedEvents": [
+        "ev_parse_segment"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L5-05",
+      "transitionId": "tr_s_parsing_to_s_terminal",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_validate_prerelease",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "consumedEvents": [
+        "ev_validate_prerelease"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-01",
+      "transitionId": "tr_s_init_to_s_filtering",
+      "sourceStateId": "s_init",
+      "eventId": "ev_request_received",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "FILTERING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_filtering",
+      "emittedEvents": [
+        "ev_request_received"
+      ],
+      "consumedEvents": [
+        "ev_request_received"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-01",
+      "transitionId": "tr_s_filtering_to_s_routing",
+      "sourceStateId": "s_filtering",
+      "eventId": "ev_apply_cors",
+      "guard": {
+        "guardId": "gd_s_filtering",
+        "predicates": [
+          {
+            "predicateId": "pr_s_filtering_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_filtering_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_filtering_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ROUTING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_routing",
+      "emittedEvents": [
+        "ev_apply_cors"
+      ],
+      "consumedEvents": [
+        "ev_apply_cors"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-01",
+      "transitionId": "tr_s_routing_to_s_terminal",
+      "sourceStateId": "s_routing",
+      "eventId": "ev_dispatch_api",
+      "guard": {
+        "guardId": "gd_s_routing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_routing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_routing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_routing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_dispatch_api"
+      ],
+      "consumedEvents": [
+        "ev_dispatch_api"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-02",
+      "transitionId": "tr_s_init_to_s_filtering",
+      "sourceStateId": "s_init",
+      "eventId": "ev_request_received",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "FILTERING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_filtering",
+      "emittedEvents": [
+        "ev_request_received"
+      ],
+      "consumedEvents": [
+        "ev_request_received"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-02",
+      "transitionId": "tr_s_filtering_to_s_routing",
+      "sourceStateId": "s_filtering",
+      "eventId": "ev_apply_cors",
+      "guard": {
+        "guardId": "gd_s_filtering",
+        "predicates": [
+          {
+            "predicateId": "pr_s_filtering_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_filtering_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_filtering_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ROUTING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_routing",
+      "emittedEvents": [
+        "ev_apply_cors"
+      ],
+      "consumedEvents": [
+        "ev_apply_cors"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-02",
+      "transitionId": "tr_s_routing_to_s_terminal",
+      "sourceStateId": "s_routing",
+      "eventId": "ev_dispatch_api",
+      "guard": {
+        "guardId": "gd_s_routing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_routing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_routing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_routing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_dispatch_api"
+      ],
+      "consumedEvents": [
+        "ev_dispatch_api"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-03",
+      "transitionId": "tr_s_init_to_s_filtering",
+      "sourceStateId": "s_init",
+      "eventId": "ev_request_received",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "FILTERING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_filtering",
+      "emittedEvents": [
+        "ev_request_received"
+      ],
+      "consumedEvents": [
+        "ev_request_received"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-03",
+      "transitionId": "tr_s_filtering_to_s_routing",
+      "sourceStateId": "s_filtering",
+      "eventId": "ev_apply_cors",
+      "guard": {
+        "guardId": "gd_s_filtering",
+        "predicates": [
+          {
+            "predicateId": "pr_s_filtering_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_filtering_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_filtering_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ROUTING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_routing",
+      "emittedEvents": [
+        "ev_apply_cors"
+      ],
+      "consumedEvents": [
+        "ev_apply_cors"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-03",
+      "transitionId": "tr_s_routing_to_s_terminal",
+      "sourceStateId": "s_routing",
+      "eventId": "ev_dispatch_api",
+      "guard": {
+        "guardId": "gd_s_routing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_routing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_routing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_routing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_dispatch_api"
+      ],
+      "consumedEvents": [
+        "ev_dispatch_api"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-04",
+      "transitionId": "tr_s_init_to_s_filtering",
+      "sourceStateId": "s_init",
+      "eventId": "ev_request_received",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "FILTERING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_filtering",
+      "emittedEvents": [
+        "ev_request_received"
+      ],
+      "consumedEvents": [
+        "ev_request_received"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-04",
+      "transitionId": "tr_s_filtering_to_s_routing",
+      "sourceStateId": "s_filtering",
+      "eventId": "ev_apply_cors",
+      "guard": {
+        "guardId": "gd_s_filtering",
+        "predicates": [
+          {
+            "predicateId": "pr_s_filtering_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_filtering_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_filtering_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ROUTING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_routing",
+      "emittedEvents": [
+        "ev_apply_cors"
+      ],
+      "consumedEvents": [
+        "ev_apply_cors"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-04",
+      "transitionId": "tr_s_routing_to_s_terminal",
+      "sourceStateId": "s_routing",
+      "eventId": "ev_dispatch_api",
+      "guard": {
+        "guardId": "gd_s_routing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_routing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_routing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_routing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_dispatch_api"
+      ],
+      "consumedEvents": [
+        "ev_dispatch_api"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-05",
+      "transitionId": "tr_s_init_to_s_filtering",
+      "sourceStateId": "s_init",
+      "eventId": "ev_request_received",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "FILTERING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_filtering",
+      "emittedEvents": [
+        "ev_request_received"
+      ],
+      "consumedEvents": [
+        "ev_request_received"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-05",
+      "transitionId": "tr_s_filtering_to_s_routing",
+      "sourceStateId": "s_filtering",
+      "eventId": "ev_apply_cors",
+      "guard": {
+        "guardId": "gd_s_filtering",
+        "predicates": [
+          {
+            "predicateId": "pr_s_filtering_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_filtering_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_filtering_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ROUTING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_routing",
+      "emittedEvents": [
+        "ev_apply_cors"
+      ],
+      "consumedEvents": [
+        "ev_apply_cors"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L6-05",
+      "transitionId": "tr_s_routing_to_s_terminal",
+      "sourceStateId": "s_routing",
+      "eventId": "ev_dispatch_api",
+      "guard": {
+        "guardId": "gd_s_routing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_routing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_routing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_routing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_dispatch_api"
+      ],
+      "consumedEvents": [
+        "ev_dispatch_api"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-01",
+      "transitionId": "tr_s_init_to_s_tokenizing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TOKENIZING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_tokenizing",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-01",
+      "transitionId": "tr_s_tokenizing_to_s_parsing",
+      "sourceStateId": "s_tokenizing",
+      "eventId": "ev_parse_exp",
+      "guard": {
+        "guardId": "gd_s_tokenizing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_tokenizing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_tokenizing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_tokenizing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_exp"
+      ],
+      "consumedEvents": [
+        "ev_parse_exp"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-01",
+      "transitionId": "tr_s_parsing_to_s_evaluating",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_eval_node",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "EVALUATING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_evaluating",
+      "emittedEvents": [
+        "ev_eval_node"
+      ],
+      "consumedEvents": [
+        "ev_eval_node"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-01",
+      "transitionId": "tr_s_evaluating_to_s_error",
+      "sourceStateId": "s_evaluating",
+      "eventId": "ev_recover_sync",
+      "guard": {
+        "guardId": "gd_s_evaluating",
+        "predicates": [
+          {
+            "predicateId": "pr_s_evaluating_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_evaluating_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_evaluating_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ERROR",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_error",
+      "emittedEvents": [
+        "ev_recover_sync"
+      ],
+      "consumedEvents": [
+        "ev_recover_sync"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-01",
+      "transitionId": "tr_s_error_to_s_terminal",
+      "sourceStateId": "s_error",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_error",
+        "predicates": [
+          {
+            "predicateId": "pr_s_error_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_error_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_error_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-02",
+      "transitionId": "tr_s_init_to_s_tokenizing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TOKENIZING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_tokenizing",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-02",
+      "transitionId": "tr_s_tokenizing_to_s_parsing",
+      "sourceStateId": "s_tokenizing",
+      "eventId": "ev_parse_exp",
+      "guard": {
+        "guardId": "gd_s_tokenizing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_tokenizing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_tokenizing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_tokenizing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_exp"
+      ],
+      "consumedEvents": [
+        "ev_parse_exp"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-02",
+      "transitionId": "tr_s_parsing_to_s_evaluating",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_eval_node",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "EVALUATING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_evaluating",
+      "emittedEvents": [
+        "ev_eval_node"
+      ],
+      "consumedEvents": [
+        "ev_eval_node"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-02",
+      "transitionId": "tr_s_evaluating_to_s_error",
+      "sourceStateId": "s_evaluating",
+      "eventId": "ev_recover_sync",
+      "guard": {
+        "guardId": "gd_s_evaluating",
+        "predicates": [
+          {
+            "predicateId": "pr_s_evaluating_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_evaluating_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_evaluating_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ERROR",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_error",
+      "emittedEvents": [
+        "ev_recover_sync"
+      ],
+      "consumedEvents": [
+        "ev_recover_sync"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-02",
+      "transitionId": "tr_s_error_to_s_terminal",
+      "sourceStateId": "s_error",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_error",
+        "predicates": [
+          {
+            "predicateId": "pr_s_error_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_error_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_error_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-03",
+      "transitionId": "tr_s_init_to_s_tokenizing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TOKENIZING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_tokenizing",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-03",
+      "transitionId": "tr_s_tokenizing_to_s_parsing",
+      "sourceStateId": "s_tokenizing",
+      "eventId": "ev_parse_exp",
+      "guard": {
+        "guardId": "gd_s_tokenizing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_tokenizing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_tokenizing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_tokenizing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_exp"
+      ],
+      "consumedEvents": [
+        "ev_parse_exp"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-03",
+      "transitionId": "tr_s_parsing_to_s_evaluating",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_eval_node",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "EVALUATING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_evaluating",
+      "emittedEvents": [
+        "ev_eval_node"
+      ],
+      "consumedEvents": [
+        "ev_eval_node"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-03",
+      "transitionId": "tr_s_evaluating_to_s_error",
+      "sourceStateId": "s_evaluating",
+      "eventId": "ev_recover_sync",
+      "guard": {
+        "guardId": "gd_s_evaluating",
+        "predicates": [
+          {
+            "predicateId": "pr_s_evaluating_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_evaluating_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_evaluating_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ERROR",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_error",
+      "emittedEvents": [
+        "ev_recover_sync"
+      ],
+      "consumedEvents": [
+        "ev_recover_sync"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-03",
+      "transitionId": "tr_s_error_to_s_terminal",
+      "sourceStateId": "s_error",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_error",
+        "predicates": [
+          {
+            "predicateId": "pr_s_error_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_error_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_error_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-04",
+      "transitionId": "tr_s_init_to_s_tokenizing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TOKENIZING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_tokenizing",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-04",
+      "transitionId": "tr_s_tokenizing_to_s_parsing",
+      "sourceStateId": "s_tokenizing",
+      "eventId": "ev_parse_exp",
+      "guard": {
+        "guardId": "gd_s_tokenizing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_tokenizing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_tokenizing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_tokenizing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_exp"
+      ],
+      "consumedEvents": [
+        "ev_parse_exp"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-04",
+      "transitionId": "tr_s_parsing_to_s_evaluating",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_eval_node",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "EVALUATING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_evaluating",
+      "emittedEvents": [
+        "ev_eval_node"
+      ],
+      "consumedEvents": [
+        "ev_eval_node"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-04",
+      "transitionId": "tr_s_evaluating_to_s_error",
+      "sourceStateId": "s_evaluating",
+      "eventId": "ev_recover_sync",
+      "guard": {
+        "guardId": "gd_s_evaluating",
+        "predicates": [
+          {
+            "predicateId": "pr_s_evaluating_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_evaluating_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_evaluating_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ERROR",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_error",
+      "emittedEvents": [
+        "ev_recover_sync"
+      ],
+      "consumedEvents": [
+        "ev_recover_sync"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-04",
+      "transitionId": "tr_s_error_to_s_terminal",
+      "sourceStateId": "s_error",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_error",
+        "predicates": [
+          {
+            "predicateId": "pr_s_error_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_error_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_error_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-05",
+      "transitionId": "tr_s_init_to_s_tokenizing",
+      "sourceStateId": "s_init",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_init",
+        "predicates": [
+          {
+            "predicateId": "pr_s_init_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_init_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_init_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TOKENIZING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_tokenizing",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-05",
+      "transitionId": "tr_s_tokenizing_to_s_parsing",
+      "sourceStateId": "s_tokenizing",
+      "eventId": "ev_parse_exp",
+      "guard": {
+        "guardId": "gd_s_tokenizing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_tokenizing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_tokenizing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_tokenizing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "PARSING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_parsing",
+      "emittedEvents": [
+        "ev_parse_exp"
+      ],
+      "consumedEvents": [
+        "ev_parse_exp"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-05",
+      "transitionId": "tr_s_parsing_to_s_evaluating",
+      "sourceStateId": "s_parsing",
+      "eventId": "ev_eval_node",
+      "guard": {
+        "guardId": "gd_s_parsing",
+        "predicates": [
+          {
+            "predicateId": "pr_s_parsing_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_parsing_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_parsing_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "EVALUATING",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_evaluating",
+      "emittedEvents": [
+        "ev_eval_node"
+      ],
+      "consumedEvents": [
+        "ev_eval_node"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-05",
+      "transitionId": "tr_s_evaluating_to_s_error",
+      "sourceStateId": "s_evaluating",
+      "eventId": "ev_recover_sync",
+      "guard": {
+        "guardId": "gd_s_evaluating",
+        "predicates": [
+          {
+            "predicateId": "pr_s_evaluating_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_evaluating_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_evaluating_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "ERROR",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_error",
+      "emittedEvents": [
+        "ev_recover_sync"
+      ],
+      "consumedEvents": [
+        "ev_recover_sync"
+      ],
+      "priority": 1
+    },
+    {
+      "taskId": "P46-L7-05",
+      "transitionId": "tr_s_error_to_s_terminal",
+      "sourceStateId": "s_error",
+      "eventId": "ev_tokenize",
+      "guard": {
+        "guardId": "gd_s_error",
+        "predicates": [
+          {
+            "predicateId": "pr_s_error_status",
+            "variableId": "v_status",
+            "operator": "!=",
+            "value": "ERROR"
+          }
+        ],
+        "booleanOp": "AND"
+      },
+      "actions": [
+        {
+          "actionId": "act_s_error_read",
+          "actionType": "READ_STATE",
+          "targetVariable": "v_status",
+          "effect": "READ_STATE"
+        },
+        {
+          "actionId": "act_s_error_write",
+          "actionType": "WRITE_STATE",
+          "targetVariable": "v_status",
+          "payload": "TERMINAL",
+          "effect": "WRITE_STATE"
+        }
+      ],
+      "targetStateId": "s_terminal",
+      "emittedEvents": [
+        "ev_tokenize"
+      ],
+      "consumedEvents": [
+        "ev_tokenize"
+      ],
+      "priority": 1
+    }
+  ]
+}

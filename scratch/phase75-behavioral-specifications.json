@@ -1,0 +1,960 @@
+{
+  "count": 15,
+  "specifications": [
+    {
+      "specId": "spec-P46-L5-01",
+      "taskId": "P46-L5-01",
+      "targetFiles": [
+        "src/semver.js"
+      ],
+      "requiredEvents": [
+        "PARSE_SEGMENT",
+        "VALIDATE_PRERELEASE"
+      ],
+      "requiredStates": [
+        "INIT",
+        "PARSING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-01",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-01",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L5-01",
+          "taskId": "P46-L5-01",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L5-01",
+          "taskId": "P46-L5-01",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L5-01",
+          "taskId": "P46-L5-01",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "2dcb02a0630e5a44e889c4ebd188a440d44e9610ac9e7b14e9370798c005dde0"
+    },
+    {
+      "specId": "spec-P46-L5-02",
+      "taskId": "P46-L5-02",
+      "targetFiles": [
+        "src/semver.js"
+      ],
+      "requiredEvents": [
+        "PARSE_SEGMENT",
+        "VALIDATE_PRERELEASE"
+      ],
+      "requiredStates": [
+        "INIT",
+        "PARSING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-02",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-02",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L5-02",
+          "taskId": "P46-L5-02",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L5-02",
+          "taskId": "P46-L5-02",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L5-02",
+          "taskId": "P46-L5-02",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "1503a36d06c85bb8af447054606a2cdc92ece45a495d36a914f1246c65507839"
+    },
+    {
+      "specId": "spec-P46-L5-03",
+      "taskId": "P46-L5-03",
+      "targetFiles": [
+        "src/semver.js"
+      ],
+      "requiredEvents": [
+        "PARSE_SEGMENT",
+        "VALIDATE_PRERELEASE"
+      ],
+      "requiredStates": [
+        "INIT",
+        "PARSING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-03",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-03",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L5-03",
+          "taskId": "P46-L5-03",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L5-03",
+          "taskId": "P46-L5-03",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L5-03",
+          "taskId": "P46-L5-03",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "92f1669851adcfd0df8b19cd98e00e6e500613921aebf36a701af107f6ddfc67"
+    },
+    {
+      "specId": "spec-P46-L5-04",
+      "taskId": "P46-L5-04",
+      "targetFiles": [
+        "src/semver.js"
+      ],
+      "requiredEvents": [
+        "PARSE_SEGMENT",
+        "VALIDATE_PRERELEASE"
+      ],
+      "requiredStates": [
+        "INIT",
+        "PARSING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-04",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-04",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L5-04",
+          "taskId": "P46-L5-04",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L5-04",
+          "taskId": "P46-L5-04",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L5-04",
+          "taskId": "P46-L5-04",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "84406a2d552bb5a104309f6712f3c2839c6f971829242558f8a782998ae23b12"
+    },
+    {
+      "specId": "spec-P46-L5-05",
+      "taskId": "P46-L5-05",
+      "targetFiles": [
+        "src/semver.js"
+      ],
+      "requiredEvents": [
+        "PARSE_SEGMENT",
+        "VALIDATE_PRERELEASE"
+      ],
+      "requiredStates": [
+        "INIT",
+        "PARSING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-05",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-05",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L5-05",
+          "taskId": "P46-L5-05",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L5-05",
+          "taskId": "P46-L5-05",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L5-05",
+          "taskId": "P46-L5-05",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "c8831450c5497287c29b39e67b7f68b4874d726f64008a469f15a8187eb01ff9"
+    },
+    {
+      "specId": "spec-P46-L6-01",
+      "taskId": "P46-L6-01",
+      "targetFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "requiredEvents": [
+        "REQUEST_RECEIVED",
+        "APPLY_CORS",
+        "DISPATCH_API"
+      ],
+      "requiredStates": [
+        "INIT",
+        "FILTERING",
+        "ROUTING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-01",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-01",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L6-01",
+          "taskId": "P46-L6-01",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L6-01",
+          "taskId": "P46-L6-01",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L6-01",
+          "taskId": "P46-L6-01",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "3c02f4519b2f71683c82e71c69051761e116d5506eb92fea9ddc849d9f605877"
+    },
+    {
+      "specId": "spec-P46-L6-02",
+      "taskId": "P46-L6-02",
+      "targetFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "requiredEvents": [
+        "REQUEST_RECEIVED",
+        "APPLY_CORS",
+        "DISPATCH_API"
+      ],
+      "requiredStates": [
+        "INIT",
+        "FILTERING",
+        "ROUTING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-02",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-02",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L6-02",
+          "taskId": "P46-L6-02",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L6-02",
+          "taskId": "P46-L6-02",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L6-02",
+          "taskId": "P46-L6-02",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "ad5c91c3c6aff5f254071012cba7562b0fb1b69360f0b69cfa74f4355fe4d808"
+    },
+    {
+      "specId": "spec-P46-L6-03",
+      "taskId": "P46-L6-03",
+      "targetFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "requiredEvents": [
+        "REQUEST_RECEIVED",
+        "APPLY_CORS",
+        "DISPATCH_API"
+      ],
+      "requiredStates": [
+        "INIT",
+        "FILTERING",
+        "ROUTING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-03",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-03",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L6-03",
+          "taskId": "P46-L6-03",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L6-03",
+          "taskId": "P46-L6-03",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L6-03",
+          "taskId": "P46-L6-03",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "b548804763b2a7d3f921300c9a970ce6ac02c9580dc47569aa07206c42bee9fc"
+    },
+    {
+      "specId": "spec-P46-L6-04",
+      "taskId": "P46-L6-04",
+      "targetFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "requiredEvents": [
+        "REQUEST_RECEIVED",
+        "APPLY_CORS",
+        "DISPATCH_API"
+      ],
+      "requiredStates": [
+        "INIT",
+        "FILTERING",
+        "ROUTING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-04",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-04",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L6-04",
+          "taskId": "P46-L6-04",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L6-04",
+          "taskId": "P46-L6-04",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L6-04",
+          "taskId": "P46-L6-04",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "61d71bc77674aad3720eb5a01b1db39f414617f0b3c277e4c530a11dd564dace"
+    },
+    {
+      "specId": "spec-P46-L6-05",
+      "taskId": "P46-L6-05",
+      "targetFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "requiredEvents": [
+        "REQUEST_RECEIVED",
+        "APPLY_CORS",
+        "DISPATCH_API"
+      ],
+      "requiredStates": [
+        "INIT",
+        "FILTERING",
+        "ROUTING",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-05",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-05",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L6-05",
+          "taskId": "P46-L6-05",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L6-05",
+          "taskId": "P46-L6-05",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L6-05",
+          "taskId": "P46-L6-05",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        }
+      ],
+      "canonicalHash": "86ae7128021f2633db9136b7b68e408d731af48f247041afb3bfbb2c3bb1ae7c"
+    },
+    {
+      "specId": "spec-P46-L7-01",
+      "taskId": "P46-L7-01",
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "requiredEvents": [
+        "TOKENIZE",
+        "PARSE_EXP",
+        "EVAL_NODE",
+        "RECOVER_SYNC"
+      ],
+      "requiredStates": [
+        "INIT",
+        "TOKENIZING",
+        "PARSING",
+        "EVALUATING",
+        "ERROR",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-01",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-01",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-01",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L7-01",
+          "taskId": "P46-L7-01",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L7-01",
+          "taskId": "P46-L7-01",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L7-01",
+          "taskId": "P46-L7-01",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-sync-P46-L7-01",
+          "taskId": "P46-L7-01",
+          "obligationType": "GLOBAL_INVARIANT_PRESERVED",
+          "description": "Parser state transitions must maintain lookahead parity with tokenizer",
+          "status": "PENDING"
+        }
+      ],
+      "canonicalHash": "7d51f2fc56c5efa9b725da1a4491ef2cf46cab9311cb89369b449132f6b6b283"
+    },
+    {
+      "specId": "spec-P46-L7-02",
+      "taskId": "P46-L7-02",
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "requiredEvents": [
+        "TOKENIZE",
+        "PARSE_EXP",
+        "EVAL_NODE",
+        "RECOVER_SYNC"
+      ],
+      "requiredStates": [
+        "INIT",
+        "TOKENIZING",
+        "PARSING",
+        "EVALUATING",
+        "ERROR",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-02",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-02",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-02",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L7-02",
+          "taskId": "P46-L7-02",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L7-02",
+          "taskId": "P46-L7-02",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L7-02",
+          "taskId": "P46-L7-02",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-sync-P46-L7-02",
+          "taskId": "P46-L7-02",
+          "obligationType": "GLOBAL_INVARIANT_PRESERVED",
+          "description": "Parser state transitions must maintain lookahead parity with tokenizer",
+          "status": "PENDING"
+        }
+      ],
+      "canonicalHash": "562797e43018a7823f3c566a95e26643d990a79ab1ff281fd928d986c830062d"
+    },
+    {
+      "specId": "spec-P46-L7-03",
+      "taskId": "P46-L7-03",
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "requiredEvents": [
+        "TOKENIZE",
+        "PARSE_EXP",
+        "EVAL_NODE",
+        "RECOVER_SYNC"
+      ],
+      "requiredStates": [
+        "INIT",
+        "TOKENIZING",
+        "PARSING",
+        "EVALUATING",
+        "ERROR",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-03",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-03",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-03",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L7-03",
+          "taskId": "P46-L7-03",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L7-03",
+          "taskId": "P46-L7-03",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L7-03",
+          "taskId": "P46-L7-03",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-sync-P46-L7-03",
+          "taskId": "P46-L7-03",
+          "obligationType": "GLOBAL_INVARIANT_PRESERVED",
+          "description": "Parser state transitions must maintain lookahead parity with tokenizer",
+          "status": "PENDING"
+        }
+      ],
+      "canonicalHash": "40fcfea742d2ccd49a1e0e5f453680c0c1921a4f83bc3ed36710465c81e20426"
+    },
+    {
+      "specId": "spec-P46-L7-04",
+      "taskId": "P46-L7-04",
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "requiredEvents": [
+        "TOKENIZE",
+        "PARSE_EXP",
+        "EVAL_NODE",
+        "RECOVER_SYNC"
+      ],
+      "requiredStates": [
+        "INIT",
+        "TOKENIZING",
+        "PARSING",
+        "EVALUATING",
+        "ERROR",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-04",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-04",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-04",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L7-04",
+          "taskId": "P46-L7-04",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L7-04",
+          "taskId": "P46-L7-04",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L7-04",
+          "taskId": "P46-L7-04",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-sync-P46-L7-04",
+          "taskId": "P46-L7-04",
+          "obligationType": "GLOBAL_INVARIANT_PRESERVED",
+          "description": "Parser state transitions must maintain lookahead parity with tokenizer",
+          "status": "PENDING"
+        }
+      ],
+      "canonicalHash": "bd7bf764fb29b382d2d94618216c5fd8be323f9c8c74b2c9ef437342000dce6f"
+    },
+    {
+      "specId": "spec-P46-L7-05",
+      "taskId": "P46-L7-05",
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "requiredEvents": [
+        "TOKENIZE",
+        "PARSE_EXP",
+        "EVAL_NODE",
+        "RECOVER_SYNC"
+      ],
+      "requiredStates": [
+        "INIT",
+        "TOKENIZING",
+        "PARSING",
+        "EVALUATING",
+        "ERROR",
+        "TERMINAL"
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-05",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-05",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-05",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "obligations": [
+        {
+          "obligationId": "ob-init-P46-L7-05",
+          "taskId": "P46-L7-05",
+          "obligationType": "INITIAL_STATE_VALID",
+          "description": "Initial state must have valid default variable assignments",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-guard-P46-L7-05",
+          "taskId": "P46-L7-05",
+          "obligationType": "TRANSITION_GUARD_VALID",
+          "description": "All branch points guarded by typed predicates",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-term-P46-L7-05",
+          "taskId": "P46-L7-05",
+          "obligationType": "TERMINAL_STATE_REACHABLE",
+          "description": "At least one terminal state reachable from initial state",
+          "status": "SATISFIED"
+        },
+        {
+          "obligationId": "ob-sync-P46-L7-05",
+          "taskId": "P46-L7-05",
+          "obligationType": "GLOBAL_INVARIANT_PRESERVED",
+          "description": "Parser state transitions must maintain lookahead parity with tokenizer",
+          "status": "PENDING"
+        }
+      ],
+      "canonicalHash": "96c309e36a52bf60d1b2c3012935eb2660aa7c20e51cbacc391c7a073b9e6711"
+    }
+  ]
+}

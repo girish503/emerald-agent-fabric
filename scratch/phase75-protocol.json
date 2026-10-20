@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "emerald-phase75-v1",
+  "phase": "75",
+  "protocolVersion": "emerald-phase75-behavioral-state-machine-synthesis-v1",
+  "frozenAt": "2026-10-20T11:30:00.000Z",
+  "baselineCommit": "f280231",
+  "parentCommit": "d0aa004",
+  "experimentalVariable": "governed_behavioral_state_machine_synthesis",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000
+  },
+  "behavioralBudgets": {
+    "maxStates": 16,
+    "maxStateVariables": 16,
+    "maxEvents": 24,
+    "maxTransitions": 32,
+    "maxGuards": 32,
+    "maxActionsPerTransition": 8,
+    "maxBehavioralPrograms": 64,
+    "maxRefinementIterations": 6,
+    "maxMachineDepth": 8,
+    "maxCounterexamples": 32,
+    "maxWallClockMs": 120000
+  },
+  "actionTypes": [
+    "READ_STATE",
+    "WRITE_STATE",
+    "ASSERT",
+    "EMIT",
+    "CONSUME",
+    "PRESERVE",
+    "SYNC",
+    "COMMIT",
+    "ROLLBACK",
+    "RECOVER"
+  ],
+  "obligationTypes": [
+    "INITIAL_STATE_VALID",
+    "TRANSITION_GUARD_VALID",
+    "STATE_UPDATE_PRESERVED",
+    "EVENT_ORDER_PRESERVED",
+    "PRODUCER_CONSUMER_ALIGNED",
+    "REPRESENTATION_PRESERVED",
+    "ROLLBACK_VALID",
+    "TERMINAL_STATE_REACHABLE",
+    "GLOBAL_INVARIANT_PRESERVED"
+  ],
+  "failureStages": [
+    "BEHAVIORAL_SPECIFICATION",
+    "BEHAVIORAL_STATE_DISCOVERY",
+    "EVENT_DISCOVERY",
+    "GUARD_SYNTHESIS",
+    "TRANSITION_SYNTHESIS",
+    "INVARIANT_SYNTHESIS",
+    "BEHAVIORAL_SEARCH_EXHAUSTION",
+    "BEHAVIORAL_COMPILATION",
+    "AST_MATERIALIZATION",
+    "LOCAL_REGRESSION",
+    "CLEAN_ROOM_VERIFICATION",
+    "GLOBAL_SEMANTIC_MISALIGNMENT",
+    "OTHER"
+  ],
+  "conditions": [
+    "CONDITION_A_PHASE74_CONTROL",
+    "CONDITION_B_BEHAVIORAL_REPRESENTATION",
+    "CONDITION_C_BEHAVIORAL_SYNTHESIS_REFINEMENT",
+    "CONDITION_D_FULL_GOVERNED_BEHAVIORAL_SYNTHESIS"
+  ],
+  "taskCohort": {
+    "count": 15,
+    "tasks": [
+      "P46-L5-01",
+      "P46-L5-02",
+      "P46-L5-03",
+      "P46-L5-04",
+      "P46-L5-05",
+      "P46-L6-01",
+      "P46-L6-02",
+      "P46-L6-03",
+      "P46-L6-04",
+      "P46-L6-05",
+      "P46-L7-01",
+      "P46-L7-02",
+      "P46-L7-03",
+      "P46-L7-04",
+      "P46-L7-05"
+    ],
+    "cohortDigest": "0b6801537f60f2400e71467db0f39c52366126548bb0439a107eaa5ca28a1dc8"
+  },
+  "protocolDigest": "5381c0bb999129bec2f41c11b631907e33633774f8241146ec2c335b45525cb9"
+}

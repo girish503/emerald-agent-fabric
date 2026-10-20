@@ -1,0 +1,285 @@
+{
+  "count": 35,
+  "invariants": [
+    {
+      "taskId": "P46-L5-01",
+      "invariantId": "inv-state-P46-L5-01",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-01",
+      "invariantId": "inv-rollback-P46-L5-01",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-02",
+      "invariantId": "inv-state-P46-L5-02",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-02",
+      "invariantId": "inv-rollback-P46-L5-02",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-03",
+      "invariantId": "inv-state-P46-L5-03",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-03",
+      "invariantId": "inv-rollback-P46-L5-03",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-04",
+      "invariantId": "inv-state-P46-L5-04",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-04",
+      "invariantId": "inv-rollback-P46-L5-04",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-05",
+      "invariantId": "inv-state-P46-L5-05",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L5-05",
+      "invariantId": "inv-rollback-P46-L5-05",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-01",
+      "invariantId": "inv-state-P46-L6-01",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-01",
+      "invariantId": "inv-rollback-P46-L6-01",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-02",
+      "invariantId": "inv-state-P46-L6-02",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-02",
+      "invariantId": "inv-rollback-P46-L6-02",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-03",
+      "invariantId": "inv-state-P46-L6-03",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-03",
+      "invariantId": "inv-rollback-P46-L6-03",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-04",
+      "invariantId": "inv-state-P46-L6-04",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-04",
+      "invariantId": "inv-rollback-P46-L6-04",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-05",
+      "invariantId": "inv-state-P46-L6-05",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L6-05",
+      "invariantId": "inv-rollback-P46-L6-05",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-01",
+      "invariantId": "inv-state-P46-L7-01",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-01",
+      "invariantId": "inv-rollback-P46-L7-01",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-01",
+      "invariantId": "inv-sync-P46-L7-01",
+      "description": "Tokenizer-Parser lookahead state machine alignment",
+      "ruleType": "MULTI_MODULE_COORDINATION",
+      "provenance": "TASK_CONTRACT",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-02",
+      "invariantId": "inv-state-P46-L7-02",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-02",
+      "invariantId": "inv-rollback-P46-L7-02",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-02",
+      "invariantId": "inv-sync-P46-L7-02",
+      "description": "Tokenizer-Parser lookahead state machine alignment",
+      "ruleType": "MULTI_MODULE_COORDINATION",
+      "provenance": "TASK_CONTRACT",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-03",
+      "invariantId": "inv-state-P46-L7-03",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-03",
+      "invariantId": "inv-rollback-P46-L7-03",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-03",
+      "invariantId": "inv-sync-P46-L7-03",
+      "description": "Tokenizer-Parser lookahead state machine alignment",
+      "ruleType": "MULTI_MODULE_COORDINATION",
+      "provenance": "TASK_CONTRACT",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-04",
+      "invariantId": "inv-state-P46-L7-04",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-04",
+      "invariantId": "inv-rollback-P46-L7-04",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-04",
+      "invariantId": "inv-sync-P46-L7-04",
+      "description": "Tokenizer-Parser lookahead state machine alignment",
+      "ruleType": "MULTI_MODULE_COORDINATION",
+      "provenance": "TASK_CONTRACT",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-05",
+      "invariantId": "inv-state-P46-L7-05",
+      "description": "State transition domain boundedness",
+      "ruleType": "BOUNDED_STATES",
+      "provenance": "STATIC_DERIVATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-05",
+      "invariantId": "inv-rollback-P46-L7-05",
+      "description": "Zero dirty residue on transaction abort",
+      "ruleType": "ATOMIC_ROLLBACK",
+      "provenance": "WORKSPACE_SPECIFICATION",
+      "failClosed": true
+    },
+    {
+      "taskId": "P46-L7-05",
+      "invariantId": "inv-sync-P46-L7-05",
+      "description": "Tokenizer-Parser lookahead state machine alignment",
+      "ruleType": "MULTI_MODULE_COORDINATION",
+      "provenance": "TASK_CONTRACT",
+      "failClosed": true
+    }
+  ]
+}

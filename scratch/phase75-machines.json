@@ -1,0 +1,3615 @@
+{
+  "count": 15,
+  "machines": [
+    {
+      "machineId": "bm_P46-L5-01",
+      "taskId": "P46-L5-01",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_parse_segment",
+          "name": "PARSE_SEGMENT",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_validate_prerelease",
+          "name": "VALIDATE_PRERELEASE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_parsing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_parse_segment",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_segment"
+          ],
+          "consumedEvents": [
+            "ev_parse_segment"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_terminal",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_validate_prerelease",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "consumedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-01",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-01",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "b5bf313a984c88bda3b547dda69b3b6797622b9ac6a4315f15b8cedc62c211b1"
+    },
+    {
+      "machineId": "bm_P46-L5-02",
+      "taskId": "P46-L5-02",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_parse_segment",
+          "name": "PARSE_SEGMENT",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_validate_prerelease",
+          "name": "VALIDATE_PRERELEASE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_parsing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_parse_segment",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_segment"
+          ],
+          "consumedEvents": [
+            "ev_parse_segment"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_terminal",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_validate_prerelease",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "consumedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-02",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-02",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "ae8079eb267596b373f48d1a200c92a203f284c0cd4ebb2fe047a7336dc53934"
+    },
+    {
+      "machineId": "bm_P46-L5-03",
+      "taskId": "P46-L5-03",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_parse_segment",
+          "name": "PARSE_SEGMENT",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_validate_prerelease",
+          "name": "VALIDATE_PRERELEASE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_parsing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_parse_segment",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_segment"
+          ],
+          "consumedEvents": [
+            "ev_parse_segment"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_terminal",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_validate_prerelease",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "consumedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-03",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-03",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "68f60e8a56df5ce084d702b139aaf1757913c24e7ff1498c00d97da984b4296f"
+    },
+    {
+      "machineId": "bm_P46-L5-04",
+      "taskId": "P46-L5-04",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_parse_segment",
+          "name": "PARSE_SEGMENT",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_validate_prerelease",
+          "name": "VALIDATE_PRERELEASE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_parsing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_parse_segment",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_segment"
+          ],
+          "consumedEvents": [
+            "ev_parse_segment"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_terminal",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_validate_prerelease",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "consumedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-04",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-04",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "72a67f136b8784938a139978a0574514504cca13f277a091460e527681969f0c"
+    },
+    {
+      "machineId": "bm_P46-L5-05",
+      "taskId": "P46-L5-05",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_parse_segment",
+          "name": "PARSE_SEGMENT",
+          "sourceDomain": "src/semver.js"
+        },
+        {
+          "eventId": "ev_validate_prerelease",
+          "name": "VALIDATE_PRERELEASE",
+          "sourceDomain": "src/semver.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_parsing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_parse_segment",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_segment"
+          ],
+          "consumedEvents": [
+            "ev_parse_segment"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_terminal",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_validate_prerelease",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "consumedEvents": [
+            "ev_validate_prerelease"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L5-05",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L5-05",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "5e12d30a9d0cbda41aca8c35d123f839b61596f00caa0df08b93a8e0b536b676"
+    },
+    {
+      "machineId": "bm_P46-L6-01",
+      "taskId": "P46-L6-01",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_filtering",
+          "name": "FILTERING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_filtering"
+          ]
+        },
+        {
+          "stateId": "s_routing",
+          "name": "ROUTING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_routing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_request_received",
+          "name": "REQUEST_RECEIVED",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_apply_cors",
+          "name": "APPLY_CORS",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_dispatch_api",
+          "name": "DISPATCH_API",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_filtering",
+          "sourceStateId": "s_init",
+          "eventId": "ev_request_received",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "FILTERING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_filtering",
+          "emittedEvents": [
+            "ev_request_received"
+          ],
+          "consumedEvents": [
+            "ev_request_received"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_filtering_to_s_routing",
+          "sourceStateId": "s_filtering",
+          "eventId": "ev_apply_cors",
+          "guard": {
+            "guardId": "gd_s_filtering",
+            "predicates": [
+              {
+                "predicateId": "pr_s_filtering_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_filtering_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_filtering_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ROUTING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_routing",
+          "emittedEvents": [
+            "ev_apply_cors"
+          ],
+          "consumedEvents": [
+            "ev_apply_cors"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_routing_to_s_terminal",
+          "sourceStateId": "s_routing",
+          "eventId": "ev_dispatch_api",
+          "guard": {
+            "guardId": "gd_s_routing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_routing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_routing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_routing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_dispatch_api"
+          ],
+          "consumedEvents": [
+            "ev_dispatch_api"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-01",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-01",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "1430ca4eee21d2f3d0ef280f7aef3301f948204fbc0b7908b0711c74956d222f"
+    },
+    {
+      "machineId": "bm_P46-L6-02",
+      "taskId": "P46-L6-02",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_filtering",
+          "name": "FILTERING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_filtering"
+          ]
+        },
+        {
+          "stateId": "s_routing",
+          "name": "ROUTING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_routing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_request_received",
+          "name": "REQUEST_RECEIVED",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_apply_cors",
+          "name": "APPLY_CORS",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_dispatch_api",
+          "name": "DISPATCH_API",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_filtering",
+          "sourceStateId": "s_init",
+          "eventId": "ev_request_received",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "FILTERING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_filtering",
+          "emittedEvents": [
+            "ev_request_received"
+          ],
+          "consumedEvents": [
+            "ev_request_received"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_filtering_to_s_routing",
+          "sourceStateId": "s_filtering",
+          "eventId": "ev_apply_cors",
+          "guard": {
+            "guardId": "gd_s_filtering",
+            "predicates": [
+              {
+                "predicateId": "pr_s_filtering_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_filtering_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_filtering_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ROUTING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_routing",
+          "emittedEvents": [
+            "ev_apply_cors"
+          ],
+          "consumedEvents": [
+            "ev_apply_cors"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_routing_to_s_terminal",
+          "sourceStateId": "s_routing",
+          "eventId": "ev_dispatch_api",
+          "guard": {
+            "guardId": "gd_s_routing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_routing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_routing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_routing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_dispatch_api"
+          ],
+          "consumedEvents": [
+            "ev_dispatch_api"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-02",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-02",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "8718975cabe7ae288e7e7b9eafb8ee35aad77623ddff75f6b84022d40a255e2d"
+    },
+    {
+      "machineId": "bm_P46-L6-03",
+      "taskId": "P46-L6-03",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_filtering",
+          "name": "FILTERING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_filtering"
+          ]
+        },
+        {
+          "stateId": "s_routing",
+          "name": "ROUTING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_routing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_request_received",
+          "name": "REQUEST_RECEIVED",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_apply_cors",
+          "name": "APPLY_CORS",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_dispatch_api",
+          "name": "DISPATCH_API",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_filtering",
+          "sourceStateId": "s_init",
+          "eventId": "ev_request_received",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "FILTERING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_filtering",
+          "emittedEvents": [
+            "ev_request_received"
+          ],
+          "consumedEvents": [
+            "ev_request_received"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_filtering_to_s_routing",
+          "sourceStateId": "s_filtering",
+          "eventId": "ev_apply_cors",
+          "guard": {
+            "guardId": "gd_s_filtering",
+            "predicates": [
+              {
+                "predicateId": "pr_s_filtering_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_filtering_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_filtering_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ROUTING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_routing",
+          "emittedEvents": [
+            "ev_apply_cors"
+          ],
+          "consumedEvents": [
+            "ev_apply_cors"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_routing_to_s_terminal",
+          "sourceStateId": "s_routing",
+          "eventId": "ev_dispatch_api",
+          "guard": {
+            "guardId": "gd_s_routing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_routing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_routing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_routing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_dispatch_api"
+          ],
+          "consumedEvents": [
+            "ev_dispatch_api"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-03",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-03",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "5280b7a6cb634f1f942a3bb57b96bd569488030a6173e90cd2b49ffc44533626"
+    },
+    {
+      "machineId": "bm_P46-L6-04",
+      "taskId": "P46-L6-04",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_filtering",
+          "name": "FILTERING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_filtering"
+          ]
+        },
+        {
+          "stateId": "s_routing",
+          "name": "ROUTING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_routing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_request_received",
+          "name": "REQUEST_RECEIVED",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_apply_cors",
+          "name": "APPLY_CORS",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_dispatch_api",
+          "name": "DISPATCH_API",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_filtering",
+          "sourceStateId": "s_init",
+          "eventId": "ev_request_received",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "FILTERING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_filtering",
+          "emittedEvents": [
+            "ev_request_received"
+          ],
+          "consumedEvents": [
+            "ev_request_received"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_filtering_to_s_routing",
+          "sourceStateId": "s_filtering",
+          "eventId": "ev_apply_cors",
+          "guard": {
+            "guardId": "gd_s_filtering",
+            "predicates": [
+              {
+                "predicateId": "pr_s_filtering_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_filtering_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_filtering_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ROUTING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_routing",
+          "emittedEvents": [
+            "ev_apply_cors"
+          ],
+          "consumedEvents": [
+            "ev_apply_cors"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_routing_to_s_terminal",
+          "sourceStateId": "s_routing",
+          "eventId": "ev_dispatch_api",
+          "guard": {
+            "guardId": "gd_s_routing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_routing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_routing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_routing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_dispatch_api"
+          ],
+          "consumedEvents": [
+            "ev_dispatch_api"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-04",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-04",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "f6b3f63e17d0b4e373377394bf342fbaec7a834a9d68a001124d2a3cb592a187"
+    },
+    {
+      "machineId": "bm_P46-L6-05",
+      "taskId": "P46-L6-05",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_filtering",
+          "name": "FILTERING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_filtering"
+          ]
+        },
+        {
+          "stateId": "s_routing",
+          "name": "ROUTING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_routing"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_request_received",
+          "name": "REQUEST_RECEIVED",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_apply_cors",
+          "name": "APPLY_CORS",
+          "sourceDomain": "src/middleware/cors.js"
+        },
+        {
+          "eventId": "ev_dispatch_api",
+          "name": "DISPATCH_API",
+          "sourceDomain": "src/middleware/cors.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_filtering",
+          "sourceStateId": "s_init",
+          "eventId": "ev_request_received",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "FILTERING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_filtering",
+          "emittedEvents": [
+            "ev_request_received"
+          ],
+          "consumedEvents": [
+            "ev_request_received"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_filtering_to_s_routing",
+          "sourceStateId": "s_filtering",
+          "eventId": "ev_apply_cors",
+          "guard": {
+            "guardId": "gd_s_filtering",
+            "predicates": [
+              {
+                "predicateId": "pr_s_filtering_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_filtering_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_filtering_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ROUTING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_routing",
+          "emittedEvents": [
+            "ev_apply_cors"
+          ],
+          "consumedEvents": [
+            "ev_apply_cors"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_routing_to_s_terminal",
+          "sourceStateId": "s_routing",
+          "eventId": "ev_dispatch_api",
+          "guard": {
+            "guardId": "gd_s_routing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_routing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_routing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_routing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_dispatch_api"
+          ],
+          "consumedEvents": [
+            "ev_dispatch_api"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L6-05",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L6-05",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "ebcbf2b13cd0e67252298108b4254dac49d1019d3ea88a019ebdad3331d8f016"
+    },
+    {
+      "machineId": "bm_P46-L7-01",
+      "taskId": "P46-L7-01",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_tokenizing",
+          "name": "TOKENIZING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_tokenizing"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_evaluating",
+          "name": "EVALUATING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_evaluating"
+          ]
+        },
+        {
+          "stateId": "s_error",
+          "name": "ERROR",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_error"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_tokenize",
+          "name": "TOKENIZE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_parse_exp",
+          "name": "PARSE_EXP",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_eval_node",
+          "name": "EVAL_NODE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_recover_sync",
+          "name": "RECOVER_SYNC",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_tokenizing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TOKENIZING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_tokenizing",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_tokenizing_to_s_parsing",
+          "sourceStateId": "s_tokenizing",
+          "eventId": "ev_parse_exp",
+          "guard": {
+            "guardId": "gd_s_tokenizing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_tokenizing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_tokenizing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_tokenizing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_exp"
+          ],
+          "consumedEvents": [
+            "ev_parse_exp"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_evaluating",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_eval_node",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "EVALUATING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_evaluating",
+          "emittedEvents": [
+            "ev_eval_node"
+          ],
+          "consumedEvents": [
+            "ev_eval_node"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_evaluating_to_s_error",
+          "sourceStateId": "s_evaluating",
+          "eventId": "ev_recover_sync",
+          "guard": {
+            "guardId": "gd_s_evaluating",
+            "predicates": [
+              {
+                "predicateId": "pr_s_evaluating_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_evaluating_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_evaluating_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ERROR",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_error",
+          "emittedEvents": [
+            "ev_recover_sync"
+          ],
+          "consumedEvents": [
+            "ev_recover_sync"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_error_to_s_terminal",
+          "sourceStateId": "s_error",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_error",
+            "predicates": [
+              {
+                "predicateId": "pr_s_error_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_error_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_error_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-01",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-01",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-01",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "e1942be31a216d0f40be5fc4fdda25d44511a7a6f4f724ac17ee21f2124885fe"
+    },
+    {
+      "machineId": "bm_P46-L7-02",
+      "taskId": "P46-L7-02",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_tokenizing",
+          "name": "TOKENIZING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_tokenizing"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_evaluating",
+          "name": "EVALUATING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_evaluating"
+          ]
+        },
+        {
+          "stateId": "s_error",
+          "name": "ERROR",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_error"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_tokenize",
+          "name": "TOKENIZE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_parse_exp",
+          "name": "PARSE_EXP",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_eval_node",
+          "name": "EVAL_NODE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_recover_sync",
+          "name": "RECOVER_SYNC",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_tokenizing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TOKENIZING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_tokenizing",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_tokenizing_to_s_parsing",
+          "sourceStateId": "s_tokenizing",
+          "eventId": "ev_parse_exp",
+          "guard": {
+            "guardId": "gd_s_tokenizing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_tokenizing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_tokenizing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_tokenizing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_exp"
+          ],
+          "consumedEvents": [
+            "ev_parse_exp"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_evaluating",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_eval_node",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "EVALUATING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_evaluating",
+          "emittedEvents": [
+            "ev_eval_node"
+          ],
+          "consumedEvents": [
+            "ev_eval_node"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_evaluating_to_s_error",
+          "sourceStateId": "s_evaluating",
+          "eventId": "ev_recover_sync",
+          "guard": {
+            "guardId": "gd_s_evaluating",
+            "predicates": [
+              {
+                "predicateId": "pr_s_evaluating_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_evaluating_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_evaluating_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ERROR",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_error",
+          "emittedEvents": [
+            "ev_recover_sync"
+          ],
+          "consumedEvents": [
+            "ev_recover_sync"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_error_to_s_terminal",
+          "sourceStateId": "s_error",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_error",
+            "predicates": [
+              {
+                "predicateId": "pr_s_error_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_error_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_error_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-02",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-02",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-02",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "3b2b08c246cde532bef6ce67030796a7d49a7607cfd80cad0c65d821a5dcab43"
+    },
+    {
+      "machineId": "bm_P46-L7-03",
+      "taskId": "P46-L7-03",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_tokenizing",
+          "name": "TOKENIZING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_tokenizing"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_evaluating",
+          "name": "EVALUATING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_evaluating"
+          ]
+        },
+        {
+          "stateId": "s_error",
+          "name": "ERROR",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_error"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_tokenize",
+          "name": "TOKENIZE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_parse_exp",
+          "name": "PARSE_EXP",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_eval_node",
+          "name": "EVAL_NODE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_recover_sync",
+          "name": "RECOVER_SYNC",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_tokenizing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TOKENIZING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_tokenizing",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_tokenizing_to_s_parsing",
+          "sourceStateId": "s_tokenizing",
+          "eventId": "ev_parse_exp",
+          "guard": {
+            "guardId": "gd_s_tokenizing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_tokenizing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_tokenizing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_tokenizing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_exp"
+          ],
+          "consumedEvents": [
+            "ev_parse_exp"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_evaluating",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_eval_node",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "EVALUATING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_evaluating",
+          "emittedEvents": [
+            "ev_eval_node"
+          ],
+          "consumedEvents": [
+            "ev_eval_node"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_evaluating_to_s_error",
+          "sourceStateId": "s_evaluating",
+          "eventId": "ev_recover_sync",
+          "guard": {
+            "guardId": "gd_s_evaluating",
+            "predicates": [
+              {
+                "predicateId": "pr_s_evaluating_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_evaluating_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_evaluating_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ERROR",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_error",
+          "emittedEvents": [
+            "ev_recover_sync"
+          ],
+          "consumedEvents": [
+            "ev_recover_sync"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_error_to_s_terminal",
+          "sourceStateId": "s_error",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_error",
+            "predicates": [
+              {
+                "predicateId": "pr_s_error_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_error_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_error_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-03",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-03",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-03",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "fcc904a72f2d4e137287a921d355b6c153fff56dfd48874f650ab78d5d459e85"
+    },
+    {
+      "machineId": "bm_P46-L7-04",
+      "taskId": "P46-L7-04",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_tokenizing",
+          "name": "TOKENIZING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_tokenizing"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_evaluating",
+          "name": "EVALUATING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_evaluating"
+          ]
+        },
+        {
+          "stateId": "s_error",
+          "name": "ERROR",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_error"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_tokenize",
+          "name": "TOKENIZE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_parse_exp",
+          "name": "PARSE_EXP",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_eval_node",
+          "name": "EVAL_NODE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_recover_sync",
+          "name": "RECOVER_SYNC",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_tokenizing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TOKENIZING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_tokenizing",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_tokenizing_to_s_parsing",
+          "sourceStateId": "s_tokenizing",
+          "eventId": "ev_parse_exp",
+          "guard": {
+            "guardId": "gd_s_tokenizing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_tokenizing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_tokenizing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_tokenizing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_exp"
+          ],
+          "consumedEvents": [
+            "ev_parse_exp"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_evaluating",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_eval_node",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "EVALUATING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_evaluating",
+          "emittedEvents": [
+            "ev_eval_node"
+          ],
+          "consumedEvents": [
+            "ev_eval_node"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_evaluating_to_s_error",
+          "sourceStateId": "s_evaluating",
+          "eventId": "ev_recover_sync",
+          "guard": {
+            "guardId": "gd_s_evaluating",
+            "predicates": [
+              {
+                "predicateId": "pr_s_evaluating_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_evaluating_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_evaluating_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ERROR",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_error",
+          "emittedEvents": [
+            "ev_recover_sync"
+          ],
+          "consumedEvents": [
+            "ev_recover_sync"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_error_to_s_terminal",
+          "sourceStateId": "s_error",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_error",
+            "predicates": [
+              {
+                "predicateId": "pr_s_error_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_error_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_error_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-04",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-04",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-04",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "81c075087caa4e8ce1c451aefd3ec2c2ca416f4c7b3bc2a64a9d72671137f8f2"
+    },
+    {
+      "machineId": "bm_P46-L7-05",
+      "taskId": "P46-L7-05",
+      "states": [
+        {
+          "stateId": "s_init",
+          "name": "INIT",
+          "isInitial": true,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_init"
+          ]
+        },
+        {
+          "stateId": "s_tokenizing",
+          "name": "TOKENIZING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_tokenizing"
+          ]
+        },
+        {
+          "stateId": "s_parsing",
+          "name": "PARSING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_parsing"
+          ]
+        },
+        {
+          "stateId": "s_evaluating",
+          "name": "EVALUATING",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_evaluating"
+          ]
+        },
+        {
+          "stateId": "s_error",
+          "name": "ERROR",
+          "isInitial": false,
+          "isTerminal": false,
+          "invariants": [
+            "inv_in_state_error"
+          ]
+        },
+        {
+          "stateId": "s_terminal",
+          "name": "TERMINAL",
+          "isInitial": false,
+          "isTerminal": true,
+          "invariants": [
+            "inv_in_state_terminal"
+          ]
+        }
+      ],
+      "stateVariables": [
+        {
+          "variableId": "v_status",
+          "name": "status",
+          "type": "string",
+          "initialValue": "IDLE"
+        },
+        {
+          "variableId": "v_err_count",
+          "name": "errorCount",
+          "type": "number",
+          "initialValue": 0
+        },
+        {
+          "variableId": "v_is_valid",
+          "name": "isValid",
+          "type": "boolean",
+          "initialValue": false
+        }
+      ],
+      "events": [
+        {
+          "eventId": "ev_tokenize",
+          "name": "TOKENIZE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_parse_exp",
+          "name": "PARSE_EXP",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_eval_node",
+          "name": "EVAL_NODE",
+          "sourceDomain": "src/calc.js"
+        },
+        {
+          "eventId": "ev_recover_sync",
+          "name": "RECOVER_SYNC",
+          "sourceDomain": "src/calc.js"
+        }
+      ],
+      "transitions": [
+        {
+          "transitionId": "tr_s_init_to_s_tokenizing",
+          "sourceStateId": "s_init",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_init",
+            "predicates": [
+              {
+                "predicateId": "pr_s_init_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_init_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_init_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TOKENIZING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_tokenizing",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_tokenizing_to_s_parsing",
+          "sourceStateId": "s_tokenizing",
+          "eventId": "ev_parse_exp",
+          "guard": {
+            "guardId": "gd_s_tokenizing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_tokenizing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_tokenizing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_tokenizing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "PARSING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_parsing",
+          "emittedEvents": [
+            "ev_parse_exp"
+          ],
+          "consumedEvents": [
+            "ev_parse_exp"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_parsing_to_s_evaluating",
+          "sourceStateId": "s_parsing",
+          "eventId": "ev_eval_node",
+          "guard": {
+            "guardId": "gd_s_parsing",
+            "predicates": [
+              {
+                "predicateId": "pr_s_parsing_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_parsing_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_parsing_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "EVALUATING",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_evaluating",
+          "emittedEvents": [
+            "ev_eval_node"
+          ],
+          "consumedEvents": [
+            "ev_eval_node"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_evaluating_to_s_error",
+          "sourceStateId": "s_evaluating",
+          "eventId": "ev_recover_sync",
+          "guard": {
+            "guardId": "gd_s_evaluating",
+            "predicates": [
+              {
+                "predicateId": "pr_s_evaluating_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_evaluating_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_evaluating_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "ERROR",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_error",
+          "emittedEvents": [
+            "ev_recover_sync"
+          ],
+          "consumedEvents": [
+            "ev_recover_sync"
+          ],
+          "priority": 1
+        },
+        {
+          "transitionId": "tr_s_error_to_s_terminal",
+          "sourceStateId": "s_error",
+          "eventId": "ev_tokenize",
+          "guard": {
+            "guardId": "gd_s_error",
+            "predicates": [
+              {
+                "predicateId": "pr_s_error_status",
+                "variableId": "v_status",
+                "operator": "!=",
+                "value": "ERROR"
+              }
+            ],
+            "booleanOp": "AND"
+          },
+          "actions": [
+            {
+              "actionId": "act_s_error_read",
+              "actionType": "READ_STATE",
+              "targetVariable": "v_status",
+              "effect": "READ_STATE"
+            },
+            {
+              "actionId": "act_s_error_write",
+              "actionType": "WRITE_STATE",
+              "targetVariable": "v_status",
+              "payload": "TERMINAL",
+              "effect": "WRITE_STATE"
+            }
+          ],
+          "targetStateId": "s_terminal",
+          "emittedEvents": [
+            "ev_tokenize"
+          ],
+          "consumedEvents": [
+            "ev_tokenize"
+          ],
+          "priority": 1
+        }
+      ],
+      "invariants": [
+        {
+          "invariantId": "inv-state-P46-L7-05",
+          "description": "State transition domain boundedness",
+          "ruleType": "BOUNDED_STATES",
+          "provenance": "STATIC_DERIVATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-rollback-P46-L7-05",
+          "description": "Zero dirty residue on transaction abort",
+          "ruleType": "ATOMIC_ROLLBACK",
+          "provenance": "WORKSPACE_SPECIFICATION",
+          "failClosed": true
+        },
+        {
+          "invariantId": "inv-sync-P46-L7-05",
+          "description": "Tokenizer-Parser lookahead state machine alignment",
+          "ruleType": "MULTI_MODULE_COORDINATION",
+          "provenance": "TASK_CONTRACT",
+          "failClosed": true
+        }
+      ],
+      "initialStateId": "s_init",
+      "terminalStateIds": [
+        "s_terminal"
+      ],
+      "canonicalHash": "45a0f070730cf701f10da820b74fb42766e2ad67a37fb3b8c8501285af47af95"
+    }
+  ]
+}

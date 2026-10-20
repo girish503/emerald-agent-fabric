@@ -1,0 +1,65 @@
+{
+  "count": 5,
+  "counterexamples": [
+    {
+      "counterexampleId": "ce_l7_P46-L7-01",
+      "category": "TOKENIZER_PARSER_LOOKAHEAD_MISALIGNMENT",
+      "machineHash": "e1942be31a216d0f40be5fc4fdda25d44511a7a6f4f724ac17ee21f2124885fe",
+      "stateId": "s_parsing",
+      "eventId": "ev_parse_exp",
+      "observedBehavior": "Parser consumes next token without synchronizing tokenizer lookahead pointer",
+      "expectedInvariant": "MULTI_MODULE_COORDINATION",
+      "violatedInvariant": "inv-sync-P46-L7-01",
+      "provenance": "CLEAN_ROOM_DUAL_GATE_SEMANTIC_EVALUATION",
+      "contentHash": "8e8cdf173b1f6031d255dd488df4751aadecb4f8b8c7c5a1c392d7a28161e15a"
+    },
+    {
+      "counterexampleId": "ce_l7_P46-L7-02",
+      "category": "TOKENIZER_PARSER_LOOKAHEAD_MISALIGNMENT",
+      "machineHash": "3b2b08c246cde532bef6ce67030796a7d49a7607cfd80cad0c65d821a5dcab43",
+      "stateId": "s_parsing",
+      "eventId": "ev_parse_exp",
+      "observedBehavior": "Parser consumes next token without synchronizing tokenizer lookahead pointer",
+      "expectedInvariant": "MULTI_MODULE_COORDINATION",
+      "violatedInvariant": "inv-sync-P46-L7-02",
+      "provenance": "CLEAN_ROOM_DUAL_GATE_SEMANTIC_EVALUATION",
+      "contentHash": "b634af47079f8ff4454c76d2f72a3d6ea6ecb5a24d2e501affd3076f95ed481c"
+    },
+    {
+      "counterexampleId": "ce_l7_P46-L7-03",
+      "category": "TOKENIZER_PARSER_LOOKAHEAD_MISALIGNMENT",
+      "machineHash": "fcc904a72f2d4e137287a921d355b6c153fff56dfd48874f650ab78d5d459e85",
+      "stateId": "s_parsing",
+      "eventId": "ev_parse_exp",
+      "observedBehavior": "Parser consumes next token without synchronizing tokenizer lookahead pointer",
+      "expectedInvariant": "MULTI_MODULE_COORDINATION",
+      "violatedInvariant": "inv-sync-P46-L7-03",
+      "provenance": "CLEAN_ROOM_DUAL_GATE_SEMANTIC_EVALUATION",
+      "contentHash": "0b5b56080d12842e93a434947f8dd14c3beae51b49c62fd5bda0ef59aca9a8fb"
+    },
+    {
+      "counterexampleId": "ce_l7_P46-L7-04",
+      "category": "TOKENIZER_PARSER_LOOKAHEAD_MISALIGNMENT",
+      "machineHash": "81c075087caa4e8ce1c451aefd3ec2c2ca416f4c7b3bc2a64a9d72671137f8f2",
+      "stateId": "s_parsing",
+      "eventId": "ev_parse_exp",
+      "observedBehavior": "Parser consumes next token without synchronizing tokenizer lookahead pointer",
+      "expectedInvariant": "MULTI_MODULE_COORDINATION",
+      "violatedInvariant": "inv-sync-P46-L7-04",
+      "provenance": "CLEAN_ROOM_DUAL_GATE_SEMANTIC_EVALUATION",
+      "contentHash": "c157d39b4d6a223c39dc818628062b87e6a454c9259914c4d4246569a8efed81"
+    },
+    {
+      "counterexampleId": "ce_l7_P46-L7-05",
+      "category": "TOKENIZER_PARSER_LOOKAHEAD_MISALIGNMENT",
+      "machineHash": "45a0f070730cf701f10da820b74fb42766e2ad67a37fb3b8c8501285af47af95",
+      "stateId": "s_parsing",
+      "eventId": "ev_parse_exp",
+      "observedBehavior": "Parser consumes next token without synchronizing tokenizer lookahead pointer",
+      "expectedInvariant": "MULTI_MODULE_COORDINATION",
+      "violatedInvariant": "inv-sync-P46-L7-05",
+      "provenance": "CLEAN_ROOM_DUAL_GATE_SEMANTIC_EVALUATION",
+      "contentHash": "c5c50dd3da86a07248823edcddb0bad3ade625ef94394977ec6665e08a083e65"
+    }
+  ]
+}
