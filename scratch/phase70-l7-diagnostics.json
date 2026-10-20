@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "diagnosticCases": [
+    {
+      "taskId": "P46-L7-01",
+      "domain": "COMPILER_TOKEN_STREAM_LOOKAHEAD",
+      "targetFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "constructiveGoal": "Coordinated Pratt binding power & lookahead buffer token synchronization",
+      "rootConstructorAttempted": "TRANSACTION",
+      "synthesizedDepth": 3,
+      "synthesizedNodeCount": 6,
+      "proofObligationStatus": {
+        "typeCorrectness": "PROVEN",
+        "effectCompatibility": "PROVEN",
+        "invariantPreservation": "PROVEN",
+        "crossModuleSync": "UNRESOLVED"
+      },
+      "cleanRoomStatus": "FAIL (Gate B regression check failed)",
+      "exhaustionReason": "CONSTRUCTIVE_SEARCH_EXHAUSTION_ON_L7",
+      "scientificInsight": "Calculus primitives successfully express transactional lookahead token manipulation, but constructing coordinated binding power precedence tables across lexer and parser exceeds bounded search without oracle access."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "domain": "CORS_MULTITENANT_ORIGIN_VALIDATION",
+      "targetFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "constructiveGoal": "Coordinated origin reflection, wildcard policy, and port restriction validation",
+      "rootConstructorAttempted": "TRANSACTION",
+      "synthesizedDepth": 3,
+      "synthesizedNodeCount": 6,
+      "proofObligationStatus": {
+        "typeCorrectness": "PROVEN",
+        "effectCompatibility": "PROVEN",
+        "invariantPreservation": "PROVEN",
+        "crossModuleSync": "UNRESOLVED"
+      },
+      "cleanRoomStatus": "FAIL (Gate B regression check failed)",
+      "exhaustionReason": "CONSTRUCTIVE_SEARCH_EXHAUSTION_ON_L7",
+      "scientificInsight": "Typed constructive representation accurately captures header reflection and port extraction, but multi-module policy coordination across express middleware and validator exhausts constructive search within limits."
+    }
+  ]
+}

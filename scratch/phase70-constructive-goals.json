@@ -1,0 +1,776 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalGoals": 15,
+  "goals": [
+    {
+      "goalId": "GOAL-P46L501",
+      "taskId": "P46-L5-01",
+      "affectedDomains": [
+        "SEMVER_CORE"
+      ],
+      "requiredInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "requiredOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L501-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "4b5c9c86b4a355bab61ef360f3fa12a7a7d298510573c901b9682380782d9489"
+        },
+        {
+          "obligationId": "INV-P46L501-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "a36381818f7860e85ce1de3c4dd8f52dbb18fb454c7937856358ed97895ca299"
+        }
+      ],
+      "crossModuleObligations": [
+        "PRESERVE_PRERELEASE_PARSING"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "11ce31575edfb5f010c1a081441bce2d54c01d774ab1b8f8088ecb8ce25f1e87"
+    },
+    {
+      "goalId": "GOAL-P46L502",
+      "taskId": "P46-L5-02",
+      "affectedDomains": [
+        "SEMVER_CORE"
+      ],
+      "requiredInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "requiredOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L502-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "ef2b3ec31e76a78a5b14a45f2a9c8a0d3c0e58f4c655f8eec57b24fe32bf97c7"
+        },
+        {
+          "obligationId": "INV-P46L502-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "67dbe0aab99f289aa8f823c2bdb920d9c9e6af480b2ab4771323e319b7b36302"
+        }
+      ],
+      "crossModuleObligations": [
+        "PRESERVE_PRERELEASE_PARSING"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "c11aa175175b1159699485bbbedc73cd3643353c0048d20dd2c76acb6fa62b2d"
+    },
+    {
+      "goalId": "GOAL-P46L503",
+      "taskId": "P46-L5-03",
+      "affectedDomains": [
+        "SEMVER_CORE"
+      ],
+      "requiredInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "requiredOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L503-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "a528a275f6212a9c7150f58c73c4e5c3b46e86885fc2d6ce562915ac2572cdd6"
+        },
+        {
+          "obligationId": "INV-P46L503-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "a941c65dd0b5db7837764fe6f1abc4805d268e1d7a3408cc7ea4e0192dd600ea"
+        }
+      ],
+      "crossModuleObligations": [
+        "PRESERVE_PRERELEASE_PARSING"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "ebda3eb11dc6bfd68c3387bea2bbc1d065ceb24031be1b1ee34bcb5c40b600b4"
+    },
+    {
+      "goalId": "GOAL-P46L504",
+      "taskId": "P46-L5-04",
+      "affectedDomains": [
+        "SEMVER_CORE"
+      ],
+      "requiredInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "requiredOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L504-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "90fe2a074f9d07bc9f19532aa4d812ed3cd9930b15128c84d652d73c4122fa10"
+        },
+        {
+          "obligationId": "INV-P46L504-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "7d6fe94b8e2af8f00773b74a27db2bd4f8688b2f0b835e1d3605b5da4f218fd3"
+        }
+      ],
+      "crossModuleObligations": [
+        "PRESERVE_PRERELEASE_PARSING"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "e78f49faa905b042864f044208632f34af6c6d43653523589841fec21ba5f6be"
+    },
+    {
+      "goalId": "GOAL-P46L505",
+      "taskId": "P46-L5-05",
+      "affectedDomains": [
+        "SEMVER_CORE"
+      ],
+      "requiredInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "requiredOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L505-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "3ae161ffbf7d223fec0abeb8ccb270860309a9f6f263fe1d765a14d1ef206b1f"
+        },
+        {
+          "obligationId": "INV-P46L505-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "94c6bf773dbce44286846f8641f2b301239099dc4654d13f16233972aaa20194"
+        }
+      ],
+      "crossModuleObligations": [
+        "PRESERVE_PRERELEASE_PARSING"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "53ba58bb649067612e9bd4b92e8f65450b64a92a90261578d24cdfb6b7fe4899"
+    },
+    {
+      "goalId": "GOAL-P46L601",
+      "taskId": "P46-L6-01",
+      "affectedDomains": [
+        "AUTH_SERVICE",
+        "HTTP_ROUTER"
+      ],
+      "requiredInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "requiredOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L601-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "390c1fa72633d1633da051abbb4a49f6226413c506c3d2c262e6b5e91403d02d"
+        },
+        {
+          "obligationId": "INV-P46L601-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "0303fdd539f0a6b361fc44d78b8392b5f3f811f42b985a092ad0bfe888d048ce"
+        }
+      ],
+      "crossModuleObligations": [
+        "PROPAGATE_ORIGIN_HEADER",
+        "VERIFY_ROLE_HIERARCHY"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "718bada95831975a70bffcd5a14e34c55cf3f15aba0097fdc6079f699de5762c"
+    },
+    {
+      "goalId": "GOAL-P46L602",
+      "taskId": "P46-L6-02",
+      "affectedDomains": [
+        "AUTH_SERVICE",
+        "HTTP_ROUTER"
+      ],
+      "requiredInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "requiredOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L602-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "79696182d9a17c52e450c0a2e90520de2fb24e5c8ca39b3fc1227fdb7188f4b7"
+        },
+        {
+          "obligationId": "INV-P46L602-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "f0d5226487713e5b8085f4caa853eac18fe523852261adc3e486e4c92adaea30"
+        }
+      ],
+      "crossModuleObligations": [
+        "PROPAGATE_ORIGIN_HEADER",
+        "VERIFY_ROLE_HIERARCHY"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "2895b839b7e9b3f2987075ee6cb44af3355ee1104aeea7080f87a0b45a962e13"
+    },
+    {
+      "goalId": "GOAL-P46L603",
+      "taskId": "P46-L6-03",
+      "affectedDomains": [
+        "AUTH_SERVICE",
+        "HTTP_ROUTER"
+      ],
+      "requiredInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "requiredOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L603-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "9581b95efb059d53826622fa115acb909dbe80d2e8ae7efabc1f0cf92e352179"
+        },
+        {
+          "obligationId": "INV-P46L603-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "0f6772e7a2d385745bfd5d22c131414e308b8d7fefc491e0f353e0119d58ff17"
+        }
+      ],
+      "crossModuleObligations": [
+        "PROPAGATE_ORIGIN_HEADER",
+        "VERIFY_ROLE_HIERARCHY"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "c16455e1a2ddc357e24b446d59a7722c13794ca2a9d6ad28e4d8867a5cd95a96"
+    },
+    {
+      "goalId": "GOAL-P46L604",
+      "taskId": "P46-L6-04",
+      "affectedDomains": [
+        "AUTH_SERVICE",
+        "HTTP_ROUTER"
+      ],
+      "requiredInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "requiredOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L604-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "929636b61fddeb350927080a50838c4f90384baaaa6576e0afe391d774f24c87"
+        },
+        {
+          "obligationId": "INV-P46L604-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "9707ae07443ec81cf11860b2f3d90ff610c3a3faeeed911502a139178778334d"
+        }
+      ],
+      "crossModuleObligations": [
+        "PROPAGATE_ORIGIN_HEADER",
+        "VERIFY_ROLE_HIERARCHY"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "b9b3ca1415212490b148b7a881de9bd079b7388b444cd5afcc6e23da5411849e"
+    },
+    {
+      "goalId": "GOAL-P46L605",
+      "taskId": "P46-L6-05",
+      "affectedDomains": [
+        "AUTH_SERVICE",
+        "HTTP_ROUTER"
+      ],
+      "requiredInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "requiredOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L605-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "a632a3f54f2a1df79bdbb640113ec966070b7139ac57c2852c3fecbea9d4bbb8"
+        },
+        {
+          "obligationId": "INV-P46L605-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "ddb4c1c811f54dd3a67a89195c3e78942e8582bc88db86e4826d421cbc99b402"
+        }
+      ],
+      "crossModuleObligations": [
+        "PROPAGATE_ORIGIN_HEADER",
+        "VERIFY_ROLE_HIERARCHY"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "36177b72afa4401da78286073c1f1669705ffbf8942ee39b383c76ee334ffd71"
+    },
+    {
+      "goalId": "GOAL-P46L701",
+      "taskId": "P46-L7-01",
+      "affectedDomains": [
+        "COMPILER_PARSER",
+        "TOKEN_STREAM",
+        "COORDINATOR_STATE"
+      ],
+      "requiredInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "requiredOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L701-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "e54234538efcab2dd9f04c2d2ee0dc1eb1d19ac0f84a83e90ebea443624d6fc0"
+        },
+        {
+          "obligationId": "INV-P46L701-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "9dab6be07cf1b25287cd978b90e235af0b5061b49ffbec25bd9670d123b90e3f"
+        }
+      ],
+      "crossModuleObligations": [
+        "SYNC_LOOKAHEAD_BUFFER",
+        "COORDINATE_PARTICIPANT_ROLLBACK"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "fd8db3be7a6c402df307a43bb46d0a41599427cd9df3bb4bfc76f4f824e732b9"
+    },
+    {
+      "goalId": "GOAL-P46L702",
+      "taskId": "P46-L7-02",
+      "affectedDomains": [
+        "COMPILER_PARSER",
+        "TOKEN_STREAM",
+        "COORDINATOR_STATE"
+      ],
+      "requiredInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "requiredOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L702-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "2664aec8e01221544f6fa5b963ae42d46f51d7b96ffb12472e6c18c99e76f865"
+        },
+        {
+          "obligationId": "INV-P46L702-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "4403b71cdc7832e87a0ef047bf14e27a42069a65232eb317b7faa3dc07fd0de1"
+        }
+      ],
+      "crossModuleObligations": [
+        "SYNC_LOOKAHEAD_BUFFER",
+        "COORDINATE_PARTICIPANT_ROLLBACK"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "1f6f15331d8423dce8cdc365b58c0e2425369d46c1e3a23a4f01618d8eeed688"
+    },
+    {
+      "goalId": "GOAL-P46L703",
+      "taskId": "P46-L7-03",
+      "affectedDomains": [
+        "COMPILER_PARSER",
+        "TOKEN_STREAM",
+        "COORDINATOR_STATE"
+      ],
+      "requiredInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "requiredOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L703-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "21240e28cf34d40c810550e67d41ce74a721c3f5dfd11245a4bb2bfc8dc97109"
+        },
+        {
+          "obligationId": "INV-P46L703-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "52c50be558ff05c8a6e7d0552f1d40bd58643466c2357ba16371e3eecba5da8c"
+        }
+      ],
+      "crossModuleObligations": [
+        "SYNC_LOOKAHEAD_BUFFER",
+        "COORDINATE_PARTICIPANT_ROLLBACK"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "36f966528aa732db4dfc7266f2770663f34e0c5deddd1d717469db3e63101cdd"
+    },
+    {
+      "goalId": "GOAL-P46L704",
+      "taskId": "P46-L7-04",
+      "affectedDomains": [
+        "COMPILER_PARSER",
+        "TOKEN_STREAM",
+        "COORDINATOR_STATE"
+      ],
+      "requiredInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "requiredOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L704-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "c40d5569e817dbb4661ae17d55bcd40556f95f316e2b7608b0d015b19be5d9ee"
+        },
+        {
+          "obligationId": "INV-P46L704-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "d2e3348c9160fcabf6468581b70527a5b271da4175b87447c9557b0e1eb5c724"
+        }
+      ],
+      "crossModuleObligations": [
+        "SYNC_LOOKAHEAD_BUFFER",
+        "COORDINATE_PARTICIPANT_ROLLBACK"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "f6535dc5a000723ea8bc8bf001873a5d284d0d1198a703e454402b9e8a0b91dc"
+    },
+    {
+      "goalId": "GOAL-P46L705",
+      "taskId": "P46-L7-05",
+      "affectedDomains": [
+        "COMPILER_PARSER",
+        "TOKEN_STREAM",
+        "COORDINATOR_STATE"
+      ],
+      "requiredInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "requiredOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "globalInvariants": [
+        {
+          "obligationId": "INV-P46L705-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "7018284bbc7c46bcb949e192b4045923665379d83d87c3bf228ea6a6a89fb240"
+        },
+        {
+          "obligationId": "INV-P46L705-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "37bd6ad05f8ae9894b540ebaef1354c3c6e896b8df221263bb2e09f00321ae9c"
+        }
+      ],
+      "crossModuleObligations": [
+        "SYNC_LOOKAHEAD_BUFFER",
+        "COORDINATE_PARTICIPANT_ROLLBACK"
+      ],
+      "stateConstraints": [
+        "NO_LEAKAGE_OF_UNAUTHORIZED_STATE",
+        "ATOMIC_COMMIT_GUARANTEE"
+      ],
+      "proofRequirements": [
+        "TYPE_CORRECTNESS",
+        "EFFECT_COMPATIBILITY",
+        "STATE_CONSISTENCY",
+        "INVARIANT_PRESERVATION",
+        "REGRESSION_PRESERVATION"
+      ],
+      "contentHash": "aec61b19bafd89e1114f38f15a3d4e40230171a1dd29d508748fee696bb66494"
+    }
+  ]
+}

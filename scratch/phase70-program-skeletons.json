@@ -1,0 +1,1106 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalSkeletons": 15,
+  "skeletons": [
+    {
+      "skeletonId": "SKEL-P46L501",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L501-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L501-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "f65dfdfeefa03e9ed9464c3d95a1f81514d4d2c879cf0860f32d04caae7cfa8e"
+        },
+        {
+          "holeId": "HOLE-P46L501-TRANSFORM",
+          "expectedType": "STRING",
+          "allowedEffects": [
+            "PURE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L501-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "1df61fed0c164db22d7d7e3470cd4d13495b55ccce428585772ba0b774869809"
+        }
+      ],
+      "overallInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "overallOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L501-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "4b5c9c86b4a355bab61ef360f3fa12a7a7d298510573c901b9682380782d9489"
+        },
+        {
+          "obligationId": "INV-P46L501-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "a36381818f7860e85ce1de3c4dd8f52dbb18fb454c7937856358ed97895ca299"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "e9d589341dc87d5af9154e7e947197c9267a009e5da4249ee505f8cddb95ab44"
+    },
+    {
+      "skeletonId": "SKEL-P46L502",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L502-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L502-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "218322ffcd5dcd541c1d2ea7d2e62431d23f91fa98678abcfebe296f81894056"
+        },
+        {
+          "holeId": "HOLE-P46L502-TRANSFORM",
+          "expectedType": "STRING",
+          "allowedEffects": [
+            "PURE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L502-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "853a8a09b199cc975e27593e7dc94d4a9e73b6f425ebe374cc5b28f4c38d9bc3"
+        }
+      ],
+      "overallInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "overallOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L502-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "ef2b3ec31e76a78a5b14a45f2a9c8a0d3c0e58f4c655f8eec57b24fe32bf97c7"
+        },
+        {
+          "obligationId": "INV-P46L502-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "67dbe0aab99f289aa8f823c2bdb920d9c9e6af480b2ab4771323e319b7b36302"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "baf7d2f77e8dfddf3aa19a80eb2ce81282cb72b0ee7eb67c5897d78c80ea9b85"
+    },
+    {
+      "skeletonId": "SKEL-P46L503",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L503-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L503-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "6ebadde66d1f3ef542c8b1d93d9b15003c290236dd1ee49b8b9043bc7f384ddb"
+        },
+        {
+          "holeId": "HOLE-P46L503-TRANSFORM",
+          "expectedType": "STRING",
+          "allowedEffects": [
+            "PURE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L503-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "875bfe26739db5fe8395dbc5ebd686e04879e87ca6681338c019d34f47f62e61"
+        }
+      ],
+      "overallInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "overallOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L503-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "a528a275f6212a9c7150f58c73c4e5c3b46e86885fc2d6ce562915ac2572cdd6"
+        },
+        {
+          "obligationId": "INV-P46L503-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "a941c65dd0b5db7837764fe6f1abc4805d268e1d7a3408cc7ea4e0192dd600ea"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "7b520d55824d7951491c82bbfca142900721cffeccf810e231ffca65e9e126ee"
+    },
+    {
+      "skeletonId": "SKEL-P46L504",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L504-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L504-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "468df5186c6d3fe1ad241cefdae5cfccdee43b5bbb31719d8a0b617c8a766a5b"
+        },
+        {
+          "holeId": "HOLE-P46L504-TRANSFORM",
+          "expectedType": "STRING",
+          "allowedEffects": [
+            "PURE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L504-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "2dd4ad15c50c3f5aec842f0f4e106fe175e08ae64b38f180319cf9f5422c7430"
+        }
+      ],
+      "overallInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "overallOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L504-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "90fe2a074f9d07bc9f19532aa4d812ed3cd9930b15128c84d652d73c4122fa10"
+        },
+        {
+          "obligationId": "INV-P46L504-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "7d6fe94b8e2af8f00773b74a27db2bd4f8688b2f0b835e1d3605b5da4f218fd3"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "3a3be02eb4e9d071c40fd24f61afc682db1bddb2ee4d30d1e97e7ee8bc283d6b"
+    },
+    {
+      "skeletonId": "SKEL-P46L505",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L505-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L505-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "4919780a66ae00c89b5567b5b3739fb1ec2ffde63473d95e9bd7d9b14123fbec"
+        },
+        {
+          "holeId": "HOLE-P46L505-TRANSFORM",
+          "expectedType": "STRING",
+          "allowedEffects": [
+            "PURE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L505-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "bdf83163ae3e9011fb14f5c164857661d6a98c84e911f3a9c4a64534768444cc"
+        }
+      ],
+      "overallInputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "overallOutputType": "STRING",
+      "allowedEffects": [
+        "PURE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L505-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "semver.parser",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "3ae161ffbf7d223fec0abeb8ccb270860309a9f6f263fe1d765a14d1ef206b1f"
+        },
+        {
+          "obligationId": "INV-P46L505-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "kv.flush_buffer",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "94c6bf773dbce44286846f8641f2b301239099dc4654d13f16233972aaa20194"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "ca4e4b2ab2a2890daa5b4d630ea668f51d0224ae3f583c903c1927467b0acdcb"
+    },
+    {
+      "skeletonId": "SKEL-P46L601",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L601-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L601-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "852ba3459132507adbfe6f94d0c47c096bef80f96276b8b57ee81c1e8741c6d2"
+        },
+        {
+          "holeId": "HOLE-P46L601-TRANSFORM",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "READ_STATE",
+            "CONTROL_FLOW",
+            "PRODUCE_VALUE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L601-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "0e220a3069842c9b97e8cee69340c3c982073821d197c3a7c61c4a8465384623"
+        }
+      ],
+      "overallInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "overallOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L601-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "390c1fa72633d1633da051abbb4a49f6226413c506c3d2c262e6b5e91403d02d"
+        },
+        {
+          "obligationId": "INV-P46L601-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "0303fdd539f0a6b361fc44d78b8392b5f3f811f42b985a092ad0bfe888d048ce"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "fb9526ee45479c12de1abbf235560276ddde709a3f8b54fc4b560c981acb85aa"
+    },
+    {
+      "skeletonId": "SKEL-P46L602",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L602-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L602-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "464083a19fe3e7337066723bfba84526314f9779e103d5ba946bba3af73d49ce"
+        },
+        {
+          "holeId": "HOLE-P46L602-TRANSFORM",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "READ_STATE",
+            "CONTROL_FLOW",
+            "PRODUCE_VALUE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L602-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "fee228a36e7d35b87090ab24787af72d5f6a94167bc18785b1ae1e10107c3b1b"
+        }
+      ],
+      "overallInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "overallOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L602-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "79696182d9a17c52e450c0a2e90520de2fb24e5c8ca39b3fc1227fdb7188f4b7"
+        },
+        {
+          "obligationId": "INV-P46L602-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "f0d5226487713e5b8085f4caa853eac18fe523852261adc3e486e4c92adaea30"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "b6038e9b355167022bea1b2f276bba8f9709332a299dd2144e3e71dcf6542fc3"
+    },
+    {
+      "skeletonId": "SKEL-P46L603",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L603-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L603-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "e914a3b5e0c4cf6d432fc94c5dde7bf1a86b511222d3b21c85d4e963f3c8684a"
+        },
+        {
+          "holeId": "HOLE-P46L603-TRANSFORM",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "READ_STATE",
+            "CONTROL_FLOW",
+            "PRODUCE_VALUE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L603-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "b973716a49bd114e2b1abbc3da34384bb293f541b7ee7a6c2be899c47555d821"
+        }
+      ],
+      "overallInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "overallOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L603-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "9581b95efb059d53826622fa115acb909dbe80d2e8ae7efabc1f0cf92e352179"
+        },
+        {
+          "obligationId": "INV-P46L603-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "0f6772e7a2d385745bfd5d22c131414e308b8d7fefc491e0f353e0119d58ff17"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "5eba02b221f84346598898259a2971b61154ebbc6f4eec99346f7fda372266ca"
+    },
+    {
+      "skeletonId": "SKEL-P46L604",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L604-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L604-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "7c4f181c0f4a24eb682339016eca43b0d60c58914aabca606b1a18ab70402be9"
+        },
+        {
+          "holeId": "HOLE-P46L604-TRANSFORM",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "READ_STATE",
+            "CONTROL_FLOW",
+            "PRODUCE_VALUE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L604-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "9bed94622920779726a495c72abd141255edacff5003f6eab0d4f0300d516792"
+        }
+      ],
+      "overallInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "overallOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L604-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "929636b61fddeb350927080a50838c4f90384baaaa6576e0afe391d774f24c87"
+        },
+        {
+          "obligationId": "INV-P46L604-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "9707ae07443ec81cf11860b2f3d90ff610c3a3faeeed911502a139178778334d"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "b8b6c76e8b29a22db144dd7ae94322ccf2618f7f9a0e9f4a383fb38f0a35ef3f"
+    },
+    {
+      "skeletonId": "SKEL-P46L605",
+      "rootConstructor": "SEQUENCE",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L605-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L605-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "5a36c8c6dfd9c6695fa7ac25380914754373bd46b301484526854c4a00eed455"
+        },
+        {
+          "holeId": "HOLE-P46L605-TRANSFORM",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "READ_STATE",
+            "CONTROL_FLOW",
+            "PRODUCE_VALUE"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L605-02"
+          ],
+          "candidateConstructors": [
+            "COMPOSE",
+            "MAP",
+            "CONSTANT"
+          ],
+          "contentHash": "54c0f4e1d0027d3df2b35f30345b485351a264b3ad93dad6813d3e4031ec0f94"
+        }
+      ],
+      "overallInputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "overallOutputType": "BOOLEAN",
+      "allowedEffects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L605-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "service.origin_guard",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "a632a3f54f2a1df79bdbb640113ec966070b7139ac57c2852c3fecbea9d4bbb8"
+        },
+        {
+          "obligationId": "INV-P46L605-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "service.user_auth",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "ddb4c1c811f54dd3a67a89195c3e78942e8582bc88db86e4826d421cbc99b402"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "76d2cfde50d997ab6258bb9eceb2587cd5778fab0ce84bf732be57260508f4f0"
+    },
+    {
+      "skeletonId": "SKEL-P46L701",
+      "rootConstructor": "TRANSACTION",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L701-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L701-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "37e159a2ea4d7aeb51f876560f0822a81c07789d4cfdc73ce33d6921f91d8aa4"
+        },
+        {
+          "holeId": "HOLE-P46L701-TRANSFORM",
+          "expectedType": "PROGRAM",
+          "allowedEffects": [
+            "READ_STATE",
+            "WRITE_STATE",
+            "CONTROL_FLOW",
+            "TRANSACTIONAL"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L701-02"
+          ],
+          "candidateConstructors": [
+            "TRANSACTION",
+            "SEQUENCE",
+            "STATE_SET"
+          ],
+          "contentHash": "cb250c09bcfbc4f333eeb3ef0eb53735404460c4140b34bdfe8bdc9535f393aa"
+        }
+      ],
+      "overallInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "overallOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L701-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "e54234538efcab2dd9f04c2d2ee0dc1eb1d19ac0f84a83e90ebea443624d6fc0"
+        },
+        {
+          "obligationId": "INV-P46L701-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "9dab6be07cf1b25287cd978b90e235af0b5061b49ffbec25bd9670d123b90e3f"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "0123a6c1fe1deaedc4dd65cf9708a686b7e64f5115bb4ca44afa560f53522693"
+    },
+    {
+      "skeletonId": "SKEL-P46L702",
+      "rootConstructor": "TRANSACTION",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L702-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L702-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "2907a69b4ae84d0248eeaea8037fe53942080395687af2966bf9c963712b00c0"
+        },
+        {
+          "holeId": "HOLE-P46L702-TRANSFORM",
+          "expectedType": "PROGRAM",
+          "allowedEffects": [
+            "READ_STATE",
+            "WRITE_STATE",
+            "CONTROL_FLOW",
+            "TRANSACTIONAL"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L702-02"
+          ],
+          "candidateConstructors": [
+            "TRANSACTION",
+            "SEQUENCE",
+            "STATE_SET"
+          ],
+          "contentHash": "813b31e3cebd3738d8c89385b4a8ca8f83ea05b5906f8d6a06cbd124ae7eba08"
+        }
+      ],
+      "overallInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "overallOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L702-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "2664aec8e01221544f6fa5b963ae42d46f51d7b96ffb12472e6c18c99e76f865"
+        },
+        {
+          "obligationId": "INV-P46L702-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "4403b71cdc7832e87a0ef047bf14e27a42069a65232eb317b7faa3dc07fd0de1"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "fcc9dabab944894e3d287e3b8c016643f6b1de4fd5ccd2a180e7ab35e68637a5"
+    },
+    {
+      "skeletonId": "SKEL-P46L703",
+      "rootConstructor": "TRANSACTION",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L703-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L703-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "6c7cb3549ef768bcd046a1082594ef2a93ad4769dbbe54cf90a250d179f7a370"
+        },
+        {
+          "holeId": "HOLE-P46L703-TRANSFORM",
+          "expectedType": "PROGRAM",
+          "allowedEffects": [
+            "READ_STATE",
+            "WRITE_STATE",
+            "CONTROL_FLOW",
+            "TRANSACTIONAL"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L703-02"
+          ],
+          "candidateConstructors": [
+            "TRANSACTION",
+            "SEQUENCE",
+            "STATE_SET"
+          ],
+          "contentHash": "c525d377afdcc2925b923719d4f75b49e3c3fade96eaf397cccd44f790f9c6d2"
+        }
+      ],
+      "overallInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "overallOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L703-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "21240e28cf34d40c810550e67d41ce74a721c3f5dfd11245a4bb2bfc8dc97109"
+        },
+        {
+          "obligationId": "INV-P46L703-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "52c50be558ff05c8a6e7d0552f1d40bd58643466c2357ba16371e3eecba5da8c"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "259cf751c9ae6a0b07b38037142097db6f0272aef3a2d030690d571fa3a7ff4d"
+    },
+    {
+      "skeletonId": "SKEL-P46L704",
+      "rootConstructor": "TRANSACTION",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L704-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L704-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "2ddbbe9e19af0e0ae928769762f2642af50ccf4d1a09e540974b6372dce08c82"
+        },
+        {
+          "holeId": "HOLE-P46L704-TRANSFORM",
+          "expectedType": "PROGRAM",
+          "allowedEffects": [
+            "READ_STATE",
+            "WRITE_STATE",
+            "CONTROL_FLOW",
+            "TRANSACTIONAL"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L704-02"
+          ],
+          "candidateConstructors": [
+            "TRANSACTION",
+            "SEQUENCE",
+            "STATE_SET"
+          ],
+          "contentHash": "90821f049e8cea371963f86485a0456ac2e84faf47f69882183f5d0f2ea8fda1"
+        }
+      ],
+      "overallInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "overallOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L704-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "c40d5569e817dbb4661ae17d55bcd40556f95f316e2b7608b0d015b19be5d9ee"
+        },
+        {
+          "obligationId": "INV-P46L704-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "d2e3348c9160fcabf6468581b70527a5b271da4175b87447c9557b0e1eb5c724"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "33432fb7b856d85f4045337620f3ceabcc4a779e1ec677d374c346f4dab4b5ea"
+    },
+    {
+      "skeletonId": "SKEL-P46L705",
+      "rootConstructor": "TRANSACTION",
+      "holes": [
+        {
+          "holeId": "HOLE-P46L705-VALIDATE",
+          "expectedType": "BOOLEAN",
+          "allowedEffects": [
+            "PURE",
+            "READ_STATE"
+          ],
+          "semanticContext": "Pre-execution input validation guard",
+          "invariantObligations": [
+            "INV-P46L705-01"
+          ],
+          "candidateConstructors": [
+            "VALIDATE",
+            "GUARD",
+            "BRANCH"
+          ],
+          "contentHash": "286ac30c00065aa0e1e5415c197bf48c92377ec514ecdb911b3ab0cfc6af4c49"
+        },
+        {
+          "holeId": "HOLE-P46L705-TRANSFORM",
+          "expectedType": "PROGRAM",
+          "allowedEffects": [
+            "READ_STATE",
+            "WRITE_STATE",
+            "CONTROL_FLOW",
+            "TRANSACTIONAL"
+          ],
+          "semanticContext": "Core stateful semantic transformation",
+          "invariantObligations": [
+            "INV-P46L705-02"
+          ],
+          "candidateConstructors": [
+            "TRANSACTION",
+            "SEQUENCE",
+            "STATE_SET"
+          ],
+          "contentHash": "fd25de9e392e14a9c6a5ef26067012fdcc2dad8f5d4695c742084916a9dd1e20"
+        }
+      ],
+      "overallInputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "overallOutputType": "PROGRAM",
+      "allowedEffects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "invariantObligations": [
+        {
+          "obligationId": "INV-P46L705-01",
+          "invariantName": "INPUT_VALIDATION_PRESERVATION",
+          "targetEntity": "compiler.token_stream",
+          "predicate": "FORALL x. isValid(x) => output(x) != NULL",
+          "satisfied": true,
+          "contentHash": "7018284bbc7c46bcb949e192b4045923665379d83d87c3bf228ea6a6a89fb240"
+        },
+        {
+          "obligationId": "INV-P46L705-02",
+          "invariantName": "STATE_CONSISTENCY_PRESERVATION",
+          "targetEntity": "coordinator.2pc",
+          "predicate": "FORALL s. transition(s) => satisfiesInvariants(s)",
+          "satisfied": true,
+          "contentHash": "37bd6ad05f8ae9894b540ebaef1354c3c6e896b8df221263bb2e09f00321ae9c"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 7,
+      "contentHash": "ac709bf6c4e8e67cf521f747489b74de95f5c4edca01701ef2287feb2e09398d"
+    }
+  ]
+}

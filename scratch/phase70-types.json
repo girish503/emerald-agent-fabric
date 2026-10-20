@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalTypes": 15,
+  "types": [
+    {
+      "name": "BOOLEAN",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "INTEGER",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "NUMBER",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "STRING",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "TOKEN",
+      "domain": "COMPILER",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "TOKEN_STREAM",
+      "domain": "COMPILER",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "ORIGIN",
+      "domain": "HTTP_NETWORK",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "PORT",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "HEADER",
+      "domain": "HTTP_NETWORK",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "HEADER_MAP",
+      "domain": "HTTP_NETWORK",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "STATE",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "SYMBOL",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "SYMBOL_SET",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "PROGRAM",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    },
+    {
+      "name": "PROGRAM_STATE",
+      "domain": "CORE_SEMANTIC",
+      "nullable": false,
+      "coercionsAllowed": false
+    }
+  ]
+}

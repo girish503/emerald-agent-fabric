@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalEffects": 9,
+  "effects": [
+    {
+      "name": "PURE",
+      "compositional": true,
+      "requiresRollbackOnFailure": false
+    },
+    {
+      "name": "READ_STATE",
+      "compositional": true,
+      "requiresRollbackOnFailure": false
+    },
+    {
+      "name": "WRITE_STATE",
+      "compositional": true,
+      "requiresRollbackOnFailure": true
+    },
+    {
+      "name": "CONTROL_FLOW",
+      "compositional": true,
+      "requiresRollbackOnFailure": false
+    },
+    {
+      "name": "PRODUCE_VALUE",
+      "compositional": true,
+      "requiresRollbackOnFailure": false
+    },
+    {
+      "name": "CONSUME_VALUE",
+      "compositional": true,
+      "requiresRollbackOnFailure": false
+    },
+    {
+      "name": "MUTATE_PROGRAM",
+      "compositional": true,
+      "requiresRollbackOnFailure": false
+    },
+    {
+      "name": "TRANSACTIONAL",
+      "compositional": true,
+      "requiresRollbackOnFailure": true
+    },
+    {
+      "name": "RECOVERY",
+      "compositional": true,
+      "requiresRollbackOnFailure": false
+    }
+  ]
+}

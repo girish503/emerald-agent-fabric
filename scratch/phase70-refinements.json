@@ -1,0 +1,816 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalRefinements": 45,
+  "refinements": [
+    {
+      "taskId": "P46-L5-01",
+      "refinementId": "REF-SKEL-P46L501-1",
+      "counterexampleId": "CTX-SKEL-P46L501-1",
+      "targetHoleId": "HOLE-P46L501-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "3a76af7bd499308324adc91b061935db0ae6bd00d7281302307de851e0292c83"
+    },
+    {
+      "taskId": "P46-L5-01",
+      "refinementId": "REF-SKEL-P46L501-2",
+      "counterexampleId": "CTX-SKEL-P46L501-2",
+      "targetHoleId": "HOLE-P46L501-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "e12b6d292734be28d321c8612871d5505c4cdb28856e57dbc0401b54aec1d297"
+    },
+    {
+      "taskId": "P46-L5-01",
+      "refinementId": "REF-SKEL-P46L501-3",
+      "counterexampleId": "CTX-SKEL-P46L501-3",
+      "targetHoleId": "HOLE-P46L501-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "b33b6f2f18d996155860dd9b91ec7efb3c7235aa05557eb0b01807feb3c42cc4"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "refinementId": "REF-SKEL-P46L502-1",
+      "counterexampleId": "CTX-SKEL-P46L502-1",
+      "targetHoleId": "HOLE-P46L502-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "4794e3a5d17966e4f6e7e94b6f329208f182db5dbb943373b17bef431efae39b"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "refinementId": "REF-SKEL-P46L502-2",
+      "counterexampleId": "CTX-SKEL-P46L502-2",
+      "targetHoleId": "HOLE-P46L502-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "62e185030856969ea56a2e38b050078d1e65bf45fa7b0743f8b5c4b4515d2e53"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "refinementId": "REF-SKEL-P46L502-3",
+      "counterexampleId": "CTX-SKEL-P46L502-3",
+      "targetHoleId": "HOLE-P46L502-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "f28da9ad8b35ce998fd5db928e8ea7b2833143d83010ab81a0dc581cc932d866"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "refinementId": "REF-SKEL-P46L503-1",
+      "counterexampleId": "CTX-SKEL-P46L503-1",
+      "targetHoleId": "HOLE-P46L503-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "005adbe5bbfea722d346ad1aac5ec90e20dd0b833a436ebf1753d2076d6f0a89"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "refinementId": "REF-SKEL-P46L503-2",
+      "counterexampleId": "CTX-SKEL-P46L503-2",
+      "targetHoleId": "HOLE-P46L503-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "8dd07e355917c2e2aa2dc4a58acc4b5295dfff9cf3059feb2e6f21c3429381cf"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "refinementId": "REF-SKEL-P46L503-3",
+      "counterexampleId": "CTX-SKEL-P46L503-3",
+      "targetHoleId": "HOLE-P46L503-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "5f5b135d2aa1ebc82f4fce1bf41320cf57d86abb99a33ce440087fa7155ee6bb"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "refinementId": "REF-SKEL-P46L504-1",
+      "counterexampleId": "CTX-SKEL-P46L504-1",
+      "targetHoleId": "HOLE-P46L504-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "4fa0a730c28184d5b6c925e924f060caf6c7af1d86c205caeaed5edfd10027fb"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "refinementId": "REF-SKEL-P46L504-2",
+      "counterexampleId": "CTX-SKEL-P46L504-2",
+      "targetHoleId": "HOLE-P46L504-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "debfeb02366fc2f55b70c8804d24d25ee7652c255c9312dee0109a0639a78fd0"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "refinementId": "REF-SKEL-P46L504-3",
+      "counterexampleId": "CTX-SKEL-P46L504-3",
+      "targetHoleId": "HOLE-P46L504-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "afce452057ae2a226f060869cbb1425d27fe7d34d7146bb25ae8abe875f8b494"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "refinementId": "REF-SKEL-P46L505-1",
+      "counterexampleId": "CTX-SKEL-P46L505-1",
+      "targetHoleId": "HOLE-P46L505-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "5d7fefdea9e546521b5ecdc24be1c0d0f9cbe4180b2d1730159a2e7e684d1d79"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "refinementId": "REF-SKEL-P46L505-2",
+      "counterexampleId": "CTX-SKEL-P46L505-2",
+      "targetHoleId": "HOLE-P46L505-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "df4d1cebedf775c89e5764a9be9132e3026d527d231a8f64d6c6997825450d80"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "refinementId": "REF-SKEL-P46L505-3",
+      "counterexampleId": "CTX-SKEL-P46L505-3",
+      "targetHoleId": "HOLE-P46L505-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "d915714f7d3ceff1156d0fdf7c4f86f5e2b08716d2c252323318fffe42838f55"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "refinementId": "REF-SKEL-P46L601-1",
+      "counterexampleId": "CTX-SKEL-P46L601-1",
+      "targetHoleId": "HOLE-P46L601-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "9be0101d4511b1004dae11049ab43e326375aacdf71c4781b51ab0c0145c5f50"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "refinementId": "REF-SKEL-P46L601-2",
+      "counterexampleId": "CTX-SKEL-P46L601-2",
+      "targetHoleId": "HOLE-P46L601-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "e6b80a95fde7259296a4d29c9a943ca758b6b13c5aeade442ddce23b12ed6c16"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "refinementId": "REF-SKEL-P46L601-3",
+      "counterexampleId": "CTX-SKEL-P46L601-3",
+      "targetHoleId": "HOLE-P46L601-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "29e81534fd9c27a86803fd8a14d9bf1dc612070c5e603706bc1c6c2d670b281c"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "refinementId": "REF-SKEL-P46L602-1",
+      "counterexampleId": "CTX-SKEL-P46L602-1",
+      "targetHoleId": "HOLE-P46L602-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "be93306f69dadc31f4dc0d60691815597192d7b7b17015c0df105f7c042350f8"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "refinementId": "REF-SKEL-P46L602-2",
+      "counterexampleId": "CTX-SKEL-P46L602-2",
+      "targetHoleId": "HOLE-P46L602-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "07e427d67706d9fa4cafa59d3fe7a73895a41d7416cc411e55a79ff9dc889052"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "refinementId": "REF-SKEL-P46L602-3",
+      "counterexampleId": "CTX-SKEL-P46L602-3",
+      "targetHoleId": "HOLE-P46L602-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "907f276f12767b63aa05f0f2378cb35609a4486a0f255714a05b94a27c703992"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "refinementId": "REF-SKEL-P46L603-1",
+      "counterexampleId": "CTX-SKEL-P46L603-1",
+      "targetHoleId": "HOLE-P46L603-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "9e11b7f23abf61614cc0b2603434110d9b5870c9916e3beb05e537893e05b5c7"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "refinementId": "REF-SKEL-P46L603-2",
+      "counterexampleId": "CTX-SKEL-P46L603-2",
+      "targetHoleId": "HOLE-P46L603-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "2a475923332d5da65d1b3f993c68bcb3b43e3185a4e9dd81f27d4a9e2490bade"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "refinementId": "REF-SKEL-P46L603-3",
+      "counterexampleId": "CTX-SKEL-P46L603-3",
+      "targetHoleId": "HOLE-P46L603-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "f958271f2b991f0a9801ba1bd7659825a0065e404716daafda3073c7d193621b"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "refinementId": "REF-SKEL-P46L604-1",
+      "counterexampleId": "CTX-SKEL-P46L604-1",
+      "targetHoleId": "HOLE-P46L604-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "1a838d4f57bea135fc99bae96f677a523b9054841cb5a3f5aee7ad791576b046"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "refinementId": "REF-SKEL-P46L604-2",
+      "counterexampleId": "CTX-SKEL-P46L604-2",
+      "targetHoleId": "HOLE-P46L604-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "9d31a789f95d27b964d0a0828306cc4893014c6e0d8e0689725135cb90b9554c"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "refinementId": "REF-SKEL-P46L604-3",
+      "counterexampleId": "CTX-SKEL-P46L604-3",
+      "targetHoleId": "HOLE-P46L604-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "861071486042b308902447fb8f98f7a6a34fd94ce4860b783841803b4369aa1c"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "refinementId": "REF-SKEL-P46L605-1",
+      "counterexampleId": "CTX-SKEL-P46L605-1",
+      "targetHoleId": "HOLE-P46L605-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "c2de945c83716d488e54f50ec7d9b22ac2cf8a452da476993711c91bb172f408"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "refinementId": "REF-SKEL-P46L605-2",
+      "counterexampleId": "CTX-SKEL-P46L605-2",
+      "targetHoleId": "HOLE-P46L605-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "b5d3c4c59d856ab7d1fe96a61679c2c025557521a8d95a582e95da5e89f42709"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "refinementId": "REF-SKEL-P46L605-3",
+      "counterexampleId": "CTX-SKEL-P46L605-3",
+      "targetHoleId": "HOLE-P46L605-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "cdc9e4ff62029d7a2a07be97889395194062367f0d2e462517539b4370f3dfd6"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "refinementId": "REF-SKEL-P46L701-1",
+      "counterexampleId": "CTX-SKEL-P46L701-1",
+      "targetHoleId": "HOLE-P46L701-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "d18fb49d35fd205bd58544bcc9b0b4e80d71936dbcb764b072f25b5c53d4fea4"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "refinementId": "REF-SKEL-P46L701-2",
+      "counterexampleId": "CTX-SKEL-P46L701-2",
+      "targetHoleId": "HOLE-P46L701-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "1a96959c22782b62ab5b6d46254694c61dfe5306a04b17dbdcb69969df2fb1cf"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "refinementId": "REF-SKEL-P46L701-3",
+      "counterexampleId": "CTX-SKEL-P46L701-3",
+      "targetHoleId": "HOLE-P46L701-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "cd3f862e2d946e533c8e92b679a4733a3ab7bb020abef5e9a4074ce4cf51ebcf"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "refinementId": "REF-SKEL-P46L702-1",
+      "counterexampleId": "CTX-SKEL-P46L702-1",
+      "targetHoleId": "HOLE-P46L702-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "7ef70efca8e1cdcc3f99b192d8ad13632e60672b68679d56402e3d62c1fb8c68"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "refinementId": "REF-SKEL-P46L702-2",
+      "counterexampleId": "CTX-SKEL-P46L702-2",
+      "targetHoleId": "HOLE-P46L702-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "8117a2723f8577a83cef4fec00f1f8c9fa3a4c71cecf17c07595e08a0e279123"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "refinementId": "REF-SKEL-P46L702-3",
+      "counterexampleId": "CTX-SKEL-P46L702-3",
+      "targetHoleId": "HOLE-P46L702-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "a70b1822c0511124a71d01409a279d4a25a662f7c9b171a3dd3f6c4c4e671453"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "refinementId": "REF-SKEL-P46L703-1",
+      "counterexampleId": "CTX-SKEL-P46L703-1",
+      "targetHoleId": "HOLE-P46L703-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "fe99605f5cbbd6f8d796c38d692033c911ec25fa35296544e5e68f338f98100c"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "refinementId": "REF-SKEL-P46L703-2",
+      "counterexampleId": "CTX-SKEL-P46L703-2",
+      "targetHoleId": "HOLE-P46L703-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "4eb2a3cb5471993d0996e2463f822c2daa7e913371e1f9b396aff4217a63db2f"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "refinementId": "REF-SKEL-P46L703-3",
+      "counterexampleId": "CTX-SKEL-P46L703-3",
+      "targetHoleId": "HOLE-P46L703-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "65c2b6c8435942fa6ec503a5ce507c3e87d0eb5f0d1275e422dc3ed88b5fc42b"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "refinementId": "REF-SKEL-P46L704-1",
+      "counterexampleId": "CTX-SKEL-P46L704-1",
+      "targetHoleId": "HOLE-P46L704-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "2947a474e510b3e8664fd07c9a7462b0490af665c8ead98a59a71547059e2cd8"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "refinementId": "REF-SKEL-P46L704-2",
+      "counterexampleId": "CTX-SKEL-P46L704-2",
+      "targetHoleId": "HOLE-P46L704-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "b35cc23437e157054ae2586cdc87bce6298b12d9575fcbe7bb71f457a5209554"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "refinementId": "REF-SKEL-P46L704-3",
+      "counterexampleId": "CTX-SKEL-P46L704-3",
+      "targetHoleId": "HOLE-P46L704-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "873f09f4f5953e577ad14b012a47206a5fe848ac7e55c72d237ebb71ac2b6f10"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "refinementId": "REF-SKEL-P46L705-1",
+      "counterexampleId": "CTX-SKEL-P46L705-1",
+      "targetHoleId": "HOLE-P46L705-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 1,
+      "contentHash": "1f3d2f6fb158838b2e4ff12ba425202bf4cc523eedeaec91fd366997d93fe8a7"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "refinementId": "REF-SKEL-P46L705-2",
+      "counterexampleId": "CTX-SKEL-P46L705-2",
+      "targetHoleId": "HOLE-P46L705-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 2,
+      "contentHash": "c085170657c8ad9fcd133293c08359126162760186a2f7cfa9c458ef4a3f2d13"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "refinementId": "REF-SKEL-P46L705-3",
+      "counterexampleId": "CTX-SKEL-P46L705-3",
+      "targetHoleId": "HOLE-P46L705-VALIDATE",
+      "prunedConstructors": [
+        "BRANCH"
+      ],
+      "addedInvariants": [
+        "PRESERVE_TOKEN_ALIGNMENT"
+      ],
+      "refinedEffects": [
+        "PURE",
+        "READ_STATE"
+      ],
+      "iteration": 3,
+      "contentHash": "ebe35cd1ada06795056bf100d55eb495a820c82c1b48d7c747bc7463d96be151"
+    }
+  ]
+}

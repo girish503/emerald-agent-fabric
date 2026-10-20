@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalConstructors": 21,
+  "categories": {
+    "pure": [
+      "IDENTITY",
+      "CONSTANT",
+      "PARAMETER",
+      "COMPOSE",
+      "SEQUENCE",
+      "BRANCH",
+      "LOOP",
+      "MAP",
+      "FILTER",
+      "REDUCE"
+    ],
+    "stateful": [
+      "STATE_GET",
+      "STATE_SET"
+    ],
+    "semanticControl": [
+      "GUARD",
+      "ADAPT",
+      "RECOVER"
+    ],
+    "contract": [
+      "PRODUCE",
+      "CONSUME",
+      "VALIDATE"
+    ],
+    "transactional": [
+      "TRANSACTION",
+      "ROLLBACK"
+    ],
+    "invariant": [
+      "PRESERVE"
+    ]
+  },
+  "primitives": [
+    {
+      "name": "IDENTITY",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "CONSTANT",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "PARAMETER",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "COMPOSE",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "SEQUENCE",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "BRANCH",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "LOOP",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "MAP",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "FILTER",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "REDUCE",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "STATE_GET",
+      "effectClassification": "STATEFUL",
+      "compositional": true
+    },
+    {
+      "name": "STATE_SET",
+      "effectClassification": "STATEFUL",
+      "compositional": true
+    },
+    {
+      "name": "GUARD",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "ADAPT",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "RECOVER",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "PRODUCE",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "CONSUME",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "VALIDATE",
+      "effectClassification": "PURE",
+      "compositional": true
+    },
+    {
+      "name": "TRANSACTION",
+      "effectClassification": "STATEFUL",
+      "compositional": true
+    },
+    {
+      "name": "ROLLBACK",
+      "effectClassification": "STATEFUL",
+      "compositional": true
+    },
+    {
+      "name": "PRESERVE",
+      "effectClassification": "PURE",
+      "compositional": true
+    }
+  ]
+}

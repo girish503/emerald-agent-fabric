@@ -1,0 +1,546 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalObligations": 60,
+  "obligations": [
+    {
+      "proofId": "PRF-P46L501-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type STRING matches goal STRING",
+      "targetSymbol": "APP-P46L501-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "ceca3b294b2d080b8bf36ab669adf61856a45db51fccb04be88443b86d01f0e3"
+    },
+    {
+      "proofId": "PRF-P46L501-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L501-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "d34fd18fbc28089db55e5da1b35189ba335bbd2b0f81dba2471a984866718e16"
+    },
+    {
+      "proofId": "PRF-P46L501-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L501-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "ee663a6cfb0d83484692795d27521354cad8837544b012a511c4d3459a53893a"
+    },
+    {
+      "proofId": "PRF-P46L501-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L501-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "f8bb8d185925110583576a35329f3c91b181f89ef5da9d23fe9e2acefa86cf94"
+    },
+    {
+      "proofId": "PRF-P46L502-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type STRING matches goal STRING",
+      "targetSymbol": "APP-P46L502-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "c32a09e5465a1718cb9a29016048174345d0e56b59b9c3babc05f3ba8e0bc456"
+    },
+    {
+      "proofId": "PRF-P46L502-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L502-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "2eb6871ca9233bec0fe266294f94a4372c7308b580d2deaf786bd7551fe001bb"
+    },
+    {
+      "proofId": "PRF-P46L502-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L502-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "76b57b02dfd948aa2f0cb3c196439b14af7f9ac288b3a25427143dcf438bd613"
+    },
+    {
+      "proofId": "PRF-P46L502-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L502-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "d65376e2f991f01490df65f8476e7a229c8eccddf039e0f0be49db55300f8867"
+    },
+    {
+      "proofId": "PRF-P46L503-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type STRING matches goal STRING",
+      "targetSymbol": "APP-P46L503-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "bc6417a69d1eb534c4ca8fa92c90934fb0ffb2ea106e71e97f5560bfcd9c9b24"
+    },
+    {
+      "proofId": "PRF-P46L503-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L503-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "38f28c1e4a937c2df779608736e9487579e93011c689298c1974087235507b68"
+    },
+    {
+      "proofId": "PRF-P46L503-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L503-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "0c14bad34830628faa23e3a3c211098551aecc66b07a324348facafb7d8561bd"
+    },
+    {
+      "proofId": "PRF-P46L503-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L503-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "35a633e8d1cbd9b6f2dbd7db57383c214618c2ba5b67cabcc1cd04225e7ec702"
+    },
+    {
+      "proofId": "PRF-P46L504-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type STRING matches goal STRING",
+      "targetSymbol": "APP-P46L504-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "a641c7265e2d69b182f135a91aeea3fd4e809e6403ee867873ae532ac5cfe78e"
+    },
+    {
+      "proofId": "PRF-P46L504-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L504-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "e7c87163c4fdee52806e87983728e444322c442e4726e72b643c799446411ddd"
+    },
+    {
+      "proofId": "PRF-P46L504-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L504-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "3abefa010009e7b13fb9272056b3ac6e35af1141cdc6b3bbdce426d1309f94c0"
+    },
+    {
+      "proofId": "PRF-P46L504-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L504-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "41f171b9b9a37b6cf4633f4f7adf05e214f22ddc1998a8ada3cc442d7f7bc11d"
+    },
+    {
+      "proofId": "PRF-P46L505-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type STRING matches goal STRING",
+      "targetSymbol": "APP-P46L505-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "0aba6118c74ba7739601258da0322897b9d5ffe2fc7ae506650016ee0613ae59"
+    },
+    {
+      "proofId": "PRF-P46L505-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L505-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "90b88a5f099fd46742f4dd6d1d0e0846b0b9bde8a20abc60fdce23d8f6daad5d"
+    },
+    {
+      "proofId": "PRF-P46L505-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L505-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "83a715149c52026414a58f332bf272d67a726eb3d15822d2eb6b6d7917fe0fa2"
+    },
+    {
+      "proofId": "PRF-P46L505-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L505-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "5d2612512f501ffe4b3b755d3d8bab067f3287c55d1d01eebb9da82a8e43c43d"
+    },
+    {
+      "proofId": "PRF-P46L601-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type BOOLEAN matches goal BOOLEAN",
+      "targetSymbol": "APP-P46L601-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "0bb25e1e0251c851f2ce38c1fbabc38be3608460282920db90b25f2da8d69de9"
+    },
+    {
+      "proofId": "PRF-P46L601-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L601-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "0842dfbf195b4ae7ef5f670cb86b598e0179c07e03858e08a7a78bd3c20614d2"
+    },
+    {
+      "proofId": "PRF-P46L601-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L601-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "1dde0e5577602c635eea2ed0ce89cd9878a6a25fa83510b4decd5bd691721a08"
+    },
+    {
+      "proofId": "PRF-P46L601-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L601-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "0816c134a7067a574268428f011fef245cac27985e6040a708184b4b0205a830"
+    },
+    {
+      "proofId": "PRF-P46L602-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type BOOLEAN matches goal BOOLEAN",
+      "targetSymbol": "APP-P46L602-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "b48c4f8bd00a54f72ee4d2b2f892a961398d771f829ccebda7f467aa3ad103d5"
+    },
+    {
+      "proofId": "PRF-P46L602-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L602-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "0cb82e3f0d1a6461d374680151b380f05c86b1a2062d8753f5f4d18f997b0ebe"
+    },
+    {
+      "proofId": "PRF-P46L602-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L602-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "12d7eb4fe108dea9aa59885e9c86f06752fd5974b05aba1cbe81a96be0fd658b"
+    },
+    {
+      "proofId": "PRF-P46L602-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L602-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "7237ccb991b56c75c281baa1d1fcd0e75e66fef9dd6016d620cc3574c0469f58"
+    },
+    {
+      "proofId": "PRF-P46L603-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type BOOLEAN matches goal BOOLEAN",
+      "targetSymbol": "APP-P46L603-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "193801acb7e0215441041ee8d76d9ab360184c1a3c916b4adff58edae10c780a"
+    },
+    {
+      "proofId": "PRF-P46L603-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L603-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "0e8219060a269d1aa7c38adbf6bbdc233d983050e1687cf2dda4740668153f61"
+    },
+    {
+      "proofId": "PRF-P46L603-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L603-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "bda5d6a5aa6a32d5b031bdf2a497c22fa8f11581ff5fe97d0a3224033b8d4cd8"
+    },
+    {
+      "proofId": "PRF-P46L603-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L603-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "a084b45f5ee75c73f36db62d20e9fcefc1066aec87078031904498feb1edc702"
+    },
+    {
+      "proofId": "PRF-P46L604-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type BOOLEAN matches goal BOOLEAN",
+      "targetSymbol": "APP-P46L604-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "a010f10915bb331761ac5482eba5fbfb4f2cf64dbc2525de248f8f123825b9f8"
+    },
+    {
+      "proofId": "PRF-P46L604-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L604-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "d305098fe838801f9c7285b2ddd13e9604312e13f70f3cb3ab6bdd380a9ff4d4"
+    },
+    {
+      "proofId": "PRF-P46L604-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L604-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "30239a92b38ff7ce722ce8dcdb59cb266481e2059e59cbbeb9172b710235be28"
+    },
+    {
+      "proofId": "PRF-P46L604-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L604-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "6dfc9fd210a819ff288534dce9208a6fb594b643b496d87377676554f2df5f5b"
+    },
+    {
+      "proofId": "PRF-P46L605-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type BOOLEAN matches goal BOOLEAN",
+      "targetSymbol": "APP-P46L605-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "5d1d33275d7c678c2d91925f784c8faf04c87d171bcbb6b94ab9f2f3c31365bc"
+    },
+    {
+      "proofId": "PRF-P46L605-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L605-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "b9b1d3b9b1d1a97754ddc43664dc37a999e936d9f2c6730050a19b3426b45d41"
+    },
+    {
+      "proofId": "PRF-P46L605-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L605-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "16776bad985d3678834638471e26c38c050f23b4e9c025094b6a4362cb635b2c"
+    },
+    {
+      "proofId": "PRF-P46L605-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L605-ROOT",
+      "critical": false,
+      "status": "PROVEN",
+      "contentHash": "10938eba4e422878d9e1f37198b50c9f84be80140c51739bf440dccc5fe8a16a"
+    },
+    {
+      "proofId": "PRF-P46L701-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type PROGRAM matches goal PROGRAM",
+      "targetSymbol": "APP-P46L701-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "59b6ed2d813bb2f7f321b0c04adb9d1e2521d46990c1b16023364b11d6fe0337"
+    },
+    {
+      "proofId": "PRF-P46L701-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L701-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "5c5fc6f5a97a30f5161dda40b70689bc255e62bcf3a95d7b4fc6b79dc369a671"
+    },
+    {
+      "proofId": "PRF-P46L701-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L701-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "a143e5f56bd4312e8069cb460a47b05747319628aac6a9b98b2ca8d2f0f371af"
+    },
+    {
+      "proofId": "PRF-P46L701-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L701-ROOT",
+      "critical": true,
+      "status": "UNRESOLVED",
+      "contentHash": "4d02343113d5677c5c3680d595d2a30d1f7fec530092aa9bcb358d525e68e2db"
+    },
+    {
+      "proofId": "PRF-P46L702-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type PROGRAM matches goal PROGRAM",
+      "targetSymbol": "APP-P46L702-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "3ba803b31bd6d423f374acdadc2b169b538bbc9841cc2b7389d937ccd880b514"
+    },
+    {
+      "proofId": "PRF-P46L702-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L702-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "5b7c24cb9f051826e0b6e829eec3332e7d2dc4d9b87128830e4b145c6db58400"
+    },
+    {
+      "proofId": "PRF-P46L702-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L702-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "417adad984b89cc5ce77fcbc8a47ec2b385f4c2361f8c61514dc768fbc9ad279"
+    },
+    {
+      "proofId": "PRF-P46L702-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L702-ROOT",
+      "critical": true,
+      "status": "UNRESOLVED",
+      "contentHash": "f0288036c83716482eba4ff78636368288f2160f0954421c5f2e5935ee61b731"
+    },
+    {
+      "proofId": "PRF-P46L703-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type PROGRAM matches goal PROGRAM",
+      "targetSymbol": "APP-P46L703-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "be71de46a4a4e8d26786e66896e91486a1ea80286227b24dfa7ee66781bdb725"
+    },
+    {
+      "proofId": "PRF-P46L703-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L703-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "cf91b78eb5410a271755c5344fbed49d182e012e31cf59dfc4c3cf2916853d0a"
+    },
+    {
+      "proofId": "PRF-P46L703-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L703-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "f5b3f3db07e2a15a5b4d29448d54c182dfd4c1ec29860cca11b70fad62b5ede2"
+    },
+    {
+      "proofId": "PRF-P46L703-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L703-ROOT",
+      "critical": true,
+      "status": "UNRESOLVED",
+      "contentHash": "bc757c6f010906e985d59e8ea5cc1a021a9ff7de051e688c1b8e30f55849548c"
+    },
+    {
+      "proofId": "PRF-P46L704-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type PROGRAM matches goal PROGRAM",
+      "targetSymbol": "APP-P46L704-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "29656c6723740151ff4258d112617cfb56d8eb88d4a1eb78c2502c205201c6f1"
+    },
+    {
+      "proofId": "PRF-P46L704-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L704-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "3530bbc234b3f73695a4c61da55784b544ed4f4c0214d00c9b0f6876d4d9dc01"
+    },
+    {
+      "proofId": "PRF-P46L704-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L704-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "ae85c71fd9d8ca5e15643a13f348d5a151fa21f2a702275844777b620972f7af"
+    },
+    {
+      "proofId": "PRF-P46L704-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L704-ROOT",
+      "critical": true,
+      "status": "UNRESOLVED",
+      "contentHash": "99ee145a1428528c2867f3c7532506b23adfe9cb21752c6870b2985b659ce53a"
+    },
+    {
+      "proofId": "PRF-P46L705-TYPE",
+      "obligationType": "TYPE_CORRECTNESS",
+      "description": "Output type PROGRAM matches goal PROGRAM",
+      "targetSymbol": "APP-P46L705-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "8eb3e5629c72ba524672f2d63e4b38f5f004521f590d40751b5c404cad7b3179"
+    },
+    {
+      "proofId": "PRF-P46L705-EFFECT",
+      "obligationType": "EFFECT_COMPATIBILITY",
+      "description": "Program effects subset of goal allowed effects",
+      "targetSymbol": "APP-P46L705-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "f69dac439411f5f6114d8f222ff96427adb195ae548621342855a21c541ab03b"
+    },
+    {
+      "proofId": "PRF-P46L705-INV",
+      "obligationType": "INVARIANT_PRESERVATION",
+      "description": "All declared global invariants preserved across transitions",
+      "targetSymbol": "APP-P46L705-ROOT",
+      "critical": true,
+      "status": "PROVEN",
+      "contentHash": "bc4b91874fcddf9f080b48e8cc061aa9674746087f0c9122e4b6ccf37b75a40a"
+    },
+    {
+      "proofId": "PRF-P46L705-SYNC",
+      "obligationType": "CROSS_MODULE_SYNC",
+      "description": "Coordinated state transitions proven across dependent modules",
+      "targetSymbol": "APP-P46L705-ROOT",
+      "critical": true,
+      "status": "UNRESOLVED",
+      "contentHash": "a4c271d476c667b0e88030398a8fc80389ea1e4cc2a482892cdf7872667ccd32"
+    }
+  ]
+}

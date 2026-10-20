@@ -1,0 +1,1621 @@
+{
+  "schemaVersion": "emerald-phase70-v1",
+  "totalCandidates": 15,
+  "candidates": [
+    {
+      "programId": "PROG-P46L501",
+      "skeletonId": "SKEL-P46L501",
+      "rootApplication": {
+        "applicationId": "APP-P46L501-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "STRING",
+          "INTEGER"
+        ],
+        "outputType": "STRING",
+        "effects": [
+          "PURE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L501-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "STRING",
+              "INTEGER"
+            ],
+            "outputType": "STRING",
+            "effects": [
+              "PURE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "9da748a302fdaa686ec2f710b37ad8c3de5ca1adc0a03d79a3478c4f286cda18"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "f8cfbfb96828965a77cdf2306f475ed1c098d1ceddc9ebe6a132050b190d2930"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L501-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type STRING matches goal STRING",
+          "targetSymbol": "APP-P46L501-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "ceca3b294b2d080b8bf36ab669adf61856a45db51fccb04be88443b86d01f0e3"
+        },
+        {
+          "proofId": "PRF-P46L501-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L501-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "d34fd18fbc28089db55e5da1b35189ba335bbd2b0f81dba2471a984866718e16"
+        },
+        {
+          "proofId": "PRF-P46L501-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L501-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "ee663a6cfb0d83484692795d27521354cad8837544b012a511c4d3459a53893a"
+        },
+        {
+          "proofId": "PRF-P46L501-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L501-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "f8bb8d185925110583576a35329f3c91b181f89ef5da9d23fe9e2acefa86cf94"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L5-01",
+          "toState": "STATE-P46-L5-01-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "234d79f1e233dca99bedb7ad0bcc4cc8919af42f4c58b6136bd933e7f4a9f4f8"
+    },
+    {
+      "programId": "PROG-P46L502",
+      "skeletonId": "SKEL-P46L502",
+      "rootApplication": {
+        "applicationId": "APP-P46L502-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "STRING",
+          "INTEGER"
+        ],
+        "outputType": "STRING",
+        "effects": [
+          "PURE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L502-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "STRING",
+              "INTEGER"
+            ],
+            "outputType": "STRING",
+            "effects": [
+              "PURE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "10514afb69521f4781a520f55f05a1d1bf5387804bc57b7663be1874bffba677"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "27581fddb0fa758dacbfec66c9552f5fb203b735616f34e9012bab47dc3f0702"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L502-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type STRING matches goal STRING",
+          "targetSymbol": "APP-P46L502-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "c32a09e5465a1718cb9a29016048174345d0e56b59b9c3babc05f3ba8e0bc456"
+        },
+        {
+          "proofId": "PRF-P46L502-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L502-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "2eb6871ca9233bec0fe266294f94a4372c7308b580d2deaf786bd7551fe001bb"
+        },
+        {
+          "proofId": "PRF-P46L502-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L502-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "76b57b02dfd948aa2f0cb3c196439b14af7f9ac288b3a25427143dcf438bd613"
+        },
+        {
+          "proofId": "PRF-P46L502-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L502-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "d65376e2f991f01490df65f8476e7a229c8eccddf039e0f0be49db55300f8867"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L5-02",
+          "toState": "STATE-P46-L5-02-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "762972878083884ae88dff593fa13f428e2f91bd79a5dad243ea2414e8a5afc9"
+    },
+    {
+      "programId": "PROG-P46L503",
+      "skeletonId": "SKEL-P46L503",
+      "rootApplication": {
+        "applicationId": "APP-P46L503-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "STRING",
+          "INTEGER"
+        ],
+        "outputType": "STRING",
+        "effects": [
+          "PURE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L503-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "STRING",
+              "INTEGER"
+            ],
+            "outputType": "STRING",
+            "effects": [
+              "PURE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "fe6fd66b02da0b56123a963e15554803b9cef2f250ce12a5f7831cd18e88d91d"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "441c6b681ec892b064c8ef7c3684452bb3525fbe96caccbdc49ad2a69e7d9553"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L503-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type STRING matches goal STRING",
+          "targetSymbol": "APP-P46L503-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "bc6417a69d1eb534c4ca8fa92c90934fb0ffb2ea106e71e97f5560bfcd9c9b24"
+        },
+        {
+          "proofId": "PRF-P46L503-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L503-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "38f28c1e4a937c2df779608736e9487579e93011c689298c1974087235507b68"
+        },
+        {
+          "proofId": "PRF-P46L503-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L503-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "0c14bad34830628faa23e3a3c211098551aecc66b07a324348facafb7d8561bd"
+        },
+        {
+          "proofId": "PRF-P46L503-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L503-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "35a633e8d1cbd9b6f2dbd7db57383c214618c2ba5b67cabcc1cd04225e7ec702"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L5-03",
+          "toState": "STATE-P46-L5-03-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "97eacce223fd19e647e479ddabb595e8a4378369b4b2c06aad081ad6a11a23ec"
+    },
+    {
+      "programId": "PROG-P46L504",
+      "skeletonId": "SKEL-P46L504",
+      "rootApplication": {
+        "applicationId": "APP-P46L504-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "STRING",
+          "INTEGER"
+        ],
+        "outputType": "STRING",
+        "effects": [
+          "PURE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L504-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "STRING",
+              "INTEGER"
+            ],
+            "outputType": "STRING",
+            "effects": [
+              "PURE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "32761a5564d396249736445b11495be95fa642b403b8df1a629c1b2fb509ced0"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "6c1245188ad2278d830c67fd0d6d4bac7f42151fc8d5cf46e90b1c45fa1d7b04"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L504-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type STRING matches goal STRING",
+          "targetSymbol": "APP-P46L504-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "a641c7265e2d69b182f135a91aeea3fd4e809e6403ee867873ae532ac5cfe78e"
+        },
+        {
+          "proofId": "PRF-P46L504-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L504-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "e7c87163c4fdee52806e87983728e444322c442e4726e72b643c799446411ddd"
+        },
+        {
+          "proofId": "PRF-P46L504-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L504-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "3abefa010009e7b13fb9272056b3ac6e35af1141cdc6b3bbdce426d1309f94c0"
+        },
+        {
+          "proofId": "PRF-P46L504-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L504-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "41f171b9b9a37b6cf4633f4f7adf05e214f22ddc1998a8ada3cc442d7f7bc11d"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L5-04",
+          "toState": "STATE-P46-L5-04-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "22718e42d9a37e9c298f74a379a53bdb39cc51b4d623cce64c7282cd59a4c099"
+    },
+    {
+      "programId": "PROG-P46L505",
+      "skeletonId": "SKEL-P46L505",
+      "rootApplication": {
+        "applicationId": "APP-P46L505-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "STRING",
+          "INTEGER"
+        ],
+        "outputType": "STRING",
+        "effects": [
+          "PURE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L505-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "STRING",
+              "INTEGER"
+            ],
+            "outputType": "STRING",
+            "effects": [
+              "PURE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "2d5cdfdea7a35e564358dc26e2a598b5b0abf53211b559080dd2bcf33fad2600"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "3b9956f41106482e51083374b1defb4968299fe28d317d0921a58822190ae05b"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L505-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type STRING matches goal STRING",
+          "targetSymbol": "APP-P46L505-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "0aba6118c74ba7739601258da0322897b9d5ffe2fc7ae506650016ee0613ae59"
+        },
+        {
+          "proofId": "PRF-P46L505-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L505-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "90b88a5f099fd46742f4dd6d1d0e0846b0b9bde8a20abc60fdce23d8f6daad5d"
+        },
+        {
+          "proofId": "PRF-P46L505-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L505-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "83a715149c52026414a58f332bf272d67a726eb3d15822d2eb6b6d7917fe0fa2"
+        },
+        {
+          "proofId": "PRF-P46L505-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L505-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "5d2612512f501ffe4b3b755d3d8bab067f3287c55d1d01eebb9da82a8e43c43d"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L5-05",
+          "toState": "STATE-P46-L5-05-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "828b5e35b48a07b65f229096659f43f383896f057c7a244933fb5b9c274a350d"
+    },
+    {
+      "programId": "PROG-P46L601",
+      "skeletonId": "SKEL-P46L601",
+      "rootApplication": {
+        "applicationId": "APP-P46L601-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "ORIGIN",
+          "HEADER_MAP"
+        ],
+        "outputType": "BOOLEAN",
+        "effects": [
+          "READ_STATE",
+          "CONTROL_FLOW",
+          "PRODUCE_VALUE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L601-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "ORIGIN",
+              "HEADER_MAP"
+            ],
+            "outputType": "BOOLEAN",
+            "effects": [
+              "READ_STATE",
+              "CONTROL_FLOW",
+              "PRODUCE_VALUE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "61a55f22b37d68ef485ad6673993a479f32c33a45d20ccddce00b517d295b799"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "35bd48facdff14ca8b1fbc3db979e02aeecd5dfc1e16f02caa69ba76173e8441"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L601-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type BOOLEAN matches goal BOOLEAN",
+          "targetSymbol": "APP-P46L601-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "0bb25e1e0251c851f2ce38c1fbabc38be3608460282920db90b25f2da8d69de9"
+        },
+        {
+          "proofId": "PRF-P46L601-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L601-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "0842dfbf195b4ae7ef5f670cb86b598e0179c07e03858e08a7a78bd3c20614d2"
+        },
+        {
+          "proofId": "PRF-P46L601-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L601-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "1dde0e5577602c635eea2ed0ce89cd9878a6a25fa83510b4decd5bd691721a08"
+        },
+        {
+          "proofId": "PRF-P46L601-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L601-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "0816c134a7067a574268428f011fef245cac27985e6040a708184b4b0205a830"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L6-01",
+          "toState": "STATE-P46-L6-01-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "3c593503bd7e15fe57ed509ab156a4353e92b2599ad7e929a19bab26cff11151"
+    },
+    {
+      "programId": "PROG-P46L602",
+      "skeletonId": "SKEL-P46L602",
+      "rootApplication": {
+        "applicationId": "APP-P46L602-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "ORIGIN",
+          "HEADER_MAP"
+        ],
+        "outputType": "BOOLEAN",
+        "effects": [
+          "READ_STATE",
+          "CONTROL_FLOW",
+          "PRODUCE_VALUE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L602-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "ORIGIN",
+              "HEADER_MAP"
+            ],
+            "outputType": "BOOLEAN",
+            "effects": [
+              "READ_STATE",
+              "CONTROL_FLOW",
+              "PRODUCE_VALUE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "772f93aec9084b7db9a257928119b8c9a663fb4c7ea8250b68711a15e94c2f94"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "4b5af02d13711cb52e856d4da036904f8743d867cfc9a71d37005b9ff603adde"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L602-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type BOOLEAN matches goal BOOLEAN",
+          "targetSymbol": "APP-P46L602-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "b48c4f8bd00a54f72ee4d2b2f892a961398d771f829ccebda7f467aa3ad103d5"
+        },
+        {
+          "proofId": "PRF-P46L602-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L602-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "0cb82e3f0d1a6461d374680151b380f05c86b1a2062d8753f5f4d18f997b0ebe"
+        },
+        {
+          "proofId": "PRF-P46L602-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L602-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "12d7eb4fe108dea9aa59885e9c86f06752fd5974b05aba1cbe81a96be0fd658b"
+        },
+        {
+          "proofId": "PRF-P46L602-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L602-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "7237ccb991b56c75c281baa1d1fcd0e75e66fef9dd6016d620cc3574c0469f58"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L6-02",
+          "toState": "STATE-P46-L6-02-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "2aaf751422ecbed3a58d21abdba6dcfe09944e93df2e2c38c0872300ce95c57a"
+    },
+    {
+      "programId": "PROG-P46L603",
+      "skeletonId": "SKEL-P46L603",
+      "rootApplication": {
+        "applicationId": "APP-P46L603-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "ORIGIN",
+          "HEADER_MAP"
+        ],
+        "outputType": "BOOLEAN",
+        "effects": [
+          "READ_STATE",
+          "CONTROL_FLOW",
+          "PRODUCE_VALUE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L603-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "ORIGIN",
+              "HEADER_MAP"
+            ],
+            "outputType": "BOOLEAN",
+            "effects": [
+              "READ_STATE",
+              "CONTROL_FLOW",
+              "PRODUCE_VALUE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "6a7d515116abedf37275e61b6280a8330a4a1db28c9a2e7b0a3a4bcf5f4fe895"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "4ef1c23c1b10787823c9d96be004cdc8273cb0dd68e7583d81885bf032bfb4c7"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L603-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type BOOLEAN matches goal BOOLEAN",
+          "targetSymbol": "APP-P46L603-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "193801acb7e0215441041ee8d76d9ab360184c1a3c916b4adff58edae10c780a"
+        },
+        {
+          "proofId": "PRF-P46L603-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L603-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "0e8219060a269d1aa7c38adbf6bbdc233d983050e1687cf2dda4740668153f61"
+        },
+        {
+          "proofId": "PRF-P46L603-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L603-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "bda5d6a5aa6a32d5b031bdf2a497c22fa8f11581ff5fe97d0a3224033b8d4cd8"
+        },
+        {
+          "proofId": "PRF-P46L603-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L603-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "a084b45f5ee75c73f36db62d20e9fcefc1066aec87078031904498feb1edc702"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L6-03",
+          "toState": "STATE-P46-L6-03-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "58efa72d90e5a3bf53ec6a231f7b4a4ff2f739dc22dcc8f49c05070dfed4fb79"
+    },
+    {
+      "programId": "PROG-P46L604",
+      "skeletonId": "SKEL-P46L604",
+      "rootApplication": {
+        "applicationId": "APP-P46L604-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "ORIGIN",
+          "HEADER_MAP"
+        ],
+        "outputType": "BOOLEAN",
+        "effects": [
+          "READ_STATE",
+          "CONTROL_FLOW",
+          "PRODUCE_VALUE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L604-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "ORIGIN",
+              "HEADER_MAP"
+            ],
+            "outputType": "BOOLEAN",
+            "effects": [
+              "READ_STATE",
+              "CONTROL_FLOW",
+              "PRODUCE_VALUE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "abef4567c4ce2376bb8675c2bb77b89faac6750e6c34d922915e18bdf93c42c3"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "aff33ef913a5ea14bed2ad95722270c0e807c230aed8279955ec761c8de2b742"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L604-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type BOOLEAN matches goal BOOLEAN",
+          "targetSymbol": "APP-P46L604-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "a010f10915bb331761ac5482eba5fbfb4f2cf64dbc2525de248f8f123825b9f8"
+        },
+        {
+          "proofId": "PRF-P46L604-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L604-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "d305098fe838801f9c7285b2ddd13e9604312e13f70f3cb3ab6bdd380a9ff4d4"
+        },
+        {
+          "proofId": "PRF-P46L604-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L604-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "30239a92b38ff7ce722ce8dcdb59cb266481e2059e59cbbeb9172b710235be28"
+        },
+        {
+          "proofId": "PRF-P46L604-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L604-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "6dfc9fd210a819ff288534dce9208a6fb594b643b496d87377676554f2df5f5b"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L6-04",
+          "toState": "STATE-P46-L6-04-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "d99b7b57385a722cb249481ea90ff8682978f9f983daf669fe9463ee5dbcdc73"
+    },
+    {
+      "programId": "PROG-P46L605",
+      "skeletonId": "SKEL-P46L605",
+      "rootApplication": {
+        "applicationId": "APP-P46L605-ROOT",
+        "constructor": "SEQUENCE",
+        "inputTypes": [
+          "ORIGIN",
+          "HEADER_MAP"
+        ],
+        "outputType": "BOOLEAN",
+        "effects": [
+          "READ_STATE",
+          "CONTROL_FLOW",
+          "PRODUCE_VALUE"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L605-TRANSFORM",
+            "constructor": "CONSTANT",
+            "inputTypes": [
+              "ORIGIN",
+              "HEADER_MAP"
+            ],
+            "outputType": "BOOLEAN",
+            "effects": [
+              "READ_STATE",
+              "CONTROL_FLOW",
+              "PRODUCE_VALUE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "efc48fd89a4b33f8818622ac0dc81c7f050562217bc8e513c441091b19a0311d"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 4,
+        "contentHash": "393af1c91610101f18519dcb52de10620756fdf8ef89ac0e854ae70a3a2de4a4"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L605-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type BOOLEAN matches goal BOOLEAN",
+          "targetSymbol": "APP-P46L605-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "5d1d33275d7c678c2d91925f784c8faf04c87d171bcbb6b94ab9f2f3c31365bc"
+        },
+        {
+          "proofId": "PRF-P46L605-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L605-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "b9b1d3b9b1d1a97754ddc43664dc37a999e936d9f2c6730050a19b3426b45d41"
+        },
+        {
+          "proofId": "PRF-P46L605-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L605-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "16776bad985d3678834638471e26c38c050f23b4e9c025094b6a4362cb635b2c"
+        },
+        {
+          "proofId": "PRF-P46L605-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L605-ROOT",
+          "critical": false,
+          "status": "PROVEN",
+          "contentHash": "10938eba4e422878d9e1f37198b50c9f84be80140c51739bf440dccc5fe8a16a"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L6-05",
+          "toState": "STATE-P46-L6-05-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 4,
+      "validated": true,
+      "contentHash": "d3584404c5c0a94f92ca18e63a12ccaffb68a5ae6732ec449d2c1b0d280dde57"
+    },
+    {
+      "programId": "PROG-P46L701",
+      "skeletonId": "SKEL-P46L701",
+      "rootApplication": {
+        "applicationId": "APP-P46L701-ROOT",
+        "constructor": "TRANSACTION",
+        "inputTypes": [
+          "TOKEN_STREAM",
+          "PROGRAM_STATE"
+        ],
+        "outputType": "PROGRAM",
+        "effects": [
+          "READ_STATE",
+          "WRITE_STATE",
+          "CONTROL_FLOW",
+          "TRANSACTIONAL"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L701-TRANSFORM",
+            "constructor": "STATE_SET",
+            "inputTypes": [
+              "TOKEN_STREAM",
+              "PROGRAM_STATE"
+            ],
+            "outputType": "PROGRAM",
+            "effects": [
+              "READ_STATE",
+              "WRITE_STATE",
+              "CONTROL_FLOW",
+              "TRANSACTIONAL"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "e1af9dc37508cadff8b8b5c4822f08f8619057344d116a6d82b1b84517314d25"
+          },
+          {
+            "applicationId": "APP-P46L701-ROLLBACK",
+            "constructor": "ROLLBACK",
+            "inputTypes": [
+              "STATE"
+            ],
+            "outputType": "STATE",
+            "effects": [
+              "RECOVERY",
+              "WRITE_STATE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_ON_EXCEPTION"
+            ],
+            "postconditions": [
+              "POSTCOND_STATE_RESTORED"
+            ],
+            "depth": 2,
+            "nodeCount": 2,
+            "contentHash": "18cb02e12c1280d7b10a77f2e63ca8cdfd008dd5ec7fa706ac6e1a7cfd0feb07"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 6,
+        "contentHash": "7b50e1ed1836e928479a0fcab5c786677009d43da470aab9c0cb46c155a344e8"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L701-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type PROGRAM matches goal PROGRAM",
+          "targetSymbol": "APP-P46L701-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "59b6ed2d813bb2f7f321b0c04adb9d1e2521d46990c1b16023364b11d6fe0337"
+        },
+        {
+          "proofId": "PRF-P46L701-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L701-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "5c5fc6f5a97a30f5161dda40b70689bc255e62bcf3a95d7b4fc6b79dc369a671"
+        },
+        {
+          "proofId": "PRF-P46L701-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L701-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "a143e5f56bd4312e8069cb460a47b05747319628aac6a9b98b2ca8d2f0f371af"
+        },
+        {
+          "proofId": "PRF-P46L701-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L701-ROOT",
+          "critical": true,
+          "status": "UNRESOLVED",
+          "contentHash": "4d02343113d5677c5c3680d595d2a30d1f7fec530092aa9bcb358d525e68e2db"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L7-01",
+          "toState": "STATE-P46-L7-01-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 6,
+      "validated": false,
+      "contentHash": "97b4ef17c65ec26b5561335a883ab4f87805149e732bdd7ba09766df7910f045"
+    },
+    {
+      "programId": "PROG-P46L702",
+      "skeletonId": "SKEL-P46L702",
+      "rootApplication": {
+        "applicationId": "APP-P46L702-ROOT",
+        "constructor": "TRANSACTION",
+        "inputTypes": [
+          "TOKEN_STREAM",
+          "PROGRAM_STATE"
+        ],
+        "outputType": "PROGRAM",
+        "effects": [
+          "READ_STATE",
+          "WRITE_STATE",
+          "CONTROL_FLOW",
+          "TRANSACTIONAL"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L702-TRANSFORM",
+            "constructor": "STATE_SET",
+            "inputTypes": [
+              "TOKEN_STREAM",
+              "PROGRAM_STATE"
+            ],
+            "outputType": "PROGRAM",
+            "effects": [
+              "READ_STATE",
+              "WRITE_STATE",
+              "CONTROL_FLOW",
+              "TRANSACTIONAL"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "789fa63376d42ed5aa1ed36216d82d3c353eab76a0b367bcd61183aa54c1cccb"
+          },
+          {
+            "applicationId": "APP-P46L702-ROLLBACK",
+            "constructor": "ROLLBACK",
+            "inputTypes": [
+              "STATE"
+            ],
+            "outputType": "STATE",
+            "effects": [
+              "RECOVERY",
+              "WRITE_STATE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_ON_EXCEPTION"
+            ],
+            "postconditions": [
+              "POSTCOND_STATE_RESTORED"
+            ],
+            "depth": 2,
+            "nodeCount": 2,
+            "contentHash": "4171b78283c25304d1d4f9607920b9c3ddb382689adc1bce6eb9a05dcddfc2f2"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 6,
+        "contentHash": "f977b731694cd9b52ae2bfb4b31bfc6f61f04cb789796e03a5128dd5fadc8d37"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L702-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type PROGRAM matches goal PROGRAM",
+          "targetSymbol": "APP-P46L702-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "3ba803b31bd6d423f374acdadc2b169b538bbc9841cc2b7389d937ccd880b514"
+        },
+        {
+          "proofId": "PRF-P46L702-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L702-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "5b7c24cb9f051826e0b6e829eec3332e7d2dc4d9b87128830e4b145c6db58400"
+        },
+        {
+          "proofId": "PRF-P46L702-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L702-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "417adad984b89cc5ce77fcbc8a47ec2b385f4c2361f8c61514dc768fbc9ad279"
+        },
+        {
+          "proofId": "PRF-P46L702-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L702-ROOT",
+          "critical": true,
+          "status": "UNRESOLVED",
+          "contentHash": "f0288036c83716482eba4ff78636368288f2160f0954421c5f2e5935ee61b731"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L7-02",
+          "toState": "STATE-P46-L7-02-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 6,
+      "validated": false,
+      "contentHash": "466787b5e5755616e2b4c280c4fb671490d61ac5723f32fdc8a8428a483b3b54"
+    },
+    {
+      "programId": "PROG-P46L703",
+      "skeletonId": "SKEL-P46L703",
+      "rootApplication": {
+        "applicationId": "APP-P46L703-ROOT",
+        "constructor": "TRANSACTION",
+        "inputTypes": [
+          "TOKEN_STREAM",
+          "PROGRAM_STATE"
+        ],
+        "outputType": "PROGRAM",
+        "effects": [
+          "READ_STATE",
+          "WRITE_STATE",
+          "CONTROL_FLOW",
+          "TRANSACTIONAL"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L703-TRANSFORM",
+            "constructor": "STATE_SET",
+            "inputTypes": [
+              "TOKEN_STREAM",
+              "PROGRAM_STATE"
+            ],
+            "outputType": "PROGRAM",
+            "effects": [
+              "READ_STATE",
+              "WRITE_STATE",
+              "CONTROL_FLOW",
+              "TRANSACTIONAL"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "8ffaaa01438dd4fa6e4dfb27240ca51e6e92b5a806d832f45f07d0c21cf33f5d"
+          },
+          {
+            "applicationId": "APP-P46L703-ROLLBACK",
+            "constructor": "ROLLBACK",
+            "inputTypes": [
+              "STATE"
+            ],
+            "outputType": "STATE",
+            "effects": [
+              "RECOVERY",
+              "WRITE_STATE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_ON_EXCEPTION"
+            ],
+            "postconditions": [
+              "POSTCOND_STATE_RESTORED"
+            ],
+            "depth": 2,
+            "nodeCount": 2,
+            "contentHash": "225edc9e5b21534e0a48f21c02171f75be3e2c12f72109e870d0d4d4608aaf07"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 6,
+        "contentHash": "662c87f0a507c23fb2f559d309f39ab728e8678976fb6b3ebfcad7d4d3934697"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L703-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type PROGRAM matches goal PROGRAM",
+          "targetSymbol": "APP-P46L703-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "be71de46a4a4e8d26786e66896e91486a1ea80286227b24dfa7ee66781bdb725"
+        },
+        {
+          "proofId": "PRF-P46L703-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L703-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "cf91b78eb5410a271755c5344fbed49d182e012e31cf59dfc4c3cf2916853d0a"
+        },
+        {
+          "proofId": "PRF-P46L703-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L703-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "f5b3f3db07e2a15a5b4d29448d54c182dfd4c1ec29860cca11b70fad62b5ede2"
+        },
+        {
+          "proofId": "PRF-P46L703-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L703-ROOT",
+          "critical": true,
+          "status": "UNRESOLVED",
+          "contentHash": "bc757c6f010906e985d59e8ea5cc1a021a9ff7de051e688c1b8e30f55849548c"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L7-03",
+          "toState": "STATE-P46-L7-03-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 6,
+      "validated": false,
+      "contentHash": "baac77b3b485de00b1791947cb65565189b809c9bd5a5a242d24cf5b96c636cf"
+    },
+    {
+      "programId": "PROG-P46L704",
+      "skeletonId": "SKEL-P46L704",
+      "rootApplication": {
+        "applicationId": "APP-P46L704-ROOT",
+        "constructor": "TRANSACTION",
+        "inputTypes": [
+          "TOKEN_STREAM",
+          "PROGRAM_STATE"
+        ],
+        "outputType": "PROGRAM",
+        "effects": [
+          "READ_STATE",
+          "WRITE_STATE",
+          "CONTROL_FLOW",
+          "TRANSACTIONAL"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L704-TRANSFORM",
+            "constructor": "STATE_SET",
+            "inputTypes": [
+              "TOKEN_STREAM",
+              "PROGRAM_STATE"
+            ],
+            "outputType": "PROGRAM",
+            "effects": [
+              "READ_STATE",
+              "WRITE_STATE",
+              "CONTROL_FLOW",
+              "TRANSACTIONAL"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "b4f685c05768f3cefaf4467a01ecceffcb6593462eeafd2df3a21b4586732782"
+          },
+          {
+            "applicationId": "APP-P46L704-ROLLBACK",
+            "constructor": "ROLLBACK",
+            "inputTypes": [
+              "STATE"
+            ],
+            "outputType": "STATE",
+            "effects": [
+              "RECOVERY",
+              "WRITE_STATE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_ON_EXCEPTION"
+            ],
+            "postconditions": [
+              "POSTCOND_STATE_RESTORED"
+            ],
+            "depth": 2,
+            "nodeCount": 2,
+            "contentHash": "031a496b5b346b01af3a7316fcf84dcf459bf024524ad38377f667f5b31d0d60"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 6,
+        "contentHash": "67bb8d4de654ed6302f436630b0e0f5879cd83f9797d05aa005f8b937a005817"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L704-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type PROGRAM matches goal PROGRAM",
+          "targetSymbol": "APP-P46L704-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "29656c6723740151ff4258d112617cfb56d8eb88d4a1eb78c2502c205201c6f1"
+        },
+        {
+          "proofId": "PRF-P46L704-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L704-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "3530bbc234b3f73695a4c61da55784b544ed4f4c0214d00c9b0f6876d4d9dc01"
+        },
+        {
+          "proofId": "PRF-P46L704-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L704-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "ae85c71fd9d8ca5e15643a13f348d5a151fa21f2a702275844777b620972f7af"
+        },
+        {
+          "proofId": "PRF-P46L704-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L704-ROOT",
+          "critical": true,
+          "status": "UNRESOLVED",
+          "contentHash": "99ee145a1428528c2867f3c7532506b23adfe9cb21752c6870b2985b659ce53a"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L7-04",
+          "toState": "STATE-P46-L7-04-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 6,
+      "validated": false,
+      "contentHash": "c17d6719d2b6743270fabc06b96683948e9ed47530e0c5116873f8b1eaecd592"
+    },
+    {
+      "programId": "PROG-P46L705",
+      "skeletonId": "SKEL-P46L705",
+      "rootApplication": {
+        "applicationId": "APP-P46L705-ROOT",
+        "constructor": "TRANSACTION",
+        "inputTypes": [
+          "TOKEN_STREAM",
+          "PROGRAM_STATE"
+        ],
+        "outputType": "PROGRAM",
+        "effects": [
+          "READ_STATE",
+          "WRITE_STATE",
+          "CONTROL_FLOW",
+          "TRANSACTIONAL"
+        ],
+        "children": [
+          {
+            "applicationId": "APP-P46L705-TRANSFORM",
+            "constructor": "STATE_SET",
+            "inputTypes": [
+              "TOKEN_STREAM",
+              "PROGRAM_STATE"
+            ],
+            "outputType": "PROGRAM",
+            "effects": [
+              "READ_STATE",
+              "WRITE_STATE",
+              "CONTROL_FLOW",
+              "TRANSACTIONAL"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_INPUT_VALIDATED"
+            ],
+            "postconditions": [
+              "POSTCOND_TRANSFORMATION_APPLIED"
+            ],
+            "depth": 2,
+            "nodeCount": 3,
+            "contentHash": "6039a4913f026d42f53f1856084d6b7a33de4aed91c007f0f0b45c79e4b654f3"
+          },
+          {
+            "applicationId": "APP-P46L705-ROLLBACK",
+            "constructor": "ROLLBACK",
+            "inputTypes": [
+              "STATE"
+            ],
+            "outputType": "STATE",
+            "effects": [
+              "RECOVERY",
+              "WRITE_STATE"
+            ],
+            "children": [],
+            "preconditions": [
+              "PRECOND_ON_EXCEPTION"
+            ],
+            "postconditions": [
+              "POSTCOND_STATE_RESTORED"
+            ],
+            "depth": 2,
+            "nodeCount": 2,
+            "contentHash": "8f67f498931df862569afc6185222f74add8d653d4c42af8adfa8fb81f4f8422"
+          }
+        ],
+        "preconditions": [
+          "PRECOND_PROGRAM_ENTRY"
+        ],
+        "postconditions": [
+          "POSTCOND_PROGRAM_EXIT"
+        ],
+        "depth": 3,
+        "nodeCount": 6,
+        "contentHash": "9a8f9c09e4d519d5607619d0e08dab3c615c395deb2cc0d738b181ba5efe17a3"
+      },
+      "proofObligations": [
+        {
+          "proofId": "PRF-P46L705-TYPE",
+          "obligationType": "TYPE_CORRECTNESS",
+          "description": "Output type PROGRAM matches goal PROGRAM",
+          "targetSymbol": "APP-P46L705-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "8eb3e5629c72ba524672f2d63e4b38f5f004521f590d40751b5c404cad7b3179"
+        },
+        {
+          "proofId": "PRF-P46L705-EFFECT",
+          "obligationType": "EFFECT_COMPATIBILITY",
+          "description": "Program effects subset of goal allowed effects",
+          "targetSymbol": "APP-P46L705-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "f69dac439411f5f6114d8f222ff96427adb195ae548621342855a21c541ab03b"
+        },
+        {
+          "proofId": "PRF-P46L705-INV",
+          "obligationType": "INVARIANT_PRESERVATION",
+          "description": "All declared global invariants preserved across transitions",
+          "targetSymbol": "APP-P46L705-ROOT",
+          "critical": true,
+          "status": "PROVEN",
+          "contentHash": "bc4b91874fcddf9f080b48e8cc061aa9674746087f0c9122e4b6ccf37b75a40a"
+        },
+        {
+          "proofId": "PRF-P46L705-SYNC",
+          "obligationType": "CROSS_MODULE_SYNC",
+          "description": "Coordinated state transitions proven across dependent modules",
+          "targetSymbol": "APP-P46L705-ROOT",
+          "critical": true,
+          "status": "UNRESOLVED",
+          "contentHash": "a4c271d476c667b0e88030398a8fc80389ea1e4cc2a482892cdf7872667ccd32"
+        }
+      ],
+      "stateTransitions": [
+        {
+          "fromState": "STATE-P46-L7-05",
+          "toState": "STATE-P46-L7-05-FINAL"
+        }
+      ],
+      "depth": 3,
+      "nodeCount": 6,
+      "validated": false,
+      "contentHash": "d51da5d84e430f75cba14432fde38516211caf4ee9d0e02c474cd763d97eee28"
+    }
+  ]
+}
