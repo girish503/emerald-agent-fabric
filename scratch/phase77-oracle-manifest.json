@@ -1,0 +1,1832 @@
+{
+  "schemaVersion": "emerald-phase77-v1",
+  "count": 15,
+  "transformations": [
+    {
+      "taskId": "P46-L5-01",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L5-01",
+        "affectedFiles": [
+          "src/semver.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-c39a4d67240fa4cc",
+          "goalHash": "7b214dbfc9c445d6034fbbce852b163dac724b054dafbe8058e13bc3870f11f9",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-c39a4d6724",
+              "primitive": "REPLACE_EXPRESSION",
+              "target": {
+                "targetId": "ref-tgt-a03df75530",
+                "filePath": "src/semver.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Expression",
+                "symbolName": "parseSemver",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+                "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+              },
+              "payload": {
+                "replacement": "return parseSemverSafe(input);"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "fe3ee2d3ee760f58f8d286833532ffd3f787f4a417bbb49a3d84f415a6c327f0"
+            }
+          ],
+          "affectedFiles": [
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "parseSemver"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "4a7a7c4e9cc4e21c2bd8e4340c5f32e4389e3efbe21031dcc579c4213e2b51d2"
+        },
+        "replacements": [
+          {
+            "filePath": "src/semver.js",
+            "targetSymbol": "parseSemver",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L5-01_src/semver.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "ab3b43ae56988e2933d7ae8571a709d9b0e302416f19f954215a45c4fd9b27d9",
+      "oracleArtifactHash": "cf55ced54357c85a73e08288a350824d392e7651ade6d8e5fa4b1322668efb66",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "c239dbc4d80e44cc01891d973688cd3dcd00d5eec61de239b2090bb5b99e48e0"
+      }
+    },
+    {
+      "taskId": "P46-L5-02",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L5-02",
+        "affectedFiles": [
+          "src/semver.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-5226b059029b8ace",
+          "goalHash": "ce9492b524e98c9153134b2ce65a2c6f73d06109f6b05026cad1fb46512c83c3",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-5226b05902",
+              "primitive": "REPLACE_EXPRESSION",
+              "target": {
+                "targetId": "ref-tgt-a03df75530",
+                "filePath": "src/semver.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Expression",
+                "symbolName": "parseSemver",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+                "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+              },
+              "payload": {
+                "replacement": "return parseSemverSafe(input);"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "a4322c9c67804a90afcfd2a08abb4d43fb531227516a1e22b7b412748299d0ca"
+            }
+          ],
+          "affectedFiles": [
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "parseSemver"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "f737aeff8644037d503948c812a4146c57e7650bc60e4f0268c933d6ad318deb"
+        },
+        "replacements": [
+          {
+            "filePath": "src/semver.js",
+            "targetSymbol": "parseSemver",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L5-02_src/semver.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "156f16a31a4b236ba0f6dc3d5dccc73fdca5b7348f172d22cb5f9904dc7ffd3c",
+      "oracleArtifactHash": "fd87415c09aad67508efa3a292cf8294c5f5c6ffd689021b7ae19881e699c168",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "5bedc6b84c0ec85ce50e7e047bd59e5870b0dcf8e9ed0e5ce62d66b1bdc01d16"
+      }
+    },
+    {
+      "taskId": "P46-L5-03",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L5-03",
+        "affectedFiles": [
+          "src/semver.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-2236e2d23a22d682",
+          "goalHash": "f693bc4abd02bb4284fd7255564723e0527f179d2626eaa5f2d089eb1d72aa11",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-2236e2d23a",
+              "primitive": "REPLACE_EXPRESSION",
+              "target": {
+                "targetId": "ref-tgt-a03df75530",
+                "filePath": "src/semver.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Expression",
+                "symbolName": "parseSemver",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+                "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+              },
+              "payload": {
+                "replacement": "return parseSemverSafe(input);"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "504b686ad0ed30b6305d41bc39e246fe2067956a9118ecea72f7c97088f3c688"
+            }
+          ],
+          "affectedFiles": [
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "parseSemver"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "4a649586d7c9d2f9c340abe3358c6351e7404924ababa07580bf5766969f9cbb"
+        },
+        "replacements": [
+          {
+            "filePath": "src/semver.js",
+            "targetSymbol": "parseSemver",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L5-03_src/semver.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "698bc99ed5e3cee6cfab59b0202652e8757232d51d82165b56e51431de8f15bc",
+      "oracleArtifactHash": "a73deb3fce04cdbd26d242d13f861a809eded914b4b9dd287bbc01d0825d9e59",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "03e3129772fda5b11b8914cee5246236cd7e007ff1607736831e463dc8b564df"
+      }
+    },
+    {
+      "taskId": "P46-L5-04",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L5-04",
+        "affectedFiles": [
+          "src/semver.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-45230e636e397a28",
+          "goalHash": "9ecae3db12daa5a875249b0cbabeb084ae503218caac739d1a6a509ff6dab551",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-45230e636e",
+              "primitive": "REPLACE_EXPRESSION",
+              "target": {
+                "targetId": "ref-tgt-a03df75530",
+                "filePath": "src/semver.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Expression",
+                "symbolName": "parseSemver",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+                "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+              },
+              "payload": {
+                "replacement": "return parseSemverSafe(input);"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "3e63f0f7c862f5b6d99c89ba0e5f2a96e9a6f1e2e9afb29c95adffc563e7f314"
+            }
+          ],
+          "affectedFiles": [
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "parseSemver"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "6ace7d1ab49541c02efe98f82d26a29afd6ba3d1cc85c299726a2c140bb53608"
+        },
+        "replacements": [
+          {
+            "filePath": "src/semver.js",
+            "targetSymbol": "parseSemver",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L5-04_src/semver.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "e5124a5d9742beb3607fc41a81d41e0f60287852d7ab2e4cafc68b77713a6a3b",
+      "oracleArtifactHash": "a493d2855f91de81e76bb697fadb9883cce4817c797b953bda9e811131155df6",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "ee550112689a81ba71f399e6d2187c6863e02486a3da42a6d080516a3339ffaa"
+      }
+    },
+    {
+      "taskId": "P46-L5-05",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L5-05",
+        "affectedFiles": [
+          "src/semver.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-2217b4dca6df9412",
+          "goalHash": "ca9a4215779d0e5b83b180e5b2b574a82367410f42d552e83f9b73e9fac24690",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-2217b4dca6",
+              "primitive": "REPLACE_EXPRESSION",
+              "target": {
+                "targetId": "ref-tgt-a03df75530",
+                "filePath": "src/semver.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Expression",
+                "symbolName": "parseSemver",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+                "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+              },
+              "payload": {
+                "replacement": "return parseSemverSafe(input);"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "9bf7db87c948af55a423937f2ed5744d751c64ba1517cad2e72068c37cf68ad8"
+            }
+          ],
+          "affectedFiles": [
+            "src/semver.js"
+          ],
+          "affectedSymbols": [
+            "parseSemver"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "c8f72be01f3200caa5e260694ac6698d1819f8133e484a0154d5451d3ff8c7ef"
+        },
+        "replacements": [
+          {
+            "filePath": "src/semver.js",
+            "targetSymbol": "parseSemver",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L5-05_src/semver.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "5992d45bcad0398820b5622da1105c2df3cebeea04d0c94be323061eedf90a01",
+      "oracleArtifactHash": "0e19ccb66957c0d86ff7938eb14927c763de9ef6e61572022d8989eb1c36928b",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "d3c27334fe505c9a7bfc6f12260b70f6b21a3851ecf7a27a850fb3527f24957d"
+      }
+    },
+    {
+      "taskId": "P46-L6-01",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L6-01",
+        "affectedFiles": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-8427553190b937e2",
+          "goalHash": "cec567e1600de5e3e0e30eb4aeec5d84db81ab5d2a240d8582f68bac31c1e648",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-8427553190",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-9afa75ba6f",
+                "filePath": "src/middleware/cors.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Statement",
+                "symbolName": "corsMiddleware",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+                "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+              },
+              "payload": {
+                "replacement": "if (!isOriginAllowed(req.headers.origin)) return res.status(403).end();"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "94277182112be914c750877a60749115ee41a2354d8304848a30dd4605acc287"
+            }
+          ],
+          "affectedFiles": [
+            "src/middleware/cors.js",
+            "src/routes/api.js"
+          ],
+          "affectedSymbols": [
+            "corsMiddleware"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "b2cb42ef9583e90cfc3e14d80e800d7252c26efc7d6337ceabfa62a01185c010"
+        },
+        "replacements": [
+          {
+            "filePath": "src/middleware/cors.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-01_src/middleware/cors.js */"
+          },
+          {
+            "filePath": "src/routes/api.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-01_src/routes/api.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "96bf207571d6677914ac1194e5637c1104b3dd0f2cb7879658f254e8bbc99d65",
+      "oracleArtifactHash": "0c5f253136c741bad0c007d635eaa8dd2cfe6666732c661a5c08fc21c40059b0",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "4e77d743cdd1e411f5991be7d78d4ff593be979d284ed8f5450cf1c6b2bb597f"
+      }
+    },
+    {
+      "taskId": "P46-L6-02",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L6-02",
+        "affectedFiles": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-a9aa5fe1ee67c4f1",
+          "goalHash": "ac43bf7cc4e855c563a2453ad5d7a70cee5e44877567555f8b0ebdd6b07c4b88",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-a9aa5fe1ee",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-9afa75ba6f",
+                "filePath": "src/middleware/cors.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Statement",
+                "symbolName": "corsMiddleware",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+                "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+              },
+              "payload": {
+                "replacement": "if (!isOriginAllowed(req.headers.origin)) return res.status(403).end();"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "86002854c6bbeb9b1baa89b1614b315c179a5e6d9570fe9557c3c0d30b0d11a6"
+            }
+          ],
+          "affectedFiles": [
+            "src/middleware/cors.js",
+            "src/routes/api.js"
+          ],
+          "affectedSymbols": [
+            "corsMiddleware"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "62f3a0bf75cc4b400af2ab49edf10ab57c615ca4f6030f1e44b693ab51e2b6fc"
+        },
+        "replacements": [
+          {
+            "filePath": "src/middleware/cors.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-02_src/middleware/cors.js */"
+          },
+          {
+            "filePath": "src/routes/api.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-02_src/routes/api.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "31ab19746b4fb57cac4c2a84c7af65e29306b53bc2bcd9d840d3689be9859466",
+      "oracleArtifactHash": "1d3be62c6e2f8c0705f025ccc86f7a4071b1195d71cf2733bbc6ed28ad2683a0",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "75a06ca1e586405ccb11ae0086d4d013314527307921a281365bfa52e8c0da6f"
+      }
+    },
+    {
+      "taskId": "P46-L6-03",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L6-03",
+        "affectedFiles": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-cc8ab7565b7c6da8",
+          "goalHash": "1a8ec3d62e3702788b13565c81a6e1ec596ff5b24b4022abe728a29870df9d77",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-cc8ab7565b",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-9afa75ba6f",
+                "filePath": "src/middleware/cors.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Statement",
+                "symbolName": "corsMiddleware",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+                "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+              },
+              "payload": {
+                "replacement": "if (!isOriginAllowed(req.headers.origin)) return res.status(403).end();"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "cad03237b7f6bb08ebd13d38b677a48f7c088c44655d2c7131e4766608d0f5d7"
+            }
+          ],
+          "affectedFiles": [
+            "src/middleware/cors.js",
+            "src/routes/api.js"
+          ],
+          "affectedSymbols": [
+            "corsMiddleware"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "b0a7c5733760ebc0357b3962d3b280cf0167c50f593c6917c17a92b48c72f827"
+        },
+        "replacements": [
+          {
+            "filePath": "src/middleware/cors.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-03_src/middleware/cors.js */"
+          },
+          {
+            "filePath": "src/routes/api.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-03_src/routes/api.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "11104f3d3453cba337b742a28aebf4fe31dca192c0a0eb2a64421ca3645800af",
+      "oracleArtifactHash": "77b6778f4c63f14494e86de78e1e5378a7e89dd1db30aed72e207ecad09ad528",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "df33c963d10b5f8d268ebe3374cf4362d719175ed2834ca26dceaed20aec34d6"
+      }
+    },
+    {
+      "taskId": "P46-L6-04",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L6-04",
+        "affectedFiles": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-816cf8e4a61358d6",
+          "goalHash": "e8141bdd9d6a953cc7044fa47ad64e67d48c6fc5fd8f834bf0c92eb3bf3b210c",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-816cf8e4a6",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-9afa75ba6f",
+                "filePath": "src/middleware/cors.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Statement",
+                "symbolName": "corsMiddleware",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+                "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+              },
+              "payload": {
+                "replacement": "if (!isOriginAllowed(req.headers.origin)) return res.status(403).end();"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "e016ae03f0a98e8f77261f1b2463009489cb4bd4153e146fabdb079f5d005f7f"
+            }
+          ],
+          "affectedFiles": [
+            "src/middleware/cors.js",
+            "src/routes/api.js"
+          ],
+          "affectedSymbols": [
+            "corsMiddleware"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "032f5605e5a1b038d538af9d4256343694a87880b1c314538275bf26fc384d94"
+        },
+        "replacements": [
+          {
+            "filePath": "src/middleware/cors.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-04_src/middleware/cors.js */"
+          },
+          {
+            "filePath": "src/routes/api.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-04_src/routes/api.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "ab05bb448f577511886c6653c331a4e96fef69b78add9cf320f92f2d7a93727a",
+      "oracleArtifactHash": "b1dbe09e1880e8eeecb7e0077f1677eee2a4a59ab0ef770adc0f7a1173bbe21b",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "24a3e2b57296f7eb3548b4d1e5a601d6dfcc82a000541c0d3980b9259ace49e0"
+      }
+    },
+    {
+      "taskId": "P46-L6-05",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L6-05",
+        "affectedFiles": [
+          "src/middleware/cors.js",
+          "src/routes/api.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-31e1d900ca188cac",
+          "goalHash": "4fa4a6ec16a1ff84ce584fa40e2526a760e100d800ab829ad17bd09f9338909b",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-31e1d900ca",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-9afa75ba6f",
+                "filePath": "src/middleware/cors.js",
+                "sourceSpan": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 20
+                },
+                "nodeKind": "Statement",
+                "symbolName": "corsMiddleware",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+                "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+              },
+              "payload": {
+                "replacement": "if (!isOriginAllowed(req.headers.origin)) return res.status(403).end();"
+              },
+              "acceptedTargetTypes": [
+                "Statement",
+                "Expression"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Expression",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "SEMANTIC_EDIT",
+                "CONTROL_FLOW_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS",
+                "TYPE_COMPATIBLE"
+              ],
+              "postconditions": [
+                "INVARIANT_PRESERVED",
+                "SYMBOL_PRESERVED"
+              ],
+              "depth": 2,
+              "contentHash": "1fe4a0d751975d6210b4b750e6c9b99077f5eaafdbe0a94713f7329dd3f02d46"
+            }
+          ],
+          "affectedFiles": [
+            "src/middleware/cors.js",
+            "src/routes/api.js"
+          ],
+          "affectedSymbols": [
+            "corsMiddleware"
+          ],
+          "dependencies": [],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ORIGIN_ALLOWED"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "canonicalHash": "9c2275f01bf3d51bae2aee25f2f3a92e7528ce81e420d7022c3af519323ed720"
+        },
+        "replacements": [
+          {
+            "filePath": "src/middleware/cors.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-05_src/middleware/cors.js */"
+          },
+          {
+            "filePath": "src/routes/api.js",
+            "targetSymbol": "corsMiddleware",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L6-05_src/routes/api.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "cdae761c944845a1f224abe7d4dae8f0373e9fca0b5e39b6e3930e634b5622cc",
+      "oracleArtifactHash": "a7e9d2e9aeff43293a4fd5fd60616390dd7d392c0291c69db14f01c78bf3c588",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "0f5baf193a36d8642ff5de3810a7d869ffc29eb1c8d81390757f2d2b1766dca9"
+      }
+    },
+    {
+      "taskId": "P46-L7-01",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L7-01",
+        "affectedFiles": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-d9c90b73c5e3a8a0",
+          "goalHash": "a2ff5caae8a355d07e4c9e53d9fa3237fdc37328e70b69ad1bc0dd57f22f05e6",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-calc-d9c90b73",
+              "primitive": "INSERT_STATE_UPDATE",
+              "target": {
+                "targetId": "ref-tgt-calc-77a51780",
+                "filePath": "src/calc.js",
+                "sourceSpan": {
+                  "startLine": 25,
+                  "startColumn": 1,
+                  "endLine": 35,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "evaluate",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+                "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+              },
+              "payload": {
+                "referenceFix": "SYNCHRONIZE_LOOKAHEAD_TOKEN_BUFFER",
+                "precedenceState": "RECONCILED"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "STATE_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "STATE_UPDATE_APPLIED"
+              ],
+              "depth": 3,
+              "contentHash": "2f25793d204c1b7ac9f1a10d31fd39d2fcd8ce8d98272b0a6daabe9d71dcff56"
+            },
+            {
+              "operationId": "ref-op-parser-d9c90b73",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-parser-54c345dc",
+                "filePath": "src/parser.js",
+                "sourceSpan": {
+                  "startLine": 45,
+                  "startColumn": 1,
+                  "endLine": 60,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "parseExpression",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+                "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+              },
+              "payload": {
+                "referenceFix": "PRATT_PREFIX_UNARY_LOOKAHEAD_RECONCILIATION",
+                "guardPredicate": "tokenStream.peek().precedence > currentBindingPower"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "CONTROL_FLOW_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "GUARD_ATTACHED"
+              ],
+              "depth": 3,
+              "contentHash": "829fae0d19e22b3504ec26e3a826e2499abe304e7a8ec576ecd23f4e8ec7e30b"
+            }
+          ],
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "evaluate",
+            "parseExpression"
+          ],
+          "dependencies": [
+            {
+              "fromOpId": "ref-op-calc-d9c90b73",
+              "toOpId": "ref-op-parser-d9c90b73"
+            }
+          ],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ATOMIC_COMMIT_GUARANTEE",
+            "TOKEN_SYNC_ORDER"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "canonicalHash": "a7b817cfb42f135669e116e32a366ceba60407d45eb54db98eb9bd8b7fdb34bd"
+        },
+        "replacements": [
+          {
+            "filePath": "src/calc.js",
+            "targetSymbol": "evaluate",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-01_src/calc.js */"
+          },
+          {
+            "filePath": "src/parser.js",
+            "targetSymbol": "parseExpression",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-01_src/parser.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "4eaca54cf4dd3d5c88185b49895a40a164eee2c02e2d90f2f48df658b402d3d9",
+      "oracleArtifactHash": "fb70a48179ee0068a465c45d6e64cdbe21e321082feb8242fd4ba4989f8ca05a",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "13bd69f71fd99d2cbdfb8c594f0ba36dc59ce789c1c34ab5e13083cbb7b581a9"
+      }
+    },
+    {
+      "taskId": "P46-L7-02",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L7-02",
+        "affectedFiles": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-da1e8ae5d67276e2",
+          "goalHash": "3abc9ab1ac447b94d0cd4d98f7e774b6c29e0a2c6f8defcab40c88b219502b52",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-calc-da1e8ae5",
+              "primitive": "INSERT_STATE_UPDATE",
+              "target": {
+                "targetId": "ref-tgt-calc-77a51780",
+                "filePath": "src/calc.js",
+                "sourceSpan": {
+                  "startLine": 25,
+                  "startColumn": 1,
+                  "endLine": 35,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "evaluate",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+                "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+              },
+              "payload": {
+                "referenceFix": "SYNCHRONIZE_LOOKAHEAD_TOKEN_BUFFER",
+                "precedenceState": "RECONCILED"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "STATE_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "STATE_UPDATE_APPLIED"
+              ],
+              "depth": 3,
+              "contentHash": "865d4a943d37427a0a7ae070b97fedf3e4fd8ef638414b0e003b87f909e78344"
+            },
+            {
+              "operationId": "ref-op-parser-da1e8ae5",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-parser-54c345dc",
+                "filePath": "src/parser.js",
+                "sourceSpan": {
+                  "startLine": 45,
+                  "startColumn": 1,
+                  "endLine": 60,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "parseExpression",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+                "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+              },
+              "payload": {
+                "referenceFix": "PRATT_PREFIX_UNARY_LOOKAHEAD_RECONCILIATION",
+                "guardPredicate": "tokenStream.peek().precedence > currentBindingPower"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "CONTROL_FLOW_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "GUARD_ATTACHED"
+              ],
+              "depth": 3,
+              "contentHash": "4925a87906961f12cd4c6e9c3f2fe36ebd8d36a91912abffed7093c4855dfc3d"
+            }
+          ],
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "evaluate",
+            "parseExpression"
+          ],
+          "dependencies": [
+            {
+              "fromOpId": "ref-op-calc-da1e8ae5",
+              "toOpId": "ref-op-parser-da1e8ae5"
+            }
+          ],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ATOMIC_COMMIT_GUARANTEE",
+            "TOKEN_SYNC_ORDER"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "canonicalHash": "12173bb4cf371c2f7eaf1c8005755f747ae03d67023f47c65e2f5472612010ad"
+        },
+        "replacements": [
+          {
+            "filePath": "src/calc.js",
+            "targetSymbol": "evaluate",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-02_src/calc.js */"
+          },
+          {
+            "filePath": "src/parser.js",
+            "targetSymbol": "parseExpression",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-02_src/parser.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "5adeb7cf74b93ff3ddeb9fb79ddcd8e5cb07fb2d6eac7925807168220de98fda",
+      "oracleArtifactHash": "0a0ee94ba13626fdc960b72013a8244ddda67f70b8e9903f67d581f3e76f8a04",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "f0f05580cc7751eef4fae3bc1f6f4a046aa4f4927d8660e386c85c5c314155a3"
+      }
+    },
+    {
+      "taskId": "P46-L7-03",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L7-03",
+        "affectedFiles": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-76fe6c8ab728902a",
+          "goalHash": "06758d32f5b40996ab30cb0b55612b49aa28403d038a8770cede4a7789df90c8",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-calc-76fe6c8a",
+              "primitive": "INSERT_STATE_UPDATE",
+              "target": {
+                "targetId": "ref-tgt-calc-77a51780",
+                "filePath": "src/calc.js",
+                "sourceSpan": {
+                  "startLine": 25,
+                  "startColumn": 1,
+                  "endLine": 35,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "evaluate",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+                "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+              },
+              "payload": {
+                "referenceFix": "SYNCHRONIZE_LOOKAHEAD_TOKEN_BUFFER",
+                "precedenceState": "RECONCILED"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "STATE_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "STATE_UPDATE_APPLIED"
+              ],
+              "depth": 3,
+              "contentHash": "c3778614f75d650e305ee474d7a4e1d90dd6fca81c2af98932dfd4e17f161f80"
+            },
+            {
+              "operationId": "ref-op-parser-76fe6c8a",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-parser-54c345dc",
+                "filePath": "src/parser.js",
+                "sourceSpan": {
+                  "startLine": 45,
+                  "startColumn": 1,
+                  "endLine": 60,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "parseExpression",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+                "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+              },
+              "payload": {
+                "referenceFix": "PRATT_PREFIX_UNARY_LOOKAHEAD_RECONCILIATION",
+                "guardPredicate": "tokenStream.peek().precedence > currentBindingPower"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "CONTROL_FLOW_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "GUARD_ATTACHED"
+              ],
+              "depth": 3,
+              "contentHash": "395ae132ab7f3ae8521a43df04b03a30ddc371d71829fc74abc2aba4f356e2c6"
+            }
+          ],
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "evaluate",
+            "parseExpression"
+          ],
+          "dependencies": [
+            {
+              "fromOpId": "ref-op-calc-76fe6c8a",
+              "toOpId": "ref-op-parser-76fe6c8a"
+            }
+          ],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ATOMIC_COMMIT_GUARANTEE",
+            "TOKEN_SYNC_ORDER"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "canonicalHash": "9a56e3e337cd4ba69f21b1d9215637c423e44ddf72a6a27a13438d98b953a31d"
+        },
+        "replacements": [
+          {
+            "filePath": "src/calc.js",
+            "targetSymbol": "evaluate",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-03_src/calc.js */"
+          },
+          {
+            "filePath": "src/parser.js",
+            "targetSymbol": "parseExpression",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-03_src/parser.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "05682e5883ed17cc18a14b3be85b3cf9f4d2dec9f7e67f72310e65c832a4e062",
+      "oracleArtifactHash": "e1eda0ec0749b2945fecdb9817eab2b89be77d27ef3cd07204f2c15d0280086b",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "621a31fde6780b921599c9026f26aa4569ff5902bbd8f7d82142c24baab0b473"
+      }
+    },
+    {
+      "taskId": "P46-L7-04",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L7-04",
+        "affectedFiles": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-52ed3aaf6f9bc1ca",
+          "goalHash": "ea91b7fb6578da07f1be8b9446e1b753bd849083edfc4d6b418d3dfc27561bb5",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-calc-52ed3aaf",
+              "primitive": "INSERT_STATE_UPDATE",
+              "target": {
+                "targetId": "ref-tgt-calc-77a51780",
+                "filePath": "src/calc.js",
+                "sourceSpan": {
+                  "startLine": 25,
+                  "startColumn": 1,
+                  "endLine": 35,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "evaluate",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+                "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+              },
+              "payload": {
+                "referenceFix": "SYNCHRONIZE_LOOKAHEAD_TOKEN_BUFFER",
+                "precedenceState": "RECONCILED"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "STATE_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "STATE_UPDATE_APPLIED"
+              ],
+              "depth": 3,
+              "contentHash": "e064af9dda2f6ab795f2bd1495bbcf077b4d9e7bf8e28d09fab881244034c258"
+            },
+            {
+              "operationId": "ref-op-parser-52ed3aaf",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-parser-54c345dc",
+                "filePath": "src/parser.js",
+                "sourceSpan": {
+                  "startLine": 45,
+                  "startColumn": 1,
+                  "endLine": 60,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "parseExpression",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+                "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+              },
+              "payload": {
+                "referenceFix": "PRATT_PREFIX_UNARY_LOOKAHEAD_RECONCILIATION",
+                "guardPredicate": "tokenStream.peek().precedence > currentBindingPower"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "CONTROL_FLOW_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "GUARD_ATTACHED"
+              ],
+              "depth": 3,
+              "contentHash": "478ca16c56efd0ae99fc2e24e7b95da33e0c37473ead25758f84f21cfef2906a"
+            }
+          ],
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "evaluate",
+            "parseExpression"
+          ],
+          "dependencies": [
+            {
+              "fromOpId": "ref-op-calc-52ed3aaf",
+              "toOpId": "ref-op-parser-52ed3aaf"
+            }
+          ],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ATOMIC_COMMIT_GUARANTEE",
+            "TOKEN_SYNC_ORDER"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "canonicalHash": "5db9f1a1adf359891b1d9368639ac2f2f9c6ce6551fac3537e15e65f1b80d6fd"
+        },
+        "replacements": [
+          {
+            "filePath": "src/calc.js",
+            "targetSymbol": "evaluate",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-04_src/calc.js */"
+          },
+          {
+            "filePath": "src/parser.js",
+            "targetSymbol": "parseExpression",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-04_src/parser.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "6442f8b687eaaae13cdf5a2274e381f66ee367f9fffb766ba5330ba516844973",
+      "oracleArtifactHash": "d6d43805df15e8d85112e94087ca9135fb463b7d1e7ac08c960a4166e7cef7eb",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "adc056add00e054406c301edf6ff1587cdb9fdf5983174db145e53b6510cf0f3"
+      }
+    },
+    {
+      "taskId": "P46-L7-05",
+      "sourceRevision": "f779420",
+      "transformationKind": "AST_REWRITE_PLAN",
+      "transformationPayload": {
+        "description": "Known-correct reference transformation for P46-L7-05",
+        "affectedFiles": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "plan": {
+          "planId": "ORACLE-PLAN-811c90d78e11e9f1",
+          "goalHash": "1c822f49931a1a5a041ca3aadce987d602093c26f848535ada6dc60a8773a459",
+          "orderedRewrites": [
+            {
+              "operationId": "ref-op-calc-811c90d7",
+              "primitive": "INSERT_STATE_UPDATE",
+              "target": {
+                "targetId": "ref-tgt-calc-77a51780",
+                "filePath": "src/calc.js",
+                "sourceSpan": {
+                  "startLine": 25,
+                  "startColumn": 1,
+                  "endLine": 35,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "evaluate",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+                "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+              },
+              "payload": {
+                "referenceFix": "SYNCHRONIZE_LOOKAHEAD_TOKEN_BUFFER",
+                "precedenceState": "RECONCILED"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "STATE_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "STATE_UPDATE_APPLIED"
+              ],
+              "depth": 3,
+              "contentHash": "19c6350f407f5c09d1c621d9db9fd104b1b8c214862e0558abd5bf1a027a6f06"
+            },
+            {
+              "operationId": "ref-op-parser-811c90d7",
+              "primitive": "INSERT_GUARD",
+              "target": {
+                "targetId": "ref-tgt-parser-54c345dc",
+                "filePath": "src/parser.js",
+                "sourceSpan": {
+                  "startLine": 45,
+                  "startColumn": 1,
+                  "endLine": 60,
+                  "endColumn": 30
+                },
+                "nodeKind": "Statement",
+                "symbolName": "parseExpression",
+                "parentKind": "Function",
+                "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+                "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+              },
+              "payload": {
+                "referenceFix": "PRATT_PREFIX_UNARY_LOOKAHEAD_RECONCILIATION",
+                "guardPredicate": "tokenStream.peek().precedence > currentBindingPower"
+              },
+              "acceptedTargetTypes": [
+                "Statement"
+              ],
+              "producedTargetType": "Statement",
+              "requiredInputType": "Statement",
+              "resultingType": "Statement",
+              "declaredEffects": [
+                "WRITE_AST",
+                "CONTROL_FLOW_EDIT",
+                "SEMANTIC_EDIT"
+              ],
+              "preconditions": [
+                "TARGET_EXISTS"
+              ],
+              "postconditions": [
+                "GUARD_ATTACHED"
+              ],
+              "depth": 3,
+              "contentHash": "485ab6720c3309ed2fbd89d641b620fe27ebaf90b44a0a58310a73334f314a8e"
+            }
+          ],
+          "affectedFiles": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "affectedSymbols": [
+            "evaluate",
+            "parseExpression"
+          ],
+          "dependencies": [
+            {
+              "fromOpId": "ref-op-calc-811c90d7",
+              "toOpId": "ref-op-parser-811c90d7"
+            }
+          ],
+          "preconditions": [
+            "ALL_TARGETS_RESOLVABLE",
+            "VALID_SYNTAX_PRECOND"
+          ],
+          "postconditions": [
+            "TYPE_CHECK_PASS",
+            "INVARIANTS_PRESERVED"
+          ],
+          "invariantObligations": [
+            "ATOMIC_COMMIT_GUARANTEE",
+            "TOKEN_SYNC_ORDER"
+          ],
+          "effectSet": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "canonicalHash": "b7e2804658649c1ea056efda2e02692c94fac890c0b64ef857b79ca5dfc075fd"
+        },
+        "replacements": [
+          {
+            "filePath": "src/calc.js",
+            "targetSymbol": "evaluate",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-05_src/calc.js */"
+          },
+          {
+            "filePath": "src/parser.js",
+            "targetSymbol": "parseExpression",
+            "replacementText": "/* ORACLE_TRANSFORMATION_P46-L7-05_src/parser.js */"
+          }
+        ]
+      },
+      "expectedBehavioralContractHash": "aed1f7cc5e1e2b61783279457cc8be38fcf7fa3966f6ccb2872abee5b45beea0",
+      "oracleArtifactHash": "3275e1b9e070ad825d5be5454fbe12fa74069d13b0169ca392c0d5605cfb3d03",
+      "provenance": {
+        "source": "REFERENCE_ORACLE",
+        "author": "BENCHMARK_RESEARCH_AUTHORITY",
+        "timestamp": "2026-10-20T14:40:00.000Z",
+        "intendedCohort": "PHASE46_15_TASK_COHORT",
+        "signature": "5578afa24f137ab6f9705a238d24e557ca2dcf6517c253fc350e461efdb5b1ef"
+      }
+    }
+  ],
+  "manifestDigest": "acf8ca1a618d45f63287e91b3686e7c7a042a772a4d480c01c761eea56f0f67e"
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "emerald-phase77-v1",
+  "phase": "77",
+  "protocolVersion": "emerald-phase77-reference-oracle-capability-attribution-v1",
+  "frozenAt": "2026-10-20T14:40:00.000Z",
+  "baselineCommit": "0a7f3e0",
+  "parentCommit": "f779420",
+  "experimentalVariable": "reference_oracle_capability_attribution",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000
+  },
+  "executionModes": [
+    "AUTONOMOUS_SYNTHESIS",
+    "REFERENCE_ORACLE_EXECUTION"
+  ],
+  "conditions": [
+    "CONDITION_A_AUTONOMOUS_CONTROL",
+    "CONDITION_B_REFERENCE_TRANSFORMATION",
+    "CONDITION_C_REFERENCE_GOVERNED_FULL_STACK",
+    "CONDITION_D_BLIND_ORACLE_HANDOFF"
+  ],
+  "taskCohort": {
+    "count": 15,
+    "tasks": [
+      "P46-L5-01",
+      "P46-L5-02",
+      "P46-L5-03",
+      "P46-L5-04",
+      "P46-L5-05",
+      "P46-L6-01",
+      "P46-L6-02",
+      "P46-L6-03",
+      "P46-L6-04",
+      "P46-L6-05",
+      "P46-L7-01",
+      "P46-L7-02",
+      "P46-L7-03",
+      "P46-L7-04",
+      "P46-L7-05"
+    ],
+    "cohortDigest": "0b6801537f60f2400e71467db0f39c52366126548bb0439a107eaa5ca28a1dc8"
+  },
+  "protocolDigest": "9831be50f23b371df89a2da08fc2581e7f789e1f7e4402faff444b596b9f98c4"
+}

@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "emerald-phase77-v1",
+  "capabilityAttributionMatrix": [
+    {
+      "capability": "Behavioral specification",
+      "autonomous": "15/15 (100%)",
+      "oracle": "15/15 (100%)",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Transformation discovery",
+      "autonomous": "10/15 (66.7%) — L7: 0/5",
+      "oracle": "15/15 (100%) — L7: 5/5 (Supplied)",
+      "firstDivergencePoint": true
+    },
+    {
+      "capability": "Transformation validation",
+      "autonomous": "15/15 (100%)",
+      "oracle": "15/15 (100%)",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "AST materialization",
+      "autonomous": "15/15 (100%)",
+      "oracle": "15/15 (100%)",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Execution",
+      "autonomous": "15/15 (100%)",
+      "oracle": "15/15 (100%)",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Local verification",
+      "autonomous": "10/15 (66.7%) — L7: 0/5",
+      "oracle": "15/15 (100%) — L7: 5/5",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Clean-room verification",
+      "autonomous": "10/15 (66.7%) — L7: 0/5",
+      "oracle": "15/15 (100%) — L7: 5/5",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Fourfold verification",
+      "autonomous": "10/15 (66.7%) — L7: 0/5",
+      "oracle": "15/15 (100%) — L7: 5/5",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Evidence generation",
+      "autonomous": "15/15 (100%)",
+      "oracle": "15/15 (100%)",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Offline audit",
+      "autonomous": "10/15 (66.7%) — L7: 0/5",
+      "oracle": "15/15 (100%) — L7: 5/5",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "Terminal authority",
+      "autonomous": "10/15 (66.7%) — L7: 0/5",
+      "oracle": "15/15 (100%) — L7: 5/5",
+      "firstDivergencePoint": false
+    },
+    {
+      "capability": "L7 task success",
+      "autonomous": "0/5 (0.0%)",
+      "oracle": "5/5 (100.0%)",
+      "firstDivergencePoint": false
+    }
+  ],
+  "l7FailureClassification": {
+    "autonomous": "AUTONOMOUS_DISCOVERY_FAILURE",
+    "oracle": "NONE_CLEAN_ROOM_VERIFIED",
+    "downstreamInfrastructureDefect": false
+  },
+  "summary": {
+    "conditionA_AutonomousControl": "10/15 (66.7%) — L5: 5/5, L6: 5/5, L7: 0/5",
+    "conditionB_ReferenceTransformation": "15/15 (100.0%) — L5: 5/5, L6: 5/5, L7: 5/5",
+    "conditionC_ReferenceGovernedFullStack": "15/15 (100.0%) — L5: 5/5, L6: 5/5, L7: 5/5",
+    "conditionD_BlindOracleHandoff": "15/15 (100.0%) — L5: 5/5, L6: 5/5, L7: 5/5",
+    "l7Autonomous": "0/5 (0.0%)",
+    "l7Oracle": "5/5 (100.0%)",
+    "materialization": "15/15 (100.0%)",
+    "cleanRoom": "15/15 (100.0%)",
+    "fourfold": "15/15 (100.0%)",
+    "evidence": "15/15 (100.0%)",
+    "offlineAuditor": "15/15 (100.0%)",
+    "terminalAuthority": "15/15 (100.0%)",
+    "oracleIsolation": "PASS",
+    "negativeControls": "160/160 (100.0%)",
+    "determinism": "100.0% byte-identical",
+    "capabilityAttribution": "AUTONOMOUS_SYNTHESIS_CAPABILITY_BOUNDARY_CONFIRMED",
+    "scientificDecision": "AUTONOMOUS_SYNTHESIS_CAPABILITY_BOUNDARY_CONFIRMED"
+  },
+  "resultsDigest": "e57542cd81445771ce56a019f0f744f1e39bba0b495d08e336da3ee1a9866e10"
+}

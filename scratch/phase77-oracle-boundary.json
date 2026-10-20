@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "emerald-phase77-v1",
+  "firewallRules": [
+    "AUTONOMOUS_ORACLE_ACCESS_FORBIDDEN",
+    "ORACLE_EXECUTION_AUTHORITY_FORBIDDEN",
+    "PROMPT_ORACLE_LEAKAGE_FORBIDDEN",
+    "CONTEXT_ORACLE_LEAKAGE_FORBIDDEN",
+    "TOOL_RESULT_ORACLE_LEAKAGE_FORBIDDEN",
+    "SCOPE_ESCALATION_FORBIDDEN",
+    "HASH_MISMATCH_FAIL_CLOSED",
+    "SOURCE_REVISION_MISMATCH_FAIL_CLOSED",
+    "BEHAVIOR_CONTRACT_MISMATCH_FAIL_CLOSED",
+    "CLEAN_ROOM_BYPASS_FORBIDDEN",
+    "FOURFOLD_BYPASS_FORBIDDEN",
+    "TERMINAL_AUTHORITY_BYPASS_FORBIDDEN"
+  ],
+  "oracleIsolation": "PASS",
+  "oracleIntentionallySupplied": true,
+  "autonomousSynthesisAccessToOracle": false,
+  "unintendedOracleLeakage": "ZERO",
+  "boundaryControlsVerified": 14,
+  "boundaryDigest": "480cff0ed1b3275ae99c5c99b00b1e191f79ed12a9ea5f3c3b6cd2d7cfbd1360"
+}
