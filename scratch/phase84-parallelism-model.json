@@ -1,0 +1,27 @@
+{
+  "phase": 84,
+  "protocolDigest": "11cdaf3aaee91a5cc3ec1fe74f54db41803a4f8955d886d13131b79cb724cc33",
+  "sourceRevision": "a267b9a",
+  "generatedAt": "2026-10-21T00:30:00.000Z",
+  "content": {
+    "modes": [
+      "SEQUENTIAL",
+      "PARALLEL_2",
+      "PARALLEL_4",
+      "ADAPTIVE_PARALLEL"
+    ],
+    "limits": {
+      "maxHostConcurrency": 4,
+      "maxHostMemoryMb": 4096,
+      "maxHostCpus": 4
+    },
+    "adjudicationOrder": [
+      "1. authoritative verification completeness",
+      "2. source revision equality",
+      "3. policy eligibility (reviewStatus)",
+      "4. evidence completeness",
+      "5. candidate identity lexical ordering"
+    ]
+  },
+  "contentDigest": "01e734fbb6e1129508a3b6cbe7a54aa2bc0c71d514d001a0767d1dbe9dab58da"
+}

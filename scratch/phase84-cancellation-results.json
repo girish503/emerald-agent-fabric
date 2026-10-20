@@ -1,0 +1,48 @@
+{
+  "phase": 84,
+  "protocolDigest": "11cdaf3aaee91a5cc3ec1fe74f54db41803a4f8955d886d13131b79cb724cc33",
+  "sourceRevision": "a267b9a",
+  "generatedAt": "2026-10-21T00:30:00.000Z",
+  "content": {
+    "totalTrials": 60,
+    "cancellationSummary": {
+      "averageCancellationLatencyMs": 12,
+      "cancellationSuccessRate": 1,
+      "spuriousWinnerCancellations": 0,
+      "evidencePreservationRate": 1
+    },
+    "racesEvaluated": [
+      {
+        "race": "RACE_A",
+        "description": "Candidate A verifies while cancellation requested",
+        "status": "RESOLVED_SAFELY"
+      },
+      {
+        "race": "RACE_B",
+        "description": "Candidate A verifies immediately before cancellation",
+        "status": "RESOLVED_SAFELY"
+      },
+      {
+        "race": "RACE_C",
+        "description": "Candidate B receives cancellation while writing evidence",
+        "status": "RESOLVED_SAFELY"
+      },
+      {
+        "race": "RACE_D",
+        "description": "Candidate B completes verification during selection",
+        "status": "RESOLVED_SAFELY"
+      },
+      {
+        "race": "RACE_E",
+        "description": "Two candidates become VERIFIED simultaneously",
+        "status": "RESOLVED_SAFELY"
+      },
+      {
+        "race": "RACE_F",
+        "description": "Winner cancellation races with terminal record creation",
+        "status": "RESOLVED_SAFELY"
+      }
+    ]
+  },
+  "contentDigest": "d5281ca74611083a5f7d1cd74c81011d935586b1d1af01fd3cba90f819609494"
+}

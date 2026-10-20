@@ -1,0 +1,22 @@
+{
+  "phase": 84,
+  "protocolDigest": "11cdaf3aaee91a5cc3ec1fe74f54db41803a4f8955d886d13131b79cb724cc33",
+  "sourceRevision": "a267b9a",
+  "generatedAt": "2026-10-21T00:30:00.000Z",
+  "content": {
+    "aggregateComputeCostMs": {
+      "sequential": 24350,
+      "parallel2": 24350,
+      "parallel4": 46550,
+      "adaptive": 46550
+    },
+    "meanEfficiency": {
+      "sequential": 0.9129262814829822,
+      "parallel2": 0.9129262814829822,
+      "parallel4": 0.47723896732217713,
+      "adaptive": 0.47723896732217713
+    },
+    "tradeoffSummary": "Parallelism maintains or slightly improves wall-clock latency while increasing aggregate compute cost by running losing hypotheses speculatively."
+  },
+  "contentDigest": "d797d52644d536386d702db33c1e10cec71bca5378861e40770d8c213c23d533"
+}

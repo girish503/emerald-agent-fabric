@@ -1,0 +1,26 @@
+{
+  "phase": 84,
+  "protocolDigest": "11cdaf3aaee91a5cc3ec1fe74f54db41803a4f8955d886d13131b79cb724cc33",
+  "sourceRevision": "a267b9a",
+  "generatedAt": "2026-10-21T00:30:00.000Z",
+  "content": {
+    "phase": 84,
+    "baselineCommit": "a267b9a",
+    "mission": "Speculative Parallel Multi-Hypothesis Clean-Room Execution",
+    "scientificQuestion": "Can speculative parallel verification reduce wall-clock repair latency without weakening clean-room independence, evidence provenance, cancellation safety, or terminal authority?",
+    "centralArchitecturalPrinciple": "Parallelism may race toward verification. Only independently verified evidence may win.",
+    "terminalInvariant": "terminalSuccessCount(workflowId) <= 1",
+    "modes": {
+      "A": "SEQUENTIAL (1 clean-room worker at a time)",
+      "B": "PARALLEL_2 (max 2 concurrent clean-room workers)",
+      "C": "PARALLEL_4 (max 4 concurrent clean-room workers)",
+      "D": "ADAPTIVE_PARALLEL (bounded by resource budgets and task complexity)"
+    },
+    "cohortSize": 15,
+    "candidatesPerWorkflow": 3,
+    "totalCandidateHypotheses": 45,
+    "totalTrials": 60,
+    "negativeControlCount": 20,
+    "cumulativeNegativeControlCount": 280
+  }
+}

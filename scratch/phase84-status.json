@@ -1,0 +1,30 @@
+{
+  "phase": 84,
+  "protocolDigest": "11cdaf3aaee91a5cc3ec1fe74f54db41803a4f8955d886d13131b79cb724cc33",
+  "sourceRevision": "a267b9a",
+  "generatedAt": "2026-10-21T00:30:00.000Z",
+  "content": {
+    "phase": 84,
+    "title": "Speculative Parallel Multi-Hypothesis Clean-Room Execution",
+    "baselineRevision": "a267b9a",
+    "status": "COMPLETED",
+    "decision": "LATENCY_GAIN_COMPUTE_TRADEOFF",
+    "metrics": {
+      "totalTrials": 60,
+      "terminalCorrectnessRate": 1,
+      "multipleTerminalSuccessViolations": 0,
+      "negativeControlsPassed": 20,
+      "negativeControlsTotal": 20,
+      "cumulativeNegativeControlsPassed": 280,
+      "cumulativeNegativeControlsTotal": 280,
+      "meanSpeedupVsSequential": {
+        "PARALLEL_2": "1.00",
+        "PARALLEL_4": "1.00",
+        "ADAPTIVE_PARALLEL": "1.00"
+      },
+      "determinism": "100%"
+    },
+    "generatedAt": "2026-10-21T00:30:00.000Z"
+  },
+  "contentDigest": "482965e62762138360e2a3739c478db5bd27c6694d6e489bdeea20d5aa7344cd"
+}

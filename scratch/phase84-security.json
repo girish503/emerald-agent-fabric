@@ -1,0 +1,169 @@
+{
+  "phase": 84,
+  "protocolDigest": "11cdaf3aaee91a5cc3ec1fe74f54db41803a4f8955d886d13131b79cb724cc33",
+  "sourceRevision": "a267b9a",
+  "generatedAt": "2026-10-21T00:30:00.000Z",
+  "content": {
+    "phaseNegativeControls": {
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "results": [
+        {
+          "id": "N261",
+          "name": "Cross-Candidate Workspace Contamination",
+          "status": "PASS",
+          "actualClass": "WORKSPACES_ISOLATED",
+          "evidence": "Each speculative candidate allocated independent clean-room directory"
+        },
+        {
+          "id": "N262",
+          "name": "Candidate Patch Substitution",
+          "status": "PASS",
+          "actualClass": "SUBSTITUTION_TRAPPED",
+          "evidence": "Cryptographic binding trapped substituted patch digest"
+        },
+        {
+          "id": "N263",
+          "name": "Candidate Identity Collision",
+          "status": "PASS",
+          "actualClass": "IDENTITIES_DISAMBIGUATED",
+          "evidence": "Distinct proposals produced distinct SHA-256 identities"
+        },
+        {
+          "id": "N264",
+          "name": "Baseline Mutation Before Fork",
+          "status": "PASS",
+          "actualClass": "BASELINE_IMMUTABLE",
+          "evidence": "Git tree checkout strictly read-only prior to candidate clean-room clone"
+        },
+        {
+          "id": "N265",
+          "name": "Winner Identity Spoofing",
+          "status": "PASS",
+          "actualClass": "SPOOF_BLOCKED",
+          "evidence": "Rejected unverified candidate: NO_VERIFIED_CANDIDATE: None of the candidate hypotheses achieved verification"
+        },
+        {
+          "id": "N266",
+          "name": "Winner/Loser Evidence Substitution",
+          "status": "PASS",
+          "actualClass": "SUBSTITUTION_REJECTED",
+          "evidence": "Evidence candidateId must match terminal winner candidateId"
+        },
+        {
+          "id": "N267",
+          "name": "Cancellation-as-Success Injection",
+          "status": "PASS",
+          "actualClass": "INJECTION_BLOCKED",
+          "evidence": "CANCELLED state explicitly segregated from VERIFIED_CANDIDATE"
+        },
+        {
+          "id": "N268",
+          "name": "Cancellation-as-Failure Injection",
+          "status": "PASS",
+          "actualClass": "INJECTION_BLOCKED",
+          "evidence": "Cancelled candidate preserved as CANCELLED rather than FAILED"
+        },
+        {
+          "id": "N269",
+          "name": "Cancellation Race Authority Bypass",
+          "status": "PASS",
+          "actualClass": "RACE_FENCED",
+          "evidence": "Cancellation race resolved with terminalSuccessCount === 1"
+        },
+        {
+          "id": "N270",
+          "name": "Verified-Candidate Spoofing",
+          "status": "PASS",
+          "actualClass": "SPOOF_BLOCKED",
+          "evidence": "Blocked spoofed candidate: NO_VERIFIED_CANDIDATE: None of the candidate hypotheses achieved verification"
+        },
+        {
+          "id": "N271",
+          "name": "Multiple Terminal Success Injection",
+          "status": "PASS",
+          "actualClass": "INJECTION_BLOCKED",
+          "evidence": "terminalSuccessCount <= 1 strictly invariant in terminal authority index"
+        },
+        {
+          "id": "N272",
+          "name": "Parallel Worker Authority Escalation",
+          "status": "PASS",
+          "actualClass": "AUTHORITY_FIREWALL_MAINTAINED",
+          "evidence": "Workers execute screening/clean-room only; authority gated by Adjudicator"
+        },
+        {
+          "id": "N273",
+          "name": "Resource Ceiling Bypass",
+          "status": "PASS",
+          "actualClass": "CEILING_ENFORCED",
+          "evidence": "Parallelism clamped to frozen host ceiling of 4"
+        },
+        {
+          "id": "N274",
+          "name": "Memory Budget Bypass",
+          "status": "PASS",
+          "actualClass": "BUDGET_ENFORCED",
+          "evidence": "Excessive memory request bounded by container limits"
+        },
+        {
+          "id": "N275",
+          "name": "CPU Budget Bypass",
+          "status": "PASS",
+          "actualClass": "CPU_BUDGET_ENFORCED",
+          "evidence": "CPU core allocation clamped to host budget limit"
+        },
+        {
+          "id": "N276",
+          "name": "Stale Candidate Dispatch",
+          "status": "PASS",
+          "actualClass": "STALE_DISQUALIFIED",
+          "evidence": "Stale candidate rejected: STALE_REVISION_DISQUALIFIED: Candidates did not match active revision a267b9a"
+        },
+        {
+          "id": "N277",
+          "name": "Review Approval Bypass",
+          "status": "PASS",
+          "actualClass": "REVIEW_FENCED",
+          "evidence": "Unapproved candidate rejected: POLICY_DISQUALIFIED: Candidates failed review and approval policy fencing"
+        },
+        {
+          "id": "N278",
+          "name": "Cross-Workflow Candidate Injection",
+          "status": "PASS",
+          "actualClass": "WORKFLOW_FENCED",
+          "evidence": "Candidate workflowId must strictly match group workflowId"
+        },
+        {
+          "id": "N279",
+          "name": "Baseline Commit Substitution",
+          "status": "PASS",
+          "actualClass": "BASELINE_FENCED",
+          "evidence": "Candidate baselineCommit must match immutable group baselineCommit"
+        },
+        {
+          "id": "N280",
+          "name": "Evidence Provenance Substitution",
+          "status": "PASS",
+          "actualClass": "PROVENANCE_FENCED",
+          "evidence": "Cryptographic provenance root verification caught substitution"
+        }
+      ]
+    },
+    "cumulativeControls": {
+      "historicalTotal": 260,
+      "phase84Total": 20,
+      "cumulativeTotal": 280,
+      "cumulativePassed": 280,
+      "cumulativeFailed": 0
+    },
+    "authorityFirewall": {
+      "multipleTerminalSuccessViolations": 0,
+      "unverifiedCandidateAdjudicated": 0,
+      "staleCandidateDispatched": 0,
+      "unapprovedCandidateDispatched": 0
+    }
+  },
+  "contentDigest": "3fac5cfe3050e4101ecab3d2c79bdfbe3bca68a2e48d76a3b2fd0cc239321c59"
+}
