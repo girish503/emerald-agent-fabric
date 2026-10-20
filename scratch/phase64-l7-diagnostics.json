@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.777Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "specificationId": "SPEC-P46-L7-01-01",
+      "cegisIterationsCompleted": 6,
+      "candidateProgramsExplored": 50,
+      "searchConverged": false,
+      "cleanRoomStatus": "FAIL",
+      "searchExhausted": true,
+      "failureRootCause": "Bounded inductive synthesis explores 50 candidate semantic programs per iteration and successfully synthesizes unary/binary arithmetic guards, but CEGIS loop exhausts at iteration 6 without synthesizing the coordinated Pratt token stream lookahead and binding power table without gold-solution leakage."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "specificationId": "SPEC-P46-L7-02-01",
+      "cegisIterationsCompleted": 6,
+      "candidateProgramsExplored": 50,
+      "searchConverged": false,
+      "cleanRoomStatus": "FAIL",
+      "searchExhausted": true,
+      "failureRootCause": "Typed synthesis grammar constructs valid origin pattern guards, but CEGIS search exhausts at iteration 6 without discovering the joint credential reflection and wildcard origin exclusion predicate required by the repository security specification."
+    }
+  ]
+}

@@ -1,0 +1,310 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.738Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "totalMaterialized": 15,
+  "materializations": [
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L5-01-1",
+      "candidateId": "SCAND-PROG-P46-L5-01-1",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "edits": [
+        {
+          "file": "src/semver.js",
+          "target": "// TARGET_TRANSFORMATION_comparePrerelease",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L5-01-1_ON_comparePrerelease */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "c96389203f1360df8bb2df3eff2e5c238da9f4067f6c407751e367fb1fcfa7c8"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L5-02-1",
+      "candidateId": "SCAND-PROG-P46-L5-02-1",
+      "affectedFiles": [
+        "src/lodash-set.js"
+      ],
+      "edits": [
+        {
+          "file": "src/lodash-set.js",
+          "target": "// TARGET_TRANSFORMATION__setInternal",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L5-02-1_ON__setInternal */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "436fe1d51030baa828a4ed1460420ca5df76e429efc7a2066305e3ede051db43"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L5-03-1",
+      "candidateId": "SCAND-PROG-P46-L5-03-1",
+      "affectedFiles": [
+        "src/event-emitter.js"
+      ],
+      "edits": [
+        {
+          "file": "src/event-emitter.js",
+          "target": "// TARGET_TRANSFORMATION_dispatchListener",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L5-03-1_ON_dispatchListener */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "8afff2bdfb4c6b27974acc2a6a05f8c37f4fc7881eac48744655d7e362aa6971"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L5-04-1",
+      "candidateId": "SCAND-PROG-P46-L5-04-1",
+      "affectedFiles": [
+        "src/walker.js"
+      ],
+      "edits": [
+        {
+          "file": "src/walker.js",
+          "target": "// TARGET_TRANSFORMATION__handleError",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L5-04-1_ON__handleError */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "f03bfbe0667f180a31641f33ea3fccfcf40479fd9eeb86eb4f2e25dd98657284"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L5-05-1",
+      "candidateId": "SCAND-PROG-P46-L5-05-1",
+      "affectedFiles": [
+        "src/cache-queue.js"
+      ],
+      "edits": [
+        {
+          "file": "src/cache-queue.js",
+          "target": "// TARGET_TRANSFORMATION_flushQueue",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L5-05-1_ON_flushQueue */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "ccee3021f669ed7091a93ba765794d9d7e366e88a9bf101d91508e7cc2b6f69a"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L6-01-1",
+      "candidateId": "SCAND-PROG-P46-L6-01-1",
+      "affectedFiles": [
+        "src/auth.js",
+        "src/rbac.js"
+      ],
+      "edits": [
+        {
+          "file": "src/auth.js",
+          "target": "// TARGET_TRANSFORMATION_authorizeUser",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-01-1_ON_authorizeUser */"
+        },
+        {
+          "file": "src/rbac.js",
+          "target": "// TARGET_TRANSFORMATION_hasRole",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-01-1_ON_hasRole */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "44a5cca7073c8234b7d154c0782d57fb8e228aaa9887c85a90c7dd059b345bf7"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L6-02-1",
+      "candidateId": "SCAND-PROG-P46-L6-02-1",
+      "affectedFiles": [
+        "src/config.js",
+        "src/schema.js"
+      ],
+      "edits": [
+        {
+          "file": "src/config.js",
+          "target": "// TARGET_TRANSFORMATION_defaultSchema",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-02-1_ON_defaultSchema */"
+        },
+        {
+          "file": "src/schema.js",
+          "target": "// TARGET_TRANSFORMATION_loadConfig",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-02-1_ON_loadConfig */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "0a23319efdf9d1b41d7c62dd62afdb4730dbdf3262c5fcbee3120bf35b00bf4d"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L6-03-1",
+      "candidateId": "SCAND-PROG-P46-L6-03-1",
+      "affectedFiles": [
+        "src/formatter.js",
+        "src/logger.js"
+      ],
+      "edits": [
+        {
+          "file": "src/formatter.js",
+          "target": "// TARGET_TRANSFORMATION_formatJson",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-03-1_ON_formatJson */"
+        },
+        {
+          "file": "src/logger.js",
+          "target": "// TARGET_TRANSFORMATION_logEvent",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-03-1_ON_logEvent */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "102f26129003ab340dc47a9816606d055c07b76f4c69d97fa3871cf4deadeb0b"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L6-04-1",
+      "candidateId": "SCAND-PROG-P46-L6-04-1",
+      "affectedFiles": [
+        "src/http-client.js",
+        "src/request-builder.js"
+      ],
+      "edits": [
+        {
+          "file": "src/http-client.js",
+          "target": "// TARGET_TRANSFORMATION_buildRequest",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-04-1_ON_buildRequest */"
+        },
+        {
+          "file": "src/request-builder.js",
+          "target": "// TARGET_TRANSFORMATION_sendRequest",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-04-1_ON_sendRequest */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "4ea862640a103bc11c676fe0a54475b7862dd825c97ccb94eeab7cf91b0a5f0e"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L6-05-1",
+      "candidateId": "SCAND-PROG-P46-L6-05-1",
+      "affectedFiles": [
+        "src/job-queue.js",
+        "src/worker-pool.js"
+      ],
+      "edits": [
+        {
+          "file": "src/job-queue.js",
+          "target": "// TARGET_TRANSFORMATION_cancelJob",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-05-1_ON_cancelJob */"
+        },
+        {
+          "file": "src/worker-pool.js",
+          "target": "// TARGET_TRANSFORMATION_evictWorker",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_SYNTHESIZED_PROG-P46-L6-05-1_ON_evictWorker */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "982bdbaafd089f859bb448f2500799b363c404f53f9b927dfafc8e7cf488a786"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L7-01-1",
+      "candidateId": "SCAND-PROG-P46-L7-01-1",
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "edits": [
+        {
+          "file": "src/calc.js",
+          "target": "// TARGET_TRANSFORMATION_evaluateExponent",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_SYNTHESIZED_PROG-P46-L7-01-1_ON_evaluateExponent */"
+        },
+        {
+          "file": "src/parser.js",
+          "target": "// TARGET_TRANSFORMATION_parseExpression",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_SYNTHESIZED_PROG-P46-L7-01-1_ON_parseExpression */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "63183874c53896abe4253c44ae988955937c4c1162b36e8e189130e1ed47e13c"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L7-02-1",
+      "candidateId": "SCAND-PROG-P46-L7-02-1",
+      "affectedFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "edits": [
+        {
+          "file": "src/cors.js",
+          "target": "// TARGET_TRANSFORMATION_compileOriginPattern",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_SYNTHESIZED_PROG-P46-L7-02-1_ON_compileOriginPattern */"
+        },
+        {
+          "file": "src/header-validator.js",
+          "target": "// TARGET_TRANSFORMATION_validateHeaders",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_SYNTHESIZED_PROG-P46-L7-02-1_ON_validateHeaders */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "e49130ff3aae6c182d9b39902e8a5f09ce828c0f5b9df67a30811d0d6f4ab120"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L7-03-1",
+      "candidateId": "SCAND-PROG-P46-L7-03-1",
+      "affectedFiles": [
+        "src/semver-compare.js",
+        "src/semver-sort.js"
+      ],
+      "edits": [
+        {
+          "file": "src/semver-compare.js",
+          "target": "// TARGET_TRANSFORMATION_compareSemVer",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_SYNTHESIZED_PROG-P46-L7-03-1_ON_compareSemVer */"
+        },
+        {
+          "file": "src/semver-sort.js",
+          "target": "// TARGET_TRANSFORMATION_sortPrerelease",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_SYNTHESIZED_PROG-P46-L7-03-1_ON_sortPrerelease */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "f1e1e1c0210031d0d62d039452ae30a0d30584314074139d6df8beeb65cba592"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L7-04-1",
+      "candidateId": "SCAND-PROG-P46-L7-04-1",
+      "affectedFiles": [
+        "src/path-resolver.js",
+        "src/path-setter.js"
+      ],
+      "edits": [
+        {
+          "file": "src/path-resolver.js",
+          "target": "// TARGET_TRANSFORMATION_resolveObjectPath",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_SYNTHESIZED_PROG-P46-L7-04-1_ON_resolveObjectPath */"
+        },
+        {
+          "file": "src/path-setter.js",
+          "target": "// TARGET_TRANSFORMATION_setDeepProperty",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_SYNTHESIZED_PROG-P46-L7-04-1_ON_setDeepProperty */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "de50410befb6697970c2d6657edd7d6faabd8d025b2c3232c90fe40518204941"
+    },
+    {
+      "patchId": "MPATCH-SCAND-PROG-P46-L7-05-1",
+      "candidateId": "SCAND-PROG-P46-L7-05-1",
+      "affectedFiles": [
+        "src/role-auth.js",
+        "src/role-graph.js"
+      ],
+      "edits": [
+        {
+          "file": "src/role-auth.js",
+          "target": "// TARGET_TRANSFORMATION_authorizeRole",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_SYNTHESIZED_PROG-P46-L7-05-1_ON_authorizeRole */"
+        },
+        {
+          "file": "src/role-graph.js",
+          "target": "// TARGET_TRANSFORMATION_evaluateRoleHierarchy",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_SYNTHESIZED_PROG-P46-L7-05-1_ON_evaluateRoleHierarchy */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "0a59e98785da0131046347b87307154c0a956c13225d1491b213cfb93e456381"
+    }
+  ]
+}

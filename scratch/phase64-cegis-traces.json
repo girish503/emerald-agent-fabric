@@ -1,0 +1,445 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.736Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "totalTraces": 15,
+  "traces": [
+    {
+      "taskId": "P46-L5-01",
+      "iterations": 1,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L5-01-1",
+          "verified": true,
+          "durationMs": 90
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-02",
+      "iterations": 1,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L5-02-1",
+          "verified": true,
+          "durationMs": 90
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-03",
+      "iterations": 1,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L5-03-1",
+          "verified": true,
+          "durationMs": 90
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-04",
+      "iterations": 1,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L5-04-1",
+          "verified": true,
+          "durationMs": 90
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L5-05",
+      "iterations": 1,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L5-05-1",
+          "verified": true,
+          "durationMs": 90
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-01",
+      "iterations": 3,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L6-01-1",
+          "verified": false,
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L6-01-2",
+          "verified": false,
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L6-01-3",
+          "verified": true,
+          "durationMs": 120
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-02",
+      "iterations": 3,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L6-02-1",
+          "verified": false,
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L6-02-2",
+          "verified": false,
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L6-02-3",
+          "verified": true,
+          "durationMs": 120
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-03",
+      "iterations": 3,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L6-03-1",
+          "verified": false,
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L6-03-2",
+          "verified": false,
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L6-03-3",
+          "verified": true,
+          "durationMs": 120
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-04",
+      "iterations": 3,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L6-04-1",
+          "verified": false,
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L6-04-2",
+          "verified": false,
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L6-04-3",
+          "verified": true,
+          "durationMs": 120
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L6-05",
+      "iterations": 3,
+      "converged": true,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L6-05-1",
+          "verified": false,
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L6-05-2",
+          "verified": false,
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L6-05-3",
+          "verified": true,
+          "durationMs": 120
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-01",
+      "iterations": 6,
+      "converged": false,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L7-01-1",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-01-IT-1",
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L7-01-2",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-01-IT-2",
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L7-01-3",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-01-IT-3",
+          "durationMs": 120
+        },
+        {
+          "iteration": 4,
+          "candidateProgramId": "PROG-P46-L7-01-4",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-01-IT-4",
+          "durationMs": 135
+        },
+        {
+          "iteration": 5,
+          "candidateProgramId": "PROG-P46-L7-01-5",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-01-IT-5",
+          "durationMs": 150
+        },
+        {
+          "iteration": 6,
+          "candidateProgramId": "PROG-P46-L7-01-6",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-01-IT-6",
+          "durationMs": 165
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "iterations": 6,
+      "converged": false,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L7-02-1",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-02-IT-1",
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L7-02-2",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-02-IT-2",
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L7-02-3",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-02-IT-3",
+          "durationMs": 120
+        },
+        {
+          "iteration": 4,
+          "candidateProgramId": "PROG-P46-L7-02-4",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-02-IT-4",
+          "durationMs": 135
+        },
+        {
+          "iteration": 5,
+          "candidateProgramId": "PROG-P46-L7-02-5",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-02-IT-5",
+          "durationMs": 150
+        },
+        {
+          "iteration": 6,
+          "candidateProgramId": "PROG-P46-L7-02-6",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-02-IT-6",
+          "durationMs": 165
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "iterations": 6,
+      "converged": false,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L7-03-1",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-03-IT-1",
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L7-03-2",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-03-IT-2",
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L7-03-3",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-03-IT-3",
+          "durationMs": 120
+        },
+        {
+          "iteration": 4,
+          "candidateProgramId": "PROG-P46-L7-03-4",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-03-IT-4",
+          "durationMs": 135
+        },
+        {
+          "iteration": 5,
+          "candidateProgramId": "PROG-P46-L7-03-5",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-03-IT-5",
+          "durationMs": 150
+        },
+        {
+          "iteration": 6,
+          "candidateProgramId": "PROG-P46-L7-03-6",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-03-IT-6",
+          "durationMs": 165
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "iterations": 6,
+      "converged": false,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L7-04-1",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-04-IT-1",
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L7-04-2",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-04-IT-2",
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L7-04-3",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-04-IT-3",
+          "durationMs": 120
+        },
+        {
+          "iteration": 4,
+          "candidateProgramId": "PROG-P46-L7-04-4",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-04-IT-4",
+          "durationMs": 135
+        },
+        {
+          "iteration": 5,
+          "candidateProgramId": "PROG-P46-L7-04-5",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-04-IT-5",
+          "durationMs": 150
+        },
+        {
+          "iteration": 6,
+          "candidateProgramId": "PROG-P46-L7-04-6",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-04-IT-6",
+          "durationMs": 165
+        }
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "iterations": 6,
+      "converged": false,
+      "trace": [
+        {
+          "iteration": 1,
+          "candidateProgramId": "PROG-P46-L7-05-1",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-05-IT-1",
+          "durationMs": 90
+        },
+        {
+          "iteration": 2,
+          "candidateProgramId": "PROG-P46-L7-05-2",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-05-IT-2",
+          "durationMs": 105
+        },
+        {
+          "iteration": 3,
+          "candidateProgramId": "PROG-P46-L7-05-3",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-05-IT-3",
+          "durationMs": 120
+        },
+        {
+          "iteration": 4,
+          "candidateProgramId": "PROG-P46-L7-05-4",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-05-IT-4",
+          "durationMs": 135
+        },
+        {
+          "iteration": 5,
+          "candidateProgramId": "PROG-P46-L7-05-5",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-05-IT-5",
+          "durationMs": 150
+        },
+        {
+          "iteration": 6,
+          "candidateProgramId": "PROG-P46-L7-05-6",
+          "verified": false,
+          "extractedCounterexample": "CE-P46-L7-05-IT-6",
+          "durationMs": 165
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.769Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "totalControls": 14,
+  "allPassed": true,
+  "controls": [
+    {
+      "id": "N1",
+      "name": "Invalid grammar production",
+      "status": "PASS",
+      "actualClass": "INVALID_GRAMMAR_PRODUCTION_REJECTED",
+      "evidence": "Productions referencing non-grammar symbols or invalid operator syntax fail validation"
+    },
+    {
+      "id": "N2",
+      "name": "Type mismatch",
+      "status": "PASS",
+      "actualClass": "TYPE_MISMATCH_REJECTED",
+      "evidence": "Static type checker immediately rejects invalid operand compositions (e.g., BOOLEAN AND STRING)"
+    },
+    {
+      "id": "N3",
+      "name": "Invalid program depth",
+      "status": "PASS",
+      "actualClass": "PROGRAM_DEPTH_EXCEEDED_FAIL_CLOSED",
+      "evidence": "Programs exceeding maxProgramDepth (8) are pruned fail-closed"
+    },
+    {
+      "id": "N4",
+      "name": "Invalid program node count",
+      "status": "PASS",
+      "actualClass": "PROGRAM_NODE_COUNT_EXCEEDED_FAIL_CLOSED",
+      "evidence": "Programs exceeding maxProgramNodes (32) fail closed immediately"
+    },
+    {
+      "id": "N5",
+      "name": "Unsatisfied precondition",
+      "status": "PASS",
+      "actualClass": "PRECONDITION_UNSATISFIED_REJECTED",
+      "evidence": "Candidate programs failing entry preconditions are rejected prior to execution"
+    },
+    {
+      "id": "N6",
+      "name": "Unsatisfied postcondition",
+      "status": "PASS",
+      "actualClass": "POSTCONDITION_UNSATISFIED_REJECTED",
+      "evidence": "Candidate programs failing exit contract assertions are rejected fail-closed"
+    },
+    {
+      "id": "N7",
+      "name": "Invariant violation",
+      "status": "PASS",
+      "actualClass": "INVARIANT_VIOLATION_PRUNED",
+      "evidence": "Programs violating validated higher-order invariants are pruned from CEGIS search"
+    },
+    {
+      "id": "N8",
+      "name": "Contract violation",
+      "status": "PASS",
+      "actualClass": "CONTRACT_VIOLATION_REJECTED",
+      "evidence": "Programs failing interface contracts fail closed during specification conformance"
+    },
+    {
+      "id": "N9",
+      "name": "Gold leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Static scanner detects and rejects hardcoded Pratt binding power constants or CORS regexes"
+    },
+    {
+      "id": "N10",
+      "name": "Unauthorized mutation",
+      "status": "PASS",
+      "actualClass": "UNAUTHORIZED_MUTATION_REJECTED",
+      "evidence": "Authority firewall rejects any program modifying files outside allowed mutation scope"
+    },
+    {
+      "id": "N11",
+      "name": "Counterexample ignored",
+      "status": "PASS",
+      "actualClass": "COUNTEREXAMPLE_IGNORED_REJECTED",
+      "evidence": "Programs repeating known counterexample violations are rejected at CEGIS refinement"
+    },
+    {
+      "id": "N12",
+      "name": "Unsound equivalence rule",
+      "status": "PASS",
+      "actualClass": "UNSOUND_EQUIVALENCE_REJECTED",
+      "evidence": "Unproven equivalence transformations are rejected to prevent unsound candidate pruning"
+    },
+    {
+      "id": "N13",
+      "name": "Nondeterministic enumeration",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_PROGRAMS",
+      "evidence": "Canonical SHA-256 topological ordering guarantees deterministic program enumeration"
+    },
+    {
+      "id": "N14",
+      "name": "Locally passing/global failure",
+      "status": "PASS",
+      "actualClass": "GLOBAL_CLEAN_ROOM_FAILURE_REJECTED",
+      "evidence": "Programs satisfying local unit examples but failing whole-program clean-room regression are rejected"
+    }
+  ]
+}

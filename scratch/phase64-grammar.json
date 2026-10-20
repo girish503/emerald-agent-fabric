@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.667Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "grammarVersion": "emerald-phase64-grammar-v1",
+  "primitiveCount": 29,
+  "primitives": [
+    "CONSTANT",
+    "PARAMETER",
+    "LOCAL_STATE",
+    "READ_FIELD",
+    "WRITE_FIELD",
+    "READ_INPUT",
+    "WRITE_OUTPUT",
+    "IF",
+    "SEQUENCE",
+    "LOOP_BOUNDED",
+    "MATCH",
+    "GUARD",
+    "EQUALITY",
+    "INEQUALITY",
+    "AND",
+    "OR",
+    "NOT",
+    "MAP",
+    "FILTER",
+    "REDUCE",
+    "STATE_TRANSITION",
+    "REPRESENTATION_CONVERSION",
+    "PRODUCE",
+    "CONSUME",
+    "VALIDATE",
+    "REJECT",
+    "ACCEPT",
+    "PRESERVE",
+    "ADAPT"
+  ],
+  "supportedTypes": [
+    "BOOLEAN",
+    "INTEGER",
+    "STRING",
+    "NUMBER",
+    "SYMBOL",
+    "STATE",
+    "COLLECTION",
+    "OPTION",
+    "RECORD",
+    "VOID"
+  ],
+  "typeRules": [
+    {
+      "operator": "AND",
+      "inputTypes": [
+        "BOOLEAN",
+        "BOOLEAN"
+      ],
+      "outputType": "BOOLEAN"
+    },
+    {
+      "operator": "OR",
+      "inputTypes": [
+        "BOOLEAN",
+        "BOOLEAN"
+      ],
+      "outputType": "BOOLEAN"
+    },
+    {
+      "operator": "NOT",
+      "inputTypes": [
+        "BOOLEAN"
+      ],
+      "outputType": "BOOLEAN"
+    },
+    {
+      "operator": "EQUALITY",
+      "inputTypes": [
+        "ANY_T",
+        "ANY_T"
+      ],
+      "outputType": "BOOLEAN"
+    },
+    {
+      "operator": "INEQUALITY",
+      "inputTypes": [
+        "ANY_T",
+        "ANY_T"
+      ],
+      "outputType": "BOOLEAN"
+    },
+    {
+      "operator": "STATE_TRANSITION",
+      "inputTypes": [
+        "STATE"
+      ],
+      "outputType": "STATE"
+    },
+    {
+      "operator": "GUARD",
+      "inputTypes": [
+        "BOOLEAN",
+        "ANY_T"
+      ],
+      "outputType": "ANY_T"
+    },
+    {
+      "operator": "IF",
+      "inputTypes": [
+        "BOOLEAN",
+        "ANY_T",
+        "ANY_T"
+      ],
+      "outputType": "ANY_T"
+    }
+  ]
+}

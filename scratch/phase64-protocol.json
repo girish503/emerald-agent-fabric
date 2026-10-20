@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "protocolVersion": "emerald-phase64-inductive-program-synthesis-v1",
+  "frozenAt": "2026-10-20T05:51:31.661Z",
+  "baselineCommit": "fa54388",
+  "experimentalVariable": "governed_inductive_program_synthesis_and_cegis",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "conditions": {
+    "CONDITION_A_PHASE63_CONTROL": "Frozen Phase 63 higher-order invariant and skeleton synthesis pipeline",
+    "CONDITION_B_TYPED_ENUMERATIVE_SYNTHESIS": "Typed synthesis grammar with bounded program enumeration and type checking, no CEGIS",
+    "CONDITION_C_TYPED_SYNTHESIS_CEGIS": "Typed synthesis grammar + validated invariants + behavioral examples + counterexamples + CEGIS",
+    "CONDITION_D_FULL_INDUCTIVE_PIPELINE": "Full stack: symbolic analysis + semantic reconciliation + CEGAR + decomposition + joint synthesis + semantic transformation + higher-order invariants + inductive program synthesis"
+  },
+  "bounds": {
+    "maxCEGISIterations": 6,
+    "maxProgramDepth": 8,
+    "maxProgramNodes": 32,
+    "maxCandidatesPerIteration": 50,
+    "maxTotalCandidates": 200,
+    "maxAffectedModules": 6,
+    "maxFiles": 6,
+    "maxRepairAttempts": 3,
+    "maxWallClockMs": 120000
+  },
+  "cohortSize": 15,
+  "totalTrials": 60,
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4"
+}

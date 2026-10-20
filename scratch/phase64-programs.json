@@ -1,0 +1,795 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.726Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "totalPrograms": 10,
+  "programs": [
+    {
+      "programId": "PROG-P46-L5-01-1",
+      "taskId": "P46-L5-01",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L5-01-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-01-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L5-01-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-01-1-E3",
+          "primitive": "WRITE_OUTPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "normalized_result"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_comparePrerelease"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-01"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L5-01-01"
+      ],
+      "examples": [
+        "EX-P46-L5-01-1"
+      ],
+      "counterexamples": [
+        "CE-P46-L5-01-RANGE_UNDERFLOW"
+      ],
+      "dependencies": [
+        "PROG-P46-L5-01-1-E1",
+        "PROG-P46-L5-01-1-E2",
+        "PROG-P46-L5-01-1-E3"
+      ],
+      "depth": 2,
+      "nodeCount": 6,
+      "provenance": {
+        "taskId": "P46-L5-01",
+        "specificationId": "SPEC-P46-L5-01-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "806bec11f3047a392a2858e970b5e879f6244daefa00722391ffd6cdac97d2c4"
+    },
+    {
+      "programId": "PROG-P46-L5-02-1",
+      "taskId": "P46-L5-02",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L5-02-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-02-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L5-02-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-02-1-E3",
+          "primitive": "WRITE_OUTPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "normalized_result"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON__setInternal"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-02",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L5-02-01"
+      ],
+      "examples": [
+        "EX-P46-L5-02-1"
+      ],
+      "counterexamples": [
+        "CE-P46-L5-02-RANGE_UNDERFLOW"
+      ],
+      "dependencies": [
+        "PROG-P46-L5-02-1-E1",
+        "PROG-P46-L5-02-1-E2",
+        "PROG-P46-L5-02-1-E3"
+      ],
+      "depth": 2,
+      "nodeCount": 6,
+      "provenance": {
+        "taskId": "P46-L5-02",
+        "specificationId": "SPEC-P46-L5-02-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "f4ebb06205075804c95ffa29e45a20273bc7f590d176be6d22c2fb8eb5fda587"
+    },
+    {
+      "programId": "PROG-P46-L5-03-1",
+      "taskId": "P46-L5-03",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L5-03-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-03-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L5-03-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-03-1-E3",
+          "primitive": "WRITE_OUTPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "normalized_result"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_dispatchListener"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-03",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L5-03-01"
+      ],
+      "examples": [
+        "EX-P46-L5-03-1"
+      ],
+      "counterexamples": [
+        "CE-P46-L5-03-RANGE_UNDERFLOW"
+      ],
+      "dependencies": [
+        "PROG-P46-L5-03-1-E1",
+        "PROG-P46-L5-03-1-E2",
+        "PROG-P46-L5-03-1-E3"
+      ],
+      "depth": 2,
+      "nodeCount": 6,
+      "provenance": {
+        "taskId": "P46-L5-03",
+        "specificationId": "SPEC-P46-L5-03-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "bd1e70c7fe6166c5ed3ac9a74a591334d395aa52af1ccfb1509ceef4c6a24b08"
+    },
+    {
+      "programId": "PROG-P46-L5-04-1",
+      "taskId": "P46-L5-04",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L5-04-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-04-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L5-04-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-04-1-E3",
+          "primitive": "WRITE_OUTPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "normalized_result"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON__handleError"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-04",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L5-04-01"
+      ],
+      "examples": [
+        "EX-P46-L5-04-1"
+      ],
+      "counterexamples": [
+        "CE-P46-L5-04-RANGE_UNDERFLOW"
+      ],
+      "dependencies": [
+        "PROG-P46-L5-04-1-E1",
+        "PROG-P46-L5-04-1-E2",
+        "PROG-P46-L5-04-1-E3"
+      ],
+      "depth": 2,
+      "nodeCount": 6,
+      "provenance": {
+        "taskId": "P46-L5-04",
+        "specificationId": "SPEC-P46-L5-04-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "a3d8e41930325aa9889e70c36ec4cd60593af2e5d2fc49f6d8f67e03b6ce978f"
+    },
+    {
+      "programId": "PROG-P46-L5-05-1",
+      "taskId": "P46-L5-05",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L5-05-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-05-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L5-05-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L5-05-1-E3",
+          "primitive": "WRITE_OUTPUT",
+          "returnType": "INTEGER",
+          "operands": [
+            "normalized_result"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_flushQueue"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-05",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L5-05-01"
+      ],
+      "examples": [
+        "EX-P46-L5-05-1"
+      ],
+      "counterexamples": [
+        "CE-P46-L5-05-RANGE_UNDERFLOW"
+      ],
+      "dependencies": [
+        "PROG-P46-L5-05-1-E1",
+        "PROG-P46-L5-05-1-E2",
+        "PROG-P46-L5-05-1-E3"
+      ],
+      "depth": 2,
+      "nodeCount": 6,
+      "provenance": {
+        "taskId": "P46-L5-05",
+        "specificationId": "SPEC-P46-L5-05-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "8137bea2fbd0354030714755b1affdd24972812b9806499c6d1008491560572e"
+    },
+    {
+      "programId": "PROG-P46-L6-01-1",
+      "taskId": "P46-L6-01",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L6-01-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "RECORD",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-01-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L6-01-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-01-1-E3",
+          "primitive": "PRODUCE",
+          "returnType": "RECORD",
+          "operands": [
+            "normalized_payload"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-01-1-E4",
+          "primitive": "CONSUME",
+          "returnType": "RECORD",
+          "operands": [
+            "PROG-P46-L6-01-1-E3"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_authorizeUser"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-01"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L6-01-01",
+        "CONTRACT-P46-L6-01-02"
+      ],
+      "examples": [
+        "EX-P46-L6-01-1",
+        "EX-P46-L6-01-2"
+      ],
+      "counterexamples": [
+        "CE-P46-L6-01-SCHEMA_DEFAULTS_MISMATCH"
+      ],
+      "dependencies": [
+        "PROG-P46-L6-01-1-E1",
+        "PROG-P46-L6-01-1-E2",
+        "PROG-P46-L6-01-1-E3",
+        "PROG-P46-L6-01-1-E4"
+      ],
+      "depth": 2,
+      "nodeCount": 8,
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "specificationId": "SPEC-P46-L6-01-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "699e65f9a48ddfc8f30e37dab84c45e604e14dd331247b45e34cece37253c34b"
+    },
+    {
+      "programId": "PROG-P46-L6-02-1",
+      "taskId": "P46-L6-02",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L6-02-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "RECORD",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-02-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L6-02-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-02-1-E3",
+          "primitive": "PRODUCE",
+          "returnType": "RECORD",
+          "operands": [
+            "normalized_payload"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-02-1-E4",
+          "primitive": "CONSUME",
+          "returnType": "RECORD",
+          "operands": [
+            "PROG-P46-L6-02-1-E3"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_defaultSchema"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-02",
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L6-02-01",
+        "CONTRACT-P46-L6-02-02"
+      ],
+      "examples": [
+        "EX-P46-L6-02-1",
+        "EX-P46-L6-02-2"
+      ],
+      "counterexamples": [
+        "CE-P46-L6-02-SCHEMA_DEFAULTS_MISMATCH"
+      ],
+      "dependencies": [
+        "PROG-P46-L6-02-1-E1",
+        "PROG-P46-L6-02-1-E2",
+        "PROG-P46-L6-02-1-E3",
+        "PROG-P46-L6-02-1-E4"
+      ],
+      "depth": 2,
+      "nodeCount": 8,
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "specificationId": "SPEC-P46-L6-02-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "3d1e2b617408b19ebd3c454de50f7917881a2ef4686c9f226169f6325864d570"
+    },
+    {
+      "programId": "PROG-P46-L6-03-1",
+      "taskId": "P46-L6-03",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L6-03-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "RECORD",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-03-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L6-03-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-03-1-E3",
+          "primitive": "PRODUCE",
+          "returnType": "RECORD",
+          "operands": [
+            "normalized_payload"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-03-1-E4",
+          "primitive": "CONSUME",
+          "returnType": "RECORD",
+          "operands": [
+            "PROG-P46-L6-03-1-E3"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_formatJson"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-03",
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L6-03-01",
+        "CONTRACT-P46-L6-03-02"
+      ],
+      "examples": [
+        "EX-P46-L6-03-1",
+        "EX-P46-L6-03-2"
+      ],
+      "counterexamples": [
+        "CE-P46-L6-03-SCHEMA_DEFAULTS_MISMATCH"
+      ],
+      "dependencies": [
+        "PROG-P46-L6-03-1-E1",
+        "PROG-P46-L6-03-1-E2",
+        "PROG-P46-L6-03-1-E3",
+        "PROG-P46-L6-03-1-E4"
+      ],
+      "depth": 2,
+      "nodeCount": 8,
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "specificationId": "SPEC-P46-L6-03-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "9d9930982c215aa9afffcd8f10847b46fd51aef99a0fb28cef6e2567a12f7903"
+    },
+    {
+      "programId": "PROG-P46-L6-04-1",
+      "taskId": "P46-L6-04",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L6-04-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "RECORD",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-04-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L6-04-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-04-1-E3",
+          "primitive": "PRODUCE",
+          "returnType": "RECORD",
+          "operands": [
+            "normalized_payload"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-04-1-E4",
+          "primitive": "CONSUME",
+          "returnType": "RECORD",
+          "operands": [
+            "PROG-P46-L6-04-1-E3"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_buildRequest"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-04",
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L6-04-01",
+        "CONTRACT-P46-L6-04-02"
+      ],
+      "examples": [
+        "EX-P46-L6-04-1",
+        "EX-P46-L6-04-2"
+      ],
+      "counterexamples": [
+        "CE-P46-L6-04-SCHEMA_DEFAULTS_MISMATCH"
+      ],
+      "dependencies": [
+        "PROG-P46-L6-04-1-E1",
+        "PROG-P46-L6-04-1-E2",
+        "PROG-P46-L6-04-1-E3",
+        "PROG-P46-L6-04-1-E4"
+      ],
+      "depth": 2,
+      "nodeCount": 8,
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "specificationId": "SPEC-P46-L6-04-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "7120f87ed1eacc07f02e5243d4f67e58967fb51955797a1b049b95a9b1392181"
+    },
+    {
+      "programId": "PROG-P46-L6-05-1",
+      "taskId": "P46-L6-05",
+      "grammarVersion": "emerald-phase64-grammar-v1",
+      "typedExpressions": [
+        {
+          "exprId": "PROG-P46-L6-05-1-E1",
+          "primitive": "READ_INPUT",
+          "returnType": "RECORD",
+          "operands": [
+            "input_stream"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-05-1-E2",
+          "primitive": "GUARD",
+          "returnType": "BOOLEAN",
+          "operands": [
+            "PROG-P46-L6-05-1-E1"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-05-1-E3",
+          "primitive": "PRODUCE",
+          "returnType": "RECORD",
+          "operands": [
+            "normalized_payload"
+          ]
+        },
+        {
+          "exprId": "PROG-P46-L6-05-1-E4",
+          "primitive": "CONSUME",
+          "returnType": "RECORD",
+          "operands": [
+            "PROG-P46-L6-05-1-E3"
+          ]
+        }
+      ],
+      "typedPredicates": [
+        "PREDICATE_EVALUATE_ON_cancelJob"
+      ],
+      "stateTransitions": [
+        "DEFAULT_STATE_TRANSITION"
+      ],
+      "controlFlowOperators": [
+        "IF_GUARD_BRANCH"
+      ],
+      "dataFlowOperators": [
+        "PROPAGATE_NORMALIZED_ARGUMENT"
+      ],
+      "representationTransformations": [
+        "INPUT -> OUTPUT"
+      ],
+      "invariantReferences": [
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-05"
+      ],
+      "contractReferences": [
+        "CONTRACT-P46-L6-05-01",
+        "CONTRACT-P46-L6-05-02"
+      ],
+      "examples": [
+        "EX-P46-L6-05-1",
+        "EX-P46-L6-05-2"
+      ],
+      "counterexamples": [
+        "CE-P46-L6-05-SCHEMA_DEFAULTS_MISMATCH"
+      ],
+      "dependencies": [
+        "PROG-P46-L6-05-1-E1",
+        "PROG-P46-L6-05-1-E2",
+        "PROG-P46-L6-05-1-E3",
+        "PROG-P46-L6-05-1-E4"
+      ],
+      "depth": 2,
+      "nodeCount": 8,
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "specificationId": "SPEC-P46-L6-05-01",
+        "synthesisStrategy": "CEGIS_TYPED_ENUMERATION",
+        "synthesizedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "canonicalHash": "e59848d84f7317bf4bf05c015adf208cc1587027b67624805f794c1c9d420833"
+    }
+  ]
+}

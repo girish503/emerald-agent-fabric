@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.730Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "totalCounterexamples": 56,
+  "records": [
+    {
+      "taskId": "P46-L5-01",
+      "count": 1,
+      "counterexamples": [
+        "CE-P46-L5-01-RANGE_UNDERFLOW"
+      ]
+    },
+    {
+      "taskId": "P46-L5-02",
+      "count": 1,
+      "counterexamples": [
+        "CE-P46-L5-02-RANGE_UNDERFLOW"
+      ]
+    },
+    {
+      "taskId": "P46-L5-03",
+      "count": 1,
+      "counterexamples": [
+        "CE-P46-L5-03-RANGE_UNDERFLOW"
+      ]
+    },
+    {
+      "taskId": "P46-L5-04",
+      "count": 1,
+      "counterexamples": [
+        "CE-P46-L5-04-RANGE_UNDERFLOW"
+      ]
+    },
+    {
+      "taskId": "P46-L5-05",
+      "count": 1,
+      "counterexamples": [
+        "CE-P46-L5-05-RANGE_UNDERFLOW"
+      ]
+    },
+    {
+      "taskId": "P46-L6-01",
+      "count": 2,
+      "counterexamples": [
+        "CE-P46-L6-01-SCHEMA_DEFAULTS_MISMATCH"
+      ]
+    },
+    {
+      "taskId": "P46-L6-02",
+      "count": 2,
+      "counterexamples": [
+        "CE-P46-L6-02-SCHEMA_DEFAULTS_MISMATCH"
+      ]
+    },
+    {
+      "taskId": "P46-L6-03",
+      "count": 2,
+      "counterexamples": [
+        "CE-P46-L6-03-SCHEMA_DEFAULTS_MISMATCH"
+      ]
+    },
+    {
+      "taskId": "P46-L6-04",
+      "count": 2,
+      "counterexamples": [
+        "CE-P46-L6-04-SCHEMA_DEFAULTS_MISMATCH"
+      ]
+    },
+    {
+      "taskId": "P46-L6-05",
+      "count": 2,
+      "counterexamples": [
+        "CE-P46-L6-05-SCHEMA_DEFAULTS_MISMATCH"
+      ]
+    },
+    {
+      "taskId": "P46-L7-01",
+      "count": 6,
+      "counterexamples": [
+        "CE-P46-L7-01-TOKEN_LOOKAHEAD_MISMATCH",
+        "CE-P46-L7-01-PRECEDENCE_CONTRADICTION"
+      ]
+    },
+    {
+      "taskId": "P46-L7-02",
+      "count": 6,
+      "counterexamples": [
+        "CE-P46-L7-02-TOKEN_LOOKAHEAD_MISMATCH",
+        "CE-P46-L7-02-PRECEDENCE_CONTRADICTION"
+      ]
+    },
+    {
+      "taskId": "P46-L7-03",
+      "count": 6,
+      "counterexamples": [
+        "CE-P46-L7-03-TOKEN_LOOKAHEAD_MISMATCH",
+        "CE-P46-L7-03-PRECEDENCE_CONTRADICTION"
+      ]
+    },
+    {
+      "taskId": "P46-L7-04",
+      "count": 6,
+      "counterexamples": [
+        "CE-P46-L7-04-TOKEN_LOOKAHEAD_MISMATCH",
+        "CE-P46-L7-04-PRECEDENCE_CONTRADICTION"
+      ]
+    },
+    {
+      "taskId": "P46-L7-05",
+      "count": 6,
+      "counterexamples": [
+        "CE-P46-L7-05-TOKEN_LOOKAHEAD_MISMATCH",
+        "CE-P46-L7-05-PRECEDENCE_CONTRADICTION"
+      ]
+    }
+  ]
+}

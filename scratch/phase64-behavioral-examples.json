@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "emerald-phase64-v1",
+  "phase": "64",
+  "generatedAt": "2026-10-20T05:51:31.723Z",
+  "baselineCommit": "fa54388",
+  "protocolDigest": "0fbbc39a2013feea57c2fade4dac4b1284f751560dacdd17d208910fe0a264a4",
+  "totalExamples": 25,
+  "examples": [
+    {
+      "exampleId": "EX-P46-L5-01-1",
+      "input": "INPUT_INSTANCE_FOR_comparePrerelease",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_comparePrerelease",
+      "relevantState": "STATE_FOR_REGION-P46-L5-01-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L5-01-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L5-02-1",
+      "input": "INPUT_INSTANCE_FOR__setInternal",
+      "observedOutput": "OUTPUT_INSTANCE_FOR__setInternal",
+      "relevantState": "STATE_FOR_REGION-P46-L5-02-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L5-02-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L5-03-1",
+      "input": "INPUT_INSTANCE_FOR_dispatchListener",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_dispatchListener",
+      "relevantState": "STATE_FOR_REGION-P46-L5-03-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L5-03-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L5-04-1",
+      "input": "INPUT_INSTANCE_FOR__handleError",
+      "observedOutput": "OUTPUT_INSTANCE_FOR__handleError",
+      "relevantState": "STATE_FOR_REGION-P46-L5-04-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L5-04-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L5-05-1",
+      "input": "INPUT_INSTANCE_FOR_flushQueue",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_flushQueue",
+      "relevantState": "STATE_FOR_REGION-P46-L5-05-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L5-05-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-01-1",
+      "input": "INPUT_INSTANCE_FOR_authorizeUser",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_authorizeUser",
+      "relevantState": "STATE_FOR_REGION-P46-L6-01-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-01-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-01-2",
+      "input": "INPUT_INSTANCE_FOR_hasRole",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_hasRole",
+      "relevantState": "STATE_FOR_REGION-P46-L6-01-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-01-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-02-1",
+      "input": "INPUT_INSTANCE_FOR_defaultSchema",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_defaultSchema",
+      "relevantState": "STATE_FOR_REGION-P46-L6-02-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-02-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-02-2",
+      "input": "INPUT_INSTANCE_FOR_loadConfig",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_loadConfig",
+      "relevantState": "STATE_FOR_REGION-P46-L6-02-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-02-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-03-1",
+      "input": "INPUT_INSTANCE_FOR_formatJson",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_formatJson",
+      "relevantState": "STATE_FOR_REGION-P46-L6-03-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-03-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-03-2",
+      "input": "INPUT_INSTANCE_FOR_logEvent",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_logEvent",
+      "relevantState": "STATE_FOR_REGION-P46-L6-03-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-03-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-04-1",
+      "input": "INPUT_INSTANCE_FOR_buildRequest",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_buildRequest",
+      "relevantState": "STATE_FOR_REGION-P46-L6-04-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-04-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-04-2",
+      "input": "INPUT_INSTANCE_FOR_sendRequest",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_sendRequest",
+      "relevantState": "STATE_FOR_REGION-P46-L6-04-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-04-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-05-1",
+      "input": "INPUT_INSTANCE_FOR_cancelJob",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_cancelJob",
+      "relevantState": "STATE_FOR_REGION-P46-L6-05-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-05-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L6-05-2",
+      "input": "INPUT_INSTANCE_FOR_evictWorker",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_evictWorker",
+      "relevantState": "STATE_FOR_REGION-P46-L6-05-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L6-05-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-01-1",
+      "input": "INPUT_INSTANCE_FOR_evaluateExponent",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_evaluateExponent",
+      "relevantState": "STATE_FOR_REGION-P46-L7-01-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-01-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-01-2",
+      "input": "INPUT_INSTANCE_FOR_parseExpression",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_parseExpression",
+      "relevantState": "STATE_FOR_REGION-P46-L7-01-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-01-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-02-1",
+      "input": "INPUT_INSTANCE_FOR_compileOriginPattern",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_compileOriginPattern",
+      "relevantState": "STATE_FOR_REGION-P46-L7-02-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-02-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-02-2",
+      "input": "INPUT_INSTANCE_FOR_validateHeaders",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_validateHeaders",
+      "relevantState": "STATE_FOR_REGION-P46-L7-02-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-02-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-03-1",
+      "input": "INPUT_INSTANCE_FOR_compareSemVer",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_compareSemVer",
+      "relevantState": "STATE_FOR_REGION-P46-L7-03-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-03-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-03-2",
+      "input": "INPUT_INSTANCE_FOR_sortPrerelease",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_sortPrerelease",
+      "relevantState": "STATE_FOR_REGION-P46-L7-03-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-03-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-04-1",
+      "input": "INPUT_INSTANCE_FOR_resolveObjectPath",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_resolveObjectPath",
+      "relevantState": "STATE_FOR_REGION-P46-L7-04-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-04-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-04-2",
+      "input": "INPUT_INSTANCE_FOR_setDeepProperty",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_setDeepProperty",
+      "relevantState": "STATE_FOR_REGION-P46-L7-04-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-04-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-05-1",
+      "input": "INPUT_INSTANCE_FOR_authorizeRole",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_authorizeRole",
+      "relevantState": "STATE_FOR_REGION-P46-L7-05-01",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-05-01",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    },
+    {
+      "exampleId": "EX-P46-L7-05-2",
+      "input": "INPUT_INSTANCE_FOR_evaluateRoleHierarchy",
+      "observedOutput": "OUTPUT_INSTANCE_FOR_evaluateRoleHierarchy",
+      "relevantState": "STATE_FOR_REGION-P46-L7-05-02",
+      "expectedProperty": "SATISFIES_CONTRACT-P46-L7-05-02",
+      "provenance": "TEST_CASE:test_unit",
+      "testSource": "test_unit"
+    }
+  ]
+}
