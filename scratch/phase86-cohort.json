@@ -1,0 +1,329 @@
+{
+  "totalTools": 32,
+  "matrix": {
+    "classesCount": 8,
+    "conditionsCount": 4
+  },
+  "tools": [
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-a-static-builtin",
+      "toolClass": "AST_ANALYZER",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "ast-syntax-analyzer-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-b-human-synthesized",
+      "toolClass": "AST_ANALYZER",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "ast-syntax-analyzer-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-c-model-synthesized",
+      "toolClass": "AST_ANALYZER",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "ast-syntax-analyzer-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-d-model-human-revised",
+      "toolClass": "AST_ANALYZER",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "ast-syntax-analyzer-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-a-static-builtin",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "module-dependency-analyzer-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-b-human-synthesized",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "module-dependency-analyzer-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-c-model-synthesized",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "module-dependency-analyzer-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-d-model-human-revised",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "module-dependency-analyzer-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-a-static-builtin",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "api-signature-checker-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-b-human-synthesized",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "api-signature-checker-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-c-model-synthesized",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "api-signature-checker-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-d-model-human-revised",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "api-signature-checker-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-a-static-builtin",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "json-schema-comparator-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-b-human-synthesized",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "json-schema-comparator-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-c-model-synthesized",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "json-schema-comparator-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-d-model-human-revised",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "json-schema-comparator-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-a-static-builtin",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "package-config-analyzer-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-b-human-synthesized",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "package-config-analyzer-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-c-model-synthesized",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "package-config-analyzer-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-d-model-human-revised",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "package-config-analyzer-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-a-static-builtin",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "test-impact-estimator-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-b-human-synthesized",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "test-impact-estimator-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-c-model-synthesized",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "test-impact-estimator-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-d-model-human-revised",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "test-impact-estimator-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-a-static-builtin",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "cross-repo-contract-auditor-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-b-human-synthesized",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "cross-repo-contract-auditor-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-c-model-synthesized",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "cross-repo-contract-auditor-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-d-model-human-revised",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "cross-repo-contract-auditor-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-a-static-builtin",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN",
+      "toolName": "migration-readiness-analyzer-condition-a-static-builtin",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-b-human-synthesized",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "toolName": "migration-readiness-analyzer-condition-b-human-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-c-model-synthesized",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "toolName": "migration-readiness-analyzer-condition-c-model-synthesized",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-d-model-human-revised",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "toolName": "migration-readiness-analyzer-condition-d-model-human-revised",
+      "validationStatus": "PASSED",
+      "registrationStatus": "REGISTERED",
+      "executionStatus": "SUCCESS",
+      "authoritative": false
+    }
+  ]
+}

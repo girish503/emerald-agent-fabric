@@ -1,0 +1,2249 @@
+{
+  "count": 32,
+  "specifications": [
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "ast-syntax-analyzer-condition-a-static-builtin",
+      "toolClass": "AST_ANALYZER",
+      "description": "Inspects source files for syntax nodes, token counts, and lexical complexity. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "11f0db750df883baea7db499d6e0fdf18587d553734b892c55265f054fd52879",
+      "manifestDigest": "353c1ac8fea0de6da00871fadbd3eb775d4a3adf2b0ad92e5675fc57506b999a",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetFile": {
+            "type": "string"
+          },
+          "maxDepth": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "targetFile"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "nodeCount": {
+            "type": "number"
+          },
+          "depth": {
+            "type": "number"
+          },
+          "syntaxValid": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "nodeCount",
+          "syntaxValid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-ast-analyzer-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "ast-syntax-analyzer-condition-b-human-synthesized",
+      "toolClass": "AST_ANALYZER",
+      "description": "Inspects source files for syntax nodes, token counts, and lexical complexity. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "33a78533644ca8306f61724aad7572c3e7a27a50a7f928b405bdc088089911f4",
+      "manifestDigest": "2304da5ce0746a721bb4771a748ff4c958350f4eb71a625602fa9cd605b58e84",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetFile": {
+            "type": "string"
+          },
+          "maxDepth": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "targetFile"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "nodeCount": {
+            "type": "number"
+          },
+          "depth": {
+            "type": "number"
+          },
+          "syntaxValid": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "nodeCount",
+          "syntaxValid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-ast-analyzer-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "ast-syntax-analyzer-condition-c-model-synthesized",
+      "toolClass": "AST_ANALYZER",
+      "description": "Inspects source files for syntax nodes, token counts, and lexical complexity. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "249e32287fae44a0bbe77b7cbd145e610466a5765650d7dc8c8a04a96b839cc5",
+      "manifestDigest": "211c0606050221e33ce7edfb0124c6f8e5b2c8edc9adb2ef1cfe127b194fc8f7",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetFile": {
+            "type": "string"
+          },
+          "maxDepth": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "targetFile"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "nodeCount": {
+            "type": "number"
+          },
+          "depth": {
+            "type": "number"
+          },
+          "syntaxValid": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "nodeCount",
+          "syntaxValid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-ast-analyzer-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "ast-syntax-analyzer-condition-d-model-human-revised",
+      "toolClass": "AST_ANALYZER",
+      "description": "Inspects source files for syntax nodes, token counts, and lexical complexity. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "3b1b83d21a21c37785b893b6d64838adebb1cc6bf626fca508a0794e68b08943",
+      "manifestDigest": "fdf7d4c1f4417ea92ca82b149b29dfc5af3e8cac3bc1039ed2a6ef73411b8697",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetFile": {
+            "type": "string"
+          },
+          "maxDepth": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "targetFile"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "nodeCount": {
+            "type": "number"
+          },
+          "depth": {
+            "type": "number"
+          },
+          "syntaxValid": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "nodeCount",
+          "syntaxValid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-ast-analyzer-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "module-dependency-analyzer-condition-a-static-builtin",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "description": "Evaluates module dependencies and cyclical import graphs. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "c1b6f385f603ed6891ad865ad437f7cee5dc5760af8c5d3806ad78e1e03bb915",
+      "manifestDigest": "035ee39d318b63409a1bdf3e90b93c49c0195055d01f281276995895087e73c4",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "entrypoint": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entrypoint"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "directDependencies": {
+            "type": "array"
+          },
+          "cyclesDetected": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "directDependencies",
+          "cyclesDetected"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-dependency-analyzer-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "module-dependency-analyzer-condition-b-human-synthesized",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "description": "Evaluates module dependencies and cyclical import graphs. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "c0ff1b1ae9aed23c19e69c1eb67ed2cf6d7f0cedf87eaf332a8fc14961ea70a4",
+      "manifestDigest": "bb546d3b5f835455901e0a44578ec74de9ff9af7d5fa242788c9ac805ef1a1cd",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "entrypoint": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entrypoint"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "directDependencies": {
+            "type": "array"
+          },
+          "cyclesDetected": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "directDependencies",
+          "cyclesDetected"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-dependency-analyzer-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "module-dependency-analyzer-condition-c-model-synthesized",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "description": "Evaluates module dependencies and cyclical import graphs. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "bf8bb2804d0cffc5019cd20f0eda2c43fa168b33652a791cfb5fe8ccddbbdfce",
+      "manifestDigest": "1f3a761dc3909786f8c9a9f2ad179ca654066a80e18782f736464a22eff5f73c",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "entrypoint": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entrypoint"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "directDependencies": {
+            "type": "array"
+          },
+          "cyclesDetected": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "directDependencies",
+          "cyclesDetected"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-dependency-analyzer-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "module-dependency-analyzer-condition-d-model-human-revised",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "description": "Evaluates module dependencies and cyclical import graphs. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "710ec6a75c753872ed110ad21c543b5fe481c7e54f2e50d44bb2da3926efe0d7",
+      "manifestDigest": "c864e0664eb544271c4eee02dd2eaafa41f7b79e431d55c08c29b69a7058c2cc",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "entrypoint": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entrypoint"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "directDependencies": {
+            "type": "array"
+          },
+          "cyclesDetected": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "directDependencies",
+          "cyclesDetected"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-dependency-analyzer-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "api-signature-checker-condition-a-static-builtin",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "description": "Verifies exported function signatures and interface compatibility. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "7d8a86e49e2c5bf259ac53e9f388bec27a53c77d07973b89cfd97828e0eb88cc",
+      "manifestDigest": "367dbc2d405c7677444cb6e6b14d1608c1f3009e8725e047eb11d4561a6417ac",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "interfaceName": {
+            "type": "string"
+          },
+          "symbolNames": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "interfaceName"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "compatible": {
+            "type": "boolean"
+          },
+          "missingSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "compatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-api-compatibility-checker-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "api-signature-checker-condition-b-human-synthesized",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "description": "Verifies exported function signatures and interface compatibility. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "0b096b1b1c0dcd5834b9f9d643764520d9ffbcdc1bea56648f33caafd4f71aad",
+      "manifestDigest": "8c010b11af163e9337d98d6dcf65cc64242eee1301d783b286495fd297945d2d",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "interfaceName": {
+            "type": "string"
+          },
+          "symbolNames": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "interfaceName"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "compatible": {
+            "type": "boolean"
+          },
+          "missingSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "compatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-api-compatibility-checker-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "api-signature-checker-condition-c-model-synthesized",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "description": "Verifies exported function signatures and interface compatibility. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "efe303f47124a02f6989cf2868fa6a852a556d345c8b36755d875a272119ce86",
+      "manifestDigest": "15db1c071996933f1a6d471093e1e2b30319267aea9e4b2e0103251483400deb",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "interfaceName": {
+            "type": "string"
+          },
+          "symbolNames": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "interfaceName"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "compatible": {
+            "type": "boolean"
+          },
+          "missingSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "compatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-api-compatibility-checker-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "api-signature-checker-condition-d-model-human-revised",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "description": "Verifies exported function signatures and interface compatibility. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "fb50ab80b4431c073127bbe1c21a28f2ea3bce299752800b60a86ee08a16b8d9",
+      "manifestDigest": "71c0479d9b4e9a02f27405d2ffc49df3af46fc2119399f39a01f4b2ac1ce7576",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "interfaceName": {
+            "type": "string"
+          },
+          "symbolNames": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "interfaceName"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "compatible": {
+            "type": "boolean"
+          },
+          "missingSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "compatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-api-compatibility-checker-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "json-schema-comparator-condition-a-static-builtin",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "description": "Compares JSON schema specifications for structural backward compatibility. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "39366f259cc0a49e3fd9eb9d0629a049a3e604996225d42a8713215af541011a",
+      "manifestDigest": "4894530a96c56c61878a7cb260d356f338f3bfe27af918bffa19db0d23254a70",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "baseSchemaVersion": {
+            "type": "string"
+          },
+          "targetSchemaVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "baseSchemaVersion",
+          "targetSchemaVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "isBackwardCompatible": {
+            "type": "boolean"
+          },
+          "breakingChanges": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "isBackwardCompatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-schema-comparator-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "json-schema-comparator-condition-b-human-synthesized",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "description": "Compares JSON schema specifications for structural backward compatibility. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "26707f48dad8885be55a411eac8af9d4f6cdb3efb94f580772260fa1417322fd",
+      "manifestDigest": "8a7181d156366463b63c50c3968d2c69ced98e3b735329878872f10842243061",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "baseSchemaVersion": {
+            "type": "string"
+          },
+          "targetSchemaVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "baseSchemaVersion",
+          "targetSchemaVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "isBackwardCompatible": {
+            "type": "boolean"
+          },
+          "breakingChanges": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "isBackwardCompatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-schema-comparator-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "json-schema-comparator-condition-c-model-synthesized",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "description": "Compares JSON schema specifications for structural backward compatibility. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "fc5027f474309b50530272e7b27a0ae3e50c600f14d1c20e4f93ed584991e047",
+      "manifestDigest": "326fc57512a4592a6e2b8bce9f27a03beee6910eff48706cdefd35eb6fde441f",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "baseSchemaVersion": {
+            "type": "string"
+          },
+          "targetSchemaVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "baseSchemaVersion",
+          "targetSchemaVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "isBackwardCompatible": {
+            "type": "boolean"
+          },
+          "breakingChanges": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "isBackwardCompatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-schema-comparator-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "json-schema-comparator-condition-d-model-human-revised",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "description": "Compares JSON schema specifications for structural backward compatibility. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "f671d9fffc08908fabe3b0361d90a42b22bbfdbd67e3356c6bb43f12f594fb14",
+      "manifestDigest": "1a451057eb4dc4cd87e4ea4e17280acf29b1e0c5077e7c6ea326b4c6264b400c",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "baseSchemaVersion": {
+            "type": "string"
+          },
+          "targetSchemaVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "baseSchemaVersion",
+          "targetSchemaVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "isBackwardCompatible": {
+            "type": "boolean"
+          },
+          "breakingChanges": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "isBackwardCompatible"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-schema-comparator-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "package-config-analyzer-condition-a-static-builtin",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "description": "Validates package.json, tsconfig.json, and tool configurations. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "a814f7e527458cb781d223fcd7ffcf5233b018f7bf673d323d254a43a9f0fdf4",
+      "manifestDigest": "b273eed627ac5c9b6576ac6f6e345f6a10380f06da9bb9fec7988b731088aa06",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "configPath": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "configPath"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean"
+          },
+          "compilerOptions": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "valid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-configuration-analyzer-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "package-config-analyzer-condition-b-human-synthesized",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "description": "Validates package.json, tsconfig.json, and tool configurations. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "853563740d806cb0e43a981dd0f2b4c77a485c74b00fbdf420a026fed879c003",
+      "manifestDigest": "d457c40e3c60d97b65d8752e9321a14438ff71de743e5a8ae499f431f8748e07",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "configPath": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "configPath"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean"
+          },
+          "compilerOptions": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "valid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-configuration-analyzer-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "package-config-analyzer-condition-c-model-synthesized",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "description": "Validates package.json, tsconfig.json, and tool configurations. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "2b8f079735d776c588118dbad4155bb22e49bf7d2454c8e08bec9748c96ab0b3",
+      "manifestDigest": "ed18183eacc39079ff427e2b78a8bb88022bb49b352194b8d6f10c61138d9c83",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "configPath": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "configPath"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean"
+          },
+          "compilerOptions": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "valid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-configuration-analyzer-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "package-config-analyzer-condition-d-model-human-revised",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "description": "Validates package.json, tsconfig.json, and tool configurations. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "bf07c20d62f195698ec8049139650c72334550e09660a84e832369dfaa13faf8",
+      "manifestDigest": "119d908e5b68183fee8b8af55109b263f31619911502cd28dd853a926792b413",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "configPath": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "configPath"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean"
+          },
+          "compilerOptions": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "valid"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-configuration-analyzer-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "test-impact-estimator-condition-a-static-builtin",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "description": "Estimates affected test files based on modified AST symbols. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "e4ded102f6a2883086d7476e62f607db73ab8c8678a57642e84ba6b5edd5dcc1",
+      "manifestDigest": "55cc65436764b07a735200c9603d357ce65ebfdbd2341cb844fc5b8b00c157c2",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "changedFiles": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "changedFiles"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "impactedTests": {
+            "type": "array"
+          },
+          "estimatedDurationMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "impactedTests"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-test-impact-analyzer-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "test-impact-estimator-condition-b-human-synthesized",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "description": "Estimates affected test files based on modified AST symbols. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "2dc97b3b08a2abf8063e79221906aeec35371d5085c2e1cb76c799c2fcdce1f6",
+      "manifestDigest": "db109ebcb3bae50ec5f5d800d6ef9cce222312bc804a6b965fc6549f0ef78a76",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "changedFiles": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "changedFiles"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "impactedTests": {
+            "type": "array"
+          },
+          "estimatedDurationMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "impactedTests"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-test-impact-analyzer-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "test-impact-estimator-condition-c-model-synthesized",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "description": "Estimates affected test files based on modified AST symbols. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "532a3af578e0621f0bd07222f586080574948185fb8383bf0c8a89c60f6222c7",
+      "manifestDigest": "f5d84345ed01f7a0977a44921737fcf58771bea8f5a7276ad6870633047fd43f",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "changedFiles": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "changedFiles"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "impactedTests": {
+            "type": "array"
+          },
+          "estimatedDurationMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "impactedTests"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-test-impact-analyzer-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "test-impact-estimator-condition-d-model-human-revised",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "description": "Estimates affected test files based on modified AST symbols. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "04b975d2a440c334b5404dcc20b9c43c4196dae128c99f8c905ef6a07fe89a1e",
+      "manifestDigest": "98af50664299d2f75a7a7c2cf6d88207f889cb33d0e9542ca5a139d23ddb2c55",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "changedFiles": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "changedFiles"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "impactedTests": {
+            "type": "array"
+          },
+          "estimatedDurationMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "impactedTests"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-test-impact-analyzer-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "cross-repo-contract-auditor-condition-a-static-builtin",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "description": "Checks inter-repository contract alignment and revision freshness. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "600bedcfed488d8174900e8f81358016dbf4f156f6692a2ae7d184510e118320",
+      "manifestDigest": "b939cb1b7773398b6a511593aea068952e4481f900dbc505ea0584b4308af84b",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "producerRepo": {
+            "type": "string"
+          },
+          "consumerRepo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "producerRepo",
+          "consumerRepo"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "contractAligned": {
+            "type": "boolean"
+          },
+          "divergentSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "contractAligned"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-cross-repo-contract-checker-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "cross-repo-contract-auditor-condition-b-human-synthesized",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "description": "Checks inter-repository contract alignment and revision freshness. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "d546433b7d9206687f4cb684b5ad34ac2dbd813a3e03d76aef58566a0daf2f5b",
+      "manifestDigest": "8913d11443c2a4532add6cc5efce7d2a04ea9b7d419c284d80cb47860aa6f5e2",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "producerRepo": {
+            "type": "string"
+          },
+          "consumerRepo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "producerRepo",
+          "consumerRepo"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "contractAligned": {
+            "type": "boolean"
+          },
+          "divergentSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "contractAligned"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-cross-repo-contract-checker-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "cross-repo-contract-auditor-condition-c-model-synthesized",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "description": "Checks inter-repository contract alignment and revision freshness. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "84525e1b5e90ec5f13480a32f9d43b8028c5a95436590a0915008f5d6924667a",
+      "manifestDigest": "b0f6d1cea0a8a8a3f57faf5bad3447154753cb3fc8773f8b7316e0846c989776",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "producerRepo": {
+            "type": "string"
+          },
+          "consumerRepo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "producerRepo",
+          "consumerRepo"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "contractAligned": {
+            "type": "boolean"
+          },
+          "divergentSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "contractAligned"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-cross-repo-contract-checker-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "cross-repo-contract-auditor-condition-d-model-human-revised",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "description": "Checks inter-repository contract alignment and revision freshness. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "3499aa39a18fa1a220f2a0661fd817f93a75fdfb4dbf55fa9de70e464729aac2",
+      "manifestDigest": "aecf95e3674aebf114ce1913e0d53066507e4ca18403206006687bde02b73027",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "producerRepo": {
+            "type": "string"
+          },
+          "consumerRepo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "producerRepo",
+          "consumerRepo"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "contractAligned": {
+            "type": "boolean"
+          },
+          "divergentSymbols": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "contractAligned"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-cross-repo-contract-checker-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-a-static-builtin",
+      "toolVersion": "1.0.0",
+      "toolName": "migration-readiness-analyzer-condition-a-static-builtin",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "description": "Identifies deprecated APIs and breaking version migrations. (Provenance: CONDITION_A_STATIC_BUILTIN)",
+      "sourceDigest": "d5021f11d3113aeed5eb0b711073159f4553c76856172adeee3dd977785ad28a",
+      "manifestDigest": "7bf117b59b6a62b7d1daf56a0755d5c65324b7aa1af85ddf2cc2271d7921e789",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "readinessScore": {
+            "type": "number"
+          },
+          "deprecatedCalls": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "readinessScore"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_a_static_builtin",
+      "creationWorkflowId": "wf-phase86-migration-impact-analyzer-condition-a-static-builtin",
+      "provenanceCondition": "CONDITION_A_STATIC_BUILTIN"
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-b-human-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "migration-readiness-analyzer-condition-b-human-synthesized",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "description": "Identifies deprecated APIs and breaking version migrations. (Provenance: CONDITION_B_HUMAN_SYNTHESIZED)",
+      "sourceDigest": "77583265185da2dbe2c9fd06f9fddfbabe368f0d65da3a803484cd1242768553",
+      "manifestDigest": "ea84704711f1e747ea1ed030eaf7fcfad855d94d273e7c380fb43a3d4b2892f4",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "readinessScore": {
+            "type": "number"
+          },
+          "deprecatedCalls": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "readinessScore"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_b_human_synthesized",
+      "creationWorkflowId": "wf-phase86-migration-impact-analyzer-condition-b-human-synthesized",
+      "provenanceCondition": "CONDITION_B_HUMAN_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-c-model-synthesized",
+      "toolVersion": "1.0.0",
+      "toolName": "migration-readiness-analyzer-condition-c-model-synthesized",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "description": "Identifies deprecated APIs and breaking version migrations. (Provenance: CONDITION_C_MODEL_SYNTHESIZED)",
+      "sourceDigest": "f58d3b27d85d0aa5a9385caf86714450a5d7f1ccece04e4cd1ea3f005e38f160",
+      "manifestDigest": "8c0556d5f1dbf46f7d94a9796d9b283aa3c56dca4b34bf046f18d459f2f679d0",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "readinessScore": {
+            "type": "number"
+          },
+          "deprecatedCalls": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "readinessScore"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_c_model_synthesized",
+      "creationWorkflowId": "wf-phase86-migration-impact-analyzer-condition-c-model-synthesized",
+      "provenanceCondition": "CONDITION_C_MODEL_SYNTHESIZED"
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-d-model-human-revised",
+      "toolVersion": "1.0.0",
+      "toolName": "migration-readiness-analyzer-condition-d-model-human-revised",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "description": "Identifies deprecated APIs and breaking version migrations. (Provenance: CONDITION_D_MODEL_HUMAN_REVISED)",
+      "sourceDigest": "ebdd6dba615dc13afab663cbe1e87fb38e2060c532821d79d2c408d375e70529",
+      "manifestDigest": "a0c664730da42a07849ac3e55f64fc080d6774e7fe0e6318f4e0efb384c2b05e",
+      "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetVersion"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "readinessScore": {
+            "type": "number"
+          },
+          "deprecatedCalls": {
+            "type": "array"
+          }
+        },
+        "required": [
+          "readinessScore"
+        ]
+      },
+      "capabilitySet": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "workspaceScopes": [
+        "workspace/default",
+        "workspace/isolated"
+      ],
+      "repositoryScopes": [
+        "repo-main",
+        "repo-subsystem"
+      ],
+      "resourceLimits": {
+        "maxSourceBytes": 65536,
+        "maxInputBytes": 65536,
+        "maxOutputBytes": 1048576,
+        "maxExecutionMs": 30000,
+        "maxMemoryBytes": 268435456,
+        "maxCPU": 0.5,
+        "maxPids": 32,
+        "maxTemporaryBytes": 16777216,
+        "maxToolInvocationsPerWorkflow": 8,
+        "maxDynamicToolsPerWorkflow": 4,
+        "maxDependencyModules": 32,
+        "maxParallelDynamicTools": 1
+      },
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": [],
+      "deterministicExpectation": true,
+      "creatorIdentity": "creator-condition_d_model_human_revised",
+      "creationWorkflowId": "wf-phase86-migration-impact-analyzer-condition-d-model-human-revised",
+      "provenanceCondition": "CONDITION_D_MODEL_HUMAN_REVISED"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "benchmarks": {
+    "meanValidationMs": 3.2,
+    "p50ValidationMs": 2.8,
+    "p95ValidationMs": 5.1,
+    "meanExecutionMs": 18.4,
+    "p50ExecutionMs": 15.2,
+    "p95ExecutionMs": 29.6,
+    "meanTotalPipelineMs": 21.6,
+    "meanMemoryOverheadMB": 4.1,
+    "peakMemoryOverheadMB": 12.3,
+    "cpuUtilization": 0.12
+  },
+  "resourceEnforcement": {
+    "sourceSizeCapKB": 64,
+    "inputSizeCapKB": 64,
+    "outputSizeCapMB": 1,
+    "executionTimeoutSec": 30,
+    "maxInvocationsPerWorkflow": 8,
+    "maxDynamicToolsPerWorkflow": 4
+  }
+}

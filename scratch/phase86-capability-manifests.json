@@ -1,0 +1,925 @@
+{
+  "count": 32,
+  "manifests": [
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-a-static-builtin",
+      "toolClass": "AST_ANALYZER",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-ast-analyzer-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "ast-syntax-analyzer-condition-a-static-builtin",
+        "toolClass": "AST_ANALYZER",
+        "sourceDigest": "11f0db750df883baea7db499d6e0fdf18587d553734b892c55265f054fd52879",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "119b276d740638e08f9f307fbd2bc23323aa14935053b6846c182127ee2209f5",
+        "outputSchemaDigest": "c8e33eba36f8f7a1d4dd68c74e57529bd1e415d7b4705182e54c8fe689db431f",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "353c1ac8fea0de6da00871fadbd3eb775d4a3adf2b0ad92e5675fc57506b999a",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-b-human-synthesized",
+      "toolClass": "AST_ANALYZER",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-ast-analyzer-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "ast-syntax-analyzer-condition-b-human-synthesized",
+        "toolClass": "AST_ANALYZER",
+        "sourceDigest": "33a78533644ca8306f61724aad7572c3e7a27a50a7f928b405bdc088089911f4",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "119b276d740638e08f9f307fbd2bc23323aa14935053b6846c182127ee2209f5",
+        "outputSchemaDigest": "c8e33eba36f8f7a1d4dd68c74e57529bd1e415d7b4705182e54c8fe689db431f",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "2304da5ce0746a721bb4771a748ff4c958350f4eb71a625602fa9cd605b58e84",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-c-model-synthesized",
+      "toolClass": "AST_ANALYZER",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-ast-analyzer-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "ast-syntax-analyzer-condition-c-model-synthesized",
+        "toolClass": "AST_ANALYZER",
+        "sourceDigest": "249e32287fae44a0bbe77b7cbd145e610466a5765650d7dc8c8a04a96b839cc5",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "119b276d740638e08f9f307fbd2bc23323aa14935053b6846c182127ee2209f5",
+        "outputSchemaDigest": "c8e33eba36f8f7a1d4dd68c74e57529bd1e415d7b4705182e54c8fe689db431f",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "211c0606050221e33ce7edfb0124c6f8e5b2c8edc9adb2ef1cfe127b194fc8f7",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-d-model-human-revised",
+      "toolClass": "AST_ANALYZER",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-ast-analyzer-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "ast-syntax-analyzer-condition-d-model-human-revised",
+        "toolClass": "AST_ANALYZER",
+        "sourceDigest": "3b1b83d21a21c37785b893b6d64838adebb1cc6bf626fca508a0794e68b08943",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "119b276d740638e08f9f307fbd2bc23323aa14935053b6846c182127ee2209f5",
+        "outputSchemaDigest": "c8e33eba36f8f7a1d4dd68c74e57529bd1e415d7b4705182e54c8fe689db431f",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "fdf7d4c1f4417ea92ca82b149b29dfc5af3e8cac3bc1039ed2a6ef73411b8697",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-a-static-builtin",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-dependency-analyzer-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "module-dependency-analyzer-condition-a-static-builtin",
+        "toolClass": "DEPENDENCY_ANALYZER",
+        "sourceDigest": "c1b6f385f603ed6891ad865ad437f7cee5dc5760af8c5d3806ad78e1e03bb915",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "fec6b7622088bd76c23a72a7f7523e8caa82ec49fffc4923e2f54ac6fd2bbaff",
+        "outputSchemaDigest": "b545979cde346c3c73181b18ed5b312ef83ad62a92caf9503dfe6782b543b9e2",
+        "capabilityDigest": "d5ee9162b8d846822c747a3837b0ee7a92ad850ec6a799ae528123836518705e",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "035ee39d318b63409a1bdf3e90b93c49c0195055d01f281276995895087e73c4",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-b-human-synthesized",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-dependency-analyzer-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "module-dependency-analyzer-condition-b-human-synthesized",
+        "toolClass": "DEPENDENCY_ANALYZER",
+        "sourceDigest": "c0ff1b1ae9aed23c19e69c1eb67ed2cf6d7f0cedf87eaf332a8fc14961ea70a4",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "fec6b7622088bd76c23a72a7f7523e8caa82ec49fffc4923e2f54ac6fd2bbaff",
+        "outputSchemaDigest": "b545979cde346c3c73181b18ed5b312ef83ad62a92caf9503dfe6782b543b9e2",
+        "capabilityDigest": "d5ee9162b8d846822c747a3837b0ee7a92ad850ec6a799ae528123836518705e",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "bb546d3b5f835455901e0a44578ec74de9ff9af7d5fa242788c9ac805ef1a1cd",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-c-model-synthesized",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-dependency-analyzer-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "module-dependency-analyzer-condition-c-model-synthesized",
+        "toolClass": "DEPENDENCY_ANALYZER",
+        "sourceDigest": "bf8bb2804d0cffc5019cd20f0eda2c43fa168b33652a791cfb5fe8ccddbbdfce",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "fec6b7622088bd76c23a72a7f7523e8caa82ec49fffc4923e2f54ac6fd2bbaff",
+        "outputSchemaDigest": "b545979cde346c3c73181b18ed5b312ef83ad62a92caf9503dfe6782b543b9e2",
+        "capabilityDigest": "d5ee9162b8d846822c747a3837b0ee7a92ad850ec6a799ae528123836518705e",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "1f3a761dc3909786f8c9a9f2ad179ca654066a80e18782f736464a22eff5f73c",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-d-model-human-revised",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-dependency-analyzer-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "module-dependency-analyzer-condition-d-model-human-revised",
+        "toolClass": "DEPENDENCY_ANALYZER",
+        "sourceDigest": "710ec6a75c753872ed110ad21c543b5fe481c7e54f2e50d44bb2da3926efe0d7",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "fec6b7622088bd76c23a72a7f7523e8caa82ec49fffc4923e2f54ac6fd2bbaff",
+        "outputSchemaDigest": "b545979cde346c3c73181b18ed5b312ef83ad62a92caf9503dfe6782b543b9e2",
+        "capabilityDigest": "d5ee9162b8d846822c747a3837b0ee7a92ad850ec6a799ae528123836518705e",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "c864e0664eb544271c4eee02dd2eaafa41f7b79e431d55c08c29b69a7058c2cc",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-a-static-builtin",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-api-compatibility-checker-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "api-signature-checker-condition-a-static-builtin",
+        "toolClass": "API_COMPATIBILITY_CHECKER",
+        "sourceDigest": "7d8a86e49e2c5bf259ac53e9f388bec27a53c77d07973b89cfd97828e0eb88cc",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "40003f2cd8bf711d5f7f83ca1236d75d348ad5f9d48e83f95e73998d41dc44f3",
+        "outputSchemaDigest": "0f98a06cf7b8e5b79ca716e00bacf18bbb5e35a5f0f767df6c598ab4a7c1858b",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "367dbc2d405c7677444cb6e6b14d1608c1f3009e8725e047eb11d4561a6417ac",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-b-human-synthesized",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-api-compatibility-checker-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "api-signature-checker-condition-b-human-synthesized",
+        "toolClass": "API_COMPATIBILITY_CHECKER",
+        "sourceDigest": "0b096b1b1c0dcd5834b9f9d643764520d9ffbcdc1bea56648f33caafd4f71aad",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "40003f2cd8bf711d5f7f83ca1236d75d348ad5f9d48e83f95e73998d41dc44f3",
+        "outputSchemaDigest": "0f98a06cf7b8e5b79ca716e00bacf18bbb5e35a5f0f767df6c598ab4a7c1858b",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "8c010b11af163e9337d98d6dcf65cc64242eee1301d783b286495fd297945d2d",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-c-model-synthesized",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-api-compatibility-checker-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "api-signature-checker-condition-c-model-synthesized",
+        "toolClass": "API_COMPATIBILITY_CHECKER",
+        "sourceDigest": "efe303f47124a02f6989cf2868fa6a852a556d345c8b36755d875a272119ce86",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "40003f2cd8bf711d5f7f83ca1236d75d348ad5f9d48e83f95e73998d41dc44f3",
+        "outputSchemaDigest": "0f98a06cf7b8e5b79ca716e00bacf18bbb5e35a5f0f767df6c598ab4a7c1858b",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "15db1c071996933f1a6d471093e1e2b30319267aea9e4b2e0103251483400deb",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-d-model-human-revised",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-api-compatibility-checker-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "api-signature-checker-condition-d-model-human-revised",
+        "toolClass": "API_COMPATIBILITY_CHECKER",
+        "sourceDigest": "fb50ab80b4431c073127bbe1c21a28f2ea3bce299752800b60a86ee08a16b8d9",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "40003f2cd8bf711d5f7f83ca1236d75d348ad5f9d48e83f95e73998d41dc44f3",
+        "outputSchemaDigest": "0f98a06cf7b8e5b79ca716e00bacf18bbb5e35a5f0f767df6c598ab4a7c1858b",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "71c0479d9b4e9a02f27405d2ffc49df3af46fc2119399f39a01f4b2ac1ce7576",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-a-static-builtin",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-schema-comparator-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "json-schema-comparator-condition-a-static-builtin",
+        "toolClass": "SCHEMA_COMPARATOR",
+        "sourceDigest": "39366f259cc0a49e3fd9eb9d0629a049a3e604996225d42a8713215af541011a",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "9d90c0ee4f0082d7e4a39ca44ebbd5909d13312420a5767fcaecc671fd76c70a",
+        "outputSchemaDigest": "cc6b1fbb734f5a775a184515ed6b1ed3c394a68993a3f8ce3300013e57996224",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "4894530a96c56c61878a7cb260d356f338f3bfe27af918bffa19db0d23254a70",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-b-human-synthesized",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-schema-comparator-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "json-schema-comparator-condition-b-human-synthesized",
+        "toolClass": "SCHEMA_COMPARATOR",
+        "sourceDigest": "26707f48dad8885be55a411eac8af9d4f6cdb3efb94f580772260fa1417322fd",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "9d90c0ee4f0082d7e4a39ca44ebbd5909d13312420a5767fcaecc671fd76c70a",
+        "outputSchemaDigest": "cc6b1fbb734f5a775a184515ed6b1ed3c394a68993a3f8ce3300013e57996224",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "8a7181d156366463b63c50c3968d2c69ced98e3b735329878872f10842243061",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-c-model-synthesized",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-schema-comparator-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "json-schema-comparator-condition-c-model-synthesized",
+        "toolClass": "SCHEMA_COMPARATOR",
+        "sourceDigest": "fc5027f474309b50530272e7b27a0ae3e50c600f14d1c20e4f93ed584991e047",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "9d90c0ee4f0082d7e4a39ca44ebbd5909d13312420a5767fcaecc671fd76c70a",
+        "outputSchemaDigest": "cc6b1fbb734f5a775a184515ed6b1ed3c394a68993a3f8ce3300013e57996224",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "326fc57512a4592a6e2b8bce9f27a03beee6910eff48706cdefd35eb6fde441f",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-d-model-human-revised",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-schema-comparator-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "json-schema-comparator-condition-d-model-human-revised",
+        "toolClass": "SCHEMA_COMPARATOR",
+        "sourceDigest": "f671d9fffc08908fabe3b0361d90a42b22bbfdbd67e3356c6bb43f12f594fb14",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "9d90c0ee4f0082d7e4a39ca44ebbd5909d13312420a5767fcaecc671fd76c70a",
+        "outputSchemaDigest": "cc6b1fbb734f5a775a184515ed6b1ed3c394a68993a3f8ce3300013e57996224",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "1a451057eb4dc4cd87e4ea4e17280acf29b1e0c5077e7c6ea326b4c6264b400c",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-a-static-builtin",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-configuration-analyzer-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "package-config-analyzer-condition-a-static-builtin",
+        "toolClass": "CONFIGURATION_ANALYZER",
+        "sourceDigest": "a814f7e527458cb781d223fcd7ffcf5233b018f7bf673d323d254a43a9f0fdf4",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b99a570b62a094a6aa72502ad2b1105cc0f78e069d6b600b0d62ee92df1b7e60",
+        "outputSchemaDigest": "55912b563aaca65297d75141cbff2a9949519fd602e715cdcbece99ceb957a56",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "b273eed627ac5c9b6576ac6f6e345f6a10380f06da9bb9fec7988b731088aa06",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-b-human-synthesized",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-configuration-analyzer-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "package-config-analyzer-condition-b-human-synthesized",
+        "toolClass": "CONFIGURATION_ANALYZER",
+        "sourceDigest": "853563740d806cb0e43a981dd0f2b4c77a485c74b00fbdf420a026fed879c003",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b99a570b62a094a6aa72502ad2b1105cc0f78e069d6b600b0d62ee92df1b7e60",
+        "outputSchemaDigest": "55912b563aaca65297d75141cbff2a9949519fd602e715cdcbece99ceb957a56",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "d457c40e3c60d97b65d8752e9321a14438ff71de743e5a8ae499f431f8748e07",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-c-model-synthesized",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-configuration-analyzer-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "package-config-analyzer-condition-c-model-synthesized",
+        "toolClass": "CONFIGURATION_ANALYZER",
+        "sourceDigest": "2b8f079735d776c588118dbad4155bb22e49bf7d2454c8e08bec9748c96ab0b3",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b99a570b62a094a6aa72502ad2b1105cc0f78e069d6b600b0d62ee92df1b7e60",
+        "outputSchemaDigest": "55912b563aaca65297d75141cbff2a9949519fd602e715cdcbece99ceb957a56",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "ed18183eacc39079ff427e2b78a8bb88022bb49b352194b8d6f10c61138d9c83",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-d-model-human-revised",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-configuration-analyzer-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "package-config-analyzer-condition-d-model-human-revised",
+        "toolClass": "CONFIGURATION_ANALYZER",
+        "sourceDigest": "bf07c20d62f195698ec8049139650c72334550e09660a84e832369dfaa13faf8",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b99a570b62a094a6aa72502ad2b1105cc0f78e069d6b600b0d62ee92df1b7e60",
+        "outputSchemaDigest": "55912b563aaca65297d75141cbff2a9949519fd602e715cdcbece99ceb957a56",
+        "capabilityDigest": "df14d73dfd0bc78c6cb33c42bc431693152689d6fbc2ede56819fe0ffada63f6",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "119d908e5b68183fee8b8af55109b263f31619911502cd28dd853a926792b413",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-a-static-builtin",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-test-impact-analyzer-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "test-impact-estimator-condition-a-static-builtin",
+        "toolClass": "TEST_IMPACT_ANALYZER",
+        "sourceDigest": "e4ded102f6a2883086d7476e62f607db73ab8c8678a57642e84ba6b5edd5dcc1",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "ff64960103df89765051d2147662ea3e14fe81f8cf67e1d90c7c7550ffc810cb",
+        "outputSchemaDigest": "77e6c28a9231108da6c37aeff0e15892ab5674d6d088ac5840f8811836108d80",
+        "capabilityDigest": "3467fa1b171fbc2c3c5d149caa05991984e7b0b7d3806ba3ea4778e0492f8345",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "55cc65436764b07a735200c9603d357ce65ebfdbd2341cb844fc5b8b00c157c2",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-b-human-synthesized",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-test-impact-analyzer-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "test-impact-estimator-condition-b-human-synthesized",
+        "toolClass": "TEST_IMPACT_ANALYZER",
+        "sourceDigest": "2dc97b3b08a2abf8063e79221906aeec35371d5085c2e1cb76c799c2fcdce1f6",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "ff64960103df89765051d2147662ea3e14fe81f8cf67e1d90c7c7550ffc810cb",
+        "outputSchemaDigest": "77e6c28a9231108da6c37aeff0e15892ab5674d6d088ac5840f8811836108d80",
+        "capabilityDigest": "3467fa1b171fbc2c3c5d149caa05991984e7b0b7d3806ba3ea4778e0492f8345",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "db109ebcb3bae50ec5f5d800d6ef9cce222312bc804a6b965fc6549f0ef78a76",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-c-model-synthesized",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-test-impact-analyzer-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "test-impact-estimator-condition-c-model-synthesized",
+        "toolClass": "TEST_IMPACT_ANALYZER",
+        "sourceDigest": "532a3af578e0621f0bd07222f586080574948185fb8383bf0c8a89c60f6222c7",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "ff64960103df89765051d2147662ea3e14fe81f8cf67e1d90c7c7550ffc810cb",
+        "outputSchemaDigest": "77e6c28a9231108da6c37aeff0e15892ab5674d6d088ac5840f8811836108d80",
+        "capabilityDigest": "3467fa1b171fbc2c3c5d149caa05991984e7b0b7d3806ba3ea4778e0492f8345",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "f5d84345ed01f7a0977a44921737fcf58771bea8f5a7276ad6870633047fd43f",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-d-model-human-revised",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-test-impact-analyzer-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "test-impact-estimator-condition-d-model-human-revised",
+        "toolClass": "TEST_IMPACT_ANALYZER",
+        "sourceDigest": "04b975d2a440c334b5404dcc20b9c43c4196dae128c99f8c905ef6a07fe89a1e",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "ff64960103df89765051d2147662ea3e14fe81f8cf67e1d90c7c7550ffc810cb",
+        "outputSchemaDigest": "77e6c28a9231108da6c37aeff0e15892ab5674d6d088ac5840f8811836108d80",
+        "capabilityDigest": "3467fa1b171fbc2c3c5d149caa05991984e7b0b7d3806ba3ea4778e0492f8345",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "98af50664299d2f75a7a7c2cf6d88207f889cb33d0e9542ca5a139d23ddb2c55",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-a-static-builtin",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-cross-repo-contract-checker-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "cross-repo-contract-auditor-condition-a-static-builtin",
+        "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+        "sourceDigest": "600bedcfed488d8174900e8f81358016dbf4f156f6692a2ae7d184510e118320",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b78b444fc160f702a33ac9949256de8f4da0c59dffac8eb77c50fa4f4d83d2d9",
+        "outputSchemaDigest": "e0b3eceb0b7880f820cbc2912d61a99edecd00aed517f49e63f4fc6303b0a970",
+        "capabilityDigest": "2037585ef8c4eb5a0b8e7a48fdda90ee94409c35efab43329ac5b5c64d8e98b8",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "b939cb1b7773398b6a511593aea068952e4481f900dbc505ea0584b4308af84b",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-b-human-synthesized",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-cross-repo-contract-checker-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "cross-repo-contract-auditor-condition-b-human-synthesized",
+        "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+        "sourceDigest": "d546433b7d9206687f4cb684b5ad34ac2dbd813a3e03d76aef58566a0daf2f5b",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b78b444fc160f702a33ac9949256de8f4da0c59dffac8eb77c50fa4f4d83d2d9",
+        "outputSchemaDigest": "e0b3eceb0b7880f820cbc2912d61a99edecd00aed517f49e63f4fc6303b0a970",
+        "capabilityDigest": "2037585ef8c4eb5a0b8e7a48fdda90ee94409c35efab43329ac5b5c64d8e98b8",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "8913d11443c2a4532add6cc5efce7d2a04ea9b7d419c284d80cb47860aa6f5e2",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-c-model-synthesized",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-cross-repo-contract-checker-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "cross-repo-contract-auditor-condition-c-model-synthesized",
+        "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+        "sourceDigest": "84525e1b5e90ec5f13480a32f9d43b8028c5a95436590a0915008f5d6924667a",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b78b444fc160f702a33ac9949256de8f4da0c59dffac8eb77c50fa4f4d83d2d9",
+        "outputSchemaDigest": "e0b3eceb0b7880f820cbc2912d61a99edecd00aed517f49e63f4fc6303b0a970",
+        "capabilityDigest": "2037585ef8c4eb5a0b8e7a48fdda90ee94409c35efab43329ac5b5c64d8e98b8",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "b0f6d1cea0a8a8a3f57faf5bad3447154753cb3fc8773f8b7316e0846c989776",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-d-model-human-revised",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-cross-repo-contract-checker-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "cross-repo-contract-auditor-condition-d-model-human-revised",
+        "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+        "sourceDigest": "3499aa39a18fa1a220f2a0661fd817f93a75fdfb4dbf55fa9de70e464729aac2",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "b78b444fc160f702a33ac9949256de8f4da0c59dffac8eb77c50fa4f4d83d2d9",
+        "outputSchemaDigest": "e0b3eceb0b7880f820cbc2912d61a99edecd00aed517f49e63f4fc6303b0a970",
+        "capabilityDigest": "2037585ef8c4eb5a0b8e7a48fdda90ee94409c35efab43329ac5b5c64d8e98b8",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "aecf95e3674aebf114ce1913e0d53066507e4ca18403206006687bde02b73027",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-a-static-builtin",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "condition": "CONDITION_A_STATIC_BUILTIN",
+      "manifest": {
+        "toolId": "tool-prop-migration-impact-analyzer-condition-a-static-builtin",
+        "toolVersion": "1.0.0",
+        "toolName": "migration-readiness-analyzer-condition-a-static-builtin",
+        "toolClass": "MIGRATION_IMPACT_ANALYZER",
+        "sourceDigest": "d5021f11d3113aeed5eb0b711073159f4553c76856172adeee3dd977785ad28a",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "3dfaa1e8b52b15b2362c69b4d3111ceaf7cc5557d6d9f2f6b038b474962ec8ac",
+        "outputSchemaDigest": "0c8379aa97d2c390dfce0252f75e5c395aa66ee50b36626790b834cf1c7b1450",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "7bf117b59b6a62b7d1daf56a0755d5c65324b7aa1af85ddf2cc2271d7921e789",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-b-human-synthesized",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "condition": "CONDITION_B_HUMAN_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-migration-impact-analyzer-condition-b-human-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "migration-readiness-analyzer-condition-b-human-synthesized",
+        "toolClass": "MIGRATION_IMPACT_ANALYZER",
+        "sourceDigest": "77583265185da2dbe2c9fd06f9fddfbabe368f0d65da3a803484cd1242768553",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "3dfaa1e8b52b15b2362c69b4d3111ceaf7cc5557d6d9f2f6b038b474962ec8ac",
+        "outputSchemaDigest": "0c8379aa97d2c390dfce0252f75e5c395aa66ee50b36626790b834cf1c7b1450",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "ea84704711f1e747ea1ed030eaf7fcfad855d94d273e7c380fb43a3d4b2892f4",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-c-model-synthesized",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "condition": "CONDITION_C_MODEL_SYNTHESIZED",
+      "manifest": {
+        "toolId": "tool-prop-migration-impact-analyzer-condition-c-model-synthesized",
+        "toolVersion": "1.0.0",
+        "toolName": "migration-readiness-analyzer-condition-c-model-synthesized",
+        "toolClass": "MIGRATION_IMPACT_ANALYZER",
+        "sourceDigest": "f58d3b27d85d0aa5a9385caf86714450a5d7f1ccece04e4cd1ea3f005e38f160",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "3dfaa1e8b52b15b2362c69b4d3111ceaf7cc5557d6d9f2f6b038b474962ec8ac",
+        "outputSchemaDigest": "0c8379aa97d2c390dfce0252f75e5c395aa66ee50b36626790b834cf1c7b1450",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "8c0556d5f1dbf46f7d94a9796d9b283aa3c56dca4b34bf046f18d459f2f679d0",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-d-model-human-revised",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "condition": "CONDITION_D_MODEL_HUMAN_REVISED",
+      "manifest": {
+        "toolId": "tool-prop-migration-impact-analyzer-condition-d-model-human-revised",
+        "toolVersion": "1.0.0",
+        "toolName": "migration-readiness-analyzer-condition-d-model-human-revised",
+        "toolClass": "MIGRATION_IMPACT_ANALYZER",
+        "sourceDigest": "ebdd6dba615dc13afab663cbe1e87fb38e2060c532821d79d2c408d375e70529",
+        "runtimeDigest": "221554183a3ec38c37aaa744e9252f534fc3444a191909c9c6d597f45d5bb202",
+        "inputSchemaDigest": "3dfaa1e8b52b15b2362c69b4d3111ceaf7cc5557d6d9f2f6b038b474962ec8ac",
+        "outputSchemaDigest": "0c8379aa97d2c390dfce0252f75e5c395aa66ee50b36626790b834cf1c7b1450",
+        "capabilityDigest": "4e4aa0c8bbe1ec91777203bf8f63d1c516911393aac08e85f54af45efe34849a",
+        "resourceLimitDigest": "a7c09c414937da7057a70bf23c0383f042b69dbbacca2136ef77b7892eaa1fc4",
+        "workspaceScopeDigest": "24f473885419f1887074e7da4dd989fc308203e66b56bd499aa70da71f67cb60",
+        "repositoryScopeDigest": "f27d3bf8618fefda1d4579094c127054d70c183b1b98420e6fa821cfe58016ea",
+        "networkPolicy": "DENY_ALL",
+        "credentialScopes": []
+      },
+      "manifestDigest": "a0c664730da42a07849ac3e55f64fc080d6774e7fe0e6318f4e0efb384c2b05e",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "networkPolicy": "DENY_ALL",
+      "credentialScopes": []
+    }
+  ]
+}

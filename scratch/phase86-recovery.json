@@ -1,0 +1,39 @@
+{
+  "scenariosTested": [
+    {
+      "scenario": "REGISTRY_CRASH_DURING_PROPOSAL",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "REGISTRY_CRASH_DURING_VALIDATION",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "IN_FLIGHT_EXECUTION_CRASH",
+      "result": "SAFE_TIMEOUT_TERMINATED"
+    },
+    {
+      "scenario": "STORE_RECONSTITUTION_AFTER_RESTART",
+      "result": "PERSISTENT_IDENTITIES_VERIFIED"
+    },
+    {
+      "scenario": "REVOKED_TOOL_RESURRECTION_ATTEMPT",
+      "result": "STRICT_REVOCATION_PRESERVED"
+    },
+    {
+      "scenario": "EXPIRED_TOOL_RESURRECTION_ATTEMPT",
+      "result": "STRICT_EXPIRATION_PRESERVED"
+    },
+    {
+      "scenario": "QUARANTINED_TOOL_ISOLATION",
+      "result": "ISOLATION_INVARIANT_PRESERVED"
+    },
+    {
+      "scenario": "LEASE_FENCING_ON_DYNAMIC_TOOL_EXECUTION",
+      "result": "EXPIRED_LEASE_REJECTED"
+    }
+  ],
+  "allScenariosPassed": true,
+  "dataLoss": false,
+  "corruptedIdentities": 0
+}

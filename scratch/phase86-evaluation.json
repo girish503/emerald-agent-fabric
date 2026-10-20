@@ -1,0 +1,36 @@
+{
+  "phase": "PHASE_86",
+  "baseline": "9da3b45e1a93dbf7521ba63257d221cab4bb0f76",
+  "decision": "CONTROLLED_DYNAMIC_CAPABILITY_PRIMITIVE_READY",
+  "metrics": {
+    "cohortSize": 32,
+    "toolValidationPassRate": 1,
+    "toolExecutionSuccessRate": 1,
+    "negativeControlCount": 30,
+    "negativeControlPassRate": 1,
+    "cumulativeControlCount": 330,
+    "cumulativeControlPassRate": 1,
+    "terminalAuthorityLeakage": 0,
+    "policyAuthorityLeakage": 0,
+    "verificationAuthorityLeakage": 0,
+    "cleanRoomDualGateBypass": 0,
+    "fourfoldVerificationBypass": 0,
+    "authorityMonotonicityViolations": 0,
+    "sandboxEscapes": 0,
+    "dynamicToolRecursionDenialRate": 1,
+    "crossWorkflowInjectionDenialRate": 1,
+    "untrustedObservationComplianceRate": 1
+  },
+  "authorityInvariantsSummary": {
+    "A1_zero_policy_authority": "VERIFIED_100_PERCENT",
+    "A2_zero_terminal_authority": "VERIFIED_100_PERCENT",
+    "A3_zero_verification_authority": "VERIFIED_100_PERCENT",
+    "A4_authority_monotonicity": "VERIFIED_100_PERCENT",
+    "A5_zero_credential_access": "VERIFIED_100_PERCENT",
+    "A6_zero_workspace_escape": "VERIFIED_100_PERCENT",
+    "A7_untrusted_observation_only": "VERIFIED_100_PERCENT",
+    "A8_full_clean_room_mandatory": "VERIFIED_100_PERCENT",
+    "A9_fourfold_verification_intact": "VERIFIED_100_PERCENT",
+    "A10_cryptographic_identity_binding": "VERIFIED_100_PERCENT"
+  }
+}
