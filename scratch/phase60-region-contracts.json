@@ -1,0 +1,980 @@
+{
+  "schemaVersion": "emerald-phase60-v1",
+  "phase": "60",
+  "generatedAt": "2026-10-20T04:46:56.142Z",
+  "baselineCommit": "60c7f43",
+  "protocolDigest": "02df845246d661be334b803577f9529c9707e4a8e24ec8ff59db84d866dc3bb4",
+  "totalContracts": 25,
+  "contracts": [
+    {
+      "contractId": "CONTRACT-P46-L5-01-01",
+      "regionId": "REGION-P46-L5-01-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STATE"
+      ],
+      "postconditions": [
+        "POST:LOCAL_MUTATION_COMPLETE"
+      ],
+      "inputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "outputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "affectedSymbols": [
+        "comparePrerelease",
+        "parsePrerelease"
+      ],
+      "preservedInvariants": [
+        "PRE_RELEASE_SEMANTICS"
+      ],
+      "allowedMutations": [
+        "src/semver.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM:STABLE"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM:STABLE"
+      ],
+      "verificationObligations": [
+        "LOCAL_UNIT_TEST",
+        "TARGET_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "0be08cd127c32aa4aaf5503338b1b85e11a7f1140bafbf99bcc314ba5987a2de"
+    },
+    {
+      "contractId": "CONTRACT-P46-L5-02-01",
+      "regionId": "REGION-P46-L5-02-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STATE"
+      ],
+      "postconditions": [
+        "POST:LOCAL_MUTATION_COMPLETE"
+      ],
+      "inputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "outputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "affectedSymbols": [
+        "_setInternal",
+        "_toPath"
+      ],
+      "preservedInvariants": [
+        "PATH_NORMALIZATION"
+      ],
+      "allowedMutations": [
+        "src/lodash-set.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM:STABLE"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM:STABLE"
+      ],
+      "verificationObligations": [
+        "LOCAL_UNIT_TEST",
+        "TARGET_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "a747090c4f5fb15993063ded07b21a724531791e22d99521bb91ef4e74989c1a"
+    },
+    {
+      "contractId": "CONTRACT-P46-L5-03-01",
+      "regionId": "REGION-P46-L5-03-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STATE"
+      ],
+      "postconditions": [
+        "POST:LOCAL_MUTATION_COMPLETE"
+      ],
+      "inputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "outputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "affectedSymbols": [
+        "dispatchListener",
+        "emit"
+      ],
+      "preservedInvariants": [
+        "LISTENER_DISPATCH_ORDER"
+      ],
+      "allowedMutations": [
+        "src/event-emitter.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM:STABLE"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM:STABLE"
+      ],
+      "verificationObligations": [
+        "LOCAL_UNIT_TEST",
+        "TARGET_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "3f4188ff4f534ee118b529e19339e3a7629b4a412f6dc300d24667289b45b2b7"
+    },
+    {
+      "contractId": "CONTRACT-P46-L5-04-01",
+      "regionId": "REGION-P46-L5-04-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STATE"
+      ],
+      "postconditions": [
+        "POST:LOCAL_MUTATION_COMPLETE"
+      ],
+      "inputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "outputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "affectedSymbols": [
+        "_handleError",
+        "scanDirectory"
+      ],
+      "preservedInvariants": [
+        "ERROR_BUBBLING"
+      ],
+      "allowedMutations": [
+        "src/walker.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM:STABLE"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM:STABLE"
+      ],
+      "verificationObligations": [
+        "LOCAL_UNIT_TEST",
+        "TARGET_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "661b1489b3047790cf0a70b9268793cbde989dae18cfdccbea9f7b874e394197"
+    },
+    {
+      "contractId": "CONTRACT-P46-L5-05-01",
+      "regionId": "REGION-P46-L5-05-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STATE"
+      ],
+      "postconditions": [
+        "POST:LOCAL_MUTATION_COMPLETE"
+      ],
+      "inputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "outputRepresentations": [
+        "TYPE:PRIMITIVE_OR_STRUCTURED"
+      ],
+      "affectedSymbols": [
+        "flushQueue",
+        "readCache"
+      ],
+      "preservedInvariants": [
+        "CACHE_CONSISTENCY"
+      ],
+      "allowedMutations": [
+        "src/cache-queue.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM:STABLE"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM:STABLE"
+      ],
+      "verificationObligations": [
+        "LOCAL_UNIT_TEST",
+        "TARGET_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "7d20c39fc80e90ba3983ae221b03c983d5e524db05bc82ad49d7c3b3817dd803"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-01-01",
+      "regionId": "REGION-P46-L6-01-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "authorizeUser"
+      ],
+      "preservedInvariants": [
+        "RBAC_HIERARCHY"
+      ],
+      "allowedMutations": [
+        "src/auth.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "46b11d4d106ace91c0526bc15f36fa8dc0cbbf8aa85cd7e8c97794b062e761d6"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-01-02",
+      "regionId": "REGION-P46-L6-01-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "hasRole"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/rbac.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "992d716ab4b6687f0c9a85bb102ffb529cff5491dca6c1181b72cfdeae5e5d72"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-02-01",
+      "regionId": "REGION-P46-L6-02-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "defaultSchema"
+      ],
+      "preservedInvariants": [
+        "SCHEMA_DEFAULTS"
+      ],
+      "allowedMutations": [
+        "src/config.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "9a2645a4df79052f81f4e339b49db533c3ee045cbeb880c8c5060f385c5bbb92"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-02-02",
+      "regionId": "REGION-P46-L6-02-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "loadConfig"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/schema.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "f7642fcccbf9903ebeb9b45fed1b8004eeb12f4348223819265d51ebb4b71c7f"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-03-01",
+      "regionId": "REGION-P46-L6-03-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "formatJson"
+      ],
+      "preservedInvariants": [
+        "LOG_FORMAT_STABILITY"
+      ],
+      "allowedMutations": [
+        "src/formatter.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "f898825f679545816c20e583f8847a8cd386607241e0e153d1ce7829b2980779"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-03-02",
+      "regionId": "REGION-P46-L6-03-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "logEvent"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/logger.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "71da2a39e66e85e8477fd290514f458f450181741f0df151417ed8c7f47796ce"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-04-01",
+      "regionId": "REGION-P46-L6-04-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "buildRequest"
+      ],
+      "preservedInvariants": [
+        "REQUEST_HEADER_SANITY"
+      ],
+      "allowedMutations": [
+        "src/http-client.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "3d4aadc29593324ad72fb9e70dd28a45b85969f774b1d9c6cafe4a5df750e97b"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-04-02",
+      "regionId": "REGION-P46-L6-04-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "sendRequest"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/request-builder.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "90ef8bdbdf72394c941841c3cb2d355c692a8e25cc001813701cd09a110b24aa"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-05-01",
+      "regionId": "REGION-P46-L6-05-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "cancelJob"
+      ],
+      "preservedInvariants": [
+        "WORKER_EVICTION_SAFETY"
+      ],
+      "allowedMutations": [
+        "src/job-queue.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "11b4e049d9c5fea0257e65fb0e8f3b41ffc914038f1f2404bfacca84094fe6f6"
+    },
+    {
+      "contractId": "CONTRACT-P46-L6-05-02",
+      "regionId": "REGION-P46-L6-05-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "evictWorker"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/worker-pool.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "6ea9a2543a219138bf751f024664fc3cd1b851533f6af02336012996c242d473"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-01-01",
+      "regionId": "REGION-P46-L7-01-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "evaluateExponent"
+      ],
+      "preservedInvariants": [
+        "EXPONENT_PRECEDENCE"
+      ],
+      "allowedMutations": [
+        "src/calc.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "63d2075a84a82b4e68ca5c85f49b05eda57d888528690d7de5fe4f8863e75f5a"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-01-02",
+      "regionId": "REGION-P46-L7-01-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "parseExpression"
+      ],
+      "preservedInvariants": [
+        "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+      ],
+      "allowedMutations": [
+        "src/parser.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "56f66b4c3c6799f14520c79af97d70d0c3a1ab9976a6dfdbbdafcdabd1e40322"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-02-01",
+      "regionId": "REGION-P46-L7-02-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "compileOriginPattern"
+      ],
+      "preservedInvariants": [
+        "CORS_WILDCARD_CREDENTIAL_INVARIANT"
+      ],
+      "allowedMutations": [
+        "src/cors.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "9558e71b1cded6884f4a8756adfbc6a59536fd6dea73ee53cab3ee9604f88077"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-02-02",
+      "regionId": "REGION-P46-L7-02-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "validateHeaders"
+      ],
+      "preservedInvariants": [
+        "HEADER_NORMALIZATION"
+      ],
+      "allowedMutations": [
+        "src/header-validator.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "d366514ea914ce582f4d364c4a5e84b72be2735f14429ce2fe2ee3801f155441"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-03-01",
+      "regionId": "REGION-P46-L7-03-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "compareSemVer"
+      ],
+      "preservedInvariants": [
+        "TOTAL_ORDER_SEMANTICS"
+      ],
+      "allowedMutations": [
+        "src/semver-compare.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "eb92d045ca0c212588d75de026f0d185c909fb25aa354ae6c34091a21f698c61"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-03-02",
+      "regionId": "REGION-P46-L7-03-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "sortPrerelease"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/semver-sort.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "bd7f904e223771affd694b4a0e46521195e38fa0611c59685a952a5ac828c827"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-04-01",
+      "regionId": "REGION-P46-L7-04-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "resolveObjectPath"
+      ],
+      "preservedInvariants": [
+        "PROTOTYPE_POLLUTION_GUARD"
+      ],
+      "allowedMutations": [
+        "src/path-resolver.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "73dc2018d1085b10ba82d05aa35a227e93bb7a10afb054326455826a4b579a9f"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-04-02",
+      "regionId": "REGION-P46-L7-04-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "setDeepProperty"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/path-setter.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "178cff49815f44795c035693f1dfa474f6f6341c10a14ed70fdac85369c6faf6"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-05-01",
+      "regionId": "REGION-P46-L7-05-01",
+      "preconditions": [
+        "PRE:VALID_INPUT_STREAM"
+      ],
+      "postconditions": [
+        "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+      ],
+      "inputRepresentations": [
+        "TYPE:SOURCE_STREAM"
+      ],
+      "outputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "affectedSymbols": [
+        "authorizeRole"
+      ],
+      "preservedInvariants": [
+        "ROLE_TRANSITIVE_CLOSURE"
+      ],
+      "allowedMutations": [
+        "src/role-auth.js"
+      ],
+      "sideEffects": [
+        "EMITS_TOKENS_OR_PARSED_CHUNKS"
+      ],
+      "downstreamAssumptions": [
+        "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+      ],
+      "upstreamAssumptions": [
+        "UPSTREAM_SOURCE_AVAILABLE"
+      ],
+      "verificationObligations": [
+        "PARSER_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "a6536b396f4ff98e5f367da7f4c129e26dd1ecfba75555cbbcfc291ef6160a5e"
+    },
+    {
+      "contractId": "CONTRACT-P46-L7-05-02",
+      "regionId": "REGION-P46-L7-05-02",
+      "preconditions": [
+        "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+      ],
+      "postconditions": [
+        "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+      ],
+      "inputRepresentations": [
+        "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+      ],
+      "outputRepresentations": [
+        "TYPE:FINAL_RESULT"
+      ],
+      "affectedSymbols": [
+        "evaluateRoleHierarchy"
+      ],
+      "preservedInvariants": [],
+      "allowedMutations": [
+        "src/role-graph.js"
+      ],
+      "sideEffects": [
+        "NONE"
+      ],
+      "downstreamAssumptions": [
+        "DOWNSTREAM_CONSUMER_CALL"
+      ],
+      "upstreamAssumptions": [
+        "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+      ],
+      "verificationObligations": [
+        "EVALUATION_ISOLATED_TEST"
+      ],
+      "immutable": true,
+      "semanticHash": "22f69681db02279a3a2de83b93da5a78671c0ceb56dea115bf226d4e75303694"
+    }
+  ],
+  "artifactDigest": "fb371550c2fcde05fd5188d96173894dac52d46cf84e51ba43ee03c9de47ae26"
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "emerald-phase60-v1",
+  "phase": "60",
+  "generatedAt": "2026-10-20T04:46:56.165Z",
+  "baselineCommit": "60c7f43",
+  "protocolDigest": "02df845246d661be334b803577f9529c9707e4a8e24ec8ff59db84d866dc3bb4",
+  "totalControls": 10,
+  "allPassed": true,
+  "controls": [
+    {
+      "id": "N1",
+      "name": "Incomplete region closure",
+      "status": "PASS",
+      "actualClass": "DECOMPOSITION_INFORMATION_LOSS",
+      "evidence": "Incomplete symbol or invariant closure triggers immediate fail-closed rejection"
+    },
+    {
+      "id": "N2",
+      "name": "Missing required contract",
+      "status": "PASS",
+      "actualClass": "CONTRACT_MISSING_FAIL_CLOSED",
+      "evidence": "Any region lacking a signed immutable RegionContract is rejected prior to synthesis"
+    },
+    {
+      "id": "N3",
+      "name": "Broken dependency edge",
+      "status": "PASS",
+      "actualClass": "DEPENDENCY_EDGE_UNRESOLVED",
+      "evidence": "Unresolved consumer dependency flags broken DAG edge and halts composition"
+    },
+    {
+      "id": "N4",
+      "name": "Dependency cycle",
+      "status": "PASS",
+      "actualClass": "CYCLE_DETECTED_REJECTED",
+      "evidence": "Tarjan cycle detection algorithm identifies cycle and rejects plan"
+    },
+    {
+      "id": "N5",
+      "name": "Cross-region representation mismatch",
+      "status": "PASS",
+      "actualClass": "REPRESENTATION_MISMATCH_DETECTED",
+      "evidence": "Composition constraint evaluates producer/consumer type and dataflow representation compatibility"
+    },
+    {
+      "id": "N6",
+      "name": "Hidden invariant omitted from one region",
+      "status": "PASS",
+      "actualClass": "GLOBAL_INVARIANT_VIOLATION",
+      "evidence": "Global invariant reconciliation layer catches cross-region invariant breach during final composition"
+    },
+    {
+      "id": "N7",
+      "name": "Gold-patch leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Static scanner detects hardcoded Pratt binding power or CORS solution snippets"
+    },
+    {
+      "id": "N8",
+      "name": "Unauthorized mutation outside region boundary",
+      "status": "PASS",
+      "actualClass": "UNAUTHORIZED_MUTATION_REJECTED",
+      "evidence": "UNAUTHORIZED_MUTATION_OUTSIDE_REGION_BOUNDARY: File 'src/unauthorized.js' not in allowedMutations [src/parser.js]"
+    },
+    {
+      "id": "N9",
+      "name": "Locally passing region with globally failing composition",
+      "status": "PASS",
+      "actualClass": "CROSS_REGION_SEMANTIC_FAILURE",
+      "evidence": "Independently valid local subtasks fail whole-program composition verification"
+    },
+    {
+      "id": "N10",
+      "name": "Non-deterministic decomposition input/order",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_OUTPUT",
+      "evidence": "Canonical JSON serialization and sorted key closure guarantee byte-identical plan digests"
+    }
+  ],
+  "artifactDigest": "79708835ff2a2d97753ec952fd32bfbd681669e36e74f31f01db745f67bee14a"
+}

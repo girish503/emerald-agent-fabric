@@ -1,0 +1,355 @@
+{
+  "schemaVersion": "emerald-phase60-v1",
+  "phase": "60",
+  "generatedAt": "2026-10-20T04:46:56.143Z",
+  "baselineCommit": "60c7f43",
+  "protocolDigest": "02df845246d661be334b803577f9529c9707e4a8e24ec8ff59db84d866dc3bb4",
+  "totalDAGs": 15,
+  "totalEdges": 10,
+  "maxObservedDepth": 2,
+  "maxObservedFanout": 1,
+  "cycleCount": 0,
+  "dags": [
+    {
+      "taskId": "P46-L5-01",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L5-01-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-01-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "d82f4b622586c37778a0b14b6e48f591dbd0b1687c98fcc5ac9ba4a129c5a6ef"
+      }
+    },
+    {
+      "taskId": "P46-L5-02",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L5-02-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-02-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "fb6a2f4eb67b30f8f82f203474922ba25e54f6ad1366ba8644b2585cebf97ce4"
+      }
+    },
+    {
+      "taskId": "P46-L5-03",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L5-03-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-03-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "27c5d7bb50c7bff0d6b8cf7dda7367079af5c208e5af27c5f77f3807822bd842"
+      }
+    },
+    {
+      "taskId": "P46-L5-04",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L5-04-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-04-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "f0619957cb7d8c4a08764a2e8b360fb4e551b4d69871db776231419beb48d20f"
+      }
+    },
+    {
+      "taskId": "P46-L5-05",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L5-05-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-05-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "cc3ae362e846b78a71ca321cc5dfdd5b333a219cfb38a0412a2aff79cafdcef0"
+      }
+    },
+    {
+      "taskId": "P46-L6-01",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L6-01-01",
+          "SUBP-P46-L6-01-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-01-01-TO-SUBP-P46-L6-01-02",
+            "producerSubproblemId": "SUBP-P46-L6-01-01",
+            "consumerSubproblemId": "SUBP-P46-L6-01-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-01-01",
+          "SUBP-P46-L6-01-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "2e8d87047e6a953a9db9fd91e9e9691b412d6cf61d3670156caf5aca8494d1cf"
+      }
+    },
+    {
+      "taskId": "P46-L6-02",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L6-02-01",
+          "SUBP-P46-L6-02-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-02-01-TO-SUBP-P46-L6-02-02",
+            "producerSubproblemId": "SUBP-P46-L6-02-01",
+            "consumerSubproblemId": "SUBP-P46-L6-02-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-02-01",
+          "SUBP-P46-L6-02-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "6cf5692fe10485b855de433b051a159017e0589642057e2d6dfddccb5c268314"
+      }
+    },
+    {
+      "taskId": "P46-L6-03",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L6-03-01",
+          "SUBP-P46-L6-03-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-03-01-TO-SUBP-P46-L6-03-02",
+            "producerSubproblemId": "SUBP-P46-L6-03-01",
+            "consumerSubproblemId": "SUBP-P46-L6-03-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-03-01",
+          "SUBP-P46-L6-03-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "b10d48883add46984f7d59a3675ad234134bfd768d08aa47d5c853dbcffe92c8"
+      }
+    },
+    {
+      "taskId": "P46-L6-04",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L6-04-01",
+          "SUBP-P46-L6-04-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-04-01-TO-SUBP-P46-L6-04-02",
+            "producerSubproblemId": "SUBP-P46-L6-04-01",
+            "consumerSubproblemId": "SUBP-P46-L6-04-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-04-01",
+          "SUBP-P46-L6-04-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "40846f4a03a1a0ef2bbd538bd7676a47631fccf10b8800401f6be4d4e135d3ec"
+      }
+    },
+    {
+      "taskId": "P46-L6-05",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L6-05-01",
+          "SUBP-P46-L6-05-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-05-01-TO-SUBP-P46-L6-05-02",
+            "producerSubproblemId": "SUBP-P46-L6-05-01",
+            "consumerSubproblemId": "SUBP-P46-L6-05-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-05-01",
+          "SUBP-P46-L6-05-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "892ab79f01da81a7d464046156b6bf12ab2db789a55b1a35a00ca521b08b50b7"
+      }
+    },
+    {
+      "taskId": "P46-L7-01",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L7-01-01",
+          "SUBP-P46-L7-01-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-01-01-TO-SUBP-P46-L7-01-02",
+            "producerSubproblemId": "SUBP-P46-L7-01-01",
+            "consumerSubproblemId": "SUBP-P46-L7-01-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-01-01",
+          "SUBP-P46-L7-01-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "8df73aedf922c19b29f11613affed738ae17a572b1a3cd1548a5b08cbfefa405"
+      }
+    },
+    {
+      "taskId": "P46-L7-02",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L7-02-01",
+          "SUBP-P46-L7-02-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-02-01-TO-SUBP-P46-L7-02-02",
+            "producerSubproblemId": "SUBP-P46-L7-02-01",
+            "consumerSubproblemId": "SUBP-P46-L7-02-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-02-01",
+          "SUBP-P46-L7-02-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "543653e7b55c73ec8f69a9b8c3fb63f3a0aef40a52ee7942106106aa2c30ab12"
+      }
+    },
+    {
+      "taskId": "P46-L7-03",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L7-03-01",
+          "SUBP-P46-L7-03-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-03-01-TO-SUBP-P46-L7-03-02",
+            "producerSubproblemId": "SUBP-P46-L7-03-01",
+            "consumerSubproblemId": "SUBP-P46-L7-03-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-03-01",
+          "SUBP-P46-L7-03-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "7f732dd363dcead5139c674c5e31c93ebd188fd811884cca95858ba53f6aa87f"
+      }
+    },
+    {
+      "taskId": "P46-L7-04",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L7-04-01",
+          "SUBP-P46-L7-04-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-04-01-TO-SUBP-P46-L7-04-02",
+            "producerSubproblemId": "SUBP-P46-L7-04-01",
+            "consumerSubproblemId": "SUBP-P46-L7-04-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-04-01",
+          "SUBP-P46-L7-04-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "e9961d81271d440a4957282738444fbb02f6d1ddd73efd132f3314bf01e79938"
+      }
+    },
+    {
+      "taskId": "P46-L7-05",
+      "dag": {
+        "nodes": [
+          "SUBP-P46-L7-05-01",
+          "SUBP-P46-L7-05-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-05-01-TO-SUBP-P46-L7-05-02",
+            "producerSubproblemId": "SUBP-P46-L7-05-01",
+            "consumerSubproblemId": "SUBP-P46-L7-05-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-05-01",
+          "SUBP-P46-L7-05-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "6fa266a8163af2439ad906474ba614f9e9af708b7c5a6426ab9a76530c5f84de"
+      }
+    }
+  ],
+  "artifactDigest": "1a833796c27099a95f45722adab2a8b514b675945b037850ef31b145cddc33aa"
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "emerald-phase60-v1",
+  "phase": "60",
+  "generatedAt": "2026-10-20T04:46:56.157Z",
+  "baselineCommit": "60c7f43",
+  "protocolDigest": "02df845246d661be334b803577f9529c9707e4a8e24ec8ff59db84d866dc3bb4",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "modules": [
+            "src/parser.js"
+          ],
+          "symbols": [
+            "parseExpression"
+          ]
+        },
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "modules": [
+            "src/calc.js"
+          ],
+          "symbols": [
+            "evaluateExponent"
+          ]
+        }
+      ],
+      "regionContracts": [
+        {
+          "contractId": "CONTRACT-P46-L7-01-01",
+          "status": "VALID"
+        },
+        {
+          "contractId": "CONTRACT-P46-L7-01-02",
+          "status": "VALID"
+        }
+      ],
+      "localSubtaskSuccess": "2/2 (100% local synthesis pass)",
+      "compositionStatus": "CROSS_REGION_SEMANTIC_FAILURE",
+      "violatedConstraint": "CC-BND-REGION-P46-L7-01-01-TO-REGION-P46-L7-01-02-SHARED_STATE",
+      "failureRootCause": "Pratt tokenizer juxtaposition state requires joint parser-tokenizer grammar refinement outside decoupled region boundaries"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "modules": [
+            "src/cors.js"
+          ],
+          "symbols": [
+            "compileOriginPattern"
+          ]
+        },
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "modules": [
+            "src/header-validator.js"
+          ],
+          "symbols": [
+            "validateHeaders"
+          ]
+        }
+      ],
+      "regionContracts": [
+        {
+          "contractId": "CONTRACT-P46-L7-02-01",
+          "status": "VALID"
+        },
+        {
+          "contractId": "CONTRACT-P46-L7-02-02",
+          "status": "VALID"
+        }
+      ],
+      "localSubtaskSuccess": "2/2 (100% local synthesis pass)",
+      "compositionStatus": "CROSS_REGION_SEMANTIC_FAILURE",
+      "violatedConstraint": "CC-BND-REGION-P46-L7-02-01-TO-REGION-P46-L7-02-02-SHARED_STATE",
+      "failureRootCause": "CORS origin reflection requires joint credential and wildcard invariant reconciliation outside decoupled region boundaries"
+    }
+  ],
+  "artifactDigest": "6d124d3ddaec08233e4690d4fdd7bc5fa41be540af63c74f7c1491f8df46e062"
+}

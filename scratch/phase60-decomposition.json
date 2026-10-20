@@ -1,0 +1,3954 @@
+{
+  "schemaVersion": "emerald-phase60-v1",
+  "phase": "60",
+  "generatedAt": "2026-10-20T04:46:56.139Z",
+  "baselineCommit": "60c7f43",
+  "protocolDigest": "02df845246d661be334b803577f9529c9707e4a8e24ec8ff59db84d866dc3bb4",
+  "totalTasks": 15,
+  "totalRegions": 25,
+  "totalSubproblems": 25,
+  "closureRulesApplied": [
+    "SYMBOL_DEPENDENCY_CLOSURE",
+    "IMPORT_DEPENDENCY_CLOSURE",
+    "EXPORT_DEPENDENCY_CLOSURE",
+    "CALL_GRAPH_CLOSURE",
+    "TYPE_DEPENDENCY_CLOSURE",
+    "TEST_AFFINITY_CLOSURE",
+    "CONFIGURATION_DEPENDENCY_CLOSURE",
+    "CONTRACT_DEPENDENCY_CLOSURE",
+    "GLOBAL_INVARIANT_CLOSURE",
+    "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+  ],
+  "plans": [
+    {
+      "planId": "PLAN-P46-L5-01-v1",
+      "taskId": "P46-L5-01",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L5-01-01",
+          "symbols": [
+            "comparePrerelease",
+            "parsePrerelease"
+          ],
+          "modules": [
+            "src/semver.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L5-01-01"
+          ],
+          "invariants": [
+            "PRE_RELEASE_SEMANTICS"
+          ],
+          "provenance": {
+            "taskId": "P46-L5-01",
+            "source": "SINGLE_MODULE_CLOSURE"
+          },
+          "complexityClassification": "L5",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "2361499d4f98e1d37a70ece14b4d4cf7a25e196391e08e7ea9f3f2bcc422f38c"
+        }
+      ],
+      "regionBoundaries": [],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L5-01-01",
+          "regionId": "REGION-P46-L5-01-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STATE"
+          ],
+          "postconditions": [
+            "POST:LOCAL_MUTATION_COMPLETE"
+          ],
+          "inputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "outputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "affectedSymbols": [
+            "comparePrerelease",
+            "parsePrerelease"
+          ],
+          "preservedInvariants": [
+            "PRE_RELEASE_SEMANTICS"
+          ],
+          "allowedMutations": [
+            "src/semver.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM:STABLE"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM:STABLE"
+          ],
+          "verificationObligations": [
+            "LOCAL_UNIT_TEST",
+            "TARGET_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "0be08cd127c32aa4aaf5503338b1b85e11a7f1140bafbf99bcc314ba5987a2de"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L5-01-01",
+          "regionId": "REGION-P46-L5-01-01",
+          "objective": "Execute local repair for P46-L5-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L5-01-1"
+          ],
+          "applicableInvariants": [
+            "PRE_RELEASE_SEMANTICS"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L5-01-01"
+          ],
+          "allowedFiles": [
+            "src/semver.js"
+          ],
+          "allowedSymbols": [
+            "comparePrerelease",
+            "parsePrerelease"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "TARGET_TEST"
+          ],
+          "complexityLevel": "L5",
+          "subproblemDigest": "3900b6344dccf4b7f7ea9a10b27ef3b4a2c170fdc45d9d2dea4024a085336655"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L5-01-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-01-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "d82f4b622586c37778a0b14b6e48f591dbd0b1687c98fcc5ac9ba4a129c5a6ef"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.132Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "844977f87e31bb148ee4093aaf09f8ca05c60fbbd9b6dad65017a3b7527d4f74"
+    },
+    {
+      "planId": "PLAN-P46-L5-02-v1",
+      "taskId": "P46-L5-02",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L5-02-01",
+          "symbols": [
+            "_setInternal",
+            "_toPath"
+          ],
+          "modules": [
+            "src/lodash-set.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L5-02-01"
+          ],
+          "invariants": [
+            "PATH_NORMALIZATION"
+          ],
+          "provenance": {
+            "taskId": "P46-L5-02",
+            "source": "SINGLE_MODULE_CLOSURE"
+          },
+          "complexityClassification": "L5",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "620abe90645fb88758a85604270971229f6f748aa1d71b687b920d3ed6714d67"
+        }
+      ],
+      "regionBoundaries": [],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L5-02-01",
+          "regionId": "REGION-P46-L5-02-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STATE"
+          ],
+          "postconditions": [
+            "POST:LOCAL_MUTATION_COMPLETE"
+          ],
+          "inputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "outputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "affectedSymbols": [
+            "_setInternal",
+            "_toPath"
+          ],
+          "preservedInvariants": [
+            "PATH_NORMALIZATION"
+          ],
+          "allowedMutations": [
+            "src/lodash-set.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM:STABLE"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM:STABLE"
+          ],
+          "verificationObligations": [
+            "LOCAL_UNIT_TEST",
+            "TARGET_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "a747090c4f5fb15993063ded07b21a724531791e22d99521bb91ef4e74989c1a"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L5-02-01",
+          "regionId": "REGION-P46-L5-02-01",
+          "objective": "Execute local repair for P46-L5-02",
+          "repairObligations": [
+            "OBLIGATION-P46-L5-02-1"
+          ],
+          "applicableInvariants": [
+            "PATH_NORMALIZATION"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L5-02-01"
+          ],
+          "allowedFiles": [
+            "src/lodash-set.js"
+          ],
+          "allowedSymbols": [
+            "_setInternal",
+            "_toPath"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "TARGET_TEST"
+          ],
+          "complexityLevel": "L5",
+          "subproblemDigest": "6e0d325747549e868057484fdccc859dd433a052341fe6f7cff48e48620ed389"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L5-02-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-02-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "fb6a2f4eb67b30f8f82f203474922ba25e54f6ad1366ba8644b2585cebf97ce4"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.132Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "7e7b50e22fac407a0f0091d0a9212e3056e74e9b6b0298192452febe052c99ee"
+    },
+    {
+      "planId": "PLAN-P46-L5-03-v1",
+      "taskId": "P46-L5-03",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L5-03-01",
+          "symbols": [
+            "dispatchListener",
+            "emit"
+          ],
+          "modules": [
+            "src/event-emitter.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L5-03-01"
+          ],
+          "invariants": [
+            "LISTENER_DISPATCH_ORDER"
+          ],
+          "provenance": {
+            "taskId": "P46-L5-03",
+            "source": "SINGLE_MODULE_CLOSURE"
+          },
+          "complexityClassification": "L5",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "da7125416e472c8a1510f39bccacf5c8ae14971d99083d4b031189f00869900f"
+        }
+      ],
+      "regionBoundaries": [],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L5-03-01",
+          "regionId": "REGION-P46-L5-03-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STATE"
+          ],
+          "postconditions": [
+            "POST:LOCAL_MUTATION_COMPLETE"
+          ],
+          "inputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "outputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "affectedSymbols": [
+            "dispatchListener",
+            "emit"
+          ],
+          "preservedInvariants": [
+            "LISTENER_DISPATCH_ORDER"
+          ],
+          "allowedMutations": [
+            "src/event-emitter.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM:STABLE"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM:STABLE"
+          ],
+          "verificationObligations": [
+            "LOCAL_UNIT_TEST",
+            "TARGET_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "3f4188ff4f534ee118b529e19339e3a7629b4a412f6dc300d24667289b45b2b7"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L5-03-01",
+          "regionId": "REGION-P46-L5-03-01",
+          "objective": "Execute local repair for P46-L5-03",
+          "repairObligations": [
+            "OBLIGATION-P46-L5-03-1"
+          ],
+          "applicableInvariants": [
+            "LISTENER_DISPATCH_ORDER"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L5-03-01"
+          ],
+          "allowedFiles": [
+            "src/event-emitter.js"
+          ],
+          "allowedSymbols": [
+            "dispatchListener",
+            "emit"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "TARGET_TEST"
+          ],
+          "complexityLevel": "L5",
+          "subproblemDigest": "737b99c8502ea2d36b1b29d46cb1bc72de94d67530e3fff87206a0a68d2318c9"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L5-03-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-03-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "27c5d7bb50c7bff0d6b8cf7dda7367079af5c208e5af27c5f77f3807822bd842"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.132Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "69f2a35d434a22520685180d2f357a4386a140fb1cac4ac39f0a17f5d196d9a2"
+    },
+    {
+      "planId": "PLAN-P46-L5-04-v1",
+      "taskId": "P46-L5-04",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L5-04-01",
+          "symbols": [
+            "_handleError",
+            "scanDirectory"
+          ],
+          "modules": [
+            "src/walker.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L5-04-01"
+          ],
+          "invariants": [
+            "ERROR_BUBBLING"
+          ],
+          "provenance": {
+            "taskId": "P46-L5-04",
+            "source": "SINGLE_MODULE_CLOSURE"
+          },
+          "complexityClassification": "L5",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "4b5929a54b4f86e65a8a9ee0129391c0c8029558f74237632749ca868c6069e9"
+        }
+      ],
+      "regionBoundaries": [],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L5-04-01",
+          "regionId": "REGION-P46-L5-04-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STATE"
+          ],
+          "postconditions": [
+            "POST:LOCAL_MUTATION_COMPLETE"
+          ],
+          "inputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "outputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "affectedSymbols": [
+            "_handleError",
+            "scanDirectory"
+          ],
+          "preservedInvariants": [
+            "ERROR_BUBBLING"
+          ],
+          "allowedMutations": [
+            "src/walker.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM:STABLE"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM:STABLE"
+          ],
+          "verificationObligations": [
+            "LOCAL_UNIT_TEST",
+            "TARGET_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "661b1489b3047790cf0a70b9268793cbde989dae18cfdccbea9f7b874e394197"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L5-04-01",
+          "regionId": "REGION-P46-L5-04-01",
+          "objective": "Execute local repair for P46-L5-04",
+          "repairObligations": [
+            "OBLIGATION-P46-L5-04-1"
+          ],
+          "applicableInvariants": [
+            "ERROR_BUBBLING"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L5-04-01"
+          ],
+          "allowedFiles": [
+            "src/walker.js"
+          ],
+          "allowedSymbols": [
+            "_handleError",
+            "scanDirectory"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "TARGET_TEST"
+          ],
+          "complexityLevel": "L5",
+          "subproblemDigest": "c0b4e1c7818a9a8314226cac13cfa68309156c9b828706c7a76000ed4de11b19"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L5-04-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-04-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "f0619957cb7d8c4a08764a2e8b360fb4e551b4d69871db776231419beb48d20f"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.132Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "18d4e58069c04f562f4c13c35558bd41a9884700c10eead2d1ba6e3537fb1829"
+    },
+    {
+      "planId": "PLAN-P46-L5-05-v1",
+      "taskId": "P46-L5-05",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L5-05-01",
+          "symbols": [
+            "flushQueue",
+            "readCache"
+          ],
+          "modules": [
+            "src/cache-queue.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L5-05-01"
+          ],
+          "invariants": [
+            "CACHE_CONSISTENCY"
+          ],
+          "provenance": {
+            "taskId": "P46-L5-05",
+            "source": "SINGLE_MODULE_CLOSURE"
+          },
+          "complexityClassification": "L5",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "3c87372050042224ef333c99b56959c0a825fb238c555df14e19e072b214834e"
+        }
+      ],
+      "regionBoundaries": [],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L5-05-01",
+          "regionId": "REGION-P46-L5-05-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STATE"
+          ],
+          "postconditions": [
+            "POST:LOCAL_MUTATION_COMPLETE"
+          ],
+          "inputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "outputRepresentations": [
+            "TYPE:PRIMITIVE_OR_STRUCTURED"
+          ],
+          "affectedSymbols": [
+            "flushQueue",
+            "readCache"
+          ],
+          "preservedInvariants": [
+            "CACHE_CONSISTENCY"
+          ],
+          "allowedMutations": [
+            "src/cache-queue.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM:STABLE"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM:STABLE"
+          ],
+          "verificationObligations": [
+            "LOCAL_UNIT_TEST",
+            "TARGET_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "7d20c39fc80e90ba3983ae221b03c983d5e524db05bc82ad49d7c3b3817dd803"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L5-05-01",
+          "regionId": "REGION-P46-L5-05-01",
+          "objective": "Execute local repair for P46-L5-05",
+          "repairObligations": [
+            "OBLIGATION-P46-L5-05-1"
+          ],
+          "applicableInvariants": [
+            "CACHE_CONSISTENCY"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L5-05-01"
+          ],
+          "allowedFiles": [
+            "src/cache-queue.js"
+          ],
+          "allowedSymbols": [
+            "flushQueue",
+            "readCache"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "TARGET_TEST"
+          ],
+          "complexityLevel": "L5",
+          "subproblemDigest": "7ac257cfdc6e6339982ab0020a6b67574ff465fb7d89b292780cb30830ba9134"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L5-05-01"
+        ],
+        "edges": [],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L5-05-01"
+        ],
+        "maxDepth": 1,
+        "maxFanout": 1,
+        "dagDigest": "cc3ae362e846b78a71ca321cc5dfdd5b333a219cfb38a0412a2aff79cafdcef0"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.133Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "6d6711acd49822fdac8cb5fc8697d012cf8f2f603300b8fedad9d732f590e6c2"
+    },
+    {
+      "planId": "PLAN-P46-L6-01-v1",
+      "taskId": "P46-L6-01",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L6-01-01",
+          "symbols": [
+            "authorizeUser"
+          ],
+          "modules": [
+            "src/auth.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-01-01"
+          ],
+          "invariants": [
+            "RBAC_HIERARCHY"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "b294c9a46d7e4cf1c64486cba636ef5d0bf1681ea59250c2b87d4ca7f0d36acb"
+        },
+        {
+          "regionId": "REGION-P46-L6-01-02",
+          "symbols": [
+            "hasRole"
+          ],
+          "modules": [
+            "src/rbac.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "5f58a7578f51a954c91a2afdb5bed1c7ff22f3db6b684b3be665dfcce763f1b9"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L6-01-01-TO-REGION-P46-L6-01-02",
+          "sourceRegionId": "REGION-P46-L6-01-01",
+          "targetRegionId": "REGION-P46-L6-01-02",
+          "inputSymbols": [
+            "authorizeUser"
+          ],
+          "outputSymbols": [
+            "hasRole"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "authorizeUser",
+              "consumer": "hasRole",
+              "symbol": "authorizeUser"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L6-01-01",
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "invariants": [
+            "RBAC_HIERARCHY"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/auth.js",
+            "src/rbac.js"
+          ],
+          "boundaryDigest": "171ee1a8a3cc8c77e72642c9c76897aaa764f04a9c6c617f7e09b32c664c0428"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L6-01-01",
+          "regionId": "REGION-P46-L6-01-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "authorizeUser"
+          ],
+          "preservedInvariants": [
+            "RBAC_HIERARCHY"
+          ],
+          "allowedMutations": [
+            "src/auth.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "46b11d4d106ace91c0526bc15f36fa8dc0cbbf8aa85cd7e8c97794b062e761d6"
+        },
+        {
+          "contractId": "CONTRACT-P46-L6-01-02",
+          "regionId": "REGION-P46-L6-01-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "hasRole"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/rbac.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "992d716ab4b6687f0c9a85bb102ffb529cff5491dca6c1181b72cfdeae5e5d72"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L6-01-01",
+          "regionId": "REGION-P46-L6-01-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L6-01-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L6-01-1"
+          ],
+          "applicableInvariants": [
+            "RBAC_HIERARCHY"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-01-01"
+          ],
+          "allowedFiles": [
+            "src/auth.js"
+          ],
+          "allowedSymbols": [
+            "authorizeUser"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "8f7f5a2f7093522d97050ea73ec943789279a5951a190125362099782094b525"
+        },
+        {
+          "subproblemId": "SUBP-P46-L6-01-02",
+          "regionId": "REGION-P46-L6-01-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L6-01-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "allowedFiles": [
+            "src/rbac.js"
+          ],
+          "allowedSymbols": [
+            "hasRole"
+          ],
+          "dependencies": [
+            "SUBP-P46-L6-01-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "a377351041db3c4e3ea141e47b8f3706e9b99dc5bb590fdce943b04b3ac2654f"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L6-01-01",
+          "SUBP-P46-L6-01-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-01-01-TO-SUBP-P46-L6-01-02",
+            "producerSubproblemId": "SUBP-P46-L6-01-01",
+            "consumerSubproblemId": "SUBP-P46-L6-01-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-01-01",
+          "SUBP-P46-L6-01-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "2e8d87047e6a953a9db9fd91e9e9691b412d6cf61d3670156caf5aca8494d1cf"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.134Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "4c15895c39603553485bcbdf6a184f4616e0aee1534f89d06833fb1291c5270b"
+    },
+    {
+      "planId": "PLAN-P46-L6-02-v1",
+      "taskId": "P46-L6-02",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L6-02-01",
+          "symbols": [
+            "defaultSchema"
+          ],
+          "modules": [
+            "src/config.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-02-01"
+          ],
+          "invariants": [
+            "SCHEMA_DEFAULTS"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "a9c619981685dc2907294d135426507b72462722adb4060820d107117f87cc76"
+        },
+        {
+          "regionId": "REGION-P46-L6-02-02",
+          "symbols": [
+            "loadConfig"
+          ],
+          "modules": [
+            "src/schema.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "9af71a4f1da5843069400a28a26edb571ba86c8885f872fe8ec67ff704586c2a"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L6-02-01-TO-REGION-P46-L6-02-02",
+          "sourceRegionId": "REGION-P46-L6-02-01",
+          "targetRegionId": "REGION-P46-L6-02-02",
+          "inputSymbols": [
+            "defaultSchema"
+          ],
+          "outputSymbols": [
+            "loadConfig"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "defaultSchema",
+              "consumer": "loadConfig",
+              "symbol": "defaultSchema"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L6-02-01",
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "invariants": [
+            "SCHEMA_DEFAULTS"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/config.js",
+            "src/schema.js"
+          ],
+          "boundaryDigest": "abda0eeb4fc77360bc062042cc7cac813e29e40bf7afb4895d5c00db3c7b27b0"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L6-02-01",
+          "regionId": "REGION-P46-L6-02-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "defaultSchema"
+          ],
+          "preservedInvariants": [
+            "SCHEMA_DEFAULTS"
+          ],
+          "allowedMutations": [
+            "src/config.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "9a2645a4df79052f81f4e339b49db533c3ee045cbeb880c8c5060f385c5bbb92"
+        },
+        {
+          "contractId": "CONTRACT-P46-L6-02-02",
+          "regionId": "REGION-P46-L6-02-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "loadConfig"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/schema.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "f7642fcccbf9903ebeb9b45fed1b8004eeb12f4348223819265d51ebb4b71c7f"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L6-02-01",
+          "regionId": "REGION-P46-L6-02-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L6-02-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L6-02-1"
+          ],
+          "applicableInvariants": [
+            "SCHEMA_DEFAULTS"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-02-01"
+          ],
+          "allowedFiles": [
+            "src/config.js"
+          ],
+          "allowedSymbols": [
+            "defaultSchema"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "215eba643bf01bdafa60a550b3d27bddfaaed8861e8078e1346ace052ee24995"
+        },
+        {
+          "subproblemId": "SUBP-P46-L6-02-02",
+          "regionId": "REGION-P46-L6-02-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L6-02-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "allowedFiles": [
+            "src/schema.js"
+          ],
+          "allowedSymbols": [
+            "loadConfig"
+          ],
+          "dependencies": [
+            "SUBP-P46-L6-02-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "8cae63227686ffcc8a42149358b308ede49d73387cf5b242940759e450e4840b"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L6-02-01",
+          "SUBP-P46-L6-02-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-02-01-TO-SUBP-P46-L6-02-02",
+            "producerSubproblemId": "SUBP-P46-L6-02-01",
+            "consumerSubproblemId": "SUBP-P46-L6-02-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-02-01",
+          "SUBP-P46-L6-02-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "6cf5692fe10485b855de433b051a159017e0589642057e2d6dfddccb5c268314"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.134Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "9e70ccc26e8aea0219d692d27cdcf3d324e16a4199b756299a6bd572fc60904d"
+    },
+    {
+      "planId": "PLAN-P46-L6-03-v1",
+      "taskId": "P46-L6-03",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L6-03-01",
+          "symbols": [
+            "formatJson"
+          ],
+          "modules": [
+            "src/formatter.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-03-01"
+          ],
+          "invariants": [
+            "LOG_FORMAT_STABILITY"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "f9602eae3f1cebda6b4e41b310e3fd105b5a2f3c5e8afc9f779e069710ea1baa"
+        },
+        {
+          "regionId": "REGION-P46-L6-03-02",
+          "symbols": [
+            "logEvent"
+          ],
+          "modules": [
+            "src/logger.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "a2ceb5001a6e0e83933bde9659afaf4f54262f37824bd39f2872fd85585a3f0b"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L6-03-01-TO-REGION-P46-L6-03-02",
+          "sourceRegionId": "REGION-P46-L6-03-01",
+          "targetRegionId": "REGION-P46-L6-03-02",
+          "inputSymbols": [
+            "formatJson"
+          ],
+          "outputSymbols": [
+            "logEvent"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "formatJson",
+              "consumer": "logEvent",
+              "symbol": "formatJson"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L6-03-01",
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "invariants": [
+            "LOG_FORMAT_STABILITY"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/formatter.js",
+            "src/logger.js"
+          ],
+          "boundaryDigest": "c9aafead0a2bbf10a20ac7c31ad5ea0d8da6b7349d90e2a9fd75d169195f004e"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L6-03-01",
+          "regionId": "REGION-P46-L6-03-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "formatJson"
+          ],
+          "preservedInvariants": [
+            "LOG_FORMAT_STABILITY"
+          ],
+          "allowedMutations": [
+            "src/formatter.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "f898825f679545816c20e583f8847a8cd386607241e0e153d1ce7829b2980779"
+        },
+        {
+          "contractId": "CONTRACT-P46-L6-03-02",
+          "regionId": "REGION-P46-L6-03-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "logEvent"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/logger.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "71da2a39e66e85e8477fd290514f458f450181741f0df151417ed8c7f47796ce"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L6-03-01",
+          "regionId": "REGION-P46-L6-03-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L6-03-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L6-03-1"
+          ],
+          "applicableInvariants": [
+            "LOG_FORMAT_STABILITY"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-03-01"
+          ],
+          "allowedFiles": [
+            "src/formatter.js"
+          ],
+          "allowedSymbols": [
+            "formatJson"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "5adc0849793465734ff92a0b5febe985726e867f6bdcaf37362268608c2fc698"
+        },
+        {
+          "subproblemId": "SUBP-P46-L6-03-02",
+          "regionId": "REGION-P46-L6-03-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L6-03-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "allowedFiles": [
+            "src/logger.js"
+          ],
+          "allowedSymbols": [
+            "logEvent"
+          ],
+          "dependencies": [
+            "SUBP-P46-L6-03-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "e2b60b9a8c37fec5bdca32ae9c67dd37d8943972ac1a205c408d67aa6622375e"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L6-03-01",
+          "SUBP-P46-L6-03-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-03-01-TO-SUBP-P46-L6-03-02",
+            "producerSubproblemId": "SUBP-P46-L6-03-01",
+            "consumerSubproblemId": "SUBP-P46-L6-03-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-03-01",
+          "SUBP-P46-L6-03-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "b10d48883add46984f7d59a3675ad234134bfd768d08aa47d5c853dbcffe92c8"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.134Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "504c325caf417509689fc98af0cc2043dc659f9ad2a29d0bb5e1cefaf113e3f8"
+    },
+    {
+      "planId": "PLAN-P46-L6-04-v1",
+      "taskId": "P46-L6-04",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L6-04-01",
+          "symbols": [
+            "buildRequest"
+          ],
+          "modules": [
+            "src/http-client.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-04-01"
+          ],
+          "invariants": [
+            "REQUEST_HEADER_SANITY"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "e03f4913baaa1ba1ec8060452cc4a28a0913f385c435d755420ac3de8ec8b4c9"
+        },
+        {
+          "regionId": "REGION-P46-L6-04-02",
+          "symbols": [
+            "sendRequest"
+          ],
+          "modules": [
+            "src/request-builder.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "6992a36d57ce6c8aa71b325641b7ab583336485a4597768a0686f947b6f922f8"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L6-04-01-TO-REGION-P46-L6-04-02",
+          "sourceRegionId": "REGION-P46-L6-04-01",
+          "targetRegionId": "REGION-P46-L6-04-02",
+          "inputSymbols": [
+            "buildRequest"
+          ],
+          "outputSymbols": [
+            "sendRequest"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "buildRequest",
+              "consumer": "sendRequest",
+              "symbol": "buildRequest"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L6-04-01",
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "invariants": [
+            "REQUEST_HEADER_SANITY"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/http-client.js",
+            "src/request-builder.js"
+          ],
+          "boundaryDigest": "c644e73358491247c9e244234610f2ac814f9a3dd3a03867124bdf727815af9d"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L6-04-01",
+          "regionId": "REGION-P46-L6-04-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "buildRequest"
+          ],
+          "preservedInvariants": [
+            "REQUEST_HEADER_SANITY"
+          ],
+          "allowedMutations": [
+            "src/http-client.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "3d4aadc29593324ad72fb9e70dd28a45b85969f774b1d9c6cafe4a5df750e97b"
+        },
+        {
+          "contractId": "CONTRACT-P46-L6-04-02",
+          "regionId": "REGION-P46-L6-04-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "sendRequest"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/request-builder.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "90ef8bdbdf72394c941841c3cb2d355c692a8e25cc001813701cd09a110b24aa"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L6-04-01",
+          "regionId": "REGION-P46-L6-04-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L6-04-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L6-04-1"
+          ],
+          "applicableInvariants": [
+            "REQUEST_HEADER_SANITY"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-04-01"
+          ],
+          "allowedFiles": [
+            "src/http-client.js"
+          ],
+          "allowedSymbols": [
+            "buildRequest"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "2362adcd8103168fa39226f900cfaae623771c16eae4049b5fbc4947c8ed65d1"
+        },
+        {
+          "subproblemId": "SUBP-P46-L6-04-02",
+          "regionId": "REGION-P46-L6-04-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L6-04-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "allowedFiles": [
+            "src/request-builder.js"
+          ],
+          "allowedSymbols": [
+            "sendRequest"
+          ],
+          "dependencies": [
+            "SUBP-P46-L6-04-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "b57ac191371f802220217c3d9f57f985e46b971cc65abc25422a6c6d1878b835"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L6-04-01",
+          "SUBP-P46-L6-04-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-04-01-TO-SUBP-P46-L6-04-02",
+            "producerSubproblemId": "SUBP-P46-L6-04-01",
+            "consumerSubproblemId": "SUBP-P46-L6-04-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-04-01",
+          "SUBP-P46-L6-04-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "40846f4a03a1a0ef2bbd538bd7676a47631fccf10b8800401f6be4d4e135d3ec"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.136Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "af50e29b95f65849dbcd399b3dbe0741082ac35d5f270fd82f4adb967f5c8189"
+    },
+    {
+      "planId": "PLAN-P46-L6-05-v1",
+      "taskId": "P46-L6-05",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L6-05-01",
+          "symbols": [
+            "cancelJob"
+          ],
+          "modules": [
+            "src/job-queue.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-05-01"
+          ],
+          "invariants": [
+            "WORKER_EVICTION_SAFETY"
+          ],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "d62e100dc4b23eaf7cdccf175a4b2e9c43af60d923600f6c5f74e82bae333b89"
+        },
+        {
+          "regionId": "REGION-P46-L6-05-02",
+          "symbols": [
+            "evictWorker"
+          ],
+          "modules": [
+            "src/worker-pool.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L6",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "1aac284f6ecfcfa66e242b0c578897be625f06a9f2cb2b76195ce9780bfa1f87"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L6-05-01-TO-REGION-P46-L6-05-02",
+          "sourceRegionId": "REGION-P46-L6-05-01",
+          "targetRegionId": "REGION-P46-L6-05-02",
+          "inputSymbols": [
+            "cancelJob"
+          ],
+          "outputSymbols": [
+            "evictWorker"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "cancelJob",
+              "consumer": "evictWorker",
+              "symbol": "cancelJob"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L6-05-01",
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "invariants": [
+            "WORKER_EVICTION_SAFETY"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/job-queue.js",
+            "src/worker-pool.js"
+          ],
+          "boundaryDigest": "61fc5343abf5193de5d39b80fc2a7b7c4acf10796c8e1d8bf7beb9c9d493178f"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L6-05-01",
+          "regionId": "REGION-P46-L6-05-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "cancelJob"
+          ],
+          "preservedInvariants": [
+            "WORKER_EVICTION_SAFETY"
+          ],
+          "allowedMutations": [
+            "src/job-queue.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "11b4e049d9c5fea0257e65fb0e8f3b41ffc914038f1f2404bfacca84094fe6f6"
+        },
+        {
+          "contractId": "CONTRACT-P46-L6-05-02",
+          "regionId": "REGION-P46-L6-05-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "evictWorker"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/worker-pool.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "6ea9a2543a219138bf751f024664fc3cd1b851533f6af02336012996c242d473"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L6-05-01",
+          "regionId": "REGION-P46-L6-05-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L6-05-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L6-05-1"
+          ],
+          "applicableInvariants": [
+            "WORKER_EVICTION_SAFETY"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-05-01"
+          ],
+          "allowedFiles": [
+            "src/job-queue.js"
+          ],
+          "allowedSymbols": [
+            "cancelJob"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "5e9bb29666bea939410e2efe7f45234036a956a0fc9e2de690e8fa01381569b1"
+        },
+        {
+          "subproblemId": "SUBP-P46-L6-05-02",
+          "regionId": "REGION-P46-L6-05-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L6-05-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "allowedFiles": [
+            "src/worker-pool.js"
+          ],
+          "allowedSymbols": [
+            "evictWorker"
+          ],
+          "dependencies": [
+            "SUBP-P46-L6-05-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L6",
+          "subproblemDigest": "93e449ea484be0c745842e85e4a41145013414aad77c041a532dc06490e7716e"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L6-05-01",
+          "SUBP-P46-L6-05-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L6-05-01-TO-SUBP-P46-L6-05-02",
+            "producerSubproblemId": "SUBP-P46-L6-05-01",
+            "consumerSubproblemId": "SUBP-P46-L6-05-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L6-05-01",
+          "SUBP-P46-L6-05-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "892ab79f01da81a7d464046156b6bf12ab2db789a55b1a35a00ca521b08b50b7"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.136Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "caae4a8aa8eb124de3b26e971dc2a1b35259204b4b0ea84318fb02e3955da7cd"
+    },
+    {
+      "planId": "PLAN-P46-L7-01-v1",
+      "taskId": "P46-L7-01",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L7-01-01",
+          "symbols": [
+            "evaluateExponent"
+          ],
+          "modules": [
+            "src/calc.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-01-01"
+          ],
+          "invariants": [
+            "EXPONENT_PRECEDENCE"
+          ],
+          "provenance": {
+            "taskId": "P46-L7-01",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "b3c5ece2997eb9dff522b3074fdce264e0b6149fa93a297721108e5bc887af99"
+        },
+        {
+          "regionId": "REGION-P46-L7-01-02",
+          "symbols": [
+            "parseExpression"
+          ],
+          "modules": [
+            "src/parser.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-01-02"
+          ],
+          "invariants": [
+            "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+          ],
+          "provenance": {
+            "taskId": "P46-L7-01",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "362799c837090d2f2a8b1632ae45503b11c6517843baf9192fc2507368cf9776"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L7-01-01-TO-REGION-P46-L7-01-02",
+          "sourceRegionId": "REGION-P46-L7-01-01",
+          "targetRegionId": "REGION-P46-L7-01-02",
+          "inputSymbols": [
+            "evaluateExponent"
+          ],
+          "outputSymbols": [
+            "parseExpression"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "evaluateExponent",
+              "consumer": "parseExpression",
+              "symbol": "evaluateExponent"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L7-01-01",
+            "CONTRACT-P46-L7-01-02"
+          ],
+          "invariants": [
+            "EXPONENT_PRECEDENCE",
+            "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/calc.js",
+            "src/parser.js"
+          ],
+          "boundaryDigest": "ad61afd7afa8906cbb0bcd5fb6ca29099f7bb4d0279c7d72483a19c77b413d9e"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L7-01-01",
+          "regionId": "REGION-P46-L7-01-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "evaluateExponent"
+          ],
+          "preservedInvariants": [
+            "EXPONENT_PRECEDENCE"
+          ],
+          "allowedMutations": [
+            "src/calc.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "63d2075a84a82b4e68ca5c85f49b05eda57d888528690d7de5fe4f8863e75f5a"
+        },
+        {
+          "contractId": "CONTRACT-P46-L7-01-02",
+          "regionId": "REGION-P46-L7-01-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "parseExpression"
+          ],
+          "preservedInvariants": [
+            "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+          ],
+          "allowedMutations": [
+            "src/parser.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "56f66b4c3c6799f14520c79af97d70d0c3a1ab9976a6dfdbbdafcdabd1e40322"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L7-01-01",
+          "regionId": "REGION-P46-L7-01-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L7-01-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L7-01-1"
+          ],
+          "applicableInvariants": [
+            "EXPONENT_PRECEDENCE"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-01-01"
+          ],
+          "allowedFiles": [
+            "src/calc.js"
+          ],
+          "allowedSymbols": [
+            "evaluateExponent"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "03e1aace5d8ca12a6db1896bdeb1810dfc6f798a6c7023b007ab124d6796b8cc"
+        },
+        {
+          "subproblemId": "SUBP-P46-L7-01-02",
+          "regionId": "REGION-P46-L7-01-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L7-01-02",
+          "repairObligations": [],
+          "applicableInvariants": [
+            "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-01-02"
+          ],
+          "allowedFiles": [
+            "src/parser.js"
+          ],
+          "allowedSymbols": [
+            "parseExpression"
+          ],
+          "dependencies": [
+            "SUBP-P46-L7-01-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "c785e8b3c91bc74e6faf41e5b5fb591ce23496180e3ba29cf84f29ca71eacc63"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L7-01-01",
+          "SUBP-P46-L7-01-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-01-01-TO-SUBP-P46-L7-01-02",
+            "producerSubproblemId": "SUBP-P46-L7-01-01",
+            "consumerSubproblemId": "SUBP-P46-L7-01-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-01-01",
+          "SUBP-P46-L7-01-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "8df73aedf922c19b29f11613affed738ae17a572b1a3cd1548a5b08cbfefa405"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.137Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "da5f48a731a76a0bd7125d8ead93c3181bd010300b248afed1478686a3e448b4"
+    },
+    {
+      "planId": "PLAN-P46-L7-02-v1",
+      "taskId": "P46-L7-02",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L7-02-01",
+          "symbols": [
+            "compileOriginPattern"
+          ],
+          "modules": [
+            "src/cors.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-02-01"
+          ],
+          "invariants": [
+            "CORS_WILDCARD_CREDENTIAL_INVARIANT"
+          ],
+          "provenance": {
+            "taskId": "P46-L7-02",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "6cfccafb9b83ffd9734942b07546851a4f23e73c0d8bd6f37b98482057ab561d"
+        },
+        {
+          "regionId": "REGION-P46-L7-02-02",
+          "symbols": [
+            "validateHeaders"
+          ],
+          "modules": [
+            "src/header-validator.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-02-02"
+          ],
+          "invariants": [
+            "HEADER_NORMALIZATION"
+          ],
+          "provenance": {
+            "taskId": "P46-L7-02",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "86afcfd746a13c9cbf35d27455f99d21f42693de326ad67cad2e02117763a724"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L7-02-01-TO-REGION-P46-L7-02-02",
+          "sourceRegionId": "REGION-P46-L7-02-01",
+          "targetRegionId": "REGION-P46-L7-02-02",
+          "inputSymbols": [
+            "compileOriginPattern"
+          ],
+          "outputSymbols": [
+            "validateHeaders"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "compileOriginPattern",
+              "consumer": "validateHeaders",
+              "symbol": "compileOriginPattern"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L7-02-01",
+            "CONTRACT-P46-L7-02-02"
+          ],
+          "invariants": [
+            "CORS_WILDCARD_CREDENTIAL_INVARIANT",
+            "HEADER_NORMALIZATION"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/cors.js",
+            "src/header-validator.js"
+          ],
+          "boundaryDigest": "aa20bb59c98142cd5a72abd27eb012efef59f66f50919adde900502a7e7218bb"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L7-02-01",
+          "regionId": "REGION-P46-L7-02-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "compileOriginPattern"
+          ],
+          "preservedInvariants": [
+            "CORS_WILDCARD_CREDENTIAL_INVARIANT"
+          ],
+          "allowedMutations": [
+            "src/cors.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "9558e71b1cded6884f4a8756adfbc6a59536fd6dea73ee53cab3ee9604f88077"
+        },
+        {
+          "contractId": "CONTRACT-P46-L7-02-02",
+          "regionId": "REGION-P46-L7-02-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "validateHeaders"
+          ],
+          "preservedInvariants": [
+            "HEADER_NORMALIZATION"
+          ],
+          "allowedMutations": [
+            "src/header-validator.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "d366514ea914ce582f4d364c4a5e84b72be2735f14429ce2fe2ee3801f155441"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L7-02-01",
+          "regionId": "REGION-P46-L7-02-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L7-02-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L7-02-1"
+          ],
+          "applicableInvariants": [
+            "CORS_WILDCARD_CREDENTIAL_INVARIANT"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-02-01"
+          ],
+          "allowedFiles": [
+            "src/cors.js"
+          ],
+          "allowedSymbols": [
+            "compileOriginPattern"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "f7311c094a822114620f39f1efd45a8e0ab9b169135896549e8d670bb0ef43d5"
+        },
+        {
+          "subproblemId": "SUBP-P46-L7-02-02",
+          "regionId": "REGION-P46-L7-02-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L7-02-02",
+          "repairObligations": [],
+          "applicableInvariants": [
+            "HEADER_NORMALIZATION"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-02-02"
+          ],
+          "allowedFiles": [
+            "src/header-validator.js"
+          ],
+          "allowedSymbols": [
+            "validateHeaders"
+          ],
+          "dependencies": [
+            "SUBP-P46-L7-02-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "c65333b869d1ee92270368ad11fb09a82ed676e8cbca5118c90041dc24922069"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L7-02-01",
+          "SUBP-P46-L7-02-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-02-01-TO-SUBP-P46-L7-02-02",
+            "producerSubproblemId": "SUBP-P46-L7-02-01",
+            "consumerSubproblemId": "SUBP-P46-L7-02-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-02-01",
+          "SUBP-P46-L7-02-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "543653e7b55c73ec8f69a9b8c3fb63f3a0aef40a52ee7942106106aa2c30ab12"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.138Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "d848e3fe0823ddd53dd15b6d6e81173acb5d516a6305b61733ae72bc3b05721a"
+    },
+    {
+      "planId": "PLAN-P46-L7-03-v1",
+      "taskId": "P46-L7-03",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L7-03-01",
+          "symbols": [
+            "compareSemVer"
+          ],
+          "modules": [
+            "src/semver-compare.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-03-01"
+          ],
+          "invariants": [
+            "TOTAL_ORDER_SEMANTICS"
+          ],
+          "provenance": {
+            "taskId": "P46-L7-03",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "d549ec91039855731c012fd3b2ae8dc31e95d804b71fba14f605d701beeddff2"
+        },
+        {
+          "regionId": "REGION-P46-L7-03-02",
+          "symbols": [
+            "sortPrerelease"
+          ],
+          "modules": [
+            "src/semver-sort.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-03-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L7-03",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "cd9dc679b63c15e16880caa04b6a5412692d771291dd88535d4fc6e660a7ea2c"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L7-03-01-TO-REGION-P46-L7-03-02",
+          "sourceRegionId": "REGION-P46-L7-03-01",
+          "targetRegionId": "REGION-P46-L7-03-02",
+          "inputSymbols": [
+            "compareSemVer"
+          ],
+          "outputSymbols": [
+            "sortPrerelease"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "compareSemVer",
+              "consumer": "sortPrerelease",
+              "symbol": "compareSemVer"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L7-03-01",
+            "CONTRACT-P46-L7-03-02"
+          ],
+          "invariants": [
+            "TOTAL_ORDER_SEMANTICS"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/semver-compare.js",
+            "src/semver-sort.js"
+          ],
+          "boundaryDigest": "ce88d12eb8e8c0485fbfb1081c282f07d9362f857860905b7e1362acec972232"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L7-03-01",
+          "regionId": "REGION-P46-L7-03-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "compareSemVer"
+          ],
+          "preservedInvariants": [
+            "TOTAL_ORDER_SEMANTICS"
+          ],
+          "allowedMutations": [
+            "src/semver-compare.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "eb92d045ca0c212588d75de026f0d185c909fb25aa354ae6c34091a21f698c61"
+        },
+        {
+          "contractId": "CONTRACT-P46-L7-03-02",
+          "regionId": "REGION-P46-L7-03-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "sortPrerelease"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/semver-sort.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "bd7f904e223771affd694b4a0e46521195e38fa0611c59685a952a5ac828c827"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L7-03-01",
+          "regionId": "REGION-P46-L7-03-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L7-03-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L7-03-1"
+          ],
+          "applicableInvariants": [
+            "TOTAL_ORDER_SEMANTICS"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-03-01"
+          ],
+          "allowedFiles": [
+            "src/semver-compare.js"
+          ],
+          "allowedSymbols": [
+            "compareSemVer"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "caf7174b46a1002e6fe4784df9c03a7e0ad1af12e3539e18fc73925d294e845d"
+        },
+        {
+          "subproblemId": "SUBP-P46-L7-03-02",
+          "regionId": "REGION-P46-L7-03-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L7-03-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-03-02"
+          ],
+          "allowedFiles": [
+            "src/semver-sort.js"
+          ],
+          "allowedSymbols": [
+            "sortPrerelease"
+          ],
+          "dependencies": [
+            "SUBP-P46-L7-03-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "98b97277ac1c9355e4135447aeb5203f073a3566dd08455d49fcf4cc67b2cb46"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L7-03-01",
+          "SUBP-P46-L7-03-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-03-01-TO-SUBP-P46-L7-03-02",
+            "producerSubproblemId": "SUBP-P46-L7-03-01",
+            "consumerSubproblemId": "SUBP-P46-L7-03-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-03-01",
+          "SUBP-P46-L7-03-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "7f732dd363dcead5139c674c5e31c93ebd188fd811884cca95858ba53f6aa87f"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.138Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "886d19b271ced37f3b9cf3d2b27d82b9e5849fd7a2ce9f0edc3a89ac74db9e06"
+    },
+    {
+      "planId": "PLAN-P46-L7-04-v1",
+      "taskId": "P46-L7-04",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L7-04-01",
+          "symbols": [
+            "resolveObjectPath"
+          ],
+          "modules": [
+            "src/path-resolver.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-04-01"
+          ],
+          "invariants": [
+            "PROTOTYPE_POLLUTION_GUARD"
+          ],
+          "provenance": {
+            "taskId": "P46-L7-04",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "712ff579c0036df009e9b3b06a5c7d1c2134d4f32b9214e9489434a4fd9c09bd"
+        },
+        {
+          "regionId": "REGION-P46-L7-04-02",
+          "symbols": [
+            "setDeepProperty"
+          ],
+          "modules": [
+            "src/path-setter.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-04-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L7-04",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "cd8432650f178ffc1f5d277f3ba1ac5801f5a6879aa159e83fd3fe5232accc74"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L7-04-01-TO-REGION-P46-L7-04-02",
+          "sourceRegionId": "REGION-P46-L7-04-01",
+          "targetRegionId": "REGION-P46-L7-04-02",
+          "inputSymbols": [
+            "resolveObjectPath"
+          ],
+          "outputSymbols": [
+            "setDeepProperty"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "resolveObjectPath",
+              "consumer": "setDeepProperty",
+              "symbol": "resolveObjectPath"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L7-04-01",
+            "CONTRACT-P46-L7-04-02"
+          ],
+          "invariants": [
+            "PROTOTYPE_POLLUTION_GUARD"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/path-resolver.js",
+            "src/path-setter.js"
+          ],
+          "boundaryDigest": "455fb27b4af06f35777a391752caa39ed011cb16e169e41b8e8486dbdc8fda8d"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L7-04-01",
+          "regionId": "REGION-P46-L7-04-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "resolveObjectPath"
+          ],
+          "preservedInvariants": [
+            "PROTOTYPE_POLLUTION_GUARD"
+          ],
+          "allowedMutations": [
+            "src/path-resolver.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "73dc2018d1085b10ba82d05aa35a227e93bb7a10afb054326455826a4b579a9f"
+        },
+        {
+          "contractId": "CONTRACT-P46-L7-04-02",
+          "regionId": "REGION-P46-L7-04-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "setDeepProperty"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/path-setter.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "178cff49815f44795c035693f1dfa474f6f6341c10a14ed70fdac85369c6faf6"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L7-04-01",
+          "regionId": "REGION-P46-L7-04-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L7-04-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L7-04-1"
+          ],
+          "applicableInvariants": [
+            "PROTOTYPE_POLLUTION_GUARD"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-04-01"
+          ],
+          "allowedFiles": [
+            "src/path-resolver.js"
+          ],
+          "allowedSymbols": [
+            "resolveObjectPath"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "329ee6a0adc290c81e3c5d94073b904e5e35d70517849491f1f56494ba3b7972"
+        },
+        {
+          "subproblemId": "SUBP-P46-L7-04-02",
+          "regionId": "REGION-P46-L7-04-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L7-04-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-04-02"
+          ],
+          "allowedFiles": [
+            "src/path-setter.js"
+          ],
+          "allowedSymbols": [
+            "setDeepProperty"
+          ],
+          "dependencies": [
+            "SUBP-P46-L7-04-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "a42a2488bb66d476a86526fba3c9bf4a97ec069e3f36574ed4843c58d462d2ca"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L7-04-01",
+          "SUBP-P46-L7-04-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-04-01-TO-SUBP-P46-L7-04-02",
+            "producerSubproblemId": "SUBP-P46-L7-04-01",
+            "consumerSubproblemId": "SUBP-P46-L7-04-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-04-01",
+          "SUBP-P46-L7-04-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "e9961d81271d440a4957282738444fbb02f6d1ddd73efd132f3314bf01e79938"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.138Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "36b876b8b27a24c78e53e3eee74427c36991049c3be6131d48d72ddd2190935a"
+    },
+    {
+      "planId": "PLAN-P46-L7-05-v1",
+      "taskId": "P46-L7-05",
+      "regions": [
+        {
+          "regionId": "REGION-P46-L7-05-01",
+          "symbols": [
+            "authorizeRole"
+          ],
+          "modules": [
+            "src/role-auth.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-05-01"
+          ],
+          "invariants": [
+            "ROLE_TRANSITIVE_CLOSURE"
+          ],
+          "provenance": {
+            "taskId": "P46-L7-05",
+            "role": "PRODUCER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "093fe5b088dffa770e14fc835612926ed7bfe31e96ace51fde91e19aeebc5e6e"
+        },
+        {
+          "regionId": "REGION-P46-L7-05-02",
+          "symbols": [
+            "evaluateRoleHierarchy"
+          ],
+          "modules": [
+            "src/role-graph.js"
+          ],
+          "imports": [],
+          "exports": [],
+          "calls": [],
+          "types": [],
+          "tests": [],
+          "configurationDependencies": [],
+          "contracts": [
+            "CONTRACT-P46-L7-05-02"
+          ],
+          "invariants": [],
+          "provenance": {
+            "taskId": "P46-L7-05",
+            "role": "CONSUMER_REGION"
+          },
+          "complexityClassification": "L7",
+          "closureRulesApplied": [
+            "SYMBOL_DEPENDENCY_CLOSURE",
+            "IMPORT_DEPENDENCY_CLOSURE",
+            "EXPORT_DEPENDENCY_CLOSURE",
+            "CALL_GRAPH_CLOSURE",
+            "TYPE_DEPENDENCY_CLOSURE",
+            "TEST_AFFINITY_CLOSURE",
+            "CONFIGURATION_DEPENDENCY_CLOSURE",
+            "CONTRACT_DEPENDENCY_CLOSURE",
+            "GLOBAL_INVARIANT_CLOSURE",
+            "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+          ],
+          "semanticHash": "d4c0c8586015eb174b0e6cf6d2602f56a6e760f8edabd3370243ae5ae0844d43"
+        }
+      ],
+      "regionBoundaries": [
+        {
+          "boundaryId": "BND-REGION-P46-L7-05-01-TO-REGION-P46-L7-05-02",
+          "sourceRegionId": "REGION-P46-L7-05-01",
+          "targetRegionId": "REGION-P46-L7-05-02",
+          "inputSymbols": [
+            "authorizeRole"
+          ],
+          "outputSymbols": [
+            "evaluateRoleHierarchy"
+          ],
+          "producerConsumerRelationships": [
+            {
+              "producer": "authorizeRole",
+              "consumer": "evaluateRoleHierarchy",
+              "symbol": "authorizeRole"
+            }
+          ],
+          "typeRelationships": [
+            "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+          ],
+          "stateDependencies": [
+            "SHARED_PARSER_OR_ORIGIN_STATE"
+          ],
+          "controlFlowDependencies": [
+            "CALL:PRODUCER_THEN_CONSUMER"
+          ],
+          "dataFlowDependencies": [
+            "PASS_TOKENS_OR_HEADERS"
+          ],
+          "contracts": [
+            "CONTRACT-P46-L7-05-01",
+            "CONTRACT-P46-L7-05-02"
+          ],
+          "invariants": [
+            "ROLE_TRANSITIVE_CLOSURE"
+          ],
+          "sideEffects": [
+            "MUTATION_IN_PRODUCER_AFFECTS_CONSUMER"
+          ],
+          "mutationScope": [
+            "src/role-auth.js",
+            "src/role-graph.js"
+          ],
+          "boundaryDigest": "d8c1df55e7ef45b8074e234748377fc4e639dd2c0073c85fb63abc5975b40aa4"
+        }
+      ],
+      "contracts": [
+        {
+          "contractId": "CONTRACT-P46-L7-05-01",
+          "regionId": "REGION-P46-L7-05-01",
+          "preconditions": [
+            "PRE:VALID_INPUT_STREAM"
+          ],
+          "postconditions": [
+            "POST:PRODUCES_INTERMEDIATE_REPRESENTATION"
+          ],
+          "inputRepresentations": [
+            "TYPE:SOURCE_STREAM"
+          ],
+          "outputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "affectedSymbols": [
+            "authorizeRole"
+          ],
+          "preservedInvariants": [
+            "ROLE_TRANSITIVE_CLOSURE"
+          ],
+          "allowedMutations": [
+            "src/role-auth.js"
+          ],
+          "sideEffects": [
+            "EMITS_TOKENS_OR_PARSED_CHUNKS"
+          ],
+          "downstreamAssumptions": [
+            "CONSUMER_ACCEPTS_PARSED_OUTPUT"
+          ],
+          "upstreamAssumptions": [
+            "UPSTREAM_SOURCE_AVAILABLE"
+          ],
+          "verificationObligations": [
+            "PARSER_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "a6536b396f4ff98e5f367da7f4c129e26dd1ecfba75555cbbcfc291ef6160a5e"
+        },
+        {
+          "contractId": "CONTRACT-P46-L7-05-02",
+          "regionId": "REGION-P46-L7-05-02",
+          "preconditions": [
+            "PRE:ACCEPTS_INTERMEDIATE_REPRESENTATION"
+          ],
+          "postconditions": [
+            "POST:FINAL_EVALUATION_OR_HEADER_EMISSION"
+          ],
+          "inputRepresentations": [
+            "TYPE:PARSED_AST_OR_NORMALIZED_HEADERS"
+          ],
+          "outputRepresentations": [
+            "TYPE:FINAL_RESULT"
+          ],
+          "affectedSymbols": [
+            "evaluateRoleHierarchy"
+          ],
+          "preservedInvariants": [],
+          "allowedMutations": [
+            "src/role-graph.js"
+          ],
+          "sideEffects": [
+            "NONE"
+          ],
+          "downstreamAssumptions": [
+            "DOWNSTREAM_CONSUMER_CALL"
+          ],
+          "upstreamAssumptions": [
+            "TOKENIZER_OR_ORIGIN_PARSED_VALIDLY"
+          ],
+          "verificationObligations": [
+            "EVALUATION_ISOLATED_TEST"
+          ],
+          "immutable": true,
+          "semanticHash": "22f69681db02279a3a2de83b93da5a78671c0ceb56dea115bf226d4e75303694"
+        }
+      ],
+      "subproblems": [
+        {
+          "subproblemId": "SUBP-P46-L7-05-01",
+          "regionId": "REGION-P46-L7-05-01",
+          "objective": "Synthesize repair for producer region REGION-P46-L7-05-01",
+          "repairObligations": [
+            "OBLIGATION-P46-L7-05-1"
+          ],
+          "applicableInvariants": [
+            "ROLE_TRANSITIVE_CLOSURE"
+          ],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-05-01"
+          ],
+          "allowedFiles": [
+            "src/role-auth.js"
+          ],
+          "allowedSymbols": [
+            "authorizeRole"
+          ],
+          "dependencies": [],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "363b8d47b6ce7f97386c20328a95c4873ef4a7250307ac1f520ffdb49786fcd5"
+        },
+        {
+          "subproblemId": "SUBP-P46-L7-05-02",
+          "regionId": "REGION-P46-L7-05-02",
+          "objective": "Synthesize repair for consumer region REGION-P46-L7-05-02",
+          "repairObligations": [],
+          "applicableInvariants": [],
+          "applicableContracts": [
+            "CONTRACT-P46-L7-05-02"
+          ],
+          "allowedFiles": [
+            "src/role-graph.js"
+          ],
+          "allowedSymbols": [
+            "evaluateRoleHierarchy"
+          ],
+          "dependencies": [
+            "SUBP-P46-L7-05-01"
+          ],
+          "verificationRequirements": [
+            "LOCAL_UNIT_TEST"
+          ],
+          "complexityLevel": "L7",
+          "subproblemDigest": "5d98dd05605ff3ebbc98e28a9d32c7b714c8b37825628b576448ff8212e21231"
+        }
+      ],
+      "dependencyDAG": {
+        "nodes": [
+          "SUBP-P46-L7-05-01",
+          "SUBP-P46-L7-05-02"
+        ],
+        "edges": [
+          {
+            "dependencyId": "DEP-SUBP-P46-L7-05-01-TO-SUBP-P46-L7-05-02",
+            "producerSubproblemId": "SUBP-P46-L7-05-01",
+            "consumerSubproblemId": "SUBP-P46-L7-05-02",
+            "dependencyType": "DATA_FLOW",
+            "description": "Producer outputs data consumed by consumer"
+          }
+        ],
+        "hasCycles": false,
+        "topologicalOrder": [
+          "SUBP-P46-L7-05-01",
+          "SUBP-P46-L7-05-02"
+        ],
+        "maxDepth": 2,
+        "maxFanout": 1,
+        "dagDigest": "6fa266a8163af2439ad906474ba614f9e9af708b7c5a6426ab9a76530c5f84de"
+      },
+      "informationPreservationReport": {
+        "symbolRecall": 1,
+        "contractRecall": 1,
+        "invariantRecall": 1,
+        "dependencyRecall": 1,
+        "testRecall": 1,
+        "refinementRecall": 1,
+        "affectedModuleRecall": 1,
+        "informationLossDetected": false,
+        "missingItems": [],
+        "reportDigest": "b143be428194037fd1b182dda4ec7302998c364c7979dcf33a65cf3552baebf3"
+      },
+      "provenance": {
+        "timestamp": "2026-10-20T04:46:56.139Z",
+        "closureRulesApplied": [
+          "SYMBOL_DEPENDENCY_CLOSURE",
+          "IMPORT_DEPENDENCY_CLOSURE",
+          "EXPORT_DEPENDENCY_CLOSURE",
+          "CALL_GRAPH_CLOSURE",
+          "TYPE_DEPENDENCY_CLOSURE",
+          "TEST_AFFINITY_CLOSURE",
+          "CONFIGURATION_DEPENDENCY_CLOSURE",
+          "CONTRACT_DEPENDENCY_CLOSURE",
+          "GLOBAL_INVARIANT_CLOSURE",
+          "CEGAR_REFINEMENT_FEEDBACK_CLOSURE"
+        ],
+        "refinementCount": 0
+      },
+      "semanticHash": "974e817b8c13403ccfb73c8125f7fbd7745e46d2f6be01b41e6cc3ca88acefce"
+    }
+  ],
+  "artifactDigest": "56f9033eb9001ac8f39c5618a378362ad5dea9f5a547c6381cf4c0392dc78599"
+}
