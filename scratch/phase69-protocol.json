@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "emerald-phase69-v1",
+  "phase": "69",
+  "protocolVersion": "emerald-phase69-active-execution-discovery-v1",
+  "frozenAt": "2026-10-20T08:12:46.484Z",
+  "baselineCommit": "4c9593d",
+  "experimentalVariable": "governed_active_execution_discovery",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000
+  },
+  "discoveryBounds": {
+    "maxExperiments": 8,
+    "maxCandidateExperiments": 64,
+    "maxTraceEventsPerExperiment": 512,
+    "maxTraceBytesPerExperiment": 65536,
+    "maxHypotheses": 64,
+    "maxHypothesisDimensions": 16,
+    "maxIterations": 8,
+    "maxWallClockMs": 120000,
+    "maxAffectedFiles": 6,
+    "maxRepairAttempts": 3
+  },
+  "uncertaintyDimensions": [
+    "BRANCH_BEHAVIOR",
+    "STATE_TRANSITION",
+    "REPRESENTATION_MAPPING",
+    "ERROR_BEHAVIOR",
+    "SECURITY_POLICY",
+    "DATAFLOW",
+    "CONTROLFLOW",
+    "TEMPORAL_ORDERING",
+    "INPUT_BOUNDARY"
+  ],
+  "experimentClasses": [
+    "BOUNDARY_INPUT",
+    "REPRESENTATION_BOUNDARY",
+    "STATE_TRANSITION_BOUNDARY",
+    "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+    "ERROR_PATH_DISCRIMINATOR",
+    "SECURITY_POLICY_DISCRIMINATOR",
+    "PRODUCER_CONSUMER_DISCRIMINATOR",
+    "TEMPORAL_ORDER_DISCRIMINATOR"
+  ],
+  "conditions": [
+    "CONDITION_A_PHASE68_CONTROL",
+    "CONDITION_B_RANDOM_SAFE_EXPLORATION",
+    "CONDITION_C_INFORMATION_DIRECTED_ACTIVE_EXECUTION",
+    "CONDITION_D_FULL_GOVERNED_ACTIVE_SYNTHESIS"
+  ],
+  "protocolDigest": "68dfc5571ecd2ac21ffd2e8a2d1d4a160d8297c319c6ddca1c0fb13585b34eae",
+  "cohortDigest": "0b6801537f60f2400e71467db0f39c52366126548bb0439a107eaa5ca28a1dc8"
+}

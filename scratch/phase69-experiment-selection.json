@@ -1,0 +1,606 @@
+{
+  "schemaVersion": "emerald-phase69-v1",
+  "totalSelections": 75,
+  "selections": [
+    {
+      "taskId": "P46-L5-01",
+      "selectedExperimentId": "EXP-P46L501-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "3dc03d48f510b201f4332c447daa4b5dc93a3e45bd76ba65f654b64ea78b07ec"
+    },
+    {
+      "taskId": "P46-L5-01",
+      "selectedExperimentId": "EXP-P46L501-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "cbf34e3711354e62201cacbed1c7eb64fcb679f18c750e1c131a8b88a5297e4b"
+    },
+    {
+      "taskId": "P46-L5-01",
+      "selectedExperimentId": "EXP-P46L501-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "75e0865ca682c4148d3b2134dd83ae2cc7fbdebeb6a45504a760365d11b93fb2"
+    },
+    {
+      "taskId": "P46-L5-01",
+      "selectedExperimentId": "EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "bdeefe1f7453d24dbd3c795be53d4bff47364eb1f91ecd762405f037343ccec8"
+    },
+    {
+      "taskId": "P46-L5-01",
+      "selectedExperimentId": "EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "619147253b4be6ec56e037881edf469df50cbea25675dac33a1cb367baaf6528"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "selectedExperimentId": "EXP-P46L502-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "9f235f8f91b3b0d262f7672d4ef43719d13b9fb6ea88dc06fdf89823f1b9a57c"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "selectedExperimentId": "EXP-P46L502-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "c31d93fabc46c0b3a08328906370dd8a1a896a384cf5b8659445e02ee61188f4"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "selectedExperimentId": "EXP-P46L502-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "938a8bdbb679c7df393c514e54effce0c69591de41504dc5247a2d4242781760"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "selectedExperimentId": "EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "d787140262cbab79af12683211b395df5eba34b4e0e66b8f00900345f11e0846"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "selectedExperimentId": "EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "e626cb8fc09b0039bf0ff95c9f657ad8960dabd81eb6ed436378c41c08cbe2ed"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "selectedExperimentId": "EXP-P46L503-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "999f40126f15a848678809da3fe5dc1d22a3b9d0b7cb28fc23d51bdcfa862b2a"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "selectedExperimentId": "EXP-P46L503-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "43fa3325aa7ff3680408f48816ab7f177d05b1518946b13c7b85ecb1f1b09520"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "selectedExperimentId": "EXP-P46L503-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "2e0f87682c9ed8a7797a1b792888be1dc975cd8da4fbf5de08ecf89e6995d540"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "selectedExperimentId": "EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "12af453cc9fafd88841df83b2718d071cd73a06676934f16a11d7534940fb6f8"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "selectedExperimentId": "EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "2ae86b967c6261b41f017f38d95116c498b9baee7ee33eb48e888d7f01f4ef30"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "selectedExperimentId": "EXP-P46L504-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "68d0e49a133650df2e647b59459450f8f6af173fe5c32b69357e682b28791882"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "selectedExperimentId": "EXP-P46L504-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "fff6986fa6fe5c1e3833849471364f8d10626d35835da015d8e63caf7fd5e7c2"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "selectedExperimentId": "EXP-P46L504-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "0f6bfcfc87dfb2de0e08f3983e2efd6e5d645806297438f10952d81af4752146"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "selectedExperimentId": "EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "b73dc06c1907ef181ecfb9423ef442ad9432b65be96c9615403d5fb0e950a46e"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "selectedExperimentId": "EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "a1d97ae52373fe1442a6f6c42cd5d6db38bc587a788eadb374d4bdc12884472e"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "selectedExperimentId": "EXP-P46L505-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "c1a2c306d9215304d72407c35c7b4b456ff52fdc400ba385554799d59cada001"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "selectedExperimentId": "EXP-P46L505-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "1fec5762b1f17e76078d87e809ff96aff23c51ff76e5d2cace4b3c60ecc28e47"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "selectedExperimentId": "EXP-P46L505-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "da4f3310e6fff1b30f9265bcbaaf029a85179c884ecb1daf4352cc6b4c4f42db"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "selectedExperimentId": "EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "a2ddcb28bc043fa2115cd6d41ecd839f56a0416a92a2ab0f712025d17acea326"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "selectedExperimentId": "EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "465581de727c0dbb6a9f4c407fdeb35c9ed8809ceb2619d0920455c943ebdb86"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "selectedExperimentId": "EXP-P46L601-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "5c79a40786efb573d6d6c2ac6b22f2ee423ec8b26d0900f76d5520ec02043d4e"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "selectedExperimentId": "EXP-P46L601-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "99206dbfa33292aaf80e687beb08bb50058e21b9dcbae0ec18b8ae51781837cc"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "selectedExperimentId": "EXP-P46L601-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "9455f7fc6f0d8a2baa2911a1ae91a9a3bcc25f3305c21a2ad02dc9af51c39c4b"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "selectedExperimentId": "EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "d265d986c961a844b820118e6538b530bfb5ce400ab1706e92aa438e0f676855"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "selectedExperimentId": "EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "e2d2e1a86f052f4ff1283cfdf2c5f0339a668c205ec5441c70d07e561950ca44"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "selectedExperimentId": "EXP-P46L602-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "baf079c2c4f9852778adb5c33cb38f2d953063e861962b4245044b2cb9ecd4a5"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "selectedExperimentId": "EXP-P46L602-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "e03596b62a346a4f7ffc475e4e609bb46a3aa467347542ff46888e4d1155fd94"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "selectedExperimentId": "EXP-P46L602-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "995d0b6ce29a62ac76c4c865ebae1bdcd19dc414fa24b8baceea823460bbb98b"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "selectedExperimentId": "EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "43e7915d99bd2f3a1fa07c453c13b5440a9bf257152be0afc60b2cce872ac4f0"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "selectedExperimentId": "EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "747fc0040dd01be20c95f1465225e82a42bd5f610a7ca0da199f804dc42810cf"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "selectedExperimentId": "EXP-P46L603-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "23d7ed2bc030e2857202ddee5c43e85a1ef409e25e511ac8d1d84cd50bdcb9fa"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "selectedExperimentId": "EXP-P46L603-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "d0daa568743fdb935c8e42245eaedb4212b318441447fb723e66c2dc1d3be2ab"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "selectedExperimentId": "EXP-P46L603-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "e29c4e4d8348109604b0f1a03b58f68acd973e7e27c85bc415a3cb5a787284db"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "selectedExperimentId": "EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "d12dcf98649880a9bb545e764b2620db89be32cf529cf76fe886c74ee8253fac"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "selectedExperimentId": "EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "e571e7beee5db2dca541d13150922bbaf19f120af16878f91846ea82d6f468ed"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "selectedExperimentId": "EXP-P46L604-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "fdb2f088803a6db33622fb17af54f934e07dc2622c7018e194832e43bd28cebb"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "selectedExperimentId": "EXP-P46L604-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "573ccda2bed32f07ca59a4657120e5b427e162968074e6a1627257357047d7f5"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "selectedExperimentId": "EXP-P46L604-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "09ffb7ea10e2e86dd68b27702f8911a63855428f5eff4ac2ff0075cb50f39f14"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "selectedExperimentId": "EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "2d5ea77c0bb8042a54eee080378fe38c6889da33faa50f0d09aa3c1ce6f68e3f"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "selectedExperimentId": "EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "df5ecdca793fbf68d36c8d1f79b6611296d2eb5a5f32bcfc7c000b03bc8af4aa"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "selectedExperimentId": "EXP-P46L605-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "7286192107125d977fb5f99d2f79fb02d94a3ec740a208c8182b136578e06950"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "selectedExperimentId": "EXP-P46L605-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "66e99314f028861a9a8bd47cb97306bde6110dfc95778d17980ef1a49bcd1f2c"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "selectedExperimentId": "EXP-P46L605-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "4a13985bbd603a9d30730d17018345b115da5f43529a331f5225478358839126"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "selectedExperimentId": "EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "914dffdb8e409664d4f7f746e124edfdeb1387fcc8cdee8f1069512d5141b869"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "selectedExperimentId": "EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "52ebd142dec96373fec594d6d76708dc9bf0d2496f6795dd016fb7cf44ed0c3c"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "selectedExperimentId": "EXP-P46L701-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "cc3dbdca9112e619a49a30d1351978fba2f4b2218fdcac3ec0ffda12bdce738b"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "selectedExperimentId": "EXP-P46L701-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "a1c4b563d7f20f1513e577ab16b671996ed2a217b28c6be3beff11b255526140"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "selectedExperimentId": "EXP-P46L701-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "cfa76c4e0544cf32a46801c350ca75598a9df1bdc7d42a58a3855b0fea795713"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "selectedExperimentId": "EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "7b0f2cdd70b8915f0b5f390b803128ec9d8dfd55a05a64c20699e9d0ea9125c2"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "selectedExperimentId": "EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "f69923a646da72e583cf3a6437bde60bfd863b06c19e679da09bede34798e45f"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "selectedExperimentId": "EXP-P46L702-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "a398e5bb064c29d5fa43953e0dbe49c1e0198e02b42b739870fb50bf7e5652b7"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "selectedExperimentId": "EXP-P46L702-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "3fabf0111c397d43740e2748ca01fc99eeb89b895b017bb198dabc5c91214669"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "selectedExperimentId": "EXP-P46L702-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "b0fd207692d4b5372185b40392573d8b315d57e77c4c6456ae697c8c74750dd9"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "selectedExperimentId": "EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "25eaf744f57a59a8b1dea7d6625e621d2eba5221721882403acaed577c3f8cfe"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "selectedExperimentId": "EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "63f54892241a28332160d4ce739b88a110ceeeddf8f19c24f28bbc8a3627b0bb"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "selectedExperimentId": "EXP-P46L703-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "f222d6ec24443978e9e995e14025a8c937bc0cf4d622ca3d17e9eaaf12e95406"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "selectedExperimentId": "EXP-P46L703-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "524c10339ba8817eeae15fa453cea8697617a1f5b83e3901619261fa877971df"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "selectedExperimentId": "EXP-P46L703-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "d7eeb27fbeecef2ce97ee17d99a818df0d2e1e8667403162b7e02ecef63fcc7b"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "selectedExperimentId": "EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "8786e8a984e9c39f9965fafa267dcc5128544e01497d79c93a87b77197ed4fc7"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "selectedExperimentId": "EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "e46f953cd88e35e67eb9406d5a15d50cf32a31aa2ab2e1cdab484b2e6f62e72a"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "selectedExperimentId": "EXP-P46L704-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "d55b8533a11cafc51d26ef8ae60d92a216c92cf462de1d217b9028dfe6c85c45"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "selectedExperimentId": "EXP-P46L704-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "ae6d741842afe07a19c3e8eb58f481e38a3265d89427f59e0370625184919eaf"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "selectedExperimentId": "EXP-P46L704-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "594bad0930c81e3bfc1d191d40c24a2e38112857eabc2ef5ce58a919ea8aa5df"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "selectedExperimentId": "EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "3718e664328928803e3b0f1857f3dbff203b27dfe6d5155fb6b72044a01b2326"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "selectedExperimentId": "EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "0378dda5dc3c6a0fa064b261ae945576f8e1f5224df6e80519c72fd5c5d18fa2"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "selectedExperimentId": "EXP-P46L705-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "informationGainEstimate": 0.705,
+      "resourceCost": 12,
+      "contentHash": "6c4e93144c297c498aae5eec12960ca3c1872d2e9c9328c135bfcec88e3025f2"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "selectedExperimentId": "EXP-P46L705-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "informationGainEstimate": 0.6975,
+      "resourceCost": 14,
+      "contentHash": "d79e0278ad3a8c8225c5abfe570f2a806ce93ac85f715bdc6ee31df2ee6b864e"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "selectedExperimentId": "EXP-P46L705-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "informationGainEstimate": 0.69,
+      "resourceCost": 16,
+      "contentHash": "8d0a3bb4fdfad23d07f3156ad40b7062f6c1bcc495f11645b744c45579476b5c"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "selectedExperimentId": "EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "informationGainEstimate": 0.6825,
+      "resourceCost": 18,
+      "contentHash": "94a055a610505680c335f8deb9e9f1ed3c8a8aff1005b2b43e3c4d2814f81e7f"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "selectedExperimentId": "EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "informationGainEstimate": 0.675,
+      "resourceCost": 20,
+      "contentHash": "bbe8671585a8d8acbdd5832a96dadb1909c1d60796cca584a67172dd99258dbd"
+    }
+  ]
+}

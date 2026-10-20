@@ -1,0 +1,2931 @@
+{
+  "schemaVersion": "emerald-phase69-v1",
+  "totalFacts": 225,
+  "facts": [
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "661f576d0f5193f8e1b35d763a7a71227f3e27e37d4523936b860b0b52553ca7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "47329fcf005349dabd0a321ba75d54296962edae88aaabd7e617129c3d05b4a0"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "7bca10bbb0b569657b831546b307dd398113975580def2036699b5f14da45d1f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "4c6508ec574c995edb6c7c6e1692a8d06b7c1b9378747048977441f97b5fc258"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "42a91bdaa4d6e27e4a9cdb4fca37f5dd1eb63b07c415b5569948cd654e38c39f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "3c048262ba343a60850f142c961273babd3644c0fd3ac631d03d12aea7b72dd6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "ab162add7352a3fe9282d6dd33a296a77accc5baaa919aca3e06612e787da8f3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "394eb63ec81536d0a5407996cd1bbbaa44e219cd961f933c8df5ed3f8da51dcf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "64e1ccdd730d267e5fb7d5babef53d7c8ce0f4e35aa622ea3c11963799aeff1c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "3f4dca397a298a9c09ef32bafbf092c29b5d36d34fc0f7fe5ad6271a23d13a90"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "7fd088bbe52d8cfc0054daa4c8d54196e611ae8ccd68bfedb7e79d470c5f615d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "67e6bb7f1068b940f3c7489aaf000edd9e26c6ba152d651bd55a34b6d95cedb6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "1c480bd4ece73bae30eec6f4f9d9a0fdba7680bd966b7b9e33ced76a9fa28def"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "4e572b64d3691c1230184904c777879d7309b3884b57dad44c7f9feb00906fc0"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "08cb6a103e2b465e0f05ca691c6f8d286b4970955d811a46f063d2bf0486c7a3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "3d89ed4c86d55f72d7230693995592e574ca23f277bc843ff9bb399c392f59e6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "f4b0ce0a6103318ffade03c299b706a586a491d36c7685cd6fc116728343df87"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "f79ddd41a6b0920b7f21c54f56528902486bf5d6c78895fb92f09e878626173e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "ef13d864a2fc011b18bb4a009ceb4ee8d8250a9331b229a97060cce24cee80b4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "26640e8826e403954baa9a558fcf65fb913fd7da5621948b7d0e3c43b3eb69a1"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "bd7d168e18899f9e67fdbb59826a720365f394e3040a8c424dbded5327173235"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "988521d2aa276614f73bd41164cff609a6879fd4405c69ba6af1a47258fc0108"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "b55292cc0fbba1530d5df56b3796aba26050481171869e68936110dad169b033"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "8b6e323d25c1c9c60da9ad9ab2032aeda813fc2a21d9f41ec1f125343f33da1f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "b83a407585ccef986ccfa7225f7e0a93418e8991a21046b53de7c4d6f4ca5d70"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "1d84b65b5143fc5e0ffb07bbe2fc1d3ae4bf9b9a97ac923c4cb119952cc16283"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "1a0f40291d73939f3f77209686bbf56ab1bc79cfd5c9b4a84fea6fad99882971"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "2e0ae493774bb5cf2f409b927ed30f847646bbc42cde7bf5e9ca0e03b46fd1a2"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "7fdec244d3d661209aa4f2614030f331487945a96b2496194cdfa3fe8932e0ad"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "13b34907557c52943e977dd023f79033d2ee3794128754d67a63fb7a545478cf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "409561f9f573b4dbde7b95ead69326ba783c80306b3e826d915ee0252a8abb09"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "22f2c902087c9e8d8fa49e4bc0bf13330e98be33a68855d4c6c8570fc5db272a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "e61d55ce9b1c562109d7d056e521949fe3e4ef830bce2c53c505ee3179e279c5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "c7cede47e29a426edca7ff066dd20c8fd56115edab36ce4180eb7775f65ee3bc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "c502c2c358348650ab17a87ab7b676188d5e95011e470268ad01e0cadfef6657"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "c9cfe18130adbc15c931a6b086ad0e3d864fa18b10e441a029f56d2ce54080ca"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "024932608fc66c740eb8c7dbe563666f24b500fb4f207b66d5896a4ab97d4bdb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "b0c3f30590e369a1cc01b2a048ffa79252967e0192dc749e90aff72339b8aca2"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "6b4419d29de17825209a8fbf53d64a4ca231a8bd10bf1c3dcc14a4581678bf3a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "b8d0a19e2e3e507039b7886dddc4cb162874fa4d94492621f6d02d7e2532edde"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "5dda5d51614f15c28e07b05ba18b151f252e65b6cab5a24beb209878a8e5aee5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "59cd92d42416d4e4af371bde724b118c4ac93ffa0ff2480c923b45fa216e4ca7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "802d9d4424e5b565b0da4b183bc4374ad42816ba5c4956e11454a9191ffbb6cf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "30d3508778bcec83824c5118871b8ec190793117f8330acad1975433ebc25e59"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "352204f2a9c7eb24157deae0024b3bbcb4468a2868a125d99794b96c105f51d8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "f9cc9a031ff83e374d33a25e8a6a8b5bbea3f602da40066f3fd5a6c8e21cd969"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "13eb027eb5e1628711ac5e25582d9f9ec13262c4c9a91e6d63d5161682c25ea9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "5c6494f33ec709b0d611ae2faf65e81155985caeef219b79a520db5b4604df62"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "166401667a0c98f4c1a5f0177104da9b4eb0f6c16ef2c51511d1cc31fb9dbafb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "e7aa1b7f92a6c0207be7534273e4cbe9894010c48e1448ed2c31d08f250da1ea"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "8f29988fe90b1d03d4456b0dd45102664316fec96d2f89a20ebcdd3aa46d744f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "94b0309b035bf3b0746a12239f04372541c9ef517f89233b257a301c5b6f84eb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "f391191484a12c776c85cebf3520d548b674aa4295813973d010711ece05b280"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "57c917793030058b965346fe0f2038a141894d1effdc0eec14f403815b1b6702"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "aebaf87b5b1aa567d167bf77edf28d04a11d358372432d3eab808a6f9d02bcf6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "a41d79d0f14155de93e764e8e4ecbf046a9c87524bd17bd6a5c65515994779b4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "52a0100dfa3f4198861072dc8b0bcb16678bd627dda76a0485ec135bb1c92dba"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "eeaa1872f367e81f3dd44d1e3dfbd1e99c07b7d1bddfd3360255f68f8221e20d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "ce97b87d06bde9e36f764139595d506262aec7e629c50d5a759b0daa7dad3480"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "7d9f3148d31d5840dd040818d59109e6c8641dc78483e5dd49e328bcd1e460dc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "3d7a45e18d88e385c24c360ee2ef4d0dc2259e9b7cad0613136432db80223585"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "ffa0d655b24f1ba407705bb070571d970e3cadbfb041061205b9e676072196cc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "17f453287ae1795839363aea39ac249bb9fe8e433d24f751f366ffeb636bf45d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "9ff80c540f7c648ed9069dad0b811c80694e7e489dc48911e62d6187e7202829"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "40f3be71c2843bbf03c962c915ea551088861db5e02c4da18afca29dc574f774"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "8f424b9252d26f3a398cd9bb849b852ff9c7562612b00355d2fcd45859373de3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "cf3c39f64279b6bd6682cd0833a860697111a05c4529e93fc86bfa58f4705688"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "73bcc9d1bff7aa181eaefb516d70f7ee4bcbb5499f67614f14b7bc08472c81e9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "4691fb330625bcdc5368e9449f7128105b52da6eb44d33e79bf74c9f67bba706"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "fa10ad4a13eca6717bfd5e7ac00cb5ae8a28bdd611f1a15173e166de3fa2c8cf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "e85dc7ffb8fe8b3ce6c20a9c31c445a588db5f973c3fc50b5f8e543abc963343"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "e1211e43945df1d1168b1cc918217117df9064e9c4fac733237f8e65b3ccd4e4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "2b3c5b5ced23c4fd4bd4ef7aced45525f41b94692791c3fc77369607c600a7ea"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "5859b11aac0db3af1694e51d0fb54bd2299dd6769e0e42fb6009067b1707fc32"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "7910c4589290dcfb249933612a1c13996c749007ac51fb4aadcf880e14569f6a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "a8b61c5bfe21225491dab337c859d14626f5bbfd817f5729ac9f753b95202792"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "4881fa686bc8c3c59a80e44cfbebdd32bbbee3396027e6fad12971c8a92fd470"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "9583a34d6795a6516d6687f6cd1178183f527d55d7e3538e4a39cd14c25e1427"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "b9eade9e8a124595675983b8278d4fd1e5622d8efb849a245c246ffcbf0c5874"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "03d68a24d08e0c9ab00c4fa36f6da334743ae1bf538ae40f58ef48d73552a88c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "335a24025e54d83439bef9b72f60b38cce621f3de5289799840ab9fcb13a2b0a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "0f00edd707c9dea6f637c7b74443d231452792070d599c2cbb6c4bfe9395c28a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "e62dfec7a112c433ac20153c26d38821a4174efb9c120f65e30aa9316c6dcaae"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "f2874b23156fc2b9657717f9cdb4fb3d3ac4888674b796900a8f42af7ea18f02"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "a124db3815d0645245df10e5f2605c97b5a071ad9d5add8c38576546dac9ce7a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "a5089888c607bd29af1103fb1d5382994a98964fa502d4d09ba000dbd4424c35"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "9ada19ddabfdd3f294f28d07fe62f548716336c0f01f6aed0da1ff524dc6b300"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "36ee14fd885292ab1b0d9c28acbb831d1f5d99a06ea2bbff076ab49f31392738"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "7ed4afc98175d9a562c74bab648727eaaf57c555004ad26d4a9fd68fbfc0eca4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "cde548a952f497be647ac1e2d4630325822389a16d9055a5a25265e11fd8eb1b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "7cc760241ab74f4e752c75c1ea1a53eb7e4950ef3860db4e38809fd72ce3aeae"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "d8bd6d5683fa81e1649480f666d301c019226be101d701bfabd17af2fe061c80"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "45595dbcf03b36611271fe938919910be40d65c46ebca2a511ff0993d43fd1f2"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "a924d957856d41f2d13049d440e9ff02d2766c874b5bc8b48183f211582bb1ac"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "d2ad95a498b5089a130a0d7dba1a74bc6214307a24d3d87627f6ab2abbe27434"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "d7ec3653d82be7ab154923a62810e87bfc90060f9dc30132690e895fb5d82109"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "67790709e6635b12b007925dae686cbb80257340857cab1c6aba7b1c46946559"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "8b8e2f135ecc7761330c30fbe656bed634a03d4aa5db6d0892b8d9fe30575bb3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "43af7217033356142c354874d7074f8ee14a6b6d1417c2c006bf9f96aeb289e0"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "d457f5af1d1923eeb6009ceea211b1a74601804e701c644de267bca9949f08f1"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "48857e85f93d93eb9ca69adb88c5935985e6f30f6922667b855a416079ce0604"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "3bbcf19ee3499f9bc1b3e40b4a9ebaf0fb7a375c9b1bdfdf005c2ff3086a6dac"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "2fd79abeb1b1a95a35bdaf30bd90bee51735747daa0dc6bc66b6ff19064b589c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "d3709d0b2aaaeef89ca3562a2a67cf3bc7c1406fac156e7e78d9fa0afa071bde"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "4cd47cc467ef4d572a8282c8df1ea25fd2470c76156d6775e5499a9e3014e129"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "7b5e54aaed944b04749a42edaf0edfd02400033c2f62f415830b6642b44036a9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "6289e77613f1914ba6e84cc57e22df9801599dee49cb554524fdecde123470b6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "6fa6912f5ab05af3e586e13e8a0e7fe712556afeaa1e9ad47294b3c88e8f329c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "536144a19f56caf6965bc6237311a24eb80c10b6adaf35c6d52eeaaca6a67bd4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "31d76cb86e76f933863ae43bdc82ca67b6709ab0e1e3e57b8b696c3d84a6eefa"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "011fb994b4f1e76290d2c9f82faacbf5ab712f548a741f407e599d103a41d9a8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "e913688bfd321efdbf74f409ba005716c79998ebb4a18f181cfae5e332e87f8b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "106bb0c7974f58cc0ebc940a1ed993ad5c19a265857218bc8b8eb8f2fb09f342"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "b257685ef6605436b0fed4169a729ed1b17accdd24526934ec673b907aaea16a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "48f8671d2284b9c3374e062335937944fd78d8a4ad107e30a118adee1aaee1ed"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "4415adcdc5e477431abb12d109ad1262963d196851a3f1c19e1790bab76bdc4f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "130a057e5f422fa2a45299712b109300f7eb30bd377ffb9231ac6f210d428ea7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "6a0a95c44ad28e6ad6b3348c0e82481df5f7ee0485f83210e7059b66c5022118"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "36487ad7fcbd2563bf209f9f64829078d1a8cdc08f2b3e910fd410059e6f3537"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "b604d5891399e8988a1c809ecafae9435ee4ca279d0abf0c3a95a79ef4189f02"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "5823c204561b7adf11b2c97b03818d6f6eff541c46db10de4e0b157046cbf2bf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "e3ca0eecb414dc846d0ae4b2cddb5aa0a39a84de6379ea54ec0984e5427862ae"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "2ffcc3c4a16b913da5fa7da9eadf8221a686f07910b0d6884e92648d5c026cfb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "4900b8d5f03dceaf71c4d6f111f19c5ea933acb9d678759b3178699cb7479aeb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "ea77f8b8a205b3144e7c33ebfe61dc2175e184dca332c1f45fd0c1601d0493f8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "39e01a9653028b86dfce2c9944ed3c70050d804e08d806b50016f5544a71f875"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "4badd973d4387e51792fd042e41917be22ab99315c126719238c542fb19a31e4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "be5366d637148223057220880fc889c09a999556fe26b3a9c0d0f81febf3bf15"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "6fd01f7a8e4d99e651bdf28d780c459b9e6eb3dad69b08a96e7cefcc1f74a37a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "2134b186565b5721724427abeacbaa27ecba5338632d2f1b913e9a58da9962bf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "49dafffbc27c177e73ef157eb9d7732c649e7a294d924d2a02d092c1ebc1ac09"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "2962d6c456526843b34456a29c342739dc6ca7d239d0f25c6b359be97fcb4855"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "7609209a032e7c45cab71cc735ef836b6908bddcbf622d61d30ff3bf871ade32"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "e5f17f7d441ed536c1b08d205da605cf8d587827f4fed83eb2ce1ed8c78c40b4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "f8e2611ff928b506dcc8d81ae6abda40310b8b0fc3ce0a11b7b3dddb781b30b7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "47005df432b6d425fcba93a84ed55058e888fd6e09c3a81d966dbc4ab08cc4f4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "8bbd82a8c30f8ad0609adef3fdf44b23d921ccdeeffbb1ed4d0cd7a65a96ca23"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "abc2d7d14e83489f461f2dfd5c6f3fa5da6d68c4122511ded034905cb551b5f9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "a35015c124514478f56dd20e4f84875605f9581993b27548245842bfe35e3a9d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "62053eaa33bf2072ac0ddc0d4294ded304c9022421603b4fe1ab219c3dfa48c4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "ae1cccf2de16bf4253a866f2dbd97e39db92d5744f683f2bc5b54de61b9a2e7b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "07d6167783bfe97194250defa21068ed6195d22d0522e2ad0b48a512e0d7f84b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "0dd8a5dcf0d202aad70c037e1349032fa675a8ef5af57b4960b2a40e7cb1425e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "398d2359bfadc62ab0faba4a28e4c57efd92b6c388641e43367fc1d9b882ff3b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "50ca9c6bcc4fe49783c138f73964e80df2624fde0528ac9130156dbcbfb9077d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "ac6a2138e19e7532303fb0ca1c24b2b0c3498207b71f6017a5d13c661594942b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "52d0998dc902e8e8dcd4c78cbd0df8525a514ed93121a967363ac0e69ef3c266"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "44b0208011d00e1427a45304c4cba75bee58b3c028240882d8215b1d277d9e8d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "2b2ef30cbac041d2172a93a122774b95a252940932ebd34528bd38230f358bf6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "fee94750622d937302d9dbfd5d4c555d9416f47e0f631c13f52b8db5531e7cb6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "638253d0442e6ffe1b606e4e298c487056d675d3d05b35a3e3275abfe63cec07"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "bccf1d23005b48f95a9400dc5c14afc0c82b0f5e9b2a2ce5e9bb69f05feab0b2"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "f9081c1256432813e64a9701ea9394b63438a133b264b5d2c3e8ceef5a4bf5f5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "6ae0033c31a32ef391abbc66499b27383fab5e42ab2dd9a938e86b53caf6d0c4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "f8ab080cacdcbacfffff7dabfdc4352b51475a77575c8f3907d4ae44809a2191"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "16c49961c53997bde0b19a6a6d63f59503d1322aaeae57b5e028a8434ce182d6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "c7cba986f1def3d57be2533327bd6450ab315e38527a40a7ed32471bb12d6d67"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "603f00bdaca11ee05bd03fd55520d60972626305879e55a0083c7e628436bde5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "b4bcee1d3349eb7f33b55aff93510a5b92782cbc65f12d175ac012f35f519322"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "bd19d55fa007d76c72d4ea4882c3d3d08c4e4afa9be1a317072b645ef51afef4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "d952353aa05ab8fd35e5bd013adf6f3248fea3233dd9e07654ff65e5dffae492"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "7b7ab3d9f912b06eb6af4754443d58cd1fce7954b3989a11ddbc51c3f3f40581"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "9568dcb4416b8e8fc297f96031c4a1e3238ad8e5792668ec41976774c788de95"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "501508aa62975e3357852aca82f5afce63c961c1581c7377d9ab9e0cc983ebe3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "c436886436fb5dbae9a5d71e1823d0432b4fd4df185387360bb71112048939d7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "a35af93485441d4d3e790c846c2ab0c3c701e13be858cac37ead0c40a0be8eeb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "6da2b2b344960fb6a90206e83502f29c0761d999e61e1c41f060568761c5a9de"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "af1841a59c2f9ca589567bc43d328ffe6762d5bd06bb0c6bc2582b229848bf69"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "9f901d8fa13d2b7fe1dde594f85198a84442cd531b3e821f26c5465aeae70a35"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "4cf284d4d3f9b55ea80f46bcce9b7f5c52f7feaf752a32aa14e714cdddb4431c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "91a0be332bddc10d8d8b41d9dad28dbde5ae950cff743df1705c965491d1c3d9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "b3cd518d072117d73e5c88b510e648d95a7e59836a0ca143509c5839c2f1d928"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "980103c12338ec4a5c7f73465c10faae69651d201437eed28d1115e3c3047012"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "8071cc6d53b7ae8c64f74f98c445faf06fc23b7fd9e38f2589f00491edb5a778"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "cef84403d9213e5e69133bb84fbb6c3b94bf5e343d5f16fa58235442a2f9e027"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "1012a67243b67d7f3486aa0f855d37a1e9b16ff4fd0ef7599512572ddc1cb0b5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "511c8a674d1a90e6762c722d72cbd803b808ee5cddaf6703de59b895bc12570c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "72494817725c46df4bdd6ba8410d6c3dfd9c31a62bb84f244d2e8b35ba8c3dab"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "19d375b03c77f84280a4230911a7c30d2ddb9bde1b0c7c3e5d6300b6fcaa2322"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "313fdecdb02cb270a619166eb7bb8257e396d0beef3e8585548b7e6d0d549208"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "66f69f46c707259637706d5f63d67fa2d69136b3adae541882baa7c13aed7970"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "5ca95c2f3f7270f5cabd209150903582739655a1819cc3dca402d37016ae5ab4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "c6caa21f893ceee8e17cc90e03d5da37c2a77c3facd8042734b9281150bb80cc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "d7222369bd9a28ebb2032729f944266112030198aef7f833547af6278ae5e450"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "a96bcd025cff35a3d89935330cb0548fca186c422104fba6e84da7b42df1e64c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "50c95de561f515eda185e2f21240ba63b99d33e06d815d0ed1036ebf2e8ced27"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "a5a37d151180ff949580447b628216dbe690608a86b4fae5fd0dd8e8784a2a32"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "f8bd2417b162b8f2258a1039ebdce2fffb42584628dfb81ce6a6ce1fe753191e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "5930760c6eb4bf4e802643b2524986603a8a6450d632f9f22372f4ba26d81bb4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "8f10c42c5ea2cfeb74f10202d96247d9a764ce7c562fff2c3e9bfcb86a251f7f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "3eca45a4fee6c17ad4c69d507eddd9afeb72773511e343b11803e1e18d2a5f05"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "ddc394cdf181000dae46229258d741fd0517d4197f5b9b836d72ba3a1d2b51e1"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "62adc2dfbcb4ba1be9842a7167698cb170a99b1ca27d6b9454e065658ebb0bab"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "7be9863bfa98983457dea996f8f67b2ed48d7100fcb00ef4cd8f0d259af97c35"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "94d95956524cb055a520ddc3f40c2760b4a37ca224705a512ff32ac934335612"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "96fb072ebfa09d6c398bdea63a3fdb9ae23de440d1084fc1f3a6f03fb9ab928d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "24051da222c9f0170d3e6cda1ff934b1f94c293bea843d15ad27e50b8512b429"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "28820fbc74c650f5e5e72a44c41086155eff29fc9f15ec33efcd9494aca8b08a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "b89e1bb2d077252bd31c2300d9c75395911949e5d7ad19fa4112b91143d34336"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "e20be78012d6700330d73e4d066f01187b876b4ca44f7e967d11c4fbf94bdbf3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "546b533045010348196bba22ec1934b5ead09a9722c4c4ce95da48a26adb2642"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "fa3fcf31ddded087face8c67d4ba7acd0140bfa47cc4814a63138611e3e7e354"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "3cbcc986d67bd9c6906e11d59f4a6a632f86b0b1d975ebe2667db1f77392b0b5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "976f1b47b509295e3f9f3810acf7632b7105319f7d2285594c827b343fd741bf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "641ee196302cd18f19d01546c2bf0d4265bc642eb5163f2e815a3901d700d1c3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "2a6055869b4b90fd82a7b1d8e8ba584c431e22a156232e5d0aaf02fbbcdd7848"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "96b33d6cd1a9f3097f03fb4091fc7824e316c4b38702d24303fef4cc7c8b9aac"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "e835f0d99a52a148d12c31dfe6e3937aae0470b80ee56498c5fe67ed7c47b3b0"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "82f153119611b03d7ad727a5a16893cd90893f889702b992de8c71a22d4d7d89"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "82c1dc2b014f9ae3b94fbd34252736e6373383ed374a0fabe9a03a842a9dc885"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-BOUNDARY_INPUT-01-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "64f187b033f36c56c181205da6f39b993278b253f12e7dde3edd749439273ebf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-BOUNDARY_INPUT-01-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "1e4fb4bd4c95b921713ff8c124b92e9ae5acd4318060ea20349e0b9f9e3bfa56"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-BOUNDARY_INPUT-01-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-BOUNDARY_INPUT-01-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "355929ef9812fc9fc5c29282146a89d8e233665c53bcc4465ed73485ce67da78"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-REPRESENTATION_BOUNDARY-02-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "23a31f2a03a315fd21188e4dcb9498f8406686eec3320cc0ef83c3c2210e1570"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-REPRESENTATION_BOUNDARY-02-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "eaac6169fcc90228a3489467b0a9fb4637bd1fd3b68f5a4fd21c225649fc84ef"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-REPRESENTATION_BOUNDARY-02-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-REPRESENTATION_BOUNDARY-02-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "1151d6969dc93b1378bc5fdc2045e5858d8408814facaf8b1009afa96ab6a9cc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-STATE_TRANSITION_BOUNDARY-03-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "e4e7fdf5a75840fb0a80c71699ab66cbe1f3dcae0da532cff0ae4490ff95213e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-STATE_TRANSITION_BOUNDARY-03-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "49055510a969fecafbf73ada2f7f103508443cae5810b3b4fbe38f4c549cc334"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-STATE_TRANSITION_BOUNDARY-03-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-STATE_TRANSITION_BOUNDARY-03-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "c71d00581e09ac4ab56d1e462ea6e266478dc8fff5b990045f3225ab997eb057"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "bd8a5e09d91fc13009382a580b386988555e7ddc0868b2e6ad1620c1b0e18f84"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "9b57fd6b6e4a89117b0f2f169240ad68f6e3e5713be297d6ffd6b184539a4a3d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "fe47c5253d0be047018b9e2855dbe794b89af1404a33ad1771598403f046cf22"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "06a59e7b7dae8a43ff472aa1e12e5b9cc529eae7e4c92137fcd2e15f03174b78"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "536da9e44fc523f14367dcac07819645c747de0a47dd35dee3b006421873e362"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "7a4f7796c5d1f9df5993707a9f9f9ad7c6304ada46ea825dae57a29a26851bb2"
+    }
+  ]
+}

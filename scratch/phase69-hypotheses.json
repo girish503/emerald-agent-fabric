@@ -1,0 +1,5406 @@
+{
+  "schemaVersion": "emerald-phase69-v1",
+  "totalHypotheses": 270,
+  "hypotheses": [
+    {
+      "hypothesisId": "HYP-P46L501-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e1e53dc0399537118d20fe0ee98c0f3eae90de76768410b3a3f79179a17425a2"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "840fa09b4d1c82e3350aeae65bee8d77e39e0c9e5536a365d93a1ad6005f5aa5"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "be73eedc38918c854a4aa9988b1a6c485fac53519fadc3c9d19ceb91f1febdd4"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "c08a368ae542cf68c4571c2d1e7cb56ca961c9ce430a0063066d92c8d89f153f"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "5f8e7ddd6222786cbe26ce49ed4c14b39345190275cb0517c9f4f88168d64cb7"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f9502220c86cfa8bbdf4e0068357b9e5fdf9f57e84ae389c890c10fe21ae9bc7"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "31d4b95da0ae0e6f151338f35be193be78e38b5df6e709f7265e9a0a1e5921c6"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "44d0f7aada9624adf6da57b06059554f1bc1dbff129cda4e0c7bac6410d42a58"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f2013ff09337a357e65a78f304047863eb7645180f3bca8ea5ca3e8c3e31e94c"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7ea84f530738013e06f1620c36a935bf8d9940ee34b7cb578929db4605dd5f5b"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3acdcc8eb578b471833848c065f9bbba5458c12d689090a40a79a01633cbb4c8"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "c44c8fed2bc70c61a935aa531a21f209f12121805b02ea2ffd47f4f7d1ebfe8b"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7d638452463e06cf45a0eb110183b0e7aba67c751b1f30a816236ff943dc3bbd"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "5e2f8d263c5b5a1ded224c6fb9bc492490884a03484509d4eabe04af5d180a68"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ea141757003472e8013423c59cc17134afca65d707033609d8989d69c43fa048"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "232c6bc5576061ec6d752a0b9942daf93a2aaf7bef7048b110a1e0d199c8e593"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3ace51465b6bec7cf2a9c6c91f11d434947e63ce84a1361eeded568e7a1c9522"
+    },
+    {
+      "hypothesisId": "HYP-P46L501-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "621f30bdb647b7da08fbe4255a5097f116926bd95a182b183c9c2f2230ec8fe1"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7749eb1b1605e1762d6f92cbf2c22ca9b5dc36e71d8e37d75a1eea849e9c213d"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "940a674b45ccde77eaf992a5f5128fc566890b6db6b5ba19f7c618596ebcc646"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "80172eaba6a6c8215083f1cf2aa2be08564a6c502f4fd7f0f910c5a4efd53345"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "bdece9467bece9c0717981efbcac84b9b5394bfb5ca5498e540d15a9007e8245"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1c1b2cdc7db8960c741a2368aec65c661f3b2d561025027d43de8bd9957cddb3"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "dcabf3b026bd8214b9e7d21d9ef4b8ef41e355d4c1b60e3a3c44adb6c9d19df2"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8612b2e940c8e978ec99e9e5a5cbc4686bd8760a54bd903396c843416247af9b"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6a2db1d24c81e2adf022cccc3b718acce91092526243d8c7906f0c4f5b922f03"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "867918dbf82fcb01bed9e220266143beefdd736360df070697c3da99dceffc3a"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "cd78d8779b048c2856964d3bfe14fdec69f73bc4f97704ec3e1cf8ba38137af7"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6651018729fb5a3b259fd66ee41ad9f36ebc178c0b79a8862ec5f9524e7c272f"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1a75a5d0c71ac7d18188dc36daf04e0c3bdf403b64b6d103b7c9399a84367690"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "989f425fea6184407795c14630f96929cb22535c41c79666129d2d7127edf43c"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8e557dd9f72b1f3b70d20d8a1df3c7c9ea33897af92b0b2bdd86e6062c1c9310"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ededf2281a0eafc908f8baec57388c1f6bca6235d39939f742d8e724d27b5533"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "65a684b9f7dc3799b8afeb3ad1e3c68d0b9e72e31704cab63aca7bf5fee6b294"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "024e0c039763dc2eb7a16f215a4d422ff94005a3ebfca3e04b41f38e325f6f4e"
+    },
+    {
+      "hypothesisId": "HYP-P46L502-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3b470519a20db9f3bf9b63c13666fefa4d4b90acaa2200e7b9060d6cdfdbd849"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d714f3d86c23b5dd57cb132bcec2e4d2492804120414ecadfdd4a7b0f0b8e328"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "cf581cb4344e66791aa313a3faf29e25eecc5101f56b4b11f614b6933c80df15"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6b325eb7db7bbdbf4ab2fafc2772df1db41f4da6881d83303e971e9a376868fc"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "fa825ab79ee5a57ef03f4dc833dafe3431edfc05dc040f03d161072fc593073a"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f663ef361cd20f0dd3ea521792fe86a795810f7053e8e914fbe05d6bdc2c47be"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0050c4c46ffbd997e43e5a0447e895a4b884917f45624ca3ad9dfe124b14e866"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "892e4610b91e4454a30d120a2921a141ba695537d615331c26a3f5b1f7f9a83f"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6f07ba3549f9f1c64e09bea44efaca3a9dff28f3c863429e74dfcb07159928f1"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f17c9eea257e3e52d6ac3716a1f7cc6c28221a57585b321318eba2fcee94a121"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "754b062fa547a5eba847c99a9cc7f21f1809fbf3e654b71e47d9ba04a65ea7a5"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "57c11240515d4803d266cc625099e6f15f0294ddcb9673bee08ba871cb1eae2a"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "74294e2274bf324672b70f8a0ca1e2a367d600e1e7fd992c3d22a1f88bed8fac"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7c17504f5a4076582b0070b73b8b4a6635141a676b98ae668a66df3e882e814e"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ea5d339d7ff37380c3d5f1cfe4c6bfac669b733f427c826b0e9d1e8e92979c56"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f09c328f37b1bdc88617b3c4f63c200e9fb9858ee59cad25134c43935b3b76e9"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ca892c9658282f7c3fc06d2ff17f3f458bceba7eed3f8a4a89ad13248083904b"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "2f7f8330124cbd8c14c8e1fda5918de0fb285e4d4750aa3cd83062497e59bc50"
+    },
+    {
+      "hypothesisId": "HYP-P46L503-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "80116b786fca0dfed6ab21ccb69d0c0d559e58cba04732a0cbb26f6dea5de1e6"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d8da3fd1a490776bc6aa8a3f64c17c71a4e0df19e8fae514198c8a65a225f578"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f173dab503169420d4037c267c0fb6c65b064628ce4465a8654fd5d6bcb62090"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "19aef698bc0b1cfb580486873c3a11e4f95b21140c8f766ac76d5a1b04db0717"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "762274b12d8060aff3c72cfbe3e75c3aa23a9c8c8c5ef709b353c6b79f7b020f"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a7b4eec8d4f4099af8a17b8188c39e4300299a86ed1cbb29a206308a9fc00961"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "573280999677e7f9b58431d3bc4a19d00a14ba092c32c15f5e25793c4390e7fd"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8292ba9527254c05592e1c57b5eea1a25d340645bbaf0d860f7df5e32c534eb2"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "993a1a5b8dab8f062a7a559f451f21f2c04c4117a0342d9f883499317ef2e851"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "73fe5959be6658512444263d4a7b1e3e1b5e8c2d6a58b634b98b912bb098d11a"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1267fd2f52562f65b51b73126b4a80d21234e135e7390915a0a87e409c715e22"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a34f89ae3fa7efa823302bd13df8aa0036809b3d105f7436581393d1b6d0826c"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "740da8a6b089f21fb70deaa54a05951e2d3c393d742a30b232c0314554e0c3e4"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "be3436e0db75a24a55616b9219c829f5222c905896a8009489b25ca25419b4c5"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f18fd6511b545fad762d53249991158401ce8b78cabe24aebef868ebae0ba1cf"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "fe0736c9647edbd30e55eb3ff4efcf33246c2776153688d720482c3692f9b02d"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "25393be4aa7065629571065c6198554a243707805675c196dd4d11fb6924c94d"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "9bf7c0cfade2e5a8312c305446410adf0047c934a2f06b09726e1aaa99d94c3d"
+    },
+    {
+      "hypothesisId": "HYP-P46L504-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f5163004c5779e9ededa72d2758de810f9937733cf54f1ab66a693ddc274d2a9"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ba1aedb44604fb3d054473730202c321628885652f2f28c350decf0ca1d7c20a"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3f540ffdc6c8f20c75797bfe41614721cb1908d72fe7d5554717e053cb2f44b2"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "c860c2ac2012321babc4ce43339cf018505f5ec7d56b5652b79242cb5b974f09"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e21640bd7e3396f1247346928bb520502782b1c214839b7ea582f71bc555d2b1"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e1c33e199a5f2fd8e611fabe663db06528c911e5fa0207aaf96932195f5c1e45"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "41740e88d12c5b3989e9011c7d0d4cad0590b3c98c47bbe7637d3a1b6e6c1868"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "805b065db76f3b4da48f97aabcf3c32649362169ab866711f61e74d86e04e41b"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "68a04a65ceac08a8d935295132ee8d8afb582f6abf6a4beb63cb16edfe393ec9"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "366f1fcf1c82ef0c437b994ed82e4588661eb007e4368b6114c7a3434d058832"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "74f6258960f98f4284e88cf5e1b69898be8d8f6d44021d660f2c854df1e4d485"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d7fcad07e187cb8bb780f6c51431e29660c45b39c24c0742f48ba288a5e97c77"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ee93543b668e3ada9d4ef5a3aee215adf9fb62f1eb117cf18c6c581f23618f67"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "58f026b0e27e2317ecdf49d2c2de92092267d301f102d156491dfd4f6c016634"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "82bd176c2daf1f98ab5dec9f6f67be670c670c629aff51489b4fd06763f5be96"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f40c527040df481994419542b6852a790a48774833da0dfd181c812176617f65"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1f38878f3c96071f10e507c794e5be24d9c26f550111a53536045b0feaddd836"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "semver.prerelease_parser",
+        "semver.comparator"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "cbc50d6a945b9829b7aeeb065fc8d278d6779bd83edefd42dc45a9d73276e135"
+    },
+    {
+      "hypothesisId": "HYP-P46L505-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "semver.parser_cache"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "dc8fbe70a9c5623f5286975fa8b44ba05e7ade12907373606199df2db0e15bc3"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "92e1823218b69162c6bf99bdf093dd17da9b888b2a81c881c82a120843c73ca5"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "36adb64d1934be5750e0cbab2f8e043efc4dac1faf9132018b531d55e2592e99"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "76efcc6e526ae46b7c12c6e86ecda07ad03ff82edcfca43192c6a5c72e0f0a09"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0dc87657e2de00c60fd87ddb32a0918d4f1fe181c127821289b6d65081b1035f"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "33e2b1ea24258e5e02b9c278dd684c7f648360c7b75601af031ba1dcf5ead4de"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "50581ed5b69f71009961ad6344d227e8c9edd78f7fcce1125ab8c12cf05218a8"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1ba6ccef3ba7ac547267eac5c1e40efd86e1327e7dee2f603c04e088e9359c35"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ad9a072e88db998013c63ab67d4577a1f8007cbd5645e68eb6f4b223445a6d49"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6ae59652df020edbee7582f8fc2a979536a3806348f3cec2f2d49ea36856168a"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "aa3fb1ec2731729796a87ce0f171d08a7d9dee5f53fb24752016cd4e5a834849"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "06115b88139a08db0a637c99ccd9d639baf1f07505f04bb6f7f2bba67266d960"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "39abc951b85bedd2c1800cac8800448cd32b065742cbf11790ca7ddadb30422d"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "00dbc8866bad81752ffe2a52b97b517bcaecffa1458f8fffa75532bcff6ceded"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "41edd448dc7b807f61d9362b22d2738f4559db269c8e12e3f8f486683389eb93"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "74ec40e03b3864a504abb76544b0e9ac6ad48713989c313b721b7854046cd162"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8d9b6e0f1683ee1fff200ef899f49d0ab3eb6e87ab8ccdc695d001184f48f169"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "448d467e7d11895ae193d42b066f77e4c3595bd4169dabd1afaf48dff2ea0ffc"
+    },
+    {
+      "hypothesisId": "HYP-P46L601-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "115beb73918ab42a581b544d2f0e6bf3cf75f243789ed4df5785d1e6ac1cf5db"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a303e2ca677c77289018beb01b1a69786b0152efebff36d15c9d495bcf3af606"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "eaa57a0f424e847bbdea582a2a555076d6353f205df452a91ad1a25dfccd932f"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ed73093e5a1caa13cbf45e7d50707ec5fac8a350c197815b4484ef9e3ca7cd88"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e64927d76fd7ac8e2ae4e5e97714eb0cf66f2beef5edbb0361e559a25be1af8f"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "cf533c880a6e6c8140a0e91921939fcc97e5110e0c5ea0e39249622f26b3fc3d"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "9a11cc4621d3e84242712f4761f8a45cfa2d90f68a658997251657a2f899be98"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "935efa4ef6817b48eb1fe544441257919d5c333de95903f8700c966dd2f96707"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e315c66bc7f9e2585679a848d940ed76699964196f55cbf0a676e85f7a1da084"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "5a3c0ebb8eda806f5a877818076c12377928ec8d4af9725d6bd4372c68dbc766"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f14d4d62bb460c00270621b0e8b5d530a5dd2c9f5ccee7a9f5ea6d4bd91a47cc"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "bb1077fccae6162f906a35202526a38c3f597b42c50ee1497849e6a974970a65"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1bf85c2e7fa1375fbfd7e3de15c68a54eb1223cafe7e2cd8b8f849e7cf1cb17a"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1a3700d831766e16c11c6e01514ccd5a33ec0dbe59d65a67cc7a7c2ebd20e310"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f5121c4c429555d6592a7ce1397a4fb7fc1b18b9190cbe87b23bf1b7cc7b8584"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0af5cdc5de58f85b0eb8ee5fd1b7c496395df3aaed1227988b2cc9b412b9f5bf"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "db7fb8ea06d1f9d405f355411b165420c1d8fb64711d325146e2cdf1e1b5dd4c"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "91e3ddbfdfb543e0d52dbc4c322822e47357642f5b52c073d448a3f5652c1f6c"
+    },
+    {
+      "hypothesisId": "HYP-P46L602-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d48f583ec7227bd3724182038130c1244b6036ccaae223fde04af8f2e9357910"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ec0ac81a28a4ccc9e79882d2b53ae0e167d6b7c15078a7658f368e0ed1217634"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "aada715c1428cf075eaaf41eafab77bafa7e00eaba3b574c9300a0495244e098"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "4dfa4c9cf08191e9c775ef1e865417e1c105de3584030b774763662e89fc4e3f"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "90d770a3239dfc4862a18d7a55d3bc433fb69dc87bbd41bd3db8decb531601b1"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "39e03a7e6606bf5c20d23db310809c9a658ef27ecc2cf72ef294f9343ce6758a"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "76066a10c8d5c0b4a89a200a5fd0c423a1da442067a5c97ff788cd06c28d3694"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "32b879b43f41188cf9aa1c3c29cb05a65efcf475601fed13078cf0944b9f782e"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "2fe239716278627a5e1288decb245bade64b61ab87f3b70b4147590a2deac2ee"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f570a3e7e0da57dc1890b1386b83cb9408c4edf9fe9d5b4a5393f2bcd09d5afd"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a9a6c166e83d651e3f356bc115ebf67eff22a412b6db74c269592d5e8a307bde"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8a34e8efbcad355ae99b2aba081cb9df53a5a97694207a8308244d671c792d66"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "aa190cc5e4635246dab2255b3b7d7d461c7b6292f9f618c3a91875ae00c7e162"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "dd01998ec7e10f483cb8b76f4b0466b3209570fc598bcaa6e9a14861e9145371"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "da7738716da5db416de5c4b6d15667a10051f2bea626a8d7aff3c8b3be9513ee"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "4e609fedf0e98d81372f143663f292ea09589ff3d668cec8691a197e40e52649"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8f079a2dcab55207ec79a3205bb0f0995596d83d1261d6a0693bcd67d5c2548b"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a9b3e197578434683730c1047b67e614555281269830eeaef59524a1ca12eec9"
+    },
+    {
+      "hypothesisId": "HYP-P46L603-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "fdc724b0e16ec2b75e7728089406ffc19d41ec758cd9303657fb0cd8db36d5f8"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e3f34a54bddfb2650bdea01237d57a5d69632f0f40d5d287339ae32028f8a80b"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "df82b9f7c957a38d4f1225bd00c476bd8b2ac3d53a8f4bbe2ae4864feef70a65"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "9e9cde933886d22e919ce60022bbacec1e3bfce2f17adc69df3dea953f93b78a"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "dd4d989b81e4de86885fb2ea615347c42400bdd2c404fb76faf3604f91063a66"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1ac6b8d888a2e609a259bbda4bf56c7177888f21088f0557f259d1f5a6720c90"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d74da2f611d94562a1b649a22c4eb6915fe7d4fa3983136a7de4fc938693bae2"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7c8fb4558c624296bbdd930d71769b3cd2bdd6cccbd2a2840c6d1e246dedd294"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "b7bff4ce929de6d5a4808efe4613f4a005d0c9ab8612808aed85a69b9575c8c4"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "9bf50b2a91bd84688fd55e332e013fb2ae33d4848541be2dd04e29b08cacde98"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "921a216d1b9e03c215f6f5974b2ba7c1380774f100d63321584b11cf89f4bdd4"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "509bd95225ace78648cd9b69f0caf2350544e31a4617e3f9f4b6e1fac505e761"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f18aa521fe8a12be548a2b532518ab3c05994c95bd81770a88dcc6b82228c974"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "783be43c3db0bcfa61638cc82ff4d953bf69a76a08a4817bb73d2523f6d881d2"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8044f5f7f2282cead30e1c3cda2c6fe518bab429e3e13c9a5565796e149b57b0"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "46ffee27429db0d59c9aad38ae30651e2737a7a3c2e4076379cf1f4fd560e38b"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "13896cb89437bf3e8323ba4118a8caa57e84aa39b947ac2efaa1a37c66454a1c"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "362680126b4bf1a6dd35c28e82784fe92c522af11de5e1c7b4b608c559aa04c1"
+    },
+    {
+      "hypothesisId": "HYP-P46L604-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1880527f6fbaa774cc77fd4f0b139551bd15f9d3b7e342b4a41fdbfd7ee6839d"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "fe908af7d43e3c859d8616df2feb3f68aff698aeae995965f1a19333b50ef876"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "95deccb73bf77196607b6158c494fd9b8926fa51b6ea1b2a15919b8bd8fabde1"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e21182dd1fde1ae8c76e0325e4d049480caee02d5fb3f211c89e245d95abedb2"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "dfbd0613f33dc4cb1580de870ff42c2af94cf7a7212e751d5079ed0f370b9514"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "fdd474d5e4dec424ce650cf7f221ec0d45f2e4829bb4e895ace02ce27423f1d1"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "216361530da4f79ba0db820f032cc41776d96fbca0ca004516861efe3d2a4e81"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3bffebd15e7e8313d992012643e5a945ca60177c270f6de90cb6d9f6d1904ea9"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0e8ad7bcc69808a17cafb26aef25663bd9f512df8f2315be5606386fdc1f58b4"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "5b810f34618bc826eaed0c598df757863a66933010d3966db4a6f19b83aa0f99"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "4080d1d43786ee586bb7f335b695f4819665de7b2e5d2c80c84973e4f2b8c529"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "77e3c3493b6fb26c8a7aae6060daab75cff98dc3be5a0e1eb97802371409f829"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "4d4b4e78d6db1f283221a6b86221190a0cc87c8a5d64db33efbadf7050404d5d"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a369da372d2a6d52ed6360ec6d4f80b5e3d6467bb4abd5bfeec727f80d08dea7"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "509e04cf74c037ccb197121cf590cea6f6427a4c8b12d9c71d295de7546cd23e"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "86eebe77aaf036c9b5a23c3653db92fd100ac24b26961d9e8869495b72a5462e"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1276103e7171fbc79b3eb417320614a3de06bcd677296a7d150323107e731ea7"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "user.role_model",
+        "service.auth_guard"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "bf8e43d1014dc912af6c37ed7238e0593871e64f3a3d61f5389aef806548e59b"
+    },
+    {
+      "hypothesisId": "HYP-P46L605-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "service.role_cache",
+        "client.transport"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "9a2e0431ff42355954cf4cf50ec51cd9eff3c351525431e04daa23ffdfc65fc6"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "b94c2cec07f134e9e3fe5b254a76d7300a35d0b36bec9be2831d1ab6391d8e4c"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7efa27a4d5094cb2cf604f2731092074c7073d0053a6c62ee3965f370ce7071c"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e20fa9d33fd5527055aeec52918a3fd6df30e3e7233a5e2b6671d9225f467720"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "75ac5f482aeee4b817b243c087920bdb7fa7d4890e079b2320a4ee62f7c588cb"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "06a7d63b708ea29d44838fdda73ae64dc424bfc4f3af595296817fcd627e14b6"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3a731a179c091ea9f839774308dfadfd464c6309e2daf96f4028717eceb13ee3"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "bfec7540f1e6c0c28acd20ae2ead8b99878eb3038031bb365478cc2a63490d77"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "24d004f1dccc8222bc05333084add1d27f430089b7e068826b4d41985ba83b06"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "19f085c77a9ea8c47cb9a1b93cec5ab9de41e77d1d1e9f0f7951462040c9296d"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a5cee4a11bb54199668cef7b3a6732d2dbafa03d6c28817815ef0227cd39bdb5"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6e4ea7e489da18a5e551727d95efa619453b55ea59a35922c1c6473af6dccaed"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3cd933b22b7ff497463dc13925f0e4830668d4c917810fe46c7c61badbb9a327"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "694f901ad3b6e614ced72f79e82ae463abd1435cb5d019dc6770fa48971739a8"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "eb691729648d225cf6cbee46a9232d6eb2cc6c21104bca1365d2e9a6ecb3d535"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0376138fcf7a4defa72b0b54a8e4b4972932c87fe190746c5bd4b6901f6c9921"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0b80914de8e3c1dc5f832370685267569b672af6b3b841387c600afc9a56b8fd"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "407caf5ce77472ec72da31f3953a0597d793b1dca2bf9496427944927c71514b"
+    },
+    {
+      "hypothesisId": "HYP-P46L701-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "42da4873fcdddb96da7613d369a601009e876249afe20592704d55ef30e24b99"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "c2c6be23496ceeab98b7ceb4c5a66ca85460a2848245e80b2fb291a6bf5f5134"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "957c06252576070fa80bc87582751efffb4c7ed5bdc25ae6305cca955143ca5f"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "c42cdf260b53253b933700ea6e1a96f6f08f1e0c0358931736667c32fef295b6"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "41c5cee6e14868420df75bb941ac040799479893b752710c53c18ca42dcb0c63"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f037bcfcb672a45c9594f512b46f3a364900b829a7b5d188c25e45d1fb920790"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "aaf89e1548508268e6d39c22981068066725464162661d8f836df3aa3fd472b5"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "28fcf03dcaaef2389590145ea679bb7eb5b007a9add98ef55f0a8df5ebced18f"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "ef0f64ba4b35d1f2f7b95957f56cb0c25c2ac6722a57b11818f39ed78ca0edb5"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3858deaa0dc1369b0d0c20688f0b22ca8c422ef570b6bdb1c7c8366176fc126a"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "077eef1d0585eebd1fd3a2ee697297990ed2665f987f9bebb1845d3e76108a2b"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "4df67962fe8b05bb3f748bf08004c38f8234bc2af34ec1b83023cc2586a280b0"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "fe92cba5b5e7bf12ab9136c3d0f8be830f25e07ed74ec5a701c5fbc96db22612"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3807cdc8e4b7a4de2589bb74536de4837fec1af1489b4d887cb2127bdfaee306"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "9ea9ae670592f3671fb779a703243919974abe6c0cc7dfefaa4ba63831cab22a"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0b5dd8f7f5b361da421f4dc3b6db2b49950e65a6a168641014cba529137167e9"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "adc2a0f4c7e02d89a7ba09d570af0433e228e8c5efee23ec5d34da01b0ee343d"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "e47f66b275d945b459011362a360a1d6c5a86c010c5189785d240500d378dc2a"
+    },
+    {
+      "hypothesisId": "HYP-P46L702-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "128aa9faff812caab0c6724337a9a4caa32dd2e2af2862b3299285d067151340"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "52910c8c8229de7cb4386f464de0b142a94a8e856aaa7eeacf76347d8ef0f138"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6860a0a19231e466272e7476b9635257a62cda68a6aac3f4aac1b19788876094"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a0c022b03abad07daa5abf845c0f0c433aa182d19ae7f4f525259cbb5740ea41"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a546e95e21e6127849a0efef42cf10e77143570d8dac9ef6d7bed3d3025791d8"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "b18573b0a0c142f3d062c1339e7ab17efdd1c6f461d08454d9bd47367447cf1d"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "85484569f4fad808afd989a33a54e6d73fc2f3ca1d2f329c9d95d16b3402173d"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "2d6acff3132b89a14be257ffa2ed634e585bf9c1ffbef1a12c5bac8014cadf61"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7b4066ec460a21e37dbb7721730d0b74c6631ea6229a381351ed299b3d441f26"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "30003ac5922719e0824f51fa83d67312ada5c237c1ca722a1055fc1ccd8a734f"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "386d527b0f60182248c1e31010402a5f7dd5d061b86dfce5470b660eab95ff99"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "b525f4763435c3152c20d42ccf3fa44a73510c64d4845c0e428db5abd7791bf7"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "bbbe222a86403c90bb8b83bf45a7520b05be07990f606c82763794e0c8162f14"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8985ed75117c8bbadf5cd2ebef4b2ee4f656a70c45594c0d67daba0ee884b434"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "b800d9604029801c6b335d7b57610954b7ecb21f7679c5b7c7ef35ba42538803"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8ab934db467207a286a274bb4ecf9a6ea554df46afd1f1cda39e0a84c0dceb8c"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "53fe3c5711f77431e2cf1e1bc0295cac028d1ea406e0c5c3f1a04337a1a5d21d"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "436817aaf4abb89068ad1944549f3e2637bd77f3a989c8b2e05ca51abaa40d28"
+    },
+    {
+      "hypothesisId": "HYP-P46L703-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "527fa56e385dce0bdc88fab4cadec52d14e8844f528d0426e701f680849329b0"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "c96cac4b9283d5d55dc3d28e5aa3acfd7f89ccde051a3d951fcccbbb7dc3543b"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "45efa543e7327cfd8a9ee9b8e86b6a7f0e80ae2d30ed5db1e4d03d1b4a9e9130"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "798edb69eae539aa87f6b95ee3dc1222be33295aff36be735a395907f576ab68"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "b0e63066d8a85b1973a54be223e81c0717dbb57105922fa9752214ee3d261d9a"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "117e33839f4762f6b7a82822993c4889de7f32e005d0159b4c87348d14bbcd7d"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "8c4e08e65625d9a72f800366b7ace2b46432d550b32d1a69c941bee7333e4e79"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3966b7912c02bc472cb4a69940e752463a5189667f99b51b32c1c50db346ed9d"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "59a16fcaad277855fdae0731265ed6775db29ff2989d81e06967bdaa53a2140e"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "35d3f8aa538cf8cf5032e906b1b5a0188181c8230c30cb59d2c7a1ca3d998b5d"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "05f8d43582c1c5204c0decd63dd11527de8b0b38204599f09a733b31c3b320fa"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d3915e369edd2ecbdae04ae05edeaa5db52db947e24a560bfe89bcb52a8bd513"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "4bcc72acecca8f54383f40d3ed914f2804d68e2421a8bd39d0fdaf9d0d5c9970"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "707bb6d6130082e98bc30cfb8529e6790a372996d6a3471ae5c03b6fddd1b21b"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "1acf938234713a4383c2497e430e1286120cc05903688cc23a5944ec74d4a175"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "115955274122dd38526406f365e002a1002a80c2b62ffd5d4341c412d58534cc"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "882452961ba8e9a9464f4b51db96beac406a79cb1d0679265785a85a99cc04ca"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "7c48ee35a18f077e0325f6a45e4765777b4db63d0d1e401e1fc76111e7df122a"
+    },
+    {
+      "hypothesisId": "HYP-P46L704-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "bfbd333b64574041122368cd9404b2642f8501d21bf84c74612d2363022d27db"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-BRANCH_BEHAVIOR-A",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "293db32daac8b24b71dd8cb57e595bee6004d696b13c82b6e14b3bfae6216027"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-BRANCH_BEHAVIOR-B",
+      "dimension": "BRANCH_BEHAVIOR",
+      "semanticRelations": [
+        "REL_BRANCH_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_BRANCH_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_BRANCH_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a9e1bccba881269c0df6438e791a9fb79d26fe1a7ab7e6e85c447768abb69baa"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-STATE_TRANSITION-A",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d8207df5cb5ece884ccf1dc9771950318007f2d422fd893ecc46e843f93c7f2d"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-STATE_TRANSITION-B",
+      "dimension": "STATE_TRANSITION",
+      "semanticRelations": [
+        "REL_STATE_TRANSITION_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_STATE_TRANSITION_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_STATE_TRANSITION_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "4d2623e5d9ddb7d9862757180bb349f307bcf8d2141e503a3232322e71948174"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-REPRESENTATION_MAPPING-A",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "a7e3eb2d2c38e0cc961c345b5b620cf4d6c36d7ec60e3be63dac593630fea6d7"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-REPRESENTATION_MAPPING-B",
+      "dimension": "REPRESENTATION_MAPPING",
+      "semanticRelations": [
+        "REL_REPRESENTATION_MAPPING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_REPRESENTATION_MAPPING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_REPRESENTATION_MAPPING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "73b77c81e6417c9f5e81d8cdc12e30f88d53e9370cac34665e3a4dc8d0f522a4"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-ERROR_BEHAVIOR-A",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "c704dbb4bb5b4b531f89a38bd5187543bc62df321c4d0e9111ca2e33acd8f83d"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-ERROR_BEHAVIOR-B",
+      "dimension": "ERROR_BEHAVIOR",
+      "semanticRelations": [
+        "REL_ERROR_BEHAVIOR_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_ERROR_BEHAVIOR_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_ERROR_BEHAVIOR_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "d1702a782a66214fc53011385a59ab9e3d50d97bdc9133f8935fd763585dfc53"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-SECURITY_POLICY-A",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "68fb7ddfb675ad68422b1b83b82da67161aa51bb9fa6fa47c147e99b34c0bb7f"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-SECURITY_POLICY-B",
+      "dimension": "SECURITY_POLICY",
+      "semanticRelations": [
+        "REL_SECURITY_POLICY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_SECURITY_POLICY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_SECURITY_POLICY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3b9845b0b38d99189e823e0d5988cfadc35f9106c2b584d0acf3ec39906b597d"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-DATAFLOW-A",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "eac7f7cbd8c01c99025a2dfba21f734b73b77fb7629c29985c1d3317eac865a9"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-DATAFLOW-B",
+      "dimension": "DATAFLOW",
+      "semanticRelations": [
+        "REL_DATAFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_DATAFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_DATAFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "3708426ab00822b1371640d0c994b5397c69c4221f9a639ad92b27db920a0339"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-CONTROLFLOW-A",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0f91d921c2707a10136be877bc6baa5ece9bad9deadb5e7452255c6de8f599df"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-CONTROLFLOW-B",
+      "dimension": "CONTROLFLOW",
+      "semanticRelations": [
+        "REL_CONTROLFLOW_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_CONTROLFLOW_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_CONTROLFLOW_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "f0c66207af6370ce020bfc08c32f7a37027b0d5ffe1dbc893282a1d3c03a9754"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-TEMPORAL_ORDERING-A",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "441fc567cd3aefb4f2e288b6b5a37bb49ba6f65bcbb2b04b5d5d0668b91a3afc"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-TEMPORAL_ORDERING-B",
+      "dimension": "TEMPORAL_ORDERING",
+      "semanticRelations": [
+        "REL_TEMPORAL_ORDERING_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_TEMPORAL_ORDERING_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_TEMPORAL_ORDERING_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "0e7515ec647fc599af0dd4cb281c583edaccb67645a81d0f38e84da145e26403"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-INPUT_BOUNDARY-A",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_STRICT_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_CONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_NORMALIZED"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "lexer.tokenizer",
+        "coordinator.state"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "6e594ce47ef6937a8eafe48ad146caf5e0bc38db1dc84a5715e8ac773dbcfa77"
+    },
+    {
+      "hypothesisId": "HYP-P46L705-INPUT_BOUNDARY-B",
+      "dimension": "INPUT_BOUNDARY",
+      "semanticRelations": [
+        "REL_INPUT_BOUNDARY_PERMISSIVE_FALLBACK"
+      ],
+      "preconditions": [
+        "PRECOND_INPUT_BOUNDARY_UNCONSTRAINED"
+      ],
+      "postconditions": [
+        "POSTCOND_INPUT_BOUNDARY_LENIENT"
+      ],
+      "affectedEntities": [
+        "compiler.token_stream",
+        "parser.ast_builder"
+      ],
+      "provenance": "STATIC_SPECIFICATION_DERIVATION",
+      "confidence": 0.5,
+      "contentHash": "bcbf27c8cb2320bafaceb88367192df31a48957870656056a5cca489db97e664"
+    }
+  ]
+}

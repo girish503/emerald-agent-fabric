@@ -1,0 +1,4486 @@
+{
+  "schemaVersion": "emerald-phase69-v1",
+  "totalCandidates": 120,
+  "candidates": [
+    {
+      "experimentId": "EXP-P46L501-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L501-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "segment": "alpha.1",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "ac345a4d888a16d157c0c01e604a9795ac327bb78b91723ec707c5207602a596"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-INPUT_BOUNDARY-A",
+        "HYP-P46L501-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "3dc03d48f510b201f4332c447daa4b5dc93a3e45bd76ba65f654b64ea78b07ec"
+    },
+    {
+      "experimentId": "EXP-P46L501-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L501-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "segment": "alpha.2",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "dfd0601eefe83ab7766d6fcad4d24b5e6a592944c5fb2c847ece7a285a453c9e"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-REPRESENTATION_MAPPING-A",
+        "HYP-P46L501-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "cbf34e3711354e62201cacbed1c7eb64fcb679f18c750e1c131a8b88a5297e4b"
+    },
+    {
+      "experimentId": "EXP-P46L501-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L501-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "segment": "alpha.3",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "a876d9ddfa132206b958e8c874d54bd33aabb105552446f9ea92bca5a9865461"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-STATE_TRANSITION-A",
+        "HYP-P46L501-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "75e0865ca682c4148d3b2134dd83ae2cc7fbdebeb6a45504a760365d11b93fb2"
+    },
+    {
+      "experimentId": "EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L501-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "segment": "alpha.4",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "9da278bb955471dfb24890713c34b4a96fa7d215b3487753616095295d6d6b43"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-BRANCH_BEHAVIOR-A",
+        "HYP-P46L501-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "bdeefe1f7453d24dbd3c795be53d4bff47364eb1f91ecd762405f037343ccec8"
+    },
+    {
+      "experimentId": "EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L501-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "segment": "alpha.5",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "89bd83572525b4cf44eaa6fb8ea2b3d3dbbec8c7976c2a49a2fd4a86cac732ee"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-ERROR_BEHAVIOR-A",
+        "HYP-P46L501-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "619147253b4be6ec56e037881edf469df50cbea25675dac33a1cb367baaf6528"
+    },
+    {
+      "experimentId": "EXP-P46L501-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L501-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "segment": "alpha.6",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "0775104e1c6ee66ae4e53dadd0ba508049ee43d8bcc3e77231c32518af8ff392"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-SECURITY_POLICY-A",
+        "HYP-P46L501-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "95778e8bcd81adb982198c9796d4bc8b272429227ab186c58f8d507ac06271dc"
+    },
+    {
+      "experimentId": "EXP-P46L501-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L501-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "segment": "alpha.7",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "2dc996ab4f53de51a962c8e051339fed7179736b3ce5e734dc014f590a441b07"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-DATAFLOW-A",
+        "HYP-P46L501-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "828e0d26d38b89b27d2972d47969bf4531236078131a3a45d707b87f9e3a661e"
+    },
+    {
+      "experimentId": "EXP-P46L501-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L501-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "segment": "alpha.8",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "0bc2f3af20f512c51dc53406b1948c1ce92fe97d0259f0b62227b29e7bf84047"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L501-TEMPORAL_ORDERING-A",
+        "HYP-P46L501-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L501-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L501-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "b106b37266cd1ff8ea625d7e7949fbf024bfcc6492298b08a52b381633848381"
+    },
+    {
+      "experimentId": "EXP-P46L502-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L502-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "segment": "alpha.1",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "85e16bc0deaa6c68e244d7658eee3d0fdb9d6766403b878286fc28a8d0255b77"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-INPUT_BOUNDARY-A",
+        "HYP-P46L502-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "9f235f8f91b3b0d262f7672d4ef43719d13b9fb6ea88dc06fdf89823f1b9a57c"
+    },
+    {
+      "experimentId": "EXP-P46L502-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L502-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "segment": "alpha.2",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "9551a339f06974963516db21c9344744ab12eb6b71525b1bf83e74eb3e41b8c1"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-REPRESENTATION_MAPPING-A",
+        "HYP-P46L502-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "c31d93fabc46c0b3a08328906370dd8a1a896a384cf5b8659445e02ee61188f4"
+    },
+    {
+      "experimentId": "EXP-P46L502-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L502-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "segment": "alpha.3",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "b375934533f7954f1558033b79cda317b088ebea9b1136ef00f7fe506dfe7d20"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-STATE_TRANSITION-A",
+        "HYP-P46L502-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "938a8bdbb679c7df393c514e54effce0c69591de41504dc5247a2d4242781760"
+    },
+    {
+      "experimentId": "EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L502-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "segment": "alpha.4",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "258e4585241fb8afe651f498c72b999edbcda0604a825f3edf470ed473f53f4b"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-BRANCH_BEHAVIOR-A",
+        "HYP-P46L502-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "d787140262cbab79af12683211b395df5eba34b4e0e66b8f00900345f11e0846"
+    },
+    {
+      "experimentId": "EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L502-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "segment": "alpha.5",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "ae5b25839844e6cbfe9fa12339ed0bfcbb953b67390fe4a51ae097b2efb8b906"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-ERROR_BEHAVIOR-A",
+        "HYP-P46L502-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "e626cb8fc09b0039bf0ff95c9f657ad8960dabd81eb6ed436378c41c08cbe2ed"
+    },
+    {
+      "experimentId": "EXP-P46L502-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L502-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "segment": "alpha.6",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "292ad84197e31015b6011bcd63d0c7b148fbccaff7c2b7d50453b813bc2fdfaa"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-SECURITY_POLICY-A",
+        "HYP-P46L502-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "51a1371196f4179ea55e39cb568fc19d3ac5ec15c06d093ba153c698a5334941"
+    },
+    {
+      "experimentId": "EXP-P46L502-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L502-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "segment": "alpha.7",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "2800640793827f21f7d9e28cadf94d5588319b75a7888b7834cc1a54f2dc23e6"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-DATAFLOW-A",
+        "HYP-P46L502-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "cb6e20bb2885bb617b4b060129bc4cac76b5f271fe6ebae4b18206cb42c7dfd7"
+    },
+    {
+      "experimentId": "EXP-P46L502-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L502-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "segment": "alpha.8",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "0372c8b4a0bd17e71b7e0fbcc49ebd7c622a46869df2ec5886d0d1271976d097"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L502-TEMPORAL_ORDERING-A",
+        "HYP-P46L502-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L502-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L502-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "b0918bb218e965f397f49ae490da8ee9eacdcd1e8924c43f6667275f0f6e1948"
+    },
+    {
+      "experimentId": "EXP-P46L503-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L503-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "segment": "alpha.1",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "ebf2931c16dd7f4389a3a8699d586d776182effc2ddd8c6e928544f4d6892c09"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-INPUT_BOUNDARY-A",
+        "HYP-P46L503-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "999f40126f15a848678809da3fe5dc1d22a3b9d0b7cb28fc23d51bdcfa862b2a"
+    },
+    {
+      "experimentId": "EXP-P46L503-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L503-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "segment": "alpha.2",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "29b7f402c54004c7905877a087fe047aea387f273a1ef596cd16b28a7e2260d7"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-REPRESENTATION_MAPPING-A",
+        "HYP-P46L503-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "43fa3325aa7ff3680408f48816ab7f177d05b1518946b13c7b85ecb1f1b09520"
+    },
+    {
+      "experimentId": "EXP-P46L503-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L503-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "segment": "alpha.3",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "49cbe8188b3e20074a973e8bcd11bc2acd2a41c981f33c61c74b018887c3091c"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-STATE_TRANSITION-A",
+        "HYP-P46L503-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "2e0f87682c9ed8a7797a1b792888be1dc975cd8da4fbf5de08ecf89e6995d540"
+    },
+    {
+      "experimentId": "EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L503-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "segment": "alpha.4",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "78f7a6ceba56ef61320e6e8c2aab9a9e7b81a0f1ce3dfaf3a763c352db11fcd1"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-BRANCH_BEHAVIOR-A",
+        "HYP-P46L503-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "12af453cc9fafd88841df83b2718d071cd73a06676934f16a11d7534940fb6f8"
+    },
+    {
+      "experimentId": "EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L503-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "segment": "alpha.5",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "d6f46d76f991a9639be97d0d1c689a3395df728ffbcb04cdfd9b83048a7cb70b"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-ERROR_BEHAVIOR-A",
+        "HYP-P46L503-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "2ae86b967c6261b41f017f38d95116c498b9baee7ee33eb48e888d7f01f4ef30"
+    },
+    {
+      "experimentId": "EXP-P46L503-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L503-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "segment": "alpha.6",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "5087dbcc731bae18c0e0e8caa698c9886a5da969ec0116e1f6424ef37d4d7b7e"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-SECURITY_POLICY-A",
+        "HYP-P46L503-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "0ae67c7e3840339660cf6fcacf1bea520836817870f0270ae47ccba5db34529e"
+    },
+    {
+      "experimentId": "EXP-P46L503-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L503-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "segment": "alpha.7",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "b22f5d76c7f98076b11c6220fafd2432ba3d970dd18ccd643c23aac00ec78eac"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-DATAFLOW-A",
+        "HYP-P46L503-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "eb831d95ff088b67f1672c1477ac4be75df57ad39793c48cbfd4e611f129d7ce"
+    },
+    {
+      "experimentId": "EXP-P46L503-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L503-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "segment": "alpha.8",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "75b0a6272208fbfcdd70b28e99d1c16b7ee8441081d452a8dbf1a3a57e360f01"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L503-TEMPORAL_ORDERING-A",
+        "HYP-P46L503-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L503-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L503-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "8a740911d8d350cfd05e08b47d73b78567db2a0a16f790ef6b8036ace7b57f4f"
+    },
+    {
+      "experimentId": "EXP-P46L504-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L504-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "segment": "alpha.1",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "c1c28eff53b37dd11190bc6afa05e4b24d50182a70540120feee62171dccb42c"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-INPUT_BOUNDARY-A",
+        "HYP-P46L504-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "68d0e49a133650df2e647b59459450f8f6af173fe5c32b69357e682b28791882"
+    },
+    {
+      "experimentId": "EXP-P46L504-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L504-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "segment": "alpha.2",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "ba889e3a5de60e9a634b68c216e7b2cce7c1c6425e56aee8b9bfa3f8345bae6a"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-REPRESENTATION_MAPPING-A",
+        "HYP-P46L504-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "fff6986fa6fe5c1e3833849471364f8d10626d35835da015d8e63caf7fd5e7c2"
+    },
+    {
+      "experimentId": "EXP-P46L504-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L504-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "segment": "alpha.3",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "bc8873d15bfdd135d281782e2562d20a6b720a027ffe130b17417777ea58d5e3"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-STATE_TRANSITION-A",
+        "HYP-P46L504-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "0f6bfcfc87dfb2de0e08f3983e2efd6e5d645806297438f10952d81af4752146"
+    },
+    {
+      "experimentId": "EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L504-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "segment": "alpha.4",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "c09164dfc614352bb4d87812e0113e2252ba0ad946f7a28d2197ef9b5f7b1e21"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-BRANCH_BEHAVIOR-A",
+        "HYP-P46L504-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "b73dc06c1907ef181ecfb9423ef442ad9432b65be96c9615403d5fb0e950a46e"
+    },
+    {
+      "experimentId": "EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L504-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "segment": "alpha.5",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "fd0947d99e3cfb81c0aeecf54b6a2dd09229cd4de27651822118a8cbbf947f5c"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-ERROR_BEHAVIOR-A",
+        "HYP-P46L504-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "a1d97ae52373fe1442a6f6c42cd5d6db38bc587a788eadb374d4bdc12884472e"
+    },
+    {
+      "experimentId": "EXP-P46L504-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L504-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "segment": "alpha.6",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "e23c2e674e732c44efb1392af0c0e584716b9e6c24b655536430cc664043ed7c"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-SECURITY_POLICY-A",
+        "HYP-P46L504-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "a912d58aa0c2882035da42b9e977fa71453fa074a5b928c8ac89f6d754cf2276"
+    },
+    {
+      "experimentId": "EXP-P46L504-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L504-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "segment": "alpha.7",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "f7b9dc8b0dbd8636c55254c1a56ae1e43b436deb1700578c54b57846630de3cf"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-DATAFLOW-A",
+        "HYP-P46L504-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "d646d5aaac556017321d42a4fcb9193b387033083ad0a1e61cb7a2c468f91fb1"
+    },
+    {
+      "experimentId": "EXP-P46L504-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L504-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "segment": "alpha.8",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "80125a4c873c11c8232d9179b723975853529d96e8963f4c0fed9009746b2ec6"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L504-TEMPORAL_ORDERING-A",
+        "HYP-P46L504-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L504-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L504-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "7484b25383f6c738bd1151eada14391ca5dea46b2c43d45312beed2fa31baea8"
+    },
+    {
+      "experimentId": "EXP-P46L505-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L505-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "segment": "alpha.1",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "051239e2a5d0208955e2f8b6f93178bbee6fdbd1d64b21da857c0b31cd6f57e9"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-INPUT_BOUNDARY-A",
+        "HYP-P46L505-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "c1a2c306d9215304d72407c35c7b4b456ff52fdc400ba385554799d59cada001"
+    },
+    {
+      "experimentId": "EXP-P46L505-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L505-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "segment": "alpha.2",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "f803ec379460ba65bce1fa0cff10a1bbb628af87f86c204da0eea8e550b2d564"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-REPRESENTATION_MAPPING-A",
+        "HYP-P46L505-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "1fec5762b1f17e76078d87e809ff96aff23c51ff76e5d2cace4b3c60ecc28e47"
+    },
+    {
+      "experimentId": "EXP-P46L505-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L505-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "segment": "alpha.3",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "d14a0d26d8e0c713ff8270596d4280b1412a0e06fd26e1da088b3300db018695"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-STATE_TRANSITION-A",
+        "HYP-P46L505-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "da4f3310e6fff1b30f9265bcbaaf029a85179c884ecb1daf4352cc6b4c4f42db"
+    },
+    {
+      "experimentId": "EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L505-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "segment": "alpha.4",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "dce2f59d58473b6a512402c2dd6a2f344d8c4fe1a1c5287ecba56fe9a06c54f6"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-BRANCH_BEHAVIOR-A",
+        "HYP-P46L505-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "a2ddcb28bc043fa2115cd6d41ecd839f56a0416a92a2ab0f712025d17acea326"
+    },
+    {
+      "experimentId": "EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L505-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "segment": "alpha.5",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "263165117a531d386356a7b998eb0a62c93a6b590dc2f3f7633ec6f9fb3b4393"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-ERROR_BEHAVIOR-A",
+        "HYP-P46L505-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "465581de727c0dbb6a9f4c407fdeb35c9ed8809ceb2619d0920455c943ebdb86"
+    },
+    {
+      "experimentId": "EXP-P46L505-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L505-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "segment": "alpha.6",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "2f00a2db5f2c2ccfee0bc567c24c9a690689bcc61b4751666843fa376fa53a93"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-SECURITY_POLICY-A",
+        "HYP-P46L505-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "5f4dfbad60f627556bdaec8cfb374aad8a49971eadbb20332d4edf70e631f79c"
+    },
+    {
+      "experimentId": "EXP-P46L505-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L505-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "segment": "alpha.7",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "d72731d4d217925ec82b05fa7f6d5efec064a74c77267acb6f25c62662bd4887"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-DATAFLOW-A",
+        "HYP-P46L505-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "3fdc3c934c546b3cc9233d13a394bce1a968489fd4f248d67c9802c6917a2b95"
+    },
+    {
+      "experimentId": "EXP-P46L505-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L505-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "segment": "alpha.8",
+          "parseFlags": 1
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "0ffb3ff7fd8e197562d52d9ab32e4c16c7d6a5d292144266c93101c95b52e899"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L505-TEMPORAL_ORDERING-A",
+        "HYP-P46L505-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L505-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L505-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "c2c26c351ed81f6cc676020ceba7f34c2be17a562c0f8b1aa5c04801597dd4e9"
+    },
+    {
+      "experimentId": "EXP-P46L601-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L601-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "BOUNDARY_INPUT"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "a2b179ab2c0d26241f553c6c06e60488b41980f65827e93aed6af3ba75751fc4"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-INPUT_BOUNDARY-A",
+        "HYP-P46L601-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "5c79a40786efb573d6d6c2ac6b22f2ee423ec8b26d0900f76d5520ec02043d4e"
+    },
+    {
+      "experimentId": "EXP-P46L601-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L601-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "REPRESENTATION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "66efd612d1058011a2bf187a1941abef875a7d4f65ac762372e1e4dd63b7fc61"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-REPRESENTATION_MAPPING-A",
+        "HYP-P46L601-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "99206dbfa33292aaf80e687beb08bb50058e21b9dcbae0ec18b8ae51781837cc"
+    },
+    {
+      "experimentId": "EXP-P46L601-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L601-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "STATE_TRANSITION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "f27bdb9845ddb8f56b293dbe79bd0337a36fd63934538f1f0347dd124c21b039"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-STATE_TRANSITION-A",
+        "HYP-P46L601-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "9455f7fc6f0d8a2baa2911a1ae91a9a3bcc25f3305c21a2ad02dc9af51c39c4b"
+    },
+    {
+      "experimentId": "EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L601-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "333a860a0be7c2d3047cd24db9ca97d96b54c82d459dcbe39552ed1001f31813"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-BRANCH_BEHAVIOR-A",
+        "HYP-P46L601-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "d265d986c961a844b820118e6538b530bfb5ce400ab1706e92aa438e0f676855"
+    },
+    {
+      "experimentId": "EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L601-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "ERROR_PATH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "e557aadb60553d38852c272e373d6c39b62a26c47f69c14d04dc410fd0be97e4"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-ERROR_BEHAVIOR-A",
+        "HYP-P46L601-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "e2d2e1a86f052f4ff1283cfdf2c5f0339a668c205ec5441c70d07e561950ca44"
+    },
+    {
+      "experimentId": "EXP-P46L601-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L601-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "SECURITY_POLICY_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "e0dd984a66145e3610a50d5633db8dcd03d0de2748c542b51183f9b242b9f50c"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-SECURITY_POLICY-A",
+        "HYP-P46L601-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "b464507f8abca1e2fbc616ba61fdf75ee2794c83006fae6b8252811b9f92837a"
+    },
+    {
+      "experimentId": "EXP-P46L601-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L601-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "PRODUCER_CONSUMER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "56591b54701d5ab91af2c68ffa71d873a26f3472bf3638766a5532b255b3629e"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-DATAFLOW-A",
+        "HYP-P46L601-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "a31b372386fb84801069dba177c7c43f0a5a319da6d1cc6d265eec07a3ce5ce5"
+    },
+    {
+      "experimentId": "EXP-P46L601-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L601-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "TEMPORAL_ORDER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "40c8c378af8f80d89782f523b95be7dbdd23a98c5f34462f9506c954fcf32af8"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L601-TEMPORAL_ORDERING-A",
+        "HYP-P46L601-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L601-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L601-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "1bab624e215cac8b3894c466b5bfeb9115b50d542f07dd89e17dec4d683b2ab8"
+    },
+    {
+      "experimentId": "EXP-P46L602-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L602-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "BOUNDARY_INPUT"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "1438f46c98b1f0c643b8ac46a76e148ee60ba4621ba534d17b4a888b19fc9a23"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-INPUT_BOUNDARY-A",
+        "HYP-P46L602-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "baf079c2c4f9852778adb5c33cb38f2d953063e861962b4245044b2cb9ecd4a5"
+    },
+    {
+      "experimentId": "EXP-P46L602-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L602-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "REPRESENTATION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "488da23e3f7d4cf28e429373e81c22080be34778fb5d8033ad0c0859b1b5738a"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-REPRESENTATION_MAPPING-A",
+        "HYP-P46L602-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "e03596b62a346a4f7ffc475e4e609bb46a3aa467347542ff46888e4d1155fd94"
+    },
+    {
+      "experimentId": "EXP-P46L602-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L602-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "STATE_TRANSITION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "6bacfcc790e82f869f3647a74b75db96e397b78c6a4ce0287194ae939da7715f"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-STATE_TRANSITION-A",
+        "HYP-P46L602-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "995d0b6ce29a62ac76c4c865ebae1bdcd19dc414fa24b8baceea823460bbb98b"
+    },
+    {
+      "experimentId": "EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L602-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "5422f8baf6e169be868fea200cfc412849688949ee01e916b0035ac0e0bdeefa"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-BRANCH_BEHAVIOR-A",
+        "HYP-P46L602-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "43e7915d99bd2f3a1fa07c453c13b5440a9bf257152be0afc60b2cce872ac4f0"
+    },
+    {
+      "experimentId": "EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L602-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "ERROR_PATH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "3d40d41cc78198ad592db2a2d39311dc97c92f0b00428657100545f5c30c3758"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-ERROR_BEHAVIOR-A",
+        "HYP-P46L602-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "747fc0040dd01be20c95f1465225e82a42bd5f610a7ca0da199f804dc42810cf"
+    },
+    {
+      "experimentId": "EXP-P46L602-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L602-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "SECURITY_POLICY_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "25ed9e193daf6cdbbf0bf72f5ec9f270da04627cc75e8b4a4fe5b852ad299902"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-SECURITY_POLICY-A",
+        "HYP-P46L602-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "8d270edd0a2a1409bf4d232518c22db9535fa898abc2b8b0be1bc35877b3d6f7"
+    },
+    {
+      "experimentId": "EXP-P46L602-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L602-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "PRODUCER_CONSUMER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "640e3f953f341f5bcf2a01b1af385adde3cba44c539b314ee3c655bbe6926148"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-DATAFLOW-A",
+        "HYP-P46L602-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "7aef0b663240097db9c75b3f72536e82f7cce4e3f83ad611c8a4efadd6f331ab"
+    },
+    {
+      "experimentId": "EXP-P46L602-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L602-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "TEMPORAL_ORDER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "9ba2d9e4dc726fd624294a2c13a75c014d23581665bb79a48b84d2a376ac36f2"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L602-TEMPORAL_ORDERING-A",
+        "HYP-P46L602-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L602-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L602-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "2dfbcbff539f9e262d4572f528f09cf1ab20270f35223fd5342a11fa3e5cd48a"
+    },
+    {
+      "experimentId": "EXP-P46L603-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L603-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "BOUNDARY_INPUT"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "e820c68188ebcf66c768cd50b40b80992d872b481e569f12a4ade86104533869"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-INPUT_BOUNDARY-A",
+        "HYP-P46L603-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "23d7ed2bc030e2857202ddee5c43e85a1ef409e25e511ac8d1d84cd50bdcb9fa"
+    },
+    {
+      "experimentId": "EXP-P46L603-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L603-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "REPRESENTATION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "1c6987d58d488d720ded27393d480586fef2c122e9af8fb2290433c4054af35c"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-REPRESENTATION_MAPPING-A",
+        "HYP-P46L603-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "d0daa568743fdb935c8e42245eaedb4212b318441447fb723e66c2dc1d3be2ab"
+    },
+    {
+      "experimentId": "EXP-P46L603-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L603-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "STATE_TRANSITION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "5f41d8ba904f46047f9fc3734016993b23523d1ef65676baa8577ead81cea595"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-STATE_TRANSITION-A",
+        "HYP-P46L603-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "e29c4e4d8348109604b0f1a03b58f68acd973e7e27c85bc415a3cb5a787284db"
+    },
+    {
+      "experimentId": "EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L603-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "852daca754fe76a587b421cd73b68e27c5f5c3ad3e7b11ca72a1e1c85558ac76"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-BRANCH_BEHAVIOR-A",
+        "HYP-P46L603-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "d12dcf98649880a9bb545e764b2620db89be32cf529cf76fe886c74ee8253fac"
+    },
+    {
+      "experimentId": "EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L603-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "ERROR_PATH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "fe59af318001993cd0721d2d0833f50509603c894f2a0dc4590bff6863569484"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-ERROR_BEHAVIOR-A",
+        "HYP-P46L603-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "e571e7beee5db2dca541d13150922bbaf19f120af16878f91846ea82d6f468ed"
+    },
+    {
+      "experimentId": "EXP-P46L603-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L603-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "SECURITY_POLICY_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "dfe0d6f12bad0b0af931d16347c144e51160364d9a0c64e6df4b708ee30cb958"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-SECURITY_POLICY-A",
+        "HYP-P46L603-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "0d88602c44c8649f08337762e0f18c19d14284f234178054503437b8a9a6d482"
+    },
+    {
+      "experimentId": "EXP-P46L603-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L603-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "PRODUCER_CONSUMER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "174e8d619e14ccbc60361fd48176591f9058caffd67c10f1ef638c3fad34f3a9"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-DATAFLOW-A",
+        "HYP-P46L603-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "0820fc869c275a45816d44c133d73fc3734261dac2e574da42d02faef2159254"
+    },
+    {
+      "experimentId": "EXP-P46L603-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L603-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "TEMPORAL_ORDER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "1d506e4d51b7f0dd9446487ca96657da4bcf998a4cb2c644fbd483e2050cc055"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L603-TEMPORAL_ORDERING-A",
+        "HYP-P46L603-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L603-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L603-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "4298034793e4bce3b8a03fad5de68184653e5d87e4157a2d6098d616e463a11e"
+    },
+    {
+      "experimentId": "EXP-P46L604-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L604-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "BOUNDARY_INPUT"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "a18b8f6ca9f3dc0fe213d5020449e44b4b1143b1ba5658415bf7077ea1a2c352"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-INPUT_BOUNDARY-A",
+        "HYP-P46L604-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "fdb2f088803a6db33622fb17af54f934e07dc2622c7018e194832e43bd28cebb"
+    },
+    {
+      "experimentId": "EXP-P46L604-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L604-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "REPRESENTATION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "02bfeb1fb9474ce612c14014f66a9823a6f3712f867fa6b1a4dca589dcfc14e8"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-REPRESENTATION_MAPPING-A",
+        "HYP-P46L604-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "573ccda2bed32f07ca59a4657120e5b427e162968074e6a1627257357047d7f5"
+    },
+    {
+      "experimentId": "EXP-P46L604-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L604-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "STATE_TRANSITION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "63ae83d55dee595f04f258eaf3ea16ed316774cb619c56d76800aeb2a0fe3af1"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-STATE_TRANSITION-A",
+        "HYP-P46L604-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "09ffb7ea10e2e86dd68b27702f8911a63855428f5eff4ac2ff0075cb50f39f14"
+    },
+    {
+      "experimentId": "EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L604-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "cdc518e3b5076752576b3a328f065859c257289e085c5816c99e1099d434a82b"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-BRANCH_BEHAVIOR-A",
+        "HYP-P46L604-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "2d5ea77c0bb8042a54eee080378fe38c6889da33faa50f0d09aa3c1ce6f68e3f"
+    },
+    {
+      "experimentId": "EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L604-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "ERROR_PATH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "c4e8e50f38777a8fda552cc328eb4466c0ad69be1a6011314c1c1f6cd3e81b75"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-ERROR_BEHAVIOR-A",
+        "HYP-P46L604-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "df5ecdca793fbf68d36c8d1f79b6611296d2eb5a5f32bcfc7c000b03bc8af4aa"
+    },
+    {
+      "experimentId": "EXP-P46L604-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L604-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "SECURITY_POLICY_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "b9b28b5817e09051a42fcb05d15e3ec38aeb4a8abfddc489a33ffc5ff1fb3a6f"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-SECURITY_POLICY-A",
+        "HYP-P46L604-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "04b8e177c8e8d427716b11b78023b4580b69c3b393c24892218e3180961b9009"
+    },
+    {
+      "experimentId": "EXP-P46L604-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L604-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "PRODUCER_CONSUMER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "6e547acf00af5fabd445413644d73d17732f34e0854361b3c9d537387157ab3a"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-DATAFLOW-A",
+        "HYP-P46L604-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "ee2165897d66c4a78fda5c7c103d529c53cb5eb80029761d414763f21cc2287c"
+    },
+    {
+      "experimentId": "EXP-P46L604-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L604-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "TEMPORAL_ORDER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "e64d03478f4e58c6532b69b04504d5630bb62db65aac45cce5b7badf90b53a8b"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L604-TEMPORAL_ORDERING-A",
+        "HYP-P46L604-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L604-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L604-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "c8342299137065063c5405c45d1395e7a37a3d0535944de5f05f48b9510ce466"
+    },
+    {
+      "experimentId": "EXP-P46L605-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L605-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "BOUNDARY_INPUT"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "87a75190b65911c9f4ff879a50c9fc2da54ae2d34a464e976a9badc08d83b12f"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-INPUT_BOUNDARY-A",
+        "HYP-P46L605-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "7286192107125d977fb5f99d2f79fb02d94a3ec740a208c8182b136578e06950"
+    },
+    {
+      "experimentId": "EXP-P46L605-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L605-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "REPRESENTATION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "3f18737f1ededc7ca0973bc21d722d591ec3e4f6fcb85e3c8ceaa5abd457b469"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-REPRESENTATION_MAPPING-A",
+        "HYP-P46L605-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "66e99314f028861a9a8bd47cb97306bde6110dfc95778d17980ef1a49bcd1f2c"
+    },
+    {
+      "experimentId": "EXP-P46L605-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L605-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "STATE_TRANSITION_BOUNDARY"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "4c7afe0f2dc6544bfcc633c681c136fcef43f98c53ce11d4ab35e26c8b9fa73f"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-STATE_TRANSITION-A",
+        "HYP-P46L605-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "4a13985bbd603a9d30730d17018345b115da5f43529a331f5225478358839126"
+    },
+    {
+      "experimentId": "EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L605-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "6f3d22a586db482d9c5eeb15ea625f495a11f83dc7cb3105e0ec56f0c8aa85b8"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-BRANCH_BEHAVIOR-A",
+        "HYP-P46L605-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "914dffdb8e409664d4f7f746e124edfdeb1387fcc8cdee8f1069512d5141b869"
+    },
+    {
+      "experimentId": "EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L605-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "ERROR_PATH_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "725689581ef0cf061d5653cd4a7efca91bc70fdb3d6a3ecdbc4de2c22285016c"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-ERROR_BEHAVIOR-A",
+        "HYP-P46L605-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "52ebd142dec96373fec594d6d76708dc9bf0d2496f6795dd016fb7cf44ed0c3c"
+    },
+    {
+      "experimentId": "EXP-P46L605-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L605-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "SECURITY_POLICY_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "931a8c995ca2d24aa870125b21c8bac4e2fea8be50c32e2798e2e1c2d35f4533"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-SECURITY_POLICY-A",
+        "HYP-P46L605-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "f253f93450aa0a54c22401e754d0c79b666ec592ba3eed25e8e9c12535b55a93"
+    },
+    {
+      "experimentId": "EXP-P46L605-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L605-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "PRODUCER_CONSUMER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "ba2d83999f20f056bcb479af1210ef3a045832430f9a67833b9348b82b649ef9"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-DATAFLOW-A",
+        "HYP-P46L605-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "a6552d7b0579aae1dee22938ab2f9a5fc70aa702bc275d4f36c1c57f01162c27"
+    },
+    {
+      "experimentId": "EXP-P46L605-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L605-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "role": "ADMIN_READ",
+          "headers": {
+            "X-Test-Probe": "TEMPORAL_ORDER_DISCRIMINATOR"
+          }
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "8a59bf6814a4a0e18cc78a928bdcdcf61f46a3d26e49eb4c0579bdc4b69160c4"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L605-TEMPORAL_ORDERING-A",
+        "HYP-P46L605-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L605-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L605-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "25453c9aec8b73df9b2bd0453e01a787e0c1e996c21d6981c971b9ea4ad5d981"
+    },
+    {
+      "experimentId": "EXP-P46L701-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L701-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "streamLength": 4,
+          "flags": [
+            "FLAG_BOUNDARY_INPUT"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "69d21faac271da913f2ee3565bca5413d70f57a9fbd1cc45db70abefa1047ff7"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-INPUT_BOUNDARY-A",
+        "HYP-P46L701-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "cc3dbdca9112e619a49a30d1351978fba2f4b2218fdcac3ec0ffda12bdce738b"
+    },
+    {
+      "experimentId": "EXP-P46L701-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L701-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "streamLength": 8,
+          "flags": [
+            "FLAG_REPRESENTATION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "7fe21e9d4aa11187b845cb0d80794a7cf414f58bc5b69924d845c4314e588633"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-REPRESENTATION_MAPPING-A",
+        "HYP-P46L701-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "a1c4b563d7f20f1513e577ab16b671996ed2a217b28c6be3beff11b255526140"
+    },
+    {
+      "experimentId": "EXP-P46L701-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L701-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "streamLength": 12,
+          "flags": [
+            "FLAG_STATE_TRANSITION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "69efbc8b85c8b7283dcb6d6a5c4e9a2f2711dcc60a4f133d089fac1901e63a01"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-STATE_TRANSITION-A",
+        "HYP-P46L701-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "cfa76c4e0544cf32a46801c350ca75598a9df1bdc7d42a58a3855b0fea795713"
+    },
+    {
+      "experimentId": "EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L701-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "streamLength": 16,
+          "flags": [
+            "FLAG_CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "0cc826030486e4c14ddd3eb4fa4483b61c40ac51f5b530fe666fd69a2e1bec3a"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-BRANCH_BEHAVIOR-A",
+        "HYP-P46L701-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "7b0f2cdd70b8915f0b5f390b803128ec9d8dfd55a05a64c20699e9d0ea9125c2"
+    },
+    {
+      "experimentId": "EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L701-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "streamLength": 20,
+          "flags": [
+            "FLAG_ERROR_PATH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "cfc09261352a62cc4e0c3e164f81b7346a97a65443f60c4c9aa132fd90393d46"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-ERROR_BEHAVIOR-A",
+        "HYP-P46L701-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "f69923a646da72e583cf3a6437bde60bfd863b06c19e679da09bede34798e45f"
+    },
+    {
+      "experimentId": "EXP-P46L701-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L701-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "streamLength": 24,
+          "flags": [
+            "FLAG_SECURITY_POLICY_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "3f8f581c63c5cc638e8c825e1a1d5fc443960f472f0b02badeaaa30beb1f46a1"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-SECURITY_POLICY-A",
+        "HYP-P46L701-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "95a356fdc1c97862af70f0bf36b25223a857ebcad44190e6ff5cb10944896e68"
+    },
+    {
+      "experimentId": "EXP-P46L701-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L701-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "streamLength": 28,
+          "flags": [
+            "FLAG_PRODUCER_CONSUMER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "5a8c9285eb2205b04b9c0bd7b108ca0616196e496f90b5f01ec32775b371c213"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-DATAFLOW-A",
+        "HYP-P46L701-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "d654c2cb8cbebc4643f904b97d3214a41fc730d0fe010d20c21d8924cb0d7a8c"
+    },
+    {
+      "experimentId": "EXP-P46L701-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L701-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "streamLength": 32,
+          "flags": [
+            "FLAG_TEMPORAL_ORDER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "bf8e425f615439196d420ffc2a677d4355b58a3f3ccd774eb500682b92ec221e"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L701-TEMPORAL_ORDERING-A",
+        "HYP-P46L701-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L701-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L701-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "336fa9398b168c844f58f8a91a59d8c9dc1dde0ab7f441969d0e71e402e9146c"
+    },
+    {
+      "experimentId": "EXP-P46L702-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L702-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "streamLength": 4,
+          "flags": [
+            "FLAG_BOUNDARY_INPUT"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "9cbd280f57e19886641237239efd8a4055b1f54e205a06b4cf7dba7d073e3fd2"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-INPUT_BOUNDARY-A",
+        "HYP-P46L702-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "a398e5bb064c29d5fa43953e0dbe49c1e0198e02b42b739870fb50bf7e5652b7"
+    },
+    {
+      "experimentId": "EXP-P46L702-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L702-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "streamLength": 8,
+          "flags": [
+            "FLAG_REPRESENTATION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "32f95bb90633a17e4e22a7457f1f415c0e2b06b19e64008f8b3e2639de325a6d"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-REPRESENTATION_MAPPING-A",
+        "HYP-P46L702-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "3fabf0111c397d43740e2748ca01fc99eeb89b895b017bb198dabc5c91214669"
+    },
+    {
+      "experimentId": "EXP-P46L702-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L702-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "streamLength": 12,
+          "flags": [
+            "FLAG_STATE_TRANSITION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "591e4e2dd5ed393fe6bbb1118b58708fd92076c43eec314e2b4226f68e519d9f"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-STATE_TRANSITION-A",
+        "HYP-P46L702-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "b0fd207692d4b5372185b40392573d8b315d57e77c4c6456ae697c8c74750dd9"
+    },
+    {
+      "experimentId": "EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L702-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "streamLength": 16,
+          "flags": [
+            "FLAG_CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "ae617628266b4aa6398135ebd995278bd61d05acf384de2d8932771693f7034e"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-BRANCH_BEHAVIOR-A",
+        "HYP-P46L702-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "25eaf744f57a59a8b1dea7d6625e621d2eba5221721882403acaed577c3f8cfe"
+    },
+    {
+      "experimentId": "EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L702-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "streamLength": 20,
+          "flags": [
+            "FLAG_ERROR_PATH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "9770b3a22c503995356d62baafb90cff0b46ad4f076a250e8357e923dad3e5b5"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-ERROR_BEHAVIOR-A",
+        "HYP-P46L702-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "63f54892241a28332160d4ce739b88a110ceeeddf8f19c24f28bbc8a3627b0bb"
+    },
+    {
+      "experimentId": "EXP-P46L702-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L702-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "streamLength": 24,
+          "flags": [
+            "FLAG_SECURITY_POLICY_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "460f75048d1c1a3a436aa641e2de3f1638fec68ea0e0345d091e4ff316bc385e"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-SECURITY_POLICY-A",
+        "HYP-P46L702-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "844b628f576fb79fea2ca1572bea965d36f6cb2c2a8be3bf56dcb502c1152b7f"
+    },
+    {
+      "experimentId": "EXP-P46L702-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L702-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "streamLength": 28,
+          "flags": [
+            "FLAG_PRODUCER_CONSUMER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "ef39ea81719bc14bb09a4a483393c532b2435884255654db3f062bd4924d1bde"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-DATAFLOW-A",
+        "HYP-P46L702-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "d7ead4672b3642ebaf7d5e4a6ae06633b48f964b9f35427aac5b82db5a88583f"
+    },
+    {
+      "experimentId": "EXP-P46L702-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L702-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "streamLength": 32,
+          "flags": [
+            "FLAG_TEMPORAL_ORDER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "7551801fa7a217cdd4c11e84375afe24d39e732521b8cc82d9acc13e80843149"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L702-TEMPORAL_ORDERING-A",
+        "HYP-P46L702-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L702-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L702-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "35de601a4e112f1b7710ef9866a5d4419c179b2ca414e2b70520dde59e7689f8"
+    },
+    {
+      "experimentId": "EXP-P46L703-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L703-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "streamLength": 4,
+          "flags": [
+            "FLAG_BOUNDARY_INPUT"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "67e58f2daf6339dcb39e3ee84113cba36af1c6d634d3dfe5e363a0cd08d24a37"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-INPUT_BOUNDARY-A",
+        "HYP-P46L703-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "f222d6ec24443978e9e995e14025a8c937bc0cf4d622ca3d17e9eaaf12e95406"
+    },
+    {
+      "experimentId": "EXP-P46L703-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L703-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "streamLength": 8,
+          "flags": [
+            "FLAG_REPRESENTATION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "8162d85edf7f58ade70fa5d3b556209db75de15b37d081e757c82eba629a4357"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-REPRESENTATION_MAPPING-A",
+        "HYP-P46L703-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "524c10339ba8817eeae15fa453cea8697617a1f5b83e3901619261fa877971df"
+    },
+    {
+      "experimentId": "EXP-P46L703-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L703-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "streamLength": 12,
+          "flags": [
+            "FLAG_STATE_TRANSITION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "5e6c4cf9cb8d95cac9718df2452daf99d6f1f0e5abdbba82b9db2ffd7b891fed"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-STATE_TRANSITION-A",
+        "HYP-P46L703-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "d7eeb27fbeecef2ce97ee17d99a818df0d2e1e8667403162b7e02ecef63fcc7b"
+    },
+    {
+      "experimentId": "EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L703-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "streamLength": 16,
+          "flags": [
+            "FLAG_CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "17a103b9d70762fcd3d1211b82f8fac262266cd5db44d14a5619273a85717b89"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-BRANCH_BEHAVIOR-A",
+        "HYP-P46L703-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "8786e8a984e9c39f9965fafa267dcc5128544e01497d79c93a87b77197ed4fc7"
+    },
+    {
+      "experimentId": "EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L703-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "streamLength": 20,
+          "flags": [
+            "FLAG_ERROR_PATH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "8c10f2df06620288ce19138d48bc3cf92c8ba0f2307b977658d0b1e58f91698b"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-ERROR_BEHAVIOR-A",
+        "HYP-P46L703-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "e46f953cd88e35e67eb9406d5a15d50cf32a31aa2ab2e1cdab484b2e6f62e72a"
+    },
+    {
+      "experimentId": "EXP-P46L703-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L703-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "streamLength": 24,
+          "flags": [
+            "FLAG_SECURITY_POLICY_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "43c6e078254839e97b4135cedb5733519fbe3900977ef7e87627d72e53212852"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-SECURITY_POLICY-A",
+        "HYP-P46L703-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "16641c42120f6409d2dab733b191faec9653db8db0f1c17749ac69b3abf2914a"
+    },
+    {
+      "experimentId": "EXP-P46L703-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L703-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "streamLength": 28,
+          "flags": [
+            "FLAG_PRODUCER_CONSUMER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "4203d2ebeb8e2db2ffdbd7ac5255b2ead666ba9d858035d8c249c093dda48369"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-DATAFLOW-A",
+        "HYP-P46L703-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "d249277e378b1be6de898a27cb6999f5c6d9dbc45e7ff25ada0a153f22fb83b2"
+    },
+    {
+      "experimentId": "EXP-P46L703-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L703-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "streamLength": 32,
+          "flags": [
+            "FLAG_TEMPORAL_ORDER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "c0e7aaeb47843c227707f6717219b92d30e27beaae3be02850b2ee15b492d4f0"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L703-TEMPORAL_ORDERING-A",
+        "HYP-P46L703-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L703-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L703-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "9c65b46a1e6a3f5a117cd64a8ca229c2167e7f8dfab22e0b196cb0dba40cafca"
+    },
+    {
+      "experimentId": "EXP-P46L704-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L704-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "streamLength": 4,
+          "flags": [
+            "FLAG_BOUNDARY_INPUT"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "fd6042fe1e430507c6e35b6c79ce89ad154f00a90af3e2b1a3fc79759a55f36e"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-INPUT_BOUNDARY-A",
+        "HYP-P46L704-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "d55b8533a11cafc51d26ef8ae60d92a216c92cf462de1d217b9028dfe6c85c45"
+    },
+    {
+      "experimentId": "EXP-P46L704-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L704-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "streamLength": 8,
+          "flags": [
+            "FLAG_REPRESENTATION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "488a8d91a1f1c19dd8264145511ccbaaa295c1068162713453db889e839df99f"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-REPRESENTATION_MAPPING-A",
+        "HYP-P46L704-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "ae6d741842afe07a19c3e8eb58f481e38a3265d89427f59e0370625184919eaf"
+    },
+    {
+      "experimentId": "EXP-P46L704-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L704-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "streamLength": 12,
+          "flags": [
+            "FLAG_STATE_TRANSITION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "0e38aea1cbb86eab1a3c4da71b3a327a859747ddb97640ef029a66d702151d84"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-STATE_TRANSITION-A",
+        "HYP-P46L704-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "594bad0930c81e3bfc1d191d40c24a2e38112857eabc2ef5ce58a919ea8aa5df"
+    },
+    {
+      "experimentId": "EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L704-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "streamLength": 16,
+          "flags": [
+            "FLAG_CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "d13635a51986689093ab7968185a08929f5fafad73c514c031d9bbc6d35b3fe1"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-BRANCH_BEHAVIOR-A",
+        "HYP-P46L704-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "3718e664328928803e3b0f1857f3dbff203b27dfe6d5155fb6b72044a01b2326"
+    },
+    {
+      "experimentId": "EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L704-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "streamLength": 20,
+          "flags": [
+            "FLAG_ERROR_PATH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "9aa4bf24396ba2b82a9bd2888af450c2b4b6ec0095716079d5cb624f01b5d47b"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-ERROR_BEHAVIOR-A",
+        "HYP-P46L704-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "0378dda5dc3c6a0fa064b261ae945576f8e1f5224df6e80519c72fd5c5d18fa2"
+    },
+    {
+      "experimentId": "EXP-P46L704-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L704-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "streamLength": 24,
+          "flags": [
+            "FLAG_SECURITY_POLICY_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "28567e5770003709d0ff2e57c0a786955deee6ce2fbfca92931ba6dac16d2ded"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-SECURITY_POLICY-A",
+        "HYP-P46L704-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "065bd32c7f45415c625b3e570387495c5b934b0cfd436ce72a555f79235ebb42"
+    },
+    {
+      "experimentId": "EXP-P46L704-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L704-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "streamLength": 28,
+          "flags": [
+            "FLAG_PRODUCER_CONSUMER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "924aa1a5dddeb5a89b79f1c69fa6c48416073b2fca73b633240fb32d153e4817"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-DATAFLOW-A",
+        "HYP-P46L704-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "6cb731a82818e910fda5d2936d1d64a5fbaccdd2b9f67281d826966eedcadced"
+    },
+    {
+      "experimentId": "EXP-P46L704-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L704-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "streamLength": 32,
+          "flags": [
+            "FLAG_TEMPORAL_ORDER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "721b4f0d85099563cab11c49cf0e93e7080e1584cd43cd3a397d7d5f7dbebf7d"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L704-TEMPORAL_ORDERING-A",
+        "HYP-P46L704-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L704-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L704-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "d7ac926605540cd8169da35dac2689d48e2a95b2cf0a9cae4ffc58787deb5ad6"
+    },
+    {
+      "experimentId": "EXP-P46L705-BOUNDARY_INPUT-01",
+      "experimentClass": "BOUNDARY_INPUT",
+      "input": {
+        "inputId": "INP-EXP-P46L705-BOUNDARY_INPUT-01",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "BOUNDARY_INPUT",
+          "streamLength": 4,
+          "flags": [
+            "FLAG_BOUNDARY_INPUT"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_BOUNDARY_INPUT",
+        "contentHash": "7f41d8102aed3e5d254970efffe034fde563f29e880714cae09d81d71c1cc212"
+      },
+      "expectedObservableDimensions": [
+        "INPUT_BOUNDARY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-INPUT_BOUNDARY-A",
+        "HYP-P46L705-INPUT_BOUNDARY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-INPUT_BOUNDARY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-INPUT_BOUNDARY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 12,
+      "informationGainEstimate": 0.705,
+      "contentHash": "6c4e93144c297c498aae5eec12960ca3c1872d2e9c9328c135bfcec88e3025f2"
+    },
+    {
+      "experimentId": "EXP-P46L705-REPRESENTATION_BOUNDARY-02",
+      "experimentClass": "REPRESENTATION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L705-REPRESENTATION_BOUNDARY-02",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "REPRESENTATION_BOUNDARY",
+          "streamLength": 8,
+          "flags": [
+            "FLAG_REPRESENTATION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_REPRESENTATION_BOUNDARY",
+        "contentHash": "13052883bc8f4819215aa1f67a6f4b5697f93550c5e2f4ea1f2045d89e0683c2"
+      },
+      "expectedObservableDimensions": [
+        "REPRESENTATION_MAPPING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-REPRESENTATION_MAPPING-A",
+        "HYP-P46L705-REPRESENTATION_MAPPING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-REPRESENTATION_MAPPING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-REPRESENTATION_MAPPING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 14,
+      "informationGainEstimate": 0.6975,
+      "contentHash": "d79e0278ad3a8c8225c5abfe570f2a806ce93ac85f715bdc6ee31df2ee6b864e"
+    },
+    {
+      "experimentId": "EXP-P46L705-STATE_TRANSITION_BOUNDARY-03",
+      "experimentClass": "STATE_TRANSITION_BOUNDARY",
+      "input": {
+        "inputId": "INP-EXP-P46L705-STATE_TRANSITION_BOUNDARY-03",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "STATE_TRANSITION_BOUNDARY",
+          "streamLength": 12,
+          "flags": [
+            "FLAG_STATE_TRANSITION_BOUNDARY"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_STATE_TRANSITION_BOUNDARY",
+        "contentHash": "72b88a93baea7da8fd3fe89f67d9082361869705736b785b540bf6597ca3af38"
+      },
+      "expectedObservableDimensions": [
+        "STATE_TRANSITION"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-STATE_TRANSITION-A",
+        "HYP-P46L705-STATE_TRANSITION-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-STATE_TRANSITION-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-STATE_TRANSITION-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 16,
+      "informationGainEstimate": 0.69,
+      "contentHash": "8d0a3bb4fdfad23d07f3156ad40b7062f6c1bcc495f11645b744c45579476b5c"
+    },
+    {
+      "experimentId": "EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+      "experimentClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L705-CONTROL_FLOW_BRANCH_DISCRIMINATOR-04",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+          "streamLength": 16,
+          "flags": [
+            "FLAG_CONTROL_FLOW_BRANCH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_CONTROL_FLOW_BRANCH_DISCRIMINATOR",
+        "contentHash": "73453d511124533e60b828bc3ba30941a4e1e8c5c78adfefeafb19584a12f8c1"
+      },
+      "expectedObservableDimensions": [
+        "BRANCH_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-BRANCH_BEHAVIOR-A",
+        "HYP-P46L705-BRANCH_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-BRANCH_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-BRANCH_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 18,
+      "informationGainEstimate": 0.6825,
+      "contentHash": "94a055a610505680c335f8deb9e9f1ed3c8a8aff1005b2b43e3c4d2814f81e7f"
+    },
+    {
+      "experimentId": "EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05",
+      "experimentClass": "ERROR_PATH_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L705-ERROR_PATH_DISCRIMINATOR-05",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "ERROR_PATH_DISCRIMINATOR",
+          "streamLength": 20,
+          "flags": [
+            "FLAG_ERROR_PATH_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_ERROR_PATH_DISCRIMINATOR",
+        "contentHash": "5dd4b9189b376886707d4c8f62175283ad46c5c3a77aae617b60064910e6b501"
+      },
+      "expectedObservableDimensions": [
+        "ERROR_BEHAVIOR"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-ERROR_BEHAVIOR-A",
+        "HYP-P46L705-ERROR_BEHAVIOR-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-ERROR_BEHAVIOR-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-ERROR_BEHAVIOR-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 20,
+      "informationGainEstimate": 0.675,
+      "contentHash": "bbe8671585a8d8acbdd5832a96dadb1909c1d60796cca584a67172dd99258dbd"
+    },
+    {
+      "experimentId": "EXP-P46L705-SECURITY_POLICY_DISCRIMINATOR-06",
+      "experimentClass": "SECURITY_POLICY_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L705-SECURITY_POLICY_DISCRIMINATOR-06",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "SECURITY_POLICY_DISCRIMINATOR",
+          "streamLength": 24,
+          "flags": [
+            "FLAG_SECURITY_POLICY_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_SECURITY_POLICY_DISCRIMINATOR",
+        "contentHash": "c845b9bbbe4d2ef93e47a2398e9b801c2bba0f92c5bbcfce07544c2fbc9cc3bf"
+      },
+      "expectedObservableDimensions": [
+        "SECURITY_POLICY"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-SECURITY_POLICY-A",
+        "HYP-P46L705-SECURITY_POLICY-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-SECURITY_POLICY-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-SECURITY_POLICY-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 22,
+      "informationGainEstimate": 0.6675,
+      "contentHash": "5bd6eddec207e7e6ea6b0835cbe9291db3ce1d84da186691ad4619bc72034c69"
+    },
+    {
+      "experimentId": "EXP-P46L705-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+      "experimentClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L705-PRODUCER_CONSUMER_DISCRIMINATOR-07",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "PRODUCER_CONSUMER_DISCRIMINATOR",
+          "streamLength": 28,
+          "flags": [
+            "FLAG_PRODUCER_CONSUMER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_PRODUCER_CONSUMER_DISCRIMINATOR",
+        "contentHash": "c1b346d3aefd526b7e9431530f839c15c9152c46f25a84e0cf713d8cbeeee0d7"
+      },
+      "expectedObservableDimensions": [
+        "DATAFLOW"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-DATAFLOW-A",
+        "HYP-P46L705-DATAFLOW-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-DATAFLOW-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-DATAFLOW-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 24,
+      "informationGainEstimate": 0.66,
+      "contentHash": "8d338d9101b0841e74619421c7e9e1cbef78eb30e23423f59fbb2f9c0b695cf9"
+    },
+    {
+      "experimentId": "EXP-P46L705-TEMPORAL_ORDER_DISCRIMINATOR-08",
+      "experimentClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+      "input": {
+        "inputId": "INP-EXP-P46L705-TEMPORAL_ORDER_DISCRIMINATOR-08",
+        "inputClass": "BOUNDARY_VALUE",
+        "payload": {
+          "probeClass": "TEMPORAL_ORDER_DISCRIMINATOR",
+          "streamLength": 32,
+          "flags": [
+            "FLAG_TEMPORAL_ORDER_DISCRIMINATOR"
+          ]
+        },
+        "provenance": "ACTIVE_EXPERIMENT_TEMPORAL_ORDER_DISCRIMINATOR",
+        "contentHash": "718fb99d1b83ca603017871ad533c72320f0f43fb649661d3e20ed6d5badbf46"
+      },
+      "expectedObservableDimensions": [
+        "TEMPORAL_ORDERING"
+      ],
+      "targetedHypotheses": [
+        "HYP-P46L705-TEMPORAL_ORDERING-A",
+        "HYP-P46L705-TEMPORAL_ORDERING-B"
+      ],
+      "predictedOutcomes": [
+        {
+          "hypothesisId": "HYP-P46L705-TEMPORAL_ORDERING-A",
+          "expectedOutcome": "STRICT_MATCH"
+        },
+        {
+          "hypothesisId": "HYP-P46L705-TEMPORAL_ORDERING-B",
+          "expectedOutcome": "FALLBACK_TRIGGERED"
+        }
+      ],
+      "safetyClassification": "SAFE",
+      "resourceCost": 26,
+      "informationGainEstimate": 0.6525,
+      "contentHash": "4dad4de8fac36ec1713cb38ed5fbe916018fe6e772ddc325ebbea01057454d3d"
+    }
+  ]
+}
