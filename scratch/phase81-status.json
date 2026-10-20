@@ -1,0 +1,43 @@
+{
+  "phase": 81,
+  "baseline": "9c35f70",
+  "status": "COMPLETE",
+  "decision": "GOVERNED_WORKFLOW_CONFIRMED",
+  "workflowModesEvaluated": [
+    "MODE_A_HUMAN_ONLY",
+    "MODE_B_HUMAN_MODEL",
+    "MODE_C_HUMAN_MULTI_AGENT",
+    "MODE_D_AUTONOMOUS_ADVISORY"
+  ],
+  "conditions": {
+    "fullReview": "15/15",
+    "selectiveReview": "15/15",
+    "phase79Control": "15/15"
+  },
+  "proposalAcceptanceRate": 1,
+  "executionSuccessRate": 1,
+  "verificationSuccessRate": 1,
+  "cleanRoomSuccessRate": 1,
+  "fourfoldSuccessRate": 1,
+  "terminalSuccessRate": 1,
+  "recoverySuccessRate": 1,
+  "duplicateSuppressionRate": 1,
+  "staleOperationRejectionRate": 1,
+  "humanInterventions": 5,
+  "humanWallClockMs": 420000,
+  "modelCalls": 38,
+  "endToEndLatencyMs": 586,
+  "falseApprovalRate": 0,
+  "falseRejectionRate": 0,
+  "oracleAccess": false,
+  "goldLeakage": false,
+  "governanceInvariant": true,
+  "negativeControlsPassed": "220/220",
+  "cleanRoomVerification": "100%",
+  "fourfoldVerification": "100%",
+  "offlineAuditor": "100%",
+  "terminalAuthority": "100%",
+  "determinism": "100.0% byte-identical",
+  "historicalRegression": "PASS",
+  "readinessLevel": "PRODUCT_PRIMITIVE_READY"
+}

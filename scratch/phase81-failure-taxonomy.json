@@ -1,0 +1,32 @@
+{
+  "phase": 81,
+  "protocolDigest": "9195f0b875c1bd1ed410f0b6025263db2b1cd2aad85f61fcb4f9e05f6792132a",
+  "sourceRevision": "9c35f70",
+  "generatedAt": "2026-10-20T23:00:00.000Z",
+  "content": {
+    "normalizedFailureClasses": [
+      "PROPOSAL_INVALID",
+      "POLICY_DENIED",
+      "SOURCE_REVISION_MISMATCH",
+      "EXECUTION_FAILURE",
+      "TEST_FAILURE",
+      "REGRESSION_FAILURE",
+      "CLEAN_ROOM_FAILURE",
+      "EVIDENCE_FAILURE",
+      "AUTHORITY_FAILURE",
+      "TIMEOUT",
+      "CANCELLED",
+      "WORKFLOW_EXPIRED",
+      "DUPLICATE_PROPOSAL",
+      "UNKNOWN"
+    ],
+    "routingPolicy": {
+      "PROPOSAL_INVALID": "Direct feedback returned to proposer for structural correction",
+      "POLICY_DENIED": "Terminal rejection; requires new governed proposal",
+      "SOURCE_REVISION_MISMATCH": "Fail closed; rebase or reconstruct against target revision",
+      "CLEAN_ROOM_FAILURE": "Generates HandoffRecord and triggers revision loop if within budget",
+      "TIMEOUT": "Transition to EXPIRED -> TERMINAL"
+    }
+  },
+  "contentDigest": "a1835dc1f6dd4d0aea7fa27b0501e3c0fbf48c14bf994495f5688434e7251def"
+}

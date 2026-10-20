@@ -1,0 +1,62 @@
+{
+  "phase": 81,
+  "protocolDigest": "9195f0b875c1bd1ed410f0b6025263db2b1cd2aad85f61fcb4f9e05f6792132a",
+  "sourceRevision": "9c35f70",
+  "generatedAt": "2026-10-20T23:00:00.000Z",
+  "content": {
+    "states": [
+      "DRAFT",
+      "PROPOSED",
+      "UNDER_REVIEW",
+      "REVISION_REQUIRED",
+      "READY_FOR_EXECUTION",
+      "EXECUTING",
+      "VERIFYING",
+      "VERIFIED",
+      "REJECTED",
+      "ABORTED",
+      "EXPIRED",
+      "TERMINAL"
+    ],
+    "approvalStates": [
+      "PENDING",
+      "APPROVED",
+      "REJECTED",
+      "REQUEST_REVISION",
+      "EXPIRED"
+    ],
+    "riskEscalationLevels": [
+      "LOW_RISK",
+      "MEDIUM_RISK",
+      "HIGH_RISK",
+      "CRITICAL_SECURITY"
+    ],
+    "actorTypes": [
+      "HUMAN",
+      "LOCAL_MODEL",
+      "REVIEWER",
+      "PANEL",
+      "GOVERNING_AUTHORITY"
+    ],
+    "queueLimits": {
+      "maxPendingProposals": 8,
+      "workflowTimeoutMs": 300000,
+      "maxWorkflowRetries": 3,
+      "maxWorkflowRevisions": 3,
+      "MAX_PENDING_PROPOSALS": 8,
+      "MAX_REVISIONS": 3,
+      "MAX_RETRIES": 3,
+      "PROPOSAL_TIMEOUT_MS": 300000,
+      "REVIEW_TIMEOUT_MS": 300000,
+      "EXECUTION_TIMEOUT_MS": 600000
+    },
+    "transitionRules": [
+      "No execution from DRAFT",
+      "No execution after REJECTED, EXPIRED, ABORTED, or TERMINAL",
+      "No terminal success without fourfold completion",
+      "No VERIFIED state without independent clean-room dual-gate verification",
+      "Policy denial is terminal unless governed revision is created"
+    ]
+  },
+  "contentDigest": "6275ff80196007fdbbd23639c3aba968530fee9a60d56efb551cf13d39f85eac"
+}

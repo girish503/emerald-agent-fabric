@@ -1,0 +1,27 @@
+{
+  "phase": 81,
+  "protocolDigest": "9195f0b875c1bd1ed410f0b6025263db2b1cd2aad85f61fcb4f9e05f6792132a",
+  "sourceRevision": "9c35f70",
+  "generatedAt": "2026-10-20T23:00:00.000Z",
+  "content": {
+    "stagesLatencyMeanMs": {
+      "proposalStage": 120,
+      "reviewStage": 210,
+      "executionStage": 110,
+      "verificationStage": 146,
+      "totalEndToEndMeanMs": 586
+    },
+    "modelCallEconomics": {
+      "fullReviewTotalCalls": 70,
+      "selectiveReviewTotalCalls": 38,
+      "controlTotalCalls": 25,
+      "savingVsFullReview": "45.7%"
+    },
+    "humanEffortEconomy": {
+      "pureHumanAuthoringWallClock": "2700s (Phase 79)",
+      "collaborativeSingleModel": "600s (Phase 79)",
+      "selectiveGovernedWorkflow": "420s (Phase 81, -30% vs Phase 79, -84% vs Human Only)"
+    }
+  },
+  "contentDigest": "0056b18a635f2593f63222df4bdb912d2d9e4eb44dca174a95ae00751d8c01e7"
+}

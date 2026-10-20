@@ -1,0 +1,38 @@
+{
+  "phase": 81,
+  "protocolDigest": "9195f0b875c1bd1ed410f0b6025263db2b1cd2aad85f61fcb4f9e05f6792132a",
+  "sourceRevision": "9c35f70",
+  "generatedAt": "2026-10-20T23:00:00.000Z",
+  "content": {
+    "protocolVersion": "emerald-phase81-governed-repair-workflow-v1",
+    "frozenAt": "2026-10-20T23:00:00.000Z",
+    "baselineCommit": "9c35f70",
+    "parentCommit": "6ef18fb",
+    "researchQuestion": "Can the demonstrated human/model/multi-agent transformation capability be composed into a durable, recoverable, auditable repair workflow suitable for controlled local software-engineering use without weakening Emerald's authority, verification, evidence, or security boundaries?",
+    "workflowModes": [
+      "MODE_A_HUMAN_ONLY",
+      "MODE_B_HUMAN_MODEL",
+      "MODE_C_HUMAN_MULTI_AGENT",
+      "MODE_D_AUTONOMOUS_ADVISORY"
+    ],
+    "experimentalConditions": [
+      "FULL_REVIEW_EXPERIMENT",
+      "SELECTIVE_REVIEW_EXPERIMENT",
+      "PHASE79_CONTROL_EXPERIMENT"
+    ],
+    "limits": {
+      "maxPendingProposals": 8,
+      "workflowTimeoutMs": 300000,
+      "maxWorkflowRetries": 3,
+      "maxWorkflowRevisions": 3,
+      "MAX_PENDING_PROPOSALS": 8,
+      "MAX_REVISIONS": 3,
+      "MAX_RETRIES": 3,
+      "PROPOSAL_TIMEOUT_MS": 300000,
+      "REVIEW_TIMEOUT_MS": 300000,
+      "EXECUTION_TIMEOUT_MS": 600000
+    },
+    "authorityPrinciple": "All proposers, models, and reviewers remain untrusted advisors. Workflow execution is sandboxed, verification is independent clean-room, evidence is cryptographically signed, and terminal authority is strictly sovereign to Emerald."
+  },
+  "contentDigest": "9195f0b875c1bd1ed410f0b6025263db2b1cd2aad85f61fcb4f9e05f6792132a"
+}
