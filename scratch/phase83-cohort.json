@@ -1,0 +1,163 @@
+{
+  "phase": 83,
+  "protocolDigest": "9d6a23415666dad0c5f0247b0f6552fda9e296a732ea3e759e8e4ced87f483b9",
+  "sourceRevision": "e544c41",
+  "generatedAt": "2026-10-21T00:00:00.000Z",
+  "content": {
+    "cohortSize": 15,
+    "levels": {
+      "L5": 5,
+      "L6": 5,
+      "L7": 5
+    },
+    "tasks": [
+      {
+        "taskId": "P46-L5-01",
+        "level": "L5",
+        "targetFiles": [
+          "src/semver.js"
+        ],
+        "description": "Coordinate parsePrerelease() and comparePrerelease() across hyphenated segments.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L5-02",
+        "level": "L5",
+        "targetFiles": [
+          "src/deep-set.js"
+        ],
+        "description": "Coordinate _toPath() key sanitization and _setInternal() traversal to block __proto__.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L5-03",
+        "level": "L5",
+        "targetFiles": [
+          "src/emitter.js"
+        ],
+        "description": "Coordinate emit() argument array spreading and listener dispatch callback helper.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L5-04",
+        "level": "L5",
+        "targetFiles": [
+          "src/scanner.js"
+        ],
+        "description": "Coordinate _handleError() warning emission and scanDirectory() traversal continuation.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L5-05",
+        "level": "L5",
+        "targetFiles": [
+          "src/kv-store.js"
+        ],
+        "description": "Coordinate write buffer flush queue and read cache lookup in src/kv-store.js.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L6-01",
+        "level": "L6",
+        "targetFiles": [
+          "src/models/user.js",
+          "src/services/user-service.js"
+        ],
+        "description": "Implement hasRole on User in src/models/user.js and wire check in src/services/user-service.js.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L6-02",
+        "level": "L6",
+        "targetFiles": [
+          "src/config.js",
+          "src/defaults.js"
+        ],
+        "description": "Coordinate fallback loader in src/config.js and default schema in src/defaults.js.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L6-03",
+        "level": "L6",
+        "targetFiles": [
+          "src/formatters/json.js",
+          "src/logger.js"
+        ],
+        "description": "Extract formatter to src/formatters/json.js and wire into src/logger.js.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L6-04",
+        "level": "L6",
+        "targetFiles": [
+          "src/request.js",
+          "src/client.js"
+        ],
+        "description": "Coordinate request builder in src/request.js and transport client in src/client.js.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L6-05",
+        "level": "L6",
+        "targetFiles": [
+          "src/job.js",
+          "src/queue.js"
+        ],
+        "description": "Coordinate status transition in src/job.js and worker eviction in src/queue.js.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L7-01",
+        "level": "L7",
+        "targetFiles": [
+          "src/calc.js",
+          "src/parser.js"
+        ],
+        "description": "Repository-scale SWE-bench task EAF-BM-01 in emerald/calc repository.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L7-02",
+        "level": "L7",
+        "targetFiles": [
+          "src/cors.js",
+          "src/header-validator.js"
+        ],
+        "description": "Repository-scale SWE-bench task EAF-BM-03 in express/cors-validator.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L7-03",
+        "level": "L7",
+        "targetFiles": [
+          "src/semver.js",
+          "src/comparator.js"
+        ],
+        "description": "Repository-scale SWE-bench task EAF-BM-04 in emerald/semver-lite.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L7-04",
+        "level": "L7",
+        "targetFiles": [
+          "src/deep-set.js",
+          "src/path-resolver.js"
+        ],
+        "description": "Repository-scale SWE-bench task EAF-BM-07 in lodash/deep-set.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      },
+      {
+        "taskId": "P46-L7-05",
+        "level": "L7",
+        "targetFiles": [
+          "src/models/user.js",
+          "src/services/user-service.js",
+          "src/routes/user-route.js"
+        ],
+        "description": "Repository-scale SWE-bench task EAF-BM-11 in emerald/user-service.",
+        "acceptanceCriteria": "Dual-gate clean room passes F2P=1.0 and P2P=1.0"
+      }
+    ]
+  },
+  "contentDigest": "8dbd7307c02aacc6d5447274e3f3a23bf33e2926de87149676a7192992e1e68e"
+}

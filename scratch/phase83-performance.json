@@ -1,0 +1,39 @@
+{
+  "phase": 83,
+  "protocolDigest": "9d6a23415666dad0c5f0247b0f6552fda9e296a732ea3e759e8e4ced87f483b9",
+  "sourceRevision": "e544c41",
+  "generatedAt": "2026-10-21T00:00:00.000Z",
+  "content": {
+    "latencyComparison": {
+      "Condition_A_FullSuite": {
+        "meanSelectedTests": 11,
+        "meanDeltaDurationMs": 1336.7,
+        "meanFullCleanRoomMs": 1336.7,
+        "earlyDefectScreeningBenefitMs": 0
+      },
+      "Condition_B_DirectAST": {
+        "meanSelectedTests": 3,
+        "meanDeltaDurationMs": 368.3,
+        "deltaLatencyReductionPct": -72.4,
+        "earlyDefectScreeningBenefitMs": 968.4
+      },
+      "Condition_C_DependencyClosure": {
+        "meanSelectedTests": 5.33,
+        "meanDeltaDurationMs": 660,
+        "deltaLatencyReductionPct": -50.6,
+        "earlyDefectScreeningBenefitMs": 676.7
+      },
+      "Condition_D_RiskAwareDelta": {
+        "meanSelectedTests": 6.33,
+        "meanDeltaDurationMs": 788.3,
+        "deltaLatencyReductionPct": -41,
+        "earlyDefectScreeningBenefitMs": 548.4
+      }
+    },
+    "tradeOffAnalysis": {
+      "cleanPatches": "Requires running delta test (368-788ms) + full suite (1336ms). Delta pass is screening only.",
+      "defectivePatches": "Early failure in delta test catches bug in 368-788ms, aborting full suite and saving 548-968ms per rejected attempt."
+    }
+  },
+  "contentDigest": "d4cbcc8726cf6cd36e79d164e2ae67fc3d80c6d3e646c6a054e0c1bf1a0fc5cd"
+}

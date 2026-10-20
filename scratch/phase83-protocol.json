@@ -1,0 +1,24 @@
+{
+  "phase": 83,
+  "protocolDigest": "9d6a23415666dad0c5f0247b0f6552fda9e296a732ea3e759e8e4ced87f483b9",
+  "sourceRevision": "e544c41",
+  "generatedAt": "2026-10-21T00:00:00.000Z",
+  "content": {
+    "phase": 83,
+    "baselineCommit": "e544c41",
+    "mission": "Automated Delta Test Suite Minimization and Predictive Clean-Room Verification",
+    "scientificQuestion": "Can Emerald execute a smaller, structurally justified test subset as a predictive verification pass, while preserving the immutable full regression suite as the final authoritative terminal gate?",
+    "safetyInvariant": "Predictive verification may save time. Only independent full verification may establish truth.",
+    "authorityRule": "DeltaPass != VerificationPassed. VerificationPassed => FullCleanRoomPassed.",
+    "conditions": {
+      "A": "FULL_SUITE (11/11 tests) — Baseline control condition",
+      "B": "DIRECT_AST_IMPACT (Direct symbol and file coverage)",
+      "C": "DEPENDENCY_CLOSURE (Transitive call and import closure)",
+      "D": "RISK_AWARE_DELTA (Dependency closure + high-risk edge cases)"
+    },
+    "cohortSize": 15,
+    "totalTrials": 60,
+    "negativeControlCount": 20,
+    "cumulativeNegativeControlCount": 260
+  }
+}

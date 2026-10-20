@@ -1,0 +1,174 @@
+{
+  "phase": 83,
+  "protocolDigest": "9d6a23415666dad0c5f0247b0f6552fda9e296a732ea3e759e8e4ced87f483b9",
+  "sourceRevision": "e544c41",
+  "generatedAt": "2026-10-21T00:00:00.000Z",
+  "content": {
+    "totalTestSuitesPerTask": 11,
+    "suites": [
+      {
+        "testIdTemplate": "{TASK_ID}-test-01-f2p",
+        "name": "Target Bug Fail-to-Pass Verification",
+        "testPath": "test/target-bug.test.js",
+        "category": "TARGET_BUG",
+        "riskLevel": "CRITICAL",
+        "isF2P": true,
+        "baseCostMs": 80,
+        "associatedSymbols": [
+          "parsePrerelease",
+          "_setInternal",
+          "emit",
+          "scanDirectory",
+          "set",
+          "hasRole",
+          "evaluateExpression",
+          "validateOrigin"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-02-unit-direct",
+        "name": "Unit Direct Symbol Regression",
+        "testPath": "test/unit-direct.test.js",
+        "category": "UNIT_DIRECT",
+        "riskLevel": "HIGH",
+        "isF2P": false,
+        "baseCostMs": 60,
+        "associatedSymbols": [
+          "comparePrerelease",
+          "_toPath",
+          "on",
+          "_handleError",
+          "get",
+          "validateUser",
+          "tokenize",
+          "checkHeaders"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-03-unit-internal",
+        "name": "Unit Internal Consistency Regression",
+        "testPath": "test/unit-internal.test.js",
+        "category": "UNIT_INTERNAL",
+        "riskLevel": "MEDIUM",
+        "isF2P": false,
+        "baseCostMs": 55,
+        "associatedSymbols": [
+          "execute",
+          "transform",
+          "flush"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-04-integ-wire",
+        "name": "Integration Wiring Regression",
+        "testPath": "test/integ-wire.test.js",
+        "category": "INTEGRATION_WIRE",
+        "riskLevel": "HIGH",
+        "isF2P": false,
+        "baseCostMs": 70,
+        "associatedSymbols": [
+          "hasRole",
+          "validateUser",
+          "evaluateExpression",
+          "validateOrigin"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-05-integ-transitive",
+        "name": "Integration Transitive Subsystem Regression",
+        "testPath": "test/integ-transitive.test.js",
+        "category": "INTEGRATION_TRANSITIVE",
+        "riskLevel": "MEDIUM",
+        "isF2P": false,
+        "baseCostMs": 75,
+        "associatedSymbols": [
+          "evaluateExpression",
+          "tokenize",
+          "validateOrigin"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-06-security-boundary",
+        "name": "Security & Boundary Protection Regression",
+        "testPath": "test/security-boundary.test.js",
+        "category": "SECURITY_BOUNDARY",
+        "riskLevel": "CRITICAL",
+        "isF2P": false,
+        "baseCostMs": 85,
+        "associatedSymbols": [
+          "_toPath",
+          "_setInternal",
+          "validateOrigin",
+          "checkHeaders"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-07-state-lifecycle",
+        "name": "State Machine & Buffer Lifecycle Regression",
+        "testPath": "test/state-lifecycle.test.js",
+        "category": "STATE_LIFECYCLE",
+        "riskLevel": "HIGH",
+        "isF2P": false,
+        "baseCostMs": 65,
+        "associatedSymbols": [
+          "flush",
+          "emit",
+          "scanDirectory"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-08-concurrency-async",
+        "name": "Concurrency & Async Dispatch Regression",
+        "testPath": "test/concurrency-async.test.js",
+        "category": "CONCURRENCY_ASYNC",
+        "riskLevel": "MEDIUM",
+        "isF2P": false,
+        "baseCostMs": 90,
+        "associatedSymbols": [
+          "emit",
+          "flush"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-09-e2e-workflow",
+        "name": "End-to-End Workflow Pipeline Regression",
+        "testPath": "test/e2e-workflow.test.js",
+        "category": "E2E_WORKFLOW",
+        "riskLevel": "MEDIUM",
+        "isF2P": false,
+        "baseCostMs": 100,
+        "associatedSymbols": [
+          "evaluateExpression",
+          "validateUser"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-10-config-env",
+        "name": "Configuration & Environment Fallback Regression",
+        "testPath": "test/config-env.test.js",
+        "category": "CONFIG_ENV",
+        "riskLevel": "LOW",
+        "isF2P": false,
+        "baseCostMs": 50,
+        "associatedSymbols": [
+          "_handleError",
+          "scanDirectory"
+        ]
+      },
+      {
+        "testIdTemplate": "{TASK_ID}-test-11-perf-resource",
+        "name": "Performance & Resource Bounds Regression",
+        "testPath": "test/perf-resource.test.js",
+        "category": "PERF_RESOURCE",
+        "riskLevel": "LOW",
+        "isF2P": false,
+        "baseCostMs": 95,
+        "associatedSymbols": [
+          "parsePrerelease",
+          "comparePrerelease"
+        ]
+      }
+    ]
+  },
+  "contentDigest": "e2851896280af5d593a34b3be0671c0fd117f756b4458360b3a9779fa0347f5a"
+}

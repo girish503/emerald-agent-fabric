@@ -1,0 +1,37 @@
+{
+  "phase": 83,
+  "protocolDigest": "9d6a23415666dad0c5f0247b0f6552fda9e296a732ea3e759e8e4ced87f483b9",
+  "sourceRevision": "e544c41",
+  "generatedAt": "2026-10-21T00:00:00.000Z",
+  "content": {
+    "summary": {
+      "targetBugRecall": 1,
+      "crossModuleBoundaryRecall": {
+        "Condition_B_DirectAST": 0.867,
+        "Condition_C_DependencyClosure": 0.933,
+        "Condition_D_RiskAwareDelta": 1
+      },
+      "falseNegativeRate": {
+        "Condition_B_DirectAST": 0.133,
+        "Condition_C_DependencyClosure": 0.067,
+        "Condition_D_RiskAwareDelta": 0
+      },
+      "cleanRoomTerminalTrapRate": 1
+    },
+    "missClassifications": [
+      {
+        "classification": "CROSS_MODULE_IMPACT_MISSED",
+        "condition": "DIRECT_AST_IMPACT",
+        "frequency": 2,
+        "mitigation": "Captured by Dependency Closure and Risk-Aware Delta"
+      },
+      {
+        "classification": "CONFIGURATION_IMPACT_MISSED",
+        "condition": "DEPENDENCY_CLOSURE",
+        "frequency": 1,
+        "mitigation": "Captured by Risk-Aware Delta high-risk boundary set"
+      }
+    ]
+  },
+  "contentDigest": "2d073efd3d05d9c8c14aff330910ba98d33e5b5731d4615736fdf430228d1e55"
+}

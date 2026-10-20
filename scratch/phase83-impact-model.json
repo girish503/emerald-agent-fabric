@@ -1,0 +1,36 @@
+{
+  "phase": 83,
+  "protocolDigest": "9d6a23415666dad0c5f0247b0f6552fda9e296a732ea3e759e8e4ced87f483b9",
+  "sourceRevision": "e544c41",
+  "generatedAt": "2026-10-21T00:00:00.000Z",
+  "content": {
+    "nodeTypes": [
+      "FILE",
+      "SYMBOL",
+      "TEST",
+      "MODULE"
+    ],
+    "edgeTypes": [
+      "IMPORTS",
+      "CALLS",
+      "DEFINES",
+      "TESTS",
+      "DEPENDS_ON"
+    ],
+    "expansionBounds": {
+      "defaultDepth": 5,
+      "maxDepthLimit": 50,
+      "cycleDefense": "VISITED_SET_STRICT_TERMINATION"
+    },
+    "weightScale": {
+      "directDefines": 1,
+      "directImport": 1.5,
+      "transitiveCall": 2
+    },
+    "hashing": {
+      "algorithm": "SHA-256",
+      "serialization": "CANONICAL_JSON_RFC8785"
+    }
+  },
+  "contentDigest": "e3a991429cb06fb1774ffa6fdb123977556dd009cce1e7bc9a4b25399cc362cc"
+}
