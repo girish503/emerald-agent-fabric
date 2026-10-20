@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "emerald-phase61-v1",
+  "phase": "61",
+  "protocolVersion": "emerald-phase61-joint-semantic-synthesis-v1",
+  "frozenAt": "2026-10-20T05:06:14.541Z",
+  "baselineCommit": "267badc",
+  "experimentalVariable": "governed_joint_semantic_synthesis_and_multi_region_composition",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "conditions": {
+    "CONDITION_A_PHASE60_CONTROL": "Frozen Phase 60 decomposition & post-hoc composition pipeline",
+    "CONDITION_B_JOINT_SYNTHESIS": "Coupled-region discovery + joint repair variables + cross-region constraints + bounded joint search",
+    "CONDITION_C_JOINT_SYNTHESIS_CEGAR": "Joint synthesis with Phase 59 CEGAR counterexamples and refinement pruning",
+    "CONDITION_D_FULL_GOVERNED_JOINT_SYNTHESIS": "Full governed joint synthesis stack with clean-room dual-gate, regression preservation, and fourfold verification"
+  },
+  "bounds": {
+    "maxCoupledRegions": 4,
+    "maxJointVariables": 32,
+    "maxCandidates": 50,
+    "maxSearchDepth": 6,
+    "maxASTNodes": 150,
+    "maxFiles": 6,
+    "maxRepairAttempts": 3,
+    "maxWallClockMs": 120000
+  },
+  "cohortSize": 15,
+  "totalTrials": 60,
+  "protocolDigest": "e68349ff62dabdbef3718e101aae0a77d6cdad100399dd3f827204b6645fb363"
+}

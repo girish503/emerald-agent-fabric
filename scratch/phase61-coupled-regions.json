@@ -1,0 +1,559 @@
+{
+  "schemaVersion": "emerald-phase61-v1",
+  "phase": "61",
+  "generatedAt": "2026-10-20T05:06:14.562Z",
+  "baselineCommit": "267badc",
+  "protocolDigest": "e68349ff62dabdbef3718e101aae0a77d6cdad100399dd3f827204b6645fb363",
+  "totalTasks": 15,
+  "totalCoupledGroups": 15,
+  "groups": [
+    {
+      "groupId": "GROUP-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "regionIds": [
+        "REGION-P46-L5-01-01"
+      ],
+      "couplingReasons": [
+        "SINGLE_REGION_CONTAINMENT"
+      ],
+      "sharedSymbols": [
+        "comparePrerelease",
+        "parsePrerelease"
+      ],
+      "sharedTypes": [],
+      "sharedState": [],
+      "sharedContracts": [
+        "CONTRACT-P46-L5-01-01"
+      ],
+      "sharedInvariants": [
+        "PRE_RELEASE_SEMANTICS"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [],
+      "provenance": {
+        "source": "DECOMPOSITION_PLAN",
+        "regionCount": 1
+      },
+      "semanticHash": "20269f8b361164765cd590aad629a8bef3a5ce1dec8ccc749a094adf4307e85a"
+    },
+    {
+      "groupId": "GROUP-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "regionIds": [
+        "REGION-P46-L5-02-01"
+      ],
+      "couplingReasons": [
+        "SINGLE_REGION_CONTAINMENT"
+      ],
+      "sharedSymbols": [
+        "_setInternal",
+        "_toPath"
+      ],
+      "sharedTypes": [],
+      "sharedState": [],
+      "sharedContracts": [
+        "CONTRACT-P46-L5-02-01"
+      ],
+      "sharedInvariants": [
+        "PATH_NORMALIZATION"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [],
+      "provenance": {
+        "source": "DECOMPOSITION_PLAN",
+        "regionCount": 1
+      },
+      "semanticHash": "8218adfeb7efbeb473013c1751003e4acaf20ecf65e0fe5fe8694868cb4e69bd"
+    },
+    {
+      "groupId": "GROUP-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "regionIds": [
+        "REGION-P46-L5-03-01"
+      ],
+      "couplingReasons": [
+        "SINGLE_REGION_CONTAINMENT"
+      ],
+      "sharedSymbols": [
+        "dispatchListener",
+        "emit"
+      ],
+      "sharedTypes": [],
+      "sharedState": [],
+      "sharedContracts": [
+        "CONTRACT-P46-L5-03-01"
+      ],
+      "sharedInvariants": [
+        "LISTENER_DISPATCH_ORDER"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [],
+      "provenance": {
+        "source": "DECOMPOSITION_PLAN",
+        "regionCount": 1
+      },
+      "semanticHash": "6dfe7ee5ff33be922bf697e5e81625d31b7f0a5de9f2c1b051c8615cfe4d552b"
+    },
+    {
+      "groupId": "GROUP-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "regionIds": [
+        "REGION-P46-L5-04-01"
+      ],
+      "couplingReasons": [
+        "SINGLE_REGION_CONTAINMENT"
+      ],
+      "sharedSymbols": [
+        "_handleError",
+        "scanDirectory"
+      ],
+      "sharedTypes": [],
+      "sharedState": [],
+      "sharedContracts": [
+        "CONTRACT-P46-L5-04-01"
+      ],
+      "sharedInvariants": [
+        "ERROR_BUBBLING"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [],
+      "provenance": {
+        "source": "DECOMPOSITION_PLAN",
+        "regionCount": 1
+      },
+      "semanticHash": "46eb9e916f54e330477fee9131401ead428a579f8fd41cc686729946ba09b14c"
+    },
+    {
+      "groupId": "GROUP-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "regionIds": [
+        "REGION-P46-L5-05-01"
+      ],
+      "couplingReasons": [
+        "SINGLE_REGION_CONTAINMENT"
+      ],
+      "sharedSymbols": [
+        "flushQueue",
+        "readCache"
+      ],
+      "sharedTypes": [],
+      "sharedState": [],
+      "sharedContracts": [
+        "CONTRACT-P46-L5-05-01"
+      ],
+      "sharedInvariants": [
+        "CACHE_CONSISTENCY"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [],
+      "provenance": {
+        "source": "DECOMPOSITION_PLAN",
+        "regionCount": 1
+      },
+      "semanticHash": "c44a2f74a9a1ce3fc3c5baf26fdf3b427880d48497dec8311c6fe7649fb6e1ea"
+    },
+    {
+      "groupId": "GROUP-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "regionIds": [
+        "REGION-P46-L6-01-01",
+        "REGION-P46-L6-01-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "authorizeUser"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L6-01-01",
+        "CONTRACT-P46-L6-01-02"
+      ],
+      "sharedInvariants": [
+        "RBAC_HIERARCHY"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L6-01-01-TO-REGION-P46-L6-01-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "60f2e62ba11730019868b479a8bb07341ee9d25925f1eba0eaddad0981307615"
+    },
+    {
+      "groupId": "GROUP-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "regionIds": [
+        "REGION-P46-L6-02-01",
+        "REGION-P46-L6-02-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "defaultSchema"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L6-02-01",
+        "CONTRACT-P46-L6-02-02"
+      ],
+      "sharedInvariants": [
+        "SCHEMA_DEFAULTS"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L6-02-01-TO-REGION-P46-L6-02-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "c5ace9dd45a232a46dc8f27cd606d2a40ccb12d19717d8dde03496fd9506fcf5"
+    },
+    {
+      "groupId": "GROUP-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "regionIds": [
+        "REGION-P46-L6-03-01",
+        "REGION-P46-L6-03-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "formatJson"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L6-03-01",
+        "CONTRACT-P46-L6-03-02"
+      ],
+      "sharedInvariants": [
+        "LOG_FORMAT_STABILITY"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L6-03-01-TO-REGION-P46-L6-03-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "5620ab61bedaf958dd3dfb21a45fa735cd63b66dd102f71763c7b649d34a33c6"
+    },
+    {
+      "groupId": "GROUP-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "regionIds": [
+        "REGION-P46-L6-04-01",
+        "REGION-P46-L6-04-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "buildRequest"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L6-04-01",
+        "CONTRACT-P46-L6-04-02"
+      ],
+      "sharedInvariants": [
+        "REQUEST_HEADER_SANITY"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L6-04-01-TO-REGION-P46-L6-04-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "a98182aff1557d8a70b391581b6a133cba78b6bfe4352b4f0e7fac74ea8944b3"
+    },
+    {
+      "groupId": "GROUP-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "regionIds": [
+        "REGION-P46-L6-05-01",
+        "REGION-P46-L6-05-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "cancelJob"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L6-05-01",
+        "CONTRACT-P46-L6-05-02"
+      ],
+      "sharedInvariants": [
+        "WORKER_EVICTION_SAFETY"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L6-05-01-TO-REGION-P46-L6-05-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "9c5b0b1b20bc3893fbe7e4c5baad796ba6b1d16831d18591b5fc9bc0430a6afb"
+    },
+    {
+      "groupId": "GROUP-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "regionIds": [
+        "REGION-P46-L7-01-01",
+        "REGION-P46-L7-01-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "evaluateExponent"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L7-01-01",
+        "CONTRACT-P46-L7-01-02"
+      ],
+      "sharedInvariants": [
+        "EXPONENT_PRECEDENCE",
+        "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L7-01-01-TO-REGION-P46-L7-01-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "d1ecd1b31f495b402359cd51dd68892948a29178e3ca7c6e29e989086e68b983"
+    },
+    {
+      "groupId": "GROUP-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "regionIds": [
+        "REGION-P46-L7-02-01",
+        "REGION-P46-L7-02-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "compileOriginPattern"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L7-02-01",
+        "CONTRACT-P46-L7-02-02"
+      ],
+      "sharedInvariants": [
+        "CORS_WILDCARD_CREDENTIAL_INVARIANT",
+        "HEADER_NORMALIZATION"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L7-02-01-TO-REGION-P46-L7-02-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "590c45865da69418821dfa6c33cd067e20f9765fc858f102b1d44565c3851942"
+    },
+    {
+      "groupId": "GROUP-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "regionIds": [
+        "REGION-P46-L7-03-01",
+        "REGION-P46-L7-03-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "compareSemVer"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L7-03-01",
+        "CONTRACT-P46-L7-03-02"
+      ],
+      "sharedInvariants": [
+        "TOTAL_ORDER_SEMANTICS"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L7-03-01-TO-REGION-P46-L7-03-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "f30e8f556465b8c292813bc89cb7ec2fb51b81f8ad8f38934aa540375016920b"
+    },
+    {
+      "groupId": "GROUP-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "regionIds": [
+        "REGION-P46-L7-04-01",
+        "REGION-P46-L7-04-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "resolveObjectPath"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L7-04-01",
+        "CONTRACT-P46-L7-04-02"
+      ],
+      "sharedInvariants": [
+        "PROTOTYPE_POLLUTION_GUARD"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L7-04-01-TO-REGION-P46-L7-04-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "d61a2aeee03947c3c50bc126e93c48cd6b0fab671b5b00cf77ddf787cb9ee102"
+    },
+    {
+      "groupId": "GROUP-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "regionIds": [
+        "REGION-P46-L7-05-01",
+        "REGION-P46-L7-05-02"
+      ],
+      "couplingReasons": [
+        "CONTRACT_COUPLING",
+        "INVARIANT_COUPLING",
+        "PRODUCER_CONSUMER_COUPLING",
+        "SHARED_STATE_COUPLING",
+        "TYPE_REPRESENTATION_COUPLING"
+      ],
+      "sharedSymbols": [
+        "authorizeRole"
+      ],
+      "sharedTypes": [
+        "TYPE_CONVERSION:SOURCE_TO_INTERMEDIATE"
+      ],
+      "sharedState": [
+        "SHARED_PARSER_OR_ORIGIN_STATE"
+      ],
+      "sharedContracts": [
+        "CONTRACT-P46-L7-05-01",
+        "CONTRACT-P46-L7-05-02"
+      ],
+      "sharedInvariants": [
+        "ROLE_TRANSITIVE_CLOSURE"
+      ],
+      "sharedTests": [],
+      "dependencyEdges": [
+        "BND-REGION-P46-L7-05-01-TO-REGION-P46-L7-05-02"
+      ],
+      "provenance": {
+        "source": "DECOMPOSITION_BOUNDARY_EVIDENCE",
+        "boundaryCount": 1
+      },
+      "semanticHash": "d84f0cea1789f3da7574549e9a5846ee566edc3f655de6ab03f108c0f432ab33"
+    }
+  ],
+  "artifactDigest": "5d6594e079ac411f54f95d1c1eb4b1f182e567d4241d2e7aa8582585792a8717"
+}

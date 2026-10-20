@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "emerald-phase61-v1",
+  "phase": "61",
+  "generatedAt": "2026-10-20T05:06:14.583Z",
+  "baselineCommit": "267badc",
+  "protocolDigest": "e68349ff62dabdbef3718e101aae0a77d6cdad100399dd3f827204b6645fb363",
+  "totalControls": 10,
+  "allPassed": true,
+  "controls": [
+    {
+      "id": "N1",
+      "name": "Missing coupled region",
+      "status": "PASS",
+      "actualClass": "COUPLED_REGION_UNRESOLVED_FAIL_CLOSED",
+      "evidence": "Coupled region discovery fails closed when a coupled boundary dependency cannot be resolved"
+    },
+    {
+      "id": "N2",
+      "name": "Missing joint variable",
+      "status": "PASS",
+      "actualClass": "JOINT_VARIABLE_MISSING_FAIL_CLOSED",
+      "evidence": "Joint search halts if any region in a coupled group lacks a corresponding repair variable"
+    },
+    {
+      "id": "N3",
+      "name": "Broken cross-region constraint",
+      "status": "PASS",
+      "actualClass": "UNSUPPORTED_CONSTRAINT_REJECTED",
+      "evidence": "Cross-region constraints lacking provenance or evidentiary backing are rejected prior to synthesis"
+    },
+    {
+      "id": "N4",
+      "name": "Producer/consumer mismatch",
+      "status": "PASS",
+      "actualClass": "PRODUCER_CONSUMER_MISMATCH_REJECTED",
+      "evidence": "Candidate violating output/input type compatibility across regions is rejected"
+    },
+    {
+      "id": "N5",
+      "name": "Representation mismatch",
+      "status": "PASS",
+      "actualClass": "REPRESENTATION_MISMATCH_REJECTED",
+      "evidence": "Candidate violating shared-state representation synchronization fails joint constraint check"
+    },
+    {
+      "id": "N6",
+      "name": "Hidden global invariant violation",
+      "status": "PASS",
+      "actualClass": "GLOBAL_INVARIANT_VIOLATION",
+      "evidence": "Clean-room verification detects whole-program invariant breach and rejects candidate"
+    },
+    {
+      "id": "N7",
+      "name": "Gold-patch leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Static scanner detects and rejects hardcoded Pratt binding power or CORS solution snippets"
+    },
+    {
+      "id": "N8",
+      "name": "Unauthorized mutation outside coupled region",
+      "status": "PASS",
+      "actualClass": "UNAUTHORIZED_MUTATION_REJECTED",
+      "evidence": "Mutations touching files outside the coupled group boundary are rejected by the authority firewall"
+    },
+    {
+      "id": "N9",
+      "name": "Local pass / global composition failure",
+      "status": "PASS",
+      "actualClass": "CROSS_REGION_SEMANTIC_FAILURE",
+      "evidence": "Accurately attributes failure to cross-region composition rather than misclassifying as local repair error"
+    },
+    {
+      "id": "N10",
+      "name": "Nondeterministic candidate ordering",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_OUTPUT",
+      "evidence": "Canonical sorting of variables, constraints, and candidate assignments guarantees byte-identical replay"
+    }
+  ],
+  "artifactDigest": "9dc60175936eddad607632749e31d1a250a0f5d44d1a3b00a3a445e6ebfd8215"
+}

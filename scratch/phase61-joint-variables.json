@@ -1,0 +1,786 @@
+{
+  "schemaVersion": "emerald-phase61-v1",
+  "phase": "61",
+  "generatedAt": "2026-10-20T05:06:14.564Z",
+  "baselineCommit": "267badc",
+  "protocolDigest": "e68349ff62dabdbef3718e101aae0a77d6cdad100399dd3f827204b6645fb363",
+  "totalJointVariables": 25,
+  "variables": [
+    {
+      "variableId": "JVAR-P46-L5-01-1",
+      "groupId": "GROUP-P46-L5-01-01",
+      "regionId": "REGION-P46-L5-01-01",
+      "target": "src/semver.js:comparePrerelease",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L5-01-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "comparePrerelease",
+        "parsePrerelease"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L5-01-01_1",
+        "CAND_VAL_REGION-P46-L5-01-01_2",
+        "CAND_VAL_REGION-P46-L5-01-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-01",
+        "regionId": "REGION-P46-L5-01-01",
+        "targetSymbol": "comparePrerelease"
+      },
+      "variableDigest": "ef3c3f5448d078ef5621a78d656a6f3249cbbc7a9d7aef91ff7e66c9dc2ef549"
+    },
+    {
+      "variableId": "JVAR-P46-L5-02-1",
+      "groupId": "GROUP-P46-L5-02-01",
+      "regionId": "REGION-P46-L5-02-01",
+      "target": "src/lodash-set.js:_setInternal",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L5-02-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "_setInternal",
+        "_toPath"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L5-02-01_1",
+        "CAND_VAL_REGION-P46-L5-02-01_2",
+        "CAND_VAL_REGION-P46-L5-02-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-02",
+        "regionId": "REGION-P46-L5-02-01",
+        "targetSymbol": "_setInternal"
+      },
+      "variableDigest": "5047b69095345caf75b62d64ea152230e8333e0e3f53966faf9f826831a41d49"
+    },
+    {
+      "variableId": "JVAR-P46-L5-03-1",
+      "groupId": "GROUP-P46-L5-03-01",
+      "regionId": "REGION-P46-L5-03-01",
+      "target": "src/event-emitter.js:dispatchListener",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L5-03-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "dispatchListener",
+        "emit"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L5-03-01_1",
+        "CAND_VAL_REGION-P46-L5-03-01_2",
+        "CAND_VAL_REGION-P46-L5-03-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-03",
+        "regionId": "REGION-P46-L5-03-01",
+        "targetSymbol": "dispatchListener"
+      },
+      "variableDigest": "2dffe5a81e1a1b1edc58b514a55ed203c6a3660e82286746e95096b3be9a5d94"
+    },
+    {
+      "variableId": "JVAR-P46-L5-04-1",
+      "groupId": "GROUP-P46-L5-04-01",
+      "regionId": "REGION-P46-L5-04-01",
+      "target": "src/walker.js:_handleError",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L5-04-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "_handleError",
+        "scanDirectory"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L5-04-01_1",
+        "CAND_VAL_REGION-P46-L5-04-01_2",
+        "CAND_VAL_REGION-P46-L5-04-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-04",
+        "regionId": "REGION-P46-L5-04-01",
+        "targetSymbol": "_handleError"
+      },
+      "variableDigest": "17fdbe566e08be6be32292d11be8eaa51694988cea21eade2b044e8b93e9cecc"
+    },
+    {
+      "variableId": "JVAR-P46-L5-05-1",
+      "groupId": "GROUP-P46-L5-05-01",
+      "regionId": "REGION-P46-L5-05-01",
+      "target": "src/cache-queue.js:flushQueue",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L5-05-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "flushQueue",
+        "readCache"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L5-05-01_1",
+        "CAND_VAL_REGION-P46-L5-05-01_2",
+        "CAND_VAL_REGION-P46-L5-05-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-05",
+        "regionId": "REGION-P46-L5-05-01",
+        "targetSymbol": "flushQueue"
+      },
+      "variableDigest": "fd8f38e7ddd51b6e316dcfe4a1be4a6a79d56a2fd01f2e9a4db463384947f053"
+    },
+    {
+      "variableId": "JVAR-P46-L6-01-1",
+      "groupId": "GROUP-P46-L6-01-01",
+      "regionId": "REGION-P46-L6-01-01",
+      "target": "src/auth.js:authorizeUser",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-01-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "authorizeUser"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-01-01_1",
+        "CAND_VAL_REGION-P46-L6-01-01_2",
+        "CAND_VAL_REGION-P46-L6-01-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "regionId": "REGION-P46-L6-01-01",
+        "targetSymbol": "authorizeUser"
+      },
+      "variableDigest": "d52ec77ab7b026bc0fe597e56fa34668840a6fdb355dde5cfa86543b3e31854f"
+    },
+    {
+      "variableId": "JVAR-P46-L6-01-2",
+      "groupId": "GROUP-P46-L6-01-01",
+      "regionId": "REGION-P46-L6-01-02",
+      "target": "src/rbac.js:hasRole",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-01-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "hasRole"
+      ],
+      "dependencies": [
+        "JVAR-P46-L6-01-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-01-02_1",
+        "CAND_VAL_REGION-P46-L6-01-02_2",
+        "CAND_VAL_REGION-P46-L6-01-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "regionId": "REGION-P46-L6-01-02",
+        "targetSymbol": "hasRole"
+      },
+      "variableDigest": "b9be08df690512146fa39daa968976ea33bdf3185e7b7a83eefa803c25006ebd"
+    },
+    {
+      "variableId": "JVAR-P46-L6-02-1",
+      "groupId": "GROUP-P46-L6-02-01",
+      "regionId": "REGION-P46-L6-02-01",
+      "target": "src/config.js:defaultSchema",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-02-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "defaultSchema"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-02-01_1",
+        "CAND_VAL_REGION-P46-L6-02-01_2",
+        "CAND_VAL_REGION-P46-L6-02-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "regionId": "REGION-P46-L6-02-01",
+        "targetSymbol": "defaultSchema"
+      },
+      "variableDigest": "90440185a238156aa8e6bad86fd953f83a8c86b472a7c2444e3bac1f951d3a18"
+    },
+    {
+      "variableId": "JVAR-P46-L6-02-2",
+      "groupId": "GROUP-P46-L6-02-01",
+      "regionId": "REGION-P46-L6-02-02",
+      "target": "src/schema.js:loadConfig",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-02-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "loadConfig"
+      ],
+      "dependencies": [
+        "JVAR-P46-L6-02-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-02-02_1",
+        "CAND_VAL_REGION-P46-L6-02-02_2",
+        "CAND_VAL_REGION-P46-L6-02-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "regionId": "REGION-P46-L6-02-02",
+        "targetSymbol": "loadConfig"
+      },
+      "variableDigest": "b989041811199a2832898c3aa1f406677a6bba762e650d4561b32c4fb1c017aa"
+    },
+    {
+      "variableId": "JVAR-P46-L6-03-1",
+      "groupId": "GROUP-P46-L6-03-01",
+      "regionId": "REGION-P46-L6-03-01",
+      "target": "src/formatter.js:formatJson",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-03-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "formatJson"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-03-01_1",
+        "CAND_VAL_REGION-P46-L6-03-01_2",
+        "CAND_VAL_REGION-P46-L6-03-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "regionId": "REGION-P46-L6-03-01",
+        "targetSymbol": "formatJson"
+      },
+      "variableDigest": "f80d183378f7b03b42f4178e245f86e86857e98f90c0cf778f6e7c3c649ff0ee"
+    },
+    {
+      "variableId": "JVAR-P46-L6-03-2",
+      "groupId": "GROUP-P46-L6-03-01",
+      "regionId": "REGION-P46-L6-03-02",
+      "target": "src/logger.js:logEvent",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-03-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "logEvent"
+      ],
+      "dependencies": [
+        "JVAR-P46-L6-03-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-03-02_1",
+        "CAND_VAL_REGION-P46-L6-03-02_2",
+        "CAND_VAL_REGION-P46-L6-03-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "regionId": "REGION-P46-L6-03-02",
+        "targetSymbol": "logEvent"
+      },
+      "variableDigest": "315ae320ad479284d44a5899854030251cb6b5d39b5415506ca65020f8cb21e3"
+    },
+    {
+      "variableId": "JVAR-P46-L6-04-1",
+      "groupId": "GROUP-P46-L6-04-01",
+      "regionId": "REGION-P46-L6-04-01",
+      "target": "src/http-client.js:buildRequest",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-04-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "buildRequest"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-04-01_1",
+        "CAND_VAL_REGION-P46-L6-04-01_2",
+        "CAND_VAL_REGION-P46-L6-04-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "regionId": "REGION-P46-L6-04-01",
+        "targetSymbol": "buildRequest"
+      },
+      "variableDigest": "64736db2310563aaf9abf46e9c59e8ea7ce67de4cca00050e76e4bcf61f93d27"
+    },
+    {
+      "variableId": "JVAR-P46-L6-04-2",
+      "groupId": "GROUP-P46-L6-04-01",
+      "regionId": "REGION-P46-L6-04-02",
+      "target": "src/request-builder.js:sendRequest",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-04-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "sendRequest"
+      ],
+      "dependencies": [
+        "JVAR-P46-L6-04-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-04-02_1",
+        "CAND_VAL_REGION-P46-L6-04-02_2",
+        "CAND_VAL_REGION-P46-L6-04-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "regionId": "REGION-P46-L6-04-02",
+        "targetSymbol": "sendRequest"
+      },
+      "variableDigest": "d73aa094d54da5844d930feb27e7e606ec28b8c04b4472e07afe785e7eb6c204"
+    },
+    {
+      "variableId": "JVAR-P46-L6-05-1",
+      "groupId": "GROUP-P46-L6-05-01",
+      "regionId": "REGION-P46-L6-05-01",
+      "target": "src/job-queue.js:cancelJob",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-05-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "cancelJob"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-05-01_1",
+        "CAND_VAL_REGION-P46-L6-05-01_2",
+        "CAND_VAL_REGION-P46-L6-05-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "regionId": "REGION-P46-L6-05-01",
+        "targetSymbol": "cancelJob"
+      },
+      "variableDigest": "88c593564d8753e33d98b1e6339b8e75fe4b2de3392031d5bedd26dae9129dae"
+    },
+    {
+      "variableId": "JVAR-P46-L6-05-2",
+      "groupId": "GROUP-P46-L6-05-01",
+      "regionId": "REGION-P46-L6-05-02",
+      "target": "src/worker-pool.js:evictWorker",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L6-05-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "evictWorker"
+      ],
+      "dependencies": [
+        "JVAR-P46-L6-05-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L6-05-02_1",
+        "CAND_VAL_REGION-P46-L6-05-02_2",
+        "CAND_VAL_REGION-P46-L6-05-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "regionId": "REGION-P46-L6-05-02",
+        "targetSymbol": "evictWorker"
+      },
+      "variableDigest": "7b19c96bd27c0eb960c20c4f88f518c9c9764cf532474143b189012708a39aaa"
+    },
+    {
+      "variableId": "JVAR-P46-L7-01-1",
+      "groupId": "GROUP-P46-L7-01-01",
+      "regionId": "REGION-P46-L7-01-01",
+      "target": "src/calc.js:evaluateExponent",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-01-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "evaluateExponent"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-01-01_1",
+        "CAND_VAL_REGION-P46-L7-01-01_2",
+        "CAND_VAL_REGION-P46-L7-01-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "regionId": "REGION-P46-L7-01-01",
+        "targetSymbol": "evaluateExponent"
+      },
+      "variableDigest": "48af2bf3f40496951e35a51536f495c5bcd698b55996ded89e101e5be7a27b83"
+    },
+    {
+      "variableId": "JVAR-P46-L7-01-2",
+      "groupId": "GROUP-P46-L7-01-01",
+      "regionId": "REGION-P46-L7-01-02",
+      "target": "src/parser.js:parseExpression",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-01-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "parseExpression"
+      ],
+      "dependencies": [
+        "JVAR-P46-L7-01-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-01-02_1",
+        "CAND_VAL_REGION-P46-L7-01-02_2",
+        "CAND_VAL_REGION-P46-L7-01-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "regionId": "REGION-P46-L7-01-02",
+        "targetSymbol": "parseExpression"
+      },
+      "variableDigest": "c9d080d268663e40cd4032ea074ae2ad6bdd86f8434e05c5fb149633ea64114d"
+    },
+    {
+      "variableId": "JVAR-P46-L7-02-1",
+      "groupId": "GROUP-P46-L7-02-01",
+      "regionId": "REGION-P46-L7-02-01",
+      "target": "src/cors.js:compileOriginPattern",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-02-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "compileOriginPattern"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-02-01_1",
+        "CAND_VAL_REGION-P46-L7-02-01_2",
+        "CAND_VAL_REGION-P46-L7-02-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "regionId": "REGION-P46-L7-02-01",
+        "targetSymbol": "compileOriginPattern"
+      },
+      "variableDigest": "9d4c8609aa48de1228bf2ab3870b8dd6ec17b8edb7b94dcbe77d24279e4d4ce9"
+    },
+    {
+      "variableId": "JVAR-P46-L7-02-2",
+      "groupId": "GROUP-P46-L7-02-01",
+      "regionId": "REGION-P46-L7-02-02",
+      "target": "src/header-validator.js:validateHeaders",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-02-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "validateHeaders"
+      ],
+      "dependencies": [
+        "JVAR-P46-L7-02-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-02-02_1",
+        "CAND_VAL_REGION-P46-L7-02-02_2",
+        "CAND_VAL_REGION-P46-L7-02-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "regionId": "REGION-P46-L7-02-02",
+        "targetSymbol": "validateHeaders"
+      },
+      "variableDigest": "66092d508b0be68009a8f23da64d7687d593119d7e77cbf59925b67c9fd0e9fa"
+    },
+    {
+      "variableId": "JVAR-P46-L7-03-1",
+      "groupId": "GROUP-P46-L7-03-01",
+      "regionId": "REGION-P46-L7-03-01",
+      "target": "src/semver-compare.js:compareSemVer",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-03-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "compareSemVer"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-03-01_1",
+        "CAND_VAL_REGION-P46-L7-03-01_2",
+        "CAND_VAL_REGION-P46-L7-03-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "regionId": "REGION-P46-L7-03-01",
+        "targetSymbol": "compareSemVer"
+      },
+      "variableDigest": "2ea5162dfbc79137377250c4f4b087d5f462189abba48d787978f033e804fcca"
+    },
+    {
+      "variableId": "JVAR-P46-L7-03-2",
+      "groupId": "GROUP-P46-L7-03-01",
+      "regionId": "REGION-P46-L7-03-02",
+      "target": "src/semver-sort.js:sortPrerelease",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-03-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "sortPrerelease"
+      ],
+      "dependencies": [
+        "JVAR-P46-L7-03-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-03-02_1",
+        "CAND_VAL_REGION-P46-L7-03-02_2",
+        "CAND_VAL_REGION-P46-L7-03-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "regionId": "REGION-P46-L7-03-02",
+        "targetSymbol": "sortPrerelease"
+      },
+      "variableDigest": "611f551cb6bba573765436ed0d3abe4e429137f9551ae1820ff0e01b8ca68f18"
+    },
+    {
+      "variableId": "JVAR-P46-L7-04-1",
+      "groupId": "GROUP-P46-L7-04-01",
+      "regionId": "REGION-P46-L7-04-01",
+      "target": "src/path-resolver.js:resolveObjectPath",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-04-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "resolveObjectPath"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-04-01_1",
+        "CAND_VAL_REGION-P46-L7-04-01_2",
+        "CAND_VAL_REGION-P46-L7-04-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "regionId": "REGION-P46-L7-04-01",
+        "targetSymbol": "resolveObjectPath"
+      },
+      "variableDigest": "7d247a82e461a4e482ce47615da743e87e0ac7c6ccbb9a4cbbf67ec40b0185e1"
+    },
+    {
+      "variableId": "JVAR-P46-L7-04-2",
+      "groupId": "GROUP-P46-L7-04-01",
+      "regionId": "REGION-P46-L7-04-02",
+      "target": "src/path-setter.js:setDeepProperty",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-04-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "setDeepProperty"
+      ],
+      "dependencies": [
+        "JVAR-P46-L7-04-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-04-02_1",
+        "CAND_VAL_REGION-P46-L7-04-02_2",
+        "CAND_VAL_REGION-P46-L7-04-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "regionId": "REGION-P46-L7-04-02",
+        "targetSymbol": "setDeepProperty"
+      },
+      "variableDigest": "96803d1a4ec729e880a06b55b3230d685fb3fb6629095662b40945b694256d24"
+    },
+    {
+      "variableId": "JVAR-P46-L7-05-1",
+      "groupId": "GROUP-P46-L7-05-01",
+      "regionId": "REGION-P46-L7-05-01",
+      "target": "src/role-auth.js:authorizeRole",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-05-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "authorizeRole"
+      ],
+      "dependencies": [],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-05-01_1",
+        "CAND_VAL_REGION-P46-L7-05-01_2",
+        "CAND_VAL_REGION-P46-L7-05-01_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "regionId": "REGION-P46-L7-05-01",
+        "targetSymbol": "authorizeRole"
+      },
+      "variableDigest": "977b841eb066e00445cb2d1dedd57cd384956e6d27a57386e39048f55bd7da5b"
+    },
+    {
+      "variableId": "JVAR-P46-L7-05-2",
+      "groupId": "GROUP-P46-L7-05-01",
+      "regionId": "REGION-P46-L7-05-02",
+      "target": "src/role-graph.js:evaluateRoleHierarchy",
+      "transformationClass": "SEMANTIC_MUTATION",
+      "preconditions": [
+        "PRE:BOUND_TO_REGION-P46-L7-05-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_LOCAL_CONTRACT"
+      ],
+      "representationBefore": "ORIGINAL_AST_LOGIC",
+      "representationAfter": "REPAIRED_AST_LOGIC",
+      "affectedSymbols": [
+        "evaluateRoleHierarchy"
+      ],
+      "dependencies": [
+        "JVAR-P46-L7-05-1"
+      ],
+      "candidateValues": [
+        "CAND_VAL_REGION-P46-L7-05-02_1",
+        "CAND_VAL_REGION-P46-L7-05-02_2",
+        "CAND_VAL_REGION-P46-L7-05-02_3"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "regionId": "REGION-P46-L7-05-02",
+        "targetSymbol": "evaluateRoleHierarchy"
+      },
+      "variableDigest": "ee85fbaddfecb39b6ed044844140ae33e32eb5207bde7f34dee8cab64c3e0b5f"
+    }
+  ],
+  "artifactDigest": "68a7132773b8f15f42cff1040ad681deb30edc471298df033c77d567fa4baf9e"
+}

@@ -1,0 +1,691 @@
+{
+  "schemaVersion": "emerald-phase61-v1",
+  "phase": "61",
+  "generatedAt": "2026-10-20T05:06:14.566Z",
+  "baselineCommit": "267badc",
+  "protocolDigest": "e68349ff62dabdbef3718e101aae0a77d6cdad100399dd3f827204b6645fb363",
+  "totalConstraints": 45,
+  "constraints": [
+    {
+      "constraintId": "CRC-GROUP-P46-L5-01-01-LOCAL-INVARIANT",
+      "groupId": "GROUP-P46-L5-01-01",
+      "sourceRegions": [
+        "REGION-P46-L5-01-01"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_LOCAL_INVARIANTS",
+      "evidence": "Preserve invariants [PRE_RELEASE_SEMANTICS]",
+      "provenance": [
+        "LOCAL_MODULE_INVARIANT"
+      ],
+      "canonicalHash": "39eba26956601330a8e042fec107364273b5aff682c184335a1e2736c49892dd"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L5-02-01-LOCAL-INVARIANT",
+      "groupId": "GROUP-P46-L5-02-01",
+      "sourceRegions": [
+        "REGION-P46-L5-02-01"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_LOCAL_INVARIANTS",
+      "evidence": "Preserve invariants [PATH_NORMALIZATION]",
+      "provenance": [
+        "LOCAL_MODULE_INVARIANT"
+      ],
+      "canonicalHash": "69045c6bcf852e9139d8ce537aa3bf0fe12a01ab0dbf3b3c3c02069583e43d95"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L5-03-01-LOCAL-INVARIANT",
+      "groupId": "GROUP-P46-L5-03-01",
+      "sourceRegions": [
+        "REGION-P46-L5-03-01"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_LOCAL_INVARIANTS",
+      "evidence": "Preserve invariants [LISTENER_DISPATCH_ORDER]",
+      "provenance": [
+        "LOCAL_MODULE_INVARIANT"
+      ],
+      "canonicalHash": "9a62d07c75c3975ca359cef8297a7d7854ff61c7e8b377f7b2b317a78670120d"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L5-04-01-LOCAL-INVARIANT",
+      "groupId": "GROUP-P46-L5-04-01",
+      "sourceRegions": [
+        "REGION-P46-L5-04-01"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_LOCAL_INVARIANTS",
+      "evidence": "Preserve invariants [ERROR_BUBBLING]",
+      "provenance": [
+        "LOCAL_MODULE_INVARIANT"
+      ],
+      "canonicalHash": "b21178ae09d75035e75ee425f453b23c26a831175a58b035354b07580d2c78f5"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L5-05-01-LOCAL-INVARIANT",
+      "groupId": "GROUP-P46-L5-05-01",
+      "sourceRegions": [
+        "REGION-P46-L5-05-01"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_LOCAL_INVARIANTS",
+      "evidence": "Preserve invariants [CACHE_CONSISTENCY]",
+      "provenance": [
+        "LOCAL_MODULE_INVARIANT"
+      ],
+      "canonicalHash": "028c666c399515e5cce266aaa53958eefbb5ff018cd72a90abe83d6b7271093a"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-01-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L6-01-01",
+      "sourceRegions": [
+        "REGION-P46-L6-01-01",
+        "REGION-P46-L6-01-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L6-01-1 -> JVAR-P46-L6-01-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L6-01-01, REGION-P46-L6-01-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "998779195b343e4b2cedcc48a573fc946024918e189335228718b51ffbe43085"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-01-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L6-01-01",
+      "sourceRegions": [
+        "REGION-P46-L6-01-01",
+        "REGION-P46-L6-01-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: authorizeUser",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "b9a7d23329b528f848ca7d95b4723239dbb196595da144b5edc4f718c755bcae"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-01-01-INVARIANT",
+      "groupId": "GROUP-P46-L6-01-01",
+      "sourceRegions": [
+        "REGION-P46-L6-01-01",
+        "REGION-P46-L6-01-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: RBAC_HIERARCHY",
+      "evidence": "Cross-module invariants [RBAC_HIERARCHY]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "81b5f2bd64eed8ae6a067a28c24897dade90823828294857d37a6dc34cb7711a"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-01-01-REGRESSION",
+      "groupId": "GROUP-P46-L6-01-01",
+      "sourceRegions": [
+        "REGION-P46-L6-01-01",
+        "REGION-P46-L6-01-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "763d8d8179dc7977d06f16ec7cfa59a21c2809dd36010ec3db49f7e1a622612b"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-02-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L6-02-01",
+      "sourceRegions": [
+        "REGION-P46-L6-02-01",
+        "REGION-P46-L6-02-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L6-02-1 -> JVAR-P46-L6-02-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L6-02-01, REGION-P46-L6-02-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "9083a955eaf4a97bb7174ff2e2735b5c098222c04560b2c74a047732735939cb"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-02-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L6-02-01",
+      "sourceRegions": [
+        "REGION-P46-L6-02-01",
+        "REGION-P46-L6-02-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: defaultSchema",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "439f851cb1c02c15621851624db7604c57edb62559dab79dcf276049d3b1fd1f"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-02-01-INVARIANT",
+      "groupId": "GROUP-P46-L6-02-01",
+      "sourceRegions": [
+        "REGION-P46-L6-02-01",
+        "REGION-P46-L6-02-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: SCHEMA_DEFAULTS",
+      "evidence": "Cross-module invariants [SCHEMA_DEFAULTS]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "185208087e68ea330701e798446fe69143eae31cd3431629210dab7bae92b11f"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-02-01-REGRESSION",
+      "groupId": "GROUP-P46-L6-02-01",
+      "sourceRegions": [
+        "REGION-P46-L6-02-01",
+        "REGION-P46-L6-02-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "bd9e3931e2fc5effec8508a3ebdff6c803de6b0945acbcd394f348b788a9a22a"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-03-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L6-03-01",
+      "sourceRegions": [
+        "REGION-P46-L6-03-01",
+        "REGION-P46-L6-03-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L6-03-1 -> JVAR-P46-L6-03-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L6-03-01, REGION-P46-L6-03-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "d14985f1c241e8ec2e4e19a9af4d323db3754f3b789c434ca6bbb9a4cdde7630"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-03-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L6-03-01",
+      "sourceRegions": [
+        "REGION-P46-L6-03-01",
+        "REGION-P46-L6-03-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: formatJson",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "9c1241ff47201bc509eb09fb2914070f5c356a83a270a00f4169ea844ff33610"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-03-01-INVARIANT",
+      "groupId": "GROUP-P46-L6-03-01",
+      "sourceRegions": [
+        "REGION-P46-L6-03-01",
+        "REGION-P46-L6-03-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: LOG_FORMAT_STABILITY",
+      "evidence": "Cross-module invariants [LOG_FORMAT_STABILITY]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "02597b459d134ee84e6df95d31ff9e06ef34ee37db7e943ee75966fe1abce251"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-03-01-REGRESSION",
+      "groupId": "GROUP-P46-L6-03-01",
+      "sourceRegions": [
+        "REGION-P46-L6-03-01",
+        "REGION-P46-L6-03-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "34caa77601dea518a17e1a1dcd26f03e10bc1d6dff2cded40e2b9d830aada186"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-04-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L6-04-01",
+      "sourceRegions": [
+        "REGION-P46-L6-04-01",
+        "REGION-P46-L6-04-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L6-04-1 -> JVAR-P46-L6-04-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L6-04-01, REGION-P46-L6-04-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "9e581d6d1fe5b389eca6c9b81c67656cb3eecb0b9c92196db471a6b21eba7300"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-04-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L6-04-01",
+      "sourceRegions": [
+        "REGION-P46-L6-04-01",
+        "REGION-P46-L6-04-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: buildRequest",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "1a2b78958d9712318bc486c4a620de47ec79fa263f3068e61cc38d0e60619831"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-04-01-INVARIANT",
+      "groupId": "GROUP-P46-L6-04-01",
+      "sourceRegions": [
+        "REGION-P46-L6-04-01",
+        "REGION-P46-L6-04-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: REQUEST_HEADER_SANITY",
+      "evidence": "Cross-module invariants [REQUEST_HEADER_SANITY]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "1d1cd1e0aee80db43979fcbb5a3aa616ecdb4c5393b8de0bc18adedc1bba8a1e"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-04-01-REGRESSION",
+      "groupId": "GROUP-P46-L6-04-01",
+      "sourceRegions": [
+        "REGION-P46-L6-04-01",
+        "REGION-P46-L6-04-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "3859aa21f7cee49dea4d50137de8a901a5f95db39b3671b772805f29e2f2d4d1"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-05-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L6-05-01",
+      "sourceRegions": [
+        "REGION-P46-L6-05-01",
+        "REGION-P46-L6-05-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L6-05-1 -> JVAR-P46-L6-05-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L6-05-01, REGION-P46-L6-05-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "32b480bfe5a9e4a097f429547acc08fb81fa9fc769b84934c867f5f14a03ddc1"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-05-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L6-05-01",
+      "sourceRegions": [
+        "REGION-P46-L6-05-01",
+        "REGION-P46-L6-05-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: cancelJob",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "e45bd45a6703438df35e6abddc1077463378f231e963739779bc49b5883473c8"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-05-01-INVARIANT",
+      "groupId": "GROUP-P46-L6-05-01",
+      "sourceRegions": [
+        "REGION-P46-L6-05-01",
+        "REGION-P46-L6-05-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: WORKER_EVICTION_SAFETY",
+      "evidence": "Cross-module invariants [WORKER_EVICTION_SAFETY]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "8108a3577fff5c3803e98ae595e570141049f6fba57be98d6fe6a9ca01de25c0"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L6-05-01-REGRESSION",
+      "groupId": "GROUP-P46-L6-05-01",
+      "sourceRegions": [
+        "REGION-P46-L6-05-01",
+        "REGION-P46-L6-05-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "9b940380d699f7281a307c2f95bd9ec7fffe8bb7bcc2ad777d8ff16f6fe7b5e2"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-01-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L7-01-01",
+      "sourceRegions": [
+        "REGION-P46-L7-01-01",
+        "REGION-P46-L7-01-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L7-01-1 -> JVAR-P46-L7-01-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L7-01-01, REGION-P46-L7-01-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "90f8f9a09ec7c44b039f6ea24391207649429aba13005ae1b1ed133412b03ba0"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-01-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L7-01-01",
+      "sourceRegions": [
+        "REGION-P46-L7-01-01",
+        "REGION-P46-L7-01-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: evaluateExponent",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "bcc19ba6e8c3342ac05b0a9c70330090b140f59b33162c1211acf127385d437f"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-01-01-INVARIANT",
+      "groupId": "GROUP-P46-L7-01-01",
+      "sourceRegions": [
+        "REGION-P46-L7-01-01",
+        "REGION-P46-L7-01-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: EXPONENT_PRECEDENCE, PRATT_UNARY_JUXTAPOSITION_INVARIANT",
+      "evidence": "Cross-module invariants [EXPONENT_PRECEDENCE, PRATT_UNARY_JUXTAPOSITION_INVARIANT]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "8168dd5a5271004360d7f6f46c8bd85a26f6ec10bbed244eda6a45d49383a24f"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-01-01-REGRESSION",
+      "groupId": "GROUP-P46-L7-01-01",
+      "sourceRegions": [
+        "REGION-P46-L7-01-01",
+        "REGION-P46-L7-01-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "50b57e9d3f312f12157150cbe1e800b3c037f999f574cf3e800ac3b8f147ec43"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-02-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L7-02-01",
+      "sourceRegions": [
+        "REGION-P46-L7-02-01",
+        "REGION-P46-L7-02-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L7-02-1 -> JVAR-P46-L7-02-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L7-02-01, REGION-P46-L7-02-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "ab330c0b4abd1df15fdc218300843cf23198dd4e63600444f06c66b4331841e0"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-02-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L7-02-01",
+      "sourceRegions": [
+        "REGION-P46-L7-02-01",
+        "REGION-P46-L7-02-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: compileOriginPattern",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "0a7a4f4c9ee9e7a8e20dbf152c8823bba42df641ce791e023140ad43971e53a2"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-02-01-INVARIANT",
+      "groupId": "GROUP-P46-L7-02-01",
+      "sourceRegions": [
+        "REGION-P46-L7-02-01",
+        "REGION-P46-L7-02-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: CORS_WILDCARD_CREDENTIAL_INVARIANT, HEADER_NORMALIZATION",
+      "evidence": "Cross-module invariants [CORS_WILDCARD_CREDENTIAL_INVARIANT, HEADER_NORMALIZATION]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "574a012845b45a38670d51044a616823e5e75aace569766a1dad5dea0d2763bc"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-02-01-REGRESSION",
+      "groupId": "GROUP-P46-L7-02-01",
+      "sourceRegions": [
+        "REGION-P46-L7-02-01",
+        "REGION-P46-L7-02-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "9c34cb7ab8c31fed19a8bc755903e98d8074b9312831186dd036e79c9d9d8381"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-03-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L7-03-01",
+      "sourceRegions": [
+        "REGION-P46-L7-03-01",
+        "REGION-P46-L7-03-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L7-03-1 -> JVAR-P46-L7-03-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L7-03-01, REGION-P46-L7-03-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "f58691bfbd97f6f4e2dbaa6df2bd031e72c659300b24dee5d94ba33284f466bf"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-03-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L7-03-01",
+      "sourceRegions": [
+        "REGION-P46-L7-03-01",
+        "REGION-P46-L7-03-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: compareSemVer",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "1eddce92df2242b43adb21d01fa95d8f225defcc1882f6fdced9a5dc5c98c518"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-03-01-INVARIANT",
+      "groupId": "GROUP-P46-L7-03-01",
+      "sourceRegions": [
+        "REGION-P46-L7-03-01",
+        "REGION-P46-L7-03-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: TOTAL_ORDER_SEMANTICS",
+      "evidence": "Cross-module invariants [TOTAL_ORDER_SEMANTICS]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "063353072ed74799904bf77618f1bf3e019a4017449bfbf98b6a2bc9574eba95"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-03-01-REGRESSION",
+      "groupId": "GROUP-P46-L7-03-01",
+      "sourceRegions": [
+        "REGION-P46-L7-03-01",
+        "REGION-P46-L7-03-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "3a7d57e3ac1151e5b08172bc25e53b2379cc65c970a6902cb0bed6f43557afc0"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-04-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L7-04-01",
+      "sourceRegions": [
+        "REGION-P46-L7-04-01",
+        "REGION-P46-L7-04-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L7-04-1 -> JVAR-P46-L7-04-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L7-04-01, REGION-P46-L7-04-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "9618a5d57ad7de6163ef9ba73f36f127c151f5eddc3acde1fd92b8a796e9abfe"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-04-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L7-04-01",
+      "sourceRegions": [
+        "REGION-P46-L7-04-01",
+        "REGION-P46-L7-04-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: resolveObjectPath",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "eb115ec79541858f7f4c49525d590ce0eec4659c298dcffa2475d15dedc53bda"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-04-01-INVARIANT",
+      "groupId": "GROUP-P46-L7-04-01",
+      "sourceRegions": [
+        "REGION-P46-L7-04-01",
+        "REGION-P46-L7-04-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: PROTOTYPE_POLLUTION_GUARD",
+      "evidence": "Cross-module invariants [PROTOTYPE_POLLUTION_GUARD]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "c6303b58437dbfd5031aa3a19489695cb91c68942cdd6d9267c36b4299da7bfb"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-04-01-REGRESSION",
+      "groupId": "GROUP-P46-L7-04-01",
+      "sourceRegions": [
+        "REGION-P46-L7-04-01",
+        "REGION-P46-L7-04-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "28497da75b26677e4f973338d2434fb6df35a7f8e488c8c4207762987543ca7e"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-05-01-PRODUCER_CONSUMER",
+      "groupId": "GROUP-P46-L7-05-01",
+      "sourceRegions": [
+        "REGION-P46-L7-05-01",
+        "REGION-P46-L7-05-02"
+      ],
+      "constraintType": "PRODUCER_CONSUMER",
+      "predicate": "PRODUCER_OUTPUT_COMPATIBLE_WITH_CONSUMER_INPUT: JVAR-P46-L7-05-1 -> JVAR-P46-L7-05-2",
+      "evidence": "Boundary producer/consumer coupling across [REGION-P46-L7-05-01, REGION-P46-L7-05-02]",
+      "provenance": [
+        "REGION_BOUNDARY_SPEC",
+        "PRODUCER_CONSUMER_PAIR"
+      ],
+      "canonicalHash": "2a2650e6f3e80d63e030c2c3ed22a40b03ac1c3e97c1ab7afb8dcd0af2933e31"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-05-01-SHARED_STATE",
+      "groupId": "GROUP-P46-L7-05-01",
+      "sourceRegions": [
+        "REGION-P46-L7-05-01",
+        "REGION-P46-L7-05-02"
+      ],
+      "constraintType": "SHARED_STATE",
+      "predicate": "COUPLED_STATE_SYNCHRONIZATION: authorizeRole",
+      "evidence": "Shared state dependencies [SHARED_PARSER_OR_ORIGIN_STATE]",
+      "provenance": [
+        "STATE_DEPENDENCY_EVIDENCE"
+      ],
+      "canonicalHash": "6c7c9aed4cc1ee6234493165c667f8ec2ac20a7150ec3725d3b85cd470b3e469"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-05-01-INVARIANT",
+      "groupId": "GROUP-P46-L7-05-01",
+      "sourceRegions": [
+        "REGION-P46-L7-05-01",
+        "REGION-P46-L7-05-02"
+      ],
+      "constraintType": "INVARIANT",
+      "predicate": "PRESERVE_CROSS_REGION_INVARIANTS: ROLE_TRANSITIVE_CLOSURE",
+      "evidence": "Cross-module invariants [ROLE_TRANSITIVE_CLOSURE]",
+      "provenance": [
+        "GLOBAL_INVARIANT_SPEC"
+      ],
+      "canonicalHash": "b1902fc32d544f06526bfc01bc6ff582391bf2b1412dd47d2fe49efb90069006"
+    },
+    {
+      "constraintId": "CRC-GROUP-P46-L7-05-01-REGRESSION",
+      "groupId": "GROUP-P46-L7-05-01",
+      "sourceRegions": [
+        "REGION-P46-L7-05-01",
+        "REGION-P46-L7-05-02"
+      ],
+      "constraintType": "REGRESSION",
+      "predicate": "PRESERVE_BASELINE_PASSING_TESTS",
+      "evidence": "Suite test coverage []",
+      "provenance": [
+        "TEST_AFFINITY_SPEC"
+      ],
+      "canonicalHash": "011a0a2a0c321d79290ccafa51b847bcb8779e3c653c619b05e603a15f3b246b"
+    }
+  ],
+  "artifactDigest": "d4ab65347c180381bed041397366ceaf95be7c019c33e5d72b63d3597eedaba3"
+}

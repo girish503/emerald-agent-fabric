@@ -1,0 +1,344 @@
+{
+  "schemaVersion": "emerald-phase61-v1",
+  "phase": "61",
+  "generatedAt": "2026-10-20T05:06:14.568Z",
+  "baselineCommit": "267badc",
+  "protocolDigest": "e68349ff62dabdbef3718e101aae0a77d6cdad100399dd3f827204b6645fb363",
+  "totalCandidatesGenerated": 300,
+  "totalCandidatesPruned": 165,
+  "totalCandidatesExecuted": 135,
+  "acceptedCandidatesCount": 10,
+  "results": [
+    {
+      "taskId": "P46-L5-01",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L5-01-01",
+        "groupId": "GROUP-P46-L5-01-01",
+        "assignments": {
+          "JVAR-P46-L5-01-1": "CAND_VAL_REGION-P46-L5-01-01_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L5-01-01"
+        ],
+        "touchedSymbols": [
+          "comparePrerelease",
+          "parsePrerelease"
+        ],
+        "constraintsEvaluated": 1,
+        "constraintsSatisfied": 1,
+        "localContractResults": [
+          true
+        ],
+        "globalInvariantResults": [
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "05a730657753f1aefad504febf31cad72114507f7dae6e192baaaf0a5556dc65"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L5-02",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L5-02-01",
+        "groupId": "GROUP-P46-L5-02-01",
+        "assignments": {
+          "JVAR-P46-L5-02-1": "CAND_VAL_REGION-P46-L5-02-01_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L5-02-01"
+        ],
+        "touchedSymbols": [
+          "_setInternal",
+          "_toPath"
+        ],
+        "constraintsEvaluated": 1,
+        "constraintsSatisfied": 1,
+        "localContractResults": [
+          true
+        ],
+        "globalInvariantResults": [
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "ca5577559783682e3f4753c0f24aa8109a4d047738b239013c9df5bf913381ff"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L5-03",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L5-03-01",
+        "groupId": "GROUP-P46-L5-03-01",
+        "assignments": {
+          "JVAR-P46-L5-03-1": "CAND_VAL_REGION-P46-L5-03-01_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L5-03-01"
+        ],
+        "touchedSymbols": [
+          "dispatchListener",
+          "emit"
+        ],
+        "constraintsEvaluated": 1,
+        "constraintsSatisfied": 1,
+        "localContractResults": [
+          true
+        ],
+        "globalInvariantResults": [
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "af0a7f6f6ef2fdce6d846811d6e13c71795af350e248f2fc48e326ca658e0fd7"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L5-04",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L5-04-01",
+        "groupId": "GROUP-P46-L5-04-01",
+        "assignments": {
+          "JVAR-P46-L5-04-1": "CAND_VAL_REGION-P46-L5-04-01_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L5-04-01"
+        ],
+        "touchedSymbols": [
+          "_handleError",
+          "scanDirectory"
+        ],
+        "constraintsEvaluated": 1,
+        "constraintsSatisfied": 1,
+        "localContractResults": [
+          true
+        ],
+        "globalInvariantResults": [
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "d33dce9c472bcb29c46651ca9594c1acbb85a79dac7df3ca531ca401cc04eefb"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L5-05",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L5-05-01",
+        "groupId": "GROUP-P46-L5-05-01",
+        "assignments": {
+          "JVAR-P46-L5-05-1": "CAND_VAL_REGION-P46-L5-05-01_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L5-05-01"
+        ],
+        "touchedSymbols": [
+          "flushQueue",
+          "readCache"
+        ],
+        "constraintsEvaluated": 1,
+        "constraintsSatisfied": 1,
+        "localContractResults": [
+          true
+        ],
+        "globalInvariantResults": [
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "ceb1334d98b14210c95dc55e0cfc271b94110872ada6b9cb5a52354d786b3ef5"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L6-01",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L6-01-01",
+        "groupId": "GROUP-P46-L6-01-01",
+        "assignments": {
+          "JVAR-P46-L6-01-1": "CAND_VAL_REGION-P46-L6-01-01_1",
+          "JVAR-P46-L6-01-2": "CAND_VAL_REGION-P46-L6-01-02_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L6-01-01",
+          "REGION-P46-L6-01-02"
+        ],
+        "touchedSymbols": [
+          "authorizeUser"
+        ],
+        "constraintsEvaluated": 4,
+        "constraintsSatisfied": 4,
+        "localContractResults": [
+          true,
+          true
+        ],
+        "globalInvariantResults": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "edc02233216643e10b49ca7b22739fc20122b3b5635d73c0ef06b97d774985ca"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L6-02",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L6-02-01",
+        "groupId": "GROUP-P46-L6-02-01",
+        "assignments": {
+          "JVAR-P46-L6-02-1": "CAND_VAL_REGION-P46-L6-02-01_1",
+          "JVAR-P46-L6-02-2": "CAND_VAL_REGION-P46-L6-02-02_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L6-02-01",
+          "REGION-P46-L6-02-02"
+        ],
+        "touchedSymbols": [
+          "defaultSchema"
+        ],
+        "constraintsEvaluated": 4,
+        "constraintsSatisfied": 4,
+        "localContractResults": [
+          true,
+          true
+        ],
+        "globalInvariantResults": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "6a7708328fa90291aa50fc4d45cd8a83a1b32df7d69554f3dd490b7ac2f73ea6"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L6-03",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L6-03-01",
+        "groupId": "GROUP-P46-L6-03-01",
+        "assignments": {
+          "JVAR-P46-L6-03-1": "CAND_VAL_REGION-P46-L6-03-01_1",
+          "JVAR-P46-L6-03-2": "CAND_VAL_REGION-P46-L6-03-02_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L6-03-01",
+          "REGION-P46-L6-03-02"
+        ],
+        "touchedSymbols": [
+          "formatJson"
+        ],
+        "constraintsEvaluated": 4,
+        "constraintsSatisfied": 4,
+        "localContractResults": [
+          true,
+          true
+        ],
+        "globalInvariantResults": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "3b16e1ba1eca13003bf9ebc13878ac6a7ec881990b07338edd163e3365fe6d69"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L6-04",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L6-04-01",
+        "groupId": "GROUP-P46-L6-04-01",
+        "assignments": {
+          "JVAR-P46-L6-04-1": "CAND_VAL_REGION-P46-L6-04-01_1",
+          "JVAR-P46-L6-04-2": "CAND_VAL_REGION-P46-L6-04-02_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L6-04-01",
+          "REGION-P46-L6-04-02"
+        ],
+        "touchedSymbols": [
+          "buildRequest"
+        ],
+        "constraintsEvaluated": 4,
+        "constraintsSatisfied": 4,
+        "localContractResults": [
+          true,
+          true
+        ],
+        "globalInvariantResults": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "990735ef631849ec7f5a1e796e0319883b3137473e663fada9d8747e73589ed1"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L6-05",
+      "acceptedCandidate": {
+        "candidateId": "JCAND-P46-L6-05-01",
+        "groupId": "GROUP-P46-L6-05-01",
+        "assignments": {
+          "JVAR-P46-L6-05-1": "CAND_VAL_REGION-P46-L6-05-01_1",
+          "JVAR-P46-L6-05-2": "CAND_VAL_REGION-P46-L6-05-02_1"
+        },
+        "touchedRegions": [
+          "REGION-P46-L6-05-01",
+          "REGION-P46-L6-05-02"
+        ],
+        "touchedSymbols": [
+          "cancelJob"
+        ],
+        "constraintsEvaluated": 4,
+        "constraintsSatisfied": 4,
+        "localContractResults": [
+          true,
+          true
+        ],
+        "globalInvariantResults": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "regressionResults": "PASS",
+        "candidateDigest": "751ddfc079006c9a0ba414aa73f1b3f1d4644ecb92f69cb3f7830b3209f934e3"
+      },
+      "searchExhausted": false
+    },
+    {
+      "taskId": "P46-L7-01",
+      "acceptedCandidate": null,
+      "searchExhausted": true
+    },
+    {
+      "taskId": "P46-L7-02",
+      "acceptedCandidate": null,
+      "searchExhausted": true
+    },
+    {
+      "taskId": "P46-L7-03",
+      "acceptedCandidate": null,
+      "searchExhausted": true
+    },
+    {
+      "taskId": "P46-L7-04",
+      "acceptedCandidate": null,
+      "searchExhausted": true
+    },
+    {
+      "taskId": "P46-L7-05",
+      "acceptedCandidate": null,
+      "searchExhausted": true
+    }
+  ],
+  "artifactDigest": "9632d23fd3169e318b6d508de98a5894f43f6c0c0f2142068f5c309a1d882943"
+}

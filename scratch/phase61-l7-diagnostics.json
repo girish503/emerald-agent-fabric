@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "emerald-phase61-v1",
+  "phase": "61",
+  "generatedAt": "2026-10-20T05:06:14.579Z",
+  "baselineCommit": "267badc",
+  "protocolDigest": "e68349ff62dabdbef3718e101aae0a77d6cdad100399dd3f827204b6645fb363",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "coupledGroup": "GROUP-P46-L7-01-01",
+      "coupledRegions": [
+        "REGION-P46-L7-01-01 (src/parser.js)",
+        "REGION-P46-L7-01-02 (src/calc.js)"
+      ],
+      "jointVariables": [
+        "JVAR-P46-L7-01-1 (src/parser.js:parseExpression)",
+        "JVAR-P46-L7-01-2 (src/calc.js:evaluateExponent)"
+      ],
+      "constraints": 4,
+      "candidatesEvaluated": 16,
+      "candidatesPruned": 24,
+      "searchExhausted": true,
+      "cleanRoomStatus": "FAIL",
+      "failureRootCause": "Joint candidate domain derived from discrete local AST edits fails to discover the coordinated Pratt parser precedence and juxtaposition token-stream transformation required by regression tests."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "coupledGroup": "GROUP-P46-L7-02-01",
+      "coupledRegions": [
+        "REGION-P46-L7-02-01 (src/cors.js)",
+        "REGION-P46-L7-02-02 (src/header-validator.js)"
+      ],
+      "jointVariables": [
+        "JVAR-P46-L7-02-1 (src/cors.js:compileOriginPattern)",
+        "JVAR-P46-L7-02-2 (src/header-validator.js:validateHeaders)"
+      ],
+      "constraints": 4,
+      "candidatesEvaluated": 16,
+      "candidatesPruned": 24,
+      "searchExhausted": true,
+      "cleanRoomStatus": "FAIL",
+      "failureRootCause": "Joint candidate search exhausts at search depth 6 without synthesizing the coordinated wildcard origin regex reflection and Access-Control-Allow-Credentials header synchronization."
+    }
+  ],
+  "artifactDigest": "09b0eb538d0f276e140fa870f98b995a99a1a9c16a48336adcfef407285ec21c"
+}
