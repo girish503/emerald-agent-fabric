@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.519Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "totalControls": 12,
+  "allPassed": true,
+  "controls": [
+    {
+      "id": "N1",
+      "name": "Unsupported invariant",
+      "status": "PASS",
+      "actualClass": "UNSUPPORTED_INVARIANT_REJECTED",
+      "evidence": "Candidate invariant lacking observable evidence or provenance is rejected during validation"
+    },
+    {
+      "id": "N2",
+      "name": "Contradictory invariant",
+      "status": "PASS",
+      "actualClass": "CONTRADICTORY_INVARIANT_REJECTED",
+      "evidence": "Candidate invariant contradicting known tests or observable behavior is rejected"
+    },
+    {
+      "id": "N3",
+      "name": "Over-generalized invariant",
+      "status": "PASS",
+      "actualClass": "OVER_GENERALIZATION_REJECTED",
+      "evidence": "Proposed invariant generalization excluding observed valid behavior is rejected fail-closed"
+    },
+    {
+      "id": "N4",
+      "name": "Insufficient evidence invariant",
+      "status": "PASS",
+      "actualClass": "INSUFFICIENT_EVIDENCE_REJECTED",
+      "evidence": "Invariant with zero supporting evidence is rejected and classified as UNRESOLVED"
+    },
+    {
+      "id": "N5",
+      "name": "Invalid skeleton type",
+      "status": "PASS",
+      "actualClass": "INVALID_SKELETON_TYPE_REJECTED",
+      "evidence": "Semantic hole expected type mismatch triggers immediate type validation rejection"
+    },
+    {
+      "id": "N6",
+      "name": "Unresolved semantic hole",
+      "status": "PASS",
+      "actualClass": "UNRESOLVED_SEMANTIC_HOLE_FAIL_CLOSED",
+      "evidence": "Skeleton completions leaving empty or unassigned semantic holes fail closed"
+    },
+    {
+      "id": "N7",
+      "name": "Constraint contradiction",
+      "status": "PASS",
+      "actualClass": "CONSTRAINT_CONTRADICTION_PRUNED",
+      "evidence": "Hole candidate assignments conflicting with validated higher-order invariants are pruned"
+    },
+    {
+      "id": "N8",
+      "name": "Gold leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Static scanner detects and rejects hardcoded Pratt binding power constants or CORS regexes"
+    },
+    {
+      "id": "N9",
+      "name": "Unauthorized mutation",
+      "status": "PASS",
+      "actualClass": "UNAUTHORIZED_MUTATION_REJECTED",
+      "evidence": "Authority firewall rejects any skeleton completion targeting files outside allowed scope"
+    },
+    {
+      "id": "N10",
+      "name": "Local skeleton pass/global failure",
+      "status": "PASS",
+      "actualClass": "GLOBAL_REPAIR_FAILURE_REJECTED",
+      "evidence": "Skeleton completion passing local unit contracts but failing whole-program clean-room regression is rejected"
+    },
+    {
+      "id": "N11",
+      "name": "Nondeterministic invariant ordering",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_INVARIANTS",
+      "evidence": "Canonical SHA-256 sorting of synthesized invariants enforces byte-identical invariant ordering"
+    },
+    {
+      "id": "N12",
+      "name": "Nondeterministic skeleton completion",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_COMPLETIONS",
+      "evidence": "Canonical topological sorting of hole assignments guarantees deterministic materialized patches"
+    }
+  ]
+}

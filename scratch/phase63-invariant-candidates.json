@@ -1,0 +1,1225 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.474Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "totalCandidates": 65,
+  "candidates": [
+    {
+      "invariantId": "HOINV-P46-L5-01-02",
+      "taskId": "P46-L5-01",
+      "category": "DATA_FLOW_INVARIANT",
+      "semanticPredicate": "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS",
+      "affectedSymbols": [
+        "comparePrerelease",
+        "parsePrerelease"
+      ],
+      "affectedModules": [
+        "src/semver.js"
+      ],
+      "requiredRelationships": [
+        "PARAMETER_BOUND_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:PARAMETER_WITHIN_RANGE"
+      ],
+      "postconditions": [
+        "POST:OUTPUT_WITHIN_RANGE"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "LOCAL_FUNCTION_TYPE_SIGNATURE"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-01",
+        "sourceEntity": "REGION-P46-L5-01-01",
+        "extractionRule": "SIGNATURE_ANALYSIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "160ba057a4ec63f2fb67e7d5453e0b56f8b67eaac6135f54e289ca71a189cf84"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-01",
+      "affectedSymbols": [
+        "comparePrerelease",
+        "parsePrerelease"
+      ],
+      "affectedModules": [
+        "src/semver.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-01",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "9e33f5d2cbff14c5aa1d9d2e4ceb967f56a6c1218d49b3cabfd4a2da05f0a96a"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-02",
+      "affectedSymbols": [
+        "_setInternal",
+        "_toPath"
+      ],
+      "affectedModules": [
+        "src/lodash-set.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-02",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "ba8f318aa9ba567aa609e0c25d2cfd553a52274feb62b81daf8cfa5d1d51fd7a"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-02-02",
+      "taskId": "P46-L5-02",
+      "category": "DATA_FLOW_INVARIANT",
+      "semanticPredicate": "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS",
+      "affectedSymbols": [
+        "_setInternal",
+        "_toPath"
+      ],
+      "affectedModules": [
+        "src/lodash-set.js"
+      ],
+      "requiredRelationships": [
+        "PARAMETER_BOUND_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:PARAMETER_WITHIN_RANGE"
+      ],
+      "postconditions": [
+        "POST:OUTPUT_WITHIN_RANGE"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "LOCAL_FUNCTION_TYPE_SIGNATURE"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-02",
+        "sourceEntity": "REGION-P46-L5-02-01",
+        "extractionRule": "SIGNATURE_ANALYSIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "e6721e2a5ab0d11d81ec86667c7b01d4dc4dd0f3373244ecd335c14912a1d69a"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-03",
+      "affectedSymbols": [
+        "dispatchListener",
+        "emit"
+      ],
+      "affectedModules": [
+        "src/event-emitter.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-03",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "28f628664cbca48b4ddaf5eb8ce4bc61cab29faf388bb7d5dc4dd51d11c8bfc3"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-03-02",
+      "taskId": "P46-L5-03",
+      "category": "DATA_FLOW_INVARIANT",
+      "semanticPredicate": "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS",
+      "affectedSymbols": [
+        "dispatchListener",
+        "emit"
+      ],
+      "affectedModules": [
+        "src/event-emitter.js"
+      ],
+      "requiredRelationships": [
+        "PARAMETER_BOUND_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:PARAMETER_WITHIN_RANGE"
+      ],
+      "postconditions": [
+        "POST:OUTPUT_WITHIN_RANGE"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "LOCAL_FUNCTION_TYPE_SIGNATURE"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-03",
+        "sourceEntity": "REGION-P46-L5-03-01",
+        "extractionRule": "SIGNATURE_ANALYSIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "49817d1415a8f0c1d8a4006328465d463f914f799e6df81b4c3d98d6b04bd454"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-04",
+      "affectedSymbols": [
+        "_handleError",
+        "scanDirectory"
+      ],
+      "affectedModules": [
+        "src/walker.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-04",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "0e488c5e858205b6e24888e59031b4e28ca7f90be73e2cad39c19ea45fa6189c"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-04-02",
+      "taskId": "P46-L5-04",
+      "category": "DATA_FLOW_INVARIANT",
+      "semanticPredicate": "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS",
+      "affectedSymbols": [
+        "_handleError",
+        "scanDirectory"
+      ],
+      "affectedModules": [
+        "src/walker.js"
+      ],
+      "requiredRelationships": [
+        "PARAMETER_BOUND_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:PARAMETER_WITHIN_RANGE"
+      ],
+      "postconditions": [
+        "POST:OUTPUT_WITHIN_RANGE"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "LOCAL_FUNCTION_TYPE_SIGNATURE"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-04",
+        "sourceEntity": "REGION-P46-L5-04-01",
+        "extractionRule": "SIGNATURE_ANALYSIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "f349ce90646fc5705086cb6d5ac6a27ef161b9bced9ad6f67cbfa2ffe15f747f"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-05",
+      "affectedSymbols": [
+        "flushQueue",
+        "readCache"
+      ],
+      "affectedModules": [
+        "src/cache-queue.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-05",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "39c0413870cf495c4291aeb012540eaa89e46ed8decc37209e187cd283d631da"
+    },
+    {
+      "invariantId": "HOINV-P46-L5-05-02",
+      "taskId": "P46-L5-05",
+      "category": "DATA_FLOW_INVARIANT",
+      "semanticPredicate": "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS",
+      "affectedSymbols": [
+        "flushQueue",
+        "readCache"
+      ],
+      "affectedModules": [
+        "src/cache-queue.js"
+      ],
+      "requiredRelationships": [
+        "PARAMETER_BOUND_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:PARAMETER_WITHIN_RANGE"
+      ],
+      "postconditions": [
+        "POST:OUTPUT_WITHIN_RANGE"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "LOCAL_FUNCTION_TYPE_SIGNATURE"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-05",
+        "sourceEntity": "REGION-P46-L5-05-01",
+        "extractionRule": "SIGNATURE_ANALYSIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "4175b118fff77eab761cec72b9d01184f71887fe24dec10f583b7172721aaf5e"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-01-02",
+      "taskId": "P46-L6-01",
+      "category": "PRODUCER_CONSUMER_INVARIANT",
+      "semanticPredicate": "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+      "affectedSymbols": [
+        "authorizeUser",
+        "hasRole"
+      ],
+      "affectedModules": [
+        "src/auth.js",
+        "src/rbac.js"
+      ],
+      "requiredRelationships": [
+        "PRODUCER_CONSUMER_TYPE_AGREEMENT"
+      ],
+      "preconditions": [
+        "PRE:PRODUCER_CALLED"
+      ],
+      "postconditions": [
+        "POST:CONSUMER_ACCEPTS_PRODUCED_DATA"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "BOUNDARY_CONTRACT:CONTRACT-P46-L6-01-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "sourceEntity": "CONTRACT-P46-L6-01-01",
+        "extractionRule": "CONTRACT_INTERFACE_SYNTHESIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "08e5e09eb948a1bbf3f3c9937c8416ea82e0ad77719497ab4a20338369be845c"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-01",
+      "affectedSymbols": [
+        "authorizeUser",
+        "hasRole"
+      ],
+      "affectedModules": [
+        "src/auth.js",
+        "src/rbac.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "f753e30edf655a467f1f148b763c3a245594abc8cece3a5000b004825cd96394"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-02",
+      "affectedSymbols": [
+        "defaultSchema",
+        "loadConfig"
+      ],
+      "affectedModules": [
+        "src/config.js",
+        "src/schema.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "127064a3bb27d8ea489dcab947040b8020f3e18f95b80b4f16996af0a7cff820"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-02-02",
+      "taskId": "P46-L6-02",
+      "category": "PRODUCER_CONSUMER_INVARIANT",
+      "semanticPredicate": "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+      "affectedSymbols": [
+        "defaultSchema",
+        "loadConfig"
+      ],
+      "affectedModules": [
+        "src/config.js",
+        "src/schema.js"
+      ],
+      "requiredRelationships": [
+        "PRODUCER_CONSUMER_TYPE_AGREEMENT"
+      ],
+      "preconditions": [
+        "PRE:PRODUCER_CALLED"
+      ],
+      "postconditions": [
+        "POST:CONSUMER_ACCEPTS_PRODUCED_DATA"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "BOUNDARY_CONTRACT:CONTRACT-P46-L6-02-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "sourceEntity": "CONTRACT-P46-L6-02-01",
+        "extractionRule": "CONTRACT_INTERFACE_SYNTHESIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "99d955c9f3e7d7282d937671d7bf4942373f98d6535e473a62c299c80caf4ccd"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-03",
+      "affectedSymbols": [
+        "formatJson",
+        "logEvent"
+      ],
+      "affectedModules": [
+        "src/formatter.js",
+        "src/logger.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "3a45e44c8494c492d4180b3fc0b890bfc3fcc08d62ac6da50b4ee5c548e03fde"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-03-02",
+      "taskId": "P46-L6-03",
+      "category": "PRODUCER_CONSUMER_INVARIANT",
+      "semanticPredicate": "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+      "affectedSymbols": [
+        "formatJson",
+        "logEvent"
+      ],
+      "affectedModules": [
+        "src/formatter.js",
+        "src/logger.js"
+      ],
+      "requiredRelationships": [
+        "PRODUCER_CONSUMER_TYPE_AGREEMENT"
+      ],
+      "preconditions": [
+        "PRE:PRODUCER_CALLED"
+      ],
+      "postconditions": [
+        "POST:CONSUMER_ACCEPTS_PRODUCED_DATA"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "BOUNDARY_CONTRACT:CONTRACT-P46-L6-03-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "sourceEntity": "CONTRACT-P46-L6-03-01",
+        "extractionRule": "CONTRACT_INTERFACE_SYNTHESIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "adf68b077c232ee09c11a89abd01493dbf2534fa904057d7831411632469e709"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-04",
+      "affectedSymbols": [
+        "buildRequest",
+        "sendRequest"
+      ],
+      "affectedModules": [
+        "src/http-client.js",
+        "src/request-builder.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "1f4363b7f4ce9f95116fecd9a70dcd9443ebc6f84da62c5ee6635a93cd727d64"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-04-02",
+      "taskId": "P46-L6-04",
+      "category": "PRODUCER_CONSUMER_INVARIANT",
+      "semanticPredicate": "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+      "affectedSymbols": [
+        "buildRequest",
+        "sendRequest"
+      ],
+      "affectedModules": [
+        "src/http-client.js",
+        "src/request-builder.js"
+      ],
+      "requiredRelationships": [
+        "PRODUCER_CONSUMER_TYPE_AGREEMENT"
+      ],
+      "preconditions": [
+        "PRE:PRODUCER_CALLED"
+      ],
+      "postconditions": [
+        "POST:CONSUMER_ACCEPTS_PRODUCED_DATA"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "BOUNDARY_CONTRACT:CONTRACT-P46-L6-04-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "sourceEntity": "CONTRACT-P46-L6-04-01",
+        "extractionRule": "CONTRACT_INTERFACE_SYNTHESIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "3649f3b372f910eb2af06234bf0e7bd1bceca8e768bdb89fac64b51af011d685"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-05-02",
+      "taskId": "P46-L6-05",
+      "category": "PRODUCER_CONSUMER_INVARIANT",
+      "semanticPredicate": "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+      "affectedSymbols": [
+        "cancelJob",
+        "evictWorker"
+      ],
+      "affectedModules": [
+        "src/job-queue.js",
+        "src/worker-pool.js"
+      ],
+      "requiredRelationships": [
+        "PRODUCER_CONSUMER_TYPE_AGREEMENT"
+      ],
+      "preconditions": [
+        "PRE:PRODUCER_CALLED"
+      ],
+      "postconditions": [
+        "POST:CONSUMER_ACCEPTS_PRODUCED_DATA"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "BOUNDARY_CONTRACT:CONTRACT-P46-L6-05-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "sourceEntity": "CONTRACT-P46-L6-05-01",
+        "extractionRule": "CONTRACT_INTERFACE_SYNTHESIS",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "8d85615b0f3d0464d9e8130c01e05695c251605bba0792e9c5260bf55174410e"
+    },
+    {
+      "invariantId": "HOINV-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-05",
+      "affectedSymbols": [
+        "cancelJob",
+        "evictWorker"
+      ],
+      "affectedModules": [
+        "src/job-queue.js",
+        "src/worker-pool.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "dc8a50e262c24a98e1ef35047be8cd81db58d5d542d4395b01d63322123dca47"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-01-02",
+      "taskId": "P46-L7-01",
+      "category": "REPRESENTATION_INVARIANT",
+      "semanticPredicate": "TOKEN_STREAM_JUXTAPOSITION_PARSER_AGREEMENT",
+      "affectedSymbols": [
+        "evaluateExponent",
+        "parseExpression"
+      ],
+      "affectedModules": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "requiredRelationships": [
+        "TOKENIZER_PARSER_REPRESENTATION_COMPATIBILITY"
+      ],
+      "preconditions": [
+        "PRE:TOKEN_STREAM_LOOKAHEAD_INITIALIZED"
+      ],
+      "postconditions": [
+        "POST:TOKEN_STREAM_JUXTAPOSITION_RESOLVED"
+      ],
+      "counterexamples": [
+        "CE-P46-L7-01-01"
+      ],
+      "evidence": [
+        "GRAPH_EDGE_PROVENANCE:MODULE_SYMBOL_BINDING:REGION-P46-L7-01-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "sourceEntity": "CTR:CONTRACT-P46-L7-01-01",
+        "extractionRule": "INDUCTIVE_TRACE_EXTRACTION",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "9c5421c9c8605760b379072f7fbc12fa100aa04794d3f8c616b35d1547640c40"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-01",
+      "affectedSymbols": [
+        "evaluateExponent",
+        "parseExpression"
+      ],
+      "affectedModules": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "c6a05189aa70e1f07f235c0212920944236f2bfc7bff2601859544ec442a9f8c"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-01-03",
+      "taskId": "P46-L7-01",
+      "category": "STATE_INVARIANT",
+      "semanticPredicate": "PREFIX_PRECEDENCE_MUST_PRECEDE_BINARY_EVALUATION",
+      "affectedSymbols": [
+        "evaluateExponent"
+      ],
+      "affectedModules": [
+        "src/calc.js"
+      ],
+      "requiredRelationships": [
+        "STATE_ORDERING"
+      ],
+      "preconditions": [
+        "PRE:STATE_ENTRY"
+      ],
+      "postconditions": [
+        "POST:STATE_EXIT"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "INDUCTIVE_REPEATED_TRANSITION_ANALYSIS"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "sourceEntity": "STATE_GRAPH",
+        "extractionRule": "HEURISTIC_INFERENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "INFERRED",
+      "canonicalHash": "cda05671556c45d7ac2aa1fc8a916a2e8e00cd00a5b6aaa5c20136d79a9b7df5"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-02-03",
+      "taskId": "P46-L7-02",
+      "category": "STATE_INVARIANT",
+      "semanticPredicate": "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+      "affectedSymbols": [
+        "compileOriginPattern"
+      ],
+      "affectedModules": [
+        "src/cors.js"
+      ],
+      "requiredRelationships": [
+        "STATE_ORDERING"
+      ],
+      "preconditions": [
+        "PRE:STATE_ENTRY"
+      ],
+      "postconditions": [
+        "POST:STATE_EXIT"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "INDUCTIVE_REPEATED_TRANSITION_ANALYSIS"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "sourceEntity": "STATE_GRAPH",
+        "extractionRule": "HEURISTIC_INFERENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "INFERRED",
+      "canonicalHash": "9b2d6a11fff668d97bb3699f46c79976ac1a8733daa409a3196bda4287a83301"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-02-02",
+      "taskId": "P46-L7-02",
+      "category": "SECURITY_INVARIANT",
+      "semanticPredicate": "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY",
+      "affectedSymbols": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "affectedModules": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "requiredRelationships": [
+        "ORIGIN_PATTERN_HEADER_VALIDATOR_SAFETY"
+      ],
+      "preconditions": [
+        "PRE:ORIGIN_HEADER_PRESENT"
+      ],
+      "postconditions": [
+        "POST:ORIGIN_CREDENTIAL_REFLECTED_SAFELY"
+      ],
+      "counterexamples": [
+        "CE-P46-L7-02-01"
+      ],
+      "evidence": [
+        "GRAPH_EDGE_PROVENANCE:MODULE_SYMBOL_BINDING:REGION-P46-L7-02-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "sourceEntity": "CTR:CONTRACT-P46-L7-02-01",
+        "extractionRule": "INDUCTIVE_TRACE_EXTRACTION",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "a291f5f54e2ec43627b4431f6c41d40786b3b3b7fa13160f80820fc052ddfd22"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-02",
+      "affectedSymbols": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "affectedModules": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "db4d4a4db6432d4dbb7a811282560a4caa5b353d5fac8d41db3eb7f3fc5b2322"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-03-02",
+      "taskId": "P46-L7-03",
+      "category": "SECURITY_INVARIANT",
+      "semanticPredicate": "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY",
+      "affectedSymbols": [
+        "compareSemVer",
+        "sortPrerelease"
+      ],
+      "affectedModules": [
+        "src/semver-compare.js",
+        "src/semver-sort.js"
+      ],
+      "requiredRelationships": [
+        "ORIGIN_PATTERN_HEADER_VALIDATOR_SAFETY"
+      ],
+      "preconditions": [
+        "PRE:ORIGIN_HEADER_PRESENT"
+      ],
+      "postconditions": [
+        "POST:ORIGIN_CREDENTIAL_REFLECTED_SAFELY"
+      ],
+      "counterexamples": [
+        "CE-P46-L7-03-01"
+      ],
+      "evidence": [
+        "GRAPH_EDGE_PROVENANCE:MODULE_SYMBOL_BINDING:REGION-P46-L7-03-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "sourceEntity": "CTR:CONTRACT-P46-L7-03-01",
+        "extractionRule": "INDUCTIVE_TRACE_EXTRACTION",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "6942cea55496ae4ef30c138d6f776510f679f7ba0f6cf4b34b44db33fdb4c1db"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-03-03",
+      "taskId": "P46-L7-03",
+      "category": "STATE_INVARIANT",
+      "semanticPredicate": "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+      "affectedSymbols": [
+        "compareSemVer"
+      ],
+      "affectedModules": [
+        "src/semver-compare.js"
+      ],
+      "requiredRelationships": [
+        "STATE_ORDERING"
+      ],
+      "preconditions": [
+        "PRE:STATE_ENTRY"
+      ],
+      "postconditions": [
+        "POST:STATE_EXIT"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "INDUCTIVE_REPEATED_TRANSITION_ANALYSIS"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "sourceEntity": "STATE_GRAPH",
+        "extractionRule": "HEURISTIC_INFERENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "INFERRED",
+      "canonicalHash": "7858d8eccf39754f9a223f81cd5774d471a3070fd9d36175fb8c54f43d4d9205"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-03",
+      "affectedSymbols": [
+        "compareSemVer",
+        "sortPrerelease"
+      ],
+      "affectedModules": [
+        "src/semver-compare.js",
+        "src/semver-sort.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "f3a63830c75df022beba71553bc2acc02331d3b90a23dc27c63deda3b8a48a00"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-04-03",
+      "taskId": "P46-L7-04",
+      "category": "STATE_INVARIANT",
+      "semanticPredicate": "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+      "affectedSymbols": [
+        "resolveObjectPath"
+      ],
+      "affectedModules": [
+        "src/path-resolver.js"
+      ],
+      "requiredRelationships": [
+        "STATE_ORDERING"
+      ],
+      "preconditions": [
+        "PRE:STATE_ENTRY"
+      ],
+      "postconditions": [
+        "POST:STATE_EXIT"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "INDUCTIVE_REPEATED_TRANSITION_ANALYSIS"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "sourceEntity": "STATE_GRAPH",
+        "extractionRule": "HEURISTIC_INFERENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "INFERRED",
+      "canonicalHash": "0ed6c1cf2d3ebe77aeb7cd577a26eedcc665d4081c5485c31b55364011daa839"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-04",
+      "affectedSymbols": [
+        "resolveObjectPath",
+        "setDeepProperty"
+      ],
+      "affectedModules": [
+        "src/path-resolver.js",
+        "src/path-setter.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "8c26d1cda1dd9a8bd285263ddf2de5a194a371a5e166f20659b5ef6c6b07304c"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-04-02",
+      "taskId": "P46-L7-04",
+      "category": "SECURITY_INVARIANT",
+      "semanticPredicate": "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY",
+      "affectedSymbols": [
+        "resolveObjectPath",
+        "setDeepProperty"
+      ],
+      "affectedModules": [
+        "src/path-resolver.js",
+        "src/path-setter.js"
+      ],
+      "requiredRelationships": [
+        "ORIGIN_PATTERN_HEADER_VALIDATOR_SAFETY"
+      ],
+      "preconditions": [
+        "PRE:ORIGIN_HEADER_PRESENT"
+      ],
+      "postconditions": [
+        "POST:ORIGIN_CREDENTIAL_REFLECTED_SAFELY"
+      ],
+      "counterexamples": [
+        "CE-P46-L7-04-01"
+      ],
+      "evidence": [
+        "GRAPH_EDGE_PROVENANCE:MODULE_SYMBOL_BINDING:REGION-P46-L7-04-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "sourceEntity": "CTR:CONTRACT-P46-L7-04-01",
+        "extractionRule": "INDUCTIVE_TRACE_EXTRACTION",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "a59f3d3647355b9de88b29ef8c14148816f71bf5ca4c57de9028bb63f8002da8"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-05-03",
+      "taskId": "P46-L7-05",
+      "category": "STATE_INVARIANT",
+      "semanticPredicate": "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+      "affectedSymbols": [
+        "authorizeRole"
+      ],
+      "affectedModules": [
+        "src/role-auth.js"
+      ],
+      "requiredRelationships": [
+        "STATE_ORDERING"
+      ],
+      "preconditions": [
+        "PRE:STATE_ENTRY"
+      ],
+      "postconditions": [
+        "POST:STATE_EXIT"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "INDUCTIVE_REPEATED_TRANSITION_ANALYSIS"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "sourceEntity": "STATE_GRAPH",
+        "extractionRule": "HEURISTIC_INFERENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "INFERRED",
+      "canonicalHash": "2a52b55b393796d891ee4be0697d4dcfc6bbf7d551f9b20539aad7d293fa7014"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "category": "REGRESSION_INVARIANT",
+      "semanticPredicate": "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-05",
+      "affectedSymbols": [
+        "authorizeRole",
+        "evaluateRoleHierarchy"
+      ],
+      "affectedModules": [
+        "src/role-auth.js",
+        "src/role-graph.js"
+      ],
+      "requiredRelationships": [
+        "REGRESSION_TEST_PRESERVATION"
+      ],
+      "preconditions": [
+        "PRE:TEST_SUITE_BASELINE_PASSING"
+      ],
+      "postconditions": [
+        "POST:TEST_SUITE_CONTINUES_PASSING"
+      ],
+      "counterexamples": [],
+      "evidence": [
+        "OBSERVED_TEST_SUITE:"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "sourceEntity": "REGRESSION_SUITE",
+        "extractionRule": "BASELINE_EXECUTION_EVIDENCE",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "bb5ddc401d562223344563b7e9d621a3c0d5baad14acc8c2d21379c06cedd0ad"
+    },
+    {
+      "invariantId": "HOINV-P46-L7-05-02",
+      "taskId": "P46-L7-05",
+      "category": "SECURITY_INVARIANT",
+      "semanticPredicate": "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY",
+      "affectedSymbols": [
+        "authorizeRole",
+        "evaluateRoleHierarchy"
+      ],
+      "affectedModules": [
+        "src/role-auth.js",
+        "src/role-graph.js"
+      ],
+      "requiredRelationships": [
+        "ORIGIN_PATTERN_HEADER_VALIDATOR_SAFETY"
+      ],
+      "preconditions": [
+        "PRE:ORIGIN_HEADER_PRESENT"
+      ],
+      "postconditions": [
+        "POST:ORIGIN_CREDENTIAL_REFLECTED_SAFELY"
+      ],
+      "counterexamples": [
+        "CE-P46-L7-05-01"
+      ],
+      "evidence": [
+        "GRAPH_EDGE_PROVENANCE:MODULE_SYMBOL_BINDING:REGION-P46-L7-05-01"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "sourceEntity": "CTR:CONTRACT-P46-L7-05-01",
+        "extractionRule": "INDUCTIVE_TRACE_EXTRACTION",
+        "derivedAt": "2026-10-20T00:00:00.000Z"
+      },
+      "confidenceClass": "VALIDATED",
+      "canonicalHash": "f61bcace3e288fb1758fb48d41d71ab06791601525a1ce478148cd15ddbf3bdf"
+    }
+  ]
+}

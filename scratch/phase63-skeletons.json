@@ -1,0 +1,1400 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.482Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "totalSkeletons": 20,
+  "skeletons": [
+    {
+      "skeletonId": "SKEL-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "modules": [
+        "src/semver.js"
+      ],
+      "symbols": [
+        "comparePrerelease",
+        "parsePrerelease"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "comparePrerelease: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L5-01-1",
+          "target": "comparePrerelease",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_POSTCONDITION",
+            "CHANGE_DATA_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_comparePrerelease"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_comparePrerelease"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L5-01-02",
+            "HOINV-P46-L5-01-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L5-01-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_comparePrerelease",
+            "IDENTITY_ON_comparePrerelease"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L5-01-01",
+            "targetSymbol": "comparePrerelease",
+            "targetModule": "src/semver.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-01"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L5-01-01"
+      ],
+      "dependencies": [
+        "HOLE-P46-L5-01-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-01",
+        "derivedFromInvariants": [
+          "HOINV-P46-L5-01-02",
+          "HOINV-P46-L5-01-01"
+        ],
+        "planId": "PLAN-P46-L5-01-v1"
+      },
+      "canonicalHash": "59b7fe2980d47690fda422e68d5db343f273138412d419a3a422bad3223522c0"
+    },
+    {
+      "skeletonId": "SKEL-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "modules": [
+        "src/lodash-set.js"
+      ],
+      "symbols": [
+        "_setInternal",
+        "_toPath"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "_setInternal: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L5-02-1",
+          "target": "_setInternal",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_POSTCONDITION",
+            "CHANGE_DATA_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR__setInternal"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR__setInternal"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L5-02-01",
+            "HOINV-P46-L5-02-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L5-02-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON__setInternal",
+            "IDENTITY_ON__setInternal"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L5-02-01",
+            "targetSymbol": "_setInternal",
+            "targetModule": "src/lodash-set.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-02",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L5-02-01"
+      ],
+      "dependencies": [
+        "HOLE-P46-L5-02-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-02",
+        "derivedFromInvariants": [
+          "HOINV-P46-L5-02-01",
+          "HOINV-P46-L5-02-02"
+        ],
+        "planId": "PLAN-P46-L5-02-v1"
+      },
+      "canonicalHash": "6cac5fec69716553ad4765559aeff510fde387ae26e6cbd0d6066006c816d1b3"
+    },
+    {
+      "skeletonId": "SKEL-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "modules": [
+        "src/event-emitter.js"
+      ],
+      "symbols": [
+        "dispatchListener",
+        "emit"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "dispatchListener: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L5-03-1",
+          "target": "dispatchListener",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_POSTCONDITION",
+            "CHANGE_DATA_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_dispatchListener"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_dispatchListener"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L5-03-01",
+            "HOINV-P46-L5-03-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L5-03-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_dispatchListener",
+            "IDENTITY_ON_dispatchListener"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L5-03-01",
+            "targetSymbol": "dispatchListener",
+            "targetModule": "src/event-emitter.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-03",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L5-03-01"
+      ],
+      "dependencies": [
+        "HOLE-P46-L5-03-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-03",
+        "derivedFromInvariants": [
+          "HOINV-P46-L5-03-01",
+          "HOINV-P46-L5-03-02"
+        ],
+        "planId": "PLAN-P46-L5-03-v1"
+      },
+      "canonicalHash": "a06d1493f2531231a2383e53f198244d1acaeeec2d663c376d8d994b715245bf"
+    },
+    {
+      "skeletonId": "SKEL-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "modules": [
+        "src/walker.js"
+      ],
+      "symbols": [
+        "_handleError",
+        "scanDirectory"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "_handleError: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L5-04-1",
+          "target": "_handleError",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_POSTCONDITION",
+            "CHANGE_DATA_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR__handleError"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR__handleError"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L5-04-01",
+            "HOINV-P46-L5-04-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L5-04-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON__handleError",
+            "IDENTITY_ON__handleError"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L5-04-01",
+            "targetSymbol": "_handleError",
+            "targetModule": "src/walker.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-04",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L5-04-01"
+      ],
+      "dependencies": [
+        "HOLE-P46-L5-04-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-04",
+        "derivedFromInvariants": [
+          "HOINV-P46-L5-04-01",
+          "HOINV-P46-L5-04-02"
+        ],
+        "planId": "PLAN-P46-L5-04-v1"
+      },
+      "canonicalHash": "54fe705afb26d16ce0b6cbd7708f02b0cf06c445a70541a3aef94536cf449ba9"
+    },
+    {
+      "skeletonId": "SKEL-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "modules": [
+        "src/cache-queue.js"
+      ],
+      "symbols": [
+        "flushQueue",
+        "readCache"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "flushQueue: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L5-05-1",
+          "target": "flushQueue",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_POSTCONDITION",
+            "CHANGE_DATA_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_flushQueue"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_flushQueue"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L5-05-01",
+            "HOINV-P46-L5-05-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L5-05-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_flushQueue",
+            "IDENTITY_ON_flushQueue"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L5-05-01",
+            "targetSymbol": "flushQueue",
+            "targetModule": "src/cache-queue.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L5-05",
+        "LOCAL_PARAMETER_PROPAGATION_PRESERVES_RANGE_BOUNDS"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L5-05-01"
+      ],
+      "dependencies": [
+        "HOLE-P46-L5-05-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L5-05",
+        "derivedFromInvariants": [
+          "HOINV-P46-L5-05-01",
+          "HOINV-P46-L5-05-02"
+        ],
+        "planId": "PLAN-P46-L5-05-v1"
+      },
+      "canonicalHash": "3d4e5b8e13939c460d024df1b426d17e77c4c310a04ff3b186acbb18258a3aa4"
+    },
+    {
+      "skeletonId": "SKEL-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "modules": [
+        "src/auth.js",
+        "src/rbac.js"
+      ],
+      "symbols": [
+        "authorizeUser",
+        "hasRole"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "authorizeUser: function(...args: unknown[]): unknown",
+        "hasRole: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L6-01-1",
+          "target": "authorizeUser",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeUser"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeUser"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-01-02",
+            "HOINV-P46-L6-01-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-01-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_authorizeUser",
+            "IDENTITY_ON_authorizeUser"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-01-01",
+            "targetSymbol": "authorizeUser",
+            "targetModule": "src/auth.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L6-01-2",
+          "target": "hasRole",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_hasRole"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_hasRole"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-01-02",
+            "HOINV-P46-L6-01-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_hasRole",
+            "IDENTITY_ON_hasRole"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-01-01",
+            "targetSymbol": "hasRole",
+            "targetModule": "src/rbac.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-01"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L6-01-01",
+        "CONTRACT-P46-L6-01-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L6-01-1",
+        "HOLE-P46-L6-01-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "derivedFromInvariants": [
+          "HOINV-P46-L6-01-02",
+          "HOINV-P46-L6-01-01"
+        ],
+        "planId": "PLAN-P46-L6-01-v1"
+      },
+      "canonicalHash": "50d3f1d0cb36dccad3e56d5912547708b8c6a6c4fd4a7fa5b641e8e4178601f5"
+    },
+    {
+      "skeletonId": "SKEL-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "modules": [
+        "src/config.js",
+        "src/schema.js"
+      ],
+      "symbols": [
+        "defaultSchema",
+        "loadConfig"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "defaultSchema: function(...args: unknown[]): unknown",
+        "loadConfig: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L6-02-1",
+          "target": "defaultSchema",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_defaultSchema"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_defaultSchema"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-02-01",
+            "HOINV-P46-L6-02-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-02-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_defaultSchema",
+            "IDENTITY_ON_defaultSchema"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-02-01",
+            "targetSymbol": "defaultSchema",
+            "targetModule": "src/config.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L6-02-2",
+          "target": "loadConfig",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_loadConfig"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_loadConfig"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-02-01",
+            "HOINV-P46-L6-02-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_loadConfig",
+            "IDENTITY_ON_loadConfig"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-02-01",
+            "targetSymbol": "loadConfig",
+            "targetModule": "src/schema.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-02",
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L6-02-01",
+        "CONTRACT-P46-L6-02-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L6-02-1",
+        "HOLE-P46-L6-02-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "derivedFromInvariants": [
+          "HOINV-P46-L6-02-01",
+          "HOINV-P46-L6-02-02"
+        ],
+        "planId": "PLAN-P46-L6-02-v1"
+      },
+      "canonicalHash": "721bb7ad6aa0fc24fb9d27f7c403f11e6ef585cf525bb31686f16644f03d89d0"
+    },
+    {
+      "skeletonId": "SKEL-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "modules": [
+        "src/formatter.js",
+        "src/logger.js"
+      ],
+      "symbols": [
+        "formatJson",
+        "logEvent"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "formatJson: function(...args: unknown[]): unknown",
+        "logEvent: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L6-03-1",
+          "target": "formatJson",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_formatJson"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_formatJson"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-03-01",
+            "HOINV-P46-L6-03-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-03-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_formatJson",
+            "IDENTITY_ON_formatJson"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-03-01",
+            "targetSymbol": "formatJson",
+            "targetModule": "src/formatter.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L6-03-2",
+          "target": "logEvent",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_logEvent"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_logEvent"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-03-01",
+            "HOINV-P46-L6-03-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_logEvent",
+            "IDENTITY_ON_logEvent"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-03-01",
+            "targetSymbol": "logEvent",
+            "targetModule": "src/logger.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-03",
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L6-03-01",
+        "CONTRACT-P46-L6-03-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L6-03-1",
+        "HOLE-P46-L6-03-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "derivedFromInvariants": [
+          "HOINV-P46-L6-03-01",
+          "HOINV-P46-L6-03-02"
+        ],
+        "planId": "PLAN-P46-L6-03-v1"
+      },
+      "canonicalHash": "2076e5f380a944f6f61fd2adc2e0c8f21993846c2567f0be42b0957bd0ad5eb8"
+    },
+    {
+      "skeletonId": "SKEL-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "modules": [
+        "src/http-client.js",
+        "src/request-builder.js"
+      ],
+      "symbols": [
+        "buildRequest",
+        "sendRequest"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "buildRequest: function(...args: unknown[]): unknown",
+        "sendRequest: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L6-04-1",
+          "target": "buildRequest",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_buildRequest"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_buildRequest"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-04-01",
+            "HOINV-P46-L6-04-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-04-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_buildRequest",
+            "IDENTITY_ON_buildRequest"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-04-01",
+            "targetSymbol": "buildRequest",
+            "targetModule": "src/http-client.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L6-04-2",
+          "target": "sendRequest",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_sendRequest"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_sendRequest"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-04-01",
+            "HOINV-P46-L6-04-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_sendRequest",
+            "IDENTITY_ON_sendRequest"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-04-01",
+            "targetSymbol": "sendRequest",
+            "targetModule": "src/request-builder.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-04",
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L6-04-01",
+        "CONTRACT-P46-L6-04-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L6-04-1",
+        "HOLE-P46-L6-04-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "derivedFromInvariants": [
+          "HOINV-P46-L6-04-01",
+          "HOINV-P46-L6-04-02"
+        ],
+        "planId": "PLAN-P46-L6-04-v1"
+      },
+      "canonicalHash": "6a33c18865b89f1496768147f98387abc756d4a459847e878cf2b589c809fb9f"
+    },
+    {
+      "skeletonId": "SKEL-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "modules": [
+        "src/job-queue.js",
+        "src/worker-pool.js"
+      ],
+      "symbols": [
+        "cancelJob",
+        "evictWorker"
+      ],
+      "controlFlowStructure": "LINEAR_CALL_GRAPH",
+      "dataFlowStructure": "DIRECT_PASSING",
+      "typeConstraints": [
+        "cancelJob: function(...args: unknown[]): unknown",
+        "evictWorker: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L6-05-1",
+          "target": "cancelJob",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_cancelJob"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_cancelJob"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-05-02",
+            "HOINV-P46-L6-05-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-05-01"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_cancelJob",
+            "IDENTITY_ON_cancelJob"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-05-01",
+            "targetSymbol": "cancelJob",
+            "targetModule": "src/job-queue.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L6-05-2",
+          "target": "evictWorker",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_PRODUCER",
+            "ADAPT_CONSUMER"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_evictWorker"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_evictWorker"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L6-05-02",
+            "HOINV-P46-L6-05-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "candidateDomain": [
+            "NORMALIZE_VALUE_ON_evictWorker",
+            "IDENTITY_ON_evictWorker"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L6-05-01",
+            "targetSymbol": "evictWorker",
+            "targetModule": "src/worker-pool.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "PRODUCER_OUTPUT_SCHEMA_SATISFIES_CONSUMER_REQUIREMENTS",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L6-05"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L6-05-01",
+        "CONTRACT-P46-L6-05-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L6-05-1",
+        "HOLE-P46-L6-05-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "derivedFromInvariants": [
+          "HOINV-P46-L6-05-02",
+          "HOINV-P46-L6-05-01"
+        ],
+        "planId": "PLAN-P46-L6-05-v1"
+      },
+      "canonicalHash": "934a8f85c3d46004fbfaf927919a0531c646558b33679153344076b1392419cc"
+    },
+    {
+      "skeletonId": "SKEL-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "modules": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "symbols": [
+        "evaluateExponent",
+        "parseExpression"
+      ],
+      "controlFlowStructure": "BRANCH_AND_RETRY_WITH_LOOKAHEAD",
+      "dataFlowStructure": "COUPLED_PRODUCER_CONSUMER_STATE_ACCUMULATION",
+      "typeConstraints": [
+        "evaluateExponent: function(...args: unknown[]): unknown",
+        "parseExpression: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L7-01-1",
+          "target": "evaluateExponent",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_STATE_TRANSITION",
+            "CHANGE_CONTROL_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_evaluateExponent"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_evaluateExponent"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-01-02",
+            "HOINV-P46-L7-01-01",
+            "HOINV-P46-L7-01-03"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-01-01"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+            "DEFAULT_BEHAVIOR_ON_evaluateExponent"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-01-01",
+            "targetSymbol": "evaluateExponent",
+            "targetModule": "src/calc.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L7-01-2",
+          "target": "parseExpression",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_CONSUMER",
+            "CHANGE_VALIDATION_RULE"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_parseExpression"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_parseExpression"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-01-02",
+            "HOINV-P46-L7-01-01",
+            "HOINV-P46-L7-01-03"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-01-02"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_parseExpression",
+            "DEFAULT_BEHAVIOR_ON_parseExpression"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-01-01",
+            "targetSymbol": "parseExpression",
+            "targetModule": "src/parser.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "TOKEN_STREAM_JUXTAPOSITION_PARSER_AGREEMENT",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-01",
+        "PREFIX_PRECEDENCE_MUST_PRECEDE_BINARY_EVALUATION"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L7-01-01",
+        "CONTRACT-P46-L7-01-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L7-01-1",
+        "HOLE-P46-L7-01-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "derivedFromInvariants": [
+          "HOINV-P46-L7-01-02",
+          "HOINV-P46-L7-01-01",
+          "HOINV-P46-L7-01-03"
+        ],
+        "planId": "PLAN-P46-L7-01-v1"
+      },
+      "canonicalHash": "1aaeaabf37d7d169539a94631532c798f74cb2373233afedf00601774b124366"
+    },
+    {
+      "skeletonId": "SKEL-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "modules": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "symbols": [
+        "compileOriginPattern",
+        "validateHeaders"
+      ],
+      "controlFlowStructure": "BRANCH_AND_RETRY_WITH_LOOKAHEAD",
+      "dataFlowStructure": "COUPLED_PRODUCER_CONSUMER_STATE_ACCUMULATION",
+      "typeConstraints": [
+        "compileOriginPattern: function(...args: unknown[]): unknown",
+        "validateHeaders: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L7-02-1",
+          "target": "compileOriginPattern",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_STATE_TRANSITION",
+            "CHANGE_CONTROL_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_compileOriginPattern"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_compileOriginPattern"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-02-03",
+            "HOINV-P46-L7-02-02",
+            "HOINV-P46-L7-02-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-02-01"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+            "DEFAULT_BEHAVIOR_ON_compileOriginPattern"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-02-01",
+            "targetSymbol": "compileOriginPattern",
+            "targetModule": "src/cors.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L7-02-2",
+          "target": "validateHeaders",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_CONSUMER",
+            "CHANGE_VALIDATION_RULE"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_validateHeaders"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_validateHeaders"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-02-03",
+            "HOINV-P46-L7-02-02",
+            "HOINV-P46-L7-02-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-02-02"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_validateHeaders",
+            "DEFAULT_BEHAVIOR_ON_validateHeaders"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-02-01",
+            "targetSymbol": "validateHeaders",
+            "targetModule": "src/header-validator.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+        "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-02"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L7-02-01",
+        "CONTRACT-P46-L7-02-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L7-02-1",
+        "HOLE-P46-L7-02-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "derivedFromInvariants": [
+          "HOINV-P46-L7-02-03",
+          "HOINV-P46-L7-02-02",
+          "HOINV-P46-L7-02-01"
+        ],
+        "planId": "PLAN-P46-L7-02-v1"
+      },
+      "canonicalHash": "ab7763d48f7c18e31adb065657b1fe4163668eb6ab47c8d06cfab4c554cd265b"
+    },
+    {
+      "skeletonId": "SKEL-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "modules": [
+        "src/semver-compare.js",
+        "src/semver-sort.js"
+      ],
+      "symbols": [
+        "compareSemVer",
+        "sortPrerelease"
+      ],
+      "controlFlowStructure": "BRANCH_AND_RETRY_WITH_LOOKAHEAD",
+      "dataFlowStructure": "COUPLED_PRODUCER_CONSUMER_STATE_ACCUMULATION",
+      "typeConstraints": [
+        "compareSemVer: function(...args: unknown[]): unknown",
+        "sortPrerelease: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L7-03-1",
+          "target": "compareSemVer",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_STATE_TRANSITION",
+            "CHANGE_CONTROL_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_compareSemVer"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_compareSemVer"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-03-02",
+            "HOINV-P46-L7-03-03",
+            "HOINV-P46-L7-03-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-03-01"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+            "DEFAULT_BEHAVIOR_ON_compareSemVer"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-03-01",
+            "targetSymbol": "compareSemVer",
+            "targetModule": "src/semver-compare.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L7-03-2",
+          "target": "sortPrerelease",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_CONSUMER",
+            "CHANGE_VALIDATION_RULE"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_sortPrerelease"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_sortPrerelease"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-03-02",
+            "HOINV-P46-L7-03-03",
+            "HOINV-P46-L7-03-01"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-03-02"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_sortPrerelease",
+            "DEFAULT_BEHAVIOR_ON_sortPrerelease"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-03-01",
+            "targetSymbol": "sortPrerelease",
+            "targetModule": "src/semver-sort.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY",
+        "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-03"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L7-03-01",
+        "CONTRACT-P46-L7-03-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L7-03-1",
+        "HOLE-P46-L7-03-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "derivedFromInvariants": [
+          "HOINV-P46-L7-03-02",
+          "HOINV-P46-L7-03-03",
+          "HOINV-P46-L7-03-01"
+        ],
+        "planId": "PLAN-P46-L7-03-v1"
+      },
+      "canonicalHash": "b19602d9935436db1e6b39d0b2dd93807fbfe6f0e4212d35d8b914da020e2523"
+    },
+    {
+      "skeletonId": "SKEL-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "modules": [
+        "src/path-resolver.js",
+        "src/path-setter.js"
+      ],
+      "symbols": [
+        "resolveObjectPath",
+        "setDeepProperty"
+      ],
+      "controlFlowStructure": "BRANCH_AND_RETRY_WITH_LOOKAHEAD",
+      "dataFlowStructure": "COUPLED_PRODUCER_CONSUMER_STATE_ACCUMULATION",
+      "typeConstraints": [
+        "resolveObjectPath: function(...args: unknown[]): unknown",
+        "setDeepProperty: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L7-04-1",
+          "target": "resolveObjectPath",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_STATE_TRANSITION",
+            "CHANGE_CONTROL_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_resolveObjectPath"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_resolveObjectPath"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-04-03",
+            "HOINV-P46-L7-04-01",
+            "HOINV-P46-L7-04-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-04-01"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+            "DEFAULT_BEHAVIOR_ON_resolveObjectPath"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-04-01",
+            "targetSymbol": "resolveObjectPath",
+            "targetModule": "src/path-resolver.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L7-04-2",
+          "target": "setDeepProperty",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_CONSUMER",
+            "CHANGE_VALIDATION_RULE"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_setDeepProperty"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_setDeepProperty"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-04-03",
+            "HOINV-P46-L7-04-01",
+            "HOINV-P46-L7-04-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-04-02"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_setDeepProperty",
+            "DEFAULT_BEHAVIOR_ON_setDeepProperty"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-04-01",
+            "targetSymbol": "setDeepProperty",
+            "targetModule": "src/path-setter.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-04",
+        "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L7-04-01",
+        "CONTRACT-P46-L7-04-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L7-04-1",
+        "HOLE-P46-L7-04-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "derivedFromInvariants": [
+          "HOINV-P46-L7-04-03",
+          "HOINV-P46-L7-04-01",
+          "HOINV-P46-L7-04-02"
+        ],
+        "planId": "PLAN-P46-L7-04-v1"
+      },
+      "canonicalHash": "defe4f50203ed717918812bae7a4720f5ebfef2c4b50388d085bdabb51c5566a"
+    },
+    {
+      "skeletonId": "SKEL-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "modules": [
+        "src/role-auth.js",
+        "src/role-graph.js"
+      ],
+      "symbols": [
+        "authorizeRole",
+        "evaluateRoleHierarchy"
+      ],
+      "controlFlowStructure": "BRANCH_AND_RETRY_WITH_LOOKAHEAD",
+      "dataFlowStructure": "COUPLED_PRODUCER_CONSUMER_STATE_ACCUMULATION",
+      "typeConstraints": [
+        "authorizeRole: function(...args: unknown[]): unknown",
+        "evaluateRoleHierarchy: function(...args: unknown[]): unknown"
+      ],
+      "semanticHoles": [
+        {
+          "holeId": "HOLE-P46-L7-05-1",
+          "target": "authorizeRole",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "CHANGE_STATE_TRANSITION",
+            "CHANGE_CONTROL_FLOW"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeRole"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeRole"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-05-03",
+            "HOINV-P46-L7-05-01",
+            "HOINV-P46-L7-05-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-05-01"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+            "DEFAULT_BEHAVIOR_ON_authorizeRole"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-05-01",
+            "targetSymbol": "authorizeRole",
+            "targetModule": "src/role-auth.js"
+          }
+        },
+        {
+          "holeId": "HOLE-P46-L7-05-2",
+          "target": "evaluateRoleHierarchy",
+          "expectedType": "function(...args: unknown[]): unknown",
+          "allowedTransformationClasses": [
+            "ADAPT_CONSUMER",
+            "CHANGE_VALIDATION_RULE"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_evaluateRoleHierarchy"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_evaluateRoleHierarchy"
+          ],
+          "dependentInvariants": [
+            "HOINV-P46-L7-05-03",
+            "HOINV-P46-L7-05-01",
+            "HOINV-P46-L7-05-02"
+          ],
+          "dependentContracts": [
+            "CONTRACT-P46-L7-05-02"
+          ],
+          "candidateDomain": [
+            "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateRoleHierarchy",
+            "DEFAULT_BEHAVIOR_ON_evaluateRoleHierarchy"
+          ],
+          "provenance": {
+            "skeletonId": "SKEL-P46-L7-05-01",
+            "targetSymbol": "evaluateRoleHierarchy",
+            "targetModule": "src/role-graph.js"
+          }
+        }
+      ],
+      "invariantConstraints": [
+        "CREDENTIAL_FLAG_MUST_BE_RESTRICTED_WHEN_WILDCARD_MATCHED",
+        "PRESERVE_ALL_EXISTING_PASSING_TESTS_FOR_P46-L7-05",
+        "CORS_ORIGIN_VALIDATION_CREDENTIAL_SAFETY"
+      ],
+      "contractConstraints": [
+        "CONTRACT-P46-L7-05-01",
+        "CONTRACT-P46-L7-05-02"
+      ],
+      "dependencies": [
+        "HOLE-P46-L7-05-1",
+        "HOLE-P46-L7-05-2"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "derivedFromInvariants": [
+          "HOINV-P46-L7-05-03",
+          "HOINV-P46-L7-05-01",
+          "HOINV-P46-L7-05-02"
+        ],
+        "planId": "PLAN-P46-L7-05-v1"
+      },
+      "canonicalHash": "1791ea2f3412c58c6b413ae5b78602fef6d95f208c0d75240c7de2dcb119a802"
+    }
+  ]
+}

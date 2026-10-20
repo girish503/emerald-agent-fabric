@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.487Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "totalMaterialized": 15,
+  "materializations": [
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-01-HO",
+      "candidateId": "SCAND-P46-L5-01-HO",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "edits": [
+        {
+          "file": "src/semver.js",
+          "target": "// TARGET_TRANSFORMATION_comparePrerelease",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_NORMALIZE_VALUE_ON_comparePrerelease */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "256b877a7e9689e145f8ca1d752cc529a4df9ed5c0d79605c3af250686ca6f81"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-02-HO",
+      "candidateId": "SCAND-P46-L5-02-HO",
+      "affectedFiles": [
+        "src/lodash-set.js"
+      ],
+      "edits": [
+        {
+          "file": "src/lodash-set.js",
+          "target": "// TARGET_TRANSFORMATION__setInternal",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_NORMALIZE_VALUE_ON__setInternal */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "46cf7973dcd8e189bb7c69a2be17314562a8d0e18439fe42269dc7e160e1a3ac"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-03-HO",
+      "candidateId": "SCAND-P46-L5-03-HO",
+      "affectedFiles": [
+        "src/event-emitter.js"
+      ],
+      "edits": [
+        {
+          "file": "src/event-emitter.js",
+          "target": "// TARGET_TRANSFORMATION_dispatchListener",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_NORMALIZE_VALUE_ON_dispatchListener */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "b4e404dd2b6e2274da7496c0a72662db261b68fc14567ab61655e5ad7d01af32"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-04-HO",
+      "candidateId": "SCAND-P46-L5-04-HO",
+      "affectedFiles": [
+        "src/walker.js"
+      ],
+      "edits": [
+        {
+          "file": "src/walker.js",
+          "target": "// TARGET_TRANSFORMATION__handleError",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_NORMALIZE_VALUE_ON__handleError */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "ab08c6072a99fd88f46a7b50b431df5ceab24fa93896eece21674f8477ba49c1"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-05-HO",
+      "candidateId": "SCAND-P46-L5-05-HO",
+      "affectedFiles": [
+        "src/cache-queue.js"
+      ],
+      "edits": [
+        {
+          "file": "src/cache-queue.js",
+          "target": "// TARGET_TRANSFORMATION_flushQueue",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_NORMALIZE_VALUE_ON_flushQueue */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "1cd316843071cb57285335dbe5724c3ccedbc717ab688d093bce254b1bba2477"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-01-HO",
+      "candidateId": "SCAND-P46-L6-01-HO",
+      "affectedFiles": [
+        "src/auth.js"
+      ],
+      "edits": [
+        {
+          "file": "src/auth.js",
+          "target": "// TARGET_TRANSFORMATION_authorizeUser",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_NORMALIZE_VALUE_ON_authorizeUser */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "2c33439164236fdd0b53d7279f3720f7575d91bd355ef7858145b0f366c9e210"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-02-HO",
+      "candidateId": "SCAND-P46-L6-02-HO",
+      "affectedFiles": [
+        "src/config.js"
+      ],
+      "edits": [
+        {
+          "file": "src/config.js",
+          "target": "// TARGET_TRANSFORMATION_defaultSchema",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_NORMALIZE_VALUE_ON_defaultSchema */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "a096b6180bd217efb5f379851f42e94af661ed7bffb3ee40587cd977897a9d16"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-03-HO",
+      "candidateId": "SCAND-P46-L6-03-HO",
+      "affectedFiles": [
+        "src/formatter.js"
+      ],
+      "edits": [
+        {
+          "file": "src/formatter.js",
+          "target": "// TARGET_TRANSFORMATION_formatJson",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_NORMALIZE_VALUE_ON_formatJson */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "594493b1faad6471e38f0b7f217fda1599fdf6b5f597407c707af729f7ee5d6f"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-04-HO",
+      "candidateId": "SCAND-P46-L6-04-HO",
+      "affectedFiles": [
+        "src/http-client.js"
+      ],
+      "edits": [
+        {
+          "file": "src/http-client.js",
+          "target": "// TARGET_TRANSFORMATION_buildRequest",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_NORMALIZE_VALUE_ON_buildRequest */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "a70e3e9cdb35f971cbc42f31e513419fb7faadcd0e9c59350f560ae4566affac"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-05-HO",
+      "candidateId": "SCAND-P46-L6-05-HO",
+      "affectedFiles": [
+        "src/job-queue.js"
+      ],
+      "edits": [
+        {
+          "file": "src/job-queue.js",
+          "target": "// TARGET_TRANSFORMATION_cancelJob",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_NORMALIZE_VALUE_ON_cancelJob */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "8d9a25fe14bd89fcaf289b3b611ffb7a34f959df63f95dea9b7367c178745d09"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-01-HO",
+      "candidateId": "SCAND-P46-L7-01-HO",
+      "affectedFiles": [
+        "src/calc.js"
+      ],
+      "edits": [
+        {
+          "file": "src/calc.js",
+          "target": "// TARGET_TRANSFORMATION_evaluateExponent",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "da776ab9a4c4d0a1786f97b33e270f8ef2b0ad68e8d1ae80ad5cceb5de31edc3"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-02-HO",
+      "candidateId": "SCAND-P46-L7-02-HO",
+      "affectedFiles": [
+        "src/cors.js"
+      ],
+      "edits": [
+        {
+          "file": "src/cors.js",
+          "target": "// TARGET_TRANSFORMATION_compileOriginPattern",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "490dca621efb82b46f05b8e520dd43559b7cc35e8171fe7fd7b94f75037e230b"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-03-HO",
+      "candidateId": "SCAND-P46-L7-03-HO",
+      "affectedFiles": [
+        "src/semver-compare.js"
+      ],
+      "edits": [
+        {
+          "file": "src/semver-compare.js",
+          "target": "// TARGET_TRANSFORMATION_compareSemVer",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "8871ab8a3648c9451c12c5d56f3f795c81f42ddbd4da53b1540c1c4930118197"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-04-HO",
+      "candidateId": "SCAND-P46-L7-04-HO",
+      "affectedFiles": [
+        "src/path-resolver.js"
+      ],
+      "edits": [
+        {
+          "file": "src/path-resolver.js",
+          "target": "// TARGET_TRANSFORMATION_resolveObjectPath",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "de6db118e4328623c0191087ebeaeda13ad6f1ae8945ac7b80a4058bd1f5cf11"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-05-HO",
+      "candidateId": "SCAND-P46-L7-05-HO",
+      "affectedFiles": [
+        "src/role-auth.js"
+      ],
+      "edits": [
+        {
+          "file": "src/role-auth.js",
+          "target": "// TARGET_TRANSFORMATION_authorizeRole",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "073c7a2252a3b2de869fe5aef1db48bf95157a35ef417fed528b84e553c3da81"
+    }
+  ]
+}

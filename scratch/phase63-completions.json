@@ -1,0 +1,2450 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.485Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "totalCompletions": 50,
+  "completions": [
+    {
+      "completionId": "COMP-SKEL-P46-L5-01-01-1",
+      "skeletonId": "SKEL-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "holeAssignments": {
+        "HOLE-P46-L5-01-1": "NORMALIZE_VALUE_ON_comparePrerelease"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-01-HOLE1",
+          "taskId": "P46-L5-01",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "comparePrerelease"
+          ],
+          "targetModules": [
+            "src/semver.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_comparePrerelease"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_comparePrerelease"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_comparePrerelease",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_comparePrerelease",
+          "affectedDataFlow": [
+            "DATAFLOW_comparePrerelease"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_comparePrerelease"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-01-02",
+            "HOINV-P46-L5-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-01-01"
+          ],
+          "allowedMutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "02fca8b3ea25eb1f4fab3d0aee24d0e916898b36cd9c6b64d332271ed060905d"
+        }
+      ],
+      "canonicalHash": "bacaa414ea22ba17f6a6c2c2e828039bba291bdb7b529a8bedeb7f620ba12114"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-01-01-2",
+      "skeletonId": "SKEL-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "holeAssignments": {
+        "HOLE-P46-L5-01-1": "IDENTITY_ON_comparePrerelease"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-01-HOLE1",
+          "taskId": "P46-L5-01",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "comparePrerelease"
+          ],
+          "targetModules": [
+            "src/semver.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_comparePrerelease"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_comparePrerelease"
+          ],
+          "stateTransition": "IDENTITY_ON_comparePrerelease",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_comparePrerelease",
+          "affectedDataFlow": [
+            "DATAFLOW_comparePrerelease"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_comparePrerelease"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-01-02",
+            "HOINV-P46-L5-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-01-01"
+          ],
+          "allowedMutationScope": [
+            "src/semver.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "f643267f1a041db5f1731092573ad1204c1cc7af1be12be56bf2c9a7b1f861b0"
+        }
+      ],
+      "canonicalHash": "1bd52b8d41debd5c84e0ca38dd2e6a7b8f7441a6656456b2a412f1a11e7d0dcb"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-02-01-1",
+      "skeletonId": "SKEL-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "holeAssignments": {
+        "HOLE-P46-L5-02-1": "NORMALIZE_VALUE_ON__setInternal"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-02-HOLE1",
+          "taskId": "P46-L5-02",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "_setInternal"
+          ],
+          "targetModules": [
+            "src/lodash-set.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR__setInternal"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR__setInternal"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON__setInternal",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON__setInternal",
+          "affectedDataFlow": [
+            "DATAFLOW__setInternal"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW__setInternal"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-02-01",
+            "HOINV-P46-L5-02-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-02-01"
+          ],
+          "allowedMutationScope": [
+            "src/lodash-set.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "8ef98029c4904884dfae69b47b4e00510cfd2c519c07668691fe778c62c7d13c"
+        }
+      ],
+      "canonicalHash": "c23e0bd2adf92ead4bef6cef29a7170d3a09d9d9f0aee01841f2e05fb0c59fb1"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-02-01-2",
+      "skeletonId": "SKEL-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "holeAssignments": {
+        "HOLE-P46-L5-02-1": "IDENTITY_ON__setInternal"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-02-HOLE1",
+          "taskId": "P46-L5-02",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "_setInternal"
+          ],
+          "targetModules": [
+            "src/lodash-set.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR__setInternal"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR__setInternal"
+          ],
+          "stateTransition": "IDENTITY_ON__setInternal",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON__setInternal",
+          "affectedDataFlow": [
+            "DATAFLOW__setInternal"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW__setInternal"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-02-01",
+            "HOINV-P46-L5-02-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-02-01"
+          ],
+          "allowedMutationScope": [
+            "src/lodash-set.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "9bba789ad0a3ec243837a555b509c10085b65c50e520f08df57dc1ff9fd68b11"
+        }
+      ],
+      "canonicalHash": "414fb9d24a882c1aa173bd563d21caee62dac88fa6b918cd1743e9235c4aa9be"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-03-01-1",
+      "skeletonId": "SKEL-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "holeAssignments": {
+        "HOLE-P46-L5-03-1": "NORMALIZE_VALUE_ON_dispatchListener"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-03-HOLE1",
+          "taskId": "P46-L5-03",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "dispatchListener"
+          ],
+          "targetModules": [
+            "src/event-emitter.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_dispatchListener"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_dispatchListener"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_dispatchListener",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_dispatchListener",
+          "affectedDataFlow": [
+            "DATAFLOW_dispatchListener"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_dispatchListener"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-03-01",
+            "HOINV-P46-L5-03-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-03-01"
+          ],
+          "allowedMutationScope": [
+            "src/event-emitter.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "c0bb9dc15dfeb80876cae30fd546963e98a3a6abfe33650901c2d49cfc016412"
+        }
+      ],
+      "canonicalHash": "30ebecf28dd16c2b44c5bf4edfcf50ddc7fd4055d5bbc2df0f28ab56e5219671"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-03-01-2",
+      "skeletonId": "SKEL-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "holeAssignments": {
+        "HOLE-P46-L5-03-1": "IDENTITY_ON_dispatchListener"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-03-HOLE1",
+          "taskId": "P46-L5-03",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "dispatchListener"
+          ],
+          "targetModules": [
+            "src/event-emitter.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_dispatchListener"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_dispatchListener"
+          ],
+          "stateTransition": "IDENTITY_ON_dispatchListener",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_dispatchListener",
+          "affectedDataFlow": [
+            "DATAFLOW_dispatchListener"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_dispatchListener"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-03-01",
+            "HOINV-P46-L5-03-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-03-01"
+          ],
+          "allowedMutationScope": [
+            "src/event-emitter.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "68a1144c6f4091fa7a4b651ce93816752e2ab20e310b3a7ed57dde0fda08c13b"
+        }
+      ],
+      "canonicalHash": "049a1c8753e214b481b81a1d1380f0923b633c8394601bc48286fbcdf8000868"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-04-01-1",
+      "skeletonId": "SKEL-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "holeAssignments": {
+        "HOLE-P46-L5-04-1": "NORMALIZE_VALUE_ON__handleError"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-04-HOLE1",
+          "taskId": "P46-L5-04",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "_handleError"
+          ],
+          "targetModules": [
+            "src/walker.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR__handleError"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR__handleError"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON__handleError",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON__handleError",
+          "affectedDataFlow": [
+            "DATAFLOW__handleError"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW__handleError"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-04-01",
+            "HOINV-P46-L5-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-04-01"
+          ],
+          "allowedMutationScope": [
+            "src/walker.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "ff761b2dd50d9d1be58afcec3644d074e5f5988ee3abb2aa01c5b34a812c799e"
+        }
+      ],
+      "canonicalHash": "2e9d3095cbef5b79e3ba2f4d709e3137597b2cfff4f53de50444627796437f0e"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-04-01-2",
+      "skeletonId": "SKEL-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "holeAssignments": {
+        "HOLE-P46-L5-04-1": "IDENTITY_ON__handleError"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-04-HOLE1",
+          "taskId": "P46-L5-04",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "_handleError"
+          ],
+          "targetModules": [
+            "src/walker.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR__handleError"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR__handleError"
+          ],
+          "stateTransition": "IDENTITY_ON__handleError",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON__handleError",
+          "affectedDataFlow": [
+            "DATAFLOW__handleError"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW__handleError"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-04-01",
+            "HOINV-P46-L5-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-04-01"
+          ],
+          "allowedMutationScope": [
+            "src/walker.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "c440ded923e5efb0bb9c23cdd4c8b60868bf86b5efad0167d80df53f0d52f3a2"
+        }
+      ],
+      "canonicalHash": "2eecd4469ea0e1651f8da9dd264986f95706524a08ef46116271bef149a465f0"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-05-01-1",
+      "skeletonId": "SKEL-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "holeAssignments": {
+        "HOLE-P46-L5-05-1": "NORMALIZE_VALUE_ON_flushQueue"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-05-HOLE1",
+          "taskId": "P46-L5-05",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "flushQueue"
+          ],
+          "targetModules": [
+            "src/cache-queue.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_flushQueue"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_flushQueue"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_flushQueue",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_flushQueue",
+          "affectedDataFlow": [
+            "DATAFLOW_flushQueue"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_flushQueue"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-05-01",
+            "HOINV-P46-L5-05-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-05-01"
+          ],
+          "allowedMutationScope": [
+            "src/cache-queue.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "9d238f186d1d91fe8589a58ede64a2d89aad17a6d3abe6dd8364d340676a0b2a"
+        }
+      ],
+      "canonicalHash": "f76d4c9c472396c2505efc538cc8769e4212eb5a5c4f91254453db2314e98123"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L5-05-01-2",
+      "skeletonId": "SKEL-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "holeAssignments": {
+        "HOLE-P46-L5-05-1": "IDENTITY_ON_flushQueue"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L5-05-HOLE1",
+          "taskId": "P46-L5-05",
+          "primitive": "CHANGE_POSTCONDITION",
+          "targetSymbols": [
+            "flushQueue"
+          ],
+          "targetModules": [
+            "src/cache-queue.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_flushQueue"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_flushQueue"
+          ],
+          "stateTransition": "IDENTITY_ON_flushQueue",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_flushQueue",
+          "affectedDataFlow": [
+            "DATAFLOW_flushQueue"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_flushQueue"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L5-05-01",
+            "HOINV-P46-L5-05-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L5-05-01"
+          ],
+          "allowedMutationScope": [
+            "src/cache-queue.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L5-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_POSTCONDITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "8462ac0dafe9881a3d8cecf67faca8b9f2144bd05b43a55c933955d9d423b78b"
+        }
+      ],
+      "canonicalHash": "aafa5be035acd933eb8cd5c4f962132c1cca35b9a3c9b3fee7829221d9f3247a"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-01-01-1",
+      "skeletonId": "SKEL-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "holeAssignments": {
+        "HOLE-P46-L6-01-1": "NORMALIZE_VALUE_ON_authorizeUser",
+        "HOLE-P46-L6-01-2": "NORMALIZE_VALUE_ON_hasRole"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-01-HOLE1",
+          "taskId": "P46-L6-01",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "authorizeUser"
+          ],
+          "targetModules": [
+            "src/auth.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeUser"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeUser"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_authorizeUser",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_authorizeUser",
+          "affectedDataFlow": [
+            "DATAFLOW_authorizeUser"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_authorizeUser"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-01-02",
+            "HOINV-P46-L6-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-01-01",
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "allowedMutationScope": [
+            "src/auth.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "6df0361fa1d34b1a6094b592d9933d2ef0be0deb7e4e11416c2d8dddbd01d4a3"
+        }
+      ],
+      "canonicalHash": "910b4b4e817676f6d1cee20739c0561eb1970c95bf4a974a4df0c4b49cd9a674"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-01-01-2",
+      "skeletonId": "SKEL-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "holeAssignments": {
+        "HOLE-P46-L6-01-1": "NORMALIZE_VALUE_ON_authorizeUser",
+        "HOLE-P46-L6-01-2": "IDENTITY_ON_hasRole"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-01-HOLE1",
+          "taskId": "P46-L6-01",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "authorizeUser"
+          ],
+          "targetModules": [
+            "src/auth.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeUser"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeUser"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_authorizeUser",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_authorizeUser",
+          "affectedDataFlow": [
+            "DATAFLOW_authorizeUser"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_authorizeUser"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-01-02",
+            "HOINV-P46-L6-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-01-01",
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "allowedMutationScope": [
+            "src/auth.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "6df0361fa1d34b1a6094b592d9933d2ef0be0deb7e4e11416c2d8dddbd01d4a3"
+        }
+      ],
+      "canonicalHash": "8a02f4d9c82722bfd2d503328aa7d4c8ecc0b209ea76983e95f40a3ee4b3019b"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-01-01-3",
+      "skeletonId": "SKEL-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "holeAssignments": {
+        "HOLE-P46-L6-01-1": "IDENTITY_ON_authorizeUser",
+        "HOLE-P46-L6-01-2": "NORMALIZE_VALUE_ON_hasRole"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-01-HOLE1",
+          "taskId": "P46-L6-01",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "authorizeUser"
+          ],
+          "targetModules": [
+            "src/auth.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeUser"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeUser"
+          ],
+          "stateTransition": "IDENTITY_ON_authorizeUser",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_authorizeUser",
+          "affectedDataFlow": [
+            "DATAFLOW_authorizeUser"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_authorizeUser"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-01-02",
+            "HOINV-P46-L6-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-01-01",
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "allowedMutationScope": [
+            "src/auth.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "fa23a04a7b05090d62d213d71d1fa2bcfeb60fe044abec5a75dceb17c9a151d6"
+        }
+      ],
+      "canonicalHash": "bf54a76712604cc88960aae77f575b6912656b0c5981873a363bd2f281453e9a"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-01-01-4",
+      "skeletonId": "SKEL-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "holeAssignments": {
+        "HOLE-P46-L6-01-1": "IDENTITY_ON_authorizeUser",
+        "HOLE-P46-L6-01-2": "IDENTITY_ON_hasRole"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-01-HOLE1",
+          "taskId": "P46-L6-01",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "authorizeUser"
+          ],
+          "targetModules": [
+            "src/auth.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeUser"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeUser"
+          ],
+          "stateTransition": "IDENTITY_ON_authorizeUser",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_authorizeUser",
+          "affectedDataFlow": [
+            "DATAFLOW_authorizeUser"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_authorizeUser"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-01-02",
+            "HOINV-P46-L6-01-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-01-01",
+            "CONTRACT-P46-L6-01-02"
+          ],
+          "allowedMutationScope": [
+            "src/auth.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "fa23a04a7b05090d62d213d71d1fa2bcfeb60fe044abec5a75dceb17c9a151d6"
+        }
+      ],
+      "canonicalHash": "15062ef3dd72881ca283470236e86485c297c5f69681b9fd5f6d56c251b45fa2"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-02-01-1",
+      "skeletonId": "SKEL-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "holeAssignments": {
+        "HOLE-P46-L6-02-1": "NORMALIZE_VALUE_ON_defaultSchema",
+        "HOLE-P46-L6-02-2": "NORMALIZE_VALUE_ON_loadConfig"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-02-HOLE1",
+          "taskId": "P46-L6-02",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "defaultSchema"
+          ],
+          "targetModules": [
+            "src/config.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_defaultSchema"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_defaultSchema"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_defaultSchema",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_defaultSchema",
+          "affectedDataFlow": [
+            "DATAFLOW_defaultSchema"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_defaultSchema"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-02-01",
+            "HOINV-P46-L6-02-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-02-01",
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "allowedMutationScope": [
+            "src/config.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "c66d47d76679877a274808e677daedb29a894e68d1e0e4f894ffc98662828b42"
+        }
+      ],
+      "canonicalHash": "94870b5cd70f999c89d23a5ea87e0ac312ca30f6a6e61abb4ee32592a21020f6"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-02-01-2",
+      "skeletonId": "SKEL-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "holeAssignments": {
+        "HOLE-P46-L6-02-1": "NORMALIZE_VALUE_ON_defaultSchema",
+        "HOLE-P46-L6-02-2": "IDENTITY_ON_loadConfig"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-02-HOLE1",
+          "taskId": "P46-L6-02",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "defaultSchema"
+          ],
+          "targetModules": [
+            "src/config.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_defaultSchema"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_defaultSchema"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_defaultSchema",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_defaultSchema",
+          "affectedDataFlow": [
+            "DATAFLOW_defaultSchema"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_defaultSchema"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-02-01",
+            "HOINV-P46-L6-02-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-02-01",
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "allowedMutationScope": [
+            "src/config.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "c66d47d76679877a274808e677daedb29a894e68d1e0e4f894ffc98662828b42"
+        }
+      ],
+      "canonicalHash": "88e8abc3c4ce7667fce909637dff4b1ed22218dadf86ea9f98dea06677a48a41"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-02-01-3",
+      "skeletonId": "SKEL-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "holeAssignments": {
+        "HOLE-P46-L6-02-1": "IDENTITY_ON_defaultSchema",
+        "HOLE-P46-L6-02-2": "NORMALIZE_VALUE_ON_loadConfig"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-02-HOLE1",
+          "taskId": "P46-L6-02",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "defaultSchema"
+          ],
+          "targetModules": [
+            "src/config.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_defaultSchema"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_defaultSchema"
+          ],
+          "stateTransition": "IDENTITY_ON_defaultSchema",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_defaultSchema",
+          "affectedDataFlow": [
+            "DATAFLOW_defaultSchema"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_defaultSchema"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-02-01",
+            "HOINV-P46-L6-02-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-02-01",
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "allowedMutationScope": [
+            "src/config.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "0e57fef358327c83a9b658d12cb18b12532c4d2ddb40bf9bff311e4823582056"
+        }
+      ],
+      "canonicalHash": "13a8279e9a48bad5054aefefb98395d55cc086173e8b3e3bfbb5466a51471af3"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-02-01-4",
+      "skeletonId": "SKEL-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "holeAssignments": {
+        "HOLE-P46-L6-02-1": "IDENTITY_ON_defaultSchema",
+        "HOLE-P46-L6-02-2": "IDENTITY_ON_loadConfig"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-02-HOLE1",
+          "taskId": "P46-L6-02",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "defaultSchema"
+          ],
+          "targetModules": [
+            "src/config.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_defaultSchema"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_defaultSchema"
+          ],
+          "stateTransition": "IDENTITY_ON_defaultSchema",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_defaultSchema",
+          "affectedDataFlow": [
+            "DATAFLOW_defaultSchema"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_defaultSchema"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-02-01",
+            "HOINV-P46-L6-02-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-02-01",
+            "CONTRACT-P46-L6-02-02"
+          ],
+          "allowedMutationScope": [
+            "src/config.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "0e57fef358327c83a9b658d12cb18b12532c4d2ddb40bf9bff311e4823582056"
+        }
+      ],
+      "canonicalHash": "44021f98ab268d74bd78280bc8a680c5a71955008e88d28d8e7eac4484e075e9"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-03-01-1",
+      "skeletonId": "SKEL-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "holeAssignments": {
+        "HOLE-P46-L6-03-1": "NORMALIZE_VALUE_ON_formatJson",
+        "HOLE-P46-L6-03-2": "NORMALIZE_VALUE_ON_logEvent"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-03-HOLE1",
+          "taskId": "P46-L6-03",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "formatJson"
+          ],
+          "targetModules": [
+            "src/formatter.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_formatJson"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_formatJson"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_formatJson",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_formatJson",
+          "affectedDataFlow": [
+            "DATAFLOW_formatJson"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_formatJson"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-03-01",
+            "HOINV-P46-L6-03-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-03-01",
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "allowedMutationScope": [
+            "src/formatter.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "ea0fc98891e339b6f6d078d2db5f37b26214ad2234d10708f1641f48c1245414"
+        }
+      ],
+      "canonicalHash": "bb1e55deb19966427bc181c99f85e8d589c73dc0e936b4d39522dbc394aa1ff7"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-03-01-2",
+      "skeletonId": "SKEL-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "holeAssignments": {
+        "HOLE-P46-L6-03-1": "NORMALIZE_VALUE_ON_formatJson",
+        "HOLE-P46-L6-03-2": "IDENTITY_ON_logEvent"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-03-HOLE1",
+          "taskId": "P46-L6-03",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "formatJson"
+          ],
+          "targetModules": [
+            "src/formatter.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_formatJson"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_formatJson"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_formatJson",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_formatJson",
+          "affectedDataFlow": [
+            "DATAFLOW_formatJson"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_formatJson"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-03-01",
+            "HOINV-P46-L6-03-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-03-01",
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "allowedMutationScope": [
+            "src/formatter.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "ea0fc98891e339b6f6d078d2db5f37b26214ad2234d10708f1641f48c1245414"
+        }
+      ],
+      "canonicalHash": "9816c8add5ae279801679301efeb50c1ad78c963e52af53d88f2424ed66b352b"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-03-01-3",
+      "skeletonId": "SKEL-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "holeAssignments": {
+        "HOLE-P46-L6-03-1": "IDENTITY_ON_formatJson",
+        "HOLE-P46-L6-03-2": "NORMALIZE_VALUE_ON_logEvent"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-03-HOLE1",
+          "taskId": "P46-L6-03",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "formatJson"
+          ],
+          "targetModules": [
+            "src/formatter.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_formatJson"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_formatJson"
+          ],
+          "stateTransition": "IDENTITY_ON_formatJson",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_formatJson",
+          "affectedDataFlow": [
+            "DATAFLOW_formatJson"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_formatJson"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-03-01",
+            "HOINV-P46-L6-03-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-03-01",
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "allowedMutationScope": [
+            "src/formatter.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "8500b3090d025e96483ce3cb8a4c12d952b3cad81027f17393f8fb7b10ed3157"
+        }
+      ],
+      "canonicalHash": "da09229dded31d9c0295b6b991fd5ec682e50b528905d060fd3207572a4ebdf6"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-03-01-4",
+      "skeletonId": "SKEL-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "holeAssignments": {
+        "HOLE-P46-L6-03-1": "IDENTITY_ON_formatJson",
+        "HOLE-P46-L6-03-2": "IDENTITY_ON_logEvent"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-03-HOLE1",
+          "taskId": "P46-L6-03",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "formatJson"
+          ],
+          "targetModules": [
+            "src/formatter.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_formatJson"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_formatJson"
+          ],
+          "stateTransition": "IDENTITY_ON_formatJson",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_formatJson",
+          "affectedDataFlow": [
+            "DATAFLOW_formatJson"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_formatJson"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-03-01",
+            "HOINV-P46-L6-03-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-03-01",
+            "CONTRACT-P46-L6-03-02"
+          ],
+          "allowedMutationScope": [
+            "src/formatter.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "8500b3090d025e96483ce3cb8a4c12d952b3cad81027f17393f8fb7b10ed3157"
+        }
+      ],
+      "canonicalHash": "68b79ce6c659e0220e564d9deab51a13062f1739a2878d0a8e356aaf24d8cdec"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-04-01-1",
+      "skeletonId": "SKEL-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "holeAssignments": {
+        "HOLE-P46-L6-04-1": "NORMALIZE_VALUE_ON_buildRequest",
+        "HOLE-P46-L6-04-2": "NORMALIZE_VALUE_ON_sendRequest"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-04-HOLE1",
+          "taskId": "P46-L6-04",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "buildRequest"
+          ],
+          "targetModules": [
+            "src/http-client.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_buildRequest"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_buildRequest"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_buildRequest",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_buildRequest",
+          "affectedDataFlow": [
+            "DATAFLOW_buildRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_buildRequest"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-04-01",
+            "HOINV-P46-L6-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-04-01",
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "allowedMutationScope": [
+            "src/http-client.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "ebcaa7b0b25f7a5915c7e806a32de9d40a0be682acca67d1ed19d42849b3c0d4"
+        }
+      ],
+      "canonicalHash": "8c482c828ada88c36e821b1eb49a9a25a5fd866a9362178b674eebc6e6cdd26b"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-04-01-2",
+      "skeletonId": "SKEL-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "holeAssignments": {
+        "HOLE-P46-L6-04-1": "NORMALIZE_VALUE_ON_buildRequest",
+        "HOLE-P46-L6-04-2": "IDENTITY_ON_sendRequest"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-04-HOLE1",
+          "taskId": "P46-L6-04",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "buildRequest"
+          ],
+          "targetModules": [
+            "src/http-client.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_buildRequest"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_buildRequest"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_buildRequest",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_buildRequest",
+          "affectedDataFlow": [
+            "DATAFLOW_buildRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_buildRequest"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-04-01",
+            "HOINV-P46-L6-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-04-01",
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "allowedMutationScope": [
+            "src/http-client.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "ebcaa7b0b25f7a5915c7e806a32de9d40a0be682acca67d1ed19d42849b3c0d4"
+        }
+      ],
+      "canonicalHash": "2009194c9d3b2810774d6f302334ad0424a4645ecfbe56bbe97f367125a94d70"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-04-01-3",
+      "skeletonId": "SKEL-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "holeAssignments": {
+        "HOLE-P46-L6-04-1": "IDENTITY_ON_buildRequest",
+        "HOLE-P46-L6-04-2": "NORMALIZE_VALUE_ON_sendRequest"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-04-HOLE1",
+          "taskId": "P46-L6-04",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "buildRequest"
+          ],
+          "targetModules": [
+            "src/http-client.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_buildRequest"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_buildRequest"
+          ],
+          "stateTransition": "IDENTITY_ON_buildRequest",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_buildRequest",
+          "affectedDataFlow": [
+            "DATAFLOW_buildRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_buildRequest"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-04-01",
+            "HOINV-P46-L6-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-04-01",
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "allowedMutationScope": [
+            "src/http-client.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "c395d9e76bde1bb297256744fbd578382d3eff878417db09d47324657b60658d"
+        }
+      ],
+      "canonicalHash": "5fc05a31f2c29a23891415689adeeb14e63534a3b96e4f1b03172d1c68817d1d"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-04-01-4",
+      "skeletonId": "SKEL-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "holeAssignments": {
+        "HOLE-P46-L6-04-1": "IDENTITY_ON_buildRequest",
+        "HOLE-P46-L6-04-2": "IDENTITY_ON_sendRequest"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-04-HOLE1",
+          "taskId": "P46-L6-04",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "buildRequest"
+          ],
+          "targetModules": [
+            "src/http-client.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_buildRequest"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_buildRequest"
+          ],
+          "stateTransition": "IDENTITY_ON_buildRequest",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_buildRequest",
+          "affectedDataFlow": [
+            "DATAFLOW_buildRequest"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_buildRequest"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-04-01",
+            "HOINV-P46-L6-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-04-01",
+            "CONTRACT-P46-L6-04-02"
+          ],
+          "allowedMutationScope": [
+            "src/http-client.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "c395d9e76bde1bb297256744fbd578382d3eff878417db09d47324657b60658d"
+        }
+      ],
+      "canonicalHash": "d09f4a8ce6df090824401660b989077aca2bd3c17097f85307281936a8c04f26"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-05-01-1",
+      "skeletonId": "SKEL-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "holeAssignments": {
+        "HOLE-P46-L6-05-1": "NORMALIZE_VALUE_ON_cancelJob",
+        "HOLE-P46-L6-05-2": "NORMALIZE_VALUE_ON_evictWorker"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-05-HOLE1",
+          "taskId": "P46-L6-05",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "cancelJob"
+          ],
+          "targetModules": [
+            "src/job-queue.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_cancelJob"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_cancelJob"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_cancelJob",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_cancelJob",
+          "affectedDataFlow": [
+            "DATAFLOW_cancelJob"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_cancelJob"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-05-02",
+            "HOINV-P46-L6-05-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-05-01",
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "allowedMutationScope": [
+            "src/job-queue.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "6191417ceedead07a92a3c9d4944e91ad14fddf2c8dc405ee9838d7059e3f5f3"
+        }
+      ],
+      "canonicalHash": "be2b2531d98bee411611ea5518423fdb8132dc8c148da24338d21bda8e81d685"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-05-01-2",
+      "skeletonId": "SKEL-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "holeAssignments": {
+        "HOLE-P46-L6-05-1": "NORMALIZE_VALUE_ON_cancelJob",
+        "HOLE-P46-L6-05-2": "IDENTITY_ON_evictWorker"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-05-HOLE1",
+          "taskId": "P46-L6-05",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "cancelJob"
+          ],
+          "targetModules": [
+            "src/job-queue.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_cancelJob"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_cancelJob"
+          ],
+          "stateTransition": "NORMALIZE_VALUE_ON_cancelJob",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_NORMALIZE_VALUE_ON_cancelJob",
+          "affectedDataFlow": [
+            "DATAFLOW_cancelJob"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_cancelJob"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-05-02",
+            "HOINV-P46-L6-05-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-05-01",
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "allowedMutationScope": [
+            "src/job-queue.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "6191417ceedead07a92a3c9d4944e91ad14fddf2c8dc405ee9838d7059e3f5f3"
+        }
+      ],
+      "canonicalHash": "0cdd4f5b4f7467d666bba771c28fc096e2c03369afab71aae058877dcf8bf922"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-05-01-3",
+      "skeletonId": "SKEL-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "holeAssignments": {
+        "HOLE-P46-L6-05-1": "IDENTITY_ON_cancelJob",
+        "HOLE-P46-L6-05-2": "NORMALIZE_VALUE_ON_evictWorker"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-05-HOLE1",
+          "taskId": "P46-L6-05",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "cancelJob"
+          ],
+          "targetModules": [
+            "src/job-queue.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_cancelJob"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_cancelJob"
+          ],
+          "stateTransition": "IDENTITY_ON_cancelJob",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_cancelJob",
+          "affectedDataFlow": [
+            "DATAFLOW_cancelJob"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_cancelJob"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-05-02",
+            "HOINV-P46-L6-05-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-05-01",
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "allowedMutationScope": [
+            "src/job-queue.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "cb08f495102c1fdd567c2e8da52f7ae5ca0e16d98383ff77edfa5f75527c974d"
+        }
+      ],
+      "canonicalHash": "fd9af9bb0abdc5baeab307991e4c0deec939eea398c703a0a80ce4d6a9ef83ab"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L6-05-01-4",
+      "skeletonId": "SKEL-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "holeAssignments": {
+        "HOLE-P46-L6-05-1": "IDENTITY_ON_cancelJob",
+        "HOLE-P46-L6-05-2": "IDENTITY_ON_evictWorker"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L6-05-HOLE1",
+          "taskId": "P46-L6-05",
+          "primitive": "ADAPT_PRODUCER",
+          "targetSymbols": [
+            "cancelJob"
+          ],
+          "targetModules": [
+            "src/job-queue.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_cancelJob"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_cancelJob"
+          ],
+          "stateTransition": "IDENTITY_ON_cancelJob",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_IDENTITY_ON_cancelJob",
+          "affectedDataFlow": [
+            "DATAFLOW_cancelJob"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_cancelJob"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L6-05-02",
+            "HOINV-P46-L6-05-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L6-05-01",
+            "CONTRACT-P46-L6-05-02"
+          ],
+          "allowedMutationScope": [
+            "src/job-queue.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L6-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "ADAPT_PRODUCER",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "cb08f495102c1fdd567c2e8da52f7ae5ca0e16d98383ff77edfa5f75527c974d"
+        }
+      ],
+      "canonicalHash": "ef6c6823beb47900b412e46cbb380cea48a5ca2d3e5c3abbdbfc85d180f49068"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-01-01-1",
+      "skeletonId": "SKEL-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "holeAssignments": {
+        "HOLE-P46-L7-01-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+        "HOLE-P46-L7-01-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_parseExpression"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-01-HOLE1",
+          "taskId": "P46-L7-01",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "evaluateExponent"
+          ],
+          "targetModules": [
+            "src/calc.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_evaluateExponent"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_evaluateExponent"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+          "affectedDataFlow": [
+            "DATAFLOW_evaluateExponent"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_evaluateExponent"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-01-02",
+            "HOINV-P46-L7-01-01",
+            "HOINV-P46-L7-01-03"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-01-01",
+            "CONTRACT-P46-L7-01-02"
+          ],
+          "allowedMutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "0b7625bd2ef7b783734b8f1268c4d8328656a1ffe2d4f9c885984f635cd0344d"
+        }
+      ],
+      "canonicalHash": "b15e28611d72981e378145bc2af2b4013cbbcbe39ef08494e28154e0bcea887b"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-01-01-2",
+      "skeletonId": "SKEL-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "holeAssignments": {
+        "HOLE-P46-L7-01-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+        "HOLE-P46-L7-01-2": "DEFAULT_BEHAVIOR_ON_parseExpression"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-01-HOLE1",
+          "taskId": "P46-L7-01",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "evaluateExponent"
+          ],
+          "targetModules": [
+            "src/calc.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_evaluateExponent"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_evaluateExponent"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+          "affectedDataFlow": [
+            "DATAFLOW_evaluateExponent"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_evaluateExponent"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-01-02",
+            "HOINV-P46-L7-01-01",
+            "HOINV-P46-L7-01-03"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-01-01",
+            "CONTRACT-P46-L7-01-02"
+          ],
+          "allowedMutationScope": [
+            "src/calc.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-01",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "0b7625bd2ef7b783734b8f1268c4d8328656a1ffe2d4f9c885984f635cd0344d"
+        }
+      ],
+      "canonicalHash": "9a8e13163a1217d13dfa123cd58b154a1b7cc2491f0a9e7e2b63317c54b9d2eb"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-01-01-3",
+      "skeletonId": "SKEL-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "holeAssignments": {
+        "HOLE-P46-L7-01-1": "DEFAULT_BEHAVIOR_ON_evaluateExponent",
+        "HOLE-P46-L7-01-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_parseExpression"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-01-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "20fd3007980f354dbdfcee2dec8c305b3cf0d130b385653275c3dbd57044b997"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-01-01-4",
+      "skeletonId": "SKEL-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "holeAssignments": {
+        "HOLE-P46-L7-01-1": "DEFAULT_BEHAVIOR_ON_evaluateExponent",
+        "HOLE-P46-L7-01-2": "DEFAULT_BEHAVIOR_ON_parseExpression"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-01-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "0494837569337afddbfc48ab7545cfec600c1cd379e645feebc77d075d933e7e"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-02-01-1",
+      "skeletonId": "SKEL-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "holeAssignments": {
+        "HOLE-P46-L7-02-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+        "HOLE-P46-L7-02-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_validateHeaders"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-02-HOLE1",
+          "taskId": "P46-L7-02",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "compileOriginPattern"
+          ],
+          "targetModules": [
+            "src/cors.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_compileOriginPattern"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_compileOriginPattern"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+          "affectedDataFlow": [
+            "DATAFLOW_compileOriginPattern"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_compileOriginPattern"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-02-03",
+            "HOINV-P46-L7-02-02",
+            "HOINV-P46-L7-02-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-02-01",
+            "CONTRACT-P46-L7-02-02"
+          ],
+          "allowedMutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "3eb46ed75f43c988c366eaf9fd83e7da6fed32d5b5a22369ac70182a04103b04"
+        }
+      ],
+      "canonicalHash": "56b0849bc2ea66adeed5feb63b3df3be805a7f8c7bf7eba90d0d650c1733e2af"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-02-01-2",
+      "skeletonId": "SKEL-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "holeAssignments": {
+        "HOLE-P46-L7-02-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+        "HOLE-P46-L7-02-2": "DEFAULT_BEHAVIOR_ON_validateHeaders"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-02-HOLE1",
+          "taskId": "P46-L7-02",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "compileOriginPattern"
+          ],
+          "targetModules": [
+            "src/cors.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_compileOriginPattern"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_compileOriginPattern"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+          "affectedDataFlow": [
+            "DATAFLOW_compileOriginPattern"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_compileOriginPattern"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-02-03",
+            "HOINV-P46-L7-02-02",
+            "HOINV-P46-L7-02-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-02-01",
+            "CONTRACT-P46-L7-02-02"
+          ],
+          "allowedMutationScope": [
+            "src/cors.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-02",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "3eb46ed75f43c988c366eaf9fd83e7da6fed32d5b5a22369ac70182a04103b04"
+        }
+      ],
+      "canonicalHash": "4ac67f5f95fe18ea2df7e79171f4c48ea9d45bcd3b6ab766fd5fefa07afe391b"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-02-01-3",
+      "skeletonId": "SKEL-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "holeAssignments": {
+        "HOLE-P46-L7-02-1": "DEFAULT_BEHAVIOR_ON_compileOriginPattern",
+        "HOLE-P46-L7-02-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_validateHeaders"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-02-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "342a08cae40eca4044d40b130101a59e71d20225381c8a9939f64d5db21759d0"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-02-01-4",
+      "skeletonId": "SKEL-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "holeAssignments": {
+        "HOLE-P46-L7-02-1": "DEFAULT_BEHAVIOR_ON_compileOriginPattern",
+        "HOLE-P46-L7-02-2": "DEFAULT_BEHAVIOR_ON_validateHeaders"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-02-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "2ca1ae571deb4084dfce5562e257b7b9c80f6a1d82e504f7d174c82e3bc3fe20"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-03-01-1",
+      "skeletonId": "SKEL-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "holeAssignments": {
+        "HOLE-P46-L7-03-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+        "HOLE-P46-L7-03-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_sortPrerelease"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-03-HOLE1",
+          "taskId": "P46-L7-03",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "compareSemVer"
+          ],
+          "targetModules": [
+            "src/semver-compare.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_compareSemVer"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_compareSemVer"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+          "affectedDataFlow": [
+            "DATAFLOW_compareSemVer"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_compareSemVer"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-03-02",
+            "HOINV-P46-L7-03-03",
+            "HOINV-P46-L7-03-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-03-01",
+            "CONTRACT-P46-L7-03-02"
+          ],
+          "allowedMutationScope": [
+            "src/semver-compare.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "a039efa9fb9d3703d279b08d51038bdbb5389b6b6ce2aabc42ea7de26ec70ede"
+        }
+      ],
+      "canonicalHash": "71da95f11af48c85e3ac5faad63c186a9c1e50c7b2faf521515ae243d8d8dd1f"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-03-01-2",
+      "skeletonId": "SKEL-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "holeAssignments": {
+        "HOLE-P46-L7-03-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+        "HOLE-P46-L7-03-2": "DEFAULT_BEHAVIOR_ON_sortPrerelease"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-03-HOLE1",
+          "taskId": "P46-L7-03",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "compareSemVer"
+          ],
+          "targetModules": [
+            "src/semver-compare.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_compareSemVer"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_compareSemVer"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+          "affectedDataFlow": [
+            "DATAFLOW_compareSemVer"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_compareSemVer"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-03-02",
+            "HOINV-P46-L7-03-03",
+            "HOINV-P46-L7-03-01"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-03-01",
+            "CONTRACT-P46-L7-03-02"
+          ],
+          "allowedMutationScope": [
+            "src/semver-compare.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-03",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "a039efa9fb9d3703d279b08d51038bdbb5389b6b6ce2aabc42ea7de26ec70ede"
+        }
+      ],
+      "canonicalHash": "c2fd81b4fa98c05c6eb81b474e39cb8bd7b60a3fa05f0cca4212e8b9ff47f7c7"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-03-01-3",
+      "skeletonId": "SKEL-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "holeAssignments": {
+        "HOLE-P46-L7-03-1": "DEFAULT_BEHAVIOR_ON_compareSemVer",
+        "HOLE-P46-L7-03-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_sortPrerelease"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-03-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "217600abb7568ece150f7cbb3bfdec4080f3d8a985ce58b39963f901db5daf9b"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-03-01-4",
+      "skeletonId": "SKEL-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "holeAssignments": {
+        "HOLE-P46-L7-03-1": "DEFAULT_BEHAVIOR_ON_compareSemVer",
+        "HOLE-P46-L7-03-2": "DEFAULT_BEHAVIOR_ON_sortPrerelease"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-03-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "2af2ed2705532d514450a6e9b394b13d68d3f6cfa314874f8bc48442ed5f033a"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-04-01-1",
+      "skeletonId": "SKEL-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "holeAssignments": {
+        "HOLE-P46-L7-04-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+        "HOLE-P46-L7-04-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_setDeepProperty"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-04-HOLE1",
+          "taskId": "P46-L7-04",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "resolveObjectPath"
+          ],
+          "targetModules": [
+            "src/path-resolver.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_resolveObjectPath"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_resolveObjectPath"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+          "affectedDataFlow": [
+            "DATAFLOW_resolveObjectPath"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_resolveObjectPath"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-04-03",
+            "HOINV-P46-L7-04-01",
+            "HOINV-P46-L7-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-04-01",
+            "CONTRACT-P46-L7-04-02"
+          ],
+          "allowedMutationScope": [
+            "src/path-resolver.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "8cf80bbaf127d33399eb1ed4f27f4d4257a223f655f7e45a03eb187a662c2ca4"
+        }
+      ],
+      "canonicalHash": "58a63d591c2a14bbb668e43fe9a86fcc9dbf8699ccb323b7ba686c03df4afcab"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-04-01-2",
+      "skeletonId": "SKEL-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "holeAssignments": {
+        "HOLE-P46-L7-04-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+        "HOLE-P46-L7-04-2": "DEFAULT_BEHAVIOR_ON_setDeepProperty"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-04-HOLE1",
+          "taskId": "P46-L7-04",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "resolveObjectPath"
+          ],
+          "targetModules": [
+            "src/path-resolver.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_resolveObjectPath"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_resolveObjectPath"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+          "affectedDataFlow": [
+            "DATAFLOW_resolveObjectPath"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_resolveObjectPath"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-04-03",
+            "HOINV-P46-L7-04-01",
+            "HOINV-P46-L7-04-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-04-01",
+            "CONTRACT-P46-L7-04-02"
+          ],
+          "allowedMutationScope": [
+            "src/path-resolver.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-04",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "8cf80bbaf127d33399eb1ed4f27f4d4257a223f655f7e45a03eb187a662c2ca4"
+        }
+      ],
+      "canonicalHash": "442c4f1c8b11d7f5e3b95a4eb2f032416284c66973a2583ca756b26717c220bb"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-04-01-3",
+      "skeletonId": "SKEL-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "holeAssignments": {
+        "HOLE-P46-L7-04-1": "DEFAULT_BEHAVIOR_ON_resolveObjectPath",
+        "HOLE-P46-L7-04-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_setDeepProperty"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-04-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "5ba30edfdf6828dce36f783c4261e17aefdb09992cdfc589e9a7a923377606af"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-04-01-4",
+      "skeletonId": "SKEL-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "holeAssignments": {
+        "HOLE-P46-L7-04-1": "DEFAULT_BEHAVIOR_ON_resolveObjectPath",
+        "HOLE-P46-L7-04-2": "DEFAULT_BEHAVIOR_ON_setDeepProperty"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-04-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "bf316861171e847d08fab806cb2f7d885d4d511a248022ad062772802fe34f93"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-05-01-1",
+      "skeletonId": "SKEL-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "holeAssignments": {
+        "HOLE-P46-L7-05-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+        "HOLE-P46-L7-05-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateRoleHierarchy"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-05-HOLE1",
+          "taskId": "P46-L7-05",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "authorizeRole"
+          ],
+          "targetModules": [
+            "src/role-auth.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeRole"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeRole"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+          "affectedDataFlow": [
+            "DATAFLOW_authorizeRole"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_authorizeRole"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-05-03",
+            "HOINV-P46-L7-05-01",
+            "HOINV-P46-L7-05-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-05-01",
+            "CONTRACT-P46-L7-05-02"
+          ],
+          "allowedMutationScope": [
+            "src/role-auth.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "e813d738df539d73db58d3f686dd0fdad791acb5510b490158d18ac3c46041a3"
+        }
+      ],
+      "canonicalHash": "905559058dd70a0548474a068f745e9799a49af47fb52f72445137814fe8aaf2"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-05-01-2",
+      "skeletonId": "SKEL-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "holeAssignments": {
+        "HOLE-P46-L7-05-1": "TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+        "HOLE-P46-L7-05-2": "DEFAULT_BEHAVIOR_ON_evaluateRoleHierarchy"
+      },
+      "validated": true,
+      "resultingTransformations": [
+        {
+          "transformationId": "STRANS-P46-L7-05-HOLE1",
+          "taskId": "P46-L7-05",
+          "primitive": "CHANGE_STATE_TRANSITION",
+          "targetSymbols": [
+            "authorizeRole"
+          ],
+          "targetModules": [
+            "src/role-auth.js"
+          ],
+          "preconditions": [
+            "PRE:VALID_INPUT_FOR_authorizeRole"
+          ],
+          "postconditions": [
+            "POST:SATISFIES_PROPERTY_FOR_authorizeRole"
+          ],
+          "stateTransition": "TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+          "representationTransition": "UNNORMALIZED -> NORMALIZED",
+          "behavioralPredicate": "EVALUATE_TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+          "affectedDataFlow": [
+            "DATAFLOW_authorizeRole"
+          ],
+          "affectedControlFlow": [
+            "CONTROLFLOW_authorizeRole"
+          ],
+          "requiredInvariants": [
+            "HOINV-P46-L7-05-03",
+            "HOINV-P46-L7-05-01",
+            "HOINV-P46-L7-05-02"
+          ],
+          "requiredContracts": [
+            "CONTRACT-P46-L7-05-01",
+            "CONTRACT-P46-L7-05-02"
+          ],
+          "allowedMutationScope": [
+            "src/role-auth.js"
+          ],
+          "dependencies": [],
+          "provenance": {
+            "taskId": "P46-L7-05",
+            "regionId": "REG-HOLE-1",
+            "primitive": "CHANGE_STATE_TRANSITION",
+            "closureRule": "SKELETON_HOLE_COMPLETION"
+          },
+          "canonicalHash": "e813d738df539d73db58d3f686dd0fdad791acb5510b490158d18ac3c46041a3"
+        }
+      ],
+      "canonicalHash": "e3bb1b61928884d11a225dcffd2c7cb6c4fa2d87acca63e710bbd96f79da3656"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-05-01-3",
+      "skeletonId": "SKEL-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "holeAssignments": {
+        "HOLE-P46-L7-05-1": "DEFAULT_BEHAVIOR_ON_authorizeRole",
+        "HOLE-P46-L7-05-2": "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateRoleHierarchy"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-05-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "e7631c3843ccc53e94b3fa04ef2c55e13e35ca6318d4889389bd9b20400ab2ed"
+    },
+    {
+      "completionId": "COMP-SKEL-P46-L7-05-01-4",
+      "skeletonId": "SKEL-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "holeAssignments": {
+        "HOLE-P46-L7-05-1": "DEFAULT_BEHAVIOR_ON_authorizeRole",
+        "HOLE-P46-L7-05-2": "DEFAULT_BEHAVIOR_ON_evaluateRoleHierarchy"
+      },
+      "validated": false,
+      "pruningReason": "PRUNED_BY_HOINV-P46-L7-05-01: Fails regression preservation",
+      "resultingTransformations": [],
+      "canonicalHash": "56b243fc5f1dde6be22a3e6db009ad29aaa5d5feb4e340ffcd2e46aafa90178c"
+    }
+  ]
+}

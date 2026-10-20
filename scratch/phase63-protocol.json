@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "protocolVersion": "emerald-phase63-higher-order-semantic-synthesis-v1",
+  "frozenAt": "2026-10-20T05:37:15.412Z",
+  "baselineCommit": "7f14c90",
+  "experimentalVariable": "higher_order_semantic_invariants_and_typed_skeletons",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "conditions": {
+    "CONDITION_A_PHASE62_CONTROL": "Frozen Phase 62 whole-program semantic synthesis pipeline",
+    "CONDITION_B_INVARIANT_SYNTHESIS": "Higher-order invariant synthesis + validated invariant filtering without skeleton completion",
+    "CONDITION_C_INVARIANT_AND_SKELETON": "Higher-order invariants + typed program skeleton + bounded hole completion",
+    "CONDITION_D_FULL_HIGHER_ORDER_PIPELINE": "Full stack: symbolic analysis + semantic reconciliation + CEGAR + decomposition + joint synthesis + semantic transformation + higher-order invariants + typed skeleton completion"
+  },
+  "bounds": {
+    "maxHigherOrderInvariants": 32,
+    "maxSkeletons": 25,
+    "maxSemanticHoles": 32,
+    "maxHoleCandidates": 16,
+    "maxCompletionDepth": 6,
+    "maxAffectedModules": 6,
+    "maxAffectedSymbols": 32,
+    "maxFiles": 6,
+    "maxASTNodes": 150,
+    "maxRepairAttempts": 3,
+    "maxWallClockMs": 120000
+  },
+  "cohortSize": 15,
+  "totalTrials": 60,
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb"
+}

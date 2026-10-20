@@ -1,0 +1,795 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.483Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "totalSemanticHoles": 25,
+  "holes": [
+    {
+      "holeId": "HOLE-P46-L5-01-1",
+      "target": "comparePrerelease",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_POSTCONDITION",
+        "CHANGE_DATA_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_comparePrerelease"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_comparePrerelease"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L5-01-02",
+        "HOINV-P46-L5-01-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L5-01-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_comparePrerelease",
+        "IDENTITY_ON_comparePrerelease"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L5-01-01",
+        "targetSymbol": "comparePrerelease",
+        "targetModule": "src/semver.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L5-02-1",
+      "target": "_setInternal",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_POSTCONDITION",
+        "CHANGE_DATA_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR__setInternal"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR__setInternal"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L5-02-01",
+        "HOINV-P46-L5-02-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L5-02-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON__setInternal",
+        "IDENTITY_ON__setInternal"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L5-02-01",
+        "targetSymbol": "_setInternal",
+        "targetModule": "src/lodash-set.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L5-03-1",
+      "target": "dispatchListener",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_POSTCONDITION",
+        "CHANGE_DATA_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_dispatchListener"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_dispatchListener"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L5-03-01",
+        "HOINV-P46-L5-03-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L5-03-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_dispatchListener",
+        "IDENTITY_ON_dispatchListener"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L5-03-01",
+        "targetSymbol": "dispatchListener",
+        "targetModule": "src/event-emitter.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L5-04-1",
+      "target": "_handleError",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_POSTCONDITION",
+        "CHANGE_DATA_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR__handleError"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR__handleError"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L5-04-01",
+        "HOINV-P46-L5-04-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L5-04-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON__handleError",
+        "IDENTITY_ON__handleError"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L5-04-01",
+        "targetSymbol": "_handleError",
+        "targetModule": "src/walker.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L5-05-1",
+      "target": "flushQueue",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_POSTCONDITION",
+        "CHANGE_DATA_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_flushQueue"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_flushQueue"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L5-05-01",
+        "HOINV-P46-L5-05-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L5-05-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_flushQueue",
+        "IDENTITY_ON_flushQueue"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L5-05-01",
+        "targetSymbol": "flushQueue",
+        "targetModule": "src/cache-queue.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-01-1",
+      "target": "authorizeUser",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_authorizeUser"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_authorizeUser"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-01-02",
+        "HOINV-P46-L6-01-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-01-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_authorizeUser",
+        "IDENTITY_ON_authorizeUser"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-01-01",
+        "targetSymbol": "authorizeUser",
+        "targetModule": "src/auth.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-01-2",
+      "target": "hasRole",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_hasRole"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_hasRole"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-01-02",
+        "HOINV-P46-L6-01-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-01-02"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_hasRole",
+        "IDENTITY_ON_hasRole"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-01-01",
+        "targetSymbol": "hasRole",
+        "targetModule": "src/rbac.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-02-1",
+      "target": "defaultSchema",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_defaultSchema"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_defaultSchema"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-02-01",
+        "HOINV-P46-L6-02-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-02-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_defaultSchema",
+        "IDENTITY_ON_defaultSchema"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-02-01",
+        "targetSymbol": "defaultSchema",
+        "targetModule": "src/config.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-02-2",
+      "target": "loadConfig",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_loadConfig"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_loadConfig"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-02-01",
+        "HOINV-P46-L6-02-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-02-02"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_loadConfig",
+        "IDENTITY_ON_loadConfig"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-02-01",
+        "targetSymbol": "loadConfig",
+        "targetModule": "src/schema.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-03-1",
+      "target": "formatJson",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_formatJson"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_formatJson"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-03-01",
+        "HOINV-P46-L6-03-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-03-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_formatJson",
+        "IDENTITY_ON_formatJson"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-03-01",
+        "targetSymbol": "formatJson",
+        "targetModule": "src/formatter.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-03-2",
+      "target": "logEvent",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_logEvent"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_logEvent"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-03-01",
+        "HOINV-P46-L6-03-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-03-02"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_logEvent",
+        "IDENTITY_ON_logEvent"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-03-01",
+        "targetSymbol": "logEvent",
+        "targetModule": "src/logger.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-04-1",
+      "target": "buildRequest",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_buildRequest"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_buildRequest"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-04-01",
+        "HOINV-P46-L6-04-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-04-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_buildRequest",
+        "IDENTITY_ON_buildRequest"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-04-01",
+        "targetSymbol": "buildRequest",
+        "targetModule": "src/http-client.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-04-2",
+      "target": "sendRequest",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_sendRequest"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_sendRequest"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-04-01",
+        "HOINV-P46-L6-04-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-04-02"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_sendRequest",
+        "IDENTITY_ON_sendRequest"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-04-01",
+        "targetSymbol": "sendRequest",
+        "targetModule": "src/request-builder.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-05-1",
+      "target": "cancelJob",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_cancelJob"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_cancelJob"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-05-02",
+        "HOINV-P46-L6-05-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-05-01"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_cancelJob",
+        "IDENTITY_ON_cancelJob"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-05-01",
+        "targetSymbol": "cancelJob",
+        "targetModule": "src/job-queue.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L6-05-2",
+      "target": "evictWorker",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_PRODUCER",
+        "ADAPT_CONSUMER"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_evictWorker"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_evictWorker"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L6-05-02",
+        "HOINV-P46-L6-05-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L6-05-02"
+      ],
+      "candidateDomain": [
+        "NORMALIZE_VALUE_ON_evictWorker",
+        "IDENTITY_ON_evictWorker"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L6-05-01",
+        "targetSymbol": "evictWorker",
+        "targetModule": "src/worker-pool.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-01-1",
+      "target": "evaluateExponent",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_STATE_TRANSITION",
+        "CHANGE_CONTROL_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_evaluateExponent"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_evaluateExponent"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-01-02",
+        "HOINV-P46-L7-01-01",
+        "HOINV-P46-L7-01-03"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-01-01"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateExponent",
+        "DEFAULT_BEHAVIOR_ON_evaluateExponent"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-01-01",
+        "targetSymbol": "evaluateExponent",
+        "targetModule": "src/calc.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-01-2",
+      "target": "parseExpression",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_CONSUMER",
+        "CHANGE_VALIDATION_RULE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_parseExpression"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_parseExpression"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-01-02",
+        "HOINV-P46-L7-01-01",
+        "HOINV-P46-L7-01-03"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-01-02"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_parseExpression",
+        "DEFAULT_BEHAVIOR_ON_parseExpression"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-01-01",
+        "targetSymbol": "parseExpression",
+        "targetModule": "src/parser.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-02-1",
+      "target": "compileOriginPattern",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_STATE_TRANSITION",
+        "CHANGE_CONTROL_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_compileOriginPattern"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_compileOriginPattern"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-02-03",
+        "HOINV-P46-L7-02-02",
+        "HOINV-P46-L7-02-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-02-01"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_compileOriginPattern",
+        "DEFAULT_BEHAVIOR_ON_compileOriginPattern"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-02-01",
+        "targetSymbol": "compileOriginPattern",
+        "targetModule": "src/cors.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-02-2",
+      "target": "validateHeaders",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_CONSUMER",
+        "CHANGE_VALIDATION_RULE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_validateHeaders"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_validateHeaders"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-02-03",
+        "HOINV-P46-L7-02-02",
+        "HOINV-P46-L7-02-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-02-02"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_validateHeaders",
+        "DEFAULT_BEHAVIOR_ON_validateHeaders"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-02-01",
+        "targetSymbol": "validateHeaders",
+        "targetModule": "src/header-validator.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-03-1",
+      "target": "compareSemVer",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_STATE_TRANSITION",
+        "CHANGE_CONTROL_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_compareSemVer"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_compareSemVer"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-03-02",
+        "HOINV-P46-L7-03-03",
+        "HOINV-P46-L7-03-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-03-01"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_compareSemVer",
+        "DEFAULT_BEHAVIOR_ON_compareSemVer"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-03-01",
+        "targetSymbol": "compareSemVer",
+        "targetModule": "src/semver-compare.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-03-2",
+      "target": "sortPrerelease",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_CONSUMER",
+        "CHANGE_VALIDATION_RULE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_sortPrerelease"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_sortPrerelease"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-03-02",
+        "HOINV-P46-L7-03-03",
+        "HOINV-P46-L7-03-01"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-03-02"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_sortPrerelease",
+        "DEFAULT_BEHAVIOR_ON_sortPrerelease"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-03-01",
+        "targetSymbol": "sortPrerelease",
+        "targetModule": "src/semver-sort.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-04-1",
+      "target": "resolveObjectPath",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_STATE_TRANSITION",
+        "CHANGE_CONTROL_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_resolveObjectPath"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_resolveObjectPath"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-04-03",
+        "HOINV-P46-L7-04-01",
+        "HOINV-P46-L7-04-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-04-01"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_resolveObjectPath",
+        "DEFAULT_BEHAVIOR_ON_resolveObjectPath"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-04-01",
+        "targetSymbol": "resolveObjectPath",
+        "targetModule": "src/path-resolver.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-04-2",
+      "target": "setDeepProperty",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_CONSUMER",
+        "CHANGE_VALIDATION_RULE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_setDeepProperty"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_setDeepProperty"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-04-03",
+        "HOINV-P46-L7-04-01",
+        "HOINV-P46-L7-04-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-04-02"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_setDeepProperty",
+        "DEFAULT_BEHAVIOR_ON_setDeepProperty"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-04-01",
+        "targetSymbol": "setDeepProperty",
+        "targetModule": "src/path-setter.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-05-1",
+      "target": "authorizeRole",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "CHANGE_STATE_TRANSITION",
+        "CHANGE_CONTROL_FLOW"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_authorizeRole"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_authorizeRole"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-05-03",
+        "HOINV-P46-L7-05-01",
+        "HOINV-P46-L7-05-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-05-01"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_authorizeRole",
+        "DEFAULT_BEHAVIOR_ON_authorizeRole"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-05-01",
+        "targetSymbol": "authorizeRole",
+        "targetModule": "src/role-auth.js"
+      }
+    },
+    {
+      "holeId": "HOLE-P46-L7-05-2",
+      "target": "evaluateRoleHierarchy",
+      "expectedType": "function(...args: unknown[]): unknown",
+      "allowedTransformationClasses": [
+        "ADAPT_CONSUMER",
+        "CHANGE_VALIDATION_RULE"
+      ],
+      "preconditions": [
+        "PRE:VALID_INPUT_FOR_evaluateRoleHierarchy"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_FOR_evaluateRoleHierarchy"
+      ],
+      "dependentInvariants": [
+        "HOINV-P46-L7-05-03",
+        "HOINV-P46-L7-05-01",
+        "HOINV-P46-L7-05-02"
+      ],
+      "dependentContracts": [
+        "CONTRACT-P46-L7-05-02"
+      ],
+      "candidateDomain": [
+        "TRANSITION_TO_INTERMEDIATE_STATE_ON_evaluateRoleHierarchy",
+        "DEFAULT_BEHAVIOR_ON_evaluateRoleHierarchy"
+      ],
+      "provenance": {
+        "skeletonId": "SKEL-P46-L7-05-01",
+        "targetSymbol": "evaluateRoleHierarchy",
+        "targetModule": "src/role-graph.js"
+      }
+    }
+  ]
+}

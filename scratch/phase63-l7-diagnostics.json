@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.523Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "invariantsSynthesized": [
+        "HOINV-P46-L7-01-01 (REGRESSION_INVARIANT)",
+        "HOINV-P46-L7-01-02 (REPRESENTATION_INVARIANT)"
+      ],
+      "invariantsValidated": true,
+      "skeletonConstructed": "SKEL-P46-L7-01-01 (2 Semantic Holes)",
+      "holeCompletionStatus": "EXHAUSTED_AT_DEPTH_6",
+      "materializationStatus": "SUCCESS (Materialized into structural AST edits)",
+      "cleanRoomStatus": "FAIL",
+      "searchExhausted": true,
+      "failureRootCause": "Higher-order invariant synthesis correctly infers tokenizer/parser representation agreement and state transition ordering, but bounded typed hole completion exhausts at depth 6 without discovering the coordinated Pratt binding power lookahead rule without gold-solution leakage."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "invariantsSynthesized": [
+        "HOINV-P46-L7-02-01 (REGRESSION_INVARIANT)",
+        "HOINV-P46-L7-02-02 (SECURITY_INVARIANT)"
+      ],
+      "invariantsValidated": true,
+      "skeletonConstructed": "SKEL-P46-L7-02-01 (2 Semantic Holes)",
+      "holeCompletionStatus": "EXHAUSTED_AT_DEPTH_6",
+      "materializationStatus": "SUCCESS (Materialized into structural AST edits)",
+      "cleanRoomStatus": "FAIL",
+      "searchExhausted": true,
+      "failureRootCause": "Higher-order security invariants constrain origin validation and header guards, but discrete skeleton hole completion exhausts at depth 6 without discovering the joint credential reflection predicate required by global security invariants."
+    }
+  ]
+}

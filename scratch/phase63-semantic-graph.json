@@ -1,0 +1,1562 @@
+{
+  "schemaVersion": "emerald-phase63-v1",
+  "phase": "63",
+  "generatedAt": "2026-10-20T05:37:15.471Z",
+  "baselineCommit": "7f14c90",
+  "protocolDigest": "00f88eaedff546f0b485fb0ddd2bd1b247230973129a7ebc0f1c097101f868fb",
+  "totalNodes": 107,
+  "totalEdges": 112,
+  "graphs": [
+    {
+      "taskId": "P46-L5-01",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L5-01-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L5-01-01"
+        },
+        {
+          "id": "INV:PRE_RELEASE_SEMANTICS",
+          "type": "INVARIANT",
+          "name": "PRE_RELEASE_SEMANTICS"
+        },
+        {
+          "id": "MOD:src/semver.js",
+          "type": "MODULE",
+          "name": "src/semver.js"
+        },
+        {
+          "id": "SYM:comparePrerelease",
+          "type": "SYMBOL",
+          "name": "comparePrerelease"
+        },
+        {
+          "id": "SYM:parsePrerelease",
+          "type": "SYMBOL",
+          "name": "parsePrerelease"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/semver.js",
+          "target": "SYM:comparePrerelease",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-01-01"
+          ]
+        },
+        {
+          "source": "MOD:src/semver.js",
+          "target": "SYM:parsePrerelease",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-01-01"
+          ]
+        },
+        {
+          "source": "SYM:comparePrerelease",
+          "target": "CTR:CONTRACT-P46-L5-01-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-01-01"
+          ]
+        },
+        {
+          "source": "SYM:comparePrerelease",
+          "target": "INV:PRE_RELEASE_SEMANTICS",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-01-01"
+          ]
+        },
+        {
+          "source": "SYM:parsePrerelease",
+          "target": "CTR:CONTRACT-P46-L5-01-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-01-01"
+          ]
+        },
+        {
+          "source": "SYM:parsePrerelease",
+          "target": "INV:PRE_RELEASE_SEMANTICS",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-01-01"
+          ]
+        }
+      ],
+      "graphDigest": "bcdfce11d6b401e9cf6fcac00a63d4c5f3a97c5c582b930a8934cc72082d5017"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L5-02-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L5-02-01"
+        },
+        {
+          "id": "INV:PATH_NORMALIZATION",
+          "type": "INVARIANT",
+          "name": "PATH_NORMALIZATION"
+        },
+        {
+          "id": "MOD:src/lodash-set.js",
+          "type": "MODULE",
+          "name": "src/lodash-set.js"
+        },
+        {
+          "id": "SYM:_setInternal",
+          "type": "SYMBOL",
+          "name": "_setInternal"
+        },
+        {
+          "id": "SYM:_toPath",
+          "type": "SYMBOL",
+          "name": "_toPath"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/lodash-set.js",
+          "target": "SYM:_setInternal",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-02-01"
+          ]
+        },
+        {
+          "source": "MOD:src/lodash-set.js",
+          "target": "SYM:_toPath",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-02-01"
+          ]
+        },
+        {
+          "source": "SYM:_setInternal",
+          "target": "CTR:CONTRACT-P46-L5-02-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-02-01"
+          ]
+        },
+        {
+          "source": "SYM:_setInternal",
+          "target": "INV:PATH_NORMALIZATION",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-02-01"
+          ]
+        },
+        {
+          "source": "SYM:_toPath",
+          "target": "CTR:CONTRACT-P46-L5-02-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-02-01"
+          ]
+        },
+        {
+          "source": "SYM:_toPath",
+          "target": "INV:PATH_NORMALIZATION",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-02-01"
+          ]
+        }
+      ],
+      "graphDigest": "40a202b5b142ded90e7eee1e2d985f152ae1fd37dd3c540df67e9e290ff14cf6"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L5-03-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L5-03-01"
+        },
+        {
+          "id": "INV:LISTENER_DISPATCH_ORDER",
+          "type": "INVARIANT",
+          "name": "LISTENER_DISPATCH_ORDER"
+        },
+        {
+          "id": "MOD:src/event-emitter.js",
+          "type": "MODULE",
+          "name": "src/event-emitter.js"
+        },
+        {
+          "id": "SYM:dispatchListener",
+          "type": "SYMBOL",
+          "name": "dispatchListener"
+        },
+        {
+          "id": "SYM:emit",
+          "type": "SYMBOL",
+          "name": "emit"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/event-emitter.js",
+          "target": "SYM:dispatchListener",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-03-01"
+          ]
+        },
+        {
+          "source": "MOD:src/event-emitter.js",
+          "target": "SYM:emit",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-03-01"
+          ]
+        },
+        {
+          "source": "SYM:dispatchListener",
+          "target": "CTR:CONTRACT-P46-L5-03-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-03-01"
+          ]
+        },
+        {
+          "source": "SYM:dispatchListener",
+          "target": "INV:LISTENER_DISPATCH_ORDER",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-03-01"
+          ]
+        },
+        {
+          "source": "SYM:emit",
+          "target": "CTR:CONTRACT-P46-L5-03-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-03-01"
+          ]
+        },
+        {
+          "source": "SYM:emit",
+          "target": "INV:LISTENER_DISPATCH_ORDER",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-03-01"
+          ]
+        }
+      ],
+      "graphDigest": "805dea4349b89a310dc7d6825aaa6625ae2d13b25b73b3a7001b2c86f589701c"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L5-04-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L5-04-01"
+        },
+        {
+          "id": "INV:ERROR_BUBBLING",
+          "type": "INVARIANT",
+          "name": "ERROR_BUBBLING"
+        },
+        {
+          "id": "MOD:src/walker.js",
+          "type": "MODULE",
+          "name": "src/walker.js"
+        },
+        {
+          "id": "SYM:_handleError",
+          "type": "SYMBOL",
+          "name": "_handleError"
+        },
+        {
+          "id": "SYM:scanDirectory",
+          "type": "SYMBOL",
+          "name": "scanDirectory"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/walker.js",
+          "target": "SYM:_handleError",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-04-01"
+          ]
+        },
+        {
+          "source": "MOD:src/walker.js",
+          "target": "SYM:scanDirectory",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-04-01"
+          ]
+        },
+        {
+          "source": "SYM:_handleError",
+          "target": "CTR:CONTRACT-P46-L5-04-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-04-01"
+          ]
+        },
+        {
+          "source": "SYM:_handleError",
+          "target": "INV:ERROR_BUBBLING",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-04-01"
+          ]
+        },
+        {
+          "source": "SYM:scanDirectory",
+          "target": "CTR:CONTRACT-P46-L5-04-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-04-01"
+          ]
+        },
+        {
+          "source": "SYM:scanDirectory",
+          "target": "INV:ERROR_BUBBLING",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-04-01"
+          ]
+        }
+      ],
+      "graphDigest": "c48dac23ab380e7b76fba1ddbd9f20f67e636d777ea3bbdd9e0e541b80923c17"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L5-05-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L5-05-01"
+        },
+        {
+          "id": "INV:CACHE_CONSISTENCY",
+          "type": "INVARIANT",
+          "name": "CACHE_CONSISTENCY"
+        },
+        {
+          "id": "MOD:src/cache-queue.js",
+          "type": "MODULE",
+          "name": "src/cache-queue.js"
+        },
+        {
+          "id": "SYM:flushQueue",
+          "type": "SYMBOL",
+          "name": "flushQueue"
+        },
+        {
+          "id": "SYM:readCache",
+          "type": "SYMBOL",
+          "name": "readCache"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/cache-queue.js",
+          "target": "SYM:flushQueue",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-05-01"
+          ]
+        },
+        {
+          "source": "MOD:src/cache-queue.js",
+          "target": "SYM:readCache",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L5-05-01"
+          ]
+        },
+        {
+          "source": "SYM:flushQueue",
+          "target": "CTR:CONTRACT-P46-L5-05-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-05-01"
+          ]
+        },
+        {
+          "source": "SYM:flushQueue",
+          "target": "INV:CACHE_CONSISTENCY",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-05-01"
+          ]
+        },
+        {
+          "source": "SYM:readCache",
+          "target": "CTR:CONTRACT-P46-L5-05-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L5-05-01"
+          ]
+        },
+        {
+          "source": "SYM:readCache",
+          "target": "INV:CACHE_CONSISTENCY",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L5-05-01"
+          ]
+        }
+      ],
+      "graphDigest": "32159748fb87b2c90f9d924f6be81186b16f636631997c35b4a96246b6007799"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L6-01-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-01-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L6-01-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-01-02"
+        },
+        {
+          "id": "INV:RBAC_HIERARCHY",
+          "type": "INVARIANT",
+          "name": "RBAC_HIERARCHY"
+        },
+        {
+          "id": "MOD:src/auth.js",
+          "type": "MODULE",
+          "name": "src/auth.js"
+        },
+        {
+          "id": "MOD:src/rbac.js",
+          "type": "MODULE",
+          "name": "src/rbac.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:authorizeUser",
+          "type": "SYMBOL",
+          "name": "authorizeUser"
+        },
+        {
+          "id": "SYM:hasRole",
+          "type": "SYMBOL",
+          "name": "hasRole"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/auth.js",
+          "target": "SYM:authorizeUser",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-01-01"
+          ]
+        },
+        {
+          "source": "MOD:src/rbac.js",
+          "target": "SYM:hasRole",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-01-02"
+          ]
+        },
+        {
+          "source": "SYM:authorizeUser",
+          "target": "CTR:CONTRACT-P46-L6-01-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-01-01"
+          ]
+        },
+        {
+          "source": "SYM:authorizeUser",
+          "target": "INV:RBAC_HIERARCHY",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L6-01-01"
+          ]
+        },
+        {
+          "source": "SYM:authorizeUser",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-01-01-TO-REGION-P46-L6-01-02"
+          ]
+        },
+        {
+          "source": "SYM:authorizeUser",
+          "target": "SYM:hasRole",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L6-01-01-TO-REGION-P46-L6-01-02"
+          ]
+        },
+        {
+          "source": "SYM:hasRole",
+          "target": "CTR:CONTRACT-P46-L6-01-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-01-02"
+          ]
+        },
+        {
+          "source": "SYM:hasRole",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-01-01-TO-REGION-P46-L6-01-02"
+          ]
+        }
+      ],
+      "graphDigest": "8d16443d79becb832f7ea5578b47c912094ae2ca98d67d7c3651585badb262a1"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L6-02-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-02-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L6-02-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-02-02"
+        },
+        {
+          "id": "INV:SCHEMA_DEFAULTS",
+          "type": "INVARIANT",
+          "name": "SCHEMA_DEFAULTS"
+        },
+        {
+          "id": "MOD:src/config.js",
+          "type": "MODULE",
+          "name": "src/config.js"
+        },
+        {
+          "id": "MOD:src/schema.js",
+          "type": "MODULE",
+          "name": "src/schema.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:defaultSchema",
+          "type": "SYMBOL",
+          "name": "defaultSchema"
+        },
+        {
+          "id": "SYM:loadConfig",
+          "type": "SYMBOL",
+          "name": "loadConfig"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/config.js",
+          "target": "SYM:defaultSchema",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-02-01"
+          ]
+        },
+        {
+          "source": "MOD:src/schema.js",
+          "target": "SYM:loadConfig",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-02-02"
+          ]
+        },
+        {
+          "source": "SYM:defaultSchema",
+          "target": "CTR:CONTRACT-P46-L6-02-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-02-01"
+          ]
+        },
+        {
+          "source": "SYM:defaultSchema",
+          "target": "INV:SCHEMA_DEFAULTS",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L6-02-01"
+          ]
+        },
+        {
+          "source": "SYM:defaultSchema",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-02-01-TO-REGION-P46-L6-02-02"
+          ]
+        },
+        {
+          "source": "SYM:defaultSchema",
+          "target": "SYM:loadConfig",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L6-02-01-TO-REGION-P46-L6-02-02"
+          ]
+        },
+        {
+          "source": "SYM:loadConfig",
+          "target": "CTR:CONTRACT-P46-L6-02-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-02-02"
+          ]
+        },
+        {
+          "source": "SYM:loadConfig",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-02-01-TO-REGION-P46-L6-02-02"
+          ]
+        }
+      ],
+      "graphDigest": "9b1fcaa3af39f565163310955c861becbdad4da83378eee4b5f258f0f2e5468b"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L6-03-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-03-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L6-03-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-03-02"
+        },
+        {
+          "id": "INV:LOG_FORMAT_STABILITY",
+          "type": "INVARIANT",
+          "name": "LOG_FORMAT_STABILITY"
+        },
+        {
+          "id": "MOD:src/formatter.js",
+          "type": "MODULE",
+          "name": "src/formatter.js"
+        },
+        {
+          "id": "MOD:src/logger.js",
+          "type": "MODULE",
+          "name": "src/logger.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:formatJson",
+          "type": "SYMBOL",
+          "name": "formatJson"
+        },
+        {
+          "id": "SYM:logEvent",
+          "type": "SYMBOL",
+          "name": "logEvent"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/formatter.js",
+          "target": "SYM:formatJson",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-03-01"
+          ]
+        },
+        {
+          "source": "MOD:src/logger.js",
+          "target": "SYM:logEvent",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-03-02"
+          ]
+        },
+        {
+          "source": "SYM:formatJson",
+          "target": "CTR:CONTRACT-P46-L6-03-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-03-01"
+          ]
+        },
+        {
+          "source": "SYM:formatJson",
+          "target": "INV:LOG_FORMAT_STABILITY",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L6-03-01"
+          ]
+        },
+        {
+          "source": "SYM:formatJson",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-03-01-TO-REGION-P46-L6-03-02"
+          ]
+        },
+        {
+          "source": "SYM:formatJson",
+          "target": "SYM:logEvent",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L6-03-01-TO-REGION-P46-L6-03-02"
+          ]
+        },
+        {
+          "source": "SYM:logEvent",
+          "target": "CTR:CONTRACT-P46-L6-03-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-03-02"
+          ]
+        },
+        {
+          "source": "SYM:logEvent",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-03-01-TO-REGION-P46-L6-03-02"
+          ]
+        }
+      ],
+      "graphDigest": "472c8abd7de7958636da663e45f249638a7aa7e277d15ce14a113fe95cbc3a8a"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L6-04-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-04-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L6-04-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-04-02"
+        },
+        {
+          "id": "INV:REQUEST_HEADER_SANITY",
+          "type": "INVARIANT",
+          "name": "REQUEST_HEADER_SANITY"
+        },
+        {
+          "id": "MOD:src/http-client.js",
+          "type": "MODULE",
+          "name": "src/http-client.js"
+        },
+        {
+          "id": "MOD:src/request-builder.js",
+          "type": "MODULE",
+          "name": "src/request-builder.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:buildRequest",
+          "type": "SYMBOL",
+          "name": "buildRequest"
+        },
+        {
+          "id": "SYM:sendRequest",
+          "type": "SYMBOL",
+          "name": "sendRequest"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/http-client.js",
+          "target": "SYM:buildRequest",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-04-01"
+          ]
+        },
+        {
+          "source": "MOD:src/request-builder.js",
+          "target": "SYM:sendRequest",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-04-02"
+          ]
+        },
+        {
+          "source": "SYM:buildRequest",
+          "target": "CTR:CONTRACT-P46-L6-04-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-04-01"
+          ]
+        },
+        {
+          "source": "SYM:buildRequest",
+          "target": "INV:REQUEST_HEADER_SANITY",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L6-04-01"
+          ]
+        },
+        {
+          "source": "SYM:buildRequest",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-04-01-TO-REGION-P46-L6-04-02"
+          ]
+        },
+        {
+          "source": "SYM:buildRequest",
+          "target": "SYM:sendRequest",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L6-04-01-TO-REGION-P46-L6-04-02"
+          ]
+        },
+        {
+          "source": "SYM:sendRequest",
+          "target": "CTR:CONTRACT-P46-L6-04-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-04-02"
+          ]
+        },
+        {
+          "source": "SYM:sendRequest",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-04-01-TO-REGION-P46-L6-04-02"
+          ]
+        }
+      ],
+      "graphDigest": "4d57dc992dd4e4b1638948b66dfce9573a5bd2a763a0b33e30cd393e30acaf76"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L6-05-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-05-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L6-05-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L6-05-02"
+        },
+        {
+          "id": "INV:WORKER_EVICTION_SAFETY",
+          "type": "INVARIANT",
+          "name": "WORKER_EVICTION_SAFETY"
+        },
+        {
+          "id": "MOD:src/job-queue.js",
+          "type": "MODULE",
+          "name": "src/job-queue.js"
+        },
+        {
+          "id": "MOD:src/worker-pool.js",
+          "type": "MODULE",
+          "name": "src/worker-pool.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:cancelJob",
+          "type": "SYMBOL",
+          "name": "cancelJob"
+        },
+        {
+          "id": "SYM:evictWorker",
+          "type": "SYMBOL",
+          "name": "evictWorker"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/job-queue.js",
+          "target": "SYM:cancelJob",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-05-01"
+          ]
+        },
+        {
+          "source": "MOD:src/worker-pool.js",
+          "target": "SYM:evictWorker",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L6-05-02"
+          ]
+        },
+        {
+          "source": "SYM:cancelJob",
+          "target": "CTR:CONTRACT-P46-L6-05-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-05-01"
+          ]
+        },
+        {
+          "source": "SYM:cancelJob",
+          "target": "INV:WORKER_EVICTION_SAFETY",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L6-05-01"
+          ]
+        },
+        {
+          "source": "SYM:cancelJob",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-05-01-TO-REGION-P46-L6-05-02"
+          ]
+        },
+        {
+          "source": "SYM:cancelJob",
+          "target": "SYM:evictWorker",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L6-05-01-TO-REGION-P46-L6-05-02"
+          ]
+        },
+        {
+          "source": "SYM:evictWorker",
+          "target": "CTR:CONTRACT-P46-L6-05-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L6-05-02"
+          ]
+        },
+        {
+          "source": "SYM:evictWorker",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L6-05-01-TO-REGION-P46-L6-05-02"
+          ]
+        }
+      ],
+      "graphDigest": "86e473927db3373be03fd96aa4d984aeee4acf7511e06c3074159621b8ffcbf8"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L7-01-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-01-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L7-01-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-01-02"
+        },
+        {
+          "id": "INV:EXPONENT_PRECEDENCE",
+          "type": "INVARIANT",
+          "name": "EXPONENT_PRECEDENCE"
+        },
+        {
+          "id": "INV:PRATT_UNARY_JUXTAPOSITION_INVARIANT",
+          "type": "INVARIANT",
+          "name": "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+        },
+        {
+          "id": "MOD:src/calc.js",
+          "type": "MODULE",
+          "name": "src/calc.js"
+        },
+        {
+          "id": "MOD:src/parser.js",
+          "type": "MODULE",
+          "name": "src/parser.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:evaluateExponent",
+          "type": "SYMBOL",
+          "name": "evaluateExponent"
+        },
+        {
+          "id": "SYM:parseExpression",
+          "type": "SYMBOL",
+          "name": "parseExpression"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/calc.js",
+          "target": "SYM:evaluateExponent",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-01-01"
+          ]
+        },
+        {
+          "source": "MOD:src/parser.js",
+          "target": "SYM:parseExpression",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-01-02"
+          ]
+        },
+        {
+          "source": "SYM:evaluateExponent",
+          "target": "CTR:CONTRACT-P46-L7-01-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-01-01"
+          ]
+        },
+        {
+          "source": "SYM:evaluateExponent",
+          "target": "INV:EXPONENT_PRECEDENCE",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L7-01-01"
+          ]
+        },
+        {
+          "source": "SYM:evaluateExponent",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-01-01-TO-REGION-P46-L7-01-02"
+          ]
+        },
+        {
+          "source": "SYM:evaluateExponent",
+          "target": "SYM:parseExpression",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L7-01-01-TO-REGION-P46-L7-01-02"
+          ]
+        },
+        {
+          "source": "SYM:parseExpression",
+          "target": "CTR:CONTRACT-P46-L7-01-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-01-02"
+          ]
+        },
+        {
+          "source": "SYM:parseExpression",
+          "target": "INV:PRATT_UNARY_JUXTAPOSITION_INVARIANT",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L7-01-02"
+          ]
+        },
+        {
+          "source": "SYM:parseExpression",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-01-01-TO-REGION-P46-L7-01-02"
+          ]
+        }
+      ],
+      "graphDigest": "86f634134c60c09bd2af1504292dd0d44e2936566414d0f12edd665a311e1730"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L7-02-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-02-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L7-02-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-02-02"
+        },
+        {
+          "id": "INV:CORS_WILDCARD_CREDENTIAL_INVARIANT",
+          "type": "INVARIANT",
+          "name": "CORS_WILDCARD_CREDENTIAL_INVARIANT"
+        },
+        {
+          "id": "INV:HEADER_NORMALIZATION",
+          "type": "INVARIANT",
+          "name": "HEADER_NORMALIZATION"
+        },
+        {
+          "id": "MOD:src/cors.js",
+          "type": "MODULE",
+          "name": "src/cors.js"
+        },
+        {
+          "id": "MOD:src/header-validator.js",
+          "type": "MODULE",
+          "name": "src/header-validator.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:compileOriginPattern",
+          "type": "SYMBOL",
+          "name": "compileOriginPattern"
+        },
+        {
+          "id": "SYM:validateHeaders",
+          "type": "SYMBOL",
+          "name": "validateHeaders"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/cors.js",
+          "target": "SYM:compileOriginPattern",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-02-01"
+          ]
+        },
+        {
+          "source": "MOD:src/header-validator.js",
+          "target": "SYM:validateHeaders",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-02-02"
+          ]
+        },
+        {
+          "source": "SYM:compileOriginPattern",
+          "target": "CTR:CONTRACT-P46-L7-02-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-02-01"
+          ]
+        },
+        {
+          "source": "SYM:compileOriginPattern",
+          "target": "INV:CORS_WILDCARD_CREDENTIAL_INVARIANT",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L7-02-01"
+          ]
+        },
+        {
+          "source": "SYM:compileOriginPattern",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-02-01-TO-REGION-P46-L7-02-02"
+          ]
+        },
+        {
+          "source": "SYM:compileOriginPattern",
+          "target": "SYM:validateHeaders",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L7-02-01-TO-REGION-P46-L7-02-02"
+          ]
+        },
+        {
+          "source": "SYM:validateHeaders",
+          "target": "CTR:CONTRACT-P46-L7-02-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-02-02"
+          ]
+        },
+        {
+          "source": "SYM:validateHeaders",
+          "target": "INV:HEADER_NORMALIZATION",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L7-02-02"
+          ]
+        },
+        {
+          "source": "SYM:validateHeaders",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-02-01-TO-REGION-P46-L7-02-02"
+          ]
+        }
+      ],
+      "graphDigest": "62ac96ae52d8283d4637f0235a71d5c4c16fdd002357ca6c0cb43a51e78e7a4a"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L7-03-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-03-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L7-03-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-03-02"
+        },
+        {
+          "id": "INV:TOTAL_ORDER_SEMANTICS",
+          "type": "INVARIANT",
+          "name": "TOTAL_ORDER_SEMANTICS"
+        },
+        {
+          "id": "MOD:src/semver-compare.js",
+          "type": "MODULE",
+          "name": "src/semver-compare.js"
+        },
+        {
+          "id": "MOD:src/semver-sort.js",
+          "type": "MODULE",
+          "name": "src/semver-sort.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:compareSemVer",
+          "type": "SYMBOL",
+          "name": "compareSemVer"
+        },
+        {
+          "id": "SYM:sortPrerelease",
+          "type": "SYMBOL",
+          "name": "sortPrerelease"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/semver-compare.js",
+          "target": "SYM:compareSemVer",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-03-01"
+          ]
+        },
+        {
+          "source": "MOD:src/semver-sort.js",
+          "target": "SYM:sortPrerelease",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-03-02"
+          ]
+        },
+        {
+          "source": "SYM:compareSemVer",
+          "target": "CTR:CONTRACT-P46-L7-03-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-03-01"
+          ]
+        },
+        {
+          "source": "SYM:compareSemVer",
+          "target": "INV:TOTAL_ORDER_SEMANTICS",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L7-03-01"
+          ]
+        },
+        {
+          "source": "SYM:compareSemVer",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-03-01-TO-REGION-P46-L7-03-02"
+          ]
+        },
+        {
+          "source": "SYM:compareSemVer",
+          "target": "SYM:sortPrerelease",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L7-03-01-TO-REGION-P46-L7-03-02"
+          ]
+        },
+        {
+          "source": "SYM:sortPrerelease",
+          "target": "CTR:CONTRACT-P46-L7-03-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-03-02"
+          ]
+        },
+        {
+          "source": "SYM:sortPrerelease",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-03-01-TO-REGION-P46-L7-03-02"
+          ]
+        }
+      ],
+      "graphDigest": "76e26694d19d0af80080593b84c966781f4882167da1a204227bef5a71db112b"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L7-04-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-04-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L7-04-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-04-02"
+        },
+        {
+          "id": "INV:PROTOTYPE_POLLUTION_GUARD",
+          "type": "INVARIANT",
+          "name": "PROTOTYPE_POLLUTION_GUARD"
+        },
+        {
+          "id": "MOD:src/path-resolver.js",
+          "type": "MODULE",
+          "name": "src/path-resolver.js"
+        },
+        {
+          "id": "MOD:src/path-setter.js",
+          "type": "MODULE",
+          "name": "src/path-setter.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:resolveObjectPath",
+          "type": "SYMBOL",
+          "name": "resolveObjectPath"
+        },
+        {
+          "id": "SYM:setDeepProperty",
+          "type": "SYMBOL",
+          "name": "setDeepProperty"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/path-resolver.js",
+          "target": "SYM:resolveObjectPath",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-04-01"
+          ]
+        },
+        {
+          "source": "MOD:src/path-setter.js",
+          "target": "SYM:setDeepProperty",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-04-02"
+          ]
+        },
+        {
+          "source": "SYM:resolveObjectPath",
+          "target": "CTR:CONTRACT-P46-L7-04-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-04-01"
+          ]
+        },
+        {
+          "source": "SYM:resolveObjectPath",
+          "target": "INV:PROTOTYPE_POLLUTION_GUARD",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L7-04-01"
+          ]
+        },
+        {
+          "source": "SYM:resolveObjectPath",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-04-01-TO-REGION-P46-L7-04-02"
+          ]
+        },
+        {
+          "source": "SYM:resolveObjectPath",
+          "target": "SYM:setDeepProperty",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L7-04-01-TO-REGION-P46-L7-04-02"
+          ]
+        },
+        {
+          "source": "SYM:setDeepProperty",
+          "target": "CTR:CONTRACT-P46-L7-04-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-04-02"
+          ]
+        },
+        {
+          "source": "SYM:setDeepProperty",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-04-01-TO-REGION-P46-L7-04-02"
+          ]
+        }
+      ],
+      "graphDigest": "48b95f5babc34df6b2f8e693e9643da7802b1b5e645b98f2bc214db5244f26bd"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "nodes": [
+        {
+          "id": "CTR:CONTRACT-P46-L7-05-01",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-05-01"
+        },
+        {
+          "id": "CTR:CONTRACT-P46-L7-05-02",
+          "type": "CONTRACT",
+          "name": "CONTRACT-P46-L7-05-02"
+        },
+        {
+          "id": "INV:ROLE_TRANSITIVE_CLOSURE",
+          "type": "INVARIANT",
+          "name": "ROLE_TRANSITIVE_CLOSURE"
+        },
+        {
+          "id": "MOD:src/role-auth.js",
+          "type": "MODULE",
+          "name": "src/role-auth.js"
+        },
+        {
+          "id": "MOD:src/role-graph.js",
+          "type": "MODULE",
+          "name": "src/role-graph.js"
+        },
+        {
+          "id": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "STATE",
+          "name": "SHARED_PARSER_OR_ORIGIN_STATE"
+        },
+        {
+          "id": "SYM:authorizeRole",
+          "type": "SYMBOL",
+          "name": "authorizeRole"
+        },
+        {
+          "id": "SYM:evaluateRoleHierarchy",
+          "type": "SYMBOL",
+          "name": "evaluateRoleHierarchy"
+        }
+      ],
+      "edges": [
+        {
+          "source": "MOD:src/role-auth.js",
+          "target": "SYM:authorizeRole",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-05-01"
+          ]
+        },
+        {
+          "source": "MOD:src/role-graph.js",
+          "target": "SYM:evaluateRoleHierarchy",
+          "type": "EXPORTS",
+          "provenance": [
+            "MODULE_SYMBOL_BINDING:REGION-P46-L7-05-02"
+          ]
+        },
+        {
+          "source": "SYM:authorizeRole",
+          "target": "CTR:CONTRACT-P46-L7-05-01",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-05-01"
+          ]
+        },
+        {
+          "source": "SYM:authorizeRole",
+          "target": "INV:ROLE_TRANSITIVE_CLOSURE",
+          "type": "PRESERVES_INVARIANT",
+          "provenance": [
+            "REGION_INVARIANT_BINDING:REGION-P46-L7-05-01"
+          ]
+        },
+        {
+          "source": "SYM:authorizeRole",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "WRITES_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-05-01-TO-REGION-P46-L7-05-02"
+          ]
+        },
+        {
+          "source": "SYM:authorizeRole",
+          "target": "SYM:evaluateRoleHierarchy",
+          "type": "PRODUCES",
+          "provenance": [
+            "BOUNDARY_PRODUCER_CONSUMER:BND-REGION-P46-L7-05-01-TO-REGION-P46-L7-05-02"
+          ]
+        },
+        {
+          "source": "SYM:evaluateRoleHierarchy",
+          "target": "CTR:CONTRACT-P46-L7-05-02",
+          "type": "CONTRACTS",
+          "provenance": [
+            "CONTRACT_BINDING:CONTRACT-P46-L7-05-02"
+          ]
+        },
+        {
+          "source": "SYM:evaluateRoleHierarchy",
+          "target": "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+          "type": "READS_STATE",
+          "provenance": [
+            "STATE_DEPENDENCY:BND-REGION-P46-L7-05-01-TO-REGION-P46-L7-05-02"
+          ]
+        }
+      ],
+      "graphDigest": "e438937a4e9e34d44067a4489a2b062ea636bf8720285481339508a76838dd36"
+    }
+  ]
+}
