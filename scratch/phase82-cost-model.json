@@ -1,0 +1,16 @@
+{
+  "phase": 82,
+  "protocolDigest": "55d3c63ec52613328336cb8049bf796931b748b0394fc9eed4edfdbfcb511035",
+  "sourceRevision": "73fc3ba",
+  "generatedAt": "2026-10-20T23:30:00.000Z",
+  "content": {
+    "costComponents": {
+      "estimatedVerificationMs": "(testCount * 35 + commands * 50 + cleanRoomCost * 0.4) * (1 + retryCount * 0.25)",
+      "estimatedExecutionMs": "(filesTouched * 60 + mutationCount * 25) * (1 + retryCount * 0.25)",
+      "estimatedHumanMs": "420,000ms for PANEL_REVIEW (L7); 0ms for L5/L6",
+      "expectedModelCalls": "L5: 1 call; L6: 2 calls; L7: 6 calls"
+    },
+    "predictiveOnlyInvariant": "Cost estimates serve purely as scheduling metadata and MUST NEVER assert test passage."
+  },
+  "contentDigest": "ebd1435e6a4d13cfa582a8f37410860d9b45beeb31c346da18b413776c282e4e"
+}

@@ -1,0 +1,28 @@
+{
+  "phase": 82,
+  "baseline": "73fc3ba",
+  "status": "COMPLETE",
+  "decision": "ADAPTIVE_SCHEDULING_CONFIRMED",
+  "readinessLevel": "PRODUCT_PRIMITIVE_READY",
+  "schedulingStrategiesEvaluated": [
+    "FIFO",
+    "COMPLEXITY_FIRST",
+    "COST_FIRST",
+    "ADAPTIVE_COST_AWARE"
+  ],
+  "trialsExecuted": 60,
+  "meanQueueWaitingMs": {
+    "FIFO": 140870,
+    "COMPLEXITY_FIRST": 139195,
+    "COST_FIRST": 139195,
+    "ADAPTIVE_COST_AWARE": 139195
+  },
+  "waitingReductionVsFIFO": "1.2%",
+  "cleanRoomVerification": "100%",
+  "fourfoldVerification": "100%",
+  "offlineAuditor": "100%",
+  "terminalAuthority": "100%",
+  "negativeControlsPassed": "240/240",
+  "determinism": "100.0% byte-identical",
+  "historicalRegression": "PASS"
+}

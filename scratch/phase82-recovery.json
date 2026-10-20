@@ -1,0 +1,66 @@
+{
+  "phase": 82,
+  "protocolDigest": "55d3c63ec52613328336cb8049bf796931b748b0394fc9eed4edfdbfcb511035",
+  "sourceRevision": "73fc3ba",
+  "generatedAt": "2026-10-20T23:30:00.000Z",
+  "content": {
+    "checkpointsTested": 10,
+    "recoverySuccessRate": "10/10 (100.0%)",
+    "duplicateTerminalSuppressed": true,
+    "noLostWorkflows": true,
+    "noAuthorityEscalation": true,
+    "checkpoints": [
+      {
+        "point": "BEFORE_ENQUEUE",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "AFTER_ENQUEUE",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "AFTER_SCORING",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "AFTER_DISPATCH_RESERVATION",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "BEFORE_EXECUTION",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "DURING_EXECUTION",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "BEFORE_VERIFICATION",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "DURING_CLEAN_ROOM",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "BEFORE_EVIDENCE_PERSISTENCE",
+        "recoverable": true,
+        "statePreserved": true
+      },
+      {
+        "point": "BEFORE_TERMINAL_RECORD_WRITE",
+        "recoverable": true,
+        "statePreserved": true
+      }
+    ]
+  },
+  "contentDigest": "ff21811d69ab3af0cf1a7007758b9b3a86c8cab7fd36533eb75c1481162f728e"
+}

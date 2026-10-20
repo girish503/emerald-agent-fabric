@@ -1,0 +1,156 @@
+{
+  "phase": 82,
+  "protocolDigest": "55d3c63ec52613328336cb8049bf796931b748b0394fc9eed4edfdbfcb511035",
+  "sourceRevision": "73fc3ba",
+  "generatedAt": "2026-10-20T23:30:00.000Z",
+  "content": {
+    "phase82NegativeControlsCount": 20,
+    "phase82PassedCount": 20,
+    "cumulativeControlsCount": 240,
+    "cumulativePassedCount": 240,
+    "allFailClosed": true,
+    "controls": [
+      {
+        "id": "N221",
+        "name": "Priority Escalation Authority Injection Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Priority escalation attempting to bypass clean-room verification rejected fail-closed"
+      },
+      {
+        "id": "N222",
+        "name": "Forged Complexity Profile Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Complexity profile under-reporting structural requirements detected and rejected"
+      },
+      {
+        "id": "N223",
+        "name": "Forged Verification Cost Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Non-positive verification cost estimate rejected fail-closed"
+      },
+      {
+        "id": "N224",
+        "name": "Negative Cost Overflow Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Negative cost injection attempting score inflation rejected fail-closed"
+      },
+      {
+        "id": "N225",
+        "name": "Priority Integer Overflow Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Unsafe integer in priority score computation rejected fail-closed"
+      },
+      {
+        "id": "N226",
+        "name": "Aging-Factor Overflow Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Non-finite aging factor rejected fail-closed"
+      },
+      {
+        "id": "N227",
+        "name": "Starvation Bypass Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Starvation guard cannot override missing policy approval; rejected fail-closed"
+      },
+      {
+        "id": "N228",
+        "name": "High-Risk Priority Downgrade Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Mismatched risk class attempting to downgrade high-risk task rejected fail-closed"
+      },
+      {
+        "id": "N229",
+        "name": "Critical Workflow Priority Bypass Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Critical risk workflow dispatch blocked while security hold is active"
+      },
+      {
+        "id": "N230",
+        "name": "Stale Workflow High-Priority Execution Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Expedited priority workflow with stale source revision rejected fail-closed"
+      },
+      {
+        "id": "N231",
+        "name": "Queue Item Cross-Workflow Injection Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Queue item cross-workflow proposal mismatch rejected fail-closed"
+      },
+      {
+        "id": "N232",
+        "name": "Proposal Digest Substitution Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Tampered proposal digest in queue item rejected fail-closed"
+      },
+      {
+        "id": "N233",
+        "name": "Source Revision Substitution Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Mismatched source revision in queue metadata rejected fail-closed"
+      },
+      {
+        "id": "N234",
+        "name": "Review-Tier Substitution Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Attempt to substitute direct execution for panel review on L7 task rejected"
+      },
+      {
+        "id": "N235",
+        "name": "Risk-Class Substitution Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Forged risk class in queue item rejected fail-closed"
+      },
+      {
+        "id": "N236",
+        "name": "Resource-Budget Bypass Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Dispatch attempt violating active workflows resource budget rejected fail-closed"
+      },
+      {
+        "id": "N237",
+        "name": "Concurrent Scheduler Double-Dispatch Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Concurrent re-dispatch of actively running queue item rejected fail-closed"
+      },
+      {
+        "id": "N238",
+        "name": "Duplicate Terminal Dispatch Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Dispatch of already terminal workflow rejected fail-closed"
+      },
+      {
+        "id": "N239",
+        "name": "Cancellation Race Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Dispatch of cancelled (ABORTED) queue item rejected fail-closed"
+      },
+      {
+        "id": "N240",
+        "name": "Expired Queue Item Dispatch Rejection",
+        "status": "PASS",
+        "actualClass": "REJECT",
+        "evidence": "Dispatch of expired queue item rejected fail-closed"
+      }
+    ]
+  },
+  "contentDigest": "6f6866becf956412231486fca88731f6b64eddfd078f58528622049e8f50780b"
+}

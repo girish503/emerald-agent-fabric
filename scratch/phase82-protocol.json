@@ -1,0 +1,43 @@
+{
+  "phase": 82,
+  "protocolDigest": "55d3c63ec52613328336cb8049bf796931b748b0394fc9eed4edfdbfcb511035",
+  "sourceRevision": "73fc3ba",
+  "generatedAt": "2026-10-20T23:30:00.000Z",
+  "content": {
+    "phase": 82,
+    "baselineCommit": "73fc3ba",
+    "mission": "Adaptive Dynamic Queue Scheduling and Cost-Aware Repair Orchestration",
+    "scientificQuestion": "Can governed repair work be scheduled dynamically according to expected structural complexity and verification cost without weakening any existing security or verification boundary?",
+    "hypotheses": {
+      "H1_CostAwareScheduling": "Cost-aware scheduling reduces aggregate execution + verification cost vs FIFO.",
+      "H2_ComplexityAwareScheduling": "Complexity-aware ordering reduces mean queue waiting time under heterogeneous workloads.",
+      "H3_ReviewPolicyInvariance": "Scheduling MUST NOT override Phase 81's selective-review escalation policy.",
+      "H4_PriorityNotAuthority": "High-priority items cannot bypass policy, review, gates, or verification.",
+      "H5_SchedulerDeterminism": "Identical queue state produces byte-identical scheduling decisions.",
+      "H6_AntiStarvation": "Repeatedly expensive workflows are never permanently starved.",
+      "H7_StaleWorkSuppression": "Workflows with stale source revision are rejected before execution.",
+      "H8_BoundedOptimizationGain": "Empirical measurement of actual queue optimization gain."
+    },
+    "strategies": [
+      "FIFO",
+      "COMPLEXITY_FIRST",
+      "COST_FIRST",
+      "ADAPTIVE_COST_AWARE"
+    ],
+    "queueLimits": {
+      "MAX_ACTIVE_WORKFLOWS": 4,
+      "MAX_ACTIVE_EXECUTIONS": 2,
+      "MAX_ACTIVE_VERIFICATIONS": 2,
+      "MAX_ACTIVE_MODEL_CALLS": 4,
+      "MAX_MEMORY_BYTES": 4294967296,
+      "MAX_CPU_TIME_MS": 300000,
+      "MAX_QUEUE_DEPTH": 32,
+      "MAX_STARVATION_AGE_MS": 300000,
+      "AGING_COEFFICIENT": 0.05,
+      "MAX_AGING_FACTOR": 5
+    },
+    "negativeControlsCount": 20,
+    "cumulativeSecurityControls": 240
+  },
+  "contentDigest": "55d3c63ec52613328336cb8049bf796931b748b0394fc9eed4edfdbfcb511035"
+}
