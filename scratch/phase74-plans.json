@@ -1,0 +1,1370 @@
+{
+  "count": 15,
+  "plans": [
+    {
+      "planId": "PLAN-8d2c05ed2c842dbb",
+      "goalHash": "11ce31575edfb5f010c1a081441bce2d54c01d774ab1b8f8088ecb8ce25f1e87",
+      "orderedRewrites": [
+        {
+          "operationId": "op-a39bb69849",
+          "primitive": "REPLACE_EXPRESSION",
+          "target": {
+            "targetId": "tgt-a03df75530",
+            "filePath": "src/semver.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Expression",
+            "symbolName": "parseSemver",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+            "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "f8dea92c7336262e6a2146e8452aec5fb305635c2a7af326191059ba63a1e203"
+        }
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "17c6ba8846f8a7f56cb5b6a3b28ef810138127383b190d938f9d04d13fee550d"
+    },
+    {
+      "planId": "PLAN-5286fa00191bfbdd",
+      "goalHash": "c11aa175175b1159699485bbbedc73cd3643353c0048d20dd2c76acb6fa62b2d",
+      "orderedRewrites": [
+        {
+          "operationId": "op-9d7bc585b5",
+          "primitive": "REPLACE_EXPRESSION",
+          "target": {
+            "targetId": "tgt-a03df75530",
+            "filePath": "src/semver.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Expression",
+            "symbolName": "parseSemver",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+            "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "2cec2fb656af53af29e4d07996159ee6ff5c7ee40a3c2be04bb06df016d4d971"
+        }
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "10b4ce86053a0008c5b53659cc6a202e35cde1fcfc635422c2c6eb22762d43b7"
+    },
+    {
+      "planId": "PLAN-8d4ae11e69335db1",
+      "goalHash": "ebda3eb11dc6bfd68c3387bea2bbc1d065ceb24031be1b1ee34bcb5c40b600b4",
+      "orderedRewrites": [
+        {
+          "operationId": "op-e3df18d204",
+          "primitive": "REPLACE_EXPRESSION",
+          "target": {
+            "targetId": "tgt-a03df75530",
+            "filePath": "src/semver.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Expression",
+            "symbolName": "parseSemver",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+            "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "1ff5b443a1017b522dce0856f6d71848864271323cd1a63978d1d8ce120be489"
+        }
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "f7bcd28549c12e0442f4f417b39bbf72d410a7fea7083d51632e521e930ac29b"
+    },
+    {
+      "planId": "PLAN-8c8a7c4a64081a6e",
+      "goalHash": "e78f49faa905b042864f044208632f34af6c6d43653523589841fec21ba5f6be",
+      "orderedRewrites": [
+        {
+          "operationId": "op-d8117cb80c",
+          "primitive": "REPLACE_EXPRESSION",
+          "target": {
+            "targetId": "tgt-a03df75530",
+            "filePath": "src/semver.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Expression",
+            "symbolName": "parseSemver",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+            "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "3bde29566f7d4eaa66b1d394450ad28a653a00859a628b0fa37e42193ebac16d"
+        }
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "1b700d471c1dca5aa1baf41eb49a6b2c7e44578367b74db602d10a02fb8fa16d"
+    },
+    {
+      "planId": "PLAN-0c61ba212f777ea1",
+      "goalHash": "53ba58bb649067612e9bd4b92e8f65450b64a92a90261578d24cdfb6b7fe4899",
+      "orderedRewrites": [
+        {
+          "operationId": "op-e94fa0bd7f",
+          "primitive": "REPLACE_EXPRESSION",
+          "target": {
+            "targetId": "tgt-a03df75530",
+            "filePath": "src/semver.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Expression",
+            "symbolName": "parseSemver",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseSemver']/BlockStatement",
+            "targetHash": "899050b606c8d56c47eade800043a20894452a9c393f753785f313a1ec7f1733"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "b9fa5df8808ef16cd26fc691aef19c2df9039c58c09a076acdcb59e2f6f62ff4"
+        }
+      ],
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "7e0ad546d2adfd28d8a662e1a0fcd9cdb34088a8539cf101fc9acf478d4162d2"
+    },
+    {
+      "planId": "PLAN-1c87df6ab4ec32c9",
+      "goalHash": "718bada95831975a70bffcd5a14e34c55cf3f15aba0097fdc6079f699de5762c",
+      "orderedRewrites": [
+        {
+          "operationId": "op-259e2d87d5",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-9afa75ba6f",
+            "filePath": "src/middleware/cors.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Statement",
+            "symbolName": "corsMiddleware",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+            "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "d7a6977ae65dd454d81a51cc76cec3f780ad5fe5804d8f3739597b6019f72108"
+        }
+      ],
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "dc0a54894d74c3abc3d80acf33579d2a36cc20498ad7b5a38c827a396add05da"
+    },
+    {
+      "planId": "PLAN-e0a21ea3c5669eee",
+      "goalHash": "2895b839b7e9b3f2987075ee6cb44af3355ee1104aeea7080f87a0b45a962e13",
+      "orderedRewrites": [
+        {
+          "operationId": "op-85f311519b",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-9afa75ba6f",
+            "filePath": "src/middleware/cors.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Statement",
+            "symbolName": "corsMiddleware",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+            "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "c54efd83dabe840e5ea7ac09a3cb598f36da933a5b2a81dcc3766af0a8e2e1ca"
+        }
+      ],
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "27af987648831b88e44de68f8bcea8652814708b910a0df77502224a8838ecc8"
+    },
+    {
+      "planId": "PLAN-072fe1cd61eb96e3",
+      "goalHash": "c16455e1a2ddc357e24b446d59a7722c13794ca2a9d6ad28e4d8867a5cd95a96",
+      "orderedRewrites": [
+        {
+          "operationId": "op-1cd7c2dead",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-9afa75ba6f",
+            "filePath": "src/middleware/cors.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Statement",
+            "symbolName": "corsMiddleware",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+            "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "fd2b7090edd8afe4b41cc2767705ff20e71f6f0ba5174bb4b5690370f8f60371"
+        }
+      ],
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "8546f7db1ed063b8de5ab961a04be318eccba49a8cced13be6044c705043aaa0"
+    },
+    {
+      "planId": "PLAN-2576f2d776bded79",
+      "goalHash": "b9b3ca1415212490b148b7a881de9bd079b7388b444cd5afcc6e23da5411849e",
+      "orderedRewrites": [
+        {
+          "operationId": "op-7edbf2068a",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-9afa75ba6f",
+            "filePath": "src/middleware/cors.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Statement",
+            "symbolName": "corsMiddleware",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+            "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "ba8c68d1a60471becbfe0dae1d8818f44dc9fc562ca13b4e0d360a7da5ef5443"
+        }
+      ],
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "5bfb3963039da79cf10a353b051db272a6c227bbda2211709b3b467cade2579d"
+    },
+    {
+      "planId": "PLAN-70958da7ecf9dbe6",
+      "goalHash": "36177b72afa4401da78286073c1f1669705ffbf8942ee39b383c76ee334ffd71",
+      "orderedRewrites": [
+        {
+          "operationId": "op-d6a57c34b0",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-9afa75ba6f",
+            "filePath": "src/middleware/cors.js",
+            "sourceSpan": {
+              "startLine": 15,
+              "startColumn": 1,
+              "endLine": 18,
+              "endColumn": 25
+            },
+            "nodeKind": "Statement",
+            "symbolName": "corsMiddleware",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='corsMiddleware']/BlockStatement",
+            "targetHash": "5c9942fcfc829e52308cdc78b32b26f471f3299548f31a2e7949c2a62a9b91d6"
+          },
+          "payload": {
+            "replacement": "validateOriginHeader(req)"
+          },
+          "acceptedTargetTypes": [
+            "Statement",
+            "Expression"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Expression",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "SEMANTIC_EDIT",
+            "CONTROL_FLOW_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS",
+            "TYPE_COMPATIBLE"
+          ],
+          "postconditions": [
+            "INVARIANT_PRESERVED",
+            "SYMBOL_PRESERVED"
+          ],
+          "depth": 2,
+          "contentHash": "d3e525a18c80f2d1b79d64292d294e0eceba105d2f0a2d638434645d5c3771dd"
+        }
+      ],
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "dependencies": [],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ORIGIN_ALLOWED"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "SEMANTIC_EDIT",
+        "CONTROL_FLOW_EDIT"
+      ],
+      "canonicalHash": "fea0df0f64adb09083189640c6c356ee76a6c3e8b3e323f59d663a167dbc7729"
+    },
+    {
+      "planId": "PLAN-19224c4eb577b027",
+      "goalHash": "fd8db3be7a6c402df307a43bb46d0a41599427cd9df3bb4bfc76f4f824e732b9",
+      "orderedRewrites": [
+        {
+          "operationId": "op-calc-d9c90b73",
+          "primitive": "INSERT_STATE_UPDATE",
+          "target": {
+            "targetId": "tgt-calc-77a51780",
+            "filePath": "src/calc.js",
+            "sourceSpan": {
+              "startLine": 20,
+              "startColumn": 1,
+              "endLine": 24,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "evaluate",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+            "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+          },
+          "payload": {
+            "tokenSyncState": "SYNCHRONIZED"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "STATE_UPDATE_APPLIED"
+          ],
+          "depth": 3,
+          "contentHash": "a974ab4627a599eab934e5e08a3a2e2906fc738e7eec44dfb053db9802ecf548"
+        },
+        {
+          "operationId": "op-parser-d9c90b73",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-parser-54c345dc",
+            "filePath": "src/parser.js",
+            "sourceSpan": {
+              "startLine": 35,
+              "startColumn": 1,
+              "endLine": 40,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "parseExpression",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+            "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+          },
+          "payload": {
+            "guardPredicate": "isTokenStreamAligned()"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "GUARD_ATTACHED"
+          ],
+          "depth": 3,
+          "contentHash": "1ff3968eef905df53546cf209feede05876959ee2fad6ba7ae586073dd01387f"
+        }
+      ],
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "dependencies": [
+        {
+          "fromOpId": "op-calc-d9c90b73",
+          "toOpId": "op-parser-d9c90b73"
+        }
+      ],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ATOMIC_COMMIT_GUARANTEE",
+        "TOKEN_SYNC_ORDER"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "STATE_EDIT",
+        "CONTROL_FLOW_EDIT",
+        "SEMANTIC_EDIT"
+      ],
+      "canonicalHash": "9fd1c280aebb6384d152de0de805c503c16a70b57b16fae71644bd2e9277faf1"
+    },
+    {
+      "planId": "PLAN-81307a4bae2fd1f0",
+      "goalHash": "1f6f15331d8423dce8cdc365b58c0e2425369d46c1e3a23a4f01618d8eeed688",
+      "orderedRewrites": [
+        {
+          "operationId": "op-calc-da1e8ae5",
+          "primitive": "INSERT_STATE_UPDATE",
+          "target": {
+            "targetId": "tgt-calc-77a51780",
+            "filePath": "src/calc.js",
+            "sourceSpan": {
+              "startLine": 20,
+              "startColumn": 1,
+              "endLine": 24,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "evaluate",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+            "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+          },
+          "payload": {
+            "tokenSyncState": "SYNCHRONIZED"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "STATE_UPDATE_APPLIED"
+          ],
+          "depth": 3,
+          "contentHash": "05971a5f109a8c86dca67421db5b26d849097574a3d68ca7cb97dc59ffdecf9c"
+        },
+        {
+          "operationId": "op-parser-da1e8ae5",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-parser-54c345dc",
+            "filePath": "src/parser.js",
+            "sourceSpan": {
+              "startLine": 35,
+              "startColumn": 1,
+              "endLine": 40,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "parseExpression",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+            "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+          },
+          "payload": {
+            "guardPredicate": "isTokenStreamAligned()"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "GUARD_ATTACHED"
+          ],
+          "depth": 3,
+          "contentHash": "5446cc19dde5ff424c8628492e718bd58e90f90586b782675c2e5f971f8a690e"
+        }
+      ],
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "dependencies": [
+        {
+          "fromOpId": "op-calc-da1e8ae5",
+          "toOpId": "op-parser-da1e8ae5"
+        }
+      ],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ATOMIC_COMMIT_GUARANTEE",
+        "TOKEN_SYNC_ORDER"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "STATE_EDIT",
+        "CONTROL_FLOW_EDIT",
+        "SEMANTIC_EDIT"
+      ],
+      "canonicalHash": "0c04e9f728fcd23b43e3568366ebaf154195078a2cbc8dd6e492ba0e98363c62"
+    },
+    {
+      "planId": "PLAN-6ddd3a7b74c4b6cf",
+      "goalHash": "36f966528aa732db4dfc7266f2770663f34e0c5deddd1d717469db3e63101cdd",
+      "orderedRewrites": [
+        {
+          "operationId": "op-calc-76fe6c8a",
+          "primitive": "INSERT_STATE_UPDATE",
+          "target": {
+            "targetId": "tgt-calc-77a51780",
+            "filePath": "src/calc.js",
+            "sourceSpan": {
+              "startLine": 20,
+              "startColumn": 1,
+              "endLine": 24,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "evaluate",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+            "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+          },
+          "payload": {
+            "tokenSyncState": "SYNCHRONIZED"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "STATE_UPDATE_APPLIED"
+          ],
+          "depth": 3,
+          "contentHash": "7ae1dbfc99db3444f59e24e03410d8e53b58f12f616056b580e7f7440cf3cf40"
+        },
+        {
+          "operationId": "op-parser-76fe6c8a",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-parser-54c345dc",
+            "filePath": "src/parser.js",
+            "sourceSpan": {
+              "startLine": 35,
+              "startColumn": 1,
+              "endLine": 40,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "parseExpression",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+            "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+          },
+          "payload": {
+            "guardPredicate": "isTokenStreamAligned()"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "GUARD_ATTACHED"
+          ],
+          "depth": 3,
+          "contentHash": "01252eac8400f893f85861885b968ede1fe92819b07c13705c18664602142856"
+        }
+      ],
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "dependencies": [
+        {
+          "fromOpId": "op-calc-76fe6c8a",
+          "toOpId": "op-parser-76fe6c8a"
+        }
+      ],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ATOMIC_COMMIT_GUARANTEE",
+        "TOKEN_SYNC_ORDER"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "STATE_EDIT",
+        "CONTROL_FLOW_EDIT",
+        "SEMANTIC_EDIT"
+      ],
+      "canonicalHash": "10bcc66aecb87a5fe257c2536c2214188fb4bd0ac677a1a56bcd130fb5b3f34f"
+    },
+    {
+      "planId": "PLAN-6a5fdadea79fcbce",
+      "goalHash": "f6535dc5a000723ea8bc8bf001873a5d284d0d1198a703e454402b9e8a0b91dc",
+      "orderedRewrites": [
+        {
+          "operationId": "op-calc-52ed3aaf",
+          "primitive": "INSERT_STATE_UPDATE",
+          "target": {
+            "targetId": "tgt-calc-77a51780",
+            "filePath": "src/calc.js",
+            "sourceSpan": {
+              "startLine": 20,
+              "startColumn": 1,
+              "endLine": 24,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "evaluate",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+            "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+          },
+          "payload": {
+            "tokenSyncState": "SYNCHRONIZED"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "STATE_UPDATE_APPLIED"
+          ],
+          "depth": 3,
+          "contentHash": "241ac74e5abe4ca4328134ffcc1e5e42d56e2aea514f97d0fbfcf64895f01342"
+        },
+        {
+          "operationId": "op-parser-52ed3aaf",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-parser-54c345dc",
+            "filePath": "src/parser.js",
+            "sourceSpan": {
+              "startLine": 35,
+              "startColumn": 1,
+              "endLine": 40,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "parseExpression",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+            "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+          },
+          "payload": {
+            "guardPredicate": "isTokenStreamAligned()"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "GUARD_ATTACHED"
+          ],
+          "depth": 3,
+          "contentHash": "9604ea93faa5ab550f27251680b3297f1f5c7c3e34f46b414265e9b4e45a3688"
+        }
+      ],
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "dependencies": [
+        {
+          "fromOpId": "op-calc-52ed3aaf",
+          "toOpId": "op-parser-52ed3aaf"
+        }
+      ],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ATOMIC_COMMIT_GUARANTEE",
+        "TOKEN_SYNC_ORDER"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "STATE_EDIT",
+        "CONTROL_FLOW_EDIT",
+        "SEMANTIC_EDIT"
+      ],
+      "canonicalHash": "1bb785ce06db36849ddeecc45f9b3a4e4869c87f309331ec34f53baa0e092a47"
+    },
+    {
+      "planId": "PLAN-e42df300671b3ccc",
+      "goalHash": "aec61b19bafd89e1114f38f15a3d4e40230171a1dd29d508748fee696bb66494",
+      "orderedRewrites": [
+        {
+          "operationId": "op-calc-811c90d7",
+          "primitive": "INSERT_STATE_UPDATE",
+          "target": {
+            "targetId": "tgt-calc-77a51780",
+            "filePath": "src/calc.js",
+            "sourceSpan": {
+              "startLine": 20,
+              "startColumn": 1,
+              "endLine": 24,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "evaluate",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='evaluate']/BlockStatement",
+            "targetHash": "2fe8545733420597cfe3e5f526a02c790743385bffd71ad69f0bf0a12e7e6d11"
+          },
+          "payload": {
+            "tokenSyncState": "SYNCHRONIZED"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "STATE_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "STATE_UPDATE_APPLIED"
+          ],
+          "depth": 3,
+          "contentHash": "6ba944667cada56d16b96866bccb970c3dc3bf3e48747a1c46a5b85b7da1974c"
+        },
+        {
+          "operationId": "op-parser-811c90d7",
+          "primitive": "INSERT_GUARD",
+          "target": {
+            "targetId": "tgt-parser-54c345dc",
+            "filePath": "src/parser.js",
+            "sourceSpan": {
+              "startLine": 35,
+              "startColumn": 1,
+              "endLine": 40,
+              "endColumn": 30
+            },
+            "nodeKind": "Statement",
+            "symbolName": "parseExpression",
+            "parentKind": "Function",
+            "structuralPath": "Program/FunctionDeclaration[name='parseExpression']/BlockStatement",
+            "targetHash": "e143fd4880b7ddb4415e5c0d6b80d264fb9dff3d83ebc53a9707fa56e3cb8707"
+          },
+          "payload": {
+            "guardPredicate": "isTokenStreamAligned()"
+          },
+          "acceptedTargetTypes": [
+            "Statement"
+          ],
+          "producedTargetType": "Statement",
+          "requiredInputType": "Statement",
+          "resultingType": "Statement",
+          "declaredEffects": [
+            "WRITE_AST",
+            "CONTROL_FLOW_EDIT",
+            "SEMANTIC_EDIT"
+          ],
+          "preconditions": [
+            "TARGET_EXISTS"
+          ],
+          "postconditions": [
+            "GUARD_ATTACHED"
+          ],
+          "depth": 3,
+          "contentHash": "01e0021fddb51d79f98a10a934cc6e011508cab981b16bd3550902cc1bc927f5"
+        }
+      ],
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "dependencies": [
+        {
+          "fromOpId": "op-calc-811c90d7",
+          "toOpId": "op-parser-811c90d7"
+        }
+      ],
+      "preconditions": [
+        "ALL_TARGETS_RESOLVABLE",
+        "VALID_SYNTAX_PRECOND"
+      ],
+      "postconditions": [
+        "TYPE_CHECK_PASS",
+        "INVARIANTS_PRESERVED"
+      ],
+      "invariantObligations": [
+        "ATOMIC_COMMIT_GUARANTEE",
+        "TOKEN_SYNC_ORDER"
+      ],
+      "effectSet": [
+        "WRITE_AST",
+        "STATE_EDIT",
+        "CONTROL_FLOW_EDIT",
+        "SEMANTIC_EDIT"
+      ],
+      "canonicalHash": "97ef51444fb6ed285b675041513acafe2741fb38c90fce4735b6558e6bd34c03"
+    }
+  ]
+}

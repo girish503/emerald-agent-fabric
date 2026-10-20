@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "emerald-phase74-v1",
+  "typesCount": 16,
+  "types": [
+    {
+      "typeName": "Expression",
+      "category": "EXPRESSION",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Statement",
+      "category": "STATEMENT",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Declaration",
+      "category": "STRUCTURAL",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Parameter",
+      "category": "STRUCTURAL",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Identifier",
+      "category": "STRUCTURAL",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Literal",
+      "category": "STRUCTURAL",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "CallExpression",
+      "category": "EXPRESSION",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "BinaryExpression",
+      "category": "EXPRESSION",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "UnaryExpression",
+      "category": "EXPRESSION",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "ConditionalExpression",
+      "category": "EXPRESSION",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Block",
+      "category": "STATEMENT",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Function",
+      "category": "DECLARATION",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Class",
+      "category": "DECLARATION",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Import",
+      "category": "STRUCTURAL",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "Export",
+      "category": "STRUCTURAL",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    },
+    {
+      "typeName": "TypeNode",
+      "category": "STRUCTURAL",
+      "validParents": [
+        "Block",
+        "Function",
+        "Class",
+        "Program"
+      ]
+    }
+  ],
+  "digest": "b4931161a29d16fcae1b34970a5636cd4a5135ca75e46896382b8889af9a8eee"
+}

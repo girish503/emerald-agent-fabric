@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "emerald-phase74-v1",
+  "cohortSize": 5,
+  "tasks": [
+    {
+      "taskId": "P46-L7-01",
+      "astMaterialized": true,
+      "cleanRoomPassed": false,
+      "failureStage": "CLEAN_ROOM_DUAL_GATE_EVALUATION",
+      "rootCause": "DEEP_MULTI_FILE_STATE_MACHINE_MISALIGNMENT",
+      "diagnosticDetail": "Fine-grained AST rewrites are successfully generated, topologically ordered, and atomically materialized across multiple files (calc.js, parser.js) with zero syntax errors, but the resulting semantic behavior fails independent clean-room dual-gate tests due to missing inter-module synchronization logic."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "astMaterialized": true,
+      "cleanRoomPassed": false,
+      "failureStage": "CLEAN_ROOM_DUAL_GATE_EVALUATION",
+      "rootCause": "DEEP_MULTI_FILE_STATE_MACHINE_MISALIGNMENT",
+      "diagnosticDetail": "Fine-grained AST rewrites are successfully generated, topologically ordered, and atomically materialized across multiple files (calc.js, parser.js) with zero syntax errors, but the resulting semantic behavior fails independent clean-room dual-gate tests due to missing inter-module synchronization logic."
+    },
+    {
+      "taskId": "P46-L7-03",
+      "astMaterialized": true,
+      "cleanRoomPassed": false,
+      "failureStage": "CLEAN_ROOM_DUAL_GATE_EVALUATION",
+      "rootCause": "DEEP_MULTI_FILE_STATE_MACHINE_MISALIGNMENT",
+      "diagnosticDetail": "Fine-grained AST rewrites are successfully generated, topologically ordered, and atomically materialized across multiple files (calc.js, parser.js) with zero syntax errors, but the resulting semantic behavior fails independent clean-room dual-gate tests due to missing inter-module synchronization logic."
+    },
+    {
+      "taskId": "P46-L7-04",
+      "astMaterialized": true,
+      "cleanRoomPassed": false,
+      "failureStage": "CLEAN_ROOM_DUAL_GATE_EVALUATION",
+      "rootCause": "DEEP_MULTI_FILE_STATE_MACHINE_MISALIGNMENT",
+      "diagnosticDetail": "Fine-grained AST rewrites are successfully generated, topologically ordered, and atomically materialized across multiple files (calc.js, parser.js) with zero syntax errors, but the resulting semantic behavior fails independent clean-room dual-gate tests due to missing inter-module synchronization logic."
+    },
+    {
+      "taskId": "P46-L7-05",
+      "astMaterialized": true,
+      "cleanRoomPassed": false,
+      "failureStage": "CLEAN_ROOM_DUAL_GATE_EVALUATION",
+      "rootCause": "DEEP_MULTI_FILE_STATE_MACHINE_MISALIGNMENT",
+      "diagnosticDetail": "Fine-grained AST rewrites are successfully generated, topologically ordered, and atomically materialized across multiple files (calc.js, parser.js) with zero syntax errors, but the resulting semantic behavior fails independent clean-room dual-gate tests due to missing inter-module synchronization logic."
+    }
+  ]
+}

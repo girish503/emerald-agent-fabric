@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "emerald-phase74-v1",
+  "effectsCount": 9,
+  "effects": [
+    {
+      "effectName": "READ_AST",
+      "requiresGovernanceCheck": false,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "WRITE_AST",
+      "requiresGovernanceCheck": true,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "STRUCTURAL_EDIT",
+      "requiresGovernanceCheck": true,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "SEMANTIC_EDIT",
+      "requiresGovernanceCheck": false,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "CONTROL_FLOW_EDIT",
+      "requiresGovernanceCheck": false,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "STATE_EDIT",
+      "requiresGovernanceCheck": true,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "TYPE_EDIT",
+      "requiresGovernanceCheck": false,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "IMPORT_EDIT",
+      "requiresGovernanceCheck": true,
+      "immutableWorkspaceChecked": true
+    },
+    {
+      "effectName": "EXPORT_EDIT",
+      "requiresGovernanceCheck": true,
+      "immutableWorkspaceChecked": true
+    }
+  ],
+  "digest": "623e4efdcdfba10f506cb75d726f5328340f38b5f29677e3f5dde8258b7ff4b6"
+}

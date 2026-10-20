@@ -1,0 +1,215 @@
+{
+  "count": 15,
+  "candidates": [
+    {
+      "taskId": "P46-L5-01",
+      "planId": "PLAN-8d2c05ed2c842dbb",
+      "canonicalHash": "17c6ba8846f8a7f56cb5b6a3b28ef810138127383b190d938f9d04d13fee550d",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L5-02",
+      "planId": "PLAN-5286fa00191bfbdd",
+      "canonicalHash": "10b4ce86053a0008c5b53659cc6a202e35cde1fcfc635422c2c6eb22762d43b7",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L5-03",
+      "planId": "PLAN-8d4ae11e69335db1",
+      "canonicalHash": "f7bcd28549c12e0442f4f417b39bbf72d410a7fea7083d51632e521e930ac29b",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L5-04",
+      "planId": "PLAN-8c8a7c4a64081a6e",
+      "canonicalHash": "1b700d471c1dca5aa1baf41eb49a6b2c7e44578367b74db602d10a02fb8fa16d",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L5-05",
+      "planId": "PLAN-0c61ba212f777ea1",
+      "canonicalHash": "7e0ad546d2adfd28d8a662e1a0fcd9cdb34088a8539cf101fc9acf478d4162d2",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "affectedSymbols": [
+        "parseSemver",
+        "compare"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L6-01",
+      "planId": "PLAN-1c87df6ab4ec32c9",
+      "canonicalHash": "dc0a54894d74c3abc3d80acf33579d2a36cc20498ad7b5a38c827a396add05da",
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L6-02",
+      "planId": "PLAN-e0a21ea3c5669eee",
+      "canonicalHash": "27af987648831b88e44de68f8bcea8652814708b910a0df77502224a8838ecc8",
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L6-03",
+      "planId": "PLAN-072fe1cd61eb96e3",
+      "canonicalHash": "8546f7db1ed063b8de5ab961a04be318eccba49a8cced13be6044c705043aaa0",
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L6-04",
+      "planId": "PLAN-2576f2d776bded79",
+      "canonicalHash": "5bfb3963039da79cf10a353b051db272a6c227bbda2211709b3b467cade2579d",
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L6-05",
+      "planId": "PLAN-70958da7ecf9dbe6",
+      "canonicalHash": "fea0df0f64adb09083189640c6c356ee76a6c3e8b3e323f59d663a167dbc7729",
+      "affectedFiles": [
+        "src/middleware/cors.js",
+        "src/routes/api.js"
+      ],
+      "affectedSymbols": [
+        "corsMiddleware",
+        "validateOrigin"
+      ],
+      "status": "VERIFIED"
+    },
+    {
+      "taskId": "P46-L7-01",
+      "planId": "PLAN-19224c4eb577b027",
+      "canonicalHash": "9fd1c280aebb6384d152de0de805c503c16a70b57b16fae71644bd2e9277faf1",
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "status": "MATERIALIZED_TESTS_FAILED"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "planId": "PLAN-81307a4bae2fd1f0",
+      "canonicalHash": "0c04e9f728fcd23b43e3568366ebaf154195078a2cbc8dd6e492ba0e98363c62",
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "status": "MATERIALIZED_TESTS_FAILED"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "planId": "PLAN-6ddd3a7b74c4b6cf",
+      "canonicalHash": "10bcc66aecb87a5fe257c2536c2214188fb4bd0ac677a1a56bcd130fb5b3f34f",
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "status": "MATERIALIZED_TESTS_FAILED"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "planId": "PLAN-6a5fdadea79fcbce",
+      "canonicalHash": "1bb785ce06db36849ddeecc45f9b3a4e4869c87f309331ec34f53baa0e092a47",
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "status": "MATERIALIZED_TESTS_FAILED"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "planId": "PLAN-e42df300671b3ccc",
+      "canonicalHash": "97ef51444fb6ed285b675041513acafe2741fb38c90fce4735b6558e6bd34c03",
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "affectedSymbols": [
+        "tokenize",
+        "parseExpression",
+        "evaluate"
+      ],
+      "status": "MATERIALIZED_TESTS_FAILED"
+    }
+  ]
+}

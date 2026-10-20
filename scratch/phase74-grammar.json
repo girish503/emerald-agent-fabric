@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "emerald-phase74-v1",
+  "primitivesCount": 22,
+  "primitives": [
+    {
+      "primitive": "REPLACE_NODE",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_EXPRESSION",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_STATEMENT",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "INSERT_BEFORE",
+      "category": "INSERTION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "INSERT_AFTER",
+      "category": "INSERTION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "DELETE_NODE",
+      "category": "DELETION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "WRAP_EXPRESSION",
+      "category": "WRAPPING",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "WRAP_STATEMENT",
+      "category": "WRAPPING",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_OPERATOR",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_LITERAL",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_IDENTIFIER",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_PARAMETER",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "INSERT_PARAMETER",
+      "category": "INSERTION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "DELETE_PARAMETER",
+      "category": "DELETION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_CALL_ARGUMENT",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "INSERT_CALL_ARGUMENT",
+      "category": "INSERTION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "DELETE_CALL_ARGUMENT",
+      "category": "DELETION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_RETURN_EXPRESSION",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "INSERT_GUARD",
+      "category": "INSERTION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "INSERT_STATE_UPDATE",
+      "category": "INSERTION",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_CONDITION",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    },
+    {
+      "primitive": "REPLACE_BLOCK",
+      "category": "REPLACEMENT",
+      "deterministic": true,
+      "reversible": true
+    }
+  ],
+  "digest": "6e7fc7bf5ac92ec672cf7cc7c93bf0d0e8c54edce5d3d38fbd0430d1ad94171a"
+}
