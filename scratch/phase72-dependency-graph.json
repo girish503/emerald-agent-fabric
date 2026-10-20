@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "emerald-phase72-v1",
+  "totalEdges": 10,
+  "edges": [
+    {
+      "edgeId": "EDGE-P46-L6-01-ORIGIN-GUARD",
+      "producerParticipantId": "PART-P46-L6-01-GUARD",
+      "consumerParticipantId": "PART-P46-L6-01-SERVICE",
+      "dependencyType": "INVARIANT",
+      "description": "CORS origin validation propagation before request handling",
+      "satisfied": true,
+      "contentHash": "02fee985edf2fe6b3c412d317edb91d36bf30dd72444b4498af6a5d83c214be8"
+    },
+    {
+      "edgeId": "EDGE-P46-L6-02-ORIGIN-GUARD",
+      "producerParticipantId": "PART-P46-L6-02-GUARD",
+      "consumerParticipantId": "PART-P46-L6-02-SERVICE",
+      "dependencyType": "INVARIANT",
+      "description": "CORS origin validation propagation before request handling",
+      "satisfied": true,
+      "contentHash": "2ee7f7f45d5327f5c682a4813cd074cbec9880f72a43c6b8e68cd571d04f59f8"
+    },
+    {
+      "edgeId": "EDGE-P46-L6-03-ORIGIN-GUARD",
+      "producerParticipantId": "PART-P46-L6-03-GUARD",
+      "consumerParticipantId": "PART-P46-L6-03-SERVICE",
+      "dependencyType": "INVARIANT",
+      "description": "CORS origin validation propagation before request handling",
+      "satisfied": true,
+      "contentHash": "b171f49d53efc1808796f15cfa7a10f5719c532a6249b7b88f2a42f19f1db6cd"
+    },
+    {
+      "edgeId": "EDGE-P46-L6-04-ORIGIN-GUARD",
+      "producerParticipantId": "PART-P46-L6-04-GUARD",
+      "consumerParticipantId": "PART-P46-L6-04-SERVICE",
+      "dependencyType": "INVARIANT",
+      "description": "CORS origin validation propagation before request handling",
+      "satisfied": true,
+      "contentHash": "7d2698fc61864414fb986897abb12e36478b20f58a1b83f269c7fc97d5904953"
+    },
+    {
+      "edgeId": "EDGE-P46-L6-05-ORIGIN-GUARD",
+      "producerParticipantId": "PART-P46-L6-05-GUARD",
+      "consumerParticipantId": "PART-P46-L6-05-SERVICE",
+      "dependencyType": "INVARIANT",
+      "description": "CORS origin validation propagation before request handling",
+      "satisfied": true,
+      "contentHash": "30e724d6319f89cdb668171b5d1dd6adcd833aad228c170db42fa34b7457ee74"
+    },
+    {
+      "edgeId": "EDGE-P46-L7-01-STATE-SYNC",
+      "producerParticipantId": "PART-P46-L7-01-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-01-CONSUMER",
+      "dependencyType": "STATE",
+      "description": "Lookahead buffer synchronization across tokenizer and parser",
+      "satisfied": false,
+      "contentHash": "b8f55a6068b07074d9b9c19a80107cabb976fa866f50538e50361d9a0b6be1f9"
+    },
+    {
+      "edgeId": "EDGE-P46-L7-02-STATE-SYNC",
+      "producerParticipantId": "PART-P46-L7-02-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-02-CONSUMER",
+      "dependencyType": "STATE",
+      "description": "Lookahead buffer synchronization across tokenizer and parser",
+      "satisfied": false,
+      "contentHash": "3daeb0bfba6c4c8547d9bf59de2a1cca5e3a4662da2315532f14158cc718dd80"
+    },
+    {
+      "edgeId": "EDGE-P46-L7-03-STATE-SYNC",
+      "producerParticipantId": "PART-P46-L7-03-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-03-CONSUMER",
+      "dependencyType": "STATE",
+      "description": "Lookahead buffer synchronization across tokenizer and parser",
+      "satisfied": false,
+      "contentHash": "04c6e99ed80380476649f279cd0b37768104b5adf4328b5df73a1ba1f8a98c16"
+    },
+    {
+      "edgeId": "EDGE-P46-L7-04-STATE-SYNC",
+      "producerParticipantId": "PART-P46-L7-04-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-04-CONSUMER",
+      "dependencyType": "STATE",
+      "description": "Lookahead buffer synchronization across tokenizer and parser",
+      "satisfied": false,
+      "contentHash": "1b2bd9070147837a4a89f9bf752873a59f63488263329007c0ab34edb43bdc82"
+    },
+    {
+      "edgeId": "EDGE-P46-L7-05-STATE-SYNC",
+      "producerParticipantId": "PART-P46-L7-05-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-05-CONSUMER",
+      "dependencyType": "STATE",
+      "description": "Lookahead buffer synchronization across tokenizer and parser",
+      "satisfied": false,
+      "contentHash": "3da3bbe1fbfa18e6d99f0b9f7a55bdb078b229616c56b11c0f2c0403451e6088"
+    }
+  ]
+}

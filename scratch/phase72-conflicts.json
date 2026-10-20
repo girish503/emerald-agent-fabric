@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "emerald-phase72-v1",
+  "totalConflicts": 5,
+  "conflicts": [
+    {
+      "reportId": "CONF-P46-L7-01-L7-01",
+      "conflictType": "STATE_GUARANTEE_MISMATCH",
+      "producerParticipantId": "PART-P46-L7-01-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-01-CONSUMER",
+      "description": "Consumer requires synchronized lookahead position, but producer guarantees local position only",
+      "resolved": true,
+      "contentHash": "55d127d94f69a07cdd3decec4a5a53f7325c9c68c0f082289d6464a1480f39ec"
+    },
+    {
+      "reportId": "CONF-P46-L7-02-L7-01",
+      "conflictType": "STATE_GUARANTEE_MISMATCH",
+      "producerParticipantId": "PART-P46-L7-02-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-02-CONSUMER",
+      "description": "Consumer requires synchronized lookahead position, but producer guarantees local position only",
+      "resolved": true,
+      "contentHash": "f2e6e1bbce43e683bedf49abc90f3edfdfea15fc975fefdccf4a385708ac529e"
+    },
+    {
+      "reportId": "CONF-P46-L7-03-L7-01",
+      "conflictType": "STATE_GUARANTEE_MISMATCH",
+      "producerParticipantId": "PART-P46-L7-03-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-03-CONSUMER",
+      "description": "Consumer requires synchronized lookahead position, but producer guarantees local position only",
+      "resolved": true,
+      "contentHash": "ef883eb0f06733c7676074fd2f1cc9fae00ec8252893b5e67093ce721818183c"
+    },
+    {
+      "reportId": "CONF-P46-L7-04-L7-01",
+      "conflictType": "STATE_GUARANTEE_MISMATCH",
+      "producerParticipantId": "PART-P46-L7-04-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-04-CONSUMER",
+      "description": "Consumer requires synchronized lookahead position, but producer guarantees local position only",
+      "resolved": true,
+      "contentHash": "966a5bc0f78060836b4b27bd35da982a7be1d56c10c3522b227a69c2ad04acec"
+    },
+    {
+      "reportId": "CONF-P46-L7-05-L7-01",
+      "conflictType": "STATE_GUARANTEE_MISMATCH",
+      "producerParticipantId": "PART-P46-L7-05-PRODUCER",
+      "consumerParticipantId": "PART-P46-L7-05-CONSUMER",
+      "description": "Consumer requires synchronized lookahead position, but producer guarantees local position only",
+      "resolved": true,
+      "contentHash": "942efe1355aae15def2c9cd8dab36ae70cbc9a83aa03e3b703bea63cbcd1775a"
+    }
+  ]
+}

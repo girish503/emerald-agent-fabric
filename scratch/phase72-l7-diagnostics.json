@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "emerald-phase72-v1",
+  "totalCases": 5,
+  "cases": [
+    {
+      "taskId": "P46-L7-01",
+      "domain": "src/calc.js, src/parser.js",
+      "participants": [
+        {
+          "id": "PART-P46-L7-01-PRODUCER",
+          "role": "PRODUCER",
+          "file": "src/calc.js"
+        },
+        {
+          "id": "PART-P46-L7-01-CONSUMER",
+          "role": "CONSUMER",
+          "file": "src/parser.js"
+        }
+      ],
+      "coordinationOutcome": "SYNCHRONIZED_SUCCESSFULLY",
+      "contractExchangeStatus": "ACCEPTED_V2_AFTER_NEGOTIATION",
+      "barriersPassed": [
+        "PREPARE_BARRIER",
+        "CONTRACT_BARRIER",
+        "STATE_SYNC_BARRIER",
+        "COMMIT_BARRIER"
+      ],
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "rootCause": "CONTRACT_SYNCHRONIZATION_SUCCEEDS_BUT_LOCAL_SYNTHESIS_CANNOT_PRODUCE_REQUIRED_AST_TRANSFORMATIONS",
+      "scientificInsight": "Coordination protocol resolves the multi-module interface agreement problem (100% contract compatibility), but cannot compensate for local program synthesis capability limits"
+    },
+    {
+      "taskId": "P46-L7-02",
+      "domain": "src/cors.js, src/header-validator.js",
+      "participants": [
+        {
+          "id": "PART-P46-L7-02-PRODUCER",
+          "role": "PRODUCER",
+          "file": "src/cors.js"
+        },
+        {
+          "id": "PART-P46-L7-02-CONSUMER",
+          "role": "CONSUMER",
+          "file": "src/header-validator.js"
+        }
+      ],
+      "coordinationOutcome": "SYNCHRONIZED_SUCCESSFULLY",
+      "contractExchangeStatus": "ACCEPTED_V2_AFTER_NEGOTIATION",
+      "barriersPassed": [
+        "PREPARE_BARRIER",
+        "CONTRACT_BARRIER",
+        "STATE_SYNC_BARRIER",
+        "COMMIT_BARRIER"
+      ],
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "rootCause": "CONTRACT_SYNCHRONIZATION_SUCCEEDS_BUT_LOCAL_SYNTHESIS_CANNOT_PRODUCE_REQUIRED_AST_TRANSFORMATIONS",
+      "scientificInsight": "Coordination protocol resolves the multi-module interface agreement problem (100% contract compatibility), but cannot compensate for local program synthesis capability limits"
+    },
+    {
+      "taskId": "P46-L7-03",
+      "domain": "src/semver.js, src/comparator.js",
+      "participants": [
+        {
+          "id": "PART-P46-L7-03-PRODUCER",
+          "role": "PRODUCER",
+          "file": "src/semver.js"
+        },
+        {
+          "id": "PART-P46-L7-03-CONSUMER",
+          "role": "CONSUMER",
+          "file": "src/comparator.js"
+        }
+      ],
+      "coordinationOutcome": "SYNCHRONIZED_SUCCESSFULLY",
+      "contractExchangeStatus": "ACCEPTED_V2_AFTER_NEGOTIATION",
+      "barriersPassed": [
+        "PREPARE_BARRIER",
+        "CONTRACT_BARRIER",
+        "STATE_SYNC_BARRIER",
+        "COMMIT_BARRIER"
+      ],
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "rootCause": "CONTRACT_SYNCHRONIZATION_SUCCEEDS_BUT_LOCAL_SYNTHESIS_CANNOT_PRODUCE_REQUIRED_AST_TRANSFORMATIONS",
+      "scientificInsight": "Coordination protocol resolves the multi-module interface agreement problem (100% contract compatibility), but cannot compensate for local program synthesis capability limits"
+    },
+    {
+      "taskId": "P46-L7-04",
+      "domain": "src/deep-set.js, src/path-resolver.js",
+      "participants": [
+        {
+          "id": "PART-P46-L7-04-PRODUCER",
+          "role": "PRODUCER",
+          "file": "src/deep-set.js"
+        },
+        {
+          "id": "PART-P46-L7-04-CONSUMER",
+          "role": "CONSUMER",
+          "file": "src/path-resolver.js"
+        }
+      ],
+      "coordinationOutcome": "SYNCHRONIZED_SUCCESSFULLY",
+      "contractExchangeStatus": "ACCEPTED_V2_AFTER_NEGOTIATION",
+      "barriersPassed": [
+        "PREPARE_BARRIER",
+        "CONTRACT_BARRIER",
+        "STATE_SYNC_BARRIER",
+        "COMMIT_BARRIER"
+      ],
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "rootCause": "CONTRACT_SYNCHRONIZATION_SUCCEEDS_BUT_LOCAL_SYNTHESIS_CANNOT_PRODUCE_REQUIRED_AST_TRANSFORMATIONS",
+      "scientificInsight": "Coordination protocol resolves the multi-module interface agreement problem (100% contract compatibility), but cannot compensate for local program synthesis capability limits"
+    },
+    {
+      "taskId": "P46-L7-05",
+      "domain": "src/models/user.js, src/services/user-service.js, src/routes/user-route.js",
+      "participants": [
+        {
+          "id": "PART-P46-L7-05-PRODUCER",
+          "role": "PRODUCER",
+          "file": "src/models/user.js"
+        },
+        {
+          "id": "PART-P46-L7-05-CONSUMER",
+          "role": "CONSUMER",
+          "file": "src/services/user-service.js"
+        }
+      ],
+      "coordinationOutcome": "SYNCHRONIZED_SUCCESSFULLY",
+      "contractExchangeStatus": "ACCEPTED_V2_AFTER_NEGOTIATION",
+      "barriersPassed": [
+        "PREPARE_BARRIER",
+        "CONTRACT_BARRIER",
+        "STATE_SYNC_BARRIER",
+        "COMMIT_BARRIER"
+      ],
+      "cleanRoomStatus": "CLEAN_ROOM_REJECTED",
+      "rootCause": "CONTRACT_SYNCHRONIZATION_SUCCEEDS_BUT_LOCAL_SYNTHESIS_CANNOT_PRODUCE_REQUIRED_AST_TRANSFORMATIONS",
+      "scientificInsight": "Coordination protocol resolves the multi-module interface agreement problem (100% contract compatibility), but cannot compensate for local program synthesis capability limits"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "emerald-phase72-v1",
+  "totalParticipants": 25,
+  "participants": [
+    {
+      "participantId": "PART-P46-L5-01-CORE",
+      "moduleName": "src/semver.js",
+      "role": "PRODUCER",
+      "targetFile": "src/semver.js",
+      "contentHash": "f3ea7668f960a9d417cc0adc628a28706c95873c6f76b067c7ceb497fad24f94"
+    },
+    {
+      "participantId": "PART-P46-L5-02-CORE",
+      "moduleName": "src/deep-set.js",
+      "role": "PRODUCER",
+      "targetFile": "src/deep-set.js",
+      "contentHash": "02a84f2f82c69a7440d98e8aeed0fde417696dc2bf3a374f5824c3085ee903bd"
+    },
+    {
+      "participantId": "PART-P46-L5-03-CORE",
+      "moduleName": "src/emitter.js",
+      "role": "PRODUCER",
+      "targetFile": "src/emitter.js",
+      "contentHash": "9eaa9b6e5a385443ba7c7f4bc7feb7f057bb25982fe6aae9e3fd6faa919f695c"
+    },
+    {
+      "participantId": "PART-P46-L5-04-CORE",
+      "moduleName": "src/scanner.js",
+      "role": "PRODUCER",
+      "targetFile": "src/scanner.js",
+      "contentHash": "151d5bb208ed23f8dd71dcb23179393ee069c02e066203928ea860e1bf5feda4"
+    },
+    {
+      "participantId": "PART-P46-L5-05-CORE",
+      "moduleName": "src/kv-store.js",
+      "role": "PRODUCER",
+      "targetFile": "src/kv-store.js",
+      "contentHash": "b3ba47f53580961f826ba11b204e1b372e29b0fbaebfadfc2af102d325e5f181"
+    },
+    {
+      "participantId": "PART-P46-L6-01-GUARD",
+      "moduleName": "src/models/user.js",
+      "role": "INVARIANT_GUARD",
+      "targetFile": "src/models/user.js",
+      "contentHash": "e0358c49cac0c78d2c0e0bb1d3417e22463cb19a5811b1640348de7f4f1e19f0"
+    },
+    {
+      "participantId": "PART-P46-L6-01-SERVICE",
+      "moduleName": "src/services/user-service.js",
+      "role": "CONSUMER",
+      "targetFile": "src/services/user-service.js",
+      "contentHash": "6996229138cd6ba4a540584c82eef18219310985e2ae2b35e1cdef06183cf4a6"
+    },
+    {
+      "participantId": "PART-P46-L6-02-GUARD",
+      "moduleName": "src/config.js",
+      "role": "INVARIANT_GUARD",
+      "targetFile": "src/config.js",
+      "contentHash": "9c28ea1f4af3eafcfa74f3ef2cb7fcedae17dea5ebcd36a6871c292f69bb4772"
+    },
+    {
+      "participantId": "PART-P46-L6-02-SERVICE",
+      "moduleName": "src/defaults.js",
+      "role": "CONSUMER",
+      "targetFile": "src/defaults.js",
+      "contentHash": "ec5a6ce9926bdb8ef5f833e76f571fd475f9de0d9086463f2bd557af491c550c"
+    },
+    {
+      "participantId": "PART-P46-L6-03-GUARD",
+      "moduleName": "src/formatters/json.js",
+      "role": "INVARIANT_GUARD",
+      "targetFile": "src/formatters/json.js",
+      "contentHash": "59b620cec702f96c6830a622ff6cdd0a3d6b1f73df36498ff8d00d00559a3b29"
+    },
+    {
+      "participantId": "PART-P46-L6-03-SERVICE",
+      "moduleName": "src/logger.js",
+      "role": "CONSUMER",
+      "targetFile": "src/logger.js",
+      "contentHash": "d6f3d3b4ddbfa952e4d134bb912962a7ec99f78c59199930fe3d49f7484ade5d"
+    },
+    {
+      "participantId": "PART-P46-L6-04-GUARD",
+      "moduleName": "src/request.js",
+      "role": "INVARIANT_GUARD",
+      "targetFile": "src/request.js",
+      "contentHash": "428a2c561a7edfb4774e96a7f2be332ba265621c740ecd1c86280ff1d897d5bd"
+    },
+    {
+      "participantId": "PART-P46-L6-04-SERVICE",
+      "moduleName": "src/client.js",
+      "role": "CONSUMER",
+      "targetFile": "src/client.js",
+      "contentHash": "25eeaeea951c56b1d72b648fadfe2d884724e39754bebbf549731fce9bd3948b"
+    },
+    {
+      "participantId": "PART-P46-L6-05-GUARD",
+      "moduleName": "src/job.js",
+      "role": "INVARIANT_GUARD",
+      "targetFile": "src/job.js",
+      "contentHash": "4e12b51fccc09b9fcad6f43ea0cbe6283b875cba1a334209a47571642345dae8"
+    },
+    {
+      "participantId": "PART-P46-L6-05-SERVICE",
+      "moduleName": "src/queue.js",
+      "role": "CONSUMER",
+      "targetFile": "src/queue.js",
+      "contentHash": "008effb5789d9f9896848b31825dace0d57f90913597dcae86c37da279a343ce"
+    },
+    {
+      "participantId": "PART-P46-L7-01-PRODUCER",
+      "moduleName": "src/calc.js",
+      "role": "PRODUCER",
+      "targetFile": "src/calc.js",
+      "contentHash": "be0dd58c9fc23bf720c0b751005e7a7fe161831f3fab9ef522fe8b6ef8dbbd2f"
+    },
+    {
+      "participantId": "PART-P46-L7-01-CONSUMER",
+      "moduleName": "src/parser.js",
+      "role": "CONSUMER",
+      "targetFile": "src/parser.js",
+      "contentHash": "c2bf3aaed3ecd162e5281a4d81fdeff523fe74847a608b86b4702655f2d8eacd"
+    },
+    {
+      "participantId": "PART-P46-L7-02-PRODUCER",
+      "moduleName": "src/cors.js",
+      "role": "PRODUCER",
+      "targetFile": "src/cors.js",
+      "contentHash": "141c287e94be049065a0e4f08f32c6689395e13e8ea23aecdaf674874779a5bb"
+    },
+    {
+      "participantId": "PART-P46-L7-02-CONSUMER",
+      "moduleName": "src/header-validator.js",
+      "role": "CONSUMER",
+      "targetFile": "src/header-validator.js",
+      "contentHash": "29c847d02325ea08c4220a589fe2d62812f8e56b09b8a44b4e0d758a8fc7426b"
+    },
+    {
+      "participantId": "PART-P46-L7-03-PRODUCER",
+      "moduleName": "src/semver.js",
+      "role": "PRODUCER",
+      "targetFile": "src/semver.js",
+      "contentHash": "0cefcf699a9f7f7c239ee9fc412eeff289e1d02c7e1f411cf94175aab1f38ae4"
+    },
+    {
+      "participantId": "PART-P46-L7-03-CONSUMER",
+      "moduleName": "src/comparator.js",
+      "role": "CONSUMER",
+      "targetFile": "src/comparator.js",
+      "contentHash": "a5f43142c1e9072949d01c7bf59f192392e104c97c32304d9389e5de2b632836"
+    },
+    {
+      "participantId": "PART-P46-L7-04-PRODUCER",
+      "moduleName": "src/deep-set.js",
+      "role": "PRODUCER",
+      "targetFile": "src/deep-set.js",
+      "contentHash": "9e31d91d44eaee10107ee974a77c492d1c7fd83a2c13e55ae0be8b7672a5c7dc"
+    },
+    {
+      "participantId": "PART-P46-L7-04-CONSUMER",
+      "moduleName": "src/path-resolver.js",
+      "role": "CONSUMER",
+      "targetFile": "src/path-resolver.js",
+      "contentHash": "f4772a31d653530efde8ed649fd72f4f0f7b296832be60795fd89f078ae8a185"
+    },
+    {
+      "participantId": "PART-P46-L7-05-PRODUCER",
+      "moduleName": "src/models/user.js",
+      "role": "PRODUCER",
+      "targetFile": "src/models/user.js",
+      "contentHash": "894b1b6d48b03bfc93a91867cd2bc7006003b49a72facc09f662ac7b0f3359ec"
+    },
+    {
+      "participantId": "PART-P46-L7-05-CONSUMER",
+      "moduleName": "src/services/user-service.js",
+      "role": "CONSUMER",
+      "targetFile": "src/services/user-service.js",
+      "contentHash": "940e73b9b6190c3a39b32199adba1e6764503b7c033da5e94ffde4d585ce89b8"
+    }
+  ]
+}

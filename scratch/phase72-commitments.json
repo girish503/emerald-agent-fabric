@@ -1,0 +1,1051 @@
+{
+  "schemaVersion": "emerald-phase72-v1",
+  "totalCommitments": 30,
+  "commitments": [
+    {
+      "commitmentId": "COMM-PART-P46-L5-01-CORE-1",
+      "participantId": "PART-P46-L5-01-CORE",
+      "semanticDomain": "SEMVER_CORE",
+      "inputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "outputTypes": [
+        "STRING"
+      ],
+      "stateAssumptions": [],
+      "stateGuarantees": [
+        "INPUT_VALIDATION_GUARANTEED"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "PURE"
+      ],
+      "representationConstraints": [
+        "SEMVER_STRICT_STRING"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "8d219901109393af963edba060f9df59ed30b0490eaf1d89879c241e75ca637f"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L5-02-CORE-1",
+      "participantId": "PART-P46-L5-02-CORE",
+      "semanticDomain": "SEMVER_CORE",
+      "inputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "outputTypes": [
+        "STRING"
+      ],
+      "stateAssumptions": [],
+      "stateGuarantees": [
+        "INPUT_VALIDATION_GUARANTEED"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "PURE"
+      ],
+      "representationConstraints": [
+        "SEMVER_STRICT_STRING"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "b6bec76285d71cba85cd2cb0da736af6755e5bdac30cbd61fe1b7989bdac500b"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L5-03-CORE-1",
+      "participantId": "PART-P46-L5-03-CORE",
+      "semanticDomain": "SEMVER_CORE",
+      "inputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "outputTypes": [
+        "STRING"
+      ],
+      "stateAssumptions": [],
+      "stateGuarantees": [
+        "INPUT_VALIDATION_GUARANTEED"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "PURE"
+      ],
+      "representationConstraints": [
+        "SEMVER_STRICT_STRING"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "5f89106f59f76c0e83d37bf00fb4fe4c25d3144196bb61392c44255681cf5ead"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L5-04-CORE-1",
+      "participantId": "PART-P46-L5-04-CORE",
+      "semanticDomain": "SEMVER_CORE",
+      "inputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "outputTypes": [
+        "STRING"
+      ],
+      "stateAssumptions": [],
+      "stateGuarantees": [
+        "INPUT_VALIDATION_GUARANTEED"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "PURE"
+      ],
+      "representationConstraints": [
+        "SEMVER_STRICT_STRING"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "a48c1d703e1835d029abb52420ec67965e41b04d63e50c74f853612e9ef3d67b"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L5-05-CORE-1",
+      "participantId": "PART-P46-L5-05-CORE",
+      "semanticDomain": "SEMVER_CORE",
+      "inputTypes": [
+        "STRING",
+        "INTEGER"
+      ],
+      "outputTypes": [
+        "STRING"
+      ],
+      "stateAssumptions": [],
+      "stateGuarantees": [
+        "INPUT_VALIDATION_GUARANTEED"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "PURE"
+      ],
+      "representationConstraints": [
+        "SEMVER_STRICT_STRING"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "81a417c660680ae2882cf82ead3d3092fca206f09ad7e544487022cd49166b61"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-01-GUARD-1",
+      "participantId": "PART-P46-L6-01-GUARD",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "a1652495b1a93c0f76db7ca4079b25617866afbf6ddc3e6ecb0b89db7184f772"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-01-SERVICE-1",
+      "participantId": "PART-P46-L6-01-SERVICE",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "119651224f35c1c03991db8f9bbd13e717ff4167e83e2de0236f030c569c012d"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-02-GUARD-1",
+      "participantId": "PART-P46-L6-02-GUARD",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "0c2d8966b1c596f40a66cbe18d0b2135abe69e1c8aac5e34327c4e60a144e7a3"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-02-SERVICE-1",
+      "participantId": "PART-P46-L6-02-SERVICE",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "ad3e148733a9b59b09c821df628ab4053f69541c2207fdf905fb2cb3b58dbc90"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-03-GUARD-1",
+      "participantId": "PART-P46-L6-03-GUARD",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "7688773e3f328e575b371d70d0fa74fb67d75f128a189fd0879bcc70c6bd9593"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-03-SERVICE-1",
+      "participantId": "PART-P46-L6-03-SERVICE",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "27ebd206c5a4e04f5db5d36e2afaf8e45a40102820e807a9d2958e1986e66223"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-04-GUARD-1",
+      "participantId": "PART-P46-L6-04-GUARD",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "59432ab757aae7d091a18103b3488447fc56cbe446214c2510f8132c2b535d1a"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-04-SERVICE-1",
+      "participantId": "PART-P46-L6-04-SERVICE",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "17ff668649b29b404762baa472f676c3c20e5737111e50bf8c2006ab33e8373b"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-05-GUARD-1",
+      "participantId": "PART-P46-L6-05-GUARD",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "39f0ac3229f00c28d65e116faf2bc1c9d3df0d410514c0582a96e09d516e85bc"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L6-05-SERVICE-1",
+      "participantId": "PART-P46-L6-05-SERVICE",
+      "semanticDomain": "HTTP_SECURITY",
+      "inputTypes": [
+        "ORIGIN",
+        "HEADER_MAP"
+      ],
+      "outputTypes": [
+        "BOOLEAN"
+      ],
+      "stateAssumptions": [
+        "ASSUME_CALLER_ORIGIN_HEADER"
+      ],
+      "stateGuarantees": [
+        "ORIGIN_HEADER_VERIFIED_V1"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "CONTROL_FLOW",
+        "PRODUCE_VALUE"
+      ],
+      "representationConstraints": [
+        "CORS_HEADER_ARRAY"
+      ],
+      "dependencyReferences": [],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "7c69dd974b7bcf43d5a9ea737f40e6a9a2bba7fbf6b42e4d6a48d170ccbd45f6"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-01-PRODUCER-1",
+      "participantId": "PART-P46-L7-01-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-01-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "f475ea074facfa59c1de0a27c4626438dcc6aff2686f4f9338a2386549932f7d"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-01-PRODUCER-2",
+      "participantId": "PART-P46-L7-01-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_SYNCHRONIZED_LOOKAHEAD_V2"
+      ],
+      "stateGuarantees": [
+        "SYNCHRONIZED_LOOKAHEAD_BUFFER_V2"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-01-SYNC"
+      ],
+      "version": 2,
+      "status": "PROPOSED",
+      "contentHash": "7cb9a6e171a5398a11f7fcf7ec8d6b195a8ff19b50f46d037ca32572c24e4af1"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-01-CONSUMER-1",
+      "participantId": "PART-P46-L7-01-CONSUMER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-01-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "c0eecf653af0fff2fcc7a60f7d10f4faddd649b7b1afa53d65381b32613d097a"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-02-PRODUCER-1",
+      "participantId": "PART-P46-L7-02-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-02-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "5bee8d9cd2b24a1533449254a3b961d0bbf26371e6ca0b8efaf9a47ccbf2316e"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-02-PRODUCER-2",
+      "participantId": "PART-P46-L7-02-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_SYNCHRONIZED_LOOKAHEAD_V2"
+      ],
+      "stateGuarantees": [
+        "SYNCHRONIZED_LOOKAHEAD_BUFFER_V2"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-02-SYNC"
+      ],
+      "version": 2,
+      "status": "PROPOSED",
+      "contentHash": "0397ffbc83938e36487b7e3c53f18906539f45170de7bd1db95510ff8e800d23"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-02-CONSUMER-1",
+      "participantId": "PART-P46-L7-02-CONSUMER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-02-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "0776956fd4f31d2d7f19233703074709cd8baf6b85aff34948e587d2627056e1"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-03-PRODUCER-1",
+      "participantId": "PART-P46-L7-03-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-03-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "1fdb1757dd45d9542fcab3fce81edab01df7519386f8cbd81054856d024cce82"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-03-PRODUCER-2",
+      "participantId": "PART-P46-L7-03-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_SYNCHRONIZED_LOOKAHEAD_V2"
+      ],
+      "stateGuarantees": [
+        "SYNCHRONIZED_LOOKAHEAD_BUFFER_V2"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-03-SYNC"
+      ],
+      "version": 2,
+      "status": "PROPOSED",
+      "contentHash": "ba9c1bf2b14c2a094bcf7fd4cc0f47b73eb98231e85060b104b7bab6dd6bd0f4"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-03-CONSUMER-1",
+      "participantId": "PART-P46-L7-03-CONSUMER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-03-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "214566750b9eac449013089b102e0244a42c37e998dbcd147d4a1dbb03f5f775"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-04-PRODUCER-1",
+      "participantId": "PART-P46-L7-04-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-04-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "96e0cb403079c44ec0914677789bb375a1b6125382ce7a16dd1802b4e66093e1"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-04-PRODUCER-2",
+      "participantId": "PART-P46-L7-04-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_SYNCHRONIZED_LOOKAHEAD_V2"
+      ],
+      "stateGuarantees": [
+        "SYNCHRONIZED_LOOKAHEAD_BUFFER_V2"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-04-SYNC"
+      ],
+      "version": 2,
+      "status": "PROPOSED",
+      "contentHash": "bca079100bf36d2d55efea6f345b68fa0b17bb9f3383282f30856e432ea268db"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-04-CONSUMER-1",
+      "participantId": "PART-P46-L7-04-CONSUMER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-04-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "5816345eaf6d43259f315611339f795763d9232c3f1ce36812d1b2576b01e591"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-05-PRODUCER-1",
+      "participantId": "PART-P46-L7-05-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-05-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "f9e53a8ae1f13b87aa8429bc1937a00ad58ccf466acd4a19005c97a16716dfe8"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-05-PRODUCER-2",
+      "participantId": "PART-P46-L7-05-PRODUCER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_SYNCHRONIZED_LOOKAHEAD_V2"
+      ],
+      "stateGuarantees": [
+        "SYNCHRONIZED_LOOKAHEAD_BUFFER_V2"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-05-SYNC"
+      ],
+      "version": 2,
+      "status": "PROPOSED",
+      "contentHash": "0da0ce17a7185abc131481aacfc1084ca0708da78a8ba4d4d41afc8a1a19b755"
+    },
+    {
+      "commitmentId": "COMM-PART-P46-L7-05-CONSUMER-1",
+      "participantId": "PART-P46-L7-05-CONSUMER",
+      "semanticDomain": "COMPILER_COORDINATION",
+      "inputTypes": [
+        "TOKEN_STREAM",
+        "PROGRAM_STATE"
+      ],
+      "outputTypes": [
+        "PROGRAM"
+      ],
+      "stateAssumptions": [
+        "ASSUME_ZERO_LOOKAHEAD"
+      ],
+      "stateGuarantees": [
+        "UNSYNCHRONIZED_LOCAL_POSITION"
+      ],
+      "invariants": [
+        "INPUT_VALIDATION_PRESERVATION",
+        "STATE_CONSISTENCY_PRESERVATION"
+      ],
+      "effects": [
+        "READ_STATE",
+        "WRITE_STATE",
+        "CONTROL_FLOW",
+        "TRANSACTIONAL"
+      ],
+      "representationConstraints": [
+        "TOKEN_STREAM_ALIGNED_UTF8"
+      ],
+      "dependencyReferences": [
+        "DEP-P46-L7-05-SYNC"
+      ],
+      "version": 1,
+      "status": "PROPOSED",
+      "contentHash": "c2df9ea3c15615965ffa7b1256d33d5594e7b07e513cc6da6474094bac7cd79c"
+    }
+  ]
+}
