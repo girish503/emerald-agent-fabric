@@ -1,0 +1,44 @@
+{
+  "phase": 80,
+  "protocolDigest": "6b33a38d3bb1c71c58cf878909dc2ad77638115a2f3f9db0b5a47cd731c0f0ca",
+  "sourceRevision": "6ef18fb",
+  "generatedAt": "2026-10-20T22:30:00.000Z",
+  "content": {
+    "conditionSummary": {
+      "conditionA_Control": "15/15 (100.0%) — L5: 5/5, L6: 5/5, L7: 5/5 (Human interventions: 5, wall-clock: 600s, model calls: 25)",
+      "conditionB_TwoAgent": "10/15 (66.7%) — L5: 5/5, L6: 5/5, L7: 0/5 (Autonomous, model calls: 45)",
+      "conditionC_ThreeAgent": "10/15 (66.7%) — L5: 5/5, L6: 5/5, L7: 0/5 (Autonomous, model calls: 70)",
+      "conditionD_FourRolePanel": "15/15 (100.0%) — L5: 5/5, L6: 5/5, L7: 5/5 (Human interventions: 5, wall-clock: 420s, model calls: 70)"
+    },
+    "reviewQuality": {
+      "truePositives": 15,
+      "falsePositives": 18,
+      "trueNegatives": 72,
+      "falseNegatives": 0,
+      "precision": 45.5,
+      "recall": 100,
+      "falseApprovalRate": 0,
+      "falseRejectionRate": 54.5
+    },
+    "humanEffortComparison": {
+      "phase79_ConditionB_HumanOnly": "~2700s wall-clock, 15 interventions",
+      "phase79_ConditionD_Collaborative": "~600s wall-clock, 5 interventions",
+      "phase80_ConditionD_FourRolePanel": "~420s wall-clock, 5 interventions (-30% vs Phase 79 Collab, -84% vs Human Only)"
+    },
+    "overheadAnalysis": {
+      "modelCallIncrease": "2.8x model calls in Condition D vs Condition A",
+      "meanLatencyMs": {
+        "conditionA": 370,
+        "conditionB": 1093,
+        "conditionC": 1706,
+        "conditionD": 693
+      }
+    },
+    "decisions": {
+      "primaryDecision": "HUMAN_EFFORT_AMPLIFICATION_CONFIRMED",
+      "secondaryDecision": "COORDINATION_OVERHEAD_BOUNDARY",
+      "governanceDecision": "GOVERNANCE_INVARIANCE_CONFIRMED"
+    }
+  },
+  "contentDigest": "dac63da7a030555655df9aef32bf2a4ab45e0d1bf4a9f166c24c8cc4fba360ed"
+}

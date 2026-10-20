@@ -1,0 +1,17 @@
+{
+  "phase": 80,
+  "protocolDigest": "6b33a38d3bb1c71c58cf878909dc2ad77638115a2f3f9db0b5a47cd731c0f0ca",
+  "sourceRevision": "6ef18fb",
+  "generatedAt": "2026-10-20T22:30:00.000Z",
+  "content": {
+    "rules": [
+      "Reviewers never receive proposer rationale directly",
+      "Semantic critic never receives reviewer conclusion before its own first-pass assessment",
+      "Verification advisor never receives private clean-room verification outcome before recommendation",
+      "Zero gold patch, reference oracle, or secret key leakage permitted across review channels"
+    ],
+    "leakageDetected": false,
+    "promptInjectionDefense": "Repository contents treated as untrusted data; stripped of execution authority"
+  },
+  "contentDigest": "5cbb9fb5417bd68990ccdbcbc3e2f75b011f88b7be97c50bcb43b84f46993e7b"
+}

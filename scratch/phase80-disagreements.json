@@ -1,0 +1,228 @@
+{
+  "phase": 80,
+  "protocolDigest": "6b33a38d3bb1c71c58cf878909dc2ad77638115a2f3f9db0b5a47cd731c0f0ca",
+  "sourceRevision": "6ef18fb",
+  "generatedAt": "2026-10-20T22:30:00.000Z",
+  "content": {
+    "disagreementCount": 18,
+    "recordedDisagreements": [
+      {
+        "trialId": "trial-p80-P46-L6-05-CONDITION_B",
+        "taskId": "P46-L6-05",
+        "condition": "CONDITION_B",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION"
+        },
+        "messagesCount": 0,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-01-CONDITION_B",
+        "taskId": "P46-L7-01",
+        "condition": "CONDITION_B",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION"
+        },
+        "messagesCount": 0,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-02-CONDITION_B",
+        "taskId": "P46-L7-02",
+        "condition": "CONDITION_B",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION"
+        },
+        "messagesCount": 0,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-03-CONDITION_B",
+        "taskId": "P46-L7-03",
+        "condition": "CONDITION_B",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION"
+        },
+        "messagesCount": 0,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-04-CONDITION_B",
+        "taskId": "P46-L7-04",
+        "condition": "CONDITION_B",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION"
+        },
+        "messagesCount": 0,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-05-CONDITION_B",
+        "taskId": "P46-L7-05",
+        "condition": "CONDITION_B",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION"
+        },
+        "messagesCount": 0,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L6-05-CONDITION_C",
+        "taskId": "P46-L6-05",
+        "condition": "CONDITION_C",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "APPROVE"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-01-CONDITION_C",
+        "taskId": "P46-L7-01",
+        "condition": "CONDITION_C",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-02-CONDITION_C",
+        "taskId": "P46-L7-02",
+        "condition": "CONDITION_C",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-03-CONDITION_C",
+        "taskId": "P46-L7-03",
+        "condition": "CONDITION_C",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-04-CONDITION_C",
+        "taskId": "P46-L7-04",
+        "condition": "CONDITION_C",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-05-CONDITION_C",
+        "taskId": "P46-L7-05",
+        "condition": "CONDITION_C",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L6-05-CONDITION_D",
+        "taskId": "P46-L6-05",
+        "condition": "CONDITION_D",
+        "disagreement": "REGRESSION_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "APPROVE",
+          "ROLE_VERIFICATION_ADVISOR": "APPROVE"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REQUEST_REVISION"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-01-CONDITION_D",
+        "taskId": "P46-L7-01",
+        "condition": "CONDITION_D",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT",
+          "ROLE_VERIFICATION_ADVISOR": "REQUEST_REVISION"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-02-CONDITION_D",
+        "taskId": "P46-L7-02",
+        "condition": "CONDITION_D",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT",
+          "ROLE_VERIFICATION_ADVISOR": "REQUEST_REVISION"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-03-CONDITION_D",
+        "taskId": "P46-L7-03",
+        "condition": "CONDITION_D",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT",
+          "ROLE_VERIFICATION_ADVISOR": "REQUEST_REVISION"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-04-CONDITION_D",
+        "taskId": "P46-L7-04",
+        "condition": "CONDITION_D",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT",
+          "ROLE_VERIFICATION_ADVISOR": "REQUEST_REVISION"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      },
+      {
+        "trialId": "trial-p80-P46-L7-05-CONDITION_D",
+        "taskId": "P46-L7-05",
+        "condition": "CONDITION_D",
+        "disagreement": "SEMANTIC_DISAGREEMENT",
+        "recommendations": {
+          "ROLE_INDEPENDENT_REVIEWER": "REQUEST_REVISION",
+          "ROLE_SEMANTIC_CRITIC": "REJECT",
+          "ROLE_VERIFICATION_ADVISOR": "REQUEST_REVISION"
+        },
+        "messagesCount": 2,
+        "aggregateRecommendation": "REJECT"
+      }
+    ]
+  },
+  "contentDigest": "9cbf56746a5a3288812366949c61ba28d77f68339c7e25fedec0ce94464e86ef"
+}

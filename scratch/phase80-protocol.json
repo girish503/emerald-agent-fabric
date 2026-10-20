@@ -1,0 +1,35 @@
+{
+  "phase": 80,
+  "protocolDigest": "6b33a38d3bb1c71c58cf878909dc2ad77638115a2f3f9db0b5a47cd731c0f0ca",
+  "sourceRevision": "6ef18fb",
+  "generatedAt": "2026-10-20T22:30:00.000Z",
+  "content": {
+    "protocolVersion": "emerald-phase80-multi-agent-review-v1",
+    "frozenAt": "2026-10-20T22:30:00.000Z",
+    "baselineCommit": "6ef18fb",
+    "parentCommit": "c5e5a17",
+    "researchQuestion": "Can multiple untrusted local agents perform governed interactive code review, critique, repair proposal, and verification more efficiently or reliably than the Phase 79 human + single-model collaboration, while Emerald retains complete authority over execution and verification?",
+    "conditions": [
+      "CONDITION_A_PHASE79_CONTROL",
+      "CONDITION_B_TWO_AGENT_REVIEW",
+      "CONDITION_C_THREE_AGENT_REVIEW",
+      "CONDITION_D_GOVERNED_FOUR_ROLE_PANEL"
+    ],
+    "roles": [
+      "ROLE_TRANSFORMATION_PROPOSER",
+      "ROLE_INDEPENDENT_REVIEWER",
+      "ROLE_SEMANTIC_CRITIC",
+      "ROLE_VERIFICATION_ADVISOR",
+      "HUMAN_OPERATOR",
+      "GOVERNING_AUTHORITY"
+    ],
+    "reviewLimits": {
+      "maxReviewRounds": 2,
+      "maxReviewMessages": 6,
+      "maxRevisions": 3,
+      "maxFindingsPerReview": 32
+    },
+    "authorityPrinciple": "PROPOSERS, REVIEWERS, CRITICS, AND PANELS ARE STRICTLY UNTRUSTED ADVISORS. Sovereign execution, policy, clean-room, fourfold gate, and Ed25519 signing authority belong exclusively to Emerald."
+  },
+  "contentDigest": "6b33a38d3bb1c71c58cf878909dc2ad77638115a2f3f9db0b5a47cd731c0f0ca"
+}

@@ -1,0 +1,68 @@
+{
+  "phase": 80,
+  "protocolDigest": "6b33a38d3bb1c71c58cf878909dc2ad77638115a2f3f9db0b5a47cd731c0f0ca",
+  "sourceRevision": "6ef18fb",
+  "generatedAt": "2026-10-20T22:30:00.000Z",
+  "content": {
+    "authorityStatus": "ALL_AGENTS_UNTRUSTED",
+    "agents": [
+      {
+        "role": "ROLE_TRANSFORMATION_PROPOSER",
+        "modelTag": "granite3-dense:2b",
+        "architecture": "granite",
+        "parameterCount": "2.6B",
+        "authorityGranted": false,
+        "oracleAccessAllowed": false,
+        "goldAccessAllowed": false,
+        "credentialAccessAllowed": false
+      },
+      {
+        "role": "ROLE_INDEPENDENT_REVIEWER",
+        "modelTag": "qwen2.5-coder:3b",
+        "architecture": "qwen2",
+        "parameterCount": "3.1B",
+        "authorityGranted": false,
+        "oracleAccessAllowed": false,
+        "goldAccessAllowed": false,
+        "credentialAccessAllowed": false
+      },
+      {
+        "role": "ROLE_SEMANTIC_CRITIC",
+        "modelTag": "llama3.2:3b",
+        "architecture": "llama",
+        "parameterCount": "3.2B",
+        "authorityGranted": false,
+        "oracleAccessAllowed": false,
+        "goldAccessAllowed": false,
+        "credentialAccessAllowed": false
+      },
+      {
+        "role": "ROLE_VERIFICATION_ADVISOR",
+        "modelTag": "granite3-dense:2b",
+        "architecture": "granite",
+        "parameterCount": "2.6B",
+        "authorityGranted": false,
+        "oracleAccessAllowed": false,
+        "goldAccessAllowed": false,
+        "credentialAccessAllowed": false
+      },
+      {
+        "role": "HUMAN_OPERATOR",
+        "modelTag": null,
+        "authorityGranted": false,
+        "oracleAccessAllowed": false,
+        "goldAccessAllowed": false,
+        "credentialAccessAllowed": false
+      },
+      {
+        "role": "GOVERNING_AUTHORITY",
+        "modelTag": null,
+        "authorityGranted": true,
+        "oracleAccessAllowed": false,
+        "goldAccessAllowed": false,
+        "credentialAccessAllowed": true
+      }
+    ]
+  },
+  "contentDigest": "33e38a6abc31f218eb22f0290e55b3ab30583477b76969893a95aa3235b7c43c"
+}

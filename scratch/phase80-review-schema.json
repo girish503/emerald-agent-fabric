@@ -1,0 +1,63 @@
+{
+  "phase": 80,
+  "protocolDigest": "6b33a38d3bb1c71c58cf878909dc2ad77638115a2f3f9db0b5a47cd731c0f0ca",
+  "sourceRevision": "6ef18fb",
+  "generatedAt": "2026-10-20T22:30:00.000Z",
+  "content": {
+    "requiredFields": [
+      "reviewId",
+      "proposalId",
+      "reviewerRole",
+      "reviewerModel",
+      "reviewTargetDigest",
+      "findings",
+      "severity",
+      "recommendation",
+      "confidence",
+      "rationale",
+      "reviewDigest",
+      "timestamp"
+    ],
+    "findingTaxonomy": [
+      "SYNTAX_RISK",
+      "TYPE_RISK",
+      "API_CONTRACT_RISK",
+      "STATE_INVARIANT_RISK",
+      "REGRESSION_RISK",
+      "CROSS_MODULE_RISK",
+      "TEST_COVERAGE_RISK",
+      "SECURITY_RISK",
+      "SCOPE_RISK",
+      "BEHAVIORAL_RISK",
+      "UNKNOWN"
+    ],
+    "severities": [
+      "INFO",
+      "LOW",
+      "MEDIUM",
+      "HIGH",
+      "CRITICAL"
+    ],
+    "recommendations": [
+      "APPROVE",
+      "REJECT",
+      "REQUEST_REVISION",
+      "UNCERTAIN"
+    ],
+    "disagreementTypes": [
+      "BENIGN_DISAGREEMENT",
+      "SEMANTIC_DISAGREEMENT",
+      "REGRESSION_DISAGREEMENT",
+      "SCOPE_DISAGREEMENT",
+      "SECURITY_DISAGREEMENT",
+      "UNKNOWN_DISAGREEMENT"
+    ],
+    "limits": {
+      "maxReviewRounds": 2,
+      "maxReviewMessages": 6,
+      "maxRevisions": 3,
+      "maxFindingsPerReview": 32
+    }
+  },
+  "contentDigest": "ddb70fcaa88858ac73de5bcb1356b18e4a89bf5251058d6dafbcd0b602ae3b2d"
+}
