@@ -1,0 +1,483 @@
+{
+  "schemaVersion": "emerald-phase68-v1",
+  "phase": "68",
+  "protocolDigest": "0753064bd16b2593a18aabb63dcab19e838e288ce08a2fafdea5bb0fb1125fe7",
+  "totalPriors": 15,
+  "priors": [
+    {
+      "priorId": "PRIOR-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "EXPRESSION_STRING",
+        "AST_NODE"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "ADAPT_PREFIX_UNARY_PRECEDENCE",
+        "CLAMP_NEGATIVE_INDEX"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "6da2878434990d1f6c0f5fad2bb5b092f3b9ca344c4a9e9740bca4b2e2481c6e"
+    },
+    {
+      "priorId": "PRIOR-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "EXPRESSION_STRING",
+        "AST_NODE"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "ADAPT_PREFIX_UNARY_PRECEDENCE",
+        "CLAMP_NEGATIVE_INDEX"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "120f9becb50439e6435d3711bc77fbbffd282d10675ad2c9b8eda7926f723d1e"
+    },
+    {
+      "priorId": "PRIOR-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "EXPRESSION_STRING",
+        "AST_NODE"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "ADAPT_PREFIX_UNARY_PRECEDENCE",
+        "CLAMP_NEGATIVE_INDEX"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "629b0042dd241f01fe274114861fc30a93c9914fc11c4e174a2c8f292d75b479"
+    },
+    {
+      "priorId": "PRIOR-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "EXPRESSION_STRING",
+        "AST_NODE"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "ADAPT_PREFIX_UNARY_PRECEDENCE",
+        "CLAMP_NEGATIVE_INDEX"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "5270803321dc3d9f9afce6fa53ac6489351f9be01c2aaa58101cb5ad6247bd13"
+    },
+    {
+      "priorId": "PRIOR-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "EXPRESSION_STRING",
+        "AST_NODE"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "ADAPT_PREFIX_UNARY_PRECEDENCE",
+        "CLAMP_NEGATIVE_INDEX"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "c8307276466418d359c441627eba96a9e2f61003f2e454e21423751d59125429"
+    },
+    {
+      "priorId": "PRIOR-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "HTTP_HEADERS",
+        "NORMALIZED_CORS"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "RESTRICT_CREDENTIALED_ORIGIN",
+        "EMIT_VARY_ORIGIN"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "04e4c1123d267c8ce6dc706cf5514e489ffaa32186070679e12b1f7c8b95d792"
+    },
+    {
+      "priorId": "PRIOR-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "HTTP_HEADERS",
+        "NORMALIZED_CORS"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "RESTRICT_CREDENTIALED_ORIGIN",
+        "EMIT_VARY_ORIGIN"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "d9987205b8ed979074ed45a833527a90abb2c0890f69135f4551e3bebf6f1551"
+    },
+    {
+      "priorId": "PRIOR-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "HTTP_HEADERS",
+        "NORMALIZED_CORS"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "RESTRICT_CREDENTIALED_ORIGIN",
+        "EMIT_VARY_ORIGIN"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "ec95823642af5d0813aace5c362d1d3bc0931007292de48e2c8711ee4e0a1fe3"
+    },
+    {
+      "priorId": "PRIOR-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "HTTP_HEADERS",
+        "NORMALIZED_CORS"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "RESTRICT_CREDENTIALED_ORIGIN",
+        "EMIT_VARY_ORIGIN"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "8f6b940ae44e5b7c53da4874df48f8c56f69b419b990a8cb8d52f47a6936d0b4"
+    },
+    {
+      "priorId": "PRIOR-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "HTTP_HEADERS",
+        "NORMALIZED_CORS"
+      ],
+      "observedErrorBehavior": [],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "RESTRICT_CREDENTIALED_ORIGIN",
+        "EMIT_VARY_ORIGIN"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_12_FACTS",
+      "contentHash": "5bb9a7f7635c441d37e89f65068cc8c8c356adcfd28ef1ecfb2acb8ae86b0c9a"
+    },
+    {
+      "priorId": "PRIOR-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "RAW_TOKEN_STREAM",
+        "INTERMEDIATE_BUFFER"
+      ],
+      "observedErrorBehavior": [
+        "BUFFER_UNDERFLOW_DETECTED"
+      ],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "COINDUCTIVE_STREAM_ALIGNMENT",
+        "TWO_PHASE_STATE_SYNC"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_13_FACTS",
+      "contentHash": "6f18684baa53e0a2b5aaa321bca6dcad5cc74c186adabfd907ffb410a04c1836"
+    },
+    {
+      "priorId": "PRIOR-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "RAW_TOKEN_STREAM",
+        "INTERMEDIATE_BUFFER"
+      ],
+      "observedErrorBehavior": [
+        "BUFFER_UNDERFLOW_DETECTED"
+      ],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "COINDUCTIVE_STREAM_ALIGNMENT",
+        "TWO_PHASE_STATE_SYNC"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_13_FACTS",
+      "contentHash": "2ddab5df5dd95edea6476f7b85e2120a255b66e7fc47650ea32cecc1d49f9516"
+    },
+    {
+      "priorId": "PRIOR-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "RAW_TOKEN_STREAM",
+        "INTERMEDIATE_BUFFER"
+      ],
+      "observedErrorBehavior": [
+        "BUFFER_UNDERFLOW_DETECTED"
+      ],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "COINDUCTIVE_STREAM_ALIGNMENT",
+        "TWO_PHASE_STATE_SYNC"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_13_FACTS",
+      "contentHash": "c72771902cb37b239d5254ff784ee0ea459d782087ddddc2e00454508321d079"
+    },
+    {
+      "priorId": "PRIOR-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "RAW_TOKEN_STREAM",
+        "INTERMEDIATE_BUFFER"
+      ],
+      "observedErrorBehavior": [
+        "BUFFER_UNDERFLOW_DETECTED"
+      ],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "COINDUCTIVE_STREAM_ALIGNMENT",
+        "TWO_PHASE_STATE_SYNC"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_13_FACTS",
+      "contentHash": "42452ca4cbcc75ab6a6c8c830b5f9cc757bf589f9eea5632589b177c59a07ac9"
+    },
+    {
+      "priorId": "PRIOR-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "likelyStateTransitions": [
+        "TRANSITION(INIT, EVALUATING)",
+        "TRANSITION(EVALUATING, COMPLETED)"
+      ],
+      "observedDataflow": [
+        "FLOW(input_payload -> parser_stack)",
+        "FLOW(parser_stack -> result)"
+      ],
+      "observedControlFlow": [
+        "CONTROL(GUARD_VALIDATION -> DISPATCH)",
+        "CONTROL(DISPATCH -> RETURN)"
+      ],
+      "observedRepresentations": [
+        "RAW_TOKEN_STREAM",
+        "INTERMEDIATE_BUFFER"
+      ],
+      "observedErrorBehavior": [
+        "BUFFER_UNDERFLOW_DETECTED"
+      ],
+      "observedSecurityDecisions": [
+        "ORIGIN_POLICY_CHECKED"
+      ],
+      "candidateSemanticOperations": [
+        "COINDUCTIVE_STREAM_ALIGNMENT",
+        "TWO_PHASE_STATE_SYNC"
+      ],
+      "confidence": 0.92,
+      "provenance": "AGGREGATED_FROM_4_TRACES_13_FACTS",
+      "contentHash": "dfa00b47101cfce2a78ff8450f2517d52447b26c1226589f7c21fd4129d10aa4"
+    }
+  ]
+}

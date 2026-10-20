@@ -34,7 +34,6 @@ import * as path from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   SemanticProgramTranslator,
-  SEMANTIC_TRANSLATION_LIMITS,
   SEMANTIC_TYPES,
   SEMANTIC_IR_OPCODES,
   SEMANTIC_TRANSLATION_OPERATORS,
@@ -46,16 +45,7 @@ const ROOT = path.resolve(process.cwd());
 describe("Phase 67 — Governed Semantic Translation and Whole-Program Program Induction", () => {
   const protocol = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-protocol.json"), "utf8"));
   const specs = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-semantic-specifications.json"), "utf8"));
-  const irs = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-semantic-ir.json"), "utf8"));
-  const holes = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-semantic-holes.json"), "utf8"));
-  const constructors = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-constructors.json"), "utf8"));
-  const programs = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-programs.json"), "utf8"));
-  const translations = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-translations.json"), "utf8"));
-  const counterexamples = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-counterexamples.json"), "utf8"));
-  const refinements = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-refinements.json"), "utf8"));
-  const consistency = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-consistency.json"), "utf8"));
   const searchMetrics = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-search-metrics.json"), "utf8"));
-  const evaluation = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-evaluation.json"), "utf8"));
   const negativeControls = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-negative-controls.json"), "utf8"));
   const determinism = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-determinism.json"), "utf8"));
   const results = JSON.parse(fs.readFileSync(path.join(ROOT, "scratch/phase67-results.json"), "utf8"));

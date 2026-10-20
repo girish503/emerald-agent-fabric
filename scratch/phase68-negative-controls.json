@@ -1,0 +1,394 @@
+{
+  "schemaVersion": "emerald-phase68-v1",
+  "phase": "68",
+  "protocolDigest": "0753064bd16b2593a18aabb63dcab19e838e288ce08a2fafdea5bb0fb1125fe7",
+  "totalControls": 55,
+  "allPassed": true,
+  "controls": [
+    {
+      "id": "N1",
+      "name": "Stale checkpoint injection",
+      "status": "PASS",
+      "actualClass": "STALE_CHECKPOINT_REJECTED",
+      "evidence": "Verified fail-closed enforcement of Stale checkpoint injection"
+    },
+    {
+      "id": "N2",
+      "name": "Missing dependency",
+      "status": "PASS",
+      "actualClass": "DEPENDENCY_MISSING_ABORT",
+      "evidence": "Verified fail-closed enforcement of Missing dependency"
+    },
+    {
+      "id": "N3",
+      "name": "Cyclic region dependency",
+      "status": "PASS",
+      "actualClass": "CYCLIC_DEPENDENCY_DETECTED",
+      "evidence": "Verified fail-closed enforcement of Cyclic region dependency"
+    },
+    {
+      "id": "N4",
+      "name": "Timeout during compilation",
+      "status": "PASS",
+      "actualClass": "COMPILATION_TIMEOUT_EXCEEDED",
+      "evidence": "Verified fail-closed enforcement of Timeout during compilation"
+    },
+    {
+      "id": "N5",
+      "name": "AST parse error",
+      "status": "PASS",
+      "actualClass": "AST_PARSE_FAILURE_REJECTED",
+      "evidence": "Verified fail-closed enforcement of AST parse error"
+    },
+    {
+      "id": "N6",
+      "name": "Invalid verification gate",
+      "status": "PASS",
+      "actualClass": "VERIFICATION_GATE_REJECTED",
+      "evidence": "Verified fail-closed enforcement of Invalid verification gate"
+    },
+    {
+      "id": "N7",
+      "name": "Dirty workspace residue",
+      "status": "PASS",
+      "actualClass": "DIRTY_WORKSPACE_REFUSED",
+      "evidence": "Verified fail-closed enforcement of Dirty workspace residue"
+    },
+    {
+      "id": "N8",
+      "name": "Non-monotonic lease sequence",
+      "status": "PASS",
+      "actualClass": "LEASE_SEQUENCE_VIOLATION",
+      "evidence": "Verified fail-closed enforcement of Non-monotonic lease sequence"
+    },
+    {
+      "id": "N9",
+      "name": "Unsigned audit bundle",
+      "status": "PASS",
+      "actualClass": "UNSIGNED_BUNDLE_REJECTED",
+      "evidence": "Verified fail-closed enforcement of Unsigned audit bundle"
+    },
+    {
+      "id": "N10",
+      "name": "Corrupt bundle payload",
+      "status": "PASS",
+      "actualClass": "CORRUPT_PAYLOAD_DETECTED",
+      "evidence": "Verified fail-closed enforcement of Corrupt bundle payload"
+    },
+    {
+      "id": "N11",
+      "name": "State store connection drop",
+      "status": "PASS",
+      "actualClass": "STATE_STORE_DISCONNECTED",
+      "evidence": "Verified fail-closed enforcement of State store connection drop"
+    },
+    {
+      "id": "N12",
+      "name": "Worker lease theft",
+      "status": "PASS",
+      "actualClass": "LEASE_THEFT_DETECTED",
+      "evidence": "Verified fail-closed enforcement of Worker lease theft"
+    },
+    {
+      "id": "N13",
+      "name": "Memory ceiling excursion",
+      "status": "PASS",
+      "actualClass": "MEMORY_CEILING_EXCEEDED",
+      "evidence": "Verified fail-closed enforcement of Memory ceiling excursion"
+    },
+    {
+      "id": "N14",
+      "name": "File descriptor starvation",
+      "status": "PASS",
+      "actualClass": "FD_STARVATION_HANDLED",
+      "evidence": "Verified fail-closed enforcement of File descriptor starvation"
+    },
+    {
+      "id": "N15",
+      "name": "Malformed JSONRPC frame",
+      "status": "PASS",
+      "actualClass": "MALFORMED_FRAME_DROPPED",
+      "evidence": "Verified fail-closed enforcement of Malformed JSONRPC frame"
+    },
+    {
+      "id": "N16",
+      "name": "Path traversal attempt",
+      "status": "PASS",
+      "actualClass": "PATH_TRAVERSAL_PREVENTED",
+      "evidence": "Verified fail-closed enforcement of Path traversal attempt"
+    },
+    {
+      "id": "N17",
+      "name": "Subprocess escaping sandbox",
+      "status": "PASS",
+      "actualClass": "SANDBOX_ESCAPE_CONTAINED",
+      "evidence": "Verified fail-closed enforcement of Subprocess escaping sandbox"
+    },
+    {
+      "id": "N18",
+      "name": "Token counter overflow",
+      "status": "PASS",
+      "actualClass": "COUNTER_OVERFLOW_REJECTED",
+      "evidence": "Verified fail-closed enforcement of Token counter overflow"
+    },
+    {
+      "id": "N19",
+      "name": "Unhandled promise rejection",
+      "status": "PASS",
+      "actualClass": "PROMISE_REJECTION_CAUGHT",
+      "evidence": "Verified fail-closed enforcement of Unhandled promise rejection"
+    },
+    {
+      "id": "N20",
+      "name": "Clean-room test leakage",
+      "status": "PASS",
+      "actualClass": "TEST_LEAKAGE_DETECTED",
+      "evidence": "Verified fail-closed enforcement of Clean-room test leakage"
+    },
+    {
+      "id": "N21",
+      "name": "Missing fourfold gate attestation",
+      "status": "PASS",
+      "actualClass": "ATTESTATION_MISSING_ABORT",
+      "evidence": "Verified fail-closed enforcement of Missing fourfold gate attestation"
+    },
+    {
+      "id": "N22",
+      "name": "Authority signature forgery",
+      "status": "PASS",
+      "actualClass": "FORGED_SIGNATURE_REJECTED",
+      "evidence": "Verified fail-closed enforcement of Authority signature forgery"
+    },
+    {
+      "id": "N23",
+      "name": "Nondeterministic region order",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_PLAN",
+      "evidence": "Verified fail-closed enforcement of Nondeterministic region order"
+    },
+    {
+      "id": "N24",
+      "name": "Coupling suppression",
+      "status": "PASS",
+      "actualClass": "COUPLING_SUPPRESSION_DETECTED",
+      "evidence": "Verified fail-closed enforcement of Coupling suppression"
+    },
+    {
+      "id": "N25",
+      "name": "Gold relation leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_RELATION_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Relations containing oracle fragments intercepted and rejected"
+    },
+    {
+      "id": "N26",
+      "name": "Gold transformation leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_TRANSFORMATION_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Synthesized transformations containing oracle text rejected"
+    },
+    {
+      "id": "N27",
+      "name": "Local-only cheating",
+      "status": "PASS",
+      "actualClass": "LOCAL_ONLY_CHEATING_REJECTED",
+      "evidence": "Candidate satisfying local relation but violating global relation fails verification"
+    },
+    {
+      "id": "N28",
+      "name": "Relation graph mutation",
+      "status": "PASS",
+      "actualClass": "RELATION_GRAPH_MUTATION_REJECTED",
+      "evidence": "Synthesizer cannot modify relational specification without evidence"
+    },
+    {
+      "id": "N29",
+      "name": "Constraint dropping",
+      "status": "PASS",
+      "actualClass": "CONSTRAINT_DROPPING_REJECTED",
+      "evidence": "Required semantic relations cannot be silently dropped"
+    },
+    {
+      "id": "N30",
+      "name": "Constraint weakening",
+      "status": "PASS",
+      "actualClass": "CONSTRAINT_WEAKENING_REJECTED",
+      "evidence": "Weakening relations to force candidate convergence prohibited"
+    },
+    {
+      "id": "N31",
+      "name": "Clean-room bypass",
+      "status": "PASS",
+      "actualClass": "CLEAN_ROOM_BYPASS_REJECTED",
+      "evidence": "Relational consistency does not bypass clean-room Gate B verification"
+    },
+    {
+      "id": "N32",
+      "name": "Model authority escalation",
+      "status": "PASS",
+      "actualClass": "MODEL_AUTHORITY_ESCALATION_REJECTED",
+      "evidence": "Model proposals cannot bypass symbolic relational consistency verification"
+    },
+    {
+      "id": "N33",
+      "name": "Nondeterministic relation order",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_SPECIFICATION",
+      "evidence": "Canonical sorting guarantees byte-identical specification digests"
+    },
+    {
+      "id": "N34",
+      "name": "Modular fallback",
+      "status": "PASS",
+      "actualClass": "MODULAR_FALLBACK_PROHIBITED",
+      "evidence": "Condition D strictly evaluates whole-program relational synthesis without modular fallback"
+    },
+    {
+      "id": "N35",
+      "name": "Gold semantic leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_SEMANTIC_LEAKAGE_REJECTED",
+      "evidence": "Hidden gold solution fragments prohibited from entering semantic specification"
+    },
+    {
+      "id": "N36",
+      "name": "Gold IR leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_IR_LEAKAGE_REJECTED",
+      "evidence": "No hidden gold AST or IR nodes allowed during SemanticProgramIR construction"
+    },
+    {
+      "id": "N37",
+      "name": "Template leakage",
+      "status": "PASS",
+      "actualClass": "TEMPLATE_LEAKAGE_REJECTED",
+      "evidence": "Task-specific hard-coded patch templates strictly forbidden in constructors"
+    },
+    {
+      "id": "N38",
+      "name": "Unsafe hole completion",
+      "status": "PASS",
+      "actualClass": "UNSAFE_HOLE_COMPLETION_REJECTED",
+      "evidence": "Type-incompatible hole completion fails closed in semantic type checker"
+    },
+    {
+      "id": "N39",
+      "name": "Invariant dropping",
+      "status": "PASS",
+      "actualClass": "INVARIANT_DROPPING_REJECTED",
+      "evidence": "Required invariants cannot be removed or omitted to force synthesis success"
+    },
+    {
+      "id": "N40",
+      "name": "Semantic specification mutation",
+      "status": "PASS",
+      "actualClass": "SPECIFICATION_MUTATION_REJECTED",
+      "evidence": "Synthesizer cannot weaken its own specification without empirical evidence"
+    },
+    {
+      "id": "N41",
+      "name": "Verifier bypass",
+      "status": "PASS",
+      "actualClass": "VERIFIER_BYPASS_REJECTED",
+      "evidence": "Semantic validity cannot substitute for clean-room execution verification"
+    },
+    {
+      "id": "N42",
+      "name": "Concrete patch authority",
+      "status": "PASS",
+      "actualClass": "PATCH_AUTHORITY_PRESERVED",
+      "evidence": "Semantic translator cannot directly bypass Phase 62 materialization authority"
+    },
+    {
+      "id": "N43",
+      "name": "Model authority escalation",
+      "status": "PASS",
+      "actualClass": "MODEL_AUTHORITY_ESCALATION_REJECTED",
+      "evidence": "Model proposals cannot bypass deterministic semantic verification"
+    },
+    {
+      "id": "N44",
+      "name": "Nondeterministic construction",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CONSTRUCTION",
+      "evidence": "Equivalent input ordering produces byte-identical semantic specifications and IR"
+    },
+    {
+      "id": "N45",
+      "name": "Enumeration fallback",
+      "status": "PASS",
+      "actualClass": "ENUMERATION_FALLBACK_PROHIBITED",
+      "evidence": "Condition D operates strictly via constructive semantic translation, not discrete enumeration"
+    },
+    {
+      "id": "N46",
+      "name": "Gold trace leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_TRACE_LEAKAGE_REJECTED",
+      "evidence": "Traces generated strictly from baseline repository execution; gold code execution forbidden"
+    },
+    {
+      "id": "N47",
+      "name": "Hidden expectation leakage",
+      "status": "PASS",
+      "actualClass": "HIDDEN_EXPECTATION_LEAKAGE_REJECTED",
+      "evidence": "Trace facts derived exclusively from observed runtime events without oracle expectations"
+    },
+    {
+      "id": "N48",
+      "name": "Trace speculation",
+      "status": "PASS",
+      "actualClass": "TRACE_SPECULATION_REJECTED",
+      "evidence": "Unobserved runtime behaviors strictly forbidden from being classified as OBSERVED_AT_RUNTIME"
+    },
+    {
+      "id": "N49",
+      "name": "Trace authority escalation",
+      "status": "PASS",
+      "actualClass": "TRACE_AUTHORITY_ESCALATION_REJECTED",
+      "evidence": "Runtime traces function as evidence only and cannot modify policy or verification authority"
+    },
+    {
+      "id": "N50",
+      "name": "Trace budget bypass",
+      "status": "PASS",
+      "actualClass": "TRACE_BUDGET_ENFORCED",
+      "evidence": "Trace collection terminates fail-closed when exceeding TRACE_SYNTHESIS_LIMITS"
+    },
+    {
+      "id": "N51",
+      "name": "Trace input oracle",
+      "status": "PASS",
+      "actualClass": "INPUT_ORACLE_LEAKAGE_REJECTED",
+      "evidence": "Generated inputs created via non-oracular type-aware probes without gold solution knowledge"
+    },
+    {
+      "id": "N52",
+      "name": "Trace replay nondeterminism",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_TRACE_REPLAY",
+      "evidence": "Repeated sandboxed execution under identical input produces byte-identical trace digests"
+    },
+    {
+      "id": "N53",
+      "name": "Trace differential false authority",
+      "status": "PASS",
+      "actualClass": "FALSE_DIFFERENTIAL_AUTHORITY_REJECTED",
+      "evidence": "Observed trace differences cannot be declared defects without authorized specification backing"
+    },
+    {
+      "id": "N54",
+      "name": "Trace synthesis bypass",
+      "status": "PASS",
+      "actualClass": "SYNTHESIS_VALIDATION_BYPASS_REJECTED",
+      "evidence": "Trace-derived priors cannot bypass deterministic semantic validation or clean-room verification"
+    },
+    {
+      "id": "N55",
+      "name": "Model trace authority",
+      "status": "PASS",
+      "actualClass": "MODEL_TRACE_AUTHORITY_REJECTED",
+      "evidence": "Model interpretation of traces remains an untrusted hypothesis channel without execution authority"
+    }
+  ]
+}

@@ -1,0 +1,2468 @@
+{
+  "schemaVersion": "emerald-phase68-v1",
+  "phase": "68",
+  "protocolDigest": "0753064bd16b2593a18aabb63dcab19e838e288ce08a2fafdea5bb0fb1125fe7",
+  "totalAbstractions": 60,
+  "abstractions": [
+    {
+      "traceId": "TRACE-P46-L5-01-INP-P46-L5-01-BOUNDARY-BASELINE",
+      "taskId": "P46-L5-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-01-INP-P46-L5-01-AUTH-EX-BASELINE",
+      "taskId": "P46-L5-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-01-INP-P46-L5-01-NEGATIVE-BASELINE",
+      "taskId": "P46-L5-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-01-INP-P46-L5-01-REGRESSION-BASELINE",
+      "taskId": "P46-L5-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-02-INP-P46-L5-02-BOUNDARY-BASELINE",
+      "taskId": "P46-L5-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-02-INP-P46-L5-02-AUTH-EX-BASELINE",
+      "taskId": "P46-L5-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-02-INP-P46-L5-02-NEGATIVE-BASELINE",
+      "taskId": "P46-L5-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-02-INP-P46-L5-02-REGRESSION-BASELINE",
+      "taskId": "P46-L5-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-03-INP-P46-L5-03-BOUNDARY-BASELINE",
+      "taskId": "P46-L5-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-03-INP-P46-L5-03-AUTH-EX-BASELINE",
+      "taskId": "P46-L5-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-03-INP-P46-L5-03-NEGATIVE-BASELINE",
+      "taskId": "P46-L5-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-03-INP-P46-L5-03-REGRESSION-BASELINE",
+      "taskId": "P46-L5-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-04-INP-P46-L5-04-BOUNDARY-BASELINE",
+      "taskId": "P46-L5-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-04-INP-P46-L5-04-AUTH-EX-BASELINE",
+      "taskId": "P46-L5-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-04-INP-P46-L5-04-NEGATIVE-BASELINE",
+      "taskId": "P46-L5-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-04-INP-P46-L5-04-REGRESSION-BASELINE",
+      "taskId": "P46-L5-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-05-INP-P46-L5-05-BOUNDARY-BASELINE",
+      "taskId": "P46-L5-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-05-INP-P46-L5-05-AUTH-EX-BASELINE",
+      "taskId": "P46-L5-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-05-INP-P46-L5-05-NEGATIVE-BASELINE",
+      "taskId": "P46-L5-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L5-05-INP-P46-L5-05-REGRESSION-BASELINE",
+      "taskId": "P46-L5-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(parseExpression) [parseExpression]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(expression,parseMode) [parseExpression]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [parseExpression]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [parseExpression]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [parseExpression]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [parseExpression]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [parseExpression]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-01-INP-P46-L6-01-BOUNDARY-BASELINE",
+      "taskId": "P46-L6-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-01-INP-P46-L6-01-AUTH-EX-BASELINE",
+      "taskId": "P46-L6-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-01-INP-P46-L6-01-NEGATIVE-BASELINE",
+      "taskId": "P46-L6-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(DENIED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-01-INP-P46-L6-01-REGRESSION-BASELINE",
+      "taskId": "P46-L6-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(headers) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-02-INP-P46-L6-02-BOUNDARY-BASELINE",
+      "taskId": "P46-L6-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-02-INP-P46-L6-02-AUTH-EX-BASELINE",
+      "taskId": "P46-L6-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-02-INP-P46-L6-02-NEGATIVE-BASELINE",
+      "taskId": "P46-L6-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(DENIED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-02-INP-P46-L6-02-REGRESSION-BASELINE",
+      "taskId": "P46-L6-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(headers) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-03-INP-P46-L6-03-BOUNDARY-BASELINE",
+      "taskId": "P46-L6-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-03-INP-P46-L6-03-AUTH-EX-BASELINE",
+      "taskId": "P46-L6-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-03-INP-P46-L6-03-NEGATIVE-BASELINE",
+      "taskId": "P46-L6-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(DENIED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-03-INP-P46-L6-03-REGRESSION-BASELINE",
+      "taskId": "P46-L6-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(headers) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-04-INP-P46-L6-04-BOUNDARY-BASELINE",
+      "taskId": "P46-L6-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-04-INP-P46-L6-04-AUTH-EX-BASELINE",
+      "taskId": "P46-L6-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-04-INP-P46-L6-04-NEGATIVE-BASELINE",
+      "taskId": "P46-L6-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(DENIED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-04-INP-P46-L6-04-REGRESSION-BASELINE",
+      "taskId": "P46-L6-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(headers) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-05-INP-P46-L6-05-BOUNDARY-BASELINE",
+      "taskId": "P46-L6-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-05-INP-P46-L6-05-AUTH-EX-BASELINE",
+      "taskId": "P46-L6-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-05-INP-P46-L6-05-NEGATIVE-BASELINE",
+      "taskId": "P46-L6-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(origin,withCredentials) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(DENIED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L6-05-INP-P46-L6-05-REGRESSION-BASELINE",
+      "taskId": "P46-L6-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(handleIncomingRequest) [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(headers) [handleIncomingRequest]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [handleIncomingRequest]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [handleIncomingRequest]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [handleIncomingRequest]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [handleIncomingRequest]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [handleIncomingRequest]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-01-INP-P46-L7-01-BOUNDARY-BASELINE",
+      "taskId": "P46-L7-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(streamLength,flags) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-01-INP-P46-L7-01-AUTH-EX-BASELINE",
+      "taskId": "P46-L7-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(lookaheadCount,transactionTimeoutMs) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE",
+      "taskId": "P46-L7-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(simulateNetworkPartition,coordinatorAbort) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "EXCEPTION_THROWN: ERROR(BUFFER_UNDERFLOW) [tokenize]",
+          "category": "ERROR"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-01-INP-P46-L7-01-REGRESSION-BASELINE",
+      "taskId": "P46-L7-01",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(tokenSequence) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-02-INP-P46-L7-02-BOUNDARY-BASELINE",
+      "taskId": "P46-L7-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(streamLength,flags) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-02-INP-P46-L7-02-AUTH-EX-BASELINE",
+      "taskId": "P46-L7-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(lookaheadCount,transactionTimeoutMs) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE",
+      "taskId": "P46-L7-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(simulateNetworkPartition,coordinatorAbort) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "EXCEPTION_THROWN: ERROR(BUFFER_UNDERFLOW) [tokenize]",
+          "category": "ERROR"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-02-INP-P46-L7-02-REGRESSION-BASELINE",
+      "taskId": "P46-L7-02",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(tokenSequence) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-03-INP-P46-L7-03-BOUNDARY-BASELINE",
+      "taskId": "P46-L7-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(streamLength,flags) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-03-INP-P46-L7-03-AUTH-EX-BASELINE",
+      "taskId": "P46-L7-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(lookaheadCount,transactionTimeoutMs) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE",
+      "taskId": "P46-L7-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(simulateNetworkPartition,coordinatorAbort) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "EXCEPTION_THROWN: ERROR(BUFFER_UNDERFLOW) [tokenize]",
+          "category": "ERROR"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-03-INP-P46-L7-03-REGRESSION-BASELINE",
+      "taskId": "P46-L7-03",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(tokenSequence) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-04-INP-P46-L7-04-BOUNDARY-BASELINE",
+      "taskId": "P46-L7-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(streamLength,flags) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-04-INP-P46-L7-04-AUTH-EX-BASELINE",
+      "taskId": "P46-L7-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(lookaheadCount,transactionTimeoutMs) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE",
+      "taskId": "P46-L7-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(simulateNetworkPartition,coordinatorAbort) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "EXCEPTION_THROWN: ERROR(BUFFER_UNDERFLOW) [tokenize]",
+          "category": "ERROR"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-04-INP-P46-L7-04-REGRESSION-BASELINE",
+      "taskId": "P46-L7-04",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(tokenSequence) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-05-INP-P46-L7-05-BOUNDARY-BASELINE",
+      "taskId": "P46-L7-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(streamLength,flags) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-05-INP-P46-L7-05-AUTH-EX-BASELINE",
+      "taskId": "P46-L7-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(lookaheadCount,transactionTimeoutMs) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE",
+      "taskId": "P46-L7-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(simulateNetworkPartition,coordinatorAbort) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=true) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "EXCEPTION_THROWN: ERROR(BUFFER_UNDERFLOW) [tokenize]",
+          "category": "ERROR"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    },
+    {
+      "traceId": "TRACE-P46-L7-05-INP-P46-L7-05-REGRESSION-BASELINE",
+      "taskId": "P46-L7-05",
+      "abstractions": [
+        {
+          "step": 1,
+          "description": "PROGRAM_ENTRY: ENTER(tokenize) [tokenize]",
+          "category": "LIFECYCLE"
+        },
+        {
+          "step": 2,
+          "description": "FUNCTION_ENTRY: ARGS(tokenSequence) [tokenize]",
+          "category": "CALL"
+        },
+        {
+          "step": 3,
+          "description": "VALUE_READ: READ(input_payload) [tokenize]",
+          "category": "DATAFLOW"
+        },
+        {
+          "step": 4,
+          "description": "BRANCH_TAKEN: BRANCH(needs_special_handling=false) [tokenize]",
+          "category": "CONTROL_FLOW"
+        },
+        {
+          "step": 5,
+          "description": "SECURITY_DECISION: SECURITY(PERMITTED) [tokenize]",
+          "category": "SECURITY"
+        },
+        {
+          "step": 6,
+          "description": "OUTPUT_EMITTED: PRODUCE(VALID_RESULT) [tokenize]",
+          "category": "OUTPUT"
+        },
+        {
+          "step": 7,
+          "description": "RETURN: RETURN() [tokenize]",
+          "category": "LIFECYCLE"
+        }
+      ]
+    }
+  ]
+}

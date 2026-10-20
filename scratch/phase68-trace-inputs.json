@@ -1,0 +1,643 @@
+{
+  "schemaVersion": "emerald-phase68-v1",
+  "phase": "68",
+  "protocolDigest": "0753064bd16b2593a18aabb63dcab19e838e288ce08a2fafdea5bb0fb1125fe7",
+  "totalInputs": 60,
+  "inputs": [
+    {
+      "inputId": "INP-P46-L5-01-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "expression": "-0 ** 0",
+        "parseMode": "STRICT"
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L5-01",
+      "contentHash": "abcce227171d0ddfeb3de75d9fbf09ad7da08d3a614e1b37aa91731546ae1002"
+    },
+    {
+      "inputId": "INP-P46-L5-01-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "expression": "-(2 ** 3)",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L5-01",
+      "contentHash": "826918dde4524c01d29dc956ee76f528f1aeaf76207dca788b2850dd241ac111"
+    },
+    {
+      "inputId": "INP-P46-L5-01-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "expression": "5 - - 2",
+        "parseMode": "RECOVERY"
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L5-01",
+      "contentHash": "ee10f0fee29cc74bbbadf4fc0e1fb72021036bc33c5bb5c5d915953dab222fac"
+    },
+    {
+      "inputId": "INP-P46-L5-01-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "expression": "1 + 2 * 3",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L5-01",
+      "contentHash": "1a686c70af2de4f0ed534afcccc87e3bb475bc85cfbd1124785177a028e02ca7"
+    },
+    {
+      "inputId": "INP-P46-L5-02-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "expression": "-0 ** 0",
+        "parseMode": "STRICT"
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L5-02",
+      "contentHash": "4cd817268b8bab36b954cc77b1af3ad83c031c11144a1fe48ba8cff3b4c6e9cc"
+    },
+    {
+      "inputId": "INP-P46-L5-02-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "expression": "-(2 ** 3)",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L5-02",
+      "contentHash": "dadd526cdb52502b3a9a1bef004b17fe4e3d2cd3a6130eb20a9c963012cea5a2"
+    },
+    {
+      "inputId": "INP-P46-L5-02-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "expression": "5 - - 2",
+        "parseMode": "RECOVERY"
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L5-02",
+      "contentHash": "4f7b1a8495b2d51feb6e1449a297652342b6331ba577b6cfe8d6adb4060ee3e3"
+    },
+    {
+      "inputId": "INP-P46-L5-02-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "expression": "1 + 2 * 3",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L5-02",
+      "contentHash": "91a0826daa6b1ff54257e23f08431d14ab04a1d2a5239a88417c9562347ac91f"
+    },
+    {
+      "inputId": "INP-P46-L5-03-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "expression": "-0 ** 0",
+        "parseMode": "STRICT"
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L5-03",
+      "contentHash": "412a765059e917e40432092b0bbdc1683093d3428c7deb583243f321e3f3025f"
+    },
+    {
+      "inputId": "INP-P46-L5-03-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "expression": "-(2 ** 3)",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L5-03",
+      "contentHash": "806cfbc89ffdd34af18adb48d2e21445d809de44c7b7fee3a7eb8dbece8417b7"
+    },
+    {
+      "inputId": "INP-P46-L5-03-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "expression": "5 - - 2",
+        "parseMode": "RECOVERY"
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L5-03",
+      "contentHash": "fc6b13d759cb8f12b7a7e99aca239bf3587ece407edfdf4f54ed64d90244a3da"
+    },
+    {
+      "inputId": "INP-P46-L5-03-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "expression": "1 + 2 * 3",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L5-03",
+      "contentHash": "30b1aeabb0ec8e5db0529a303339ba100e02b2bb50d3c9cb1884c579a4ad120b"
+    },
+    {
+      "inputId": "INP-P46-L5-04-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "expression": "-0 ** 0",
+        "parseMode": "STRICT"
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L5-04",
+      "contentHash": "fc0cc07ef7b3af3cf82525f7e96e02c23fc8c1bbd43ebb4856b2402f2410f6d7"
+    },
+    {
+      "inputId": "INP-P46-L5-04-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "expression": "-(2 ** 3)",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L5-04",
+      "contentHash": "37f4696ec86c8f61675eeb2834516fae8c0b46da9e70ebeb15e7f5043b262475"
+    },
+    {
+      "inputId": "INP-P46-L5-04-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "expression": "5 - - 2",
+        "parseMode": "RECOVERY"
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L5-04",
+      "contentHash": "9082e183b14477070f6ece010bc0561c22e4f4070ec0105e52680b8a318c43b8"
+    },
+    {
+      "inputId": "INP-P46-L5-04-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "expression": "1 + 2 * 3",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L5-04",
+      "contentHash": "b8675bc45c72ffaecae43422b0fbb4a178dbe9b317fd86422d3212af789e2574"
+    },
+    {
+      "inputId": "INP-P46-L5-05-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "expression": "-0 ** 0",
+        "parseMode": "STRICT"
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L5-05",
+      "contentHash": "032a067dbfc892ba15685d779158134bcdc80979ae18b72539b1033e73a569b1"
+    },
+    {
+      "inputId": "INP-P46-L5-05-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "expression": "-(2 ** 3)",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L5-05",
+      "contentHash": "f2a80b55f0a0d2ee682961255a1584b417d5916535455482490e95e7c1b4df4d"
+    },
+    {
+      "inputId": "INP-P46-L5-05-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "expression": "5 - - 2",
+        "parseMode": "RECOVERY"
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L5-05",
+      "contentHash": "21bc4c0bbedc992d225f26aa855ef84b4008fe5f0f63084dfc1cea7199642c49"
+    },
+    {
+      "inputId": "INP-P46-L5-05-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "expression": "1 + 2 * 3",
+        "parseMode": "STANDARD"
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L5-05",
+      "contentHash": "bb50885c2a8f1f2fff367ebec8ef9bdfbd55ef56970c6de610be5b595d24539e"
+    },
+    {
+      "inputId": "INP-P46-L6-01-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "origin": "https://example.com:443",
+        "withCredentials": true
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L6-01",
+      "contentHash": "9897a584534de87f0e4ceabfcf811b48d7f37e039fc8c6ad093312f07746c60f"
+    },
+    {
+      "inputId": "INP-P46-L6-01-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "origin": "https://trusted-domain.com",
+        "withCredentials": true
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L6-01",
+      "contentHash": "a2ee35eaa2dc813372397596a30f20420523b8a093ff260696d96dcf6b321dd7"
+    },
+    {
+      "inputId": "INP-P46-L6-01-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "origin": "*",
+        "withCredentials": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L6-01",
+      "contentHash": "07c2fc05bca31c3fe4c49c62794c5399768b89dd8c07ff63abc252b7792fed09"
+    },
+    {
+      "inputId": "INP-P46-L6-01-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "headers": {
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L6-01",
+      "contentHash": "07e2e0cbeff14c101ad7b3f28fc97685bebe7eb94910723023fea25864fb6dd3"
+    },
+    {
+      "inputId": "INP-P46-L6-02-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "origin": "https://example.com:443",
+        "withCredentials": true
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L6-02",
+      "contentHash": "819511c95d6b1e5289a061732b4a1cb5cbf403430e0ea8c6abfd93e266190b18"
+    },
+    {
+      "inputId": "INP-P46-L6-02-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "origin": "https://trusted-domain.com",
+        "withCredentials": true
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L6-02",
+      "contentHash": "5692f2e4ea584711688b12d0963fe6829f8d587553420d0d05b8e3916d694ef8"
+    },
+    {
+      "inputId": "INP-P46-L6-02-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "origin": "*",
+        "withCredentials": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L6-02",
+      "contentHash": "b54d4ddc352e2013d6211fe5a9baf3dcf363628755ac94a6f80e520eaaf64a1b"
+    },
+    {
+      "inputId": "INP-P46-L6-02-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "headers": {
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L6-02",
+      "contentHash": "e2a9219e107b216e66d6e05a3e379e49743f39044af8b46bcbd665c3cc11bd7e"
+    },
+    {
+      "inputId": "INP-P46-L6-03-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "origin": "https://example.com:443",
+        "withCredentials": true
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L6-03",
+      "contentHash": "9f64ac613ec163ca099097c6db6a00a6c3032a3bf20a32ace6550e6449837db0"
+    },
+    {
+      "inputId": "INP-P46-L6-03-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "origin": "https://trusted-domain.com",
+        "withCredentials": true
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L6-03",
+      "contentHash": "90beaa69d464ad802afa729a4564c7c10bef992104a7e422fe82a8a7fa81d9a5"
+    },
+    {
+      "inputId": "INP-P46-L6-03-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "origin": "*",
+        "withCredentials": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L6-03",
+      "contentHash": "3749f9b56f395ac968c5c2b90d4c3d4d0b476fd4d37c3b1b412af93a8b55176e"
+    },
+    {
+      "inputId": "INP-P46-L6-03-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "headers": {
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L6-03",
+      "contentHash": "a17bad83c56cce7da2ebe35198377c8f83421f5f8fc4a58ab4903c6946fd3e8e"
+    },
+    {
+      "inputId": "INP-P46-L6-04-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "origin": "https://example.com:443",
+        "withCredentials": true
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L6-04",
+      "contentHash": "bdbf07da2b72aa0a450c93649e87f86c0855740308ac418119d5c6d48fc73956"
+    },
+    {
+      "inputId": "INP-P46-L6-04-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "origin": "https://trusted-domain.com",
+        "withCredentials": true
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L6-04",
+      "contentHash": "fc2b0c04298b48f603a3cb6006c6e8a9262029162ee80a343cab699d79e71439"
+    },
+    {
+      "inputId": "INP-P46-L6-04-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "origin": "*",
+        "withCredentials": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L6-04",
+      "contentHash": "0de591d430364017e1e6fb8e24f49efa5b7d6fa46980f7c048131e9784bb7415"
+    },
+    {
+      "inputId": "INP-P46-L6-04-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "headers": {
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L6-04",
+      "contentHash": "25e2a84367c0d5758d7da131a4f7d8c9efdb937088c9d69b1d430401832dcf9b"
+    },
+    {
+      "inputId": "INP-P46-L6-05-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "origin": "https://example.com:443",
+        "withCredentials": true
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L6-05",
+      "contentHash": "3caf0cabfaf45b4086d147bed0afdc6a43e1324da718339aa4d1d54319814eef"
+    },
+    {
+      "inputId": "INP-P46-L6-05-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "origin": "https://trusted-domain.com",
+        "withCredentials": true
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L6-05",
+      "contentHash": "96f9fe9b4b4fe98bbcdc407df943f5fda13f9ab82c72b235f6fe9a2e24dc0555"
+    },
+    {
+      "inputId": "INP-P46-L6-05-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "origin": "*",
+        "withCredentials": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L6-05",
+      "contentHash": "641542849af16db11203d340a90dc637031363d9faae78253bdbbc8e8cfca749"
+    },
+    {
+      "inputId": "INP-P46-L6-05-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "headers": {
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L6-05",
+      "contentHash": "08df5d5487b6064d9e168faeaffc3040ffeaecb4ece11538f023a79094ea194e"
+    },
+    {
+      "inputId": "INP-P46-L7-01-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "streamLength": 0,
+        "flags": [
+          "EOF_BOUNDARY"
+        ]
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L7-01",
+      "contentHash": "2107ad3095117803ebfc85e5663325b9e80407e4c63b1841bbeb5132b47ad6ad"
+    },
+    {
+      "inputId": "INP-P46-L7-01-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "lookaheadCount": 2,
+        "transactionTimeoutMs": 5000
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L7-01",
+      "contentHash": "9495bace67d8a68ace44c11a9bcf447beb59a6da36cd2ce7a0cdcf799d5e97a5"
+    },
+    {
+      "inputId": "INP-P46-L7-01-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "simulateNetworkPartition": true,
+        "coordinatorAbort": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L7-01",
+      "contentHash": "3bcb5b7a66726fe1977d39003cfea40d395feda49f85684fedc73bdb7903acfb"
+    },
+    {
+      "inputId": "INP-P46-L7-01-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "tokenSequence": [
+          "IDENT",
+          "ASSIGN",
+          "MINUS",
+          "INT"
+        ]
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L7-01",
+      "contentHash": "02098f20f0883e6812e25ed1925687f0f85faa86c2c21e8c8c5a84cb98c13d6e"
+    },
+    {
+      "inputId": "INP-P46-L7-02-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "streamLength": 0,
+        "flags": [
+          "EOF_BOUNDARY"
+        ]
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L7-02",
+      "contentHash": "6123727027821fd4b2d11cc88f582949b8dabb6c90efda2b6aabe79af888db1f"
+    },
+    {
+      "inputId": "INP-P46-L7-02-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "lookaheadCount": 2,
+        "transactionTimeoutMs": 5000
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L7-02",
+      "contentHash": "2c40378049cff232f73be44268221524968f9f6afc6c6401e8be97037799b683"
+    },
+    {
+      "inputId": "INP-P46-L7-02-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "simulateNetworkPartition": true,
+        "coordinatorAbort": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L7-02",
+      "contentHash": "657c44e2567d66fd83c4a5c6d8c3945f97a7d2de3489ca4c222e8d2cd64360df"
+    },
+    {
+      "inputId": "INP-P46-L7-02-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "tokenSequence": [
+          "IDENT",
+          "ASSIGN",
+          "MINUS",
+          "INT"
+        ]
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L7-02",
+      "contentHash": "7fcacf67db3a404d432badb0da5ec98b6248c8db3ec1b6826e1407f41d5ff010"
+    },
+    {
+      "inputId": "INP-P46-L7-03-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "streamLength": 0,
+        "flags": [
+          "EOF_BOUNDARY"
+        ]
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L7-03",
+      "contentHash": "7cd1e14ac7a171c2cb8fc8c3f068ba5423b206b740b3f82a9b0218218b2bae47"
+    },
+    {
+      "inputId": "INP-P46-L7-03-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "lookaheadCount": 2,
+        "transactionTimeoutMs": 5000
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L7-03",
+      "contentHash": "39aff81b7aec534bc34c4672770ff0f84677c0f466c3c4dbd358ca94dbec8814"
+    },
+    {
+      "inputId": "INP-P46-L7-03-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "simulateNetworkPartition": true,
+        "coordinatorAbort": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L7-03",
+      "contentHash": "668d8e14fb9eb004cd813316d417a2d92cf693c9fb8e9c6a22eaad1bb090015d"
+    },
+    {
+      "inputId": "INP-P46-L7-03-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "tokenSequence": [
+          "IDENT",
+          "ASSIGN",
+          "MINUS",
+          "INT"
+        ]
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L7-03",
+      "contentHash": "afc0f253daaa38a4a25fdd452863509881e2ee6c6eba4aebcfa899f4f7dca0d0"
+    },
+    {
+      "inputId": "INP-P46-L7-04-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "streamLength": 0,
+        "flags": [
+          "EOF_BOUNDARY"
+        ]
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L7-04",
+      "contentHash": "579b838ccc4dcb5a24425cca236cbdedb192f36a11ee23e1cba13d99124ee2ee"
+    },
+    {
+      "inputId": "INP-P46-L7-04-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "lookaheadCount": 2,
+        "transactionTimeoutMs": 5000
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L7-04",
+      "contentHash": "b2592618b6cf1a41dd0a1b18a19daf1e209a58b5ece9269d4421833871c8d520"
+    },
+    {
+      "inputId": "INP-P46-L7-04-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "simulateNetworkPartition": true,
+        "coordinatorAbort": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L7-04",
+      "contentHash": "d7bf5ddd3138a9a47984ef8c9a8b0e443b880f1831ed8f85878d21af71243a75"
+    },
+    {
+      "inputId": "INP-P46-L7-04-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "tokenSequence": [
+          "IDENT",
+          "ASSIGN",
+          "MINUS",
+          "INT"
+        ]
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L7-04",
+      "contentHash": "7edef96682c3c720926a97213d2f85f839962252d44a5a0bb5c67929cdc697b7"
+    },
+    {
+      "inputId": "INP-P46-L7-05-BOUNDARY",
+      "inputClass": "BOUNDARY_VALUE",
+      "payload": {
+        "streamLength": 0,
+        "flags": [
+          "EOF_BOUNDARY"
+        ]
+      },
+      "provenance": "SYNTHESIZED_PROBE_P46-L7-05",
+      "contentHash": "2b622fdefceba3e6d33795dd4c00a047a6285b033bd6bcf476b96168e4699752"
+    },
+    {
+      "inputId": "INP-P46-L7-05-AUTH-EX",
+      "inputClass": "AUTHORIZED_EXAMPLE",
+      "payload": {
+        "lookaheadCount": 2,
+        "transactionTimeoutMs": 5000
+      },
+      "provenance": "AUTHORIZED_SUITE_P46-L7-05",
+      "contentHash": "9522cdd5b4b0cdcbfadac69852a75ca018eb178915e40800518974cbcad0f6b2"
+    },
+    {
+      "inputId": "INP-P46-L7-05-NEGATIVE",
+      "inputClass": "NEGATIVE_EXAMPLE",
+      "payload": {
+        "simulateNetworkPartition": true,
+        "coordinatorAbort": true
+      },
+      "provenance": "NEGATIVE_CONTROL_SUITE_P46-L7-05",
+      "contentHash": "bb53d3409763e896a1ad757a4a6802378a0bbfb47c252c98258bfcc5971479b2"
+    },
+    {
+      "inputId": "INP-P46-L7-05-REGRESSION",
+      "inputClass": "REGRESSION_PROBE",
+      "payload": {
+        "tokenSequence": [
+          "IDENT",
+          "ASSIGN",
+          "MINUS",
+          "INT"
+        ]
+      },
+      "provenance": "BASELINE_REGRESSION_SET_P46-L7-05",
+      "contentHash": "75a08ddf1859c5149a834971f536775450866c7b31cd24dda9e2cb3f611f9138"
+    }
+  ]
+}

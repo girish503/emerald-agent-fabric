@@ -1,0 +1,2413 @@
+{
+  "schemaVersion": "emerald-phase68-v1",
+  "phase": "68",
+  "protocolDigest": "0753064bd16b2593a18aabb63dcab19e838e288ce08a2fafdea5bb0fb1125fe7",
+  "totalFacts": 185,
+  "facts": [
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "d968b8d9c898de5e4641a946468801254ae91eaf49da7745bdd181909e1fb673"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "d17f4ba9268aada3914030dd94d5d11219bd978d1659eff5e6ba682c794a5f99"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "c368898040ad32324cd7f1cdb4f0799442ec3dfe84cca52bb6ee05e30f1a576a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "9497fba08af4188eaece43917894f214431c41ac074bdadc4e25794e002ec8a3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "23806266db68d4dad50f722be2788b2ead2b33b8c7602cd5138e6f39c154d9cd"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "5b0cc38e7b47fe097049228615ac62da5103c4908d1ecc32f762bc5d9053df26"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "9268cadcfdb28e7882c190348b52cef641295651ef3191bcaaa3302912db553b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "a8e5b49cc1cbf8cc9eaa8fd72427fbf399ba6bcb43ce09a42ee552df561712de"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "e0e69a4a0bc6dce39f26555a2938c8d62fbddb5434104a7a031088b77efddea0"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-02"
+      ],
+      "contentHash": "669e9c1cc81d70ff43820f954c587a97fa62e27041a3877d028f9567211277cd"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-01-04"
+      ],
+      "contentHash": "de52c208761a4f32354284e3c1a94de0d3309717148cb545f029c97f7d72de84"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-01-INP-P46-L5-01-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-01-INP-P46-L5-01-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-01-05"
+      ],
+      "contentHash": "383c06d30ef8ba251bc656ef39ba591f0ed3ccd77b92b937bbd82a6692faa09e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "6a9b30a6580a73a1615647944805d240ffc02c169dc482ad842f524cdfcaad22"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "2b90936ba87d6c68c7c41310221d89606fb5623bea5e6bae493b63e3d0ea6c64"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "1f3b0a3429b839427655d41a4a43330564c4400f1d31aa4cedc275e3d339cb73"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "63bfb51536ee56cdb18647499ac0c2b0b45bd2eafdadc5893b1b605fd90b152d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "fcb4f6ced6aca0daf672316a9a68329de2fd1ae61a4c21d6b4ffc87dc38f58a3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "891918a9acbb16b5aca079de323acc91102a36b6a949c401cd4e2009ce1a7e83"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "7d07f81ed6438347fb35d9735ab468aceb78b8639855a71f14cf40c07eb49365"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "22b9c58708ff449357cb6f9be9ec4812fc758204836da533a1eedaf0d26ab8d4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "55de1c035683a7fddc4c6292498c7b191762eba28474a061a8d397d41522acc8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-02"
+      ],
+      "contentHash": "e3e5128b55d27916b4c363c1ee4695212fc1302a8c5e32d2cf70fe65a936f294"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-02-04"
+      ],
+      "contentHash": "fb0ef82c01674a408adcc449fb189b4d04ff372834d41f65de25a367530ab2e8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-02-INP-P46-L5-02-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-02-INP-P46-L5-02-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-02-05"
+      ],
+      "contentHash": "c5c4cfa40dbb7ffbf90ddbbed575811d282da28c91833d25894432cc7a5858e9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "456a79a89acf18f631c01ca2f2c0bf8a9608c9b07288277d664ce6b7b9bf371e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "f7ad7e4f8c72082f730948415087bd20081ff1df55068173691ae7e9d9423c1d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "39a70080790040850576244670d9ab90a32b8ae3e5df379fbf2eb990b622f136"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "c93d7edb7a86afd7d3cb407b5fc3fff7c519dc9cd1b6e84b97974b0534e2c9fc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "1dd648f1f492b558384887303c6601de4331df349660571856488e40919b4a0d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "a3626fbc4099160c9da124ed844e621a658dce87208216af006cdb7322326ebb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "81d4d292af7e2c300124fced984d2815367d50afff92298f02ab1b050d50809a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "13b0967c6e92a6c4310bb4bc7f03c940d1981b7d43a79e53c5b181e08ed20043"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "5e2a84e46c4795a78148bcfaa6dfc01e3e2eb41b06976f4b92b59eb711e74140"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-02"
+      ],
+      "contentHash": "947c7c06e509649426fd141db5a052838f1b96c6cc7b69d6e47c2965935df151"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-03-04"
+      ],
+      "contentHash": "0eecd6fd61c6f24fc131dc8dd8ca2dac0c3a9bbc5811820ab5d3862656a0d698"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-03-INP-P46-L5-03-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-03-INP-P46-L5-03-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-03-05"
+      ],
+      "contentHash": "08165e270030759788287d4f80102adc63afc011205528b40721e9ba88de1ad8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "8a1d39a1760d0e3f6bbd3e7fedfffab95765b8461e182cae00a222f3a30b8c1a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "703d1af450001fcdcdd126a116c09d2c3832663d602e549eb8bf717aa8823283"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "5fe58f4279c064d588c60e51802a71effc08334a1252ad497eb1c7bcd634bcf4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "085e4064d22c1298e6d31776d25ccbb46be485570a43fa55b63dc4e6fafd1db9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "c530149a944c57dfa912bb340342002e546290310b56ac848b9c10995287ec0c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "749b2438f87cd2fb41e8ab6b3b5efdb22e2083131570a6c96d45b47efe8dd33d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "4c715fb395a158fbb5c701019f2dac618dd2c96aab04fd3a4d0f41b1ae407edd"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "d38fa9fcbacab752e66fe3bfefed5d3aaff371840d9ffb98aabe71373ad78e54"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "ad68c0ff74b8270dd4c247fcb9e7a53947578715416c383a115dcec2d3497042"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-02"
+      ],
+      "contentHash": "c95f1ffda4776a186759e74086bed0071dfa1b958b3e1807f15d95277c2a7afc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-04-04"
+      ],
+      "contentHash": "ff2f94d7c35d26dbbce80a956058e58dc53027a3226bf4f86d6b4beb15768979"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-04-INP-P46-L5-04-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-04-INP-P46-L5-04-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-04-05"
+      ],
+      "contentHash": "1a1147ca30efbc94db1dad25bd261050b381ed0509a3028bbfbb8a9fd4c5e078"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "636f0ad30caf852e5261b615f5680c2d848bdc4f840cabae0ba0b0d931cdede4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "184d379472209e735601edb6f1fd67f2b49e22c3afa0782fa3c236cd9cb5120c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "75711251d6019660320347940c819520d5271bdbb544a1b3c3adce920f87973e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "505a648df19d89606f40297729b9da57d078453d57eba3e8c48fe3fb1d01077f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "0a584afce390b1843d4c7bf365572aa2f9653e88875340bc255c393825be3b7c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "9ba2d65ac80bf644254c229bd4c42f43807b7f66a6947e2b6813b54a86c397d6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "2ccf9bd01d9feb519335e7e9c0b8d2500b684ac1c5e26a7f81431e8fe8da490a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "8cb6cfd464247ed9bee0bb9355cd6daeb07fc273be6548ea1c8e8507c0cbb9cb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "1dd487f9e024d24315d3ee0202e91a41645a3e983aa2f93634405ec4a5db156e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "parseExpression",
+      "predicate": "INVOKED(parseExpression)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-02"
+      ],
+      "contentHash": "f5ee5ede0714dd3913f26a4ac0471f04a2e105301c83fc39cc5a84b44ed86b08"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "parseExpression",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L5-05-04"
+      ],
+      "contentHash": "f96efff52be53a4aa0a3394b53b9c27a7a4813bf3bb7065ce3666e2d0321b0fc"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L5-05-INP-P46-L5-05-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "parseExpression",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L5-05-INP-P46-L5-05-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L5-05-05"
+      ],
+      "contentHash": "bc3d92b811195ee5c5d2bcee2526700a478889da040031ea02f3b34c69da991d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "4b70bf7c62b90899bcc73fd16bf9d852fded817c6f2d0af1bd91f5af7043a9cb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "b255f0cacff1b64e46fb07d82fe711be76e29bf520669655427208a07b83dd66"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "00350fdb0576895a8e6150c2f132254afd942ab465a8947711a02170dcd2e474"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "0d928decc660ce9d650bb0420b6b3b6aa17d06c8a85aedd9ad9a3355275a1cbd"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "e719443dd064218d852d80d785d0fad2066ed2a52763fcb946a884eee6b5eb6e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "184fe92d55e86c746c05e29e6ae3b7fa36ae692060cf57b2f98777d70e1fa49a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "a69a322c7038be485abcdd686b1fb021ab0bbc8f73a55fe1dfba37a92b268010"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "67b06a1a00a524d1aec81a1c55b5fa912779455c0981ab924f0912777b3b9031"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(DENIED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "466cc6d7490b2a71f2a809b3547de2a0659c6631399e2671232e98198ca80a4d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-02"
+      ],
+      "contentHash": "d3ee6895ec16d2e0116865713afc1e3349e7b9e2aa4732e340f584b01661b4ed"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-01-04"
+      ],
+      "contentHash": "f55f0fed0f3e26e4cb5b849d234471a156575d9653f857c56485226c87af264b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-01-INP-P46-L6-01-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-01-INP-P46-L6-01-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-01-05"
+      ],
+      "contentHash": "b4db08a269e653abaa98f878f0baf8e6eb346fb67dc251a5bc082970e4dc80ad"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "997996aa16955764c780bb3c731d106e036fbe597003885ed44810616b80025e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "c6086a1c0cbc1464f80ae58f9cea2039591d620230ca523d9b01b4ad389f2bd3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "3a4476e999aad3e2fb9879f8ac29f19bff5c87b50210c5432d7ee09adbe77a52"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "f2c0a5d73da86195939c45c2c687f8f78b9d715d311e8f29d1f7b6e39bf9f25c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "38731bb3693794bfc005feb0417bcee579ae711a7a4c2598a6f04588214a9a30"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "f03b5e1605e8627cedace5205b205f3110d715eb8238066fc9513a2f783ad800"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "aacc7f5a6967fe0f316d85a246ddbcb0b23118df7315603397a6292e01845f86"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "2399f6fe8f28a8914a126f304edb487ee84ae9d6a5b18d839dbfaecc24040cc2"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(DENIED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "7352438aaaa52955745287b715a390d83ee7987869042a4153b3a47c6b54127f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-02"
+      ],
+      "contentHash": "0b8b6352f4ad1341137561814a909c8f2d5df694636c099b451e2ab6aeaa9fec"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-02-04"
+      ],
+      "contentHash": "308f814100f8d4b6b6cd0d698ca4eecfad4727fd7269adca40c97b8b61391606"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-02-INP-P46-L6-02-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-02-INP-P46-L6-02-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-02-05"
+      ],
+      "contentHash": "a73a3fcdd1d909ba3ac08c6afda988a329a40f29c603580569022b817121e947"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "38206a792e08a6173550705e862e747efa11571c81d0767715dc58fad2072f23"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "70a21115fd1fb4491d0aaa94f16121f90b6e297e17401cff73f06dee16d73928"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "11e42e263f9b15895ef4b1f15fef5d6aba73a43d4decf5d8c75e8e125d8446e5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "94e76a3e8c632c9bc88b4e72bb1b69bbd20760a8227444271b3789245801e029"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "546aaec6cb867c564bb975ea0f724c9b6f27780cb266ffa2830e7be7927a8dd8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "3f0013912679af693ee0b147476d534a6ad3b97689c13ed4fd0ddb3313cced0a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "29cc5c9c9f0b7ae606ea1692efbe36cdeee7d8c549f7b59d1747e4e3e56d3208"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "ff679c62d2fba465fd0e8279f9b43cc10f2c6786f33a2fcc645cfe0c8f75902e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(DENIED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "8df724f7fff6c61cf0016ec7383f19f671352946d766c60f6c585f1e13400ab6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-02"
+      ],
+      "contentHash": "ce46821fdda7b16ac7d74fca7977cae406d1938cc929e01471a159aa20408186"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-03-04"
+      ],
+      "contentHash": "bc782485f9cd2bc4f1141c06e75cdca473eaf5245d303994359c7b91af63fba7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-03-INP-P46-L6-03-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-03-INP-P46-L6-03-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-03-05"
+      ],
+      "contentHash": "2cbf0d0cdf28e7adb8de59e366825b4f0ed4920a5183b07ae11d5e9bb1bc9880"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "6e9575a1d2a7fd0fc544ea306eb8833bd758ad50f2a81fa3a2bac66a1be62824"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "03f88dce86c99734dd1e9e53e340b6790c3fc43191abe44be8d15f134ecfe292"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "e47307dee3b0079878975c38f9ef11d131ee8e97b87759ac5755d888acb3af7b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "77229c1a9ef3069c174652aaa4aeef5fbaba03f336ef471df3d30827b31aa1cb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "3afcaf0f109ae9855be321b23819b63a4f12764b165ad4054bc35790c349d2b0"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "6ad8738eb5bfd15ab0077429249b150787a05182439f9fe1618d62e31821ceef"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "b5be8f029682c89c5e61c41ea7e4564a1e4b2373240b32cb98d0e77f1c32c2d3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "9db9d1c9742d60fa16a63361aad019754b26728fdc62de3720e44e0cedd77077"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(DENIED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "5775331a93230608a0fb100d966f688e7bb3008ac7b5a3991cffd6e1d4a6e953"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-02"
+      ],
+      "contentHash": "6e133edee9d39b4528c381310618947681d54ee79df7bc93de8323dd679ef9de"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-04-04"
+      ],
+      "contentHash": "929c181627e86e25606e921d5497174c0da6c7e3bfd383d1ceaf573ed14b99a8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-04-INP-P46-L6-04-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-04-INP-P46-L6-04-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-04-05"
+      ],
+      "contentHash": "28ae8f1998906f1cc22be522a535f10b9096058154e6eabdc15b90820056eab5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "104facb89a14cf38d41b5a46d71ea56edd9b167a62741b235531f5bf559d668f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "d004cac4bdc49b3fe14d1a98f6d178ea73f4c7ba232e3f4c61fea8505aff70d3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "be787c30ba97c992f8ec2c258ffb85cd0e368bec5d17b0d82359492f8d11a877"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "e8491054413cefa464b6d311046b1883f4391e9f4196cee3e83daad717326dd9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "7636dbf2e4f4e5c0ea29c39f9495a14f19d9bd4a795028bc586cd89c6aee4947"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "6182d4f6c50ca4c81a0128b601f9b00778ee478ef68795cadd14776daa603b06"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "e09d2c2a22def11bf43900f625ae42b6b02db64ecffd250e169e693d9f69d7d7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "ae94cc6518916dde599ea4869ac6e23edc0d13a87cb81cb2932bb9a3c801cc9e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(DENIED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "6520d57697f38f3bcf42cdf9ddd5183425196a2b7c89f5e6dc545b6ce66d5a01"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "handleIncomingRequest",
+      "predicate": "INVOKED(handleIncomingRequest)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-02"
+      ],
+      "contentHash": "e6caa3d079bbeab154f6878ef90ef2ff2a11b3c94dfb7f5892b0380a8385f411"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "handleIncomingRequest",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L6-05-04"
+      ],
+      "contentHash": "e6213b46ecf77ce49443c030c96e2dcae48c0873e0703eb34df926f5a2afa1fb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L6-05-INP-P46-L6-05-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "handleIncomingRequest",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L6-05-INP-P46-L6-05-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L6-05-05"
+      ],
+      "contentHash": "c22a5de99d4dfebb831417f0f4aefeeb8bee06b540900eb0d60d3544fb0b476e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "2cc28c6b5e399883c23a3ce08f58c51294fa9dec673febf90cd0dabfd90e95b9"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "130ad5ceda5f39910011ba305b5e9e1f42d81495e6ae2dcf12fb76bc626b34c4"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "21876d8bf88618cc6c70e988c49e474a82f704fef9275707465b66edfce94d1b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "38ef936f5128a4c994feabea4b87fed9cc0f12571cb5a08afcf6e27d059f5a8a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "2e0cb6ac413fe920f9464fb3b984ac81e9a49f90b11325c85afbc416195dcd03"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "6ed42cbabd999f0d34172f181f26ba412c03546f7a93a9e98cb0fff27af24934"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "dd070db3c4bc749dd53157fc9286938858bd1667ce9d6109dc2478d23cf04a9b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "c0cd9f33d40b59eb6686b0e1777b588adfbd60bfdb98aac1b348370007597fbf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "dc2ad6cb22845527f3973e3bdd223e4d960ce0c07315a1a5aa5c3845a6396166"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE-6",
+      "factType": "RUNTIME_EXCEPTION",
+      "entity": "tokenize",
+      "predicate": "EXCEPTION_RAISED(ERROR(BUFFER_UNDERFLOW))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-06"
+      ],
+      "contentHash": "fd87a0a1dd67fd27a09652e31d704e5ee17bb4e40e07b583228449ad69a8c315"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-02"
+      ],
+      "contentHash": "6b47df45bfbb74eb38f12152e090bd660bb292e955d6989e0eb83cc943157c44"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-01-04"
+      ],
+      "contentHash": "4dc7b2c82bcd268d7992a8d4cb75da7eb7c4c24b4b7da72316d9414887aa71b3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-01-INP-P46-L7-01-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-01-INP-P46-L7-01-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-01-05"
+      ],
+      "contentHash": "e2cc9838e6a5abfa6bef830b2d64d0a49df08472fe34b919f8cd053f47a34084"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "3c9c1d429f9b17eb646a8d940e956075b6bc27508fb3792ca60c6d708bae894d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "e373e55d4a934af2a4447b64b4ec5d6a72887e5ac278bf38f95c54ef3c25396a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "653c00fcbf614c16e572c6130abe900c3b48de31b5241de2753827e92f1a90db"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "1e1433565c17d341b891f419415f222d1ebcea5dc25e823cf5a7577c6677983c"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "a648b27e7854650b68a7f9a09cb4777e340df0901b096a9dd8253982cbd19fc7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "461413c10e7ae191bf8d8c5721c83767297382591fe48037588a75cd958225a2"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "0c1eb7a778ba44abb4f775bf351d53c529f1d764f5f5cef0c77596b9916f8c23"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "c561e28b5133c714bc1ab0b1bef2b45f388bb49535a865159028fdcc5b362205"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "220b42c4b5f9dafcffee03651562e0e027340f3137f493dd71f5d84e86d29b3b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE-6",
+      "factType": "RUNTIME_EXCEPTION",
+      "entity": "tokenize",
+      "predicate": "EXCEPTION_RAISED(ERROR(BUFFER_UNDERFLOW))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-06"
+      ],
+      "contentHash": "0d3470a9d71a6b36e63726e22ee3b4b78e074b044d4868fd83019534772d8bba"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-02"
+      ],
+      "contentHash": "5ac08a6702d452a7ff48e46222f485c55367211b84b1a9155c78395033fc2972"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-02-04"
+      ],
+      "contentHash": "6292e57fcedce249a306a902d3e7e93b4a9ee85992a00273474d199adcf979ac"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-02-INP-P46-L7-02-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-02-INP-P46-L7-02-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-02-05"
+      ],
+      "contentHash": "8ccce576a224465c1c84a96f1cbf170bed334ebdfe6d0e1980c962d382b16214"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "95b77615d2dbc2fc712bce17fb04789d97c2bb60b590ecff587071553ed8721d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "346bbcd499c98556ea9003ca378e81df8e742ea4d489c494efa142850d84c5fb"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "0321c8134372f4a317146f7a159ebf4f87ae7119032334fc4f275c80dee1a270"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "36fcdfe4dfee2e56fc10d8a34e903ff22e7124a1234da084883d0631c9789577"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "3d668ddbc12370e691aa968f682c775716fc056cd66b221a916046f7659c9600"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "60e40edfeee688ee9b13f4754074675d03ef37decf201dc4eba528630cb4b936"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "d2e3c165936f91bd693e1f1607ea0101f6aef444cb9285b286543be14876db15"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "46aab1ef5c827df99f9ba4faf8c478ac244bec13b6de11b4c3e5c43da0420012"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "4eab6cd96a72e559441d3997301bd283ec4af04fbf93ec757ac38f61e9257b9e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE-6",
+      "factType": "RUNTIME_EXCEPTION",
+      "entity": "tokenize",
+      "predicate": "EXCEPTION_RAISED(ERROR(BUFFER_UNDERFLOW))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-06"
+      ],
+      "contentHash": "45d88849304283f10e9f557421166d434461e6228a1aeead05ba8f1d41a0a849"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-02"
+      ],
+      "contentHash": "0943ca1cfcae8c6a7427a278a2441fa5ec7fda08b6aca18c0a398a851d29b3d6"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-03-04"
+      ],
+      "contentHash": "cac86f376c2ec371413c6c29ad09c9abec06b25b3858d104652c8119f146afdd"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-03-INP-P46-L7-03-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-03-INP-P46-L7-03-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-03-05"
+      ],
+      "contentHash": "c8606cab1ecb338626b674e5219cb56db6cb359f6b78a9223d92623b003468c5"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "27862c22b05627da4fdea3df7867df8c235fb67b46a2171d7a42178828bbf307"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "36ef5c556eb1399c1a6ed5004042426c44fbd92aa7f42ad46d7a41727d3cf963"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "aaab73bc8ecc7f9a2e861cc139e14c8d1e4826ce5f9a53bc58e83c48e3ad38cf"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "054437771a8ae7e4f3b9a6d724e7499c99c36524ca0d41801a6cdba8236916d7"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "98c5b0db50581753ab05aedcbf1bdb6ea3f07871d07a2351c4ad6ff22252053e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "ce0a28dd3c0b6549b9aa2c1b6338cc52f8996eb1e9395cb83f3a5f25652599fa"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "c83b1537c1a6893fcc1335e3a80a30903dfd1c45eae87565a731a94b7dc8a278"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "95717a8d9e795b40dfb7ebd4d5aaa87c45f53b587db352b2ee29eedc494f168a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "34375c7c58c0474db0f0339c61f6cae01e5cc1ce8012e9be1e99482b0e709d51"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE-6",
+      "factType": "RUNTIME_EXCEPTION",
+      "entity": "tokenize",
+      "predicate": "EXCEPTION_RAISED(ERROR(BUFFER_UNDERFLOW))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-06"
+      ],
+      "contentHash": "c4e36c6e740b8469943b879a748c6d6fc34941851316ae90cf34531fa4cc1699"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-02"
+      ],
+      "contentHash": "08d7fd53a414d9bc6d977a536097a2e433053fa49b036a26756c546aebf0098a"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-04-04"
+      ],
+      "contentHash": "2a7b371f219050e6afb379c7912bf604aa18bdada4dfc980f6abf0479b780dc0"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-04-INP-P46-L7-04-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-04-INP-P46-L7-04-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-04-05"
+      ],
+      "contentHash": "78afea6a173845fa96cb61bf4a65affacd23a7cdb292d9f9e85a1aeaec2af02f"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-BOUNDARY-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "01dcf3c58c56169db00d24cf4b2eade4d2ede58d868eaea4e151db7a7bceada3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-BOUNDARY-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-BOUNDARY-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "5ae4fe6e42aa88c58d4157ac66ae298d1aa1041891376f5605b94982a7832447"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-BOUNDARY-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-BOUNDARY-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "d01110bccd47e38f54f17f40927d2e4e92b4cbbf0c3a17c1c85b56f6b0a4f2f8"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-AUTH-EX-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "dd1b311742a65fcaa843925ed06b16bc3152345a8de394b45d621dbd003b22a3"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-AUTH-EX-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-AUTH-EX-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "ca2f560b091a0837cd9833d46766dbac626ba6bdb1167856d0f996edbd686932"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-AUTH-EX-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-AUTH-EX-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "bdcfde843d0e73c0713351f35be2fa9d5a6212e1b38eb23828c453399790dfec"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "b1d335e669367c584883175772bbe51d3fb31cc496312a42cc598b90e865932d"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=true))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "7d7d52519938e41c332c94b546840cc7357ad197bd9cf98b9c16a802ad131625"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "8840b0ba381ef294e2ab3bc45a688febf2b55a291700c81db9e2defa2dc0e5fa"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE-6",
+      "factType": "RUNTIME_EXCEPTION",
+      "entity": "tokenize",
+      "predicate": "EXCEPTION_RAISED(ERROR(BUFFER_UNDERFLOW))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-NEGATIVE-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-06"
+      ],
+      "contentHash": "339d5c909613164ef79a5dcf8035174d75910218a23c34745dd6932fb788f30e"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-REGRESSION-BASELINE-2",
+      "factType": "FUNCTION_INVOCATION",
+      "entity": "tokenize",
+      "predicate": "INVOKED(tokenize)",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-02"
+      ],
+      "contentHash": "6166d7475f1e1bcf4e21ce93150fd9c237c0f380a58ec6e59769794d85a2647b"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-REGRESSION-BASELINE-4",
+      "factType": "BRANCH_EXECUTION",
+      "entity": "tokenize",
+      "predicate": "BRANCH_EVALUATED(BRANCH(needs_special_handling=false))",
+      "confidenceClass": "DIRECTLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-REGRESSION-BASELINE",
+      "observationCount": 1,
+      "supportingEventIds": [
+        "EV-P46-L7-05-04"
+      ],
+      "contentHash": "da2e0a9ad6f6da6f1c32bdd7772147c5b0eaaeedbd9a87e60d4e17a58eced875"
+    },
+    {
+      "factId": "FACT-TRACE-P46-L7-05-INP-P46-L7-05-REGRESSION-BASELINE-5",
+      "factType": "SECURITY_ENFORCEMENT",
+      "entity": "tokenize",
+      "predicate": "SECURITY_ENFORCED(SECURITY(PERMITTED))",
+      "confidenceClass": "REPEATEDLY_OBSERVED",
+      "evidenceSource": "TRACE-P46-L7-05-INP-P46-L7-05-REGRESSION-BASELINE",
+      "observationCount": 2,
+      "supportingEventIds": [
+        "EV-P46-L7-05-05"
+      ],
+      "contentHash": "d302bf6bde7df9bd2bfabda32f5f966f5630e1f992dea2c6c0995ade613e3912"
+    }
+  ]
+}
