@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "emerald-phase79-v1",
+  "phase": 79,
+  "protocolVersion": "emerald-phase79-human-in-the-loop-discovery-v1",
+  "frozenAt": "2026-10-20T21:30:00.000Z",
+  "baselineCommit": "c5e5a17",
+  "parentCommit": "dec33e1",
+  "researchQuestion": "Can Emerald safely convert an externally proposed transformation into an independently verified, cryptographically evidenced execution result without treating the proposer as an authority?",
+  "conditions": [
+    "CONDITION_A_AUTONOMOUS_CONTROL_BASELINE",
+    "CONDITION_B_HUMAN_TRANSFORMATION_PROPOSAL",
+    "CONDITION_C_LOCAL_MODEL_TRANSFORMATION_PROPOSAL",
+    "CONDITION_D_HUMAN_MODEL_COLLABORATIVE_PROPOSAL"
+  ],
+  "proposerTypes": [
+    "HUMAN",
+    "LOCAL_MODEL",
+    "HUMAN_MODEL_COLLABORATION",
+    "AUTONOMOUS_AGENT"
+  ],
+  "validationLimits": {
+    "maxProposalBytes": 65536,
+    "maxTargetFiles": 8,
+    "maxEdits": 64,
+    "maxProposalRevisions": 3
+  },
+  "forbiddenAuthorityKeys": [
+    "claimedAuthority",
+    "overridePolicy",
+    "overrideSandbox",
+    "overrideContract",
+    "skipVerification",
+    "grantCredentials",
+    "resourceCeilingOverride",
+    "terminalAuthorityClaim",
+    "evidenceAuthorityClaim",
+    "oracleAccess",
+    "goldPatchAccess",
+    "terminalAuthority",
+    "executionAuthority"
+  ],
+  "authorityPrinciple": "HUMAN != AUTHORITY, MODEL != AUTHORITY, COLLABORATION != AUTHORITY. Sovereign authority remains with Emerald execution, clean room, fourfold gate, and Ed25519 threshold evidence stack.",
+  "cohortSize": 15,
+  "protocolDigest": "7f513eade30c531608a9abfe4733db3702e69dae89ae64388d77503b89eecd7f"
+}

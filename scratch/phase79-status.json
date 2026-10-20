@@ -1,0 +1,37 @@
+{
+  "phase": 79,
+  "baseline": "c5e5a17",
+  "status": "COMPLETE",
+  "decision": "COLLABORATIVE_CAPABILITY_CONFIRMED",
+  "autonomous": {
+    "l5": "5/5",
+    "l6": "5/5",
+    "l7": "0/5"
+  },
+  "human": {
+    "l5": "5/5",
+    "l6": "5/5",
+    "l7": "5/5"
+  },
+  "model": {
+    "l5": "5/5",
+    "l6": "4/5",
+    "l7": "0/5"
+  },
+  "humanModelCollaboration": {
+    "l5": "5/5",
+    "l6": "5/5",
+    "l7": "5/5"
+  },
+  "oracleAccess": false,
+  "goldLeakage": false,
+  "feedbackLeakage": false,
+  "governanceInvariant": true,
+  "negativeControlsPassed": "180/180",
+  "cleanRoomVerification": "100%",
+  "fourfoldVerification": "100%",
+  "offlineAuditor": "100%",
+  "terminalAuthority": "100%",
+  "determinism": "100.0% byte-identical",
+  "historicalRegression": "PASS"
+}

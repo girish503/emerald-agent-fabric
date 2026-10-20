@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "emerald-phase79-v1",
+  "phase": 79,
+  "firewallRules": [
+    "Zero gold patch exposure",
+    "Zero reference oracle exposure",
+    "Zero secret key exposure",
+    "Diagnostic errors bounded to compilation and test assertion outputs"
+  ],
+  "sampleFeedback": {
+    "proposalId": "prop-sample-01",
+    "taskId": "P46-L7-01",
+    "passed": false,
+    "errors": [
+      "COMPILATION_ERROR: LookaheadBuffer is undefined"
+    ],
+    "testFailures": [
+      "PrattParserTest: lookahead symbol missing"
+    ],
+    "failureClassification": "SYNTAX_OR_COMPILATION_ERROR",
+    "feedbackDigest": "97ba0537f153e9f20692f442acc82770c39efc746e8976b7678d5b7a5b079a85"
+  },
+  "feedbackDigest": "6b8ef453f759f462ffe1bc78468609f933fdc428b205111ef556705b4425abe3"
+}

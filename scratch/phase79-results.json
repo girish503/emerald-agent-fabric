@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "emerald-phase79-v1",
+  "phase": 79,
+  "summary": {
+    "conditionA_AutonomousControl": "10/15 (66.7%) — L5: 5/5, L6: 5/5, L7: 0/5",
+    "conditionB_HumanProposal": "15/15 (100.0%) — L5: 5/5, L6: 5/5, L7: 5/5",
+    "conditionC_LocalModelProposal": "9/15 (60.0%) — L5: 5/5, L6: 4/5, L7: 0/5",
+    "conditionD_CollaborativeProposal": "15/15 (100.0%) — L5: 5/5, L6: 5/5, L7: 5/5",
+    "oracleAccess": false,
+    "goldLeakage": false,
+    "feedbackLeakage": false,
+    "governanceInvariant": true,
+    "negativeControlsPassed": "180/180 (100.0%)",
+    "cleanRoomVerification": "100% (dual-gate verified)",
+    "fourfoldVerification": "100% (valid)",
+    "offlineAuditor": "100% (replay verified)",
+    "terminalAuthority": "100% (Ed25519 2-of-3 threshold immutable)",
+    "determinism": "100.0% byte-identical",
+    "decision": "COLLABORATIVE_CAPABILITY_CONFIRMED"
+  },
+  "discoveryToVerificationGap": {
+    "CONDITION_A": {
+      "condition": "CONDITION_A",
+      "proposalsGenerated": 15,
+      "proposalsApplied": 15,
+      "localTestsPassed": 10,
+      "regressionsPassed": 15,
+      "cleanRoomPassed": 10,
+      "fourfoldPassed": 10
+    },
+    "CONDITION_B": {
+      "condition": "CONDITION_B",
+      "proposalsGenerated": 15,
+      "proposalsApplied": 15,
+      "localTestsPassed": 15,
+      "regressionsPassed": 15,
+      "cleanRoomPassed": 15,
+      "fourfoldPassed": 15
+    },
+    "CONDITION_C": {
+      "condition": "CONDITION_C",
+      "proposalsGenerated": 15,
+      "proposalsApplied": 15,
+      "localTestsPassed": 9,
+      "regressionsPassed": 9,
+      "cleanRoomPassed": 9,
+      "fourfoldPassed": 9
+    },
+    "CONDITION_D": {
+      "condition": "CONDITION_D",
+      "proposalsGenerated": 15,
+      "proposalsApplied": 15,
+      "localTestsPassed": 15,
+      "regressionsPassed": 15,
+      "cleanRoomPassed": 15,
+      "fourfoldPassed": 15
+    }
+  },
+  "humanEffortMetrics": {
+    "CONDITION_B": {
+      "condition": "CONDITION_B",
+      "humanInterventions": 15,
+      "proposalRevisions": 0,
+      "filesEdited": 25,
+      "linesModified": 65,
+      "wallClockEffortSeconds": 2700
+    },
+    "CONDITION_D": {
+      "condition": "CONDITION_D",
+      "humanInterventions": 5,
+      "proposalRevisions": 5,
+      "filesEdited": 25,
+      "linesModified": 65,
+      "wallClockEffortSeconds": 600
+    }
+  },
+  "resultsDigest": "d1c58245ceaf43acd8f17441069445347842e0c0fa426d8503254a3e2e612c9c"
+}

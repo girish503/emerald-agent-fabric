@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "emerald-phase79-v1",
+  "phase": 79,
+  "requiredFields": [
+    "proposalId",
+    "taskId",
+    "proposerType",
+    "sourceRevision",
+    "targetFiles",
+    "candidateEdits",
+    "transformationIntent",
+    "expectedBehavior",
+    "rationale",
+    "proposalDigest",
+    "submittedAt"
+  ],
+  "validationLimits": {
+    "maxProposalBytes": 65536,
+    "maxTargetFiles": 8,
+    "maxEdits": 64,
+    "maxProposalRevisions": 3
+  },
+  "forbiddenAuthorityKeys": [
+    "claimedAuthority",
+    "overridePolicy",
+    "overrideSandbox",
+    "overrideContract",
+    "skipVerification",
+    "grantCredentials",
+    "resourceCeilingOverride",
+    "terminalAuthorityClaim",
+    "evidenceAuthorityClaim",
+    "oracleAccess",
+    "goldPatchAccess",
+    "terminalAuthority",
+    "executionAuthority"
+  ],
+  "editActionsAllowed": [
+    "REPLACE",
+    "INSERT",
+    "DELETE"
+  ],
+  "schemaDigest": "2f7a8b288140a1b247ef84a4dbad58e8d10cef3e903fcdf6c53548aa23a407e7"
+}

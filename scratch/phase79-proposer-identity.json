@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "emerald-phase79-v1",
+  "phase": 79,
+  "authorityBoundary": "ALL_PROPOSERS_ARE_STRICTLY_UNTRUSTED",
+  "proposers": [
+    {
+      "proposerType": "HUMAN",
+      "role": "Expert Software Engineer (Untrusted Candidate Generator)",
+      "authorityAllowed": false,
+      "oracleAccessAllowed": false,
+      "goldAccessAllowed": false,
+      "credentialAccessAllowed": false,
+      "sandboxOverrideAllowed": false,
+      "policyOverrideAllowed": false
+    },
+    {
+      "proposerType": "LOCAL_MODEL",
+      "modelTag": "granite3-dense:2b",
+      "modelDigest": "sha256:d8b72e519283f51082c569f7ab25287f31c261e5699432f48d8869ff562d9e6e",
+      "role": "Local Open-Weight Model (Untrusted Candidate Generator)",
+      "authorityAllowed": false,
+      "oracleAccessAllowed": false,
+      "goldAccessAllowed": false,
+      "credentialAccessAllowed": false,
+      "sandboxOverrideAllowed": false,
+      "policyOverrideAllowed": false
+    },
+    {
+      "proposerType": "HUMAN_MODEL_COLLABORATION",
+      "modelTag": "granite3-dense:2b",
+      "role": "Collaborative Hybrid (Bounded Revision Loop, max 3 revisions)",
+      "authorityAllowed": false,
+      "oracleAccessAllowed": false,
+      "goldAccessAllowed": false,
+      "credentialAccessAllowed": false,
+      "sandboxOverrideAllowed": false,
+      "policyOverrideAllowed": false
+    },
+    {
+      "proposerType": "AUTONOMOUS_AGENT",
+      "modelTag": "qwen2.5-coder:3b",
+      "role": "Autonomous Baseline Agent (Phase 78 Control)",
+      "authorityAllowed": false,
+      "oracleAccessAllowed": false,
+      "goldAccessAllowed": false,
+      "credentialAccessAllowed": false,
+      "sandboxOverrideAllowed": false,
+      "policyOverrideAllowed": false
+    }
+  ],
+  "identityDigest": "3f713328ceaa04da16cfe3e49d7068a5e6909970aa89aa620e5ab7e2072cc9e3"
+}
