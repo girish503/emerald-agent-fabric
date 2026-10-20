@@ -1,0 +1,413 @@
+{
+  "schemaVersion": "emerald-phase62-v1",
+  "phase": "62",
+  "generatedAt": "2026-10-20T05:16:10.967Z",
+  "baselineCommit": "1a2ee25",
+  "protocolDigest": "dea5d078728feed249fe3b052dd8bde289af31f25df34c1f7fb2c07794090453",
+  "totalObligations": 15,
+  "obligations": [
+    {
+      "obligationId": "SOBL-P46-L5-01-01",
+      "taskId": "P46-L5-01",
+      "currentSemanticProperty": "LOCAL_PRIMITIVE_LOGIC_BUG",
+      "requiredSemanticProperty": "VALID_LOCAL_VALUE_SEMANTICS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L5-01-01",
+        "INV:PRE_RELEASE_SEMANTICS",
+        "MOD:src/semver.js",
+        "SYM:comparePrerelease",
+        "SYM:parsePrerelease"
+      ],
+      "applicableInvariants": [
+        "PRE_RELEASE_SEMANTICS"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L5-01-01"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L5-01-01",
+        "STRANS-P46-L5-01-02"
+      ],
+      "obligationDigest": "0306ffc62fa68ff3cb0c88cf2457179cdab28bbae809a55a2483459cd592c1bb"
+    },
+    {
+      "obligationId": "SOBL-P46-L5-02-01",
+      "taskId": "P46-L5-02",
+      "currentSemanticProperty": "LOCAL_PRIMITIVE_LOGIC_BUG",
+      "requiredSemanticProperty": "VALID_LOCAL_VALUE_SEMANTICS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L5-02-01",
+        "INV:PATH_NORMALIZATION",
+        "MOD:src/lodash-set.js",
+        "SYM:_setInternal",
+        "SYM:_toPath"
+      ],
+      "applicableInvariants": [
+        "PATH_NORMALIZATION"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L5-02-01"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L5-02-01",
+        "STRANS-P46-L5-02-02"
+      ],
+      "obligationDigest": "0e5b181cf1288b9d3aa159f4c7cdb635fb5862f109bf4b83ace2a5c55fae3d5b"
+    },
+    {
+      "obligationId": "SOBL-P46-L5-03-01",
+      "taskId": "P46-L5-03",
+      "currentSemanticProperty": "LOCAL_PRIMITIVE_LOGIC_BUG",
+      "requiredSemanticProperty": "VALID_LOCAL_VALUE_SEMANTICS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L5-03-01",
+        "INV:LISTENER_DISPATCH_ORDER",
+        "MOD:src/event-emitter.js",
+        "SYM:dispatchListener",
+        "SYM:emit"
+      ],
+      "applicableInvariants": [
+        "LISTENER_DISPATCH_ORDER"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L5-03-01"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L5-03-01",
+        "STRANS-P46-L5-03-02"
+      ],
+      "obligationDigest": "68cde35ac4fcc7a2e5e1da1fc33ef9fa97f1e7a3a22271b8997a447922f7ca45"
+    },
+    {
+      "obligationId": "SOBL-P46-L5-04-01",
+      "taskId": "P46-L5-04",
+      "currentSemanticProperty": "LOCAL_PRIMITIVE_LOGIC_BUG",
+      "requiredSemanticProperty": "VALID_LOCAL_VALUE_SEMANTICS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L5-04-01",
+        "INV:ERROR_BUBBLING",
+        "MOD:src/walker.js",
+        "SYM:_handleError",
+        "SYM:scanDirectory"
+      ],
+      "applicableInvariants": [
+        "ERROR_BUBBLING"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L5-04-01"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L5-04-01",
+        "STRANS-P46-L5-04-02"
+      ],
+      "obligationDigest": "f351ab585ad43f50c9af46747ab25f9a82f6077f13b0e0632786474472ee8117"
+    },
+    {
+      "obligationId": "SOBL-P46-L5-05-01",
+      "taskId": "P46-L5-05",
+      "currentSemanticProperty": "LOCAL_PRIMITIVE_LOGIC_BUG",
+      "requiredSemanticProperty": "VALID_LOCAL_VALUE_SEMANTICS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L5-05-01",
+        "INV:CACHE_CONSISTENCY",
+        "MOD:src/cache-queue.js",
+        "SYM:flushQueue",
+        "SYM:readCache"
+      ],
+      "applicableInvariants": [
+        "CACHE_CONSISTENCY"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L5-05-01"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L5-05-01",
+        "STRANS-P46-L5-05-02"
+      ],
+      "obligationDigest": "1d9a93fb772202a2af811c05bf983479b390e22f4cb8b9fb70558e55126e6bb9"
+    },
+    {
+      "obligationId": "SOBL-P46-L6-01-01",
+      "taskId": "P46-L6-01",
+      "currentSemanticProperty": "DECOUPLED_MODULE_MISALIGNMENT",
+      "requiredSemanticProperty": "ALIGNED_INTERFACE_AND_DEFAULTS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L6-01-01",
+        "CTR:CONTRACT-P46-L6-01-02",
+        "INV:RBAC_HIERARCHY",
+        "MOD:src/auth.js",
+        "MOD:src/rbac.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:authorizeUser",
+        "SYM:hasRole"
+      ],
+      "applicableInvariants": [
+        "RBAC_HIERARCHY"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L6-01-01",
+        "CONTRACT-P46-L6-01-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L6-01-01",
+        "STRANS-P46-L6-01-02"
+      ],
+      "obligationDigest": "c0eb16c5abd9f33586a4129f6773cd8119af640ff7c32826fd6377a448656a35"
+    },
+    {
+      "obligationId": "SOBL-P46-L6-02-01",
+      "taskId": "P46-L6-02",
+      "currentSemanticProperty": "DECOUPLED_MODULE_MISALIGNMENT",
+      "requiredSemanticProperty": "ALIGNED_INTERFACE_AND_DEFAULTS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L6-02-01",
+        "CTR:CONTRACT-P46-L6-02-02",
+        "INV:SCHEMA_DEFAULTS",
+        "MOD:src/config.js",
+        "MOD:src/schema.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:defaultSchema",
+        "SYM:loadConfig"
+      ],
+      "applicableInvariants": [
+        "SCHEMA_DEFAULTS"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L6-02-01",
+        "CONTRACT-P46-L6-02-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L6-02-01",
+        "STRANS-P46-L6-02-02"
+      ],
+      "obligationDigest": "2fe7435b891a3c58c0ea70e51870a80ec4ecc732a928bf1e0efddda77e8870c9"
+    },
+    {
+      "obligationId": "SOBL-P46-L6-03-01",
+      "taskId": "P46-L6-03",
+      "currentSemanticProperty": "DECOUPLED_MODULE_MISALIGNMENT",
+      "requiredSemanticProperty": "ALIGNED_INTERFACE_AND_DEFAULTS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L6-03-01",
+        "CTR:CONTRACT-P46-L6-03-02",
+        "INV:LOG_FORMAT_STABILITY",
+        "MOD:src/formatter.js",
+        "MOD:src/logger.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:formatJson",
+        "SYM:logEvent"
+      ],
+      "applicableInvariants": [
+        "LOG_FORMAT_STABILITY"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L6-03-01",
+        "CONTRACT-P46-L6-03-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L6-03-01",
+        "STRANS-P46-L6-03-02"
+      ],
+      "obligationDigest": "f5cc1c284fc8509ac20cabcd583771442da79d0a4081dd2a5a4ed8727d64f73f"
+    },
+    {
+      "obligationId": "SOBL-P46-L6-04-01",
+      "taskId": "P46-L6-04",
+      "currentSemanticProperty": "DECOUPLED_MODULE_MISALIGNMENT",
+      "requiredSemanticProperty": "ALIGNED_INTERFACE_AND_DEFAULTS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L6-04-01",
+        "CTR:CONTRACT-P46-L6-04-02",
+        "INV:REQUEST_HEADER_SANITY",
+        "MOD:src/http-client.js",
+        "MOD:src/request-builder.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:buildRequest",
+        "SYM:sendRequest"
+      ],
+      "applicableInvariants": [
+        "REQUEST_HEADER_SANITY"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L6-04-01",
+        "CONTRACT-P46-L6-04-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L6-04-01",
+        "STRANS-P46-L6-04-02"
+      ],
+      "obligationDigest": "5bb9e7647e87c5a2847f97da809a2e1d86e9fc141f6d7df5bf930683e4d2cc07"
+    },
+    {
+      "obligationId": "SOBL-P46-L6-05-01",
+      "taskId": "P46-L6-05",
+      "currentSemanticProperty": "DECOUPLED_MODULE_MISALIGNMENT",
+      "requiredSemanticProperty": "ALIGNED_INTERFACE_AND_DEFAULTS",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L6-05-01",
+        "CTR:CONTRACT-P46-L6-05-02",
+        "INV:WORKER_EVICTION_SAFETY",
+        "MOD:src/job-queue.js",
+        "MOD:src/worker-pool.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:cancelJob",
+        "SYM:evictWorker"
+      ],
+      "applicableInvariants": [
+        "WORKER_EVICTION_SAFETY"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L6-05-01",
+        "CONTRACT-P46-L6-05-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L6-05-01",
+        "STRANS-P46-L6-05-02"
+      ],
+      "obligationDigest": "382ee51a3585140dab20cab86f307748869b9d7327ee7103f791fcefec6e86da"
+    },
+    {
+      "obligationId": "SOBL-P46-L7-01-01",
+      "taskId": "P46-L7-01",
+      "currentSemanticProperty": "INSUFFICIENT_JOINT_STATE_AND_OPERATOR_PRECEDENCE",
+      "requiredSemanticProperty": "SYNCHRONIZED_CROSS_MODULE_STATE_AND_INVARIANT_SATISFACTION",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L7-01-01",
+        "CTR:CONTRACT-P46-L7-01-02",
+        "INV:EXPONENT_PRECEDENCE",
+        "INV:PRATT_UNARY_JUXTAPOSITION_INVARIANT",
+        "MOD:src/calc.js",
+        "MOD:src/parser.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:evaluateExponent"
+      ],
+      "applicableInvariants": [
+        "PRATT_UNARY_JUXTAPOSITION_INVARIANT",
+        "EXPONENT_PRECEDENCE"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L7-01-01",
+        "CONTRACT-P46-L7-01-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L7-01-01",
+        "STRANS-P46-L7-01-02"
+      ],
+      "obligationDigest": "0222a2428a56503e488c6f1e9ac76c426e08f47de2c1afaaad215b9a0e49b196"
+    },
+    {
+      "obligationId": "SOBL-P46-L7-02-01",
+      "taskId": "P46-L7-02",
+      "currentSemanticProperty": "INSUFFICIENT_JOINT_STATE_AND_OPERATOR_PRECEDENCE",
+      "requiredSemanticProperty": "SYNCHRONIZED_CROSS_MODULE_STATE_AND_INVARIANT_SATISFACTION",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L7-02-01",
+        "CTR:CONTRACT-P46-L7-02-02",
+        "INV:CORS_WILDCARD_CREDENTIAL_INVARIANT",
+        "INV:HEADER_NORMALIZATION",
+        "MOD:src/cors.js",
+        "MOD:src/header-validator.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:compileOriginPattern"
+      ],
+      "applicableInvariants": [
+        "CORS_WILDCARD_CREDENTIAL_INVARIANT",
+        "HEADER_NORMALIZATION"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L7-02-01",
+        "CONTRACT-P46-L7-02-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L7-02-01",
+        "STRANS-P46-L7-02-02"
+      ],
+      "obligationDigest": "54c8ee7fbbf95b23a3af09db2387a572dcf168dfcc4ec71497fb897d07edfbe9"
+    },
+    {
+      "obligationId": "SOBL-P46-L7-03-01",
+      "taskId": "P46-L7-03",
+      "currentSemanticProperty": "INSUFFICIENT_JOINT_STATE_AND_OPERATOR_PRECEDENCE",
+      "requiredSemanticProperty": "SYNCHRONIZED_CROSS_MODULE_STATE_AND_INVARIANT_SATISFACTION",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L7-03-01",
+        "CTR:CONTRACT-P46-L7-03-02",
+        "INV:TOTAL_ORDER_SEMANTICS",
+        "MOD:src/semver-compare.js",
+        "MOD:src/semver-sort.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:compareSemVer",
+        "SYM:sortPrerelease"
+      ],
+      "applicableInvariants": [
+        "TOTAL_ORDER_SEMANTICS"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L7-03-01",
+        "CONTRACT-P46-L7-03-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L7-03-01",
+        "STRANS-P46-L7-03-02"
+      ],
+      "obligationDigest": "43c1886becd06148041a940f25b3431a4a6bb9884c7c75fd4f59f91c009aa431"
+    },
+    {
+      "obligationId": "SOBL-P46-L7-04-01",
+      "taskId": "P46-L7-04",
+      "currentSemanticProperty": "INSUFFICIENT_JOINT_STATE_AND_OPERATOR_PRECEDENCE",
+      "requiredSemanticProperty": "SYNCHRONIZED_CROSS_MODULE_STATE_AND_INVARIANT_SATISFACTION",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L7-04-01",
+        "CTR:CONTRACT-P46-L7-04-02",
+        "INV:PROTOTYPE_POLLUTION_GUARD",
+        "MOD:src/path-resolver.js",
+        "MOD:src/path-setter.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:resolveObjectPath",
+        "SYM:setDeepProperty"
+      ],
+      "applicableInvariants": [
+        "PROTOTYPE_POLLUTION_GUARD"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L7-04-01",
+        "CONTRACT-P46-L7-04-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L7-04-01",
+        "STRANS-P46-L7-04-02"
+      ],
+      "obligationDigest": "9526ba417ce97987724347ec7e1705565543efa9a051cc9507a92589fe6fabe9"
+    },
+    {
+      "obligationId": "SOBL-P46-L7-05-01",
+      "taskId": "P46-L7-05",
+      "currentSemanticProperty": "INSUFFICIENT_JOINT_STATE_AND_OPERATOR_PRECEDENCE",
+      "requiredSemanticProperty": "SYNCHRONIZED_CROSS_MODULE_STATE_AND_INVARIANT_SATISFACTION",
+      "affectedGraphElements": [
+        "CTR:CONTRACT-P46-L7-05-01",
+        "CTR:CONTRACT-P46-L7-05-02",
+        "INV:ROLE_TRANSITIVE_CLOSURE",
+        "MOD:src/role-auth.js",
+        "MOD:src/role-graph.js",
+        "STATE:SHARED_PARSER_OR_ORIGIN_STATE",
+        "SYM:authorizeRole",
+        "SYM:evaluateRoleHierarchy"
+      ],
+      "applicableInvariants": [
+        "ROLE_TRANSITIVE_CLOSURE"
+      ],
+      "applicableContracts": [
+        "CONTRACT-P46-L7-05-01",
+        "CONTRACT-P46-L7-05-02"
+      ],
+      "candidateTransformations": [
+        "STRANS-P46-L7-05-01",
+        "STRANS-P46-L7-05-02"
+      ],
+      "obligationDigest": "d1ee9f1339ed9a406374a558bf850f9428772bd1c5a6aa90c607f31124fc07d2"
+    }
+  ],
+  "artifactDigest": "87128b803b5d7e10b556cf5ccd8aedc02833df64bd19a57abade949fee621bd9"
+}

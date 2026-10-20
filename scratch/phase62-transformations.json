@@ -1,0 +1,1104 @@
+{
+  "schemaVersion": "emerald-phase62-v1",
+  "phase": "62",
+  "generatedAt": "2026-10-20T05:16:10.969Z",
+  "baselineCommit": "1a2ee25",
+  "protocolDigest": "dea5d078728feed249fe3b052dd8bde289af31f25df34c1f7fb2c07794090453",
+  "totalTransformations": 25,
+  "primitivesSupported": [
+    "CHANGE_PRECONDITION",
+    "CHANGE_POSTCONDITION",
+    "CHANGE_STATE_TRANSITION",
+    "CHANGE_REPRESENTATION",
+    "ADAPT_PRODUCER",
+    "ADAPT_CONSUMER",
+    "CHANGE_CONTROL_FLOW",
+    "CHANGE_DATA_FLOW",
+    "CHANGE_SYMBOL_RELATION",
+    "CHANGE_ERROR_SEMANTICS",
+    "CHANGE_VALIDATION_RULE",
+    "PRESERVE_INVARIANT"
+  ],
+  "transformations": [
+    {
+      "transformationId": "STRANS-P46-L5-01-1",
+      "taskId": "P46-L5-01",
+      "primitive": "CHANGE_POSTCONDITION",
+      "targetSymbols": [
+        "comparePrerelease"
+      ],
+      "targetModules": [
+        "src/semver.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L5-01-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L5-01-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_POSTCONDITION_ON_comparePrerelease",
+      "affectedDataFlow": [
+        "DATAFLOW_comparePrerelease"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_comparePrerelease"
+      ],
+      "requiredInvariants": [
+        "PRE_RELEASE_SEMANTICS"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L5-01-01"
+      ],
+      "allowedMutationScope": [
+        "src/semver.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L5-01",
+        "regionId": "REGION-P46-L5-01-01",
+        "primitive": "CHANGE_POSTCONDITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "d3edac20ab793e5d2cf48038e257bc415061d7d8ebb8b9e2282f834234a0d28d"
+    },
+    {
+      "transformationId": "STRANS-P46-L5-02-1",
+      "taskId": "P46-L5-02",
+      "primitive": "CHANGE_POSTCONDITION",
+      "targetSymbols": [
+        "_setInternal"
+      ],
+      "targetModules": [
+        "src/lodash-set.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L5-02-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L5-02-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_POSTCONDITION_ON__setInternal",
+      "affectedDataFlow": [
+        "DATAFLOW__setInternal"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW__setInternal"
+      ],
+      "requiredInvariants": [
+        "PATH_NORMALIZATION"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L5-02-01"
+      ],
+      "allowedMutationScope": [
+        "src/lodash-set.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L5-02",
+        "regionId": "REGION-P46-L5-02-01",
+        "primitive": "CHANGE_POSTCONDITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "d4826431e16ea5d0bc9bd1d833b77b0b467a4ff58e01443df05563af1c53e5df"
+    },
+    {
+      "transformationId": "STRANS-P46-L5-03-1",
+      "taskId": "P46-L5-03",
+      "primitive": "CHANGE_POSTCONDITION",
+      "targetSymbols": [
+        "dispatchListener"
+      ],
+      "targetModules": [
+        "src/event-emitter.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L5-03-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L5-03-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_POSTCONDITION_ON_dispatchListener",
+      "affectedDataFlow": [
+        "DATAFLOW_dispatchListener"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_dispatchListener"
+      ],
+      "requiredInvariants": [
+        "LISTENER_DISPATCH_ORDER"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L5-03-01"
+      ],
+      "allowedMutationScope": [
+        "src/event-emitter.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L5-03",
+        "regionId": "REGION-P46-L5-03-01",
+        "primitive": "CHANGE_POSTCONDITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "54c71b9d64d862ede2b5eaef0a06f322a9a48d97132e576e2b9c28d7fc6409e1"
+    },
+    {
+      "transformationId": "STRANS-P46-L5-04-1",
+      "taskId": "P46-L5-04",
+      "primitive": "CHANGE_POSTCONDITION",
+      "targetSymbols": [
+        "_handleError"
+      ],
+      "targetModules": [
+        "src/walker.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L5-04-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L5-04-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_POSTCONDITION_ON__handleError",
+      "affectedDataFlow": [
+        "DATAFLOW__handleError"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW__handleError"
+      ],
+      "requiredInvariants": [
+        "ERROR_BUBBLING"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L5-04-01"
+      ],
+      "allowedMutationScope": [
+        "src/walker.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L5-04",
+        "regionId": "REGION-P46-L5-04-01",
+        "primitive": "CHANGE_POSTCONDITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "056fdbae3bbfc21f617efdc0b9d7c91aaf2b6298de9339ea440650413091b380"
+    },
+    {
+      "transformationId": "STRANS-P46-L5-05-1",
+      "taskId": "P46-L5-05",
+      "primitive": "CHANGE_POSTCONDITION",
+      "targetSymbols": [
+        "flushQueue"
+      ],
+      "targetModules": [
+        "src/cache-queue.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L5-05-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L5-05-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_POSTCONDITION_ON_flushQueue",
+      "affectedDataFlow": [
+        "DATAFLOW_flushQueue"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_flushQueue"
+      ],
+      "requiredInvariants": [
+        "CACHE_CONSISTENCY"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L5-05-01"
+      ],
+      "allowedMutationScope": [
+        "src/cache-queue.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L5-05",
+        "regionId": "REGION-P46-L5-05-01",
+        "primitive": "CHANGE_POSTCONDITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "82a5eb3b4bff4fe7114a5c40f7849987c26062e661f443521434a1e7c14be2bc"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-01-1",
+      "taskId": "P46-L6-01",
+      "primitive": "ADAPT_PRODUCER",
+      "targetSymbols": [
+        "authorizeUser"
+      ],
+      "targetModules": [
+        "src/auth.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-01-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-01-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_ADAPT_PRODUCER_ON_authorizeUser",
+      "affectedDataFlow": [
+        "DATAFLOW_authorizeUser"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_authorizeUser"
+      ],
+      "requiredInvariants": [
+        "RBAC_HIERARCHY"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-01-01"
+      ],
+      "allowedMutationScope": [
+        "src/auth.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "regionId": "REGION-P46-L6-01-01",
+        "primitive": "ADAPT_PRODUCER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "8625b7f5ce48eff87379e0bba0c22d3123e71dc80c128a616f1ac3218d772200"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-01-2",
+      "taskId": "P46-L6-01",
+      "primitive": "CHANGE_VALIDATION_RULE",
+      "targetSymbols": [
+        "hasRole"
+      ],
+      "targetModules": [
+        "src/rbac.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-01-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-01-02"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_VALIDATION_RULE_ON_hasRole",
+      "affectedDataFlow": [
+        "DATAFLOW_hasRole"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_hasRole"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-01-02"
+      ],
+      "allowedMutationScope": [
+        "src/rbac.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L6-01-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-01",
+        "regionId": "REGION-P46-L6-01-02",
+        "primitive": "CHANGE_VALIDATION_RULE",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "ab52021ff6a49874968f6e0c17ddf8ec818d8a2aaa76348e91d811bb94611c2c"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-02-1",
+      "taskId": "P46-L6-02",
+      "primitive": "ADAPT_PRODUCER",
+      "targetSymbols": [
+        "defaultSchema"
+      ],
+      "targetModules": [
+        "src/config.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-02-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-02-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_ADAPT_PRODUCER_ON_defaultSchema",
+      "affectedDataFlow": [
+        "DATAFLOW_defaultSchema"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_defaultSchema"
+      ],
+      "requiredInvariants": [
+        "SCHEMA_DEFAULTS"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-02-01"
+      ],
+      "allowedMutationScope": [
+        "src/config.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "regionId": "REGION-P46-L6-02-01",
+        "primitive": "ADAPT_PRODUCER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "bb567f2ecdfe743cf0dc825509c6d36a8a56d642eb2a4d250bc81d0c00896d42"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-02-2",
+      "taskId": "P46-L6-02",
+      "primitive": "CHANGE_VALIDATION_RULE",
+      "targetSymbols": [
+        "loadConfig"
+      ],
+      "targetModules": [
+        "src/schema.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-02-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-02-02"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_VALIDATION_RULE_ON_loadConfig",
+      "affectedDataFlow": [
+        "DATAFLOW_loadConfig"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_loadConfig"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-02-02"
+      ],
+      "allowedMutationScope": [
+        "src/schema.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L6-02-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-02",
+        "regionId": "REGION-P46-L6-02-02",
+        "primitive": "CHANGE_VALIDATION_RULE",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "b666685e13965a1b445545e27cde1ad5b98401c8c148b8069171e154bf89d0cc"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-03-1",
+      "taskId": "P46-L6-03",
+      "primitive": "ADAPT_PRODUCER",
+      "targetSymbols": [
+        "formatJson"
+      ],
+      "targetModules": [
+        "src/formatter.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-03-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-03-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_ADAPT_PRODUCER_ON_formatJson",
+      "affectedDataFlow": [
+        "DATAFLOW_formatJson"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_formatJson"
+      ],
+      "requiredInvariants": [
+        "LOG_FORMAT_STABILITY"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-03-01"
+      ],
+      "allowedMutationScope": [
+        "src/formatter.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "regionId": "REGION-P46-L6-03-01",
+        "primitive": "ADAPT_PRODUCER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "a5a928bfebad9fbf82de0312af4e65a798bd24431b95a7c764a00b69c648b570"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-03-2",
+      "taskId": "P46-L6-03",
+      "primitive": "CHANGE_VALIDATION_RULE",
+      "targetSymbols": [
+        "logEvent"
+      ],
+      "targetModules": [
+        "src/logger.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-03-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-03-02"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_VALIDATION_RULE_ON_logEvent",
+      "affectedDataFlow": [
+        "DATAFLOW_logEvent"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_logEvent"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-03-02"
+      ],
+      "allowedMutationScope": [
+        "src/logger.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L6-03-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-03",
+        "regionId": "REGION-P46-L6-03-02",
+        "primitive": "CHANGE_VALIDATION_RULE",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "3881e4859585a82fbaf469e0372276772b4ba29b14e2009ebcf5a7fb6687fa9d"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-04-1",
+      "taskId": "P46-L6-04",
+      "primitive": "ADAPT_PRODUCER",
+      "targetSymbols": [
+        "buildRequest"
+      ],
+      "targetModules": [
+        "src/http-client.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-04-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-04-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_ADAPT_PRODUCER_ON_buildRequest",
+      "affectedDataFlow": [
+        "DATAFLOW_buildRequest"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_buildRequest"
+      ],
+      "requiredInvariants": [
+        "REQUEST_HEADER_SANITY"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-04-01"
+      ],
+      "allowedMutationScope": [
+        "src/http-client.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "regionId": "REGION-P46-L6-04-01",
+        "primitive": "ADAPT_PRODUCER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "3804250595f46912e5f5113f7810f69eeb0c405f8fce98e009ec6db799e6d0cb"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-04-2",
+      "taskId": "P46-L6-04",
+      "primitive": "CHANGE_VALIDATION_RULE",
+      "targetSymbols": [
+        "sendRequest"
+      ],
+      "targetModules": [
+        "src/request-builder.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-04-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-04-02"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_VALIDATION_RULE_ON_sendRequest",
+      "affectedDataFlow": [
+        "DATAFLOW_sendRequest"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_sendRequest"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-04-02"
+      ],
+      "allowedMutationScope": [
+        "src/request-builder.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L6-04-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-04",
+        "regionId": "REGION-P46-L6-04-02",
+        "primitive": "CHANGE_VALIDATION_RULE",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "774487af5ace061ea2c25aeb19baac6c8f0a79b2037eca15ea815241bb73a4ba"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-05-1",
+      "taskId": "P46-L6-05",
+      "primitive": "ADAPT_PRODUCER",
+      "targetSymbols": [
+        "cancelJob"
+      ],
+      "targetModules": [
+        "src/job-queue.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-05-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-05-01"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_ADAPT_PRODUCER_ON_cancelJob",
+      "affectedDataFlow": [
+        "DATAFLOW_cancelJob"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_cancelJob"
+      ],
+      "requiredInvariants": [
+        "WORKER_EVICTION_SAFETY"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-05-01"
+      ],
+      "allowedMutationScope": [
+        "src/job-queue.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "regionId": "REGION-P46-L6-05-01",
+        "primitive": "ADAPT_PRODUCER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "02aec907e977fa9b525c40289908f19b327036288f3c047d5b35041e97d2b6e9"
+    },
+    {
+      "transformationId": "STRANS-P46-L6-05-2",
+      "taskId": "P46-L6-05",
+      "primitive": "CHANGE_VALIDATION_RULE",
+      "targetSymbols": [
+        "evictWorker"
+      ],
+      "targetModules": [
+        "src/worker-pool.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L6-05-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L6-05-02"
+      ],
+      "stateTransition": "TRANSITION_TO_VALID_NORMALIZED_FORM",
+      "representationTransition": "UNNORMALIZED_VALUE -> NORMALIZED_VALUE",
+      "behavioralPredicate": "EVALUATE_CHANGE_VALIDATION_RULE_ON_evictWorker",
+      "affectedDataFlow": [
+        "DATAFLOW_evictWorker"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_evictWorker"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L6-05-02"
+      ],
+      "allowedMutationScope": [
+        "src/worker-pool.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L6-05-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L6-05",
+        "regionId": "REGION-P46-L6-05-02",
+        "primitive": "CHANGE_VALIDATION_RULE",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "bd0052d3465948e6271c4e342a0b1c0d7801880d887a41b0edd80b70213b574c"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-01-1",
+      "taskId": "P46-L7-01",
+      "primitive": "CHANGE_STATE_TRANSITION",
+      "targetSymbols": [
+        "evaluateExponent"
+      ],
+      "targetModules": [
+        "src/calc.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-01-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-01-01"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_CHANGE_STATE_TRANSITION_ON_evaluateExponent",
+      "affectedDataFlow": [
+        "DATAFLOW_evaluateExponent"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_evaluateExponent"
+      ],
+      "requiredInvariants": [
+        "EXPONENT_PRECEDENCE"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-01-01"
+      ],
+      "allowedMutationScope": [
+        "src/calc.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "regionId": "REGION-P46-L7-01-01",
+        "primitive": "CHANGE_STATE_TRANSITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "f6ec2b94b007458c112b3fb8aa89f8d6cebe5022c24d1783751e10265f3b0986"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-01-2",
+      "taskId": "P46-L7-01",
+      "primitive": "ADAPT_CONSUMER",
+      "targetSymbols": [
+        "parseExpression"
+      ],
+      "targetModules": [
+        "src/parser.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-01-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-01-02"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_ADAPT_CONSUMER_ON_parseExpression",
+      "affectedDataFlow": [
+        "DATAFLOW_parseExpression"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_parseExpression"
+      ],
+      "requiredInvariants": [
+        "PRATT_UNARY_JUXTAPOSITION_INVARIANT"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-01-02"
+      ],
+      "allowedMutationScope": [
+        "src/parser.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L7-01-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-01",
+        "regionId": "REGION-P46-L7-01-02",
+        "primitive": "ADAPT_CONSUMER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "3bfff4dec86efea4b545991c5979f62e1fb0576665a54c5d11f8d28eba9ae0d4"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-02-1",
+      "taskId": "P46-L7-02",
+      "primitive": "CHANGE_STATE_TRANSITION",
+      "targetSymbols": [
+        "compileOriginPattern"
+      ],
+      "targetModules": [
+        "src/cors.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-02-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-02-01"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_CHANGE_STATE_TRANSITION_ON_compileOriginPattern",
+      "affectedDataFlow": [
+        "DATAFLOW_compileOriginPattern"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_compileOriginPattern"
+      ],
+      "requiredInvariants": [
+        "CORS_WILDCARD_CREDENTIAL_INVARIANT"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-02-01"
+      ],
+      "allowedMutationScope": [
+        "src/cors.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "regionId": "REGION-P46-L7-02-01",
+        "primitive": "CHANGE_STATE_TRANSITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "1d91af047a5d6dd5e687ba40ba3b8d87f6effaad571236c73080defd16c5e3ab"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-02-2",
+      "taskId": "P46-L7-02",
+      "primitive": "ADAPT_CONSUMER",
+      "targetSymbols": [
+        "validateHeaders"
+      ],
+      "targetModules": [
+        "src/header-validator.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-02-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-02-02"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_ADAPT_CONSUMER_ON_validateHeaders",
+      "affectedDataFlow": [
+        "DATAFLOW_validateHeaders"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_validateHeaders"
+      ],
+      "requiredInvariants": [
+        "HEADER_NORMALIZATION"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-02-02"
+      ],
+      "allowedMutationScope": [
+        "src/header-validator.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L7-02-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-02",
+        "regionId": "REGION-P46-L7-02-02",
+        "primitive": "ADAPT_CONSUMER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "47e0336e368bedc025bc03f0feefddfd30f30a964ba229fffbd62744227cf962"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-03-1",
+      "taskId": "P46-L7-03",
+      "primitive": "CHANGE_STATE_TRANSITION",
+      "targetSymbols": [
+        "compareSemVer"
+      ],
+      "targetModules": [
+        "src/semver-compare.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-03-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-03-01"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_CHANGE_STATE_TRANSITION_ON_compareSemVer",
+      "affectedDataFlow": [
+        "DATAFLOW_compareSemVer"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_compareSemVer"
+      ],
+      "requiredInvariants": [
+        "TOTAL_ORDER_SEMANTICS"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-03-01"
+      ],
+      "allowedMutationScope": [
+        "src/semver-compare.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "regionId": "REGION-P46-L7-03-01",
+        "primitive": "CHANGE_STATE_TRANSITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "f860fed69f0d2936a2c67f74d4ccb8d7795eee5052f657f57b1e427281978365"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-03-2",
+      "taskId": "P46-L7-03",
+      "primitive": "ADAPT_CONSUMER",
+      "targetSymbols": [
+        "sortPrerelease"
+      ],
+      "targetModules": [
+        "src/semver-sort.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-03-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-03-02"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_ADAPT_CONSUMER_ON_sortPrerelease",
+      "affectedDataFlow": [
+        "DATAFLOW_sortPrerelease"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_sortPrerelease"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-03-02"
+      ],
+      "allowedMutationScope": [
+        "src/semver-sort.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L7-03-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-03",
+        "regionId": "REGION-P46-L7-03-02",
+        "primitive": "ADAPT_CONSUMER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "cfa8cf322f9426827ac4060ddd44995e6967bf269af9b5c78c1ca19e79ca7592"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-04-1",
+      "taskId": "P46-L7-04",
+      "primitive": "CHANGE_STATE_TRANSITION",
+      "targetSymbols": [
+        "resolveObjectPath"
+      ],
+      "targetModules": [
+        "src/path-resolver.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-04-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-04-01"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_CHANGE_STATE_TRANSITION_ON_resolveObjectPath",
+      "affectedDataFlow": [
+        "DATAFLOW_resolveObjectPath"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_resolveObjectPath"
+      ],
+      "requiredInvariants": [
+        "PROTOTYPE_POLLUTION_GUARD"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-04-01"
+      ],
+      "allowedMutationScope": [
+        "src/path-resolver.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "regionId": "REGION-P46-L7-04-01",
+        "primitive": "CHANGE_STATE_TRANSITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "51620dd23a8508b925ab9a9fece73545f884728d95e2b13ed8ec682ec47b5177"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-04-2",
+      "taskId": "P46-L7-04",
+      "primitive": "ADAPT_CONSUMER",
+      "targetSymbols": [
+        "setDeepProperty"
+      ],
+      "targetModules": [
+        "src/path-setter.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-04-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-04-02"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_ADAPT_CONSUMER_ON_setDeepProperty",
+      "affectedDataFlow": [
+        "DATAFLOW_setDeepProperty"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_setDeepProperty"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-04-02"
+      ],
+      "allowedMutationScope": [
+        "src/path-setter.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L7-04-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-04",
+        "regionId": "REGION-P46-L7-04-02",
+        "primitive": "ADAPT_CONSUMER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "9d0ebaf57c6b8627629f8711a790fc409077b398e2e0e6d385179e8a265871fc"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-05-1",
+      "taskId": "P46-L7-05",
+      "primitive": "CHANGE_STATE_TRANSITION",
+      "targetSymbols": [
+        "authorizeRole"
+      ],
+      "targetModules": [
+        "src/role-auth.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-05-01"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-05-01"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_CHANGE_STATE_TRANSITION_ON_authorizeRole",
+      "affectedDataFlow": [
+        "DATAFLOW_authorizeRole"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_authorizeRole"
+      ],
+      "requiredInvariants": [
+        "ROLE_TRANSITIVE_CLOSURE"
+      ],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-05-01"
+      ],
+      "allowedMutationScope": [
+        "src/role-auth.js"
+      ],
+      "dependencies": [],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "regionId": "REGION-P46-L7-05-01",
+        "primitive": "CHANGE_STATE_TRANSITION",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "e3ee97c4b2df2ecc7ec49b9bbaad591775b8bbc8dd5038531797f4f98530cda0"
+    },
+    {
+      "transformationId": "STRANS-P46-L7-05-2",
+      "taskId": "P46-L7-05",
+      "primitive": "ADAPT_CONSUMER",
+      "targetSymbols": [
+        "evaluateRoleHierarchy"
+      ],
+      "targetModules": [
+        "src/role-graph.js"
+      ],
+      "preconditions": [
+        "PRE:VALID_STATE_REGION-P46-L7-05-02"
+      ],
+      "postconditions": [
+        "POST:SATISFIES_PROPERTY_REGION-P46-L7-05-02"
+      ],
+      "stateTransition": "TRANSITION_TO_SYNCHRONIZED_JUXTAPOSITION_OR_CREDENTIAL_STATE",
+      "representationTransition": "SOURCE_STREAM -> INTERMEDIATE_LOOKAHEAD_TOKEN",
+      "behavioralPredicate": "EVALUATE_ADAPT_CONSUMER_ON_evaluateRoleHierarchy",
+      "affectedDataFlow": [
+        "DATAFLOW_evaluateRoleHierarchy"
+      ],
+      "affectedControlFlow": [
+        "CONTROLFLOW_evaluateRoleHierarchy"
+      ],
+      "requiredInvariants": [],
+      "requiredContracts": [
+        "CONTRACT-P46-L7-05-02"
+      ],
+      "allowedMutationScope": [
+        "src/role-graph.js"
+      ],
+      "dependencies": [
+        "STRANS-P46-L7-05-1"
+      ],
+      "provenance": {
+        "taskId": "P46-L7-05",
+        "regionId": "REGION-P46-L7-05-02",
+        "primitive": "ADAPT_CONSUMER",
+        "closureRule": "SEMANTIC_TRANSFORMATION_SYNTHESIS"
+      },
+      "canonicalHash": "123ecd1cb82e62af6cc647cffa97d63f34bdfd10deca822335a02c29e7d8afa1"
+    }
+  ],
+  "artifactDigest": "f56fe471ea9d9a4439ee862a57c64459d253dde476902c17687db5b9bd4b8b80"
+}

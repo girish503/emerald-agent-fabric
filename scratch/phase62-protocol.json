@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "emerald-phase62-v1",
+  "phase": "62",
+  "protocolVersion": "emerald-phase62-whole-program-semantic-synthesis-v1",
+  "frozenAt": "2026-10-20T05:16:10.911Z",
+  "baselineCommit": "1a2ee25",
+  "experimentalVariable": "whole_program_semantic_transformation_representation",
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "cores": 8,
+    "ram": "7.63 GiB",
+    "ramBytes": 8192663552,
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "stepTimeoutCeilingMs": 120000,
+    "architecture": "x86_64 CPU-first local execution"
+  },
+  "conditions": {
+    "CONDITION_A_PHASE61_CONTROL": "Frozen Phase 61 joint AST synthesis pipeline",
+    "CONDITION_B_SEMANTIC_REPRESENTATION_ONLY": "Whole-program semantic transformation representation (SemanticTransformation) without extra CEGAR feedback",
+    "CONDITION_C_SEMANTIC_REPRESENTATION_CEGAR": "Semantic transformation representation with CEGAR refinement constraints",
+    "CONDITION_D_FULL_WHOLE_PROGRAM_PIPELINE": "Full whole-program pipeline: semantic graph + obligations + transformations + deterministic materialization + clean-room dual-gate"
+  },
+  "bounds": {
+    "maxSemanticTransformations": 16,
+    "maxTransformationDepth": 6,
+    "maxAffectedModules": 6,
+    "maxAffectedSymbols": 32,
+    "maxSemanticCandidates": 50,
+    "maxASTNodes": 150,
+    "maxFiles": 6,
+    "maxRepairAttempts": 3,
+    "maxWallClockMs": 120000
+  },
+  "cohortSize": 15,
+  "totalTrials": 60,
+  "protocolDigest": "dea5d078728feed249fe3b052dd8bde289af31f25df34c1f7fb2c07794090453"
+}

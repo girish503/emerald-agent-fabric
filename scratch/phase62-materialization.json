@@ -1,0 +1,311 @@
+{
+  "schemaVersion": "emerald-phase62-v1",
+  "phase": "62",
+  "generatedAt": "2026-10-20T05:16:10.974Z",
+  "baselineCommit": "1a2ee25",
+  "protocolDigest": "dea5d078728feed249fe3b052dd8bde289af31f25df34c1f7fb2c07794090453",
+  "totalMaterialized": 15,
+  "materializations": [
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-01-01",
+      "candidateId": "SCAND-P46-L5-01-01",
+      "affectedFiles": [
+        "src/semver.js"
+      ],
+      "edits": [
+        {
+          "file": "src/semver.js",
+          "target": "// TARGET_TRANSFORMATION_comparePrerelease",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_CHANGE_POSTCONDITION_ON_comparePrerelease */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "4412569a555f4f5da4dc73600032a812364e8dd10316a438cab11ae78f4cee2a"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-02-01",
+      "candidateId": "SCAND-P46-L5-02-01",
+      "affectedFiles": [
+        "src/lodash-set.js"
+      ],
+      "edits": [
+        {
+          "file": "src/lodash-set.js",
+          "target": "// TARGET_TRANSFORMATION__setInternal",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_CHANGE_POSTCONDITION_ON__setInternal */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "59a0fa6233cda7131420a478331d61e827ebf205ced9fab7525a8f7abec7252e"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-03-01",
+      "candidateId": "SCAND-P46-L5-03-01",
+      "affectedFiles": [
+        "src/event-emitter.js"
+      ],
+      "edits": [
+        {
+          "file": "src/event-emitter.js",
+          "target": "// TARGET_TRANSFORMATION_dispatchListener",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_CHANGE_POSTCONDITION_ON_dispatchListener */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "81ceea2f50b341b6a619e2226c25543c4f076b5a7fb3c61d9e5dbe1beffa6300"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-04-01",
+      "candidateId": "SCAND-P46-L5-04-01",
+      "affectedFiles": [
+        "src/walker.js"
+      ],
+      "edits": [
+        {
+          "file": "src/walker.js",
+          "target": "// TARGET_TRANSFORMATION__handleError",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_CHANGE_POSTCONDITION_ON__handleError */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "45fc84bf94eb3ed666aa7243981df43bd1829f45996dfe9eb63de6e0a209c263"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L5-05-01",
+      "candidateId": "SCAND-P46-L5-05-01",
+      "affectedFiles": [
+        "src/cache-queue.js"
+      ],
+      "edits": [
+        {
+          "file": "src/cache-queue.js",
+          "target": "// TARGET_TRANSFORMATION_flushQueue",
+          "replacement": "/* MATERIALIZED_CHANGE_POSTCONDITION: EVALUATE_CHANGE_POSTCONDITION_ON_flushQueue */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "0802e492cd40ee5ee0d8dbf5ff0f1dc6e585925f274f072850d263eea895d036"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-01-01",
+      "candidateId": "SCAND-P46-L6-01-01",
+      "affectedFiles": [
+        "src/auth.js",
+        "src/rbac.js"
+      ],
+      "edits": [
+        {
+          "file": "src/auth.js",
+          "target": "// TARGET_TRANSFORMATION_authorizeUser",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_ADAPT_PRODUCER_ON_authorizeUser */"
+        },
+        {
+          "file": "src/rbac.js",
+          "target": "// TARGET_TRANSFORMATION_hasRole",
+          "replacement": "/* MATERIALIZED_CHANGE_VALIDATION_RULE: EVALUATE_CHANGE_VALIDATION_RULE_ON_hasRole */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "4a69a57eb17c291cbc88043b7b07e4a634ea2724493ce799713726e6930d4ecb"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-02-01",
+      "candidateId": "SCAND-P46-L6-02-01",
+      "affectedFiles": [
+        "src/config.js",
+        "src/schema.js"
+      ],
+      "edits": [
+        {
+          "file": "src/config.js",
+          "target": "// TARGET_TRANSFORMATION_defaultSchema",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_ADAPT_PRODUCER_ON_defaultSchema */"
+        },
+        {
+          "file": "src/schema.js",
+          "target": "// TARGET_TRANSFORMATION_loadConfig",
+          "replacement": "/* MATERIALIZED_CHANGE_VALIDATION_RULE: EVALUATE_CHANGE_VALIDATION_RULE_ON_loadConfig */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "71fc1e859e19d6be3e082b2f765ea97390a2abd2f18bdcb457b0e742d6dca04d"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-03-01",
+      "candidateId": "SCAND-P46-L6-03-01",
+      "affectedFiles": [
+        "src/formatter.js",
+        "src/logger.js"
+      ],
+      "edits": [
+        {
+          "file": "src/formatter.js",
+          "target": "// TARGET_TRANSFORMATION_formatJson",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_ADAPT_PRODUCER_ON_formatJson */"
+        },
+        {
+          "file": "src/logger.js",
+          "target": "// TARGET_TRANSFORMATION_logEvent",
+          "replacement": "/* MATERIALIZED_CHANGE_VALIDATION_RULE: EVALUATE_CHANGE_VALIDATION_RULE_ON_logEvent */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "95455d29cf3a5b891ee9c02e24dd2a31764ea8e53e51ce6038feeee9d207a76a"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-04-01",
+      "candidateId": "SCAND-P46-L6-04-01",
+      "affectedFiles": [
+        "src/http-client.js",
+        "src/request-builder.js"
+      ],
+      "edits": [
+        {
+          "file": "src/http-client.js",
+          "target": "// TARGET_TRANSFORMATION_buildRequest",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_ADAPT_PRODUCER_ON_buildRequest */"
+        },
+        {
+          "file": "src/request-builder.js",
+          "target": "// TARGET_TRANSFORMATION_sendRequest",
+          "replacement": "/* MATERIALIZED_CHANGE_VALIDATION_RULE: EVALUATE_CHANGE_VALIDATION_RULE_ON_sendRequest */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "a4e54c3dc27cc41257bad7c9f090b4f4bef2c30a53d87709a56d9eb1ec3f091a"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L6-05-01",
+      "candidateId": "SCAND-P46-L6-05-01",
+      "affectedFiles": [
+        "src/job-queue.js",
+        "src/worker-pool.js"
+      ],
+      "edits": [
+        {
+          "file": "src/job-queue.js",
+          "target": "// TARGET_TRANSFORMATION_cancelJob",
+          "replacement": "/* MATERIALIZED_ADAPT_PRODUCER: EVALUATE_ADAPT_PRODUCER_ON_cancelJob */"
+        },
+        {
+          "file": "src/worker-pool.js",
+          "target": "// TARGET_TRANSFORMATION_evictWorker",
+          "replacement": "/* MATERIALIZED_CHANGE_VALIDATION_RULE: EVALUATE_CHANGE_VALIDATION_RULE_ON_evictWorker */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "b8e15353150bb1a697c6e152165c0ba3710f79a0e9ab0ee52d959d48185943c8"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-01-01",
+      "candidateId": "SCAND-P46-L7-01-01",
+      "affectedFiles": [
+        "src/calc.js",
+        "src/parser.js"
+      ],
+      "edits": [
+        {
+          "file": "src/calc.js",
+          "target": "// TARGET_TRANSFORMATION_evaluateExponent",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_CHANGE_STATE_TRANSITION_ON_evaluateExponent */"
+        },
+        {
+          "file": "src/parser.js",
+          "target": "// TARGET_TRANSFORMATION_parseExpression",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_ADAPT_CONSUMER_ON_parseExpression */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "2f02985f2c198aefcd7ef80c8e82b187daaf4cc1cb17841c8dc8d0d8429c0e76"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-02-01",
+      "candidateId": "SCAND-P46-L7-02-01",
+      "affectedFiles": [
+        "src/cors.js",
+        "src/header-validator.js"
+      ],
+      "edits": [
+        {
+          "file": "src/cors.js",
+          "target": "// TARGET_TRANSFORMATION_compileOriginPattern",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_CHANGE_STATE_TRANSITION_ON_compileOriginPattern */"
+        },
+        {
+          "file": "src/header-validator.js",
+          "target": "// TARGET_TRANSFORMATION_validateHeaders",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_ADAPT_CONSUMER_ON_validateHeaders */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "5ea6a589c116a40098cc1c4b21163a3464557b54e87bc8d6249dcbd2df9a7df9"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-03-01",
+      "candidateId": "SCAND-P46-L7-03-01",
+      "affectedFiles": [
+        "src/semver-compare.js",
+        "src/semver-sort.js"
+      ],
+      "edits": [
+        {
+          "file": "src/semver-compare.js",
+          "target": "// TARGET_TRANSFORMATION_compareSemVer",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_CHANGE_STATE_TRANSITION_ON_compareSemVer */"
+        },
+        {
+          "file": "src/semver-sort.js",
+          "target": "// TARGET_TRANSFORMATION_sortPrerelease",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_ADAPT_CONSUMER_ON_sortPrerelease */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "67221f0cc2a98962ce29e3a85417a59f3f1b94dee151fd50d8d63679f34c8c65"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-04-01",
+      "candidateId": "SCAND-P46-L7-04-01",
+      "affectedFiles": [
+        "src/path-resolver.js",
+        "src/path-setter.js"
+      ],
+      "edits": [
+        {
+          "file": "src/path-resolver.js",
+          "target": "// TARGET_TRANSFORMATION_resolveObjectPath",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_CHANGE_STATE_TRANSITION_ON_resolveObjectPath */"
+        },
+        {
+          "file": "src/path-setter.js",
+          "target": "// TARGET_TRANSFORMATION_setDeepProperty",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_ADAPT_CONSUMER_ON_setDeepProperty */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "aaadee064753d3733b2d0f19524fbe9e0660fab460d5a2e5c6803731fd95e0ba"
+    },
+    {
+      "patchId": "MPATCH-SCAND-P46-L7-05-01",
+      "candidateId": "SCAND-P46-L7-05-01",
+      "affectedFiles": [
+        "src/role-auth.js",
+        "src/role-graph.js"
+      ],
+      "edits": [
+        {
+          "file": "src/role-auth.js",
+          "target": "// TARGET_TRANSFORMATION_authorizeRole",
+          "replacement": "/* MATERIALIZED_CHANGE_STATE_TRANSITION: EVALUATE_CHANGE_STATE_TRANSITION_ON_authorizeRole */"
+        },
+        {
+          "file": "src/role-graph.js",
+          "target": "// TARGET_TRANSFORMATION_evaluateRoleHierarchy",
+          "replacement": "/* MATERIALIZED_ADAPT_CONSUMER: EVALUATE_ADAPT_CONSUMER_ON_evaluateRoleHierarchy */"
+        }
+      ],
+      "deterministic": true,
+      "patchDigest": "38be36de7a91fd01f16035aad8bd1ed9e9852a44cc7e6ab5c570cf2a8a7d93ed"
+    }
+  ],
+  "artifactDigest": "61d27f165856bfce73fc171733c22f981196a1fde2977ad4ab45823c7f52cd6d"
+}

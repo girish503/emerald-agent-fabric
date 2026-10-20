@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "emerald-phase62-v1",
+  "phase": "62",
+  "generatedAt": "2026-10-20T05:16:10.999Z",
+  "baselineCommit": "1a2ee25",
+  "protocolDigest": "dea5d078728feed249fe3b052dd8bde289af31f25df34c1f7fb2c07794090453",
+  "totalControls": 10,
+  "allPassed": true,
+  "controls": [
+    {
+      "id": "N1",
+      "name": "Invalid semantic transformation",
+      "status": "PASS",
+      "actualClass": "INVALID_TRANSFORMATION_SCHEMA_REJECTED",
+      "evidence": "Transformations lacking typed primitive or required pre/post-conditions are rejected at schema validation"
+    },
+    {
+      "id": "N2",
+      "name": "Nonexistent target",
+      "status": "PASS",
+      "actualClass": "NONEXISTENT_TARGET_FAIL_CLOSED",
+      "evidence": "Candidate targeting symbols or modules absent from the semantic graph fails closed"
+    },
+    {
+      "id": "N3",
+      "name": "Violated precondition",
+      "status": "PASS",
+      "actualClass": "PRECONDITION_VIOLATION_REJECTED",
+      "evidence": "Candidate violating required entry state representation fails pre-materialization checks"
+    },
+    {
+      "id": "N4",
+      "name": "Violated postcondition",
+      "status": "PASS",
+      "actualClass": "POSTCONDITION_VIOLATION_REJECTED",
+      "evidence": "Candidate failing to guarantee required output contract representation is rejected"
+    },
+    {
+      "id": "N5",
+      "name": "Representation mismatch",
+      "status": "PASS",
+      "actualClass": "REPRESENTATION_MISMATCH_REJECTED",
+      "evidence": "Type or data-flow representation incompatibilities across coupled regions trigger rejection"
+    },
+    {
+      "id": "N6",
+      "name": "Invariant violation",
+      "status": "PASS",
+      "actualClass": "WHOLE_PROGRAM_INVARIANT_VIOLATION",
+      "evidence": "Materialized candidate failing whole-program regression tests fails clean-room verification"
+    },
+    {
+      "id": "N7",
+      "name": "Gold leakage",
+      "status": "PASS",
+      "actualClass": "GOLD_LEAKAGE_DETECTED_REJECTED",
+      "evidence": "Static scanner detects and rejects hardcoded Pratt binding power constants or CORS regexes"
+    },
+    {
+      "id": "N8",
+      "name": "Unauthorized mutation",
+      "status": "PASS",
+      "actualClass": "UNAUTHORIZED_MUTATION_REJECTED",
+      "evidence": "Authority firewall rejects any materialization touching files outside the allowed mutation scope"
+    },
+    {
+      "id": "N9",
+      "name": "Semantic candidate passes locally but fails globally",
+      "status": "PASS",
+      "actualClass": "CROSS_REGION_SEMANTIC_FAILURE",
+      "evidence": "Materialized candidate passing local unit checks but violating whole-program regression is rejected"
+    },
+    {
+      "id": "N10",
+      "name": "Nondeterministic materialization",
+      "status": "PASS",
+      "actualClass": "BYTE_IDENTICAL_CANONICAL_OUTPUT",
+      "evidence": "Canonical sorting of edits and deterministic AST patch application guarantees byte-identical patch digests"
+    }
+  ],
+  "artifactDigest": "dbd911c7a2309aa6dfe01d8c6022c936796f1544540fb52d8fd30d11014c1229"
+}

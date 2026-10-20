@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "emerald-phase62-v1",
+  "phase": "62",
+  "generatedAt": "2026-10-20T05:16:10.991Z",
+  "baselineCommit": "1a2ee25",
+  "protocolDigest": "dea5d078728feed249fe3b052dd8bde289af31f25df34c1f7fb2c07794090453",
+  "diagnostics": [
+    {
+      "taskId": "P46-L7-01",
+      "title": "SWE-bench EAF-BM-01: calc negative exponent parsing and calculation",
+      "semanticGraphNodes": 12,
+      "semanticTransformations": [
+        "STRANS-P46-L7-01-1 (CHANGE_STATE_TRANSITION)",
+        "STRANS-P46-L7-01-2 (ADAPT_CONSUMER)"
+      ],
+      "semanticValidity": true,
+      "materializationStatus": "SUCCESS (Materialized into structural AST edits)",
+      "cleanRoomStatus": "FAIL",
+      "searchExhausted": true,
+      "failureRootCause": "Semantic transformation representation expresses transition and consumer adaptation schemas, but bounded local search exhausts at depth 6 without discovering coordinated Pratt parser binding rules and juxtaposition token stream transitions."
+    },
+    {
+      "taskId": "P46-L7-02",
+      "title": "SWE-bench EAF-BM-03: CORS header injection guard and validation",
+      "semanticGraphNodes": 12,
+      "semanticTransformations": [
+        "STRANS-P46-L7-02-1 (CHANGE_STATE_TRANSITION)",
+        "STRANS-P46-L7-02-2 (ADAPT_CONSUMER)"
+      ],
+      "semanticValidity": true,
+      "materializationStatus": "SUCCESS (Materialized into structural AST edits)",
+      "cleanRoomStatus": "FAIL",
+      "searchExhausted": true,
+      "failureRootCause": "Semantic candidate correctly materializes into wildcard validation updates, but exhausts at depth 6 without discovering the joint credential reflection predicate required by global security invariants."
+    }
+  ],
+  "artifactDigest": "39a9f307e5d154a286964887b9233b4c0187d1b15ddfa70ec067c419101e59cf"
+}
