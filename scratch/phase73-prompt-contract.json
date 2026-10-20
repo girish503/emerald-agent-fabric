@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "emerald-phase73-v1",
+  "allowedFields": [
+    "TASK_ID",
+    "GOAL_ID",
+    "TARGET_TYPE",
+    "ALLOWED_EFFECTS",
+    "HOLE_COUNT",
+    "CALCULUS_VOCABULARY",
+    "INVARIANT_OBLIGATIONS"
+  ],
+  "forbiddenFields": [
+    "GOLD_PATCH",
+    "ORACLE_ANSWER",
+    "SIGNING_KEY",
+    "CREDENTIALS",
+    "AUTHORITY_TOKENS"
+  ],
+  "leakageScanner": "NeuralLeakageScanner",
+  "enforcement": "FAIL_CLOSED"
+}

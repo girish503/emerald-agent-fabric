@@ -1,0 +1,125 @@
+{
+  "count": 3,
+  "proposals": [
+    {
+      "proposalId": "prop-4ed4e4a8b4bf",
+      "goalHash": "goal-hash-l5",
+      "skeletonHash": "skel-hash-l5",
+      "constructorApplications": [
+        {
+          "holeId": "hole-1",
+          "constructor": "SEQUENCE"
+        },
+        {
+          "holeId": "hole-2",
+          "constructor": "CONSTANT"
+        }
+      ],
+      "holeAssignments": [
+        {
+          "holeId": "hole-1",
+          "semanticType": "BOOLEAN",
+          "constructor": "GUARD"
+        }
+      ],
+      "reasoningHints": [
+        "validate CORS origin header strictly",
+        "enforce semantic semver increments"
+      ],
+      "expectedEffects": [
+        "PURE"
+      ],
+      "expectedStateTransitions": [
+        {
+          "key": "requestOrigin",
+          "toValue": "AUTHORIZED"
+        }
+      ],
+      "expectedInvariants": [
+        "ORIGIN_ALLOWED",
+        "VERSION_PARSED"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "proposalId": "prop-20e2eb0c22c1",
+      "goalHash": "goal-hash-l5",
+      "skeletonHash": "skel-hash-l5",
+      "constructorApplications": [
+        {
+          "holeId": "hole-1",
+          "constructor": "SEQUENCE"
+        },
+        {
+          "holeId": "hole-2",
+          "constructor": "CONSTANT"
+        }
+      ],
+      "holeAssignments": [
+        {
+          "holeId": "hole-1",
+          "semanticType": "BOOLEAN",
+          "constructor": "GUARD"
+        }
+      ],
+      "reasoningHints": [
+        "validate CORS origin header strictly",
+        "enforce semantic semver increments"
+      ],
+      "expectedEffects": [
+        "PURE"
+      ],
+      "expectedStateTransitions": [
+        {
+          "key": "requestOrigin",
+          "toValue": "AUTHORIZED"
+        }
+      ],
+      "expectedInvariants": [
+        "ORIGIN_ALLOWED",
+        "VERSION_PARSED"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "proposalId": "prop-768a0a6867c1",
+      "goalHash": "goal-hash-l5",
+      "skeletonHash": "skel-hash-l5",
+      "constructorApplications": [
+        {
+          "holeId": "hole-1",
+          "constructor": "SEQUENCE"
+        },
+        {
+          "holeId": "hole-2",
+          "constructor": "CONSTANT"
+        }
+      ],
+      "holeAssignments": [
+        {
+          "holeId": "hole-1",
+          "semanticType": "BOOLEAN",
+          "constructor": "GUARD"
+        }
+      ],
+      "reasoningHints": [
+        "validate CORS origin header strictly",
+        "enforce semantic semver increments"
+      ],
+      "expectedEffects": [
+        "PURE"
+      ],
+      "expectedStateTransitions": [
+        {
+          "key": "requestOrigin",
+          "toValue": "AUTHORIZED"
+        }
+      ],
+      "expectedInvariants": [
+        "ORIGIN_ALLOWED",
+        "VERSION_PARSED"
+      ],
+      "confidence": 0.95
+    }
+  ]
+}

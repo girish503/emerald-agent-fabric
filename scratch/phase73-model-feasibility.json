@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "emerald-phase73-v1",
+  "modelName": "qwen2.5-coder:3b",
+  "hardwareProfile": {
+    "cpu": "Intel(R) Core(TM) i3-N305 @ 1.80GHz (8 cores)",
+    "ramAvailableBytes": 8192663552,
+    "modelSizeBytes": 1929912626,
+    "quantization": "Q4_K_M",
+    "feasibleWithinFrozenCeiling": true,
+    "meanLatencyMs": 440,
+    "maxTimeoutMs": 30000,
+    "totalTimeoutBudgetMs": 90000
+  },
+  "verificationVerdict": "FEASIBLE_LOCAL_CPU"
+}
