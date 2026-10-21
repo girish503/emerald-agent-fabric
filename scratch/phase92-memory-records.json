@@ -1,0 +1,45 @@
+{
+  "totalRecordsCreated": 128,
+  "activeRecords": 104,
+  "supersededRecords": 16,
+  "expiredRecords": 4,
+  "revokedRecords": 4,
+  "authorityClassificationCounts": {
+    "UNTRUSTED_OBSERVATION": 72,
+    "PROVENANCE_VERIFIED_OBSERVATION": 36,
+    "LOCALLY_VERIFIED_OBSERVATION": 14,
+    "SOVEREIGN_VERIFIED_EVIDENCE": 6
+  },
+  "sampleRecords": [
+    {
+      "memoryId": "mem-ast-01",
+      "agentId": "agent-analyzer",
+      "goalId": "goal-root",
+      "repositoryId": "repo-core",
+      "workspaceId": "/workspace/agent-a",
+      "memoryType": "OBSERVATION",
+      "version": 1,
+      "freshness": "FRESH",
+      "confidence": 0.95,
+      "contentDigest": "a4d8f233cbecc65a8dd5d989de298cab47926be28272540af7d4ef7d6bf147ab",
+      "authorityClassification": "PROVENANCE_VERIFIED_OBSERVATION",
+      "authoritative": false,
+      "terminalAuthority": false
+    },
+    {
+      "memoryId": "mem-test-01",
+      "agentId": "agent-tester",
+      "goalId": "goal-root",
+      "repositoryId": "repo-core",
+      "workspaceId": "/workspace/agent-b",
+      "memoryType": "TEST_RESULT",
+      "version": 1,
+      "freshness": "FRESH",
+      "confidence": 1,
+      "contentDigest": "4a6c95171909d68f2fc9ddc3e80b8cbf837fbbc39f1f286fc2efd886c205f90d",
+      "authorityClassification": "LOCALLY_VERIFIED_OBSERVATION",
+      "authoritative": false,
+      "terminalAuthority": false
+    }
+  ]
+}

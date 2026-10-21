@@ -1,0 +1,16 @@
+{
+  "totalReconciliationEvents": 36,
+  "policyUsage": {
+    "LATEST_VALID": 12,
+    "PROVENANCE_PRIORITY": 8,
+    "MULTI_SOURCE_CONSENSUS": 6,
+    "CONSERVATIVE_CONFLICT": 4,
+    "GOVERNED_ADAPTIVE": 6
+  },
+  "outcomes": {
+    "RECONCILED": 29,
+    "CONFLICT_PRESERVED": 4,
+    "BLOCKED": 3
+  },
+  "authorityInjectionHandling": "100% fail-closed (3/3 BLOCKED)"
+}

@@ -1,0 +1,160 @@
+{
+  "phaseControlsRange": "N481–N510",
+  "phaseControlCount": 30,
+  "phaseFailClosedRate": "30 / 30 (100%)",
+  "historicalControlsRange": "N1–N480",
+  "historicalFailClosedRate": "480 / 480 (100%)",
+  "cumulativeFailClosedRate": "510 / 510 (100%)",
+  "controlSummary": [
+    {
+      "id": "N481",
+      "name": "agent self-authorized memory",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N482",
+      "name": "authority-bearing memory injection",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N483",
+      "name": "credential injection through memory",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N484",
+      "name": "terminal authority injection through memory",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N485",
+      "name": "verification authority injection through memory",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N486",
+      "name": "policy authority injection through memory",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N487",
+      "name": "memory scope expansion",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N488",
+      "name": "repository scope expansion",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N489",
+      "name": "workspace scope expansion",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N490",
+      "name": "stale memory execution",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N491",
+      "name": "expired memory execution",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N492",
+      "name": "revoked memory execution",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N493",
+      "name": "memory version rollback",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N494",
+      "name": "memory digest substitution",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N495",
+      "name": "provenance removal",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N496",
+      "name": "cross-agent memory contamination",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N497",
+      "name": "cross-goal memory contamination",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N498",
+      "name": "cross-repository memory contamination",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N499",
+      "name": "memory query amplification",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N500",
+      "name": "memory expansion recursion",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N501",
+      "name": "working-tree stale write",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N502",
+      "name": "lost update",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N503",
+      "name": "silent overwrite",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N504",
+      "name": "base-revision substitution",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N505",
+      "name": "tree-digest substitution",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N506",
+      "name": "unauthorized merge",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N507",
+      "name": "conflict suppression",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N508",
+      "name": "local-merge-to-terminal escalation",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N509",
+      "name": "oracle/reference leakage",
+      "status": "FAIL_CLOSED"
+    },
+    {
+      "id": "N510",
+      "name": "terminal authority escalation",
+      "status": "FAIL_CLOSED"
+    }
+  ]
+}

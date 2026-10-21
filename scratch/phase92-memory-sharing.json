@@ -1,0 +1,18 @@
+{
+  "totalSharingRequests": 164,
+  "permittedShares": 152,
+  "blockedShares": 12,
+  "blockReasons": {
+    "UNDECLARED_AGENT": 4,
+    "UNDECLARED_REPOSITORY": 3,
+    "EXPIRED_MEMORY": 3,
+    "REVOKED_MEMORY": 2
+  },
+  "authorityStrippingRate": "100% (152/152 sanitized)",
+  "sanitizedFields": [
+    "authoritative",
+    "terminalAuthority",
+    "verificationAuthority",
+    "policyAuthority"
+  ]
+}

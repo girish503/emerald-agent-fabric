@@ -1,0 +1,35 @@
+{
+  "versionedEntitiesCount": 16,
+  "maxVersionDepth": 3,
+  "monotonicityCheck": "100% PASSED",
+  "versionChains": [
+    {
+      "memoryId": "mem-dep-graph",
+      "versions": [
+        1,
+        2,
+        3
+      ],
+      "currentStatus": "ACTIVE",
+      "supersededCount": 2
+    },
+    {
+      "memoryId": "mem-hypothesis-nullcheck",
+      "versions": [
+        1,
+        2
+      ],
+      "currentStatus": "ACTIVE",
+      "supersededCount": 1
+    },
+    {
+      "memoryId": "mem-repair-candidate-patch",
+      "versions": [
+        1,
+        2
+      ],
+      "currentStatus": "ACTIVE",
+      "supersededCount": 1
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "authorityInvariants": {
+    "M1_MemoryCannotGrantAuthority": "PASS",
+    "M2_GoalScopeContainment": "PASS",
+    "M3_RepositoryScopeContainment": "PASS",
+    "M4_WorkspaceScopeContainment": "PASS",
+    "M5_StaleMemoryCannotExecute": "PASS",
+    "M6_RevokedMemoryCannotActAsEvidence": "PASS",
+    "M7_NoSilentDeletion": "PASS",
+    "M8_ProvenanceRequired": "PASS",
+    "M9_NoCrossAgentAuthorityInjection": "PASS",
+    "M10_NoCrossGoalContamination": "PASS",
+    "M11_CurrentStateValidationRequired": "PASS",
+    "M12_StaleWritesFailClosed": "PASS",
+    "M13_LostUpdatesPrevented": "PASS",
+    "M14_MergeIsNotVerification": "PASS",
+    "M15_VerificationIsNotTerminal": "PASS",
+    "M16_NoResourceAuthorityTampering": "PASS",
+    "M17_NoMissionContractTampering": "PASS",
+    "M18_NoTerminalAuthorityIssuance": "PASS"
+  },
+  "netAuthorityDelta": 0
+}

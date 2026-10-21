@@ -1,0 +1,62 @@
+{
+  "phase": 92,
+  "title": "Governed Multi-Agent Cooperative Memory and Cross-Agent Working-Tree Reconciliation",
+  "baselineCommit": "7e7ff6bec71756df2446872fce191f5f553b8999",
+  "conditions": [
+    "Condition A (Independent agents, no shared memory)",
+    "Condition B (Shared memory only)",
+    "Condition C (Shared memory + memory reconciliation)",
+    "Condition D (Shared memory + working-tree reconciliation)",
+    "Condition E (Shared memory + context distillation)",
+    "Condition F (Shared memory + Phase 89 hierarchical goals)",
+    "Condition G (Full governed cooperation)",
+    "Condition H (Adversarial stale/conflicting memory)"
+  ],
+  "policies": {
+    "memory": [
+      "POLICY A — LATEST_VALID",
+      "POLICY B — PROVENANCE_PRIORITY",
+      "POLICY C — MULTI_SOURCE_CONSENSUS",
+      "POLICY D — CONSERVATIVE_CONFLICT",
+      "POLICY E — GOVERNED_ADAPTIVE"
+    ],
+    "workingTree": [
+      "POLICY A — FAIL_FAST",
+      "POLICY B — NON_OVERLAPPING_AUTO_MERGE",
+      "POLICY C — DEPENDENCY_AWARE_MERGE",
+      "POLICY D — GOVERNED_ADAPTIVE"
+    ]
+  },
+  "centralPrinciple": "Agents may share knowledge. They must never share authority implicitly.",
+  "consensusDistinction": "Agreement over observations, never agreement over authority.",
+  "invariants": [
+    "M1: Memory cannot grant authority.",
+    "M2: Memory scope ⊆ requesting goal scope.",
+    "M3: Memory repository scope ⊆ declared repository scope.",
+    "M4: Memory workspace scope ⊆ declared workspace scope.",
+    "M5: Stale memory cannot silently drive execution.",
+    "M6: Revoked memory cannot be consumed as current evidence.",
+    "M7: Memory history cannot be deleted.",
+    "M8: Memory provenance cannot be removed.",
+    "M9: One agent cannot inject authority into another agent's memory.",
+    "M10: One goal cannot contaminate another goal's memory.",
+    "M11: Working-tree writes require current state validation.",
+    "M12: Stale writes fail closed or enter governed reconciliation.",
+    "M13: Lost updates cannot silently succeed.",
+    "M14: Merge success is not verification success.",
+    "M15: Verification success is not terminal success.",
+    "M16: Memory cannot modify resource authority.",
+    "M17: Memory cannot modify mission-contract authority.",
+    "M18: Memory cannot issue terminal authority."
+  ],
+  "limits": {
+    "maxRecordsPerQuery": 64,
+    "maxPayloadBytes": 65536,
+    "maxExpansionRounds": 4,
+    "maxSharedMemoryBytesPerGoal": 131072,
+    "maxRecordsPerGoal": 256,
+    "maxRecordsAddedPerRound": 32,
+    "maxAgentsPerWorkflow": 8,
+    "maxRepositoriesPerWorkflow": 8
+  }
+}

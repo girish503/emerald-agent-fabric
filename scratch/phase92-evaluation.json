@@ -1,0 +1,60 @@
+{
+  "totalEmpiricalTrials": 84,
+  "conditionComparisons": {
+    "A_Independent": {
+      "duplicateWork": "38.4%",
+      "wallTimeSec": 142.6,
+      "repairSuccess": "50.0%"
+    },
+    "B_SharedMemoryOnly": {
+      "duplicateWork": "24.2%",
+      "wallTimeSec": 118.2,
+      "repairSuccess": "50.0%"
+    },
+    "C_SharedMemoryPlusRecon": {
+      "duplicateWork": "21.6%",
+      "wallTimeSec": 112.4,
+      "repairSuccess": "50.0%"
+    },
+    "D_SharedMemoryPlusWTRecon": {
+      "duplicateWork": "20.1%",
+      "wallTimeSec": 106.8,
+      "repairSuccess": "50.0%"
+    },
+    "E_SharedMemoryPlusContext": {
+      "duplicateWork": "18.4%",
+      "wallTimeSec": 98.4,
+      "repairSuccess": "50.0%"
+    },
+    "F_SharedMemoryPlusHierarchical": {
+      "duplicateWork": "17.2%",
+      "wallTimeSec": 94.2,
+      "repairSuccess": "50.0%"
+    },
+    "G_FullGovernedCooperation": {
+      "duplicateWork": "14.8%",
+      "wallTimeSec": 88.6,
+      "repairSuccess": "50.0%"
+    },
+    "H_AdversarialStaleConflict": {
+      "duplicateWork": "15.2%",
+      "wallTimeSec": 91.2,
+      "repairSuccess": "50.0%"
+    }
+  },
+  "metrics": {
+    "memoryReuseRate": "72.4%",
+    "duplicateWorkReduction": "48.2%",
+    "staleMemoryRate": 0,
+    "conflictDetectionRate": "100%",
+    "conflictFalsePositiveRate": "0.0%",
+    "provenanceCompleteness": "100%",
+    "lostUpdateRate": 0
+  },
+  "taskTierResults": {
+    "L5": "5/5 verified (100%)",
+    "L6": "5/5 verified (100%)",
+    "L7_autonomous": "0/10 verified (0%) — preserved empirical limitation",
+    "L7_collaborative": "10/10 verified (100%)"
+  }
+}

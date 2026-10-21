@@ -1,0 +1,150 @@
+{
+  "cohortSize": 20,
+  "cohortComposition": {
+    "L5": 5,
+    "L6": 5,
+    "L7": 10
+  },
+  "tasks": [
+    {
+      "id": "T1",
+      "tier": "L5",
+      "name": "action-retry-counter-overflow",
+      "type": "disjoint module",
+      "complexity": 1
+    },
+    {
+      "id": "T2",
+      "tier": "L5",
+      "name": "attempt-status-state-machine-transition",
+      "type": "overlapping file",
+      "complexity": 1
+    },
+    {
+      "id": "T3",
+      "tier": "L5",
+      "name": "timestamp-iso-formatting",
+      "type": "disjoint module",
+      "complexity": 1
+    },
+    {
+      "id": "T4",
+      "tier": "L5",
+      "name": "lease-ttl-arithmetic-boundary",
+      "type": "shared API",
+      "complexity": 1
+    },
+    {
+      "id": "T5",
+      "tier": "L5",
+      "name": "unredacted-secret-scanner-regex",
+      "type": "shared schema",
+      "complexity": 1
+    },
+    {
+      "id": "T6",
+      "tier": "L6",
+      "name": "worker-lease-expiration-race",
+      "type": "overlapping file",
+      "complexity": 2
+    },
+    {
+      "id": "T7",
+      "tier": "L6",
+      "name": "state-store-transaction-fencing",
+      "type": "shared dependency",
+      "complexity": 2
+    },
+    {
+      "id": "T8",
+      "tier": "L6",
+      "name": "cross-module-event-envelope",
+      "type": "shared API",
+      "complexity": 2
+    },
+    {
+      "id": "T9",
+      "tier": "L6",
+      "name": "context-cluster-staleness-invalidation",
+      "type": "stale-observation",
+      "complexity": 2
+    },
+    {
+      "id": "T10",
+      "tier": "L6",
+      "name": "hierarchical-subgoal-dag-traversal",
+      "type": "cross-repository",
+      "complexity": 2
+    },
+    {
+      "id": "T11",
+      "tier": "L7",
+      "name": "distributed-paxos-lease-election",
+      "type": "overlapping file",
+      "complexity": 3
+    },
+    {
+      "id": "T12",
+      "tier": "L7",
+      "name": "byzantine-split-brain-recovery",
+      "type": "test/config conflict",
+      "complexity": 3
+    },
+    {
+      "id": "T13",
+      "tier": "L7",
+      "name": "multi-node-2pc-atomic-commit",
+      "type": "shared schema",
+      "complexity": 3
+    },
+    {
+      "id": "T14",
+      "tier": "L7",
+      "name": "distributed-vector-clock-convergence",
+      "type": "shared dependency",
+      "complexity": 3
+    },
+    {
+      "id": "T15",
+      "tier": "L7",
+      "name": "replicated-state-machine-compaction",
+      "type": "overlapping file",
+      "complexity": 3
+    },
+    {
+      "id": "T16",
+      "tier": "L7",
+      "name": "distributed-barrier-synchronization",
+      "type": "shared API",
+      "complexity": 3
+    },
+    {
+      "id": "T17",
+      "tier": "L7",
+      "name": "consensus-membership-reconfiguration",
+      "type": "cross-repository",
+      "complexity": 3
+    },
+    {
+      "id": "T18",
+      "tier": "L7",
+      "name": "raft-log-gap-recovery-protocol",
+      "type": "stale-observation",
+      "complexity": 3
+    },
+    {
+      "id": "T19",
+      "tier": "L7",
+      "name": "multi-datacenter-fencing-handshake",
+      "type": "test/config conflict",
+      "complexity": 3
+    },
+    {
+      "id": "T20",
+      "tier": "L7",
+      "name": "distributed-lease-transfer-quorum",
+      "type": "cross-repository",
+      "complexity": 3
+    }
+  ]
+}

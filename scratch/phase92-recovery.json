@@ -1,0 +1,29 @@
+{
+  "totalScenariosEvaluated": 15,
+  "scenariosRecoveredCleanly": 15,
+  "recoverySuccessRate": "100%",
+  "scenarios": [
+    "1. memory creation crash",
+    "2. memory persistence crash",
+    "3. memory sharing crash",
+    "4. memory query crash",
+    "5. memory reconciliation crash",
+    "6. memory invalidation crash",
+    "7. working-tree observation crash",
+    "8. mutation proposal crash",
+    "9. concurrent mutation crash",
+    "10. conflict detection crash",
+    "11. merge crash",
+    "12. rebase crash",
+    "13. verification handoff crash",
+    "14. provenance persistence crash",
+    "15. final evidence persistence crash"
+  ],
+  "invariantsPreservedAcrossCrash": [
+    "memory versions",
+    "provenance",
+    "workspace state",
+    "tree digests",
+    "conflict history"
+  ]
+}
