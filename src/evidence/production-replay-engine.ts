@@ -43,6 +43,12 @@ export interface ReplayReport {
   readonly finalDisposition: string;
   readonly stopReason: string;
   readonly reconstructedSuccessfully: boolean;
+  readonly diagnosticObservations?: readonly {
+    readonly sequence: number;
+    readonly eventType: string;
+    readonly status: string;
+    readonly summary: string;
+  }[];
 }
 
 export class ProductionReplayEngine {
@@ -69,6 +75,14 @@ export class ProductionReplayEngine {
       ? "Goal achieved and sovereign verification passed"
       : `Halted with disposition ${bundle.disposition}`;
 
+    const diagnosticEvents = bundle.timeline.filter((t) => t.eventType.startsWith("diagnostic."));
+    const diagnosticObservations = diagnosticEvents.map((t) => ({
+      sequence: t.sequence,
+      eventType: t.eventType,
+      status: String(t.details["status"] ?? "OBSERVED"),
+      summary: t.description,
+    }));
+
     return {
       runId: bundle.runId,
       missionId: bundle.missionId,
@@ -89,6 +103,7 @@ export class ProductionReplayEngine {
       },
       finalDisposition: bundle.disposition,
       stopReason,
+      diagnosticObservations,
       reconstructedSuccessfully: true,
     };
   }

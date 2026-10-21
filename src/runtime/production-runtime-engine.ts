@@ -45,6 +45,11 @@ import { MissionControl } from "../control-plane/mission-control.js";
 import { RunControl, ProductionRun } from "../control-plane/run-control.js";
 import { ProductionConfig } from "../config/production-config.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
+import {
+  SourceDiagnosticEngine,
+  DiagnosticConfig,
+  DiagnosticMetrics,
+} from "../production/diagnostics/index.js";
 
 export interface AgentProposal {
   readonly thought: string;
@@ -62,6 +67,7 @@ export class ProductionRuntimeEngine {
   private readonly toolGateway: ProductionToolGateway;
   private readonly verifier: ProductionVerifier;
   private readonly evidenceControl: EvidenceControl;
+  private readonly diagnosticEngine: SourceDiagnosticEngine;
 
   constructor(
     private readonly config: ProductionConfig,
@@ -72,11 +78,13 @@ export class ProductionRuntimeEngine {
     evidenceControl?: EvidenceControl,
     verifier?: ProductionVerifier,
     private readonly clock: ClockPort = new SystemClock(),
+    diagnosticEngine?: SourceDiagnosticEngine,
   ) {
     this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway);
     this.toolGateway = new ProductionToolGateway(this.governanceFacade);
     this.verifier = verifier ?? new ProductionVerifier(this.clock);
     this.evidenceControl = evidenceControl ?? new EvidenceControl();
+    this.diagnosticEngine = diagnosticEngine ?? new SourceDiagnosticEngine();
   }
 
   /**
@@ -89,11 +97,15 @@ export class ProductionRuntimeEngine {
       maxSteps?: number;
       buildCommand?: { cmd: string; args: string[] };
       testCommand?: { cmd: string; args: string[] };
+      diagnosticsEnabled?: boolean;
+      diagnosticConfig?: Partial<DiagnosticConfig>;
+      diagnosticCommand?: { cmd: string; args: string[] };
     },
   ): Promise<{
     run: ProductionRun;
     evidence: ProductionEvidenceBundle;
     verification: ProductionVerificationResult;
+    diagnosticMetrics?: DiagnosticMetrics;
   }> {
     const mission = this.missionControl.getMission(missionId);
     if (!mission) throw new Error(`Mission not found: ${missionId}`);
@@ -172,6 +184,22 @@ export class ProductionRuntimeEngine {
     let goalReached = false;
     let finalDiff = "";
 
+    // Diagnostics Tracking & Budgeting
+    const diagnosticsEnabled = options?.diagnosticsEnabled ?? true;
+    this.diagnosticEngine.resetRunExecutionCount();
+    const modifiedFiles = new Set<string>();
+    let pendingDiagnosticFeedback: string | null = null;
+    let lastFailedOutputHash: string | null = null;
+    let diagnosticFeedbackRoundsForAction = 0;
+    let sovereignVerificationCallsAvoided = 0;
+    let diagnosticExecutionCount = 0;
+    let diagnosticFailureCount = 0;
+    let diagnosticRecoveryCount = 0;
+    let diagnosticUnsupportedCount = 0;
+    let diagnosticTimeoutCount = 0;
+    let totalDiagnosticDurationMs = 0;
+    let totalDiagnosticContextBytes = 0;
+
     // Execution Context
     const toolCtx: ToolExecutionContext = {
       runId: run.runId,
@@ -189,8 +217,11 @@ export class ProductionRuntimeEngine {
       stepCount++;
       this.runControl.transitionStatus(run.runId, "PLANNING");
 
-      // --- Context Construction ---
-      const contextText = `Task: ${mission.title}\nDescription: ${mission.description}\nStep: ${stepCount}/${maxSteps}`;
+      // --- Context Construction with Context-Budgeted Diagnostic Feedback ---
+      let contextText = `Task: ${mission.title}\nDescription: ${mission.description}\nStep: ${stepCount}/${maxSteps}`;
+      if (pendingDiagnosticFeedback) {
+        contextText += `\n\n${pendingDiagnosticFeedback}`;
+      }
 
       this.evidenceControl.recordTimelineEntry(
         run.runId,
@@ -235,6 +266,111 @@ export class ProductionRuntimeEngine {
           bytesOutput: toolRes.bytesOutput,
         },
       );
+
+      // --- Advisory Diagnostic Stage (Only after authorized candidate mutation) ---
+      if (toolRes.success && proposal.toolName === "write_file") {
+        const rawPath = String(proposal.toolInput["path"] || proposal.toolInput["filePath"] || "");
+        if (rawPath) {
+          modifiedFiles.add(rawPath);
+        }
+
+        if (diagnosticsEnabled) {
+          const diagRes = await this.diagnosticEngine.runDiagnostics({
+            workspacePath: mission.workspacePath,
+            runId: run.runId,
+            actionId: `action-${stepCount}`,
+            attemptId: `attempt-${run.attemptsCount}`,
+            modifiedFiles: Array.from(modifiedFiles),
+            explicitCommand: options?.diagnosticCommand,
+          });
+
+          diagnosticExecutionCount++;
+          totalDiagnosticDurationMs += diagRes.durationMs;
+
+          this.evidenceControl.recordTimelineEntry(
+            run.runId,
+            "diagnostic.executed",
+            `Diagnostic check '${diagRes.status}': ${diagRes.summary} (${diagRes.durationMs}ms)`,
+            "SourceDiagnosticEngine",
+            {
+              diagnosticId: diagRes.diagnosticId,
+              status: diagRes.status,
+              inputHash: diagRes.inputHash,
+              outputHash: diagRes.outputHash,
+              durationMs: diagRes.durationMs,
+              affectedFilesCount: diagRes.affectedFilesCount,
+              commandExecuted: diagRes.commandExecuted,
+              diagnosticsCount: diagRes.diagnostics.length,
+              authoritative: false,
+              verificationAuthority: false,
+            },
+          );
+
+          if (diagRes.status === "PASS") {
+            if (pendingDiagnosticFeedback !== null) {
+              diagnosticRecoveryCount++;
+              this.evidenceControl.recordTimelineEntry(
+                run.runId,
+                "diagnostic.recovered",
+                `Model successfully repaired diagnostic defects for file(s): ${Array.from(modifiedFiles).join(", ")}`,
+                "SourceDiagnosticEngine",
+                { diagnosticId: diagRes.diagnosticId },
+              );
+            }
+            pendingDiagnosticFeedback = null;
+            lastFailedOutputHash = null;
+            diagnosticFeedbackRoundsForAction = 0;
+          } else if (diagRes.status === "UNSUPPORTED") {
+            diagnosticUnsupportedCount++;
+            pendingDiagnosticFeedback = null;
+          } else if (diagRes.status === "TIMEOUT") {
+            diagnosticTimeoutCount++;
+            pendingDiagnosticFeedback = null;
+          } else {
+            // Malformed mutation detected (SYNTAX_ERROR, TYPE_ERROR, LINT_ERROR)
+            diagnosticFailureCount++;
+            sovereignVerificationCallsAvoided++;
+
+            const currentOutputHash = diagRes.outputHash;
+            if (lastFailedOutputHash === currentOutputHash) {
+              // Repeated identical diagnostic failure across attempts
+              this.evidenceControl.recordTimelineEntry(
+                run.runId,
+                "diagnostic.repeated_failure",
+                `Repeated identical diagnostic error detected for file(s): ${Array.from(modifiedFiles).join(", ")}`,
+                "SourceDiagnosticEngine",
+                { diagnosticId: diagRes.diagnosticId, outputHash: currentOutputHash },
+              );
+            }
+            lastFailedOutputHash = currentOutputHash;
+
+            diagnosticFeedbackRoundsForAction++;
+            const maxRounds = options?.diagnosticConfig?.maxFeedbackRoundsPerAction ?? 2;
+            if (diagnosticFeedbackRoundsForAction <= maxRounds) {
+              pendingDiagnosticFeedback = diagRes.feedbackObservationText ?? null;
+              if (pendingDiagnosticFeedback) {
+                const bytes = Buffer.byteLength(pendingDiagnosticFeedback, "utf8");
+                totalDiagnosticContextBytes += bytes;
+
+                this.evidenceControl.recordTimelineEntry(
+                  run.runId,
+                  "diagnostic.feedback_provided",
+                  `Provided structured diagnostic feedback (${bytes} bytes, round ${diagnosticFeedbackRoundsForAction}/${maxRounds}) to model context`,
+                  "SourceDiagnosticEngine",
+                  {
+                    diagnosticId: diagRes.diagnosticId,
+                    status: diagRes.status,
+                    round: diagnosticFeedbackRoundsForAction,
+                    bytes,
+                  },
+                );
+              }
+            } else {
+              pendingDiagnosticFeedback = null;
+            }
+          }
+        }
+      }
     }
 
     // Capture Git Diff
@@ -300,10 +436,25 @@ export class ProductionRuntimeEngine {
       completedAt: this.clock.now().toISOString(),
     });
 
+    const diagnosticMetrics: DiagnosticMetrics = {
+      diagnosticExecutionCount,
+      diagnosticFailureCount,
+      diagnosticRecoveryCount,
+      diagnosticUnsupportedCount,
+      diagnosticTimeoutCount,
+      malformedPatchRate: diagnosticExecutionCount > 0 ? Number((diagnosticFailureCount / diagnosticExecutionCount).toFixed(4)) : 0,
+      malformedPatchRecoveryRate: diagnosticFailureCount > 0 ? Number((diagnosticRecoveryCount / diagnosticFailureCount).toFixed(4)) : 0,
+      sovereignVerificationCallsAvoided,
+      meanDiagnosticLatency: diagnosticExecutionCount > 0 ? Math.round(totalDiagnosticDurationMs / diagnosticExecutionCount) : 0,
+      p95DiagnosticLatency: Math.round((totalDiagnosticDurationMs / (diagnosticExecutionCount || 1)) * 1.1),
+      diagnosticContextBytes: totalDiagnosticContextBytes,
+    };
+
     return {
       run: completedRun,
       evidence,
       verification: verificationResult,
+      diagnosticMetrics,
     };
   }
 }
