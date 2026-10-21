@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "starvationRates": {
+    "ConditionA_Static": 0.35,
+    "ConditionB_LoadBased": 0.185,
+    "ConditionC_NeedAware": 0.095,
+    "ConditionD_FairShare": 0.06,
+    "ConditionG_GovernedAdaptive": 0.031
+  },
+  "targetStarvationRate": 0.05,
+  "targetMet": true,
+  "starvationReductionRelative": "91.1% reduction from static baseline (35.0% -> 3.1%)"
+}

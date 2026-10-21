@@ -28,3 +28,4 @@ export * from "./counterfactual-replay.js";
 export * from "./tool-projection.js";
 export * from "./speculative-execution.js";
 export * from "./runtime-speculative-binding.js";
+export * from "./dynamic-agent-role.js";

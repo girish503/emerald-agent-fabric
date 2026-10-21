@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "evaluatedPolicies": [
+    {
+      "policy": "STATIC",
+      "description": "Fixed role allocation throughout workflow execution",
+      "hysteresisRequired": false,
+      "overheadPercent": 0,
+      "starvationRisk": "HIGH"
+    },
+    {
+      "policy": "LOAD_BASED",
+      "description": "Queue depth threshold rebalancing",
+      "hysteresisRequired": true,
+      "overheadPercent": 1.2,
+      "starvationRisk": "MODERATE"
+    },
+    {
+      "policy": "NEED_AWARE",
+      "description": "Role demand and backlog matching",
+      "hysteresisRequired": true,
+      "overheadPercent": 1.8,
+      "starvationRisk": "LOW"
+    },
+    {
+      "policy": "FAIR_SHARE",
+      "description": "Jain fairness maximization across agent pool",
+      "hysteresisRequired": true,
+      "overheadPercent": 2.1,
+      "starvationRisk": "LOW"
+    },
+    {
+      "policy": "GOVERNED_ADAPTIVE",
+      "description": "Composite governed rebalancing with anti-thrashing and sovereign verification isolation",
+      "hysteresisRequired": true,
+      "overheadPercent": 2.4,
+      "starvationRisk": "MINIMAL"
+    }
+  ]
+}

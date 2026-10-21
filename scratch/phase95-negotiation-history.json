@@ -1,0 +1,308 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalNegotiations": 20,
+  "accepted": 20,
+  "rejected": 0,
+  "negotiations": [
+    {
+      "negotiationId": "neg-1",
+      "proposalId": "prop-1",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l5-01-1",
+      "targetAgentId": "agent-task-l5-01-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l5-01-1"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-2",
+      "proposalId": "prop-2",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l5-02-1",
+      "targetAgentId": "agent-task-l5-02-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l5-02-2"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-3",
+      "proposalId": "prop-3",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l5-03-1",
+      "targetAgentId": "agent-task-l5-03-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l5-03-3"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-4",
+      "proposalId": "prop-4",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l5-04-1",
+      "targetAgentId": "agent-task-l5-04-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l5-04-4"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-5",
+      "proposalId": "prop-5",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l5-05-1",
+      "targetAgentId": "agent-task-l5-05-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l5-05-5"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-6",
+      "proposalId": "prop-6",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l6-01-1",
+      "targetAgentId": "agent-task-l6-01-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l6-01-6"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-7",
+      "proposalId": "prop-7",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l6-02-1",
+      "targetAgentId": "agent-task-l6-02-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l6-02-7"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-8",
+      "proposalId": "prop-8",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l6-03-1",
+      "targetAgentId": "agent-task-l6-03-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l6-03-8"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-9",
+      "proposalId": "prop-9",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l6-04-1",
+      "targetAgentId": "agent-task-l6-04-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l6-04-9"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-10",
+      "proposalId": "prop-10",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l6-05-1",
+      "targetAgentId": "agent-task-l6-05-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l6-05-10"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-11",
+      "proposalId": "prop-11",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l7-01-1",
+      "targetAgentId": "agent-task-l7-01-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-01-11"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-12",
+      "proposalId": "prop-12",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l7-02-1",
+      "targetAgentId": "agent-task-l7-02-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-02-12"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-13",
+      "proposalId": "prop-13",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l7-03-1",
+      "targetAgentId": "agent-task-l7-03-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-03-13"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-14",
+      "proposalId": "prop-14",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l7-04-1",
+      "targetAgentId": "agent-task-l7-04-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-04-14"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-15",
+      "proposalId": "prop-15",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l7-05-1",
+      "targetAgentId": "agent-task-l7-05-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-05-15"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-16",
+      "proposalId": "prop-16",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l7-06-1",
+      "targetAgentId": "agent-task-l7-06-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-06-16"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-17",
+      "proposalId": "prop-17",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l7-07-1",
+      "targetAgentId": "agent-task-l7-07-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-07-17"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-18",
+      "proposalId": "prop-18",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l7-08-1",
+      "targetAgentId": "agent-task-l7-08-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-08-18"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-19",
+      "proposalId": "prop-19",
+      "proposalType": "ROLE_SWAP",
+      "proposingAgentId": "agent-task-l7-09-1",
+      "targetAgentId": "agent-task-l7-09-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-09-19"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "negotiationId": "neg-20",
+      "proposalId": "prop-20",
+      "proposalType": "WORKLOAD_HANDOFF",
+      "proposingAgentId": "agent-task-l7-10-1",
+      "targetAgentId": "agent-task-l7-10-2",
+      "currentRole": "ANALYZER",
+      "proposedRole": "IMPLEMENTER",
+      "status": "ACCEPTED",
+      "reason": "Balanced workload demand under need-aware policy",
+      "executedTransitions": [
+        "trans-task-l7-10-20"
+      ],
+      "timestamp": "2026-10-21T12:05:00.000Z"
+    }
+  ]
+}

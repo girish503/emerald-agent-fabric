@@ -1,0 +1,148 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalScenarios": 20,
+  "recoveredScenarios": 20,
+  "crashRecoveryCorrectness": 1,
+  "scenarios": [
+    {
+      "scenarioId": "crash-1",
+      "name": "crash during role proposal generation",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-2",
+      "name": "crash during capability containment validation",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-3",
+      "name": "crash during atomic role swap pre-commit",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-4",
+      "name": "crash during atomic role swap post-assignment A",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-5",
+      "name": "crash during atomic role swap post-assignment B",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-6",
+      "name": "crash during version fence increment",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-7",
+      "name": "crash during mission contract hash validation",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-8",
+      "name": "crash during transition history persistence",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-9",
+      "name": "crash during role negotiation proposal arbitration",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-10",
+      "name": "crash during anti-thrashing dwell calculation",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-11",
+      "name": "crash during window transition budget update",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-12",
+      "name": "crash during need-aware demand computation",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-13",
+      "name": "crash during Jain fairness calculation",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-14",
+      "name": "crash during cooperative memory author assignment lookup",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-15",
+      "name": "crash during speculative branch role boundary check",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-16",
+      "name": "crash during working-tree verification handoff",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-17",
+      "name": "crash during clean-room verifier role metadata sanitization",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-18",
+      "name": "crash during worker lease renewal under active role",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-19",
+      "name": "crash during run coordinator state recovery with active roles",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-20",
+      "name": "crash during post-recovery role re-validation",
+      "recoveredState": "LAST_CONSISTENT_ROLE_ASSIGNMENT",
+      "stateDivergenceDetected": false,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "phase": 95,
+  "title": "Advisory Agent Role Taxonomy and Authority Boundaries",
+  "governingPrinciple": "Role authority may change. Sovereign authority must not.",
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "roles": [
+    {
+      "role": "ANALYZER",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role ANALYZER strictly constrained within workflow capabilities."
+    },
+    {
+      "role": "IMPLEMENTER",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role IMPLEMENTER strictly constrained within workflow capabilities."
+    },
+    {
+      "role": "REVIEWER",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role REVIEWER strictly constrained within workflow capabilities."
+    },
+    {
+      "role": "TESTER",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role TESTER strictly constrained within workflow capabilities."
+    },
+    {
+      "role": "CONTEXT_ANALYST",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role CONTEXT_ANALYST strictly constrained within workflow capabilities."
+    },
+    {
+      "role": "DEPENDENCY_ANALYST",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role DEPENDENCY_ANALYST strictly constrained within workflow capabilities."
+    },
+    {
+      "role": "VERIFICATION_ASSISTANT",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role VERIFICATION_ASSISTANT strictly constrained within workflow capabilities."
+    },
+    {
+      "role": "RESOURCE_ADVISOR",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "allowedScope": "ADVISORY_ONLY",
+      "description": "Advisory role RESOURCE_ADVISOR strictly constrained within workflow capabilities."
+    }
+  ],
+  "sovereignAuthoritiesExcluded": [
+    "run_terminal_completion",
+    "verification_verdict_issuance",
+    "mission_contract_mutation",
+    "policy_rule_alteration",
+    "worker_lease_usurpation",
+    "credential_access"
+  ]
+}

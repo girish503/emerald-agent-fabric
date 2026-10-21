@@ -1,0 +1,204 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "workflowSuperCapability": {
+    "permittedObservationClasses": [
+      "code_read",
+      "test_report",
+      "metrics",
+      "runtime_status"
+    ],
+    "permittedAdvisoryActions": [
+      "advise_all"
+    ],
+    "toolCategories": [
+      "read",
+      "write",
+      "search"
+    ],
+    "contextRequirements": [
+      "goal_ast",
+      "dependency_graph",
+      "memory"
+    ]
+  },
+  "roleProfiles": {
+    "ANALYZER": {
+      "role": "ANALYZER",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_analyzer"
+      ],
+      "toolCategories": [
+        "read"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 1
+      },
+      "verificationDependencies": []
+    },
+    "IMPLEMENTER": {
+      "role": "IMPLEMENTER",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_implementer"
+      ],
+      "toolCategories": [
+        "read",
+        "write"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 2
+      },
+      "verificationDependencies": []
+    },
+    "REVIEWER": {
+      "role": "REVIEWER",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_reviewer"
+      ],
+      "toolCategories": [
+        "read"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 1
+      },
+      "verificationDependencies": []
+    },
+    "TESTER": {
+      "role": "TESTER",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_tester"
+      ],
+      "toolCategories": [
+        "read"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 1
+      },
+      "verificationDependencies": []
+    },
+    "CONTEXT_ANALYST": {
+      "role": "CONTEXT_ANALYST",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_context_analyst"
+      ],
+      "toolCategories": [
+        "read"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 1
+      },
+      "verificationDependencies": []
+    },
+    "DEPENDENCY_ANALYST": {
+      "role": "DEPENDENCY_ANALYST",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_dependency_analyst"
+      ],
+      "toolCategories": [
+        "read"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 1
+      },
+      "verificationDependencies": []
+    },
+    "VERIFICATION_ASSISTANT": {
+      "role": "VERIFICATION_ASSISTANT",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_verification_assistant"
+      ],
+      "toolCategories": [
+        "read"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 1
+      },
+      "verificationDependencies": []
+    },
+    "RESOURCE_ADVISOR": {
+      "role": "RESOURCE_ADVISOR",
+      "permittedObservationClasses": [
+        "code_read",
+        "test_report",
+        "metrics"
+      ],
+      "permittedAdvisoryActions": [
+        "advise_resource_advisor"
+      ],
+      "toolCategories": [
+        "read"
+      ],
+      "contextRequirements": [
+        "goal_ast",
+        "dependency_graph"
+      ],
+      "resourcePreferences": {
+        "weight": 1
+      },
+      "verificationDependencies": []
+    }
+  },
+  "containmentInvariant": "T2: RoleCapability ⊆ ExistingWorkflowCapability strictly holds"
+}

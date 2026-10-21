@@ -1,0 +1,147 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalInvariants": 20,
+  "upheldInvariants": 20,
+  "invariants": [
+    {
+      "invariantId": "T1",
+      "description": "Role authority never confers sovereign authority (terminal, verification, contract, policy, credentials)",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T2",
+      "description": "RoleCapability ⊆ ExistingWorkflowCapability strictly holds across all transitions",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T3",
+      "description": "Advisory roles remain strictly non-authoritative (authoritative = false, terminalAuthority = false)",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T4",
+      "description": "Clean-room sovereign verification is completely isolated from agent role metadata",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T5",
+      "description": "Role transitions are version-fenced with monotonic assignment sequence numbers",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T6",
+      "description": "Role negotiation proposals cannot alter mission contracts, goal scope, or verification requirements",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T7",
+      "description": "Cross-agent role swaps must be atomic and reversible upon validation failure",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T8",
+      "description": "Anti-thrashing hysteresis enforces minimum dwell periods between role transitions",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T9",
+      "description": "Role rebalancing policy guarantees bounded transition budget per sliding window",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T10",
+      "description": "Starvation avoidance ensures no valid goal queue remains unserved beyond bound",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T11",
+      "description": "Every role assignment cryptographically binds to an immutable mission contract hash",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T12",
+      "description": "Historical role transitions maintain an append-only cryptographic provenance Merkle root",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T13",
+      "description": "Agent failure or crash triggers deterministic rollback to the last verified role assignment",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T14",
+      "description": "Worker leasing and Action/Attempt identity remain independent of dynamic advisory role assignments",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T15",
+      "description": "Resource allocation boundaries from Phase 91 are strictly respected during role rebalancing",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T16",
+      "description": "Stale role assignments cannot overwrite current assignments (version fence rejection)",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T17",
+      "description": "Speculative execution branches cannot inherit or mutate parent workflow role assignments",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T18",
+      "description": "Cooperative memory records retain immutable author role provenance at time of creation",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T19",
+      "description": "Working-tree reconciliations require sovereign verification regardless of participating agent roles",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "invariantId": "T20",
+      "description": "Role rebalancing decisions are deterministic and reproducible given identical workload traces",
+      "upheld": true,
+      "validationMechanism": "AgentRoleTransitionManager & RoleRebalancingPolicy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    }
+  ]
+}

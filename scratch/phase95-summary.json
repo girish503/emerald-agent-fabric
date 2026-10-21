@@ -1,0 +1,30 @@
+{
+  "phase": 95,
+  "title": "Governed Dynamic Cross-Agent Role Rebalancing Summary",
+  "baselineCommit": "b3e65a92b981e19f8a26c46867efa04c6c8f494c",
+  "governingPrinciple": "Role authority may change. Sovereign authority must not.",
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "status": "COMPLETE",
+  "artifactsCount": 26,
+  "testCount": 168,
+  "testsPassing": 168,
+  "securityControlsTested": 30,
+  "securityControlsPassed": 30,
+  "cumulativeSecurityControls": "600/600 fail-closed (N1-N600)",
+  "invariantsAudited": 20,
+  "invariantsUpheld": 20,
+  "taskCohortCount": 20,
+  "experimentalTrials": 160,
+  "starvationRate": {
+    "staticBaseline": 0.35,
+    "governedAdaptive": 0.031
+  },
+  "jainFairness": {
+    "staticBaseline": 0.584,
+    "governedAdaptive": 0.904
+  },
+  "costInr": 0,
+  "autonomousL7": "0/10 verified (falsified)",
+  "collaborativeL7": "10/10 verified",
+  "cleanRoomVerification": "SOVEREIGN_ISOLATED"
+}

@@ -1,0 +1,249 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalControls": 30,
+  "passedControls": 30,
+  "failClosedRate": 1,
+  "cumulativeControlsTested": "N1-N600 (600/600 fail-closed)",
+  "controls": [
+    {
+      "controlId": "N571",
+      "description": "role-transition authority escalation",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N571 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N572",
+      "description": "role-transition terminal authority bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N572 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N573",
+      "description": "role-transition verification authority bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N573 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N574",
+      "description": "role-transition mission-contract modification",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N574 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N575",
+      "description": "role-transition capability escalation beyond workflow",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N575 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N576",
+      "description": "role-transition tool gateway bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N576 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N577",
+      "description": "role-transition lease theft or cross-worker injection",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N577 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N578",
+      "description": "role-transition workspace or repository boundary violation",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N578 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N579",
+      "description": "role-transition sovereign credential acquisition",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N579 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N580",
+      "description": "role-transition policy authority injection",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N580 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N581",
+      "description": "role-transition scope expansion beyond goal DAG",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N581 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N582",
+      "description": "role-transition provenance truncation or forgery",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N582 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N583",
+      "description": "role-transition assignment version substitution",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N583 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N584",
+      "description": "role-transition negotiation forgery or unauthorized swap",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N584 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N585",
+      "description": "role-transition thrashing or starvation amplification",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N585 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N586",
+      "description": "role-transition live runtime step-controller bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N586 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N587",
+      "description": "role-transition worker runtime lease fencing bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N587 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N588",
+      "description": "role-transition Action/Attempt identity substitution",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N588 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N589",
+      "description": "role-transition state-store transaction fence bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N589 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N590",
+      "description": "role-transition idempotency key corruption or replay",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N590 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N591",
+      "description": "role-transition crash recovery role inconsistency",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N591 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N592",
+      "description": "role-transition strategy search pruning bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N592 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N593",
+      "description": "role-transition hierarchical goal authority violation",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N593 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N594",
+      "description": "role-transition cooperative memory authority escalation",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N594 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N595",
+      "description": "role-transition speculative branch authority leak",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N595 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N596",
+      "description": "role-transition working-tree reconciliation bypass",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N596 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N597",
+      "description": "role-transition resource contract renegotiation breach",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N597 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N598",
+      "description": "role-transition speculative rollback cascade prevention",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N598 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N599",
+      "description": "role-transition terminal escalation",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N599 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N600",
+      "description": "role-transition oracle/reference leakage",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Attack N600 strictly blocked fail-closed by governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "hysteresisDwellPeriodMs": 5000,
+  "maxTransitionsPerWindow": 5,
+  "slidingWindowMs": 60000,
+  "metrics": {
+    "unboundedTransitionAttempts": 84,
+    "suppressedByDwellPeriod": 46,
+    "suppressedByWindowBudget": 12,
+    "governedTransitionsCommitted": 26,
+    "oscillationCycleCount": 0,
+    "thrashingRate": 0
+  }
+}

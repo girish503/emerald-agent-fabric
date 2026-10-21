@@ -17,3 +17,6 @@ export * from "./speculative-rollback-manager.js";
 export * from "./speculative-verification-reconciler.js";
 export * from "./speculative-promotion-gate.js";
 export * from "./runtime-speculative-execution-policy.js";
+export * from "./agent-role-transition-manager.js";
+export * from "./role-rebalancing-policy.js";
+export * from "./role-negotiation-engine.js";

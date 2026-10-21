@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "conditions": [
+    {
+      "id": "A",
+      "name": "STATIC_FIXED_ROLES",
+      "policy": "STATIC"
+    },
+    {
+      "id": "B",
+      "name": "REACTIVE_LOAD_BASED",
+      "policy": "LOAD_BASED"
+    },
+    {
+      "id": "C",
+      "name": "NEED_AWARE_REBALANCING",
+      "policy": "NEED_AWARE"
+    },
+    {
+      "id": "D",
+      "name": "FAIR_SHARE_REBALANCING",
+      "policy": "FAIR_SHARE"
+    },
+    {
+      "id": "E",
+      "name": "DYNAMIC_COOPERATIVE_NEGOTIATION",
+      "policy": "GOVERNED_ADAPTIVE"
+    },
+    {
+      "id": "F",
+      "name": "ANTI_THRASHING_HYSTERESIS",
+      "policy": "GOVERNED_ADAPTIVE"
+    },
+    {
+      "id": "G",
+      "name": "GOVERNED_ADAPTIVE_REBALANCING",
+      "policy": "GOVERNED_ADAPTIVE"
+    },
+    {
+      "id": "H",
+      "name": "ADVERSARIAL_WORKLOAD_SPIKES",
+      "policy": "GOVERNED_ADAPTIVE"
+    }
+  ],
+  "taskCount": 20,
+  "totalTrials": 160
+}

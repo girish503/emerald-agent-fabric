@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "comparisons": {
+    "starvationReduction": {
+      "baselineConditionA": 0.35,
+      "governedConditionG": 0.031,
+      "pValue": 0.00012,
+      "significant": true,
+      "confidenceInterval95": [
+        0.018,
+        0.044
+      ]
+    },
+    "fairnessImprovement": {
+      "baselineConditionA": 0.584,
+      "governedConditionG": 0.904,
+      "pValue": 0.00008,
+      "significant": true,
+      "confidenceInterval95": [
+        0.891,
+        0.917
+      ]
+    },
+    "latencyReduction": {
+      "baselineConditionA_ms": 1840,
+      "governedConditionG_ms": 1220,
+      "reductionPercent": 33.7,
+      "pValue": 0.00045,
+      "significant": true
+    }
+  }
+}
