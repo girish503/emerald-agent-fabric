@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Emerald Agent Fabric - Pure Domain Kernel",
   "type": "module",
+  "bin": {
+    "emerald": "./bin/emerald.js"
+  },
   "scripts": {
     "build": "tsc --noEmit",
     "test": "vitest run",

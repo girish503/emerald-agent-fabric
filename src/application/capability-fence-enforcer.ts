@@ -10,6 +10,7 @@
  * Capability composition must never create authority ex nihilo.
  */
 
+import * as path from "node:path";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { sha256Hex } from "../domain/canonical-hash.js";
 import {
@@ -211,36 +212,6 @@ export class CapabilityFenceEnforcer {
       };
     }
 
-    // N710 & Invariant C12: Path traversal check outside workspace
-    if (options?.targetPath) {
-      const normalizedPath = options.targetPath.replace(/\\/g, "/");
-      const hasTraversal =
-        normalizedPath.includes("../") ||
-        normalizedPath.includes("/..") ||
-        normalizedPath.startsWith("../") ||
-        normalizedPath.includes("..\\");
-      const isForbidden = fence.scope.forbiddenWorkspacePaths.some((p) =>
-        normalizedPath.startsWith(p.replace(/\\/g, "/")),
-      );
-      const isAllowed = fence.scope.allowedWorkspacePaths.some((p) =>
-        normalizedPath.startsWith(p.replace(/\\/g, "/")),
-      );
-
-      if (hasTraversal || isForbidden || !isAllowed) {
-        this.recordDenial(fenceId, subjectId, capability, "Path traversal or outside allowed workspace boundary", "N710");
-        this.recordViolation(fenceId, subjectId, capability, "PATH_TRAVERSAL", "CRITICAL");
-        return {
-          granted: false,
-          fenceId,
-          subjectId,
-          requestedCapability: capability,
-          denialReason: "Path traversal or outside allowed workspace boundary",
-          controlId: "N710",
-          violationType: "PATH_TRAVERSAL",
-        };
-      }
-    }
-
     // N711: Tool check against allowedTools in scope
     if (options?.toolName) {
       if (!fence.scope.allowedTools.includes(options.toolName)) {
@@ -254,6 +225,47 @@ export class CapabilityFenceEnforcer {
           denialReason: `Tool ${options.toolName} not allowed in scope`,
           controlId: "N711",
           violationType: "SCOPE_BREACH",
+        };
+      }
+    }
+
+    // N710 & Invariant C12: Path traversal check outside workspace
+    if (options?.targetPath) {
+      const rawNormalized = options.targetPath.replace(/\\/g, "/");
+      const hasTraversal =
+        rawNormalized.includes("../") ||
+        rawNormalized.includes("/..") ||
+        rawNormalized.startsWith("../") ||
+        rawNormalized.includes("..\\") ||
+        options.targetPath.includes("..");
+
+      let resolvedTarget = rawNormalized;
+      if (!path.isAbsolute(options.targetPath) && !rawNormalized.startsWith("/")) {
+        const base = fence.scope.allowedWorkspacePaths[0] ?? "/workspace";
+        resolvedTarget = path.resolve(base, options.targetPath).replace(/\\/g, "/");
+      }
+
+      const normTarget = resolvedTarget.toLowerCase();
+      const isForbidden = fence.scope.forbiddenWorkspacePaths.some((p) => {
+        const normP = p.replace(/\\/g, "/").toLowerCase();
+        return normTarget.startsWith(normP) || normTarget.includes("/" + normP.replace(/^\//, ""));
+      });
+      const isAllowed = fence.scope.allowedWorkspacePaths.some((p) => {
+        const normP = p.replace(/\\/g, "/").toLowerCase();
+        return normTarget.startsWith(normP);
+      });
+
+      if (hasTraversal || isForbidden || !isAllowed) {
+        this.recordDenial(fenceId, subjectId, capability, "Path traversal or outside allowed workspace boundary", "N710");
+        this.recordViolation(fenceId, subjectId, capability, "PATH_TRAVERSAL", "CRITICAL");
+        return {
+          granted: false,
+          fenceId,
+          subjectId,
+          requestedCapability: capability,
+          denialReason: "Path traversal or outside allowed workspace boundary",
+          controlId: "N710",
+          violationType: "PATH_TRAVERSAL",
         };
       }
     }

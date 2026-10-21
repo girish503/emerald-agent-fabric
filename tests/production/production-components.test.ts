@@ -1,0 +1,485 @@
+/**
+ * Emerald Agent Fabric — Production Components Test Suite
+ *
+ * Comprehensive tests for:
+ * 1. ProductionConfig
+ * 2. MissionControl
+ * 3. RunControl
+ * 4. ApprovalControl
+ * 5. ProductionGovernanceFacade
+ * 6. ProductionToolGateway
+ * 7. ProductionVerifier
+ * 8. ProductionEvidenceManager & Replay
+ * 9. ProductionRecoveryService
+ * 10. ProductionDoctor & EmeraldCli
+ */
+
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import * as fs from "node:fs";
+import * as os from "node:os";
+import * as path from "node:path";
+import { createProductionConfig, ProductionConfig } from "../../src/config/production-config.js";
+import { MissionControl } from "../../src/control-plane/mission-control.js";
+import { RunControl } from "../../src/control-plane/run-control.js";
+import { ApprovalControl } from "../../src/control-plane/approval-control.js";
+import { EvidenceControl } from "../../src/control-plane/evidence-control.js";
+import { CapabilityFenceEnforcer } from "../../src/application/capability-fence-enforcer.js";
+import { CrossHarnessGateway } from "../../src/application/cross-harness-gateway.js";
+import { ProductionGovernanceFacade } from "../../src/governance/production-governance-facade.js";
+import { ProductionToolGateway, ToolExecutionContext } from "../../src/tools/production-tools.js";
+import { ProductionVerifier } from "../../src/verification/production-verifier.js";
+import { ProductionReplayEngine } from "../../src/evidence/production-replay-engine.js";
+import { ProductionRecoveryService } from "../../src/recovery/production-recovery-service.js";
+import { ProductionDoctor } from "../../src/cli/doctor.js";
+import { EmeraldCli } from "../../src/cli/emerald-cli.js";
+import { CapabilityFence, computeCapabilityFenceHash } from "../../src/domain/capability-fence.js";
+
+describe("Emerald Production Build V1: Components", () => {
+  let tempDir: string;
+  let config: ProductionConfig;
+
+  beforeEach(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "emerald-prod-test-"));
+    config = createProductionConfig({
+      workspaceRoot: tempDir,
+      dbPath: path.join(tempDir, "test.sqlite"),
+      modelProvider: "mock",
+      executionProvider: "in-process",
+    });
+  });
+
+  afterEach(() => {
+    try {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    } catch {
+      // Ignore cleanup error
+    }
+  });
+
+  // ============================================================================
+  // 1. ProductionConfig
+  // ============================================================================
+  describe("1. ProductionConfig", () => {
+    it("1.1 defaults to local-only, zero-cost, open-source settings", () => {
+      expect(config.localOnly).toBe(true);
+      expect(config.modelProvider).toBe("mock");
+      expect(config.timeouts.runTimeoutMs).toBe(300000);
+      expect(config.resourceLimits.maxSteps).toBe(50);
+    });
+
+    it("1.2 overrides work deterministically", () => {
+      const custom = createProductionConfig({
+        model: "deepseek-coder:6.7b",
+        verificationPolicy: "standard",
+      });
+      expect(custom.model).toBe("deepseek-coder:6.7b");
+      expect(custom.verificationPolicy).toBe("standard");
+    });
+  });
+
+  // ============================================================================
+  // 2. MissionControl
+  // ============================================================================
+  describe("2. MissionControl", () => {
+    it("2.1 creates governed mission with bound MissionContract", () => {
+      const mc = new MissionControl();
+      const mission = mc.createMission({
+        title: "Fix auth module",
+        description: "Repair tokens",
+        repositoryPath: tempDir,
+      });
+
+      expect(mission.missionId).toBeDefined();
+      expect(mission.contract.spec.contractId).toBe(`contract-${mission.missionId}`);
+      expect(mission.contract.contentHash).toHaveLength(64);
+      expect(mission.status).toBe("ACTIVE");
+    });
+
+    it("2.2 retrieves and lists missions", () => {
+      const mc = new MissionControl();
+      const m1 = mc.createMission({ title: "Task 1", description: "D1", repositoryPath: tempDir });
+      const m2 = mc.createMission({ title: "Task 2", description: "D2", repositoryPath: tempDir });
+
+      expect(mc.getMission(m1.missionId)?.title).toBe("Task 1");
+      expect(mc.getMission(m2.missionId)?.title).toBe("Task 2");
+      expect(mc.listMissions()).toHaveLength(2);
+    });
+
+    it("2.3 revokes mission with reason", () => {
+      const mc = new MissionControl();
+      const m = mc.createMission({ title: "Task 1", description: "D1", repositoryPath: tempDir });
+      mc.revokeMission(m.missionId, "Security breach");
+
+      expect(mc.getMission(m.missionId)?.status).toBe("REVOKED");
+      expect(mc.getMission(m.missionId)?.revocationReason).toBe("Security breach");
+    });
+  });
+
+  // ============================================================================
+  // 3. RunControl
+  // ============================================================================
+  describe("3. RunControl", () => {
+    it("3.1 creates run bound to mission and contract hash", () => {
+      const mc = new MissionControl();
+      const rc = new RunControl();
+      const mission = mc.createMission({ title: "Task", description: "Desc", repositoryPath: tempDir });
+      const run = rc.createRun(mission, "worker-1");
+
+      expect(run.runId).toBeDefined();
+      expect(run.missionId).toBe(mission.missionId);
+      expect(run.contractHash).toBe(mission.contract.contentHash);
+      expect(run.status).toBe("CREATED");
+    });
+
+    it("3.2 transitions run status through lifecycle", () => {
+      const mc = new MissionControl();
+      const rc = new RunControl();
+      const m = mc.createMission({ title: "T", description: "D", repositoryPath: tempDir });
+      const r = rc.createRun(m);
+
+      expect(rc.transitionStatus(r.runId, "ACTIVE").status).toBe("ACTIVE");
+      expect(rc.transitionStatus(r.runId, "PLANNING").status).toBe("PLANNING");
+      expect(rc.transitionStatus(r.runId, "EXECUTING").status).toBe("EXECUTING");
+      expect(rc.transitionStatus(r.runId, "VERIFYING").status).toBe("VERIFYING");
+      expect(rc.transitionStatus(r.runId, "COMPLETED").status).toBe("COMPLETED");
+    });
+
+    it("3.3 cancels and resumes run", () => {
+      const mc = new MissionControl();
+      const rc = new RunControl();
+      const m = mc.createMission({ title: "T", description: "D", repositoryPath: tempDir });
+      const r = rc.createRun(m);
+
+      expect(rc.cancelRun(r.runId, "Abort").status).toBe("CANCELLED");
+      expect(rc.resumeRun(r.runId).status).toBe("ACTIVE");
+    });
+  });
+
+  // ============================================================================
+  // 4. ApprovalControl
+  // ============================================================================
+  describe("4. ApprovalControl", () => {
+    it("4.1 requests human approval for high risk actions", () => {
+      const ac = new ApprovalControl();
+      const req = ac.requestApproval({
+        runId: "run-1",
+        operation: "git_push",
+        parameters: { remote: "origin", branch: "master" },
+        riskLevel: "CRITICAL",
+        justification: "Deploy changes to production",
+      });
+
+      expect(req.approvalId).toBeDefined();
+      expect(req.status).toBe("PENDING");
+      expect(ac.listPending()).toHaveLength(1);
+    });
+
+    it("4.2 operator can approve or reject", () => {
+      const ac = new ApprovalControl();
+      const req1 = ac.requestApproval({ runId: "r1", operation: "op1", parameters: {}, riskLevel: "HIGH", justification: "j1" });
+      const req2 = ac.requestApproval({ runId: "r2", operation: "op2", parameters: {}, riskLevel: "HIGH", justification: "j2" });
+
+      ac.approve(req1.approvalId, "operator-alice");
+      ac.reject(req2.approvalId, "operator-bob", "Too risky");
+
+      expect(ac.getApproval(req1.approvalId)?.status).toBe("APPROVED");
+      expect(ac.getApproval(req2.approvalId)?.status).toBe("REJECTED");
+      expect(ac.listPending()).toHaveLength(0);
+    });
+  });
+
+  // ============================================================================
+  // 5. ProductionGovernanceFacade
+  // ============================================================================
+  describe("5. ProductionGovernanceFacade", () => {
+    let enforcer: CapabilityFenceEnforcer;
+    let gateway: CrossHarnessGateway;
+    let facade: ProductionGovernanceFacade;
+
+    beforeEach(() => {
+      enforcer = new CapabilityFenceEnforcer();
+      gateway = new CrossHarnessGateway(enforcer);
+      facade = new ProductionGovernanceFacade(enforcer, gateway);
+    });
+
+    it("5.1 authorizes valid tool proposals within capability fence", () => {
+      const fenceRaw: Omit<CapabilityFence, "hash"> = {
+        fenceId: "f1",
+        subjectId: "agent-1",
+        roleId: "implementer",
+        harnessId: "IMPLEMENTATION_HARNESS",
+        allowedCapabilities: ["READ_WORKSPACE"],
+        forbiddenCapabilities: ["WRITE_REPOSITORY"],
+        scope: {
+          allowedWorkspacePaths: [tempDir],
+          forbiddenWorkspacePaths: [".git"],
+          allowedTools: ["read_file"],
+          maxOperations: 100,
+          maxMemoryBytes: 1000000,
+          networkAllowed: false,
+          gitWriteAllowed: false,
+        },
+        trustLabel: "GOVERNED_OBSERVATION",
+        status: "ACTIVE",
+        delegatedFenceIds: [],
+        version: 1,
+        missionContractId: "contract-1",
+        missionContractHash: "hash-1",
+        authoritative: false,
+        terminalAuthority: false,
+        sovereignAuthority: false,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 100000).toISOString(),
+      };
+      enforcer.registerFence({ ...fenceRaw, hash: computeCapabilityFenceHash(fenceRaw) });
+
+      const decision = facade.evaluateProposal({
+        runId: "run-1",
+        subjectId: "agent-1",
+        fenceId: "f1",
+        harnessType: "IMPLEMENTATION_HARNESS",
+        capability: "READ_WORKSPACE",
+        toolName: "read_file",
+        input: { path: "src/index.ts" },
+        workspacePath: tempDir,
+        missionContractHash: "hash-1",
+      });
+
+      expect(decision.authorized).toBe(true);
+    });
+
+    it("5.2 rejects tool outside allowedTools scope (N711)", () => {
+      const fenceRaw: Omit<CapabilityFence, "hash"> = {
+        fenceId: "f2",
+        subjectId: "agent-2",
+        roleId: "implementer",
+        harnessId: "IMPLEMENTATION_HARNESS",
+        allowedCapabilities: ["READ_WORKSPACE"],
+        forbiddenCapabilities: ["WRITE_REPOSITORY"],
+        scope: {
+          allowedWorkspacePaths: [tempDir],
+          forbiddenWorkspacePaths: [".git"],
+          allowedTools: ["read_file"],
+          maxOperations: 100,
+          maxMemoryBytes: 1000000,
+          networkAllowed: false,
+          gitWriteAllowed: false,
+        },
+        trustLabel: "GOVERNED_OBSERVATION",
+        status: "ACTIVE",
+        delegatedFenceIds: [],
+        version: 1,
+        missionContractId: "contract-2",
+        missionContractHash: "hash-2",
+        authoritative: false,
+        terminalAuthority: false,
+        sovereignAuthority: false,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 100000).toISOString(),
+      };
+      enforcer.registerFence({ ...fenceRaw, hash: computeCapabilityFenceHash(fenceRaw) });
+
+      const decision = facade.evaluateProposal({
+        runId: "run-2",
+        subjectId: "agent-2",
+        fenceId: "f2",
+        harnessType: "IMPLEMENTATION_HARNESS",
+        capability: "READ_WORKSPACE",
+        toolName: "write_file", // not allowed in scope!
+        input: { path: "src/index.ts" },
+        workspacePath: tempDir,
+        missionContractHash: "hash-2",
+      });
+
+      expect(decision.authorized).toBe(false);
+      expect(decision.controlId).toBe("N711");
+    });
+  });
+
+  // ============================================================================
+  // 6. ProductionToolGateway
+  // ============================================================================
+  describe("6. ProductionToolGateway", () => {
+    let enforcer: CapabilityFenceEnforcer;
+    let gateway: CrossHarnessGateway;
+    let facade: ProductionGovernanceFacade;
+    let tools: ProductionToolGateway;
+    let toolCtx: ToolExecutionContext;
+
+    beforeEach(() => {
+      enforcer = new CapabilityFenceEnforcer();
+      gateway = new CrossHarnessGateway(enforcer);
+      facade = new ProductionGovernanceFacade(enforcer, gateway);
+      tools = new ProductionToolGateway(facade);
+
+      const fenceRaw: Omit<CapabilityFence, "hash"> = {
+        fenceId: "f-tools",
+        subjectId: "agent-tools",
+        roleId: "implementer",
+        harnessId: "IMPLEMENTATION_HARNESS",
+        allowedCapabilities: ["READ_WORKSPACE", "READ_REPOSITORY", "WRITE_TEMPORARY_OUTPUT", "EXECUTE_ANALYSIS"],
+        forbiddenCapabilities: ["WRITE_REPOSITORY"],
+        scope: {
+          allowedWorkspacePaths: [tempDir],
+          forbiddenWorkspacePaths: [".git"],
+          allowedTools: ["read_file", "search_code", "git_status", "git_diff", "write_file", "run_command"],
+          maxOperations: 100,
+          maxMemoryBytes: 1000000,
+          networkAllowed: false,
+          gitWriteAllowed: false,
+        },
+        trustLabel: "GOVERNED_OBSERVATION",
+        status: "ACTIVE",
+        delegatedFenceIds: [],
+        version: 1,
+        missionContractId: "contract-tools",
+        missionContractHash: "hash-tools",
+        authoritative: false,
+        terminalAuthority: false,
+        sovereignAuthority: false,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 100000).toISOString(),
+      };
+      enforcer.registerFence({ ...fenceRaw, hash: computeCapabilityFenceHash(fenceRaw) });
+
+      toolCtx = {
+        runId: "run-tools",
+        subjectId: "agent-tools",
+        fenceId: "f-tools",
+        harnessType: "IMPLEMENTATION_HARNESS",
+        workspacePath: tempDir,
+        missionContractHash: "hash-tools",
+      };
+    });
+
+    it("6.1 writes and reads files inside workspace root", async () => {
+      const writeRes = await tools.executeTool("write_file", { path: "src/hello.ts", content: "console.log('hi');" }, toolCtx);
+      expect(writeRes.success).toBe(true);
+
+      const readRes = await tools.executeTool("read_file", { path: "src/hello.ts" }, toolCtx);
+      expect(readRes.success).toBe(true);
+      expect(readRes.output).toBe("console.log('hi');");
+    });
+
+    it("6.2 searches code patterns inside workspace", async () => {
+      await tools.executeTool("write_file", { path: "src/app.ts", content: "function calculateTax() { return 0.2; }" }, toolCtx);
+      const searchRes = await tools.executeTool("search_code", { pattern: "calculateTax" }, toolCtx);
+      expect(searchRes.success).toBe(true);
+      const results = searchRes.output as Array<{ file: string; text: string }>;
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0]?.text).toContain("calculateTax");
+    });
+
+    it("6.3 path traversal outside workspace is blocked fail-closed", async () => {
+      const res = await tools.executeTool("read_file", { path: "../../secret.txt" }, toolCtx);
+      expect(res.success).toBe(false);
+      expect(res.error).toContain("traversal");
+    });
+  });
+
+  // ============================================================================
+  // 7. ProductionVerifier
+  // ============================================================================
+  describe("7. ProductionVerifier", () => {
+    it("7.1 verifies successful workspace with exit code 0", async () => {
+      const verifier = new ProductionVerifier();
+      const res = await verifier.verify({
+        workspacePath: tempDir,
+      });
+
+      expect(res.verified).toBe(true);
+      expect(res.proofHash).toHaveLength(64);
+      expect(res.stages.every((s) => s.passed)).toBe(true);
+    });
+  });
+
+  // ============================================================================
+  // 8. ProductionEvidenceManager & Replay
+  // ============================================================================
+  describe("8. ProductionEvidenceManager & Replay", () => {
+    it("8.1 seals evidence bundle and replay reconstructs historical run", () => {
+      const ec = new EvidenceControl();
+      ec.recordTimelineEntry("run-rep-1", "run.started", "Run started", "RunControl");
+      ec.recordTimelineEntry("run-rep-1", "tool.executed", "File write", "ToolGateway", { toolName: "write_file" });
+
+      const bundle = ec.sealEvidenceBundle({
+        runId: "run-rep-1",
+        missionId: "mission-1",
+        contractId: "contract-1",
+        contractHash: "hash-1",
+        workspacePath: tempDir,
+        repositoryPath: tempDir,
+        modelId: "mock-model",
+        contextDigest: "ctx-hash",
+        actionsCount: 1,
+        attemptsCount: 1,
+        gitDiff: "+ test diff",
+        testResults: { passed: true, totalTests: 5, passedTests: 5, failedTests: 0, durationMs: 120 },
+        verificationResult: { verified: true, sovereignVerifier: "Verifier_v1", proofHash: "proof-123" },
+        timeline: ec.getTimeline("run-rep-1"),
+        disposition: "ACCEPTED",
+        completedAt: new Date().toISOString(),
+      });
+
+      expect(bundle.bundleDigest).toHaveLength(64);
+
+      const replay = new ProductionReplayEngine();
+      const report = replay.reconstructRun(bundle);
+      expect(report.runId).toBe("run-rep-1");
+      expect(report.reconstructedSuccessfully).toBe(true);
+      expect(report.verification.verified).toBe(true);
+    });
+  });
+
+  // ============================================================================
+  // 9. ProductionRecoveryService
+  // ============================================================================
+  describe("9. ProductionRecoveryService", () => {
+    it("9.1 recovers interrupted active runs safely after crash", () => {
+      const mc = new MissionControl();
+      const rc = new RunControl();
+      const recovery = new ProductionRecoveryService(rc);
+
+      const m = mc.createMission({ title: "T", description: "D", repositoryPath: tempDir });
+      const r = rc.createRun(m);
+      rc.transitionStatus(r.runId, "EXECUTING");
+
+      const outcomes = recovery.recoverInterruptedRuns();
+      expect(outcomes.length).toBe(1);
+      expect(outcomes[0]?.runId).toBe(r.runId);
+      expect(outcomes[0]?.statusBefore).toBe("EXECUTING");
+      expect(rc.getRun(r.runId)?.status).toBe("FAILED"); // Interrupted execution fenced
+    });
+  });
+
+  // ============================================================================
+  // 10. ProductionDoctor & EmeraldCli
+  // ============================================================================
+  describe("10. ProductionDoctor & EmeraldCli", () => {
+    it("10.1 doctor runs all diagnostics and reports status", async () => {
+      const doctor = new ProductionDoctor(config);
+      const report = await doctor.runDiagnostics();
+
+      expect(report.checks.length).toBeGreaterThanOrEqual(5);
+      const components = report.checks.map((c) => c.component);
+      expect(components).toContain("Node.js Runtime");
+      expect(components).toContain("Git CLI");
+      expect(components).toContain("Workspace Filesystem");
+      expect(components).toContain("SQLite State Store");
+    });
+
+    it("10.2 EmeraldCli dispatches commands cleanly", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const initRes = await cli.run(["init"]);
+      expect(initRes.exitCode).toBe(0);
+      expect(initRes.output).toContain("Initialized");
+
+      const docRes = await cli.run(["doctor"]);
+      expect(docRes.output).toContain("Diagnostics");
+
+      const missionRes = await cli.run(["mission", "create", "BugFixTask", "Fix memory bug", tempDir]);
+      expect(missionRes.exitCode).toBe(0);
+      expect(missionRes.output).toContain("Created Mission");
+    });
+  });
+});
