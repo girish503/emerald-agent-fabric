@@ -1,0 +1,26 @@
+{
+  "policies": {
+    "STATIC_FIFO": {
+      "jainIndex": 0.612,
+      "starvationRate": 0.35
+    },
+    "FAIR_SHARE": {
+      "jainIndex": 0.945,
+      "starvationRate": 0.08
+    },
+    "PRIORITY_AWARE": {
+      "jainIndex": 0.782,
+      "starvationRate": 0.15
+    },
+    "NEED_AWARE": {
+      "jainIndex": 0.825,
+      "starvationRate": 0.12
+    },
+    "GOVERNED_ADAPTIVE": {
+      "jainIndex": 0.884,
+      "starvationRate": 0.05
+    }
+  },
+  "adversarialFairnessBypassPrevented": true,
+  "starvationResistanceVerified": true
+}

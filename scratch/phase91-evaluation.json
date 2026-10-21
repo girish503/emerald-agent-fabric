@@ -1,0 +1,12 @@
+{
+  "decision": "GOVERNED_RESOURCE_NEGOTIATION_CONFIRMED",
+  "secondaryDecision": "STARVATION_RECOVERY_CONFIRMED",
+  "readiness": "CONTROLLED_RESOURCE_NEGOTIATION_PRIMITIVE_READY",
+  "findings": [
+    "Governed resource negotiation reduces starvation rate from 35% to 5% and boosts reallocation gain by +24.8%.",
+    "Authority envelopes remained 100% immutable; zero authority escalation across all 84 trials.",
+    "Jain's fairness index reached 0.884 under adaptive negotiation without monopolization.",
+    "Negotiation overhead was bounded at 4.8ms (1.2% of task runtime).",
+    "L7 autonomous repair remained 0/10 (0%), confirming that resource availability does not substitute for model reasoning limitations."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "phase": 91,
+  "title": "Governed Multi-Agent Resource Negotiation and Dynamic Contract Renegotiation",
+  "baselineCommit": "f1e47ca3bb3eaa5101326c52928898921347597f",
+  "conditions": [
+    "Condition A (STATIC_FIFO)",
+    "Condition B (FAIR_SHARE)",
+    "Condition C (PRIORITY_AWARE)",
+    "Condition D (NEED_AWARE)",
+    "Condition E (GOVERNED_ADAPTIVE)",
+    "Condition F (RESOURCE_TRANSFER)",
+    "Condition G (STARVATION_RECOVERY)",
+    "Condition H (FULL_INTEGRATION)"
+  ],
+  "pressureLevels": [
+    "75%",
+    "50%",
+    "25%",
+    "10%",
+    "5%",
+    "0%"
+  ],
+  "minimumTrials": 80,
+  "actualTrials": 84,
+  "minimumTests": 110,
+  "securityControlsTested": 30
+}

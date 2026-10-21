@@ -1,0 +1,65 @@
+{
+  "count": 5,
+  "contracts": [
+    {
+      "contractId": "contract-analyzer-01",
+      "agentId": "agent-analyzer",
+      "role": "ANALYZER",
+      "allocationVersion": 2,
+      "wallTimeMs": 60000,
+      "toolCalls": 20,
+      "modelCalls": 10,
+      "status": "ACTIVE",
+      "authoritative": false,
+      "terminalAuthority": false
+    },
+    {
+      "contractId": "contract-implementer-01",
+      "agentId": "agent-implementer",
+      "role": "IMPLEMENTER",
+      "allocationVersion": 3,
+      "wallTimeMs": 90000,
+      "toolCalls": 30,
+      "modelCalls": 15,
+      "status": "RENEGOTIATED",
+      "authoritative": false,
+      "terminalAuthority": false
+    },
+    {
+      "contractId": "contract-test-analyst-01",
+      "agentId": "agent-test-analyst",
+      "role": "TEST_ANALYST",
+      "allocationVersion": 2,
+      "wallTimeMs": 40000,
+      "toolCalls": 15,
+      "modelCalls": 8,
+      "status": "ACTIVE",
+      "authoritative": false,
+      "terminalAuthority": false
+    },
+    {
+      "contractId": "contract-reviewer-01",
+      "agentId": "agent-reviewer",
+      "role": "REVIEWER",
+      "allocationVersion": 1,
+      "wallTimeMs": 30000,
+      "toolCalls": 10,
+      "modelCalls": 5,
+      "status": "ACTIVE",
+      "authoritative": false,
+      "terminalAuthority": false
+    },
+    {
+      "contractId": "contract-reconciler-01",
+      "agentId": "agent-reconciler",
+      "role": "RECONCILER",
+      "allocationVersion": 1,
+      "wallTimeMs": 20000,
+      "toolCalls": 5,
+      "modelCalls": 2,
+      "status": "ACTIVE",
+      "authoritative": false,
+      "terminalAuthority": false
+    }
+  ]
+}

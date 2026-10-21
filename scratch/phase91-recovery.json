@@ -1,0 +1,22 @@
+{
+  "scenariosTested": 15,
+  "scenariosRecovered": 15,
+  "recoveryRate": 1,
+  "scenarios": [
+    "1. Request creation interrupt -> discarded cleanly",
+    "2. Schema validation fail -> fail closed",
+    "3. Version fence crash -> un-updated allocation preserved",
+    "4. Policy eval crash -> zero resources deducted",
+    "5. Pool allocation crash -> atomic rollback",
+    "6. Contract update crash -> state store rollback",
+    "7. Transfer source debit crash -> aborted, zero loss",
+    "8. Transfer target credit crash -> source debit rolled back",
+    "9. Provenance write crash -> unrecorded decision rejected",
+    "10. Merkle root mismatch -> audit fails closed",
+    "11. Consumption record crash -> remaining budget preserved",
+    "12. Starvation counter crash -> reconstituted from log",
+    "13. Lease expiration crash -> contract marked EXPIRED",
+    "14. Failover with pending request -> request re-fenced",
+    "15. Cold restart -> state store reconstitutes exact versions"
+  ]
+}

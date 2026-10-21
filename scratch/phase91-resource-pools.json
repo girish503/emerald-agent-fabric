@@ -1,0 +1,45 @@
+{
+  "poolId": "pool-phase91-production",
+  "totalCapacity": {
+    "wallTimeMs": 600000,
+    "toolCalls": 200,
+    "modelCalls": 100,
+    "contextBytes": 524288,
+    "outputBytes": 262144,
+    "candidateCount": 16,
+    "verificationCalls": 20,
+    "retryCount": 5
+  },
+  "hardCeiling": {
+    "wallTimeMs": 600000,
+    "toolCalls": 200,
+    "modelCalls": 100,
+    "contextBytes": 524288,
+    "outputBytes": 262144,
+    "candidateCount": 16,
+    "verificationCalls": 20,
+    "retryCount": 5
+  },
+  "allocated": {
+    "wallTimeMs": 240000,
+    "toolCalls": 80,
+    "modelCalls": 40,
+    "contextBytes": 262144,
+    "outputBytes": 131072,
+    "candidateCount": 8,
+    "verificationCalls": 8,
+    "retryCount": 2
+  },
+  "available": {
+    "wallTimeMs": 360000,
+    "toolCalls": 120,
+    "modelCalls": 60,
+    "contextBytes": 262144,
+    "outputBytes": 131072,
+    "candidateCount": 8,
+    "verificationCalls": 12,
+    "retryCount": 3
+  },
+  "pressureLevel": "NORMAL",
+  "poolDigest": "5b5a54dde2d34cade89b0805cd04b1c31d5aac94348252e4d9b1e2e3343d4384"
+}
