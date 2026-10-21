@@ -26,3 +26,6 @@ export * from "./goal-preemption-policy.js";
 export * from "./deadlock-detector.js";
 export * from "./deadlock-resolver.js";
 export * from "./deadlock-governance-policy.js";
+export * from "./fault-injector.js";
+export * from "./byzantine-agreement-coordinator.js";
+export * from "./fault-governance-policy.js";

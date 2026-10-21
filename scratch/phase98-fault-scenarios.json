@@ -1,0 +1,1266 @@
+{
+  "scenarioCount": 60,
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "scenarios": [
+    {
+      "scenarioId": "scen-crash-01",
+      "name": "CRASH Scenario #1",
+      "description": "Controlled fault injection for CRASH #1",
+      "level": 1,
+      "condition": "B",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 50,
+      "parameters": {
+        "repetition": 1,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "bedb746a8f9f973dc74e1395f818762eda9fa1169b9ac0f30d4aa1b32f486f3a",
+      "digest": "88a3097c02491c37fed3e9fcea7dc7ce3470d1254b990932966d7facf599f0bb"
+    },
+    {
+      "scenarioId": "scen-crash-02",
+      "name": "CRASH Scenario #2",
+      "description": "Controlled fault injection for CRASH #2",
+      "level": 1,
+      "condition": "C",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 100,
+      "parameters": {
+        "repetition": 2,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "c1e48a2af76ba15c9f6aa3e3393b31c80182bfc7c396cee6fba1783d91183fda",
+      "digest": "baeec5bfbf62024dd74bfa620c3e87687fc63911dcf8229f7a1c38a1072caf3b"
+    },
+    {
+      "scenarioId": "scen-crash-03",
+      "name": "CRASH Scenario #3",
+      "description": "Controlled fault injection for CRASH #3",
+      "level": 1,
+      "condition": "D",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 150,
+      "parameters": {
+        "repetition": 3,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "f18c08b413e87293da4b2fd48a129303682b06e9e24b4f29102eecc6eb9ba0d4",
+      "digest": "3fe4e078671c69797a5eba1a6c6408da21ec47f95b2c281decdcde80b926f3a2"
+    },
+    {
+      "scenarioId": "scen-crash-04",
+      "name": "CRASH Scenario #4",
+      "description": "Controlled fault injection for CRASH #4",
+      "level": 1,
+      "condition": "E",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 200,
+      "parameters": {
+        "repetition": 4,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "19b7f9259fec8c77b7bb7c9267a380a628583197bc48628986834e396fa0e6de",
+      "digest": "b31ce70c1b6bf3ec0d0c3209863dd5454119e93a9069d58799fe63ff5db42c8c"
+    },
+    {
+      "scenarioId": "scen-crash-05",
+      "name": "CRASH Scenario #5",
+      "description": "Controlled fault injection for CRASH #5",
+      "level": 1,
+      "condition": "F",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 250,
+      "parameters": {
+        "repetition": 5,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "39820e12dfa344716148e73e159e333a253b67db89160f99605dfc56b9c78c8e",
+      "digest": "bcba23f71d62ffca518b10de6745d239fd3fa2f8369228765c6e5c0c65f3dcde"
+    },
+    {
+      "scenarioId": "scen-crash-06",
+      "name": "CRASH Scenario #6",
+      "description": "Controlled fault injection for CRASH #6",
+      "level": 1,
+      "condition": "G",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 300,
+      "parameters": {
+        "repetition": 6,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "030d055bf4b41bdc825858b025bbbdac2942c2e6e032363aebe74eae6754f202",
+      "digest": "c04bbd30fcbeacf188bd8b2365d0103a3b1b0fa9c909a23cf10445cbffad6ca2"
+    },
+    {
+      "scenarioId": "scen-crash-07",
+      "name": "CRASH Scenario #7",
+      "description": "Controlled fault injection for CRASH #7",
+      "level": 1,
+      "condition": "H",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 350,
+      "parameters": {
+        "repetition": 7,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "d6481b7c8aade744df82b7ac2adc01a3927fcfee47fbf6dfc94344acb0a9bd9d",
+      "digest": "3978dac26076c0ea1093e384e0a92a4a2c99070704369ea74dc2bb704d48826c"
+    },
+    {
+      "scenarioId": "scen-crash-08",
+      "name": "CRASH Scenario #8",
+      "description": "Controlled fault injection for CRASH #8",
+      "level": 1,
+      "condition": "I",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 400,
+      "parameters": {
+        "repetition": 8,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "3eeaca6766546a2f24623069f9f6a150018ee018b3d90150f8d24c88f827a3a8",
+      "digest": "b4b093e6ac74bdd4258efa3732824e9e3bc1e2c57efe347311e2ff1d14666df3"
+    },
+    {
+      "scenarioId": "scen-crash-09",
+      "name": "CRASH Scenario #9",
+      "description": "Controlled fault injection for CRASH #9",
+      "level": 1,
+      "condition": "J",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 450,
+      "parameters": {
+        "repetition": 9,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "4740ac3d3913b1faa61e489b3e242a323a308c40a23f392e34d62f3bb4f75bd9",
+      "digest": "63a81d500e354db4a86eae331a531abc0150fa40a9e9e5bc4af5e3bcc6b1bbd1"
+    },
+    {
+      "scenarioId": "scen-crash-10",
+      "name": "CRASH Scenario #10",
+      "description": "Controlled fault injection for CRASH #10",
+      "level": 1,
+      "condition": "A",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "CRASH",
+      "classification": "CRASH_FAIL_STOP",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 500,
+      "parameters": {
+        "repetition": 10,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "7812427659091e64577cd4ffb9d358678bb88508c6b84b11300d31a18f6a41fd",
+      "digest": "cb36b6bf4dc690fbcebca6a6ffe00c353e00b166af324c06c7c9481c2a33c365"
+    },
+    {
+      "scenarioId": "scen-part-01",
+      "name": "PARTITION Scenario #1",
+      "description": "Controlled fault injection for PARTITION #1",
+      "level": 1,
+      "condition": "B",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 50,
+      "parameters": {
+        "repetition": 1,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "f166ad638152dcbbfa1ef58a5e300d35ff1886694729ca1f6323c2a55a7f5e63",
+      "digest": "1bb5676bdf619a856108739982bac5a393df77a28f65a009414bc0f5facdf06b"
+    },
+    {
+      "scenarioId": "scen-part-02",
+      "name": "PARTITION Scenario #2",
+      "description": "Controlled fault injection for PARTITION #2",
+      "level": 2,
+      "condition": "C",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 100,
+      "parameters": {
+        "repetition": 2,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "00eb2130cdfeaed5806abed31c93d709a88ffc9a9477b958d19af939ad78bbd5",
+      "digest": "691144841de0b5a181d8944efab53f4da439ecf42fcb5f1f1b9c9b00c2e687a4"
+    },
+    {
+      "scenarioId": "scen-part-03",
+      "name": "PARTITION Scenario #3",
+      "description": "Controlled fault injection for PARTITION #3",
+      "level": 2,
+      "condition": "D",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 150,
+      "parameters": {
+        "repetition": 3,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "4cac2c75d568fcadcbe2056b4cf9f8abcbae523b41105350b27eae7091316dda",
+      "digest": "f8762eb02af3425bf685f89e8cdcf4644aec7ca9ac34b11d05d2d053e17bb3ba"
+    },
+    {
+      "scenarioId": "scen-part-04",
+      "name": "PARTITION Scenario #4",
+      "description": "Controlled fault injection for PARTITION #4",
+      "level": 2,
+      "condition": "E",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 200,
+      "parameters": {
+        "repetition": 4,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "188f7a690d6cb5cb7b505d57c6ccd949a8d138a8048a325e55ab71d0ee00f7e9",
+      "digest": "42a3619bf95f07f130cc1227f6c888f301795f7dc67825a1175809f82738e551"
+    },
+    {
+      "scenarioId": "scen-part-05",
+      "name": "PARTITION Scenario #5",
+      "description": "Controlled fault injection for PARTITION #5",
+      "level": 2,
+      "condition": "F",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 250,
+      "parameters": {
+        "repetition": 5,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "567181b370d8fe1d20b183d91bb2381767d6b7f799f4e88c8225785e90bf3d95",
+      "digest": "f72e3753c4a94de98c12161610507b39e874d84734485340ed0b17d126518292"
+    },
+    {
+      "scenarioId": "scen-part-06",
+      "name": "PARTITION Scenario #6",
+      "description": "Controlled fault injection for PARTITION #6",
+      "level": 2,
+      "condition": "G",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 300,
+      "parameters": {
+        "repetition": 6,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "115a6b5e52f42f7027bf5f448de462cdf46af20011c9f16f0bf87d62c58ecd98",
+      "digest": "156c903dc1511b9eea5851ba6de8bc27381ec93e71a9cf607feeb0947401fc96"
+    },
+    {
+      "scenarioId": "scen-part-07",
+      "name": "PARTITION Scenario #7",
+      "description": "Controlled fault injection for PARTITION #7",
+      "level": 2,
+      "condition": "H",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 350,
+      "parameters": {
+        "repetition": 7,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "251c1e6679ebcb61959d67edba34864b2be320edff6e0fe8e288f564357718ed",
+      "digest": "56882e1f3bb0051251548a872ea5a12302f9028cea0ce550b5d07c32504b3a8e"
+    },
+    {
+      "scenarioId": "scen-part-08",
+      "name": "PARTITION Scenario #8",
+      "description": "Controlled fault injection for PARTITION #8",
+      "level": 2,
+      "condition": "I",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 400,
+      "parameters": {
+        "repetition": 8,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "9816526cb3a0c55f3872ff47a30790a11ed8af858c95b26bdf0304b62a376336",
+      "digest": "47eb1a7f7b23be12b0c032bea1e2ffa48aadbff79184266961be36702f3dcf5a"
+    },
+    {
+      "scenarioId": "scen-part-09",
+      "name": "PARTITION Scenario #9",
+      "description": "Controlled fault injection for PARTITION #9",
+      "level": 2,
+      "condition": "J",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 450,
+      "parameters": {
+        "repetition": 9,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "71e3a72ae1b684ac4e80fdc59d1b168b7967804082e34b00ad59170027a92c5e",
+      "digest": "50a55ed13f90f806c439624c0058e9fed4f10c0e02e0245e8fd272d7488aeb11"
+    },
+    {
+      "scenarioId": "scen-part-10",
+      "name": "PARTITION Scenario #10",
+      "description": "Controlled fault injection for PARTITION #10",
+      "level": 2,
+      "condition": "A",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "PARTITION",
+      "classification": "PARTITION_ISOLATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 500,
+      "parameters": {
+        "repetition": 10,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "419d6bfe2384950b61362e15dffbf697e3138d77871c51942fbb45f8bbc2861f",
+      "digest": "51b1ffb7ab1f3d57d610c021e8be628ae42ee0931c61e91a70f144d8c462d0e2"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-01",
+      "name": "REORDER Scenario #1",
+      "description": "Controlled fault injection for REORDER #1",
+      "level": 2,
+      "condition": "B",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 50,
+      "parameters": {
+        "repetition": 1,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "f4671a079c058803895fa03e370467fe19b296184cbb6b2e6f91bdfb96c96dbc",
+      "digest": "16ca1d31ba2d4eb7be75e421699e91b1a4955a9f7621a4aad7b9e63064da0586"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-02",
+      "name": "REORDER Scenario #2",
+      "description": "Controlled fault injection for REORDER #2",
+      "level": 2,
+      "condition": "C",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 100,
+      "parameters": {
+        "repetition": 2,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "68939d283fe9f02f4c21d5f0fd08eabf3419e385aafeab4dfc221806db1172f2",
+      "digest": "6bccab46d8e9048e59dfd71c586d41b6957dd95ce3902a7a7564dc5795eaa5e0"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-03",
+      "name": "REORDER Scenario #3",
+      "description": "Controlled fault injection for REORDER #3",
+      "level": 2,
+      "condition": "D",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 150,
+      "parameters": {
+        "repetition": 3,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "b70ded09647229653e7f554c3cf8bcbcca0ce18ce0467b8cf206575f239344f0",
+      "digest": "6b5407d84bf7a211fb1eda3ffcce97a7ef6bdf0511dbc30871097b6f493ecab8"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-04",
+      "name": "REORDER Scenario #4",
+      "description": "Controlled fault injection for REORDER #4",
+      "level": 3,
+      "condition": "E",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 200,
+      "parameters": {
+        "repetition": 4,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "3d8d46940f5595a32cbefed818b946fe6fdf9a9c61bf1abf11a982a560416335",
+      "digest": "f459ad1c87417b2ebfcaabb08ab1171b16e03a4b454fd0fdbfa442c1e646283c"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-05",
+      "name": "REORDER Scenario #5",
+      "description": "Controlled fault injection for REORDER #5",
+      "level": 3,
+      "condition": "F",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 250,
+      "parameters": {
+        "repetition": 5,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "d498212020a0b77619232e9abf426db53ec1487c8da788dcb240dcaae7b275d4",
+      "digest": "cc860178d2fc9cc324887f6de25443bf5e7925bd0471cc334607bcd861cec2b7"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-06",
+      "name": "REORDER Scenario #6",
+      "description": "Controlled fault injection for REORDER #6",
+      "level": 3,
+      "condition": "G",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 300,
+      "parameters": {
+        "repetition": 6,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "075b41c7d655be9f04e61781a3390df80f5c24e5cf87537b15168432c921f0d2",
+      "digest": "90e932f155ed7ade95f009614b06362e77764f500c2c4ee47386b453ecb652fd"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-07",
+      "name": "REORDER Scenario #7",
+      "description": "Controlled fault injection for REORDER #7",
+      "level": 3,
+      "condition": "H",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 350,
+      "parameters": {
+        "repetition": 7,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "41819bfeb453cc584852299cfa0a72a69d482ef173bbabe8ed2fb7769ae1cb76",
+      "digest": "f3d1e79973e6e4f19283914221b83d4802add5992d54914d507597fa66441137"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-08",
+      "name": "REORDER Scenario #8",
+      "description": "Controlled fault injection for REORDER #8",
+      "level": 3,
+      "condition": "I",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 400,
+      "parameters": {
+        "repetition": 8,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "d6ed49a3727841645fff2a961989550ae09e83b9eeaeeba1c710afe241eeee56",
+      "digest": "f524f9d4316a619cc07ad546773ba56beb367ba43fe90e068dad2af61cdda56d"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-09",
+      "name": "REORDER Scenario #9",
+      "description": "Controlled fault injection for REORDER #9",
+      "level": 3,
+      "condition": "J",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 450,
+      "parameters": {
+        "repetition": 9,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "7b82257e690e33b61622371b3de8685cac202fac71b05c3327d59f8b321cd71d",
+      "digest": "e18eae4dccc001af941407f49db65a934fd910d6f08cac4b19f12f1b6d77793f"
+    },
+    {
+      "scenarioId": "scen-corrupt-reorder-10",
+      "name": "REORDER Scenario #10",
+      "description": "Controlled fault injection for REORDER #10",
+      "level": 3,
+      "condition": "A",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "REORDER",
+      "classification": "TRANSIENT_COMMUNICATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 500,
+      "parameters": {
+        "repetition": 10,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "2af99391f4eb8fde8e65c07a8d710a39b71e57a42f618bc77e6a4eb5ef8db49c",
+      "digest": "d5911c7318d5f977d0cab92c5e5af9f056b55e6f307aa8bb702ea9bc5609dc67"
+    },
+    {
+      "scenarioId": "scen-equiv-01",
+      "name": "EQUIVOCATING_AGENT Scenario #1",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #1",
+      "level": 3,
+      "condition": "B",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 50,
+      "parameters": {
+        "repetition": 1,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "16a6b7c95cb65fdd1ca048516957e28350787292321b0652e6e76c9d1e0477ac",
+      "digest": "494712f8b8639c53a7d3088d7183a8d941524dbdef24e5ddf3071c814dcea790"
+    },
+    {
+      "scenarioId": "scen-equiv-02",
+      "name": "EQUIVOCATING_AGENT Scenario #2",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #2",
+      "level": 3,
+      "condition": "C",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 100,
+      "parameters": {
+        "repetition": 2,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "ab8fe46e40e4ff0a53557ff2f737e9bcccd3c2d0a20289af34a19b75ef85717c",
+      "digest": "b3bc5989e8dae2155ba94889812acd2150ba42c27ac9ec39d384720a6d4b5997"
+    },
+    {
+      "scenarioId": "scen-equiv-03",
+      "name": "EQUIVOCATING_AGENT Scenario #3",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #3",
+      "level": 3,
+      "condition": "D",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 150,
+      "parameters": {
+        "repetition": 3,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "b51ce5696618000fb7d43bb6f821dcfdd8159b1222337ebad1fb7ed8254c68ec",
+      "digest": "988a0eb637d53939a078288e7f99f424250274c62f26c40aade0920a49ffc587"
+    },
+    {
+      "scenarioId": "scen-equiv-04",
+      "name": "EQUIVOCATING_AGENT Scenario #4",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #4",
+      "level": 3,
+      "condition": "E",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 200,
+      "parameters": {
+        "repetition": 4,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "898ad80bb3d3246430887132e3d36a7434fe75d5a0b2b6ba96c4fb7c807e2d8b",
+      "digest": "d03e32204862295d46872f2ff1d4cc70016a3c3054a36b11d27257b8b02150d9"
+    },
+    {
+      "scenarioId": "scen-equiv-05",
+      "name": "EQUIVOCATING_AGENT Scenario #5",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #5",
+      "level": 3,
+      "condition": "F",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 250,
+      "parameters": {
+        "repetition": 5,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "bddc1e2131cc397b868fb232eca8a1cd365b35ba2c926f2685f7c5e4fcef83f9",
+      "digest": "3b03bf8b50be39c3e628526c9bce4989016630941441464f2cda924cb4b64e74"
+    },
+    {
+      "scenarioId": "scen-equiv-06",
+      "name": "EQUIVOCATING_AGENT Scenario #6",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #6",
+      "level": 4,
+      "condition": "G",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 300,
+      "parameters": {
+        "repetition": 6,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "52cdfdd3689cdc872ee20f9d2d578bf720aba01631ebba9b1600f0dc8944d610",
+      "digest": "b46bb8d720649b5af6f9b0c516aaacf53a17fce4e0d01916e5b049c7ad76d031"
+    },
+    {
+      "scenarioId": "scen-equiv-07",
+      "name": "EQUIVOCATING_AGENT Scenario #7",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #7",
+      "level": 4,
+      "condition": "H",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 350,
+      "parameters": {
+        "repetition": 7,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "4bbc4786467cc2808ada853f7f39ead1ad6830d2aecc29e26490b4691dd64a20",
+      "digest": "0f1d39e588ed4f15c9f7c863799acbff7e4b6a9a83099bbff57e51d8ca177ea2"
+    },
+    {
+      "scenarioId": "scen-equiv-08",
+      "name": "EQUIVOCATING_AGENT Scenario #8",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #8",
+      "level": 4,
+      "condition": "I",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 400,
+      "parameters": {
+        "repetition": 8,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "7ee66fc0c8f007cd8c0d9f7ef3cd9a725c7546882840044272c136bceb7bec91",
+      "digest": "4912991bbf371abd1e9d4c02894e485ba4c70c2fb98b874ee0ed6293bfd3e819"
+    },
+    {
+      "scenarioId": "scen-equiv-09",
+      "name": "EQUIVOCATING_AGENT Scenario #9",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #9",
+      "level": 4,
+      "condition": "J",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 450,
+      "parameters": {
+        "repetition": 9,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "902f694ef5080f723bf985858a2a9c464bc47e280d10eb29898ca879fd315be4",
+      "digest": "52a60992165114223ceb63b07e3bc99c48565c766b62f54ef84e1365a144a05c"
+    },
+    {
+      "scenarioId": "scen-equiv-10",
+      "name": "EQUIVOCATING_AGENT Scenario #10",
+      "description": "Controlled fault injection for EQUIVOCATING_AGENT #10",
+      "level": 4,
+      "condition": "A",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "EQUIVOCATING_AGENT",
+      "classification": "EQUIVOCATION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 500,
+      "parameters": {
+        "repetition": 10,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "5c4ad68e903ae54d47be70724c6e271f665a198aee282278c3ebbd21b9ac0f39",
+      "digest": "3c3fadf36b1c60c457b53db68598b1d704ec160af0a8ac610a43bd27444231bc"
+    },
+    {
+      "scenarioId": "scen-spoof-01",
+      "name": "IDENTITY_MISMATCH Scenario #1",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #1",
+      "level": 4,
+      "condition": "B",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 50,
+      "parameters": {
+        "repetition": 1,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "548470e90914c1bac59fad95a5c5bd3fc4f3b4601dc12643872a1e8cd994b7ab",
+      "digest": "5bb4659e25df85764d6e6a9062fad43573a30e6f4a74c95db06daccab127297b"
+    },
+    {
+      "scenarioId": "scen-spoof-02",
+      "name": "IDENTITY_MISMATCH Scenario #2",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #2",
+      "level": 4,
+      "condition": "C",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 100,
+      "parameters": {
+        "repetition": 2,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "aba673fc221ee8949531b0b69b6e446f380530ab65e6d9657fca59826cffd9ce",
+      "digest": "e135ed38be9e4bb95cccd35874527b088838e62158d99e148abe0985dc49a565"
+    },
+    {
+      "scenarioId": "scen-spoof-03",
+      "name": "IDENTITY_MISMATCH Scenario #3",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #3",
+      "level": 4,
+      "condition": "D",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 150,
+      "parameters": {
+        "repetition": 3,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "95208615bb2b091d4ada3c648153dcdbf77e880ac3668b49abc03b6f6e0f5b8f",
+      "digest": "edb14732783a530c1207d0762aeb8f6105a94bf8bf42cf611d2e61d881b73a37"
+    },
+    {
+      "scenarioId": "scen-spoof-04",
+      "name": "IDENTITY_MISMATCH Scenario #4",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #4",
+      "level": 4,
+      "condition": "E",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 200,
+      "parameters": {
+        "repetition": 4,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "8e5898bf8f7e978d5d6ee1719df86c579a9265299952c6f051281948cd247345",
+      "digest": "dff5e86aefd219e3e6b1588e795a2d801dff7a0ecfc4660cc0eebe007eb13b70"
+    },
+    {
+      "scenarioId": "scen-spoof-05",
+      "name": "IDENTITY_MISMATCH Scenario #5",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #5",
+      "level": 4,
+      "condition": "F",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 250,
+      "parameters": {
+        "repetition": 5,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "0cc4729e7168143f21782ef50c5b0b8aea737852438788c90f114893c2ccc3ef",
+      "digest": "dbc7c419a3f6c447b20540bb0aaf8c09589f4994162fd5c6bf1ecd07bc877666"
+    },
+    {
+      "scenarioId": "scen-spoof-06",
+      "name": "IDENTITY_MISMATCH Scenario #6",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #6",
+      "level": 4,
+      "condition": "G",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 300,
+      "parameters": {
+        "repetition": 6,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "b972644a9b279d25cac6adb398b06731905e362ef78c50a875f04efc79a2adf6",
+      "digest": "362c45620b72d1aaf3e8017aad4d96b96b60077ca8723481997d5f2675590cca"
+    },
+    {
+      "scenarioId": "scen-spoof-07",
+      "name": "IDENTITY_MISMATCH Scenario #7",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #7",
+      "level": 4,
+      "condition": "H",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 350,
+      "parameters": {
+        "repetition": 7,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "ee019818b9411dbd8d4828f9a540d764a84d0f2e009a5fc9b92556a602f905b2",
+      "digest": "441a4b72365dc227b03022a48db254864004dfce39745dbd0951f6f43382dc1f"
+    },
+    {
+      "scenarioId": "scen-spoof-08",
+      "name": "IDENTITY_MISMATCH Scenario #8",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #8",
+      "level": 5,
+      "condition": "I",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 400,
+      "parameters": {
+        "repetition": 8,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "bf6b0a5e6995c520351b8419e0ef85baa226d05e97acb65e12125adb0d0e64b8",
+      "digest": "9717c841dfeab0edd0596cf821c0c5bb900f8660454665083c5c9209e22e980b"
+    },
+    {
+      "scenarioId": "scen-spoof-09",
+      "name": "IDENTITY_MISMATCH Scenario #9",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #9",
+      "level": 5,
+      "condition": "J",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 450,
+      "parameters": {
+        "repetition": 9,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "61dc4b6ea48d486e8d51ab01a4e97b5de1ee7021ab4865e623a96c96d9cbc9b7",
+      "digest": "f27d8eab01d20dd8f811189ae5d99bf33e875bdf4608fc6d2f9cead2744ff134"
+    },
+    {
+      "scenarioId": "scen-spoof-10",
+      "name": "IDENTITY_MISMATCH Scenario #10",
+      "description": "Controlled fault injection for IDENTITY_MISMATCH #10",
+      "level": 5,
+      "condition": "A",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "IDENTITY_MISMATCH",
+      "classification": "IDENTITY_SPOOF",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 500,
+      "parameters": {
+        "repetition": 10,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "9bd8f2e3ff64a1e0ee0f4b9946e06ffb6cbded1235fb9b4410e24c63a3ab1297",
+      "digest": "53e46ac693b2d1edb8634e9ce42c5765b91ce97c954fd0ad29ed0b6a8d02d73c"
+    },
+    {
+      "scenarioId": "scen-mixed-01",
+      "name": "UNKNOWN Scenario #1",
+      "description": "Controlled fault injection for UNKNOWN #1",
+      "level": 5,
+      "condition": "B",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 50,
+      "parameters": {
+        "repetition": 1,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "ebba2c889be5073d6b260b00357bc4f19078463f200494070cfd9d8c19378cbb",
+      "digest": "66d6aaa4bb4d6121332ee872f8fe35c50c52e29d2be38b2864a6c54131b856f0"
+    },
+    {
+      "scenarioId": "scen-mixed-02",
+      "name": "UNKNOWN Scenario #2",
+      "description": "Controlled fault injection for UNKNOWN #2",
+      "level": 5,
+      "condition": "C",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 100,
+      "parameters": {
+        "repetition": 2,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "d83be71379f5c286f0ea24035d6024f11df16e115a91bd24aaa9bb99c4379989",
+      "digest": "ffc07aafd670d3bdcf162a5a536de8ab9c561977e6690e0684ca8d8a36364b72"
+    },
+    {
+      "scenarioId": "scen-mixed-03",
+      "name": "UNKNOWN Scenario #3",
+      "description": "Controlled fault injection for UNKNOWN #3",
+      "level": 5,
+      "condition": "D",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 150,
+      "parameters": {
+        "repetition": 3,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "cb4acf4068afadc156d30522e5f52a90f82f64a7b33718d95c2727855b1fa0e9",
+      "digest": "78c0a955124ec079bf1ad36e2e28f0a2980c313f13042c76ed10b3f10d53e6e2"
+    },
+    {
+      "scenarioId": "scen-mixed-04",
+      "name": "UNKNOWN Scenario #4",
+      "description": "Controlled fault injection for UNKNOWN #4",
+      "level": 5,
+      "condition": "E",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 200,
+      "parameters": {
+        "repetition": 4,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "eaa17b822f4d17680a19c56e983c2e6c51e2148065f8a637f8afd55313e1810a",
+      "digest": "71232140f1aac0ce9717d76e64b506bc74b062173e433ff2bfb763c82c09da55"
+    },
+    {
+      "scenarioId": "scen-mixed-05",
+      "name": "UNKNOWN Scenario #5",
+      "description": "Controlled fault injection for UNKNOWN #5",
+      "level": 5,
+      "condition": "F",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 250,
+      "parameters": {
+        "repetition": 5,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "d3ecc6abe2d5cc36c2d4b844caff8595a80c7d6a46a641ee52b2bcd31e257488",
+      "digest": "284581477f0d3e9b0bc0dd2b50c112ec96bff149e6345b3d17acbc73a8a434f1"
+    },
+    {
+      "scenarioId": "scen-mixed-06",
+      "name": "UNKNOWN Scenario #6",
+      "description": "Controlled fault injection for UNKNOWN #6",
+      "level": 5,
+      "condition": "G",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 300,
+      "parameters": {
+        "repetition": 6,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "ebd33608337cffb16f451c166b16618c884221df20c3b80396e6194a52afe5dc",
+      "digest": "64b09acc13a38d758795ba541aa4103d11500fb156e262632125a4a5368f427e"
+    },
+    {
+      "scenarioId": "scen-mixed-07",
+      "name": "UNKNOWN Scenario #7",
+      "description": "Controlled fault injection for UNKNOWN #7",
+      "level": 5,
+      "condition": "H",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 350,
+      "parameters": {
+        "repetition": 7,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "b157286e9a53df93fca11f0335f8cf1dbe7ab9d29e54b4d1400be7561c4e9236",
+      "digest": "07232bedbf75c3da666ab1fbf09e8d5a0ce1153f20463510fe89ddfee26f6597"
+    },
+    {
+      "scenarioId": "scen-mixed-08",
+      "name": "UNKNOWN Scenario #8",
+      "description": "Controlled fault injection for UNKNOWN #8",
+      "level": 5,
+      "condition": "I",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 400,
+      "parameters": {
+        "repetition": 8,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "20d016ccb567c9710b0339ed5e8fc4206ee3d8f4dcbc9f5f04a1e6e2eb1f0618",
+      "digest": "aa81e8e757a6e6fe70f3c19254e1ee1515ff5a6da3443a6f08303dd27078589b"
+    },
+    {
+      "scenarioId": "scen-mixed-09",
+      "name": "UNKNOWN Scenario #9",
+      "description": "Controlled fault injection for UNKNOWN #9",
+      "level": 5,
+      "condition": "J",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 450,
+      "parameters": {
+        "repetition": 9,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "2bf79e790a04ec42ed828af0d80eeb901b916fc935b23c9c77e8c292c7b9c225",
+      "digest": "632a4bc7824bb4f59484c93a91b6750ad336fdcb741ec96a2da471195ef3a055"
+    },
+    {
+      "scenarioId": "scen-mixed-10",
+      "name": "UNKNOWN Scenario #10",
+      "description": "Controlled fault injection for UNKNOWN #10",
+      "level": 5,
+      "condition": "A",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "faultClass": "UNKNOWN",
+      "classification": "BYZANTINE_CORRUPTION",
+      "scheduleTimestamp": "2026-10-21T12:00:00.000Z",
+      "durationMs": 500,
+      "parameters": {
+        "repetition": 10,
+        "severity": "CONTROLLED"
+      },
+      "provenance": "edf796b1f5442dbff910768278c1f68724fa4ea94e8d1bd60537ab080472369d",
+      "digest": "e82033bb5e76f49f74523a5d20789b7a60592467bf94b6605591b81c2531fdc8"
+    }
+  ]
+}

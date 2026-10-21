@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "cohort": {
+    "l5Tasks": {
+      "total": 5,
+      "verified": 5,
+      "successRate": 1
+    },
+    "l6Tasks": {
+      "total": 5,
+      "verified": 5,
+      "successRate": 1
+    },
+    "l7AutonomousTasks": {
+      "total": 10,
+      "verified": 0,
+      "successRate": 0,
+      "note": "Autonomous L7 falsified under Byzantine fault injection; cannot establish unassisted sovereign correctness"
+    },
+    "l7CollaborativeTasks": {
+      "total": 10,
+      "verified": 10,
+      "successRate": 1,
+      "note": "Governed collaborative advisory consensus with clean-room sovereign verification achieves 10/10 verified completion"
+    }
+  },
+  "agreementSafetyRate": 1,
+  "agreementLivenessRateHealthy": 0.98,
+  "agreementLivenessRatePartitioned": 0,
+  "agreementLivenessPostRecovery": 1,
+  "falseAgreementRate": 0,
+  "splitBrainAcceptanceRate": 0,
+  "byzantineAuthorityLeakRate": 0,
+  "lostWorkRate": 0
+}

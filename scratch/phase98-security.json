@@ -1,0 +1,213 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "negativeControlsCount": 30,
+  "negativeControlsPassing": 30,
+  "cumulativeControlsCount": 690,
+  "cumulativeControlsPassing": 690,
+  "coreInvariantsCount": 20,
+  "coreInvariantsUpheld": 20,
+  "negativeControls": {
+    "N661": {
+      "description": "fault injection cannot grant authority",
+      "status": "FAIL_CLOSED"
+    },
+    "N662": {
+      "description": "Byzantine agent cannot issue terminal authority",
+      "status": "FAIL_CLOSED"
+    },
+    "N663": {
+      "description": "Byzantine agent cannot issue verification authority",
+      "status": "FAIL_CLOSED"
+    },
+    "N664": {
+      "description": "Byzantine agent cannot issue policy authority",
+      "status": "FAIL_CLOSED"
+    },
+    "N665": {
+      "description": "Byzantine agent cannot modify MissionContract",
+      "status": "FAIL_CLOSED"
+    },
+    "N666": {
+      "description": "Byzantine agent cannot expand capability",
+      "status": "FAIL_CLOSED"
+    },
+    "N667": {
+      "description": "Byzantine agent cannot expand goal scope",
+      "status": "FAIL_CLOSED"
+    },
+    "N668": {
+      "description": "Byzantine agent cannot expand repository scope",
+      "status": "FAIL_CLOSED"
+    },
+    "N669": {
+      "description": "Byzantine agent cannot expand workspace scope",
+      "status": "FAIL_CLOSED"
+    },
+    "N670": {
+      "description": "Byzantine agent cannot substitute agent identity",
+      "status": "FAIL_CLOSED"
+    },
+    "N671": {
+      "description": "Byzantine agent cannot substitute worker identity",
+      "status": "FAIL_CLOSED"
+    },
+    "N672": {
+      "description": "Byzantine agent cannot substitute lease identity",
+      "status": "FAIL_CLOSED"
+    },
+    "N673": {
+      "description": "Byzantine agent cannot substitute Action identity",
+      "status": "FAIL_CLOSED"
+    },
+    "N674": {
+      "description": "Byzantine agent cannot substitute Attempt identity",
+      "status": "FAIL_CLOSED"
+    },
+    "N675": {
+      "description": "stale message cannot override current state",
+      "status": "FAIL_CLOSED"
+    },
+    "N676": {
+      "description": "duplicate message cannot cause duplicate execution",
+      "status": "FAIL_CLOSED"
+    },
+    "N677": {
+      "description": "reordered message cannot violate sequence semantics",
+      "status": "FAIL_CLOSED"
+    },
+    "N678": {
+      "description": "dropped message cannot fabricate agreement",
+      "status": "FAIL_CLOSED"
+    },
+    "N679": {
+      "description": "partition cannot fabricate quorum",
+      "status": "FAIL_CLOSED"
+    },
+    "N680": {
+      "description": "split-brain quorum cannot issue terminal authority",
+      "status": "FAIL_CLOSED"
+    },
+    "N681": {
+      "description": "equivocation cannot create conflicting sovereign state",
+      "status": "FAIL_CLOSED"
+    },
+    "N682": {
+      "description": "Byzantine evidence cannot bypass provenance",
+      "status": "FAIL_CLOSED"
+    },
+    "N683": {
+      "description": "false verification claim cannot bypass verifier",
+      "status": "FAIL_CLOSED"
+    },
+    "N684": {
+      "description": "false completion claim cannot create Attempt success",
+      "status": "FAIL_CLOSED"
+    },
+    "N685": {
+      "description": "false priority cannot create priority authority",
+      "status": "FAIL_CLOSED"
+    },
+    "N686": {
+      "description": "false pre-emption cannot cancel governed work",
+      "status": "FAIL_CLOSED"
+    },
+    "N687": {
+      "description": "false deadlock evidence cannot trigger destructive resolution",
+      "status": "FAIL_CLOSED"
+    },
+    "N688": {
+      "description": "fault injection cannot alter historical evidence",
+      "status": "FAIL_CLOSED"
+    },
+    "N689": {
+      "description": "quorum cannot modify contract identity",
+      "status": "FAIL_CLOSED"
+    },
+    "N690": {
+      "description": "agreement cannot become sovereign authority",
+      "status": "FAIL_CLOSED"
+    }
+  },
+  "coreInvariants": {
+    "B1": {
+      "description": "Fault injection is test-only",
+      "status": "UPHELD"
+    },
+    "B2": {
+      "description": "Fault evidence is immutable",
+      "status": "UPHELD"
+    },
+    "B3": {
+      "description": "Failure suspicion is not failure proof",
+      "status": "UPHELD"
+    },
+    "B4": {
+      "description": "Byzantine claims are untrusted observations",
+      "status": "UPHELD"
+    },
+    "B5": {
+      "description": "Quorum membership is governed",
+      "status": "UPHELD"
+    },
+    "B6": {
+      "description": "Quorum cannot expand authority",
+      "status": "UPHELD"
+    },
+    "B7": {
+      "description": "Partitioned state cannot silently overwrite state",
+      "status": "UPHELD"
+    },
+    "B8": {
+      "description": "Split-brain state cannot issue terminal authority",
+      "status": "UPHELD"
+    },
+    "B9": {
+      "description": "Agreement is not verification",
+      "status": "UPHELD"
+    },
+    "B10": {
+      "description": "Agreement is not terminal success",
+      "status": "UPHELD"
+    },
+    "B11": {
+      "description": "Agreement cannot modify MissionContract",
+      "status": "UPHELD"
+    },
+    "B12": {
+      "description": "Message identity is immutable",
+      "status": "UPHELD"
+    },
+    "B13": {
+      "description": "Message sequence is monotonic",
+      "status": "UPHELD"
+    },
+    "B14": {
+      "description": "Stale messages cannot override current state",
+      "status": "UPHELD"
+    },
+    "B15": {
+      "description": "Duplicate messages cannot duplicate execution",
+      "status": "UPHELD"
+    },
+    "B16": {
+      "description": "Equivocation is detectable",
+      "status": "UPHELD"
+    },
+    "B17": {
+      "description": "Conflicting evidence is preserved",
+      "status": "UPHELD"
+    },
+    "B18": {
+      "description": "Reconciliation is deterministic",
+      "status": "UPHELD"
+    },
+    "B19": {
+      "description": "Sovereign verification remains final",
+      "status": "UPHELD"
+    },
+    "B20": {
+      "description": "Byzantine resolution is bounded and fail-closed",
+      "status": "UPHELD"
+    }
+  }
+}

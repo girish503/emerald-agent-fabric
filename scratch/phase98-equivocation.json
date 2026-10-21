@@ -1,0 +1,84 @@
+{
+  "equivocationCount": 4,
+  "equivocationDetectionRate": 1,
+  "quarantinedAgents": [
+    "agent-byz-01",
+    "agent-byz-02",
+    "agent-byz-03",
+    "agent-byz-04"
+  ],
+  "records": [
+    {
+      "evidenceId": "equiv-rec-1",
+      "agentId": "agent-byz-01",
+      "subject": "Attempt #1 completion",
+      "conflictingMessageIds": [
+        "msg-eq-a-0",
+        "msg-eq-b-0"
+      ],
+      "conflictingMessageHashes": [
+        "dcecba9cf50a786620c9a3f43f6928d737a5da1cbda79296295f73cbcd13e12d",
+        "e8baab2bb176f52d707f5552ab4e4cd75a3fc211b0ad93d155a626b44100629f"
+      ],
+      "observedContradiction": "Agent agent-byz-01 asserted conflicting values on Attempt #1 completion",
+      "sequence": 1,
+      "provenanceRoot": "bf2807099404955410ceaebfcd34217f8ca97debffc045193f7f55f505a7bb53",
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "ccf3b06eae20d1588487773469e01af73d6d15837a4e5765786af2d9ea2225fc"
+    },
+    {
+      "evidenceId": "equiv-rec-2",
+      "agentId": "agent-byz-02",
+      "subject": "Working tree hash",
+      "conflictingMessageIds": [
+        "msg-eq-a-1",
+        "msg-eq-b-1"
+      ],
+      "conflictingMessageHashes": [
+        "ff6879e73b45563296b2d9120b1d7de39bfbcbe4321b3172f4f4bdf003717a69",
+        "7a85bf407018d4db2881c34a34be2808b68f1ac08524d6a8cc41ed235d0e4c27"
+      ],
+      "observedContradiction": "Agent agent-byz-02 asserted conflicting values on Working tree hash",
+      "sequence": 2,
+      "provenanceRoot": "6d9869b87ab9679560d67003dc01cbe4cd97168e2a2515a62479cf60878d565d",
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "21156c0e463c1cde415e982c988533c4b6ff33a4e82ad85985728782ce9826cb"
+    },
+    {
+      "evidenceId": "equiv-rec-3",
+      "agentId": "agent-byz-03",
+      "subject": "Lease ownership",
+      "conflictingMessageIds": [
+        "msg-eq-a-2",
+        "msg-eq-b-2"
+      ],
+      "conflictingMessageHashes": [
+        "61fa1f84a861d652d00c175e270392aeac28dd8f82fadbd53422d07619265e00",
+        "31c55331543459bf289981cb4252283740c1c3861965d2e86f0caaac635300c6"
+      ],
+      "observedContradiction": "Agent agent-byz-03 asserted conflicting values on Lease ownership",
+      "sequence": 3,
+      "provenanceRoot": "d4390c830614f71eba039fd28956822b62ab80a6a680bd6b3a9838896455d960",
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "e2fbae2096a899305a98768173006c61c6f88b481e5608cf29cc4cf63ced4af3"
+    },
+    {
+      "evidenceId": "equiv-rec-4",
+      "agentId": "agent-byz-04",
+      "subject": "Verification status",
+      "conflictingMessageIds": [
+        "msg-eq-a-3",
+        "msg-eq-b-3"
+      ],
+      "conflictingMessageHashes": [
+        "5897089282ba140d6d6b93e321b865dc508e0a17bae84aaae064f16031709500",
+        "afcf559d9148ad478ddec5518841715d908d7b06c9f808a285ae188249bcbdec"
+      ],
+      "observedContradiction": "Agent agent-byz-04 asserted conflicting values on Verification status",
+      "sequence": 4,
+      "provenanceRoot": "194d761c7e155dea69a49fa149e52a1e80cbed30d554f7382b302e229259158a",
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "416e85234e059e38911ce0a9c727ac97d27c24ba2904de176fddfcc0ab41b0d1"
+    }
+  ]
+}

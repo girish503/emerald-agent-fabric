@@ -1,0 +1,217 @@
+{
+  "totalRecoveryScenarios": 30,
+  "recoverySuccessRate": 1,
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "scenarios": [
+    {
+      "scenarioIndex": 1,
+      "scenarioName": "crash_before_message",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "d477704592e8357a64a1602033e9c58188793c02348eab13f410f50c78245d8f"
+    },
+    {
+      "scenarioIndex": 2,
+      "scenarioName": "crash_after_message",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "0542021455baeb4f42a0a2a2d98d2b2f9a06e154865bc2e89cccfd8f6d6f54c2"
+    },
+    {
+      "scenarioIndex": 3,
+      "scenarioName": "crash_after_quorum",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "c8e34b74043ce2012445eb113f769a037f106c7941f9b697e7e6454a7fe86636"
+    },
+    {
+      "scenarioIndex": 4,
+      "scenarioName": "crash_before_agreement_persistence",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "903192551956fb6ce6e595445657ef30cd7b9523ed2b2b4a82a2566842135748"
+    },
+    {
+      "scenarioIndex": 5,
+      "scenarioName": "crash_after_agreement_persistence",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "a119c153726c5e6ad0b384d9c39b6918967d765e8e5edf116735a9c1e3fed4a7"
+    },
+    {
+      "scenarioIndex": 6,
+      "scenarioName": "crash_during_partition",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "b889d1cc8983c07c1d4e4b89f76f54d4c327ac1e41eb50a0062c403fd4a1ba5a"
+    },
+    {
+      "scenarioIndex": 7,
+      "scenarioName": "crash_during_reconciliation",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "b30da2787f7d87adeeacfa339b29f3932f07f83eb35d23d66359d97d3ab8cefb"
+    },
+    {
+      "scenarioIndex": 8,
+      "scenarioName": "crash_during_action_exec",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "27c7cdf00e5f775e6b762da209606f3c1204ee81df06493eb02b71d83941d951"
+    },
+    {
+      "scenarioIndex": 9,
+      "scenarioName": "crash_during_attempt_exec",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "6f4e67a959d9c3161d2a119ad5c532367cd1f4e35e6166b24c644e550e670658"
+    },
+    {
+      "scenarioIndex": 10,
+      "scenarioName": "crash_during_verification",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "ddf18e42f0e3cb774ea03f8b641291c7266bcc6428a26a8a8f3a1eae5a5a43e5"
+    },
+    {
+      "scenarioIndex": 11,
+      "scenarioName": "crash_during_preemption",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "6e9b6e82791d5cbdb3722b77b5d35b25bc431e6e51e77841552b7dc4179aae3e"
+    },
+    {
+      "scenarioIndex": 12,
+      "scenarioName": "crash_during_deadlock_resolution",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "280b3ff8fc96f0d13ed3ee8b5224e264e9a89852d51e8752f5fb3a51582976a2"
+    },
+    {
+      "scenarioIndex": 13,
+      "scenarioName": "crash_during_speculative_rollback",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "e3ba37b8080eba26337a423a84fb5b7150e81ad3b7f2f221c2f35b71c482922d"
+    },
+    {
+      "scenarioIndex": 14,
+      "scenarioName": "crash_during_working_tree_recon",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "9394216b6aaef48e7b8ed108e55dd05d403c0a60d984a9998aae7232a29c157d"
+    },
+    {
+      "scenarioIndex": 15,
+      "scenarioName": "crash_during_role_handoff",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "fa2f1f79e40b30a41fd09c67572f804e067c4ea088c58d71311749d602ae7e34"
+    },
+    {
+      "scenarioIndex": 16,
+      "scenarioName": "stale_process_restart",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "61585a8ddb9a4639b737a297117c3a91c312b90cba6f3d2e9f7be0f58e12ee11"
+    },
+    {
+      "scenarioIndex": 17,
+      "scenarioName": "lease_loss",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "99b2e75e11ed1232f33c8afaa37e00b15954ad6dd0519b4153d003d2b928d9f5"
+    },
+    {
+      "scenarioIndex": 18,
+      "scenarioName": "identity_mismatch",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "461ac337cc0b427781b5efa811f14abfea5f769e500b10723bf8756d5235f82f"
+    },
+    {
+      "scenarioIndex": 19,
+      "scenarioName": "contract_mismatch",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "b42eb5d864f46dbd278b530fdb64b1e8cdce6594d342260ec8939f238d628d91"
+    },
+    {
+      "scenarioIndex": 20,
+      "scenarioName": "evidence_corruption",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "e39aff02f10f3bab37d9f16498ed172faa8399ab42daeb84002ecedf3e270ec9"
+    },
+    {
+      "scenarioIndex": 21,
+      "scenarioName": "duplicate_delivery",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "368228ec11a0f3e835865b9838fa27f6d339553d2630184dc6ea11bf7d1e31fb"
+    },
+    {
+      "scenarioIndex": 22,
+      "scenarioName": "delayed_delivery",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "9b5a5b3d27c1cd3e490916cd55f3dd3b5e7bb1a940f4a6473e40fafd426ef7e4"
+    },
+    {
+      "scenarioIndex": 23,
+      "scenarioName": "conflicting_delivery",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "58fac934da67305d7a7ebaa6ee4d8c5742040ebbead7881b728fe103a1fd6b46"
+    },
+    {
+      "scenarioIndex": 24,
+      "scenarioName": "equivocation",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "c2417a54693353cddae9591cff45ac8cabb289562fba3339ae3ed07c4da4b713"
+    },
+    {
+      "scenarioIndex": 25,
+      "scenarioName": "split_brain",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "53c30db5846df6e02f1545015de09227544079231e5b73bca81b30526f04ea66"
+    },
+    {
+      "scenarioIndex": 26,
+      "scenarioName": "quorum_recovery",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "6cac599867de83cd09b3c89f160fddfe4857a69c20c2499ae0be7bce1e36da31"
+    },
+    {
+      "scenarioIndex": 27,
+      "scenarioName": "membership_recovery",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "98c4717b38691c560e1a5b8f48baa4bb1f359ea69a5adc549ec46295fb39bb7f"
+    },
+    {
+      "scenarioIndex": 28,
+      "scenarioName": "memory_reconciliation",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "a176e48afa3bd330c150f0b19d650f198c3fb3aba0d7ff52d9a68759af1bdf63"
+    },
+    {
+      "scenarioIndex": 29,
+      "scenarioName": "final_sovereign_verification",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "0d943c768a52e6c022b0a7ff412508133cf3677009cc45c7a86123f0520a5625"
+    },
+    {
+      "scenarioIndex": 30,
+      "scenarioName": "terminal_completion",
+      "status": "PASSED",
+      "failClosedOrRecovered": true,
+      "digest": "076609f47480784e965349941e91da46697d2fd0c644ddcb34d573910ce3c978"
+    }
+  ]
+}

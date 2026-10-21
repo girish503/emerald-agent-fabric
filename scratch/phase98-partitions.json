@@ -1,0 +1,218 @@
+{
+  "partitionCount": 10,
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "partitions": [
+    {
+      "partitionId": "part-P1-1",
+      "topologyType": "P1",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 1,
+      "membershipVersion": 1,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "ff582686c2c17066f75db6d492de790c58d597ce2207579a7d3199dde27d108b"
+    },
+    {
+      "partitionId": "part-P2-2",
+      "topologyType": "P2",
+      "groups": [
+        [
+          "agent-1"
+        ],
+        [
+          "agent-2",
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [
+        "agent-1"
+      ],
+      "isRecovered": true,
+      "epoch": 2,
+      "membershipVersion": 2,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "490f596e685e681ecaf8107f135b8689ab8996fcc1bd2e9404a6d8e135eba3e2"
+    },
+    {
+      "partitionId": "part-P3-3",
+      "topologyType": "P3",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 3,
+      "membershipVersion": 3,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "35d363ad48abed70872423f21031a817ac8735a0b1f905bb8ec03944cb31890c"
+    },
+    {
+      "partitionId": "part-P4-4",
+      "topologyType": "P4",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 4,
+      "membershipVersion": 4,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "939e339490b02fc6dd308b1a1d833343e0a00e97058a1d88ffd16913464b8baf"
+    },
+    {
+      "partitionId": "part-P5-5",
+      "topologyType": "P5",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 5,
+      "membershipVersion": 5,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "e623f63733658cd70280807997ab01f04ad7419754b76a64f925bdbd5bed058c"
+    },
+    {
+      "partitionId": "part-P6-6",
+      "topologyType": "P6",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 6,
+      "membershipVersion": 6,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "5c34a7a73fdeaa0eec7b4f60336d3ff15685b4631848ec7a79b59677a347681d"
+    },
+    {
+      "partitionId": "part-P7-7",
+      "topologyType": "P7",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 7,
+      "membershipVersion": 7,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "600288501f57ea17b97fb62891a29cc40c3622e31a233261bb0850b4d93916b5"
+    },
+    {
+      "partitionId": "part-P8-8",
+      "topologyType": "P8",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 8,
+      "membershipVersion": 8,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "b445651e3e880a4e67f5f7a96540422970a18ec51dc8f2c860958975c51dd9d1"
+    },
+    {
+      "partitionId": "part-P9-9",
+      "topologyType": "P9",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 9,
+      "membershipVersion": 9,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "a5ca871fa1c9bbbfdaeacda74fb098b483264040cb747ec611f5d5862cffe726"
+    },
+    {
+      "partitionId": "part-P10-10",
+      "topologyType": "P10",
+      "groups": [
+        [
+          "agent-1",
+          "agent-2"
+        ],
+        [
+          "agent-3",
+          "agent-4"
+        ]
+      ],
+      "isolatedAgents": [],
+      "isRecovered": true,
+      "epoch": 10,
+      "membershipVersion": 10,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "recoveredAt": "2026-10-21T12:00:00.000Z",
+      "hash": "94d5dd33b6d7367711c36499b8a755c6b2e54aa213e085764fbac7a50e58fb93"
+    }
+  ]
+}

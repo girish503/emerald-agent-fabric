@@ -1,0 +1,966 @@
+{
+  "agreementCount": 20,
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "agreements": [
+    {
+      "agreementId": "agr-eval-01",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-1",
+      "proposalId": "prop-1",
+      "subject": "Subject for task 1",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-1.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "b77ae4324f5da8828259d865f1a6b3a63d0904d39d4e76d66f5e5241f8fe9921",
+        "dfea0ea1e494642e7b219608baf0466504dcf7f775cdd35e7958b1f4afdd0691"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "b50b2dbf6d297194e3e4eb196d845bfa6564a0f67aa9604635a83a6788b722e2",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 1,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "27ede64112e04474cecdacf49553c3ce818d1fe37b1a35f6ef0c5b878ca0283f"
+    },
+    {
+      "agreementId": "agr-eval-02",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-2",
+      "proposalId": "prop-2",
+      "subject": "Subject for task 2",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-2.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "d03eb1e9819050b6ab4ff31acb8b3406847f15d01c7a94cdc522a8f808ef4dd8",
+        "5db38ded5b5a7691a5bcf3162b7d539492fd8da30744e83f0ca89d765794f545"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "d74783bd18d73f76d75e4997c145224177545433e45a9b15f6a52e8e62487d92",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 2,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "567f18daa7bc2ede937ecfd77a19f432af26dcefea64acc082dba72fc7f66011"
+    },
+    {
+      "agreementId": "agr-eval-03",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-3",
+      "proposalId": "prop-3",
+      "subject": "Subject for task 3",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-3.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "d08c4d607cd5698a8473faf6724944e4ec2638fe19b131da80e0bab118cfb844",
+        "ac0f2dce19f9718b6c69afa66d50e8b388814ddd64d47349e6ac4b2e1ed5522d"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "c8e2cc36ee9cf80cabc9c3ff3785b231abc8177306153357f75f93b1121244c0",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 3,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "21f3ac85845408e0306df9617a636704a05bb2cb3c7783b2aed4afa4d0a96378"
+    },
+    {
+      "agreementId": "agr-eval-04",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-4",
+      "proposalId": "prop-4",
+      "subject": "Subject for task 4",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-4.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "7edfa15d33ff14bf92e0c0bbc5667d54488d237f410f7f7790b2ba6992e31c99",
+        "f34d7ad7d0be5e5518e24e4ce18a63f27346acb99a0614e9de5d14c65c43904d"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "3ef4ac65259308f19ceedc43d5861fff6572ef3217dc9fdc30181d6254a7e1f4",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 4,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "2766baa2779e101471ddff8817556e260d4c5845207c6df289f895f6cb94f04a"
+    },
+    {
+      "agreementId": "agr-eval-05",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-5",
+      "proposalId": "prop-5",
+      "subject": "Subject for task 5",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-5.ts"
+      },
+      "status": "PARTITIONED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "b1b3625637bffb6ecd84ebc889522ebaa8eef9d0b3b45ad1ad6ec094e89bf077",
+        "98b6ed121f6671087a4bb18afb55f54a097bb22963f94b1c66806b97ef217f25"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "b1bc977db6f8980b876be9d7296e9feb6347e7b0629567ecf2bf0cea4e463b98",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": false,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": true,
+      "createdSequence": 5,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "71dbf7cc40640fc6e52c67703ccb0bbfe94fdb5e7ef8d0030ff42e19bc1b1dfc"
+    },
+    {
+      "agreementId": "agr-eval-06",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-6",
+      "proposalId": "prop-6",
+      "subject": "Subject for task 6",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-6.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "6f4803eb803ba8ea54e7d158aaf112848ddb8194f502c3d319e8cb42f0e2a55c",
+        "5fcf6371eca14f5ccdf4bd0f7d95ce22b5c76156f63470dadd4bdd44b877ea7b"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "df78140d7d0461a9a8b47b56f10c1311e4bb7b5a651638b061603386af34637b",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 6,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "494f8f8d88d93c86bfb7311698ac3a321396adae64b44783009476a2e2c9ceff"
+    },
+    {
+      "agreementId": "agr-eval-07",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-7",
+      "proposalId": "prop-7",
+      "subject": "Subject for task 7",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-7.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "ac16d615fb1b88cd4a7d356c1a662eede2c646a3ce3dde8c4ff7a6045023798f",
+        "c0a3f7f115d04447570bf0eefa9e98b2cde73fa43eb7c5d7292a88345f0568b5"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "e936a081bb5dd3149ad54186a5e9d2883723522aba8d4159258324d50cd000e6",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 7,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "df1d294ae6aec90e9d19706ecc212230d1a8d6e516de6851f52b42092361addd"
+    },
+    {
+      "agreementId": "agr-eval-08",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-8",
+      "proposalId": "prop-8",
+      "subject": "Subject for task 8",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-8.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "e1f86f3186c1fe5171afae4e8a33d96d1c73cd36523395bbbeabb97c88ef5b40",
+        "9bdb761c83c40719a62b7e07606e61f3433fb3bafccdc2dec768daa9a8ce111a"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "f4dffc97ddf0a0dffa1bbe8f2da3498900f3149aedce438d55b99c0d38d21e0d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 8,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "a781022cebb78dcbcee5505aa9341b791c5411c295977197422c129e63874270"
+    },
+    {
+      "agreementId": "agr-eval-09",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-9",
+      "proposalId": "prop-9",
+      "subject": "Subject for task 9",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-9.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "9ffa81906f1dd4d47975c4503edd78882341a3c51c9dd4f104c9c4bfd90b3740",
+        "fee41c82d6ddd6e80d4fa6445ef508710a37952fb79d0724c4086787cdf2f593"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "4ac1e7e7fe8b2a3f34eea375284cf2b85d18167c438be99dc154da88b31eff77",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 9,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "fc5a88add17175ac23b7c6ed32fc08556ec9000cd9815df9e28fb3398cc24da8"
+    },
+    {
+      "agreementId": "agr-eval-10",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-10",
+      "proposalId": "prop-10",
+      "subject": "Subject for task 10",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-10.ts"
+      },
+      "status": "PARTITIONED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "1caf3475cfd1f67192d904552489955f936dc5a71cdf5e2d95e73c2eb92f8a8e",
+        "d91837098ec62b428187b0f5c6766fd5a3b4b6494458203e4f66fb1619b643fb"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "934e38c8b9a5a3edd955a7dbc34d8c4889fd975a8bd8bc0cbaa7490c1489fa16",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": false,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": true,
+      "createdSequence": 10,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "aef56c808c2b340493e7f171baa70ecce6384496952d3c6fd78f086e86f768bd"
+    },
+    {
+      "agreementId": "agr-eval-11",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-11",
+      "proposalId": "prop-11",
+      "subject": "Subject for task 11",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-11.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "30ff0b6c8bcac84ddbbe754fb9e81a4bb5ff6aebf3151fa3a21d889b42b9621a",
+        "6e2468fc5a71de38031b30ce089daa92d200d2f8a1c40c4a38b4023691f535df"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "1247d5d0743ffa347148b7bd8350a3c1cf4d7a1532d50ad44f71683deee37d53",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 11,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "dbc0c897ca710310a6d52b78eed5f072543e949a72f8aa932a624a9b3ea6d37a"
+    },
+    {
+      "agreementId": "agr-eval-12",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-12",
+      "proposalId": "prop-12",
+      "subject": "Subject for task 12",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-12.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "e92e1145774ede9205d47697d92e822f1b246055fcef66613673596f1214c774",
+        "32e24d420f68d0bc0a93d68755506b1173cf61bb2d6a5d9e250f7e520684ed78"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "31fa7fda29e026f1e7d2f0b461191f4cd0a07c92b047a840e95e8e67e855926d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 12,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "12818f55e7378458083168fbe2a9cda29908fd2b8dec0267a6e40977e68494ce"
+    },
+    {
+      "agreementId": "agr-eval-13",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-13",
+      "proposalId": "prop-13",
+      "subject": "Subject for task 13",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-13.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "914e9862e4996e84ac79f98b4e01b23a1699c90a05de45cba67f6f518506a570",
+        "8304f0d09603ace33827ad4713b741b6482010b14a9d3adb67bdbb2553cf8bc2"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "07ee9ecfe0aa493a5558f13e2d14821962efbc024521748d9bb8fd00b0461dee",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 13,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "71736651ee5df2cd0f1f285fa6fb01eafb48949a5d402534c125d70c4784cf3e"
+    },
+    {
+      "agreementId": "agr-eval-14",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-14",
+      "proposalId": "prop-14",
+      "subject": "Subject for task 14",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-14.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "0bab1586a2f872e935d775423874e7a95bd76482ec953a9430ac2089d242e6b4",
+        "1e19212e2466c280e533418618de33644e6a92170c815c18e1c2837e8552ec00"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "1b133817c41653260d8a6d4ba138d17a0575c12f8b46b2418606a9e0ded34cdf",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 14,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "1b6ed13e3e53c63657d61a5f497741a7dc27afdd8120e0efa3172f84ea34b04a"
+    },
+    {
+      "agreementId": "agr-eval-15",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-15",
+      "proposalId": "prop-15",
+      "subject": "Subject for task 15",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-15.ts"
+      },
+      "status": "PARTITIONED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "663884b1cdb21a5f693ea635cefc930c4598e056b65a97c39f35efa2c77ad04b",
+        "3e58b27da3a5a98d2cd6610da0c2dc52b0de0490121a21954c2b115e23ca9186"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "a744e6d3c156a6fa68568a6cb81ca3ab86e96bd2b38f734bf62dfaaa4535f13c",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": false,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": true,
+      "createdSequence": 15,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "d3316ac1332942d43eec7f8da0342cba6329b460bbd3bdafec397cb04b593028"
+    },
+    {
+      "agreementId": "agr-eval-16",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-16",
+      "proposalId": "prop-16",
+      "subject": "Subject for task 16",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-16.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "167bf7975e81a2900968fbcfdf239658118f43881eff1c515cd492403c4a39b7",
+        "ffa8e7539981a027a275d0753ea2b08d0eafc284971727fd503a9689dc14bedb"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "5ee9ddd5283d07f9589c0875b5ddad1b3662dc9b451e8a01bc0b86c6e37de426",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 16,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "d2ebefe6ea749e0e27ee79998c4e88be3fdaede3c324aed4514a813bc84ffe58"
+    },
+    {
+      "agreementId": "agr-eval-17",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-17",
+      "proposalId": "prop-17",
+      "subject": "Subject for task 17",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-17.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "cee88b17bf0454908afabdb08e4aa76d3ccb1f018aa65c2052da11edc97b22fe",
+        "ec60e1db611873d4e7ccd6b8cc76fc4bd85a8c2f188ced22e64842ee353fd924"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "9233e0f52a4f137afcaed5a84a2d6f04028c6063888fdc8b5b619202337aa4e0",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 17,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "6993bb3a719497577675d68a28a31c0f0a392c17892e8bc4ab689005c11f230a"
+    },
+    {
+      "agreementId": "agr-eval-18",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-18",
+      "proposalId": "prop-18",
+      "subject": "Subject for task 18",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-18.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "1a326a74f96da2600ee813fee89224619d3a94e98df80a15ce927dfe0931d2dd",
+        "fef2b3d524fed9ec6cdfc21ba19121b1e0d3530393acc02db3d2cc66df10c6fb"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "6d98ea73acc48310285ad4e8cf7553bd914069175c9f5b71457b9325efd9d51b",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 18,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "5e4f76316d373546a55a489b9da306f79164eeafa3f021684fe8db8f31fa38b7"
+    },
+    {
+      "agreementId": "agr-eval-19",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-19",
+      "proposalId": "prop-19",
+      "subject": "Subject for task 19",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-19.ts"
+      },
+      "status": "AGREED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "9bd24376a0485b3c0c2f60122391655888ecc9cb1e45295554ba2190c96d0500",
+        "dbac12cb6b1a02d532881a332dd82a1218bf10e2c6ebe3631ea2d4bf713b668c"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "266e2b5b074728330b4f2e26e70457a7d17dc445db82c9261a3db4155a14a74c",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": true,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": false,
+      "createdSequence": 19,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "53f41af556f335666853565adf1444d1c6fa0326553bd84cf92cc3090af64b9a"
+    },
+    {
+      "agreementId": "agr-eval-20",
+      "runId": "run-p98-eval",
+      "taskId": "task-p98-20",
+      "proposalId": "prop-20",
+      "subject": "Subject for task 20",
+      "candidateValue": {
+        "stepSuccess": true,
+        "verifiedCandidate": "patch-20.ts"
+      },
+      "status": "PARTITIONED",
+      "quorumPolicy": "GOVERNED_ADAPTIVE",
+      "membershipVersion": 1,
+      "participantSet": [
+        "agent-1",
+        "agent-2",
+        "agent-3",
+        "agent-4"
+      ],
+      "agreeingParticipants": [
+        "agent-1",
+        "agent-2",
+        "agent-3"
+      ],
+      "dissentingParticipants": [
+        "agent-4"
+      ],
+      "evidenceSet": [
+        "8163067d06ca99373245a58f3fd590e5897e08e72ed0e7371adec53c2abe3a74",
+        "1a3f87d51482c1933d3bb116c8651eedd6de1ee2c3c6cc877738349731177737"
+      ],
+      "missionContractId": "contract-p98-root",
+      "missionContractHash": "843e019040cf684ab29dfcf486022f8b8e1818922c33fed088808a710ca7d094",
+      "provenanceRoot": "baaeef93945720ab0cb73844e6cc1d73f384f0689c37a517a4a3b0671dff8aff",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "verificationAuthority": false,
+      "policyAuthority": false,
+      "confidence": 0.88,
+      "quorumReached": false,
+      "verified": true,
+      "splitBrainDetected": false,
+      "equivocationDetected": false,
+      "partitionBlocked": true,
+      "createdSequence": 20,
+      "agreedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "3090601ede918089fc70e1e5f3a8107df380d43054c7a22ca34edb931fe6f960"
+    }
+  ]
+}

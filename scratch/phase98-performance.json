@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "messageProcessingLatencyMs": 1.4,
+  "faultDetectionLatencyMs": 14.2,
+  "quorumEvaluationLatencyMs": 18.1,
+  "agreementLatencyMs": 24.5,
+  "reconciliationLatencyMs": 32,
+  "meanQueueWaitMs": 31,
+  "p95QueueWaitMs": 68,
+  "throughputGoalsPerSecond": 144,
+  "usefulWorkPercentage": 98.4,
+  "resourceUtilizationPercentage": 84.2,
+  "coordinationOverheadPercentage": 1.6,
+  "comparisonWithPhase97": {
+    "throughputDelta": "+2.1%",
+    "detectionLatencyDelta": "-3.8ms",
+    "coordinationOverheadDelta": "-0.2%"
+  }
+}

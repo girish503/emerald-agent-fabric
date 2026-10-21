@@ -1,0 +1,1026 @@
+{
+  "eventCount": 60,
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "events": [
+    {
+      "eventId": "evt-scen-crash-01",
+      "scenarioId": "scen-crash-01",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 1,
+      "expectedEffect": "Controlled fault injection for CRASH #1",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "bedb746a8f9f973dc74e1395f818762eda9fa1169b9ac0f30d4aa1b32f486f3a",
+      "hash": "a9dff5b189a0a46754347f3e14f604562e586418015574c419cf91e6bae3e7db"
+    },
+    {
+      "eventId": "evt-scen-crash-02",
+      "scenarioId": "scen-crash-02",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 2,
+      "expectedEffect": "Controlled fault injection for CRASH #2",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "c1e48a2af76ba15c9f6aa3e3393b31c80182bfc7c396cee6fba1783d91183fda",
+      "hash": "a27c24509c2f61d109a27b9f6dab68a4bf65f9cf64888fe911065c49ec4d0319"
+    },
+    {
+      "eventId": "evt-scen-crash-03",
+      "scenarioId": "scen-crash-03",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 3,
+      "expectedEffect": "Controlled fault injection for CRASH #3",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "f18c08b413e87293da4b2fd48a129303682b06e9e24b4f29102eecc6eb9ba0d4",
+      "hash": "57bea5603f634a495dfc1847121c7a59f3aac2dd21c30be20bf9bc4d76ebcba5"
+    },
+    {
+      "eventId": "evt-scen-crash-04",
+      "scenarioId": "scen-crash-04",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 4,
+      "expectedEffect": "Controlled fault injection for CRASH #4",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "19b7f9259fec8c77b7bb7c9267a380a628583197bc48628986834e396fa0e6de",
+      "hash": "c48b167d5c97dae4ff700cd82bf8125a7b53d5d286957d27c27dc7911662249c"
+    },
+    {
+      "eventId": "evt-scen-crash-05",
+      "scenarioId": "scen-crash-05",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 5,
+      "expectedEffect": "Controlled fault injection for CRASH #5",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "39820e12dfa344716148e73e159e333a253b67db89160f99605dfc56b9c78c8e",
+      "hash": "f231d8dace7b501a9df8054f5d9777c4916e738a4c87913b1ca048039fa2beec"
+    },
+    {
+      "eventId": "evt-scen-crash-06",
+      "scenarioId": "scen-crash-06",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 6,
+      "expectedEffect": "Controlled fault injection for CRASH #6",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "030d055bf4b41bdc825858b025bbbdac2942c2e6e032363aebe74eae6754f202",
+      "hash": "e394a2454ddd9022a35492cdd2f544cb792eea8b961e5a7d563def37db320d38"
+    },
+    {
+      "eventId": "evt-scen-crash-07",
+      "scenarioId": "scen-crash-07",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 7,
+      "expectedEffect": "Controlled fault injection for CRASH #7",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "d6481b7c8aade744df82b7ac2adc01a3927fcfee47fbf6dfc94344acb0a9bd9d",
+      "hash": "39a28a794abcef31b1c24cfcd28f4600db1b487bc3492641de08fe1425cfee7d"
+    },
+    {
+      "eventId": "evt-scen-crash-08",
+      "scenarioId": "scen-crash-08",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 8,
+      "expectedEffect": "Controlled fault injection for CRASH #8",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "3eeaca6766546a2f24623069f9f6a150018ee018b3d90150f8d24c88f827a3a8",
+      "hash": "9258bcad72bdb8f958870b2a7224dd336b5fe97623677633ca8c003b26dc066d"
+    },
+    {
+      "eventId": "evt-scen-crash-09",
+      "scenarioId": "scen-crash-09",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 9,
+      "expectedEffect": "Controlled fault injection for CRASH #9",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "4740ac3d3913b1faa61e489b3e242a323a308c40a23f392e34d62f3bb4f75bd9",
+      "hash": "2c655a75b35c0259915916733c525c058ac791968ed0beeb8f94e1a0e82111d3"
+    },
+    {
+      "eventId": "evt-scen-crash-10",
+      "scenarioId": "scen-crash-10",
+      "faultClass": "CRASH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 10,
+      "expectedEffect": "Controlled fault injection for CRASH #10",
+      "observedEffect": "CRASH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "7812427659091e64577cd4ffb9d358678bb88508c6b84b11300d31a18f6a41fd",
+      "hash": "0ffe8332756ab866d8d7f648789530f2374b47f24cd82021fc7e895a916d85b0"
+    },
+    {
+      "eventId": "evt-scen-part-01",
+      "scenarioId": "scen-part-01",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 11,
+      "expectedEffect": "Controlled fault injection for PARTITION #1",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "f166ad638152dcbbfa1ef58a5e300d35ff1886694729ca1f6323c2a55a7f5e63",
+      "hash": "79049ea50e09a870c8d8de39754dbe8ee3bb018edface350cdd028f7e4e524f7"
+    },
+    {
+      "eventId": "evt-scen-part-02",
+      "scenarioId": "scen-part-02",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 12,
+      "expectedEffect": "Controlled fault injection for PARTITION #2",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "00eb2130cdfeaed5806abed31c93d709a88ffc9a9477b958d19af939ad78bbd5",
+      "hash": "9b6559b1bbfafea91b70ef52de9fa74be6ea872e8fdd99f82521a7795ab95883"
+    },
+    {
+      "eventId": "evt-scen-part-03",
+      "scenarioId": "scen-part-03",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 13,
+      "expectedEffect": "Controlled fault injection for PARTITION #3",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "4cac2c75d568fcadcbe2056b4cf9f8abcbae523b41105350b27eae7091316dda",
+      "hash": "45406df8ff70a8d6118b28ab9f883ed5c55857fc0dbb99023fef021ab1864ede"
+    },
+    {
+      "eventId": "evt-scen-part-04",
+      "scenarioId": "scen-part-04",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 14,
+      "expectedEffect": "Controlled fault injection for PARTITION #4",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "188f7a690d6cb5cb7b505d57c6ccd949a8d138a8048a325e55ab71d0ee00f7e9",
+      "hash": "6ace8f7e6ce5da8a6035c1955ae5cc2abc2bfdae3eead92e62e398eb54676486"
+    },
+    {
+      "eventId": "evt-scen-part-05",
+      "scenarioId": "scen-part-05",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 15,
+      "expectedEffect": "Controlled fault injection for PARTITION #5",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "567181b370d8fe1d20b183d91bb2381767d6b7f799f4e88c8225785e90bf3d95",
+      "hash": "8c5b954d8a622b73a983a021716a614a576ecd0c295d0604fa473f33a9c9bd52"
+    },
+    {
+      "eventId": "evt-scen-part-06",
+      "scenarioId": "scen-part-06",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 16,
+      "expectedEffect": "Controlled fault injection for PARTITION #6",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "115a6b5e52f42f7027bf5f448de462cdf46af20011c9f16f0bf87d62c58ecd98",
+      "hash": "94c0682757d89b36bbb419b57b806a08e31ae0bf17f0f70fdf85adf158d369ce"
+    },
+    {
+      "eventId": "evt-scen-part-07",
+      "scenarioId": "scen-part-07",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 17,
+      "expectedEffect": "Controlled fault injection for PARTITION #7",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "251c1e6679ebcb61959d67edba34864b2be320edff6e0fe8e288f564357718ed",
+      "hash": "95a47135702a2bea4cc198683f6218522fcfebb8e781841e6b4bbcb76e316657"
+    },
+    {
+      "eventId": "evt-scen-part-08",
+      "scenarioId": "scen-part-08",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 18,
+      "expectedEffect": "Controlled fault injection for PARTITION #8",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "9816526cb3a0c55f3872ff47a30790a11ed8af858c95b26bdf0304b62a376336",
+      "hash": "6b6e87d5e16843ecad004005d2a87144d494c1010b6e1644d032a48891fa2f42"
+    },
+    {
+      "eventId": "evt-scen-part-09",
+      "scenarioId": "scen-part-09",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 19,
+      "expectedEffect": "Controlled fault injection for PARTITION #9",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "71e3a72ae1b684ac4e80fdc59d1b168b7967804082e34b00ad59170027a92c5e",
+      "hash": "f74403fcc3b75432e004b63201b81d3a2d17aa755cf0a886f957d0b3079a311b"
+    },
+    {
+      "eventId": "evt-scen-part-10",
+      "scenarioId": "scen-part-10",
+      "faultClass": "PARTITION",
+      "target": {
+        "targetType": "PARTITION",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 20,
+      "expectedEffect": "Controlled fault injection for PARTITION #10",
+      "observedEffect": "PARTITION observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "419d6bfe2384950b61362e15dffbf697e3138d77871c51942fbb45f8bbc2861f",
+      "hash": "03295844584bd7dca4c76af6dbd72ae965f00112fd92427d0b4470ff85683072"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-01",
+      "scenarioId": "scen-corrupt-reorder-01",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 21,
+      "expectedEffect": "Controlled fault injection for REORDER #1",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "f4671a079c058803895fa03e370467fe19b296184cbb6b2e6f91bdfb96c96dbc",
+      "hash": "19db76181161c76c27671c2d1be617d438b11a1a139b6766859fac07420797bb"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-02",
+      "scenarioId": "scen-corrupt-reorder-02",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 22,
+      "expectedEffect": "Controlled fault injection for REORDER #2",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "68939d283fe9f02f4c21d5f0fd08eabf3419e385aafeab4dfc221806db1172f2",
+      "hash": "339c49be1c65e32edc530a798aec07dbc4ff3e4278d15e175a03d4e5d8433583"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-03",
+      "scenarioId": "scen-corrupt-reorder-03",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 23,
+      "expectedEffect": "Controlled fault injection for REORDER #3",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "b70ded09647229653e7f554c3cf8bcbcca0ce18ce0467b8cf206575f239344f0",
+      "hash": "ac0c05966babb41f1f90fa48bf904e3b90dc1987ccbd7b2f036fae80e6ebdd52"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-04",
+      "scenarioId": "scen-corrupt-reorder-04",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 24,
+      "expectedEffect": "Controlled fault injection for REORDER #4",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "3d8d46940f5595a32cbefed818b946fe6fdf9a9c61bf1abf11a982a560416335",
+      "hash": "67e06d82f16e07010963a2da336e00ef9f1b89e95f0e22db4a50aa6276ffac93"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-05",
+      "scenarioId": "scen-corrupt-reorder-05",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 25,
+      "expectedEffect": "Controlled fault injection for REORDER #5",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "d498212020a0b77619232e9abf426db53ec1487c8da788dcb240dcaae7b275d4",
+      "hash": "b9d8cd5af50340c6f9d07ff39cbb3dbe185f903a8d3746d9bb779fa0bb73ce9c"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-06",
+      "scenarioId": "scen-corrupt-reorder-06",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 26,
+      "expectedEffect": "Controlled fault injection for REORDER #6",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "075b41c7d655be9f04e61781a3390df80f5c24e5cf87537b15168432c921f0d2",
+      "hash": "d7ab1438046a4ae43bd7ead575bbed324c3ca1c45fc305760348c2604a53ac58"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-07",
+      "scenarioId": "scen-corrupt-reorder-07",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 27,
+      "expectedEffect": "Controlled fault injection for REORDER #7",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "41819bfeb453cc584852299cfa0a72a69d482ef173bbabe8ed2fb7769ae1cb76",
+      "hash": "5f0325c076c9ceddade5042ad505e900bc7b628834ae55b989b06e4f013ff78b"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-08",
+      "scenarioId": "scen-corrupt-reorder-08",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 28,
+      "expectedEffect": "Controlled fault injection for REORDER #8",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "d6ed49a3727841645fff2a961989550ae09e83b9eeaeeba1c710afe241eeee56",
+      "hash": "165cfe4c63b5372791251dfc0eefef2599de959ea9266b46529c5b935f427913"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-09",
+      "scenarioId": "scen-corrupt-reorder-09",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 29,
+      "expectedEffect": "Controlled fault injection for REORDER #9",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "7b82257e690e33b61622371b3de8685cac202fac71b05c3327d59f8b321cd71d",
+      "hash": "3e8d5a365f3ca73af348153cdde4b1164197034a47ef6cab1893a52a463bc3c9"
+    },
+    {
+      "eventId": "evt-scen-corrupt-reorder-10",
+      "scenarioId": "scen-corrupt-reorder-10",
+      "faultClass": "REORDER",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 30,
+      "expectedEffect": "Controlled fault injection for REORDER #10",
+      "observedEffect": "REORDER observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "2af99391f4eb8fde8e65c07a8d710a39b71e57a42f618bc77e6a4eb5ef8db49c",
+      "hash": "1bc0c1fe080e91225699d43034b18d7e6eeb41ebdf9418f95339f447ec8ed3ee"
+    },
+    {
+      "eventId": "evt-scen-equiv-01",
+      "scenarioId": "scen-equiv-01",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 31,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #1",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "16a6b7c95cb65fdd1ca048516957e28350787292321b0652e6e76c9d1e0477ac",
+      "hash": "ec18c941ffec443aa6ec49114026fb0bb010dd274f54f2c457a8f44dcfe39677"
+    },
+    {
+      "eventId": "evt-scen-equiv-02",
+      "scenarioId": "scen-equiv-02",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 32,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #2",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "ab8fe46e40e4ff0a53557ff2f737e9bcccd3c2d0a20289af34a19b75ef85717c",
+      "hash": "5a7769b302529458424dbcc5219310b33e044f17aaa7b3fb636058fca0bbf2b8"
+    },
+    {
+      "eventId": "evt-scen-equiv-03",
+      "scenarioId": "scen-equiv-03",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 33,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #3",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "b51ce5696618000fb7d43bb6f821dcfdd8159b1222337ebad1fb7ed8254c68ec",
+      "hash": "d08d84bd7336d26656a9f62db4a573ea0cde6c41892ebcf71f3763a2811f8db7"
+    },
+    {
+      "eventId": "evt-scen-equiv-04",
+      "scenarioId": "scen-equiv-04",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 34,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #4",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "898ad80bb3d3246430887132e3d36a7434fe75d5a0b2b6ba96c4fb7c807e2d8b",
+      "hash": "0d7dc4e72f08388ca669f00d2f8cda6f679748b2b34dc7a3a09e4d450792b538"
+    },
+    {
+      "eventId": "evt-scen-equiv-05",
+      "scenarioId": "scen-equiv-05",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 35,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #5",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "bddc1e2131cc397b868fb232eca8a1cd365b35ba2c926f2685f7c5e4fcef83f9",
+      "hash": "4d2bba38ac3fe43c6f23276a4e94ca8fb9fb22f18351f2a7ca6b16a93f818763"
+    },
+    {
+      "eventId": "evt-scen-equiv-06",
+      "scenarioId": "scen-equiv-06",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 36,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #6",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "52cdfdd3689cdc872ee20f9d2d578bf720aba01631ebba9b1600f0dc8944d610",
+      "hash": "87b66dfad738fc0f24264fa64a366b90a34ee45bca6a9a5484adaeb9ca27ebd0"
+    },
+    {
+      "eventId": "evt-scen-equiv-07",
+      "scenarioId": "scen-equiv-07",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 37,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #7",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "4bbc4786467cc2808ada853f7f39ead1ad6830d2aecc29e26490b4691dd64a20",
+      "hash": "c8a9a24693e76daa073b9e82df444964e8cd88ba8f2954786b393684afa99f61"
+    },
+    {
+      "eventId": "evt-scen-equiv-08",
+      "scenarioId": "scen-equiv-08",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 38,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #8",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "7ee66fc0c8f007cd8c0d9f7ef3cd9a725c7546882840044272c136bceb7bec91",
+      "hash": "6781a9cf2962121828b6a1222ee1d4d72b61345d1d369c50d310710d22884ff5"
+    },
+    {
+      "eventId": "evt-scen-equiv-09",
+      "scenarioId": "scen-equiv-09",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 39,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #9",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "902f694ef5080f723bf985858a2a9c464bc47e280d10eb29898ca879fd315be4",
+      "hash": "ee1320024e3001c98486f8a2d5abc5a7ccda816620e791b9a1b8b6fcf5e6497d"
+    },
+    {
+      "eventId": "evt-scen-equiv-10",
+      "scenarioId": "scen-equiv-10",
+      "faultClass": "EQUIVOCATING_AGENT",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 40,
+      "expectedEffect": "Controlled fault injection for EQUIVOCATING_AGENT #10",
+      "observedEffect": "EQUIVOCATING_AGENT observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "5c4ad68e903ae54d47be70724c6e271f665a198aee282278c3ebbd21b9ac0f39",
+      "hash": "b8deb89110302cc318bc44a410677022eb58a822411cd1453b132cdea8439c56"
+    },
+    {
+      "eventId": "evt-scen-spoof-01",
+      "scenarioId": "scen-spoof-01",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 41,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #1",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "548470e90914c1bac59fad95a5c5bd3fc4f3b4601dc12643872a1e8cd994b7ab",
+      "hash": "c7ce15f6158b7b688ab1410ee97923303471a61e28e86a4e1e0006b5eeff5d2c"
+    },
+    {
+      "eventId": "evt-scen-spoof-02",
+      "scenarioId": "scen-spoof-02",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 42,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #2",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "aba673fc221ee8949531b0b69b6e446f380530ab65e6d9657fca59826cffd9ce",
+      "hash": "0b4853735ef984a86048bee4be27f2f930ac8263a1aa97befde38f2ad4c4401a"
+    },
+    {
+      "eventId": "evt-scen-spoof-03",
+      "scenarioId": "scen-spoof-03",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 43,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #3",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "95208615bb2b091d4ada3c648153dcdbf77e880ac3668b49abc03b6f6e0f5b8f",
+      "hash": "747a1862d7d155e7e58138b20cc1342ab11e6ad37339480c1a994a1738991107"
+    },
+    {
+      "eventId": "evt-scen-spoof-04",
+      "scenarioId": "scen-spoof-04",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 44,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #4",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "8e5898bf8f7e978d5d6ee1719df86c579a9265299952c6f051281948cd247345",
+      "hash": "c224eb14538dc0521553640ccaed4b4d7e6d6bf07db682d3db98ace9e53a0f82"
+    },
+    {
+      "eventId": "evt-scen-spoof-05",
+      "scenarioId": "scen-spoof-05",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 45,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #5",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "0cc4729e7168143f21782ef50c5b0b8aea737852438788c90f114893c2ccc3ef",
+      "hash": "9e7ae394f703a45e42855b5c6fabb704b26e2938cd57499b676e89ba832f3516"
+    },
+    {
+      "eventId": "evt-scen-spoof-06",
+      "scenarioId": "scen-spoof-06",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 46,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #6",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "b972644a9b279d25cac6adb398b06731905e362ef78c50a875f04efc79a2adf6",
+      "hash": "7a240932ba184f501c9355d331d83abd9f0acf9aa187f81a476908ab64dae3f5"
+    },
+    {
+      "eventId": "evt-scen-spoof-07",
+      "scenarioId": "scen-spoof-07",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 47,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #7",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "ee019818b9411dbd8d4828f9a540d764a84d0f2e009a5fc9b92556a602f905b2",
+      "hash": "4163640e82b23ab53b867d68d192a3490b25f43a5da4d778db0df532adddbf0d"
+    },
+    {
+      "eventId": "evt-scen-spoof-08",
+      "scenarioId": "scen-spoof-08",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 48,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #8",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "bf6b0a5e6995c520351b8419e0ef85baa226d05e97acb65e12125adb0d0e64b8",
+      "hash": "073f0911734e0d6cff86ce2f168f4a6072ce4a1d987e14fbe3fcceb269ccc5f9"
+    },
+    {
+      "eventId": "evt-scen-spoof-09",
+      "scenarioId": "scen-spoof-09",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 49,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #9",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "61dc4b6ea48d486e8d51ab01a4e97b5de1ee7021ab4865e623a96c96d9cbc9b7",
+      "hash": "d3a7db3853aa3c885323fa12397b18f1cccb4ee3dbf6608f60bdef305e6cab59"
+    },
+    {
+      "eventId": "evt-scen-spoof-10",
+      "scenarioId": "scen-spoof-10",
+      "faultClass": "IDENTITY_MISMATCH",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 50,
+      "expectedEffect": "Controlled fault injection for IDENTITY_MISMATCH #10",
+      "observedEffect": "IDENTITY_MISMATCH observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "9bd8f2e3ff64a1e0ee0f4b9946e06ffb6cbded1235fb9b4410e24c63a3ab1297",
+      "hash": "f787976097b7849b1f23ab591ca323f6317eb04fdab195fee96ea7139a0f5166"
+    },
+    {
+      "eventId": "evt-scen-mixed-01",
+      "scenarioId": "scen-mixed-01",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 51,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #1",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "ebba2c889be5073d6b260b00357bc4f19078463f200494070cfd9d8c19378cbb",
+      "hash": "e0b3905571ed6033ca7461c27d7433f9cfa0d2b4c66018ac225df34355df1d05"
+    },
+    {
+      "eventId": "evt-scen-mixed-02",
+      "scenarioId": "scen-mixed-02",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 52,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #2",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "d83be71379f5c286f0ea24035d6024f11df16e115a91bd24aaa9bb99c4379989",
+      "hash": "ebdc8b6e5bfb9eb0f20a38a73e7d6cf34577637c9bd37834bf0c968a0f7cfaa1"
+    },
+    {
+      "eventId": "evt-scen-mixed-03",
+      "scenarioId": "scen-mixed-03",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 53,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #3",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "cb4acf4068afadc156d30522e5f52a90f82f64a7b33718d95c2727855b1fa0e9",
+      "hash": "700c223a7004130a229bcba36208915c7d9c340ea19f36166ee3593a1b71a695"
+    },
+    {
+      "eventId": "evt-scen-mixed-04",
+      "scenarioId": "scen-mixed-04",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 54,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #4",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "eaa17b822f4d17680a19c56e983c2e6c51e2148065f8a637f8afd55313e1810a",
+      "hash": "40c5e1ad7139ca6265f0acb2c4dd11ee3844e745b18330d6e8ba9bc203dbd12d"
+    },
+    {
+      "eventId": "evt-scen-mixed-05",
+      "scenarioId": "scen-mixed-05",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 55,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #5",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "d3ecc6abe2d5cc36c2d4b844caff8595a80c7d6a46a641ee52b2bcd31e257488",
+      "hash": "7ee9fb67c43a4427d754ac5528276d905c50bf07f2e713ab812f4503d8b1b091"
+    },
+    {
+      "eventId": "evt-scen-mixed-06",
+      "scenarioId": "scen-mixed-06",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 56,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #6",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "ebd33608337cffb16f451c166b16618c884221df20c3b80396e6194a52afe5dc",
+      "hash": "260f0eade8ed1e44c483bb76fa5778fd26b8794f6fb953827c18121ac4484b11"
+    },
+    {
+      "eventId": "evt-scen-mixed-07",
+      "scenarioId": "scen-mixed-07",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-4"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 57,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #7",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "b157286e9a53df93fca11f0335f8cf1dbe7ab9d29e54b4d1400be7561c4e9236",
+      "hash": "4108b476e78915f64b61bca1c97947e02666d7afb81156a79b48520fc63ac4ae"
+    },
+    {
+      "eventId": "evt-scen-mixed-08",
+      "scenarioId": "scen-mixed-08",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-1"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 58,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #8",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "20d016ccb567c9710b0339ed5e8fc4206ee3d8f4dcbc9f5f04a1e6e2eb1f0618",
+      "hash": "87fde102b1dabc34ed94390eeb4fa644ce380ce345c1e3cf5406570bdd4f4275"
+    },
+    {
+      "eventId": "evt-scen-mixed-09",
+      "scenarioId": "scen-mixed-09",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-2"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 59,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #9",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "2bf79e790a04ec42ed828af0d80eeb901b916fc935b23c9c77e8c292c7b9c225",
+      "hash": "908156bc7be5724c34800b4f329c459a0fffe8006890898696ea99b3e422f41a"
+    },
+    {
+      "eventId": "evt-scen-mixed-10",
+      "scenarioId": "scen-mixed-10",
+      "faultClass": "UNKNOWN",
+      "target": {
+        "targetType": "AGENT",
+        "targetId": "target-agent-3"
+      },
+      "injectedAt": "2026-10-21T12:00:00.000Z",
+      "sequence": 60,
+      "expectedEffect": "Controlled fault injection for UNKNOWN #10",
+      "observedEffect": "UNKNOWN observed deterministically",
+      "resolvedAt": "2026-10-21T12:00:00.000Z",
+      "status": "RESOLVED",
+      "provenance": "edf796b1f5442dbff910768278c1f68724fa4ea94e8d1bd60537ab080472369d",
+      "hash": "791b3d11115ee6bc620b9e424415313d7fbf4818ea7e58192c915fb580e5aea4"
+    }
+  ]
+}
