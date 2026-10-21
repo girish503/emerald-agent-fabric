@@ -1,0 +1,37 @@
+{
+  "policiesEvaluated": [
+    "STRICT_CASCADE",
+    "DEPENDENCY_CASCADE",
+    "INDEPENDENT_SURVIVAL",
+    "GOVERNED_ADAPTIVE"
+  ],
+  "maxCascadeDepthObserved": 3,
+  "maxCascadeSizeObserved": 6,
+  "cascadeCorrectnessRate": 1,
+  "cascadeSummary": [
+    {
+      "policy": "STRICT_CASCADE",
+      "trials": 26,
+      "meanCascadeSize": 2.8,
+      "preservedRate": 0.65
+    },
+    {
+      "policy": "DEPENDENCY_CASCADE",
+      "trials": 26,
+      "meanCascadeSize": 1.9,
+      "preservedRate": 0.78
+    },
+    {
+      "policy": "INDEPENDENT_SURVIVAL",
+      "trials": 26,
+      "meanCascadeSize": 1,
+      "preservedRate": 0.92
+    },
+    {
+      "policy": "GOVERNED_ADAPTIVE",
+      "trials": 26,
+      "meanCascadeSize": 1.4,
+      "preservedRate": 0.88
+    }
+  ]
+}

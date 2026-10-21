@@ -1,0 +1,40 @@
+{
+  "phase": 93,
+  "title": "Governed Cross-Agent Speculative Execution and Rollback Cascades Under Asynchronous Working-Tree Verification",
+  "baselineCommit": "a3ea89a080750ef1da8be23d9b06366b51813d2d",
+  "historicalFrozenBaseline": "7e7ff6bec71756df2446872fce191f5f553b8999",
+  "conditions": [
+    "Condition A (Baseline: sequential non-speculative execution)",
+    "Condition B (Uncoordinated speculative branching without governance)",
+    "Condition C (Governed speculative branching with branch store)",
+    "Condition D (Speculative branching + asynchronous verification fencing)",
+    "Condition E (Speculative branching + rollback cascades under STRICT_CASCADE)",
+    "Condition F (Speculative branching + rollback cascades under DEPENDENCY_CASCADE)",
+    "Condition G (Speculative branching + rollback cascades under INDEPENDENT_SURVIVAL)",
+    "Condition H (Full governed adaptive speculative execution with clean-room sovereign gate)"
+  ],
+  "rollbackPolicies": [
+    "POLICY A — STRICT_CASCADE (rolls back target and all transitive descendants)",
+    "POLICY B — DEPENDENCY_CASCADE (rolls back target and explicitly dependent branches)",
+    "POLICY C — INDEPENDENT_SURVIVAL (rolls back only target; preserves independent branches)",
+    "POLICY D — GOVERNED_ADAPTIVE (evaluates dependencies, file overlaps, and verification status)"
+  ],
+  "raceConditionsTested": [
+    "Race A: Authoritative commit during speculation (base revision divergence -> stale verification fails closed)",
+    "Race B: Concurrent independent branch merge (non-overlapping working tree changes survive rollback)",
+    "Race C: Concurrent dependent branch merge (unverified dependency blocks child promotion)",
+    "Race D: Stale verification result submission (branch state version advance rejects stale result)",
+    "Race E: Upstream goal revocation (immediate branch invalidation)",
+    "Race F: Concurrent verification reconciliations (idempotent serialization without store race)",
+    "Race G: Cascading parent failure prior to verification (child branch invalidated / rejected)"
+  ],
+  "securityControls": "N511–N540 (30 controls; cumulative 540/540 fail-closed)",
+  "authorityInvariants": "S1–S18",
+  "principles": [
+    "Speculation may expand the search space. It must never expand authority.",
+    "SPECULATIVE_SUCCESS != VERIFIED != TERMINAL_SUCCESS",
+    "Clean-room fourfold verification is the sovereign gatekeeper",
+    "Rollback is strictly idempotent and evidence-preserving"
+  ],
+  "cost": "₹0 marginal financial cost, CPU-only local execution, open-weight models only"
+}

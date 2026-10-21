@@ -1,0 +1,96 @@
+{
+  "invariantsAudit": {
+    "S1": {
+      "name": "Non-authoritative branches",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S2": {
+      "name": "No terminal authority",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S3": {
+      "name": "No verification authority",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S4": {
+      "name": "No policy authority",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S5": {
+      "name": "Speculative success not terminal",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S6": {
+      "name": "Clean-room sovereign gatekeeper",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S7": {
+      "name": "Stale verification fails closed",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S8": {
+      "name": "Rollback idempotency",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S9": {
+      "name": "Evidence preservation",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S10": {
+      "name": "Untrusted observation classification",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S11": {
+      "name": "Branch depth ceiling",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S12": {
+      "name": "Cumulative resource budget ceiling",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S13": {
+      "name": "Mission contract immutable binding",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S14": {
+      "name": "Merkle provenance roots mandatory",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S15": {
+      "name": "Parent immutability",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S16": {
+      "name": "Child invalidation on parent failure",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S17": {
+      "name": "Revocation invalidation immediate",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    },
+    "S18": {
+      "name": "Autonomous L7 strictly advisory",
+      "status": "VERIFIED_COMPLIANT",
+      "violations": 0
+    }
+  },
+  "authorityLeakCount": 0,
+  "terminalAuthorityConferred": false
+}

@@ -1,0 +1,150 @@
+{
+  "totalTasks": 20,
+  "breakdown": {
+    "L5": 5,
+    "L6": 5,
+    "L7": 10
+  },
+  "tasks": [
+    {
+      "taskId": "task-01-L5",
+      "level": "L5",
+      "name": "Null check repair in SQLite adapter",
+      "repo": "emerald-core",
+      "files": 1
+    },
+    {
+      "taskId": "task-02-L5",
+      "level": "L5",
+      "name": "Lease timeout boundary validation",
+      "repo": "emerald-core",
+      "files": 1
+    },
+    {
+      "taskId": "task-03-L5",
+      "level": "L5",
+      "name": "State store sequence gap correction",
+      "repo": "emerald-core",
+      "files": 1
+    },
+    {
+      "taskId": "task-04-L5",
+      "level": "L5",
+      "name": "Tool parameter sanitize helper",
+      "repo": "emerald-tools",
+      "files": 1
+    },
+    {
+      "taskId": "task-05-L5",
+      "level": "L5",
+      "name": "Canonical JSON key sort invariant",
+      "repo": "emerald-core",
+      "files": 1
+    },
+    {
+      "taskId": "task-06-L6",
+      "level": "L6",
+      "name": "Multi-file lease sweeper and heartbeat sync",
+      "repo": "emerald-core",
+      "files": 3
+    },
+    {
+      "taskId": "task-07-L6",
+      "level": "L6",
+      "name": "Evidence bundle signer threshold verify",
+      "repo": "emerald-security",
+      "files": 3
+    },
+    {
+      "taskId": "task-08-L6",
+      "level": "L6",
+      "name": "Cross-repo contract verification bridge",
+      "repo": "emerald-contracts",
+      "files": 4
+    },
+    {
+      "taskId": "task-09-L6",
+      "level": "L6",
+      "name": "Dynamic tool composition pipeline",
+      "repo": "emerald-tools",
+      "files": 3
+    },
+    {
+      "taskId": "task-10-L6",
+      "level": "L6",
+      "name": "AST call-graph centrality cache update",
+      "repo": "emerald-analysis",
+      "files": 3
+    },
+    {
+      "taskId": "task-11-L7",
+      "level": "L7",
+      "name": "Speculative multi-agent architectural refactor A",
+      "repo": "emerald-fabric",
+      "files": 7
+    },
+    {
+      "taskId": "task-12-L7",
+      "level": "L7",
+      "name": "Concurrent working-tree migration B",
+      "repo": "emerald-fabric",
+      "files": 8
+    },
+    {
+      "taskId": "task-13-L7",
+      "level": "L7",
+      "name": "Distributed lease fencing protocol repair",
+      "repo": "emerald-core",
+      "files": 6
+    },
+    {
+      "taskId": "task-14-L7",
+      "level": "L7",
+      "name": "Hierarchical sub-goal synchronization C",
+      "repo": "emerald-fabric",
+      "files": 9
+    },
+    {
+      "taskId": "task-15-L7",
+      "level": "L7",
+      "name": "Cross-agent cooperative memory conflict resolution",
+      "repo": "emerald-fabric",
+      "files": 8
+    },
+    {
+      "taskId": "task-16-L7",
+      "level": "L7",
+      "name": "Resource renegotiation starvation recovery D",
+      "repo": "emerald-fabric",
+      "files": 7
+    },
+    {
+      "taskId": "task-17-L7",
+      "level": "L7",
+      "name": "Multi-agent speculative repair cascade E",
+      "repo": "emerald-fabric",
+      "files": 10
+    },
+    {
+      "taskId": "task-18-L7",
+      "level": "L7",
+      "name": "Asynchronous working tree verification bridge",
+      "repo": "emerald-fabric",
+      "files": 8
+    },
+    {
+      "taskId": "task-19-L7",
+      "level": "L7",
+      "name": "Zero-authority speculative patch synthesis F",
+      "repo": "emerald-fabric",
+      "files": 9
+    },
+    {
+      "taskId": "task-20-L7",
+      "level": "L7",
+      "name": "Sovereign clean-room verification pipeline G",
+      "repo": "emerald-fabric",
+      "files": 8
+    }
+  ]
+}

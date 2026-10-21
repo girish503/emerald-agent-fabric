@@ -1,0 +1,19 @@
+{
+  "searchSpaceExpansion": "3.2x candidate strategies explored concurrently",
+  "authorityExpansion": "0.0x (absolute zero authority grant)",
+  "speculativeToolsRestricted": [
+    "read_file",
+    "write_file",
+    "search_code",
+    "git_status",
+    "git_diff",
+    "run_sandbox_tests"
+  ],
+  "disallowedToolsBlocked": [
+    "system_exec",
+    "admin_override",
+    "eval_untrusted",
+    "deploy_production"
+  ],
+  "toolCapabilityExpansionRate": 0
+}

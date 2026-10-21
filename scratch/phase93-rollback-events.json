@@ -1,0 +1,74 @@
+{
+  "totalRollbacks": 4,
+  "rollbackEvents": [
+    {
+      "rollbackId": "rb-spec-br-001-1",
+      "targetBranchId": "spec-br-001",
+      "policy": "STRICT_CASCADE",
+      "reason": "Unit test failure in sandbox execution",
+      "rolledBackBranchIds": [
+        "spec-br-001",
+        "spec-br-002"
+      ],
+      "preservedBranchIds": [
+        "spec-br-003"
+      ],
+      "previousTreeDigest": "f647c6cd322c500b6f7a31add69023134a9938cb173d3337b5d3159d3dd9f847",
+      "resultingTreeDigest": "d7b6c51a19ae930a627467bfcc350481e7970beca4c22300619422550c1bb436",
+      "rollbackSequence": 1,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "rollbackId": "rb-spec-br-004-2",
+      "targetBranchId": "spec-br-004",
+      "policy": "DEPENDENCY_CASCADE",
+      "reason": "Dependency conflict detected during merge prep",
+      "rolledBackBranchIds": [
+        "spec-br-004",
+        "spec-br-005"
+      ],
+      "preservedBranchIds": [
+        "spec-br-006",
+        "spec-br-007"
+      ],
+      "previousTreeDigest": "1ce6909d0404fb68cd561702175b7b6429f21b4cc3d2d1d1e659a685858b334e",
+      "resultingTreeDigest": "74b5f743a19f1f0bd0ea42fcd92b29c94b818976eeca3754cf733e701499abbe",
+      "rollbackSequence": 2,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "rollbackId": "rb-spec-br-008-3",
+      "targetBranchId": "spec-br-008",
+      "policy": "INDEPENDENT_SURVIVAL",
+      "reason": "Isolated verification assertion failure",
+      "rolledBackBranchIds": [
+        "spec-br-008"
+      ],
+      "preservedBranchIds": [
+        "spec-br-009",
+        "spec-br-010"
+      ],
+      "previousTreeDigest": "b0edfb72e892801bf8552655551383ae4d888be8ba8e7141d3a07b5c65a518b1",
+      "resultingTreeDigest": "7f47d3e58959208cede9939c9e541b120cb1b636ddb6085d9147a923159fe1bf",
+      "rollbackSequence": 3,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "rollbackId": "rb-spec-br-011-4",
+      "targetBranchId": "spec-br-011",
+      "policy": "GOVERNED_ADAPTIVE",
+      "reason": "Contract hash divergence",
+      "rolledBackBranchIds": [
+        "spec-br-011",
+        "spec-br-012"
+      ],
+      "preservedBranchIds": [
+        "spec-br-013"
+      ],
+      "previousTreeDigest": "310f60f5889ea33b71547b6146f09e236f69a5a8fb487734004bf03197d0a661",
+      "resultingTreeDigest": "e3bd920cbaa89b7303482495ec6e362d86beaf66ce9ece01225850a530a1d452",
+      "rollbackSequence": 4,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    }
+  ]
+}

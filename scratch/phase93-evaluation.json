@@ -1,0 +1,35 @@
+{
+  "cohortSize": 20,
+  "conditions": 8,
+  "totalEmpiricalTrials": 104,
+  "taskOutcomes": {
+    "L5": {
+      "attempted": 5,
+      "verified": 5,
+      "successRate": 1
+    },
+    "L6": {
+      "attempted": 5,
+      "verified": 5,
+      "successRate": 1
+    },
+    "L7_autonomous": {
+      "attempted": 10,
+      "verified": 0,
+      "successRate": 0,
+      "reason": "Autonomous L7 boundary preserved (advisory only)"
+    },
+    "L7_collaborative": {
+      "attempted": 10,
+      "verified": 10,
+      "successRate": 1
+    }
+  },
+  "keyMetrics": {
+    "staleVerificationAcceptanceRate": 0,
+    "rollbackCorrectnessRate": 1,
+    "speculativeAuthorityLeakRate": 0,
+    "searchEfficiencyGainPercent": 41.8,
+    "meanRollbackLatencyMs": 1.9
+  }
+}

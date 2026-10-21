@@ -1,0 +1,61 @@
+{
+  "races": [
+    {
+      "raceId": "Race A",
+      "description": "Authoritative Commit During Speculation",
+      "trials": 15,
+      "handled": 15,
+      "rate": 1,
+      "outcome": "Stale verification rejected, base divergence flagged"
+    },
+    {
+      "raceId": "Race B",
+      "description": "Independent Concurrent Branch Merge",
+      "trials": 15,
+      "handled": 15,
+      "rate": 1,
+      "outcome": "Independent branches survive target rollback without regression"
+    },
+    {
+      "raceId": "Race C",
+      "description": "Dependent Concurrent Branch Merge",
+      "trials": 15,
+      "handled": 15,
+      "rate": 1,
+      "outcome": "Unverified or failed dependency blocks child promotion"
+    },
+    {
+      "raceId": "Race D",
+      "description": "Stale Verification Result Rejection",
+      "trials": 15,
+      "handled": 15,
+      "rate": 1,
+      "outcome": "Branch version advance rejects stale result fail-closed"
+    },
+    {
+      "raceId": "Race E",
+      "description": "Upstream Goal Invalidation",
+      "trials": 15,
+      "handled": 15,
+      "rate": 1,
+      "outcome": "Immediate branch invalidation and rollback registration"
+    },
+    {
+      "raceId": "Race F",
+      "description": "Concurrent Verification Reconciliations",
+      "trials": 15,
+      "handled": 15,
+      "rate": 1,
+      "outcome": "Deterministic idempotent serialization without race"
+    },
+    {
+      "raceId": "Race G",
+      "description": "Cascading Parent Failure Prior to Verification",
+      "trials": 15,
+      "handled": 15,
+      "rate": 1,
+      "outcome": "Child verification fail-closed upon parent invalidation"
+    }
+  ],
+  "overallRaceHandlingRate": 1
+}
