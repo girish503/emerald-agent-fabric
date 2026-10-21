@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalRacesEvaluated": 12,
+  "allFailClosed": true,
+  "races": [
+    {
+      "race": "RACE_A",
+      "name": "Simultaneous speculative mutation",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_B",
+      "name": "Late verification arrival after cancellation",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_C",
+      "name": "Cascade invalidation during child execution",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_D",
+      "name": "Dynamic context modification during execution",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_E",
+      "name": "Resource starvation during speculation",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_F",
+      "name": "Sovereign verification after parent rollback",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_G",
+      "name": "Working-tree reconciliation collision",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_H",
+      "name": "Lease change before dispatch",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_I",
+      "name": "Authoritative tree mutation before promotion",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_J",
+      "name": "Cancellation while verification pending",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_K",
+      "name": "Run termination while branch pending",
+      "failClosed": true
+    },
+    {
+      "race": "RACE_L",
+      "name": "Worker crash before promotion",
+      "failClosed": true
+    }
+  ]
+}

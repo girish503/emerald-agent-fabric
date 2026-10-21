@@ -110,6 +110,7 @@ export interface ExecuteActionParams {
   readonly abortSignal?: AbortSignal;
   readonly throwOnError?: boolean;
   readonly autoRetry?: boolean;
+  readonly speculativeBinding?: import("../domain/runtime-speculative-binding.js").RuntimeSpeculativeBinding;
 }
 
 export interface WorkerRuntimeOptions {
@@ -978,7 +979,7 @@ export class WorkerRuntime {
       throw new LeaseLostError(runId, "none", run.leaseId);
     }
 
-    const fencing: LeaseFencingCheck = { workerId, leaseId };
+    const fencing: LeaseFencingCheck = { workerId, leaseId, nowIso: this.clock.nowIso() };
 
     // Initial fencing verification against authoritative run
     if (run.currentWorkerId !== workerId || run.leaseId !== leaseId) {
@@ -999,6 +1000,28 @@ export class WorkerRuntime {
         run.contractBinding.contractId,
         run.contractBinding.version
       );
+    }
+
+    // Phase 94: Governed Speculative Execution Runtime Fencing
+    if (params.speculativeBinding) {
+      const binding = params.speculativeBinding;
+      if (binding.runId !== runId) {
+        throw new Error(`Speculative binding runId '${binding.runId}' does not match target runId '${runId}'`);
+      }
+      if (binding.workerId !== workerId) {
+        throw new LeaseLostError(runId, binding.workerId, workerId);
+      }
+      if (binding.leaseId !== leaseId) {
+        throw new LeaseLostError(runId, binding.leaseId, leaseId);
+      }
+      if (
+        binding.missionContractId !== run.contractBinding.contractId ||
+        binding.missionContractHash !== run.contractBinding.contentHash
+      ) {
+        throw new InvalidContractBindingError(
+          `Speculative binding contract hash '${binding.missionContractHash}' does not match bound contract '${run.contractBinding.contentHash}'`
+        );
+      }
     }
 
     const existingAction = params.actionId ? store.getAction(params.actionId) : null;
@@ -1048,6 +1071,19 @@ export class WorkerRuntime {
 
     if (existingAction) {
       if (isTerminalActionStatus(existingAction.status)) {
+        if (existingAction.status === "SUCCEEDED") {
+          const attempts = store.getAttemptsForAction(existingAction.actionId);
+          const succeededAttempt = attempts.find((a) => a.status === "SUCCEEDED");
+          return {
+            status: "SUCCEEDED",
+            actionId: existingAction.actionId,
+            runId: run.runId,
+            attemptId: succeededAttempt?.attemptId,
+            output: existingAction.resultPayload,
+            action: existingAction,
+            attempt: succeededAttempt ?? null,
+          };
+        }
         throw new TerminalStateError(existingAction.status, "executeAction");
       }
       actionSnapshot = existingAction;

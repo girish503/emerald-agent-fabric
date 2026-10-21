@@ -179,6 +179,8 @@ export interface AgentStepControllerOptions {
   readonly reflex?: ReflexPort;
   readonly enableGovernedVerificationStage?: boolean;
   readonly cleanRoomVerifier?: CleanRoomVerifier;
+  readonly speculativePromotionGate?: import("./speculative-promotion-gate.js").SpeculativePromotionGate;
+  readonly speculativePolicy?: import("./runtime-speculative-execution-policy.js").RuntimeSpeculativeExecutionPolicy;
 }
 
 
@@ -214,6 +216,8 @@ export class AgentStepController {
   private readonly reflex: ReflexPort;
   private readonly enableGovernedVerificationStage: boolean;
   private readonly cleanRoomVerifier?: CleanRoomVerifier;
+  private readonly speculativePromotionGate?: import("./speculative-promotion-gate.js").SpeculativePromotionGate;
+  private readonly speculativePolicy?: import("./runtime-speculative-execution-policy.js").RuntimeSpeculativeExecutionPolicy;
 
   constructor(options: AgentStepControllerOptions) {
     this.coordinator = options.coordinator;
@@ -226,6 +230,8 @@ export class AgentStepController {
     this.enableGovernedVerificationStage =
       options.enableGovernedVerificationStage ?? false;
     this.cleanRoomVerifier = options.cleanRoomVerifier;
+    this.speculativePromotionGate = options.speculativePromotionGate;
+    this.speculativePolicy = options.speculativePolicy;
 
     this.proposalValidator =
       options.proposalValidator ??
@@ -243,6 +249,14 @@ export class AgentStepController {
       ...DEFAULT_STEP_CONTROLLER_BUDGET,
       ...options.defaultBudget,
     });
+  }
+
+  get promotionGate(): import("./speculative-promotion-gate.js").SpeculativePromotionGate | undefined {
+    return this.speculativePromotionGate;
+  }
+
+  get runtimeSpeculativePolicy(): import("./runtime-speculative-execution-policy.js").RuntimeSpeculativeExecutionPolicy | undefined {
+    return this.speculativePolicy;
   }
 
 

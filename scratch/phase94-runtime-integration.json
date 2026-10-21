@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "integrationPoints": {
+    "agentStepController": {
+      "status": "INTEGRATED",
+      "file": "src/application/agent-step-controller.ts",
+      "speculationAuthority": "SUBORDINATE",
+      "bypassAllowed": false
+    },
+    "workerRuntime": {
+      "status": "INTEGRATED",
+      "file": "src/application/worker-runtime.ts",
+      "leaseFencingEnforced": true,
+      "missionContractFencingEnforced": true,
+      "actionAttemptBindingEnforced": true
+    },
+    "speculativePromotionGate": {
+      "status": "INTEGRATED",
+      "file": "src/application/speculative-promotion-gate.ts",
+      "atomicEvaluation": true,
+      "checksCount": 16
+    },
+    "cleanRoomVerifier": {
+      "status": "SOVEREIGN_AUTHORITY",
+      "file": "src/application/clean-room-verifier.ts",
+      "fourfoldGateRequired": true
+    }
+  },
+  "subordinateStates": [
+    "NONE",
+    "PROPOSED",
+    "ACTIVE",
+    "AWAITING_VERIFICATION",
+    "PROMOTABLE",
+    "INVALIDATED",
+    "ROLLING_BACK",
+    "ROLLED_BACK"
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "phaseSecurityScope": "N541-N570",
+  "phaseControlCount": 30,
+  "phaseFailClosedRate": 1,
+  "cumulativeSecurityScope": "N1-N570",
+  "cumulativeControlCount": 570,
+  "cumulativeFailClosedRate": 1,
+  "controls": [
+    {
+      "controlId": "N541",
+      "description": "runtime speculative authority injection",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N542",
+      "description": "AgentStepController speculation bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N543",
+      "description": "WorkerRuntime speculation bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N544",
+      "description": "speculative ToolGateway bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N545",
+      "description": "speculative lease bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N546",
+      "description": "speculative contract bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N547",
+      "description": "speculative resource bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N548",
+      "description": "speculative workspace bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N549",
+      "description": "speculative repository bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N550",
+      "description": "speculative Action/Attempt identity substitution",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N551",
+      "description": "speculative idempotency substitution",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N552",
+      "description": "stale speculative promotion",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N553",
+      "description": "verification-before-current-state bypass",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N554",
+      "description": "promotion without sovereign verification",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N555",
+      "description": "promotion after lease loss",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N556",
+      "description": "promotion after contract revocation",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N557",
+      "description": "promotion after cancellation",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N558",
+      "description": "promotion after run termination",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N559",
+      "description": "crash-recovery promotion confusion",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N560",
+      "description": "partial promotion",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N561",
+      "description": "duplicate promotion",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N562",
+      "description": "speculative resource double-accounting",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N563",
+      "description": "speculative memory authority escalation",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N564",
+      "description": "speculative context authority escalation",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N565",
+      "description": "rollback bypass through runtime",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N566",
+      "description": "runtime rollback evidence deletion",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N567",
+      "description": "runtime branch ancestry substitution",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N568",
+      "description": "runtime provenance substitution",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N569",
+      "description": "runtime terminal escalation",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N570",
+      "description": "runtime oracle/reference leakage",
+      "status": "FAIL_CLOSED",
+      "passed": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalScenarios": 15,
+  "scenarios": [
+    {
+      "scenarioIndex": 1,
+      "pointOfCrash": "before branch creation",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 2,
+      "pointOfCrash": "after branch creation",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 3,
+      "pointOfCrash": "after snapshot",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 4,
+      "pointOfCrash": "during speculative execution",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 5,
+      "pointOfCrash": "after execution",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 6,
+      "pointOfCrash": "while verification pending",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 7,
+      "pointOfCrash": "after verification passes",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 8,
+      "pointOfCrash": "before promotion",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 9,
+      "pointOfCrash": "during promotion",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 10,
+      "pointOfCrash": "after promotion",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 11,
+      "pointOfCrash": "during rollback",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 12,
+      "pointOfCrash": "after rollback",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 13,
+      "pointOfCrash": "during cascade rollback",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 14,
+      "pointOfCrash": "after cascade rollback",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    },
+    {
+      "scenarioIndex": 15,
+      "pointOfCrash": "after worker lease loss",
+      "statePreserved": true,
+      "authorityLeak": false,
+      "durableStoreConsistent": true,
+      "recoveryOutcome": "DETERMINISTIC_RECOVERY_SUCCESS"
+    }
+  ],
+  "crashRecoveryCorrectness": 1
+}

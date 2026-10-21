@@ -1,0 +1,19 @@
+{
+  "phase": 94,
+  "title": "Governed Speculative Execution Runtime Integration",
+  "governingPrinciple": "Speculation may expand the search space. It must never expand authority.",
+  "baselineCommit": "62d949db1c04ed42a938efdcf1ac3df87f8fd5e8",
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "taskCohortCount": 20,
+  "experimentConditionCount": 8,
+  "totalTrials": 160,
+  "securityControlsScope": "N541-N570",
+  "authorityInvariantsScope": "R1-R20",
+  "promotionChecksCount": 16,
+  "targetMetrics": {
+    "RuntimeStalePromotionRate": 0,
+    "RuntimeAuthorityLeakRate": 0,
+    "RuntimeRollbackCorrectness": 1,
+    "RuntimeCrashRecoveryCorrectness": 1
+  }
+}

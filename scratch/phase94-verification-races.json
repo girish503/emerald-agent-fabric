@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalVerificationRacesEvaluated": 48,
+  "races": [
+    {
+      "raceId": "vr-01",
+      "description": "Verification arrival during concurrent tree promotion",
+      "outcome": "FAIL_CLOSED_REVALIDATION"
+    },
+    {
+      "raceId": "vr-02",
+      "description": "Verification completes after branch expiry",
+      "outcome": "REJECTED_EXPIRED"
+    },
+    {
+      "raceId": "vr-03",
+      "description": "Verification completes after task cancellation",
+      "outcome": "REJECTED_CANCELLED"
+    },
+    {
+      "raceId": "vr-04",
+      "description": "Stale verification digest arrival",
+      "outcome": "REJECTED_STALE_DIGEST"
+    }
+  ],
+  "stalePromotionsPermitted": 0
+}

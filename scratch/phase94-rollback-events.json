@@ -1,0 +1,342 @@
+[
+  {
+    "rollbackId": "rb-evt-1",
+    "targetBranchId": "branch-2",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-2"
+    ],
+    "preservedBranchIds": [
+      "branch-1"
+    ],
+    "previousTreeDigest": "9d779106c599bcccc53b33b8db767b9d2a552cb72c978462022a870c4eb14e44",
+    "resultingTreeDigest": "43925202f37c5c16aa60f1ed79553d68a76c9eaf9dc0f2c19f8c0a26f755c24f",
+    "rollbackSequence": 1,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-2",
+    "targetBranchId": "branch-4",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-4"
+    ],
+    "preservedBranchIds": [
+      "branch-3"
+    ],
+    "previousTreeDigest": "067031ed8d4acb3af02ada5b54d149e9f8bb3b986512f09e2d508e95ba505035",
+    "resultingTreeDigest": "c3ca9bb7f23f2d58a49a8bd9af29a33c8c80ff50ae95a5d55a519292d53b9a34",
+    "rollbackSequence": 2,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-3",
+    "targetBranchId": "branch-6",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-6"
+    ],
+    "preservedBranchIds": [
+      "branch-5"
+    ],
+    "previousTreeDigest": "452be66c2bc1053507dede88c31a2da42b49695dbbd00c7a5569c38d20fc14ea",
+    "resultingTreeDigest": "04d35ae42af713f8cc8ac97f84dd427d349a846f0557bbbd7898018ae09c2917",
+    "rollbackSequence": 3,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-4",
+    "targetBranchId": "branch-8",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-8"
+    ],
+    "preservedBranchIds": [
+      "branch-7"
+    ],
+    "previousTreeDigest": "9777038e278ed3b7ca0895c530544aca3b6482b45cf4bd046117540c5fef5b32",
+    "resultingTreeDigest": "cc91c0fd155de670bffaadb16dd194a37ac35c59b6a0f022a57286f711244301",
+    "rollbackSequence": 4,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-5",
+    "targetBranchId": "branch-10",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-10"
+    ],
+    "preservedBranchIds": [
+      "branch-9"
+    ],
+    "previousTreeDigest": "f2fd5f5b906b893f3a91b42bc67a11ff1b5719b2414595da42ad3936ee9d3eb3",
+    "resultingTreeDigest": "ad5cc269d31f3d6114f40c55b168a00d39806123005372376b4ecb236a5e40ca",
+    "rollbackSequence": 5,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-6",
+    "targetBranchId": "branch-12",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-12"
+    ],
+    "preservedBranchIds": [
+      "branch-11"
+    ],
+    "previousTreeDigest": "ea10ce76f820e6a5f47c4bd32ff6b6035348c721fce5e632aa0ce042152751a4",
+    "resultingTreeDigest": "3e1cbc16f346f6cfdd2c9d354d3b051b4a7d234f9c102c6febce1af51af04794",
+    "rollbackSequence": 6,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-7",
+    "targetBranchId": "branch-14",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-14"
+    ],
+    "preservedBranchIds": [
+      "branch-13"
+    ],
+    "previousTreeDigest": "709f4a804b3e519076b48a75246e176744cce30bded1d152bd5c8ffd1d01abb7",
+    "resultingTreeDigest": "18729cd5a47e60260c29edbd85595fdbb246b56d0ed52096c3233f725ab9676d",
+    "rollbackSequence": 7,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-8",
+    "targetBranchId": "branch-16",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-16"
+    ],
+    "preservedBranchIds": [
+      "branch-15"
+    ],
+    "previousTreeDigest": "65a2a91bb839945d5c35a6798934234c16a213d48e2aa457abf194d22a620c3b",
+    "resultingTreeDigest": "781dc901464248896e389f3e31a20aa677098acb2c17860391713889a0d90265",
+    "rollbackSequence": 8,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-9",
+    "targetBranchId": "branch-18",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-18"
+    ],
+    "preservedBranchIds": [
+      "branch-17"
+    ],
+    "previousTreeDigest": "965eaf6882361602f8b09041543103466cb498728608ba5ffa17222355b79fd6",
+    "resultingTreeDigest": "e78d8398de547f3fd6114f6c0c7caae400d86c4997e38fd29c5d9a8e223462ba",
+    "rollbackSequence": 9,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-10",
+    "targetBranchId": "branch-20",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-20"
+    ],
+    "preservedBranchIds": [
+      "branch-19"
+    ],
+    "previousTreeDigest": "0ee5b146938c4852e7b01bf28b4dd477e805e1741ea90df6cc7ce809f2855cda",
+    "resultingTreeDigest": "78ffd02e9d46bc7ffaf50c51ed38d1c39a00f9545516c6cb8e52831564300c38",
+    "rollbackSequence": 10,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-11",
+    "targetBranchId": "branch-22",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-22"
+    ],
+    "preservedBranchIds": [
+      "branch-21"
+    ],
+    "previousTreeDigest": "49962a995d807c83da5580b46c6a37f60849308c041bd65036228d050e546995",
+    "resultingTreeDigest": "f378c2270845a9be8d53b17149441c0909cb72cefcd589e9d958ca0290aa12e3",
+    "rollbackSequence": 11,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-12",
+    "targetBranchId": "branch-24",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-24"
+    ],
+    "preservedBranchIds": [
+      "branch-23"
+    ],
+    "previousTreeDigest": "c89f0f5dc66715a078695821321428db45f60e8be162a9f3af17cc3dfdf0c92f",
+    "resultingTreeDigest": "c101d8eb9c64592fda1825e68e9f7726c182b4f1b4eca99f133a643777814f92",
+    "rollbackSequence": 12,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-13",
+    "targetBranchId": "branch-26",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-26"
+    ],
+    "preservedBranchIds": [
+      "branch-25"
+    ],
+    "previousTreeDigest": "15e45c92fd9a2204359547d6d7a4ec33e0d81ec16278fea9aebeb12ca04b9515",
+    "resultingTreeDigest": "a128d0f9199a02f6e3a48ab2c8169196730aaa9587ef4c905e3b95d23a90a26a",
+    "rollbackSequence": 13,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-14",
+    "targetBranchId": "branch-28",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-28"
+    ],
+    "preservedBranchIds": [
+      "branch-27"
+    ],
+    "previousTreeDigest": "b0f0e18ac6722677316acd82a33d94ea8a477875782498a582e1bcb92418bcf0",
+    "resultingTreeDigest": "b8e2a87caa781a8f10fdc93616744c9ab3f9f042d29c0fc5f70e205d25603439",
+    "rollbackSequence": 14,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-15",
+    "targetBranchId": "branch-30",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-30"
+    ],
+    "preservedBranchIds": [
+      "branch-29"
+    ],
+    "previousTreeDigest": "5cd0b891f791efb6f767294451a8090db813cf581ec2336f68252cb4dde22dba",
+    "resultingTreeDigest": "6f932a5030c3f14fc5e97b9cd91c1db41f011c1a9c3d63f0e3dd7d25c10b1a83",
+    "rollbackSequence": 15,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-16",
+    "targetBranchId": "branch-32",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-32"
+    ],
+    "preservedBranchIds": [
+      "branch-31"
+    ],
+    "previousTreeDigest": "7ce36bffe14c57e32353b5f397dd2c2e4a0e8c1bf2d93332c82bc617ebd3619a",
+    "resultingTreeDigest": "dd1e69b8cbeeb9f79a00fc678392c2c47e8f76bc73cdf9ad2ca5c8a12276187c",
+    "rollbackSequence": 16,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-17",
+    "targetBranchId": "branch-34",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-34"
+    ],
+    "preservedBranchIds": [
+      "branch-33"
+    ],
+    "previousTreeDigest": "f8caf40515df60c68423b3e3f73d0a2b67457dc368a4d7800c019a63c8a82de7",
+    "resultingTreeDigest": "0146fcef8305315957cb3fcf89907b040cb863181d8790c71d269125375b2a85",
+    "rollbackSequence": 17,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-18",
+    "targetBranchId": "branch-36",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-36"
+    ],
+    "preservedBranchIds": [
+      "branch-35"
+    ],
+    "previousTreeDigest": "753a493b92a4dc113ae05b790b77d535de3db36443d6429a1a9ffebaa17a5826",
+    "resultingTreeDigest": "368d250aa639ea7e49fea579770e513f69e01833c70e8bfc05e6d66f817a62d2",
+    "rollbackSequence": 18,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-19",
+    "targetBranchId": "branch-38",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-38"
+    ],
+    "preservedBranchIds": [
+      "branch-37"
+    ],
+    "previousTreeDigest": "2cfc584455acf0b9d5a318d215340f2a59f8c1d81c5c3706befa34ff9adf9547",
+    "resultingTreeDigest": "badc2378341969bd0cff17ff9d10bb4cfeb85e144a62984330b9e0830b566822",
+    "rollbackSequence": 19,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "rollbackId": "rb-evt-20",
+    "targetBranchId": "branch-40",
+    "policy": "STRICT_CASCADE",
+    "reason": "SPECULATIVE_VERIFICATION_FAILED",
+    "rolledBackBranchIds": [
+      "branch-40"
+    ],
+    "preservedBranchIds": [
+      "branch-39"
+    ],
+    "previousTreeDigest": "409ea26e86f70ba9248d8a8f4d095257859ff2b7ee970515273bb97f2aa8aa8e",
+    "resultingTreeDigest": "b8e23fd700a89c4fec7e83f26b6f3240c7c6e94af4d558b2f0254f29c55a69ea",
+    "rollbackSequence": 20,
+    "idempotentReplayVerified": true,
+    "timestamp": "2026-10-21T12:00:00.000Z"
+  }
+]
