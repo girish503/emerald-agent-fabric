@@ -1,0 +1,121 @@
+{
+  "goalId": "goal-goal-root-89-d2-s1",
+  "plans": [
+    {
+      "planId": "plan-goal-goal-root-89-d2-s1-analyzer-d2ad8f96",
+      "goalId": "goal-goal-root-89-d2-s1",
+      "agentRole": "ANALYZER",
+      "planDigest": "b01a8ff28f4614beda2d7313b8df4a3367a1e55ed8362d7645d5178043f3b35e",
+      "proposedActions": [
+        {
+          "actionId": "act-sg1-1",
+          "description": "Audit action transition invariants",
+          "targetFile": "src/domain/action.ts",
+          "expectedDiffBytes": 256
+        }
+      ],
+      "expectedEvidence": [
+        "UNIT_TEST_LOG"
+      ],
+      "dependencies": [],
+      "assumptions": [
+        "Transitions are pure functions"
+      ],
+      "risks": [
+        "Standard implementation risk under ANALYZER"
+      ],
+      "verificationPlan": [
+        "EXECUTE_SUBGOAL_TESTS"
+      ],
+      "provenance": "314d977e4037c4bc0d72b3698c885531a7e30960ba101ea8c00447c25bb9f5b1",
+      "createdAt": "2026-10-21T07:00:00.000Z"
+    },
+    {
+      "planId": "plan-goal-goal-root-89-d2-s1-implementer-d2ad8f96",
+      "goalId": "goal-goal-root-89-d2-s1",
+      "agentRole": "IMPLEMENTER",
+      "planDigest": "f9e0d36fbc2396e4275d56b1ee1d72cff068501c51a6d37fc11c8b06bdc46a8e",
+      "proposedActions": [
+        {
+          "actionId": "act-sg1-2",
+          "description": "Refactor Action.applyTransition to return copy",
+          "targetFile": "src/domain/action.ts",
+          "expectedDiffBytes": 512
+        }
+      ],
+      "expectedEvidence": [
+        "UNIT_TEST_LOG"
+      ],
+      "dependencies": [],
+      "assumptions": [
+        "Transitions are pure functions"
+      ],
+      "risks": [
+        "Standard implementation risk under IMPLEMENTER"
+      ],
+      "verificationPlan": [
+        "EXECUTE_SUBGOAL_TESTS"
+      ],
+      "provenance": "18fd01f09fc60c01c2fff425bcc75f0ea4fa476f71e49663b2f8fe223475f47d",
+      "createdAt": "2026-10-21T07:00:00.000Z"
+    },
+    {
+      "planId": "plan-goal-goal-root-89-d2-s1-reviewer-d2ad8f96",
+      "goalId": "goal-goal-root-89-d2-s1",
+      "agentRole": "REVIEWER",
+      "planDigest": "0854442c51f3e576fbc29ea317edeca997267534d9177db0fc895c87b249534d",
+      "proposedActions": [
+        {
+          "actionId": "act-sg1-3",
+          "description": "Validate zero mutation guarantees",
+          "targetFile": "src/domain/action.ts",
+          "expectedDiffBytes": 256
+        }
+      ],
+      "expectedEvidence": [
+        "UNIT_TEST_LOG"
+      ],
+      "dependencies": [],
+      "assumptions": [
+        "Transitions are pure functions"
+      ],
+      "risks": [
+        "Standard implementation risk under REVIEWER"
+      ],
+      "verificationPlan": [
+        "EXECUTE_SUBGOAL_TESTS"
+      ],
+      "provenance": "eaaf1f1a541833e396ea40fbaf6b58f61f7c367390749377a04ea78aafa759ff",
+      "createdAt": "2026-10-21T07:00:00.000Z"
+    },
+    {
+      "planId": "plan-goal-goal-root-89-d2-s1-test_analyst-d2ad8f96",
+      "goalId": "goal-goal-root-89-d2-s1",
+      "agentRole": "TEST_ANALYST",
+      "planDigest": "1722b3857375f70d306d960185d45852d6237f4b0ca418aab8f826bb687114dc",
+      "proposedActions": [
+        {
+          "actionId": "act-sg1-4",
+          "description": "Add boundary test assertions",
+          "targetFile": "src/domain/action.ts",
+          "expectedDiffBytes": 256
+        }
+      ],
+      "expectedEvidence": [
+        "UNIT_TEST_LOG"
+      ],
+      "dependencies": [],
+      "assumptions": [
+        "Transitions are pure functions"
+      ],
+      "risks": [
+        "Standard implementation risk under TEST_ANALYST"
+      ],
+      "verificationPlan": [
+        "EXECUTE_SUBGOAL_TESTS"
+      ],
+      "provenance": "a76615d8cf18417074e32112cac7635d2c47de5ee3186115155af4ebbfcc78de",
+      "createdAt": "2026-10-21T07:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "parentCapabilities": [
+    "READ_WORKSPACE",
+    "READ_REPOSITORY",
+    "READ_AST",
+    "EXECUTE_ANALYSIS"
+  ],
+  "child1Capabilities": [
+    "READ_WORKSPACE",
+    "READ_AST",
+    "EXECUTE_ANALYSIS"
+  ],
+  "capabilityContainmentPreserved": true,
+  "dynamicAuthorityStripped": true
+}

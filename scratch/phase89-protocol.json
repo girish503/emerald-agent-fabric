@@ -1,0 +1,29 @@
+{
+  "phase": 89,
+  "title": "Governed Hierarchical Goal Decomposition & Multi-Agent Plan Reconciliation",
+  "baseline": "6aef798aaaad2c84c2c86898ba9499caabefbb30",
+  "governingRules": [
+    "Decomposition may reduce reasoning complexity. It must never increase authority.",
+    "ChildAuthority ⊆ ParentAuthority",
+    "ChildCapabilities ⊆ ParentCapabilities",
+    "ChildScope ⊆ ParentScope",
+    "ChildResources <= ParentRemainingResources",
+    "ReconciledPlanAuthority === 0",
+    "LocalVerification !== TerminalMissionSuccess",
+    "Sovereign clean-room fourfold verification remains the sole sovereign terminal authority"
+  ],
+  "executionConditions": [
+    "Condition A: Single-agent monolithic (Phase 88 baseline)",
+    "Condition B: Single-agent hierarchical decomposition (1 planner)",
+    "Condition C: Two-agent hierarchical (analyzer + implementer)",
+    "Condition D: Three-agent hierarchical (analyzer + implementer + reviewer)",
+    "Condition E: Four-agent hierarchical (analyzer + implementer + test analyst + reconciler)",
+    "Condition F: Governed multi-agent with Policy A (strict union)",
+    "Condition G: Governed multi-agent with Policy B (priority ordered)",
+    "Condition H: Governed multi-agent with Policy D (governed adaptive)"
+  ],
+  "totalTasks": 15,
+  "totalConditions": 8,
+  "totalTrials": 60,
+  "timestamp": "2026-10-21T07:00:00.000Z"
+}

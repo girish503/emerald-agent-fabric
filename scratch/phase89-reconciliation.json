@@ -1,0 +1,62 @@
+{
+  "reconciliation": {
+    "reconciliationId": "rec-goal-goal-root-89-d2-s1-policy-d-governed-adaptive",
+    "goalId": "goal-goal-root-89-d2-s1",
+    "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+    "selectedPlanIds": [
+      "plan-goal-goal-root-89-d2-s1-analyzer-d2ad8f96",
+      "plan-goal-goal-root-89-d2-s1-implementer-d2ad8f96",
+      "plan-goal-goal-root-89-d2-s1-reviewer-d2ad8f96",
+      "plan-goal-goal-root-89-d2-s1-test_analyst-d2ad8f96"
+    ],
+    "reconciledActions": [
+      {
+        "actionId": "act-sg1-1",
+        "description": "Audit action transition invariants",
+        "targetFile": "src/domain/action.ts",
+        "expectedDiffBytes": 256
+      }
+    ],
+    "mergedAssumptions": [
+      "Transitions are pure functions"
+    ],
+    "resolvedConflicts": [
+      {
+        "conflictId": "conf-ownership-d3da5278",
+        "conflictType": "FILE_OWNERSHIP_CONFLICT",
+        "planIds": [
+          "plan-goal-goal-root-89-d2-s1-analyzer-d2ad8f96",
+          "plan-goal-goal-root-89-d2-s1-implementer-d2ad8f96",
+          "plan-goal-goal-root-89-d2-s1-reviewer-d2ad8f96",
+          "plan-goal-goal-root-89-d2-s1-test_analyst-d2ad8f96"
+        ],
+        "description": "Conflicting mutations proposed for file 'src/domain/action.ts' across multiple plans.",
+        "severity": "HIGH",
+        "affectedFiles": [
+          "src/domain/action.ts"
+        ]
+      }
+    ],
+    "unresolvedConflicts": [],
+    "reconciliationDigest": "2a3bd600f2cce90b205da4890a9d4309765e6fd1e59c8edb8e76e5b3766493ae",
+    "provenanceRoot": "8118b71a315b6c1802dace7ca50234202fdd90855d6de85285070b95f491dc77",
+    "status": "RECONCILED",
+    "authoritative": false,
+    "policyAuthority": false,
+    "terminalAuthority": false,
+    "verificationAuthority": false,
+    "createdAt": "2026-10-21T07:00:00.000Z"
+  },
+  "policiesEvaluated": [
+    "POLICY_A_STRICT_UNION",
+    "POLICY_B_PRIORITY_ORDERED",
+    "POLICY_C_MINIMUM_CONFLICT",
+    "POLICY_D_GOVERNED_ADAPTIVE"
+  ],
+  "governanceGuarantees": {
+    "authoritative": false,
+    "policyAuthority": false,
+    "terminalAuthority": false,
+    "verificationAuthority": false
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "totalConflictsDetected": 1,
+  "conflicts": [
+    {
+      "conflictId": "conf-ownership-d3da5278",
+      "conflictType": "FILE_OWNERSHIP_CONFLICT",
+      "planIds": [
+        "plan-goal-goal-root-89-d2-s1-analyzer-d2ad8f96",
+        "plan-goal-goal-root-89-d2-s1-implementer-d2ad8f96",
+        "plan-goal-goal-root-89-d2-s1-reviewer-d2ad8f96",
+        "plan-goal-goal-root-89-d2-s1-test_analyst-d2ad8f96"
+      ],
+      "description": "Conflicting mutations proposed for file 'src/domain/action.ts' across multiple plans.",
+      "severity": "HIGH",
+      "affectedFiles": [
+        "src/domain/action.ts"
+      ]
+    }
+  ]
+}

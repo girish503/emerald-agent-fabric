@@ -1,0 +1,172 @@
+{
+  "treeId": "gtree-goal-root-89",
+  "rootGoalId": "goal-root-89",
+  "nodes": {
+    "goal-root-89": {
+      "goalId": "goal-root-89",
+      "rootGoalId": "goal-root-89",
+      "depth": 1,
+      "sequenceNumber": 1,
+      "goalDigest": "307388ae1abcb66eb93d7b98efe704e4d7720afba5ac96d9dae6443b4d98ba8f",
+      "objective": "Transform worker runtime concurrency to use lock-free state transitions",
+      "constraints": [
+        "Do not mutate state store schema",
+        "Preserve lease fencing"
+      ],
+      "acceptanceCriteria": [
+        "All action tests pass",
+        "Zero deadlocks under concurrency"
+      ],
+      "dependencies": [],
+      "affectedScope": {
+        "workspaceScopes": [
+          "workspace/default"
+        ],
+        "repositoryScopes": [
+          "repo-main"
+        ],
+        "targetFiles": [
+          "src/domain/action.ts",
+          "src/application/worker-runtime.ts"
+        ]
+      },
+      "requiredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "requiredEvidence": [
+        "CONCURRENCY_TEST_REPORT",
+        "AST_DIFF"
+      ],
+      "resourceBudget": {
+        "maxTotalWallTimeMs": 180000,
+        "maxPlanningCalls": 32,
+        "maxPlanAlternatives": 4,
+        "maxReconciliationRounds": 4,
+        "maxToolCalls": 64,
+        "maxContextBytes": 131072,
+        "maxPayloadBytes": 65536,
+        "maxOutputDiffBytes": 16384
+      },
+      "status": "PROPOSED",
+      "createdAt": "2026-10-21T07:00:00.000Z"
+    },
+    "goal-goal-root-89-d2-s1": {
+      "goalId": "goal-goal-root-89-d2-s1",
+      "parentGoalId": "goal-root-89",
+      "rootGoalId": "goal-root-89",
+      "depth": 2,
+      "sequenceNumber": 1,
+      "goalDigest": "012f534e348f260f46b8d9e76ce4da5f198244ee45c383b1edb23b6078c1a427",
+      "objective": "Subgoal 1: Refactor Action Transition Helpers",
+      "constraints": [
+        "Maintain immutable state",
+        "No database calls"
+      ],
+      "acceptanceCriteria": [
+        "Action state transition unit tests pass"
+      ],
+      "dependencies": [],
+      "affectedScope": {
+        "workspaceScopes": [
+          "workspace/default"
+        ],
+        "repositoryScopes": [
+          "repo-main"
+        ],
+        "targetFiles": [
+          "src/domain/action.ts"
+        ]
+      },
+      "requiredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "requiredEvidence": [
+        "UNIT_TEST_LOG"
+      ],
+      "resourceBudget": {
+        "maxDepth": 4,
+        "maxTotalGoals": 16,
+        "maxTotalWallTimeMs": 45000,
+        "maxTotalToolCalls": 64
+      },
+      "status": "DECOMPOSED",
+      "provenance": "8880e674d8008dfe35a89174fced33cbe9d6fa9df5ebb44986526507e659b90c",
+      "atomicity": {
+        "affectedScopeBounded": true,
+        "acceptanceCriteriaTestable": true,
+        "evidenceExplicit": true,
+        "dependenciesKnown": true,
+        "atomicityScore": 100
+      },
+      "createdAt": "2026-10-21T07:00:00.000Z"
+    },
+    "goal-goal-root-89-d2-s2": {
+      "goalId": "goal-goal-root-89-d2-s2",
+      "parentGoalId": "goal-root-89",
+      "rootGoalId": "goal-root-89",
+      "depth": 2,
+      "sequenceNumber": 2,
+      "goalDigest": "6bc4e2b5bb3d4b082e072ae521929ae141f00c04a8d4e4647a81f31d55146b01",
+      "objective": "Subgoal 2: Implement Worker Runtime Transition Coordination",
+      "constraints": [
+        "Preserve lease fencing",
+        "Zero memory allocations on fast path"
+      ],
+      "acceptanceCriteria": [
+        "WorkerRuntime concurrent attempt execution succeeds"
+      ],
+      "dependencies": [
+        "goal-root-89.sub1"
+      ],
+      "affectedScope": {
+        "workspaceScopes": [
+          "workspace/default"
+        ],
+        "repositoryScopes": [
+          "repo-main"
+        ],
+        "targetFiles": [
+          "src/application/worker-runtime.ts"
+        ]
+      },
+      "requiredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "requiredEvidence": [
+        "INTEGRATION_TEST_LOG"
+      ],
+      "resourceBudget": {
+        "maxDepth": 4,
+        "maxTotalGoals": 16,
+        "maxTotalWallTimeMs": 45000,
+        "maxTotalToolCalls": 64
+      },
+      "status": "DECOMPOSED",
+      "provenance": "afae370840ff80cc1842ae9c63ffa5d9cfaa3f0691e6d2d7ef58cd038fdfbe7f",
+      "atomicity": {
+        "affectedScopeBounded": true,
+        "acceptanceCriteriaTestable": true,
+        "evidenceExplicit": true,
+        "dependenciesKnown": true,
+        "atomicityScore": 100
+      },
+      "createdAt": "2026-10-21T07:00:00.000Z"
+    }
+  },
+  "dependencyEdges": [
+    {
+      "fromGoalId": "goal-root-89.sub1",
+      "toGoalId": "goal-goal-root-89-d2-s2"
+    }
+  ],
+  "treeDigest": "be3a89a157e06e408b5ff84bc5645fea3c1926adc168d47c1b9941910ff661eb",
+  "provenanceRoot": "95b43e40c6e4887baf4787d1ccbba51e2c429f62ee4ef0490a49911ff66ed3cf",
+  "createdAt": "2026-10-21T07:00:00.000Z"
+}

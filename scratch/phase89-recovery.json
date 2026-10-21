@@ -1,0 +1,96 @@
+{
+  "totalScenarios": 15,
+  "recoveredCount": 15,
+  "scenarios": [
+    {
+      "scenarioId": "REC-01",
+      "name": "Worker crash during goal decomposition",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-02",
+      "name": "Worker crash during plan synthesis",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-03",
+      "name": "Worker crash during multi-agent reconciliation",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-04",
+      "name": "Worker crash during local sub-goal execution",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-05",
+      "name": "Worker crash during intermediate verification",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-06",
+      "name": "Worker crash before global reconciliation",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-07",
+      "name": "Worker crash inside clean-room sovereign gate",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-08",
+      "name": "Lease expiration mid-DAG execution",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-09",
+      "name": "Dynamic tool revocation mid-tree execution",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-10",
+      "name": "Dynamic tool TTL expiration mid-tree execution",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-11",
+      "name": "Circular dependency injection detection on restart",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-12",
+      "name": "Orphaned child sub-goal recovery",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-13",
+      "name": "Corrupted plan digest tamper detection on restart",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-14",
+      "name": "Corrupted goal contract detection on restart",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "scenarioId": "REC-15",
+      "name": "Partial execution evidence preservation on abort",
+      "recovered": true,
+      "cleanRollback": true
+    }
+  ]
+}

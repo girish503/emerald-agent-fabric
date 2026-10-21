@@ -1,0 +1,26 @@
+{
+  "parentScope": {
+    "workspaceScopes": [
+      "workspace/default"
+    ],
+    "repositoryScopes": [
+      "repo-main"
+    ],
+    "targetFiles": [
+      "src/domain/action.ts",
+      "src/application/worker-runtime.ts"
+    ]
+  },
+  "child1Scope": {
+    "workspaceScopes": [
+      "workspace/default"
+    ],
+    "repositoryScopes": [
+      "repo-main"
+    ],
+    "targetFiles": [
+      "src/domain/action.ts"
+    ]
+  },
+  "scopeContainmentPreserved": true
+}

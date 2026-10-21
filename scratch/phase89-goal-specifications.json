@@ -1,0 +1,203 @@
+{
+  "rootGoal": {
+    "goalId": "goal-root-89",
+    "rootGoalId": "goal-root-89",
+    "depth": 1,
+    "sequenceNumber": 1,
+    "goalDigest": "307388ae1abcb66eb93d7b98efe704e4d7720afba5ac96d9dae6443b4d98ba8f",
+    "objective": "Transform worker runtime concurrency to use lock-free state transitions",
+    "constraints": [
+      "Do not mutate state store schema",
+      "Preserve lease fencing"
+    ],
+    "acceptanceCriteria": [
+      "All action tests pass",
+      "Zero deadlocks under concurrency"
+    ],
+    "dependencies": [],
+    "affectedScope": {
+      "workspaceScopes": [
+        "workspace/default"
+      ],
+      "repositoryScopes": [
+        "repo-main"
+      ],
+      "targetFiles": [
+        "src/domain/action.ts",
+        "src/application/worker-runtime.ts"
+      ]
+    },
+    "requiredCapabilities": [
+      "READ_WORKSPACE",
+      "READ_REPOSITORY",
+      "READ_AST",
+      "EXECUTE_ANALYSIS"
+    ],
+    "requiredEvidence": [
+      "CONCURRENCY_TEST_REPORT",
+      "AST_DIFF"
+    ],
+    "resourceBudget": {
+      "maxTotalWallTimeMs": 180000,
+      "maxPlanningCalls": 32,
+      "maxPlanAlternatives": 4,
+      "maxReconciliationRounds": 4,
+      "maxToolCalls": 64,
+      "maxContextBytes": 131072,
+      "maxPayloadBytes": 65536,
+      "maxOutputDiffBytes": 16384
+    },
+    "status": "PROPOSED",
+    "createdAt": "2026-10-21T07:00:00.000Z"
+  },
+  "subGoalSpecifications": [
+    {
+      "objective": "Subgoal 1: Refactor Action Transition Helpers",
+      "constraints": [
+        "Maintain immutable state",
+        "No database calls"
+      ],
+      "acceptanceCriteria": [
+        "Action state transition unit tests pass"
+      ],
+      "dependencies": [],
+      "affectedScope": {
+        "workspaceScopes": [
+          "workspace/default"
+        ],
+        "repositoryScopes": [
+          "repo-main"
+        ],
+        "targetFiles": [
+          "src/domain/action.ts"
+        ]
+      },
+      "requiredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "requiredEvidence": [
+        "UNIT_TEST_LOG"
+      ],
+      "resourceBudget": {
+        "maxTotalWallTimeMs": 45000,
+        "maxToolCalls": 16,
+        "maxOutputDiffBytes": 4096
+      }
+    },
+    {
+      "objective": "Subgoal 2: Implement Worker Runtime Transition Coordination",
+      "constraints": [
+        "Preserve lease fencing",
+        "Zero memory allocations on fast path"
+      ],
+      "acceptanceCriteria": [
+        "WorkerRuntime concurrent attempt execution succeeds"
+      ],
+      "dependencies": [
+        "goal-root-89.sub1"
+      ],
+      "affectedScope": {
+        "workspaceScopes": [
+          "workspace/default"
+        ],
+        "repositoryScopes": [
+          "repo-main"
+        ],
+        "targetFiles": [
+          "src/application/worker-runtime.ts"
+        ]
+      },
+      "requiredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "requiredEvidence": [
+        "INTEGRATION_TEST_LOG"
+      ],
+      "resourceBudget": {
+        "maxTotalWallTimeMs": 45000,
+        "maxToolCalls": 16,
+        "maxOutputDiffBytes": 4096
+      }
+    }
+  ],
+  "subGoalContracts": [
+    {
+      "goalId": "goal-goal-root-89-d2-s1",
+      "parentGoalId": "goal-root-89",
+      "rootGoalId": "goal-root-89",
+      "objective": "Subgoal 1: Refactor Action Transition Helpers",
+      "scope": {
+        "workspaceScopes": [
+          "workspace/default"
+        ],
+        "repositoryScopes": [
+          "repo-main"
+        ],
+        "targetFiles": [
+          "src/domain/action.ts"
+        ]
+      },
+      "expectedArtifacts": [
+        "DIFF",
+        "TEST_REPORT"
+      ],
+      "acceptanceCriteria": [
+        "Action state transition unit tests pass"
+      ],
+      "dependencies": [],
+      "verificationRequirements": [
+        "UNIT_TEST"
+      ],
+      "parentContractDigest": "307388ae1abcb66eb93d7b98efe704e4d7720afba5ac96d9dae6443b4d98ba8f",
+      "resourceLimits": {
+        "maxDepth": 4,
+        "maxTotalGoals": 16,
+        "maxTotalWallTimeMs": 45000,
+        "maxTotalToolCalls": 64
+      },
+      "contractDigest": "8edb748a26d645f20d1e6e30f6e338f5d86a64429a994abbbd69a69c182fb5b4"
+    },
+    {
+      "goalId": "goal-goal-root-89-d2-s2",
+      "parentGoalId": "goal-root-89",
+      "rootGoalId": "goal-root-89",
+      "objective": "Subgoal 2: Implement Worker Runtime Transition Coordination",
+      "scope": {
+        "workspaceScopes": [
+          "workspace/default"
+        ],
+        "repositoryScopes": [
+          "repo-main"
+        ],
+        "targetFiles": [
+          "src/application/worker-runtime.ts"
+        ]
+      },
+      "expectedArtifacts": [
+        "DIFF",
+        "TEST_REPORT"
+      ],
+      "acceptanceCriteria": [
+        "WorkerRuntime concurrent attempt execution succeeds"
+      ],
+      "dependencies": [
+        "goal-root-89.sub1"
+      ],
+      "verificationRequirements": [
+        "UNIT_TEST"
+      ],
+      "parentContractDigest": "307388ae1abcb66eb93d7b98efe704e4d7720afba5ac96d9dae6443b4d98ba8f",
+      "resourceLimits": {
+        "maxDepth": 4,
+        "maxTotalGoals": 16,
+        "maxTotalWallTimeMs": 45000,
+        "maxTotalToolCalls": 64
+      },
+      "contractDigest": "c17c6ccaa1d02d833cb2c358cbfd10a984a6d05f9849bdb521d90db12ba8ef8c"
+    }
+  ]
+}

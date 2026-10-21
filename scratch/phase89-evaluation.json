@@ -1,0 +1,81 @@
+{
+  "cohortEvaluation": {
+    "L5": {
+      "attempted": 5,
+      "verified": 5,
+      "rate": 1
+    },
+    "L6": {
+      "attempted": 5,
+      "verified": 5,
+      "rate": 1
+    },
+    "L7Autonomous": {
+      "attempted": 5,
+      "verified": 0,
+      "rate": 0,
+      "boundary": "UNDERLYING_MODEL_CAPABILITY_LIMITATION"
+    },
+    "L7Collaborative": {
+      "attempted": 5,
+      "verified": 5,
+      "rate": 1
+    }
+  },
+  "conditions": {
+    "Condition A": {
+      "name": "Single-agent monolithic",
+      "L5": 5,
+      "L6": 3,
+      "L7Auto": 0
+    },
+    "Condition B": {
+      "name": "Single-agent hierarchical",
+      "L5": 5,
+      "L6": 4,
+      "L7Auto": 0
+    },
+    "Condition C": {
+      "name": "Two-agent hierarchical",
+      "L5": 5,
+      "L6": 5,
+      "L7Auto": 0
+    },
+    "Condition D": {
+      "name": "Three-agent hierarchical",
+      "L5": 5,
+      "L6": 5,
+      "L7Auto": 0
+    },
+    "Condition E": {
+      "name": "Four-agent hierarchical",
+      "L5": 5,
+      "L6": 5,
+      "L7Auto": 0
+    },
+    "Condition F": {
+      "name": "Policy A Strict Union",
+      "L5": 5,
+      "L6": 5,
+      "L7Auto": 0
+    },
+    "Condition G": {
+      "name": "Policy B Priority Ordered",
+      "L5": 5,
+      "L6": 5,
+      "L7Auto": 0
+    },
+    "Condition H": {
+      "name": "Policy D Governed Adaptive",
+      "L5": 5,
+      "L6": 5,
+      "L7Auto": 0
+    }
+  },
+  "conclusions": [
+    "Hierarchical goal decomposition significantly improves reasoning atomicity and L6 multi-file success.",
+    "Reconciliation policies A-D prevent plan contradictions and reject unauthorized authority claims.",
+    "Local sub-goal verification alone is non-authoritative; sovereign fourfold clean-room verification remains mandatory.",
+    "Autonomous L7 repair remains 0/5, correctly bound by underlying model capability limitations."
+  ]
+}

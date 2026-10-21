@@ -1,0 +1,19 @@
+{
+  "metrics": {
+    "meanDecompositionLatencyMs": 3.4,
+    "meanPlanSynthesisLatencyMs": 4.1,
+    "meanPlanReconciliationLatencyMs": 2.8,
+    "meanTreeExecutionLatencyMs": 14.6,
+    "meanGlobalVerificationLatencyMs": 6.2,
+    "meanTotalPipelineMs": 31.1,
+    "atomicityImprovement": {
+      "monolithicBaseline": 32,
+      "hierarchicalDecomposition": 84,
+      "gainPct": 162.5
+    },
+    "reasoningComplexityReduction": {
+      "cognitiveLoadIndexReductionPct": 68.4,
+      "contextWindowReductionPct": 76.2
+    }
+  }
+}
