@@ -1,0 +1,110 @@
+{
+  "cohortSize": 15,
+  "tasks": [
+    {
+      "taskId": "TASK-L5-01",
+      "level": "L5",
+      "name": "Syntax Fix & Local AST Normalization",
+      "defectType": "SYNTAX_ERROR",
+      "targetFile": "src/domain/action.ts"
+    },
+    {
+      "taskId": "TASK-L5-02",
+      "level": "L5",
+      "name": "Type Guard Narrowing Repair",
+      "defectType": "TYPE_ERROR",
+      "targetFile": "src/domain/attempt.ts"
+    },
+    {
+      "taskId": "TASK-L5-03",
+      "level": "L5",
+      "name": "Status Transition Boundary Patch",
+      "defectType": "BOUNDARY_ERROR",
+      "targetFile": "src/domain/events.ts"
+    },
+    {
+      "taskId": "TASK-L5-04",
+      "level": "L5",
+      "name": "Idempotency Token Collision Handler",
+      "defectType": "COLLISION_ERROR",
+      "targetFile": "src/domain/tool.ts"
+    },
+    {
+      "taskId": "TASK-L5-05",
+      "level": "L5",
+      "name": "Lease Expiration Time Normalization",
+      "defectType": "CALCULATION_ERROR",
+      "targetFile": "src/domain/errors.ts"
+    },
+    {
+      "taskId": "TASK-L6-01",
+      "level": "L6",
+      "name": "Cross-Module Interface Reconciliation",
+      "defectType": "INTERFACE_MISMATCH",
+      "targetFile": "src/application/worker-runtime.ts"
+    },
+    {
+      "taskId": "TASK-L6-02",
+      "level": "L6",
+      "name": "State Store Transition Synchronization",
+      "defectType": "TRANSACTION_LEAK",
+      "targetFile": "src/adapters/persistence/sqlite-state-store.ts"
+    },
+    {
+      "taskId": "TASK-L6-03",
+      "level": "L6",
+      "name": "Orphan Lease Sweeper Concurrency Fix",
+      "defectType": "CONCURRENCY_RACE",
+      "targetFile": "src/application/run-coordinator.ts"
+    },
+    {
+      "taskId": "TASK-L6-04",
+      "level": "L6",
+      "name": "Step Controller Loop Budget Recovery",
+      "defectType": "BUDGET_EXHAUSTION",
+      "targetFile": "src/application/agent-step-controller.ts"
+    },
+    {
+      "taskId": "TASK-L6-05",
+      "level": "L6",
+      "name": "Tool Execution Gateway Fencing Patch",
+      "defectType": "PERMISSION_FENCE",
+      "targetFile": "src/application/tool-execution-gateway.ts"
+    },
+    {
+      "taskId": "TASK-L7-01",
+      "level": "L7",
+      "name": "Distributed Multi-Zone Lease Coordination",
+      "defectType": "DISTRIBUTED_PARTITION",
+      "targetFile": "src/application/lease-manager.ts"
+    },
+    {
+      "taskId": "TASK-L7-02",
+      "level": "L7",
+      "name": "Cryptographic Evidence Chain Migration",
+      "defectType": "CHAIN_FORK",
+      "targetFile": "src/domain/evidence-bundle.ts"
+    },
+    {
+      "taskId": "TASK-L7-03",
+      "level": "L7",
+      "name": "Cross-Repository Subsystem Decoupling",
+      "defectType": "ARCHITECTURAL_CYCLE",
+      "targetFile": "src/application/run-coordinator.ts"
+    },
+    {
+      "taskId": "TASK-L7-04",
+      "level": "L7",
+      "name": "Multi-Model Consensus Quorum Refactor",
+      "defectType": "BYZANTINE_SPLIT",
+      "targetFile": "src/application/offline-auditor.ts"
+    },
+    {
+      "taskId": "TASK-L7-05",
+      "level": "L7",
+      "name": "Zero-Downtime Schema Reconstitution Pipeline",
+      "defectType": "STORAGE_MIGRATION",
+      "targetFile": "src/adapters/persistence/schema.ts"
+    }
+  ]
+}

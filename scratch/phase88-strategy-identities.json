@@ -1,0 +1,425 @@
+{
+  "count": 60,
+  "identities": [
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-a-first-valid-d1-s1-dac1aefd",
+      "strategyDigest": "09b7ba41c116db10fe25853612dbd75d520979eb7422884b260f994acea39a49",
+      "compositionDigest": "810e562cf2e46758ac98e3fcb8ac8e14f543f4fbe9e63cdb2d8d78a6b273e30f",
+      "taskId": "TASK-L5-01",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-b-bounded-best-first-d1-s1-dac1aefd",
+      "strategyDigest": "0d84faeb7e7f06ea4d17a3385968037d3dd42100f1e954b926fdb4fa65c25a5f",
+      "compositionDigest": "46b6c926ed6a663005badbf8bd5f5b3ae20bfd900ee290186348806f001af258",
+      "taskId": "TASK-L5-01",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-c-failure-aware-backtrack-d1-s1-dac1aefd",
+      "strategyDigest": "e3f87484cd3060d611d9db49950b57182677d5240def409c498a9e48f64bdd80",
+      "compositionDigest": "a8025b210f22a4f7428b9a837957f4da24c2519c0741883587c98fb104a1803a",
+      "taskId": "TASK-L5-01",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-d-governed-adaptive-d1-s1-dac1aefd",
+      "strategyDigest": "86fbd828f002e5f8bcd878ffb652b2037e780752580922d2001f7190f9c5d9dd",
+      "compositionDigest": "1f9db87a62486d4436f27af91fca70cb18d6bafb4fa347915c5510bc350f8bb3",
+      "taskId": "TASK-L5-01",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-a-first-valid-d1-s1-318b91cd",
+      "strategyDigest": "0870f0357ac99138cab08fe03d9e787907722af31951bd6539c185ddc193694b",
+      "compositionDigest": "7c3d744c5b26349fbdfc5924e32bd7b6e40668eac77d2cd3d88fc3721370c3fd",
+      "taskId": "TASK-L5-02",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-b-bounded-best-first-d1-s1-318b91cd",
+      "strategyDigest": "cc8aa6cc26f5bd1a8481a072c34fd6ae52e069416cb63423ee95820a735bc851",
+      "compositionDigest": "4ef9f7e324f12546c4e81ddc655d3639a822e267303fe24de7b553d88e389e7f",
+      "taskId": "TASK-L5-02",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-c-failure-aware-backtrack-d1-s1-318b91cd",
+      "strategyDigest": "b3654bbcc305f70c112cdb08f6e52b765fed867a175021569654cf783ef84079",
+      "compositionDigest": "042c98b58a228cfcb574c52447a5b9e2d0721448625eb7d6f2f1ac77becfabff",
+      "taskId": "TASK-L5-02",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-d-governed-adaptive-d1-s1-318b91cd",
+      "strategyDigest": "2a26f44594157c4dec254e0c67719763d5f79590229414b3deb4a70b3108cb66",
+      "compositionDigest": "0c8d00527a3c82fa6b87ed38ffed6a943ce096f6002024b435466a20abff8c6b",
+      "taskId": "TASK-L5-02",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-a-first-valid-d1-s1-4cbc51a2",
+      "strategyDigest": "52300d9d21794d741b6b7e8b42288aaa1df23857e4cf17824db6b95dd9677888",
+      "compositionDigest": "a5b081c1b3729c87945ad8634c89073ad0ee748790e7f7280c2f79a32106dadb",
+      "taskId": "TASK-L5-03",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-b-bounded-best-first-d1-s1-4cbc51a2",
+      "strategyDigest": "738cd12fca82a3c3696451067a651260e7aecbd069e4da92956b0bf7f60203fb",
+      "compositionDigest": "8555ee29bd7be718fb3c36f6e097469709dedbfa07ca70528422d4239737a346",
+      "taskId": "TASK-L5-03",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-c-failure-aware-backtrack-d1-s1-4cbc51a2",
+      "strategyDigest": "d4f92e01b4c3fba02f563dd288ad047cc18d00c51a1295ee2a714ba2add75a53",
+      "compositionDigest": "75fb44345d902682d2d96642875edc651e76d13c88fac277455aeae43111901b",
+      "taskId": "TASK-L5-03",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-d-governed-adaptive-d1-s1-4cbc51a2",
+      "strategyDigest": "ab25b83a912be2fb5a4db5481090576ee5b852050e24f2c3688ec432fd2f169a",
+      "compositionDigest": "01e55fb9b72f4e2d5aed159a1439e02e4d231bc433110364e2b92397a48b9cd0",
+      "taskId": "TASK-L5-03",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-a-first-valid-d1-s1-2b779688",
+      "strategyDigest": "e3b00934725737504aaf81e56b11de6ea7e8e73627aeb32a1e7d7b4a29b7aaee",
+      "compositionDigest": "481421918af8a14f2ac60d2440f8c56f93c591bb6114e0c0a7578ef32024f15f",
+      "taskId": "TASK-L5-04",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-b-bounded-best-first-d1-s1-2b779688",
+      "strategyDigest": "2e59895ca065983667bafa2f3fc80b11493f0289e1bece47f110fb2c025ac3ad",
+      "compositionDigest": "8fd770d19ba85c5738683fa9238a561d6344235aa62499837ec1f136782c7ced",
+      "taskId": "TASK-L5-04",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-c-failure-aware-backtrack-d1-s1-2b779688",
+      "strategyDigest": "23db1e05ae9aad4f3f9183a77da7422a7b8c39be5fac944e099d16c164f94928",
+      "compositionDigest": "3341134e0c52d78ad7f89d6905f15fd8d6ab98b7cd6c10535395a468e1695274",
+      "taskId": "TASK-L5-04",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-d-governed-adaptive-d1-s1-2b779688",
+      "strategyDigest": "0043dab56452a6bfbb4b697650ae99d16a2d3e484a33d44dc9126ad53783471f",
+      "compositionDigest": "3b6345fb2aa3478a1d659be26d08e9a888045c982185696f5518d15b5dd55b87",
+      "taskId": "TASK-L5-04",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-a-first-valid-d1-s1-2725d751",
+      "strategyDigest": "c73fdcfcee8ba355dfd87941c8e379faea517deca813bbe63fcb1abc66f7e696",
+      "compositionDigest": "dbf1ce63870c2d7c53513394f4a1bb16e7a77ed445395f90ce52ee041617ddca",
+      "taskId": "TASK-L5-05",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-b-bounded-best-first-d1-s1-2725d751",
+      "strategyDigest": "3737178ebcc05228bb2a9f9733aa729ed2855b2834f42e16681e2d4820af46d6",
+      "compositionDigest": "3c69c9d44c13de8f772b8a7e679c4df70c71746171e7f2a728041007be4c4d75",
+      "taskId": "TASK-L5-05",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-c-failure-aware-backtrack-d1-s1-2725d751",
+      "strategyDigest": "05a3905ac3afdc45a21b7838acd1d1258882a9f184b549e1cea88ad59976ed92",
+      "compositionDigest": "569e6384a0f53e64437d942e47eeb2a5707246821071078c8aaa926cb9130241",
+      "taskId": "TASK-L5-05",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-d-governed-adaptive-d1-s1-2725d751",
+      "strategyDigest": "00e77aacafad29c63870937bc5c932be792d4c57aacc1f8cae918ad680e75d9f",
+      "compositionDigest": "b98d45dcc005e22a7d1492f6917c128e04be4e754c2de540a47813692d33f8d0",
+      "taskId": "TASK-L5-05",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-a-first-valid-d1-s1-04f2d774",
+      "strategyDigest": "b33c98ca7d046a9c4ef4335f139c8fd69b0477fb74281781fe69c858a29f76a4",
+      "compositionDigest": "b4c2af551375f340e088803254bd89a6a03c79872ac394d0b8109159a6da68f7",
+      "taskId": "TASK-L6-01",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-b-bounded-best-first-d1-s1-04f2d774",
+      "strategyDigest": "592300d79ba4b8d4e8ad76368764a9113ec56ed67cfa1c2f03cc4c70edc7befc",
+      "compositionDigest": "d4638aab75c600976ec88bd83d7d866eb024c215ae7075d5340570e63f3a103d",
+      "taskId": "TASK-L6-01",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-c-failure-aware-backtrack-d1-s1-04f2d774",
+      "strategyDigest": "207aa179c9b9030a195718844f6ddc077ca4f2da72375b01f62700a857de296f",
+      "compositionDigest": "d428ccd92e07ec801d777aa55c172a41e24d8340526b5b64c492fb70f6a059f7",
+      "taskId": "TASK-L6-01",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-d-governed-adaptive-d1-s1-04f2d774",
+      "strategyDigest": "bbf8708e20fa26139f6c1c85a9b6b6997a085ac44e1356af72ca1b96c01f0579",
+      "compositionDigest": "242d8cb3c4e3de6313ab1fbc80cef20f7b3b9a6c1ef46a274e3bbf6749d76c0f",
+      "taskId": "TASK-L6-01",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-a-first-valid-d1-s1-362919ec",
+      "strategyDigest": "18f3dc0ae4ab435949cb6371078eed275312d3c68a32050f4b1f1ca163d3d149",
+      "compositionDigest": "99f1261171ec69ea36578f8d5f699db5f7ee90de620081a82070372a540539d1",
+      "taskId": "TASK-L6-02",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-b-bounded-best-first-d1-s1-362919ec",
+      "strategyDigest": "d6ccd7dbd6161c9bfd7fa7bc6b9453740f31a148c123dfc33bfb1533b33f9faf",
+      "compositionDigest": "d779bf844d89c196747c3242a3643547aeae7859940e44ad65e288f1d86bc3da",
+      "taskId": "TASK-L6-02",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-c-failure-aware-backtrack-d1-s1-362919ec",
+      "strategyDigest": "4e7dcdfe9ee878bfb683daf798abd94d631367b965554e60376519fe11293cdf",
+      "compositionDigest": "f8d3e2128e2be148bd8e60302af37fd1c46a43fa417d98e095498350667ae2e0",
+      "taskId": "TASK-L6-02",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-d-governed-adaptive-d1-s1-362919ec",
+      "strategyDigest": "338fc507baf905c07da24de56937c2393ec07f387b70a2bc083fda7f9a4ebfcd",
+      "compositionDigest": "c1259cdf15fc5a5d9a924ba930bc98d923581003a433f8fa09b5af4683744765",
+      "taskId": "TASK-L6-02",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-a-first-valid-d1-s1-120fbb2e",
+      "strategyDigest": "2d143432fcfe5f473fb75c9d5e9416d1ccee42d85df1c4ad24259a48fcd3a84d",
+      "compositionDigest": "5e86fde7f1a7c4a89fa4da8bd6ff9f99eaa792d7fdff6d8ec44a021d36c96757",
+      "taskId": "TASK-L6-03",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-b-bounded-best-first-d1-s1-120fbb2e",
+      "strategyDigest": "86bbc92511978e32c56f75d72991bf9862f7718bb7e5aebf861ed36eac3d5a17",
+      "compositionDigest": "e7432dabf27cd785056c4058368fab894ddcced58dc1ff665bf31886191da172",
+      "taskId": "TASK-L6-03",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-c-failure-aware-backtrack-d1-s1-120fbb2e",
+      "strategyDigest": "13b5a536044013cf54d8bf8e90b10fdc40c1559e20a36baaa4388a366ac89674",
+      "compositionDigest": "beebfb60febac1f1db4cfd01f1f7f6dbc8e6ece1634abd31aedbfd1fe2869291",
+      "taskId": "TASK-L6-03",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-d-governed-adaptive-d1-s1-120fbb2e",
+      "strategyDigest": "cb293997f9681fd478be5302c4535aced401f55067ee7e54af0f7a35fb846af8",
+      "compositionDigest": "127321eeecf7204d403d2bf812bfcd473042b03079c8fd8074d9af08492f56c1",
+      "taskId": "TASK-L6-03",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-a-first-valid-d1-s1-2fc74e56",
+      "strategyDigest": "774bdd15f694c475f59335c1a96d81be94ce264e04b7735dfabc91b332005a2a",
+      "compositionDigest": "e8d6c215e5b4f6328be01186e8bb21889ec25ff90b06c0d23b7d596faec3d57e",
+      "taskId": "TASK-L6-04",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-b-bounded-best-first-d1-s1-2fc74e56",
+      "strategyDigest": "9fcec70a4562eb2e364959481976053edaa17efb76c22657578e7cc255449cfd",
+      "compositionDigest": "9729e2b8d5135e98bc6e9590edb723e88efeb93bfa8380aacf3da11e09f4e9eb",
+      "taskId": "TASK-L6-04",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-c-failure-aware-backtrack-d1-s1-2fc74e56",
+      "strategyDigest": "c66e4bf732e29ed04735bb3c2cd648d9730feb2cfd2726adc28e7eb975d7254b",
+      "compositionDigest": "fac8e9bfdb15cf14174a45f042e38377430853fdeae6492d9730c9914e5e1a44",
+      "taskId": "TASK-L6-04",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-d-governed-adaptive-d1-s1-2fc74e56",
+      "strategyDigest": "a8a8e5837d1b22d232226e3483af865c21db1953db0740f40316cf5e8d5f02bd",
+      "compositionDigest": "a5306aa638273e4b3c7324e7101cc09497e6d0adcb36fabb9cb8514bf3947ba3",
+      "taskId": "TASK-L6-04",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-a-first-valid-d1-s1-d1faffaf",
+      "strategyDigest": "d22c7728a67693a1b2cda22b7ec9f67d559d14a8e3778be6cd92937fc67bc1e4",
+      "compositionDigest": "e343bcf6aafa5e41ff0eb32bda1c6e285787e975028b45dff06508434edcb95f",
+      "taskId": "TASK-L6-05",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-b-bounded-best-first-d1-s1-d1faffaf",
+      "strategyDigest": "23d063a5f03087efea89ced30b1c39fe59185dc2b2c694eb9448e9238ad1ac9d",
+      "compositionDigest": "854efc810a7cf9930f4e61e046efaad1f44e77cd11f453251e94548e92228daa",
+      "taskId": "TASK-L6-05",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-c-failure-aware-backtrack-d1-s1-d1faffaf",
+      "strategyDigest": "dd11bb2861b67c6538ba372c8caa8cdcf9f9eb2268120d4ddd8136acc58adb33",
+      "compositionDigest": "1a9eb5a2610a65493ac7c04903429b653a9c0ed58cf841e9f11c52db0d9efd11",
+      "taskId": "TASK-L6-05",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-d-governed-adaptive-d1-s1-d1faffaf",
+      "strategyDigest": "8d91d22e34e7019c372670dc19cbf79436bd6edb93779cea91c1e638c1bfe76b",
+      "compositionDigest": "6e4aa307af832f5e535c27bcbf861fa8b1bc96a30bed8dae2150cc98e4e14086",
+      "taskId": "TASK-L6-05",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-a-first-valid-d1-s1-57b1d37e",
+      "strategyDigest": "011d48d8e480afa90d8ee02e3834bd137d84b041bca973816a6f7185cc11183c",
+      "compositionDigest": "8af1ed82621b616dd1853546f1cbcf3bcc97ed8b703da74e7032206d265436de",
+      "taskId": "TASK-L7-01",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-b-bounded-best-first-d1-s1-57b1d37e",
+      "strategyDigest": "1d0b4314e064c369ee62f3fb05c0aa5801454937d54831fc6bba98d7113ce65f",
+      "compositionDigest": "464697d09050ceda419286cce1bd3aa1f41f5017a16868a01f6495352159d8a7",
+      "taskId": "TASK-L7-01",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-c-failure-aware-backtrack-d1-s1-57b1d37e",
+      "strategyDigest": "4a4b5ee5ed48d71159cf7b72b85edd90bf3c06e731d0d8c1ababcf4b3f900360",
+      "compositionDigest": "4c1362f5a2b4f1118c521b25b48dd4e0fcdb35103a2ea7bb8923d0b7badb5e3d",
+      "taskId": "TASK-L7-01",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-d-governed-adaptive-d1-s1-57b1d37e",
+      "strategyDigest": "8b917e9f4e795e9e2eb509e27b5db027578168d96cd50322402c04e92e074b99",
+      "compositionDigest": "79bf9a26793cc998c076dd9c72a642029b3ba057bd3ab85e8c812c33b0785ee7",
+      "taskId": "TASK-L7-01",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-a-first-valid-d1-s1-1c83e072",
+      "strategyDigest": "a7c143379494e2b1e257d5b314845a22552a3bbc34142ed5d7a7b53a0f73afa1",
+      "compositionDigest": "aa9ed5e57e2c76ff74b43e5a22dca1f723e63495d778d34a7b947241fbe21c01",
+      "taskId": "TASK-L7-02",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-b-bounded-best-first-d1-s1-1c83e072",
+      "strategyDigest": "8fd0d5f1a11405e9ec9c0ce67d5500c1de243d6e2ac9d15a81afd64360191f2f",
+      "compositionDigest": "08fd430dcb4e0a6c5596ec1cf10b67f4b397a0c5e67ec3b7a0f0fd098eb408dd",
+      "taskId": "TASK-L7-02",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-c-failure-aware-backtrack-d1-s1-1c83e072",
+      "strategyDigest": "6b4900b4de19adf67aece851b7d25096577ac889e2beaa69b29989600d819c14",
+      "compositionDigest": "d3fad13ec8a457d25fbbce67a93d00691f9ae36fd6974b5019deb8f197bd97ee",
+      "taskId": "TASK-L7-02",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-d-governed-adaptive-d1-s1-1c83e072",
+      "strategyDigest": "c3b7a80287c551221a777317bac9dbea7b788c77a0d3aae4b731d4a40699f4da",
+      "compositionDigest": "dfbc9b7d8e1b8b63fd9e5f8c2c8deed88599ab12ead5164f11e69515b9514a8e",
+      "taskId": "TASK-L7-02",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-a-first-valid-d1-s1-a407d2b1",
+      "strategyDigest": "4a22aa23931ad014f128415d5598b7cca309e241350bac90e6f61289684e4c07",
+      "compositionDigest": "99e33dbc08bacf975fb231a375805a5d0f368df6735facae9bb04051f3a524db",
+      "taskId": "TASK-L7-03",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-b-bounded-best-first-d1-s1-a407d2b1",
+      "strategyDigest": "7648659e4369a8165dcbb869cc31a206d81dbae0292a79b3471bc4f66a20a63a",
+      "compositionDigest": "8b48363e99d31bc02ef287b226df0cfae653db384f6f96bd993577e2a5017b88",
+      "taskId": "TASK-L7-03",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-c-failure-aware-backtrack-d1-s1-a407d2b1",
+      "strategyDigest": "26635782fd21d5930e43f0c5dc0548d43dab4eb623dae07b3bb0959c34c7f56a",
+      "compositionDigest": "d4eaea5d49306c59e5fba5d67fb1fd98d39a0e9a1602b6b0ac1b97fabc990665",
+      "taskId": "TASK-L7-03",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-d-governed-adaptive-d1-s1-a407d2b1",
+      "strategyDigest": "05edb044b8793ccb87283604f7eb517d8724c113b26ff269eae15b39e3ced8d0",
+      "compositionDigest": "6f1f1a28a3db16dc903dae8161b28af77b39c077f2be22c46bf8b52adb9a6a5e",
+      "taskId": "TASK-L7-03",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-a-first-valid-d1-s1-1ef6755b",
+      "strategyDigest": "a3eaf30745f8005613995dd04cf88f2a46958d7c343901f5848398f0633378ee",
+      "compositionDigest": "3e3e50c783c3afbf00f371a1811cb156d9783224f72b72e02635500c38916ef4",
+      "taskId": "TASK-L7-04",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-b-bounded-best-first-d1-s1-1ef6755b",
+      "strategyDigest": "48a21605d200ff2548b300ff9a6de1a6b91906e5dc61b725e0f22dd3c449c699",
+      "compositionDigest": "b01e8414c6fa9cdd59f38870ade262c476b33028008e1b2600153bcdc74275f6",
+      "taskId": "TASK-L7-04",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-c-failure-aware-backtrack-d1-s1-1ef6755b",
+      "strategyDigest": "7e93d188f5ff3cb563ba40536a2ce2a0e3cecccb6d560d302feb1431145c519b",
+      "compositionDigest": "752dc4466b056283b689ca16b62106e096fa9b69afdf79ed512611292ff9133f",
+      "taskId": "TASK-L7-04",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-d-governed-adaptive-d1-s1-1ef6755b",
+      "strategyDigest": "f17c8fe93c345ff9028d86644d97796e7a091a0f3905a31219010b87a5efa2c4",
+      "compositionDigest": "15ae9f3d95dcfe89e2b4fd81339b33c220dd961cb36fe0b8b44d2e689bc1fd52",
+      "taskId": "TASK-L7-04",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-a-first-valid-d1-s1-886e9056",
+      "strategyDigest": "0cedfb2af59c22246738b11d179002cacb0d740fef3a47f9ee9f496be2025774",
+      "compositionDigest": "5356de20f8a07478e1ac99979bcf7f3ac7373e27fb5a83f9255c84e83904421b",
+      "taskId": "TASK-L7-05",
+      "policy": "POLICY_A_FIRST_VALID"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-b-bounded-best-first-d1-s1-886e9056",
+      "strategyDigest": "de07617c072d9a6a9edb52fb260390ee70106adfaae2050f4d84d47a6f5a9d4d",
+      "compositionDigest": "0c93618cef78fb1c40325c830fbf5b9f941f3d9c82905c2ffc69ab2d6ec61209",
+      "taskId": "TASK-L7-05",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-c-failure-aware-backtrack-d1-s1-886e9056",
+      "strategyDigest": "9c630f37c98de3bf60e6ccb0fe149ed0067ae9e3ff12d06eda62b3f8a0574f45",
+      "compositionDigest": "9022bc89ab8dc6af7e6ac9c73945f719f3aabe0731d962fc463d9385f3ebfeb2",
+      "taskId": "TASK-L7-05",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK"
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-d-governed-adaptive-d1-s1-886e9056",
+      "strategyDigest": "f6c14fd14b6da0786faff4251ffea94bee08d39829ae7184b90b62504dc88e39",
+      "compositionDigest": "f6a7ed17d2ca306a57a53f070eaab314f66027abfeb461aad510b0a467275afa",
+      "taskId": "TASK-L7-05",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE"
+    }
+  ]
+}

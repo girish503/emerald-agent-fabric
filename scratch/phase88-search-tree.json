@@ -1,0 +1,1025 @@
+{
+  "treeCount": 60,
+  "trees": [
+    {
+      "searchId": "wf-p88-task-l5-01-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l5-01-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l5-01-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "60b7bbf8dd3c8e26f70c192047f83281461d1bfc30812dd4284d9c93a52c1bb6",
+      "cumulativeResources": {
+        "wallTimeMs": 2,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-01-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l5-01-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l5-01-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "06aa8a37a74f00cb294544751c145e61397cc3597ae7228f8faac71f30ef2aaf",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-01-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l5-01-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l5-01-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "e55c850bf2054bf4b27f9407adb7e3c19e1383cf065b2b1d8518bbdd81bb53bd",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-01-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l5-01-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l5-01-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "c685b20559a24acf43a1374014762e84a181fb52a8f45ed8216c355f0c10df0b",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-02-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l5-02-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l5-02-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "8784053d10be561a1c994da3260ceba85f83c4598b7df1953241214af2f756c1",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-02-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l5-02-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l5-02-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "97aa7c567ba042631e8a161c7f9450d31e60261d75d36284fdcf00b4dae9c774",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-02-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l5-02-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l5-02-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "f4084b66e0b30287a38ab8fe591365cd050232ceda73ca499d0e5ec8a469d7d9",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-02-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l5-02-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l5-02-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "ce8fa67008724dc7a0076c19a915b957c96331011ca2584bdc5cc8361682842e",
+      "cumulativeResources": {
+        "wallTimeMs": 4,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-03-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l5-03-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l5-03-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "e6ac07bf940d8cceacd751b1c8fb09f09bfdc5c582d3536eae24b4288c3eb3b1",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-03-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l5-03-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l5-03-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "54a4a8ec44173c3d1824082e85a3dde65801abae3a3c3dd9ec9f4382378925cb",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-03-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l5-03-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l5-03-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "44e76c4fce394246703fea3886f52783eb4afa95c60e2160ff7cd082a82f9a96",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-03-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l5-03-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l5-03-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "232df1d4edd49098e02a13016cd97ed68205907489799444053eef237ce70052",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-04-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l5-04-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l5-04-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "49c46427053a2102ebc3f1a5828ba01347c0cdc7d78fe43af740bbfee54838e0",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-04-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l5-04-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l5-04-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "fef86385b48c2bdbc675dcbbc3e3edc5e8549f1823d391c9ec090f36c716263e",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-04-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l5-04-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l5-04-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "1cf40e869c6977265f40f3ce99e31a87fe55f6e569a5ef2b85401026e64b63f7",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-04-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l5-04-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l5-04-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "4be057ce00351ecfcad88c1ddb72692b7eb4cffab0caf09a8ef2d754e3a45f3d",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-05-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l5-05-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l5-05-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "a3f59209ed8407086cb8c99aa4792d9efb085aeba796d47734e8d5d01707a482",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-05-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l5-05-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l5-05-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "d6b5540db9d564fcfcd02d0762375bbbe628023bb726977934ac8b7333212aac",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-05-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l5-05-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l5-05-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "770b6beaeacfac542afd856c8f3d454360567e94cf2d9efa72c7e4e2be0a23a2",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l5-05-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l5-05-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l5-05-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "aedc771cf223984e72a3365d74d93e33bcb970a340a6fef5597c04e562f3af43",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-01-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l6-01-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l6-01-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "4aad771f4b48d54b5dcdc6fc1eb2ebb5e3d5ed90fe4993af02db2f467b53e980",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-01-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l6-01-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l6-01-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "f8aa5a6c89eff4e1c93dd4a9b27fa09d1e2f973b58e1a47de6859c3d9508ccde",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-01-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l6-01-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l6-01-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "3755f61a0d5bc5fc995107869134257dec43578ad1e6b5e0595b4a858e48daa2",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-01-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l6-01-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l6-01-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "feda405b4cae4e566eb9e2aed8bd54b2a9e0ca4e83997edfb9f490e432124f90",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-02-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l6-02-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l6-02-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "e45e461252248926d8bab11aea9c2ee2deca7173e65d610348632ad6791d2ad8",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-02-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l6-02-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l6-02-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "49bb802b7f847d647b229957b379f5065abde9cd180784461fa5ae079f542b8b",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-02-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l6-02-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l6-02-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "5a7749db146ef5531e8f49843a5a71301153728e1506e758381b59a38bc18104",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-02-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l6-02-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l6-02-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "fba752c3baf421d81d413deb236240dd8e4af86a0c645aaec88754d8dd29f2d1",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-03-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l6-03-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l6-03-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "213be52effb8fdf8ad7cdd6eca2e83d488630d504f8fb4e468583b8da6d58690",
+      "cumulativeResources": {
+        "wallTimeMs": 2,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-03-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l6-03-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l6-03-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "934c8adbcdf8c7ca8604598a2755082f7efbfacfed80140596d8b0c82c8956f6",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-03-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l6-03-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l6-03-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "d5e3ecf73c4603708f1d6d9cce53f8f604846fbb8ade471e44de3ef3dc9848ce",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-03-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l6-03-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l6-03-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "5b861f1e76d2dff71b328a01e60f46f465ce4e603b7c3392c2520098117ecb38",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-04-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l6-04-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l6-04-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "2bfaf9b48e8caf1c701635295dd20c44edf80655a8569fff815ababee705e446",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-04-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l6-04-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l6-04-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "cb5824185dcc07f9d8bea944a71e63accd388fe13d21f92ba56048b2358b8922",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-04-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l6-04-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l6-04-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "3ae865af59fbc43bf7c3d4ea3e1a6a8c80f4484986adc4905748e440c0ac8196",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-04-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l6-04-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l6-04-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "c8b58c19b82e66b10930c4e291044a772ae13cc92eac0cfdb59e116635e4a664",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-05-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l6-05-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l6-05-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "1ad1de068a1c6f26627d0c2b6bfe2970262c8ab9b275a4ba81b7c0cbf751c447",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-05-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l6-05-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l6-05-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "aadf08317b92c73be7367593d12fcded9886765fb950910e9f82ed158b1d6a04",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-05-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l6-05-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l6-05-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "29f09a3dd5674e1db184333eedebcefa24deea7d5473315a83fb22b7bc13fb50",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l6-05-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l6-05-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l6-05-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "53e4e8affde520f192713524b7ce32beab5ff353641b17ce60ea1c7ebfb58d1d",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-01-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l7-01-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l7-01-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "6bc918e28bbcf48d5fb56c75a457b500d40c2092b6c09840eb5f99005d535ba4",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-01-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l7-01-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l7-01-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "0271d55e94e7b02414c5848709abfcefd224b9fc5c9fc0e9f9a1e63091e58e4b",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-01-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l7-01-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l7-01-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "667c4e0e12f7affa70f85bf648d5d69db43324364afe691009dc04b32c7163f6",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-01-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l7-01-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l7-01-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "d567f3eff8644e257d4727f267ff0477f6766e07dfb462097e236c3d45bf88e7",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-02-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l7-02-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l7-02-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "0afa50190ab7e528b874c2a9179f28b166fb25f70353f4f3fc0ebcadfd125d40",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-02-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l7-02-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l7-02-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "aa3f387e9c526f36b986b50e03af9697821afa2db55d6d1cb5ad6292aba97b7e",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-02-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l7-02-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l7-02-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "5511395e90c92f1776a1b2ceef9438989886bcb29962d1eb7606992a81709ea1",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-02-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l7-02-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l7-02-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "1b4798a4319c4497d80b64277765e9fd3e246dadab693871b6e98434922fb7d4",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-03-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l7-03-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l7-03-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "ec61b53c6fbff982c20039e5671ba3f07b471c79adbbfa6919cd5f007e9f2ed5",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-03-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l7-03-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l7-03-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "1e1b033ae4ee27bac194e0ffa2ea980b376849b9f8cab09fd613ebe5ebe4bfee",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-03-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l7-03-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l7-03-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "7f828383456d6282cf26c1c8ac46c9187831c1b25dbeb5a7de9f4909637ed5d2",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-03-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l7-03-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l7-03-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "9d45086b68822cc6b1a74bcdac669b92e740d5935f8b0eabd99e1ff19f78001c",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-04-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l7-04-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l7-04-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "406a25b66c1f1b87d4aeafb9a926695412f6af3d81e42a2e7362fa7fe693b777",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-04-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l7-04-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l7-04-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "5a4a9abdb7cf23befc86bd0a6a8842a49c5fd1245a2ccdf6a8ae8a9f0c8606d0",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-04-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l7-04-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l7-04-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "daade7ba040651e34a87eef82087167c588f1fd800b7d1a6f21366047fe2385d",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-04-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l7-04-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l7-04-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "5bde92316a05299a363cc014e3c133dd70451364c7409f85fbb642773be9632e",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-05-policy-a-first-valid",
+      "workflowId": "wf-p88-task-l7-05-policy-a-first-valid",
+      "rootNodeId": "node-wf-p88-task-l7-05-policy-a-first-valid-1",
+      "policy": "POLICY_A_FIRST_VALID",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "2b3489dcb411cbf46de79cf2924ff37ba7ae1973ff459d9f555c5af2f569dcc1",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-05-policy-b-bounded-best-first",
+      "workflowId": "wf-p88-task-l7-05-policy-b-bounded-best-first",
+      "rootNodeId": "node-wf-p88-task-l7-05-policy-b-bounded-best-first-1",
+      "policy": "POLICY_B_BOUNDED_BEST_FIRST",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "67874ac9b44ab831988678b6484d71ff5ad6aafcb7f06ef323ae99238434e5ed",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-05-policy-c-failure-aware-backtrack",
+      "workflowId": "wf-p88-task-l7-05-policy-c-failure-aware-backtrack",
+      "rootNodeId": "node-wf-p88-task-l7-05-policy-c-failure-aware-backtrack-1",
+      "policy": "POLICY_C_FAILURE_AWARE_BACKTRACK",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "7c92789159c0b5dae20475bd27c4a711515b138fb9fca4ea52ed1a7d41808bed",
+      "cumulativeResources": {
+        "wallTimeMs": 1,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    },
+    {
+      "searchId": "wf-p88-task-l7-05-policy-d-governed-adaptive",
+      "workflowId": "wf-p88-task-l7-05-policy-d-governed-adaptive",
+      "rootNodeId": "node-wf-p88-task-l7-05-policy-d-governed-adaptive-1",
+      "policy": "POLICY_D_GOVERNED_ADAPTIVE",
+      "nodesExplored": 2,
+      "finalStatus": "FAILED",
+      "provenanceRoot": "8ca05bd75dbabf406b3ea6942f71470b7e857368dbe53396e7114974a1fc2039",
+      "cumulativeResources": {
+        "wallTimeMs": 0,
+        "nodesExplored": 2,
+        "attemptsExecuted": 0,
+        "toolInvocations": 0,
+        "compositionInvocations": 0,
+        "contextBytes": 0
+      }
+    }
+  ]
+}

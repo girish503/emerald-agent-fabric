@@ -1,0 +1,63 @@
+{
+  "scenariosTested": [
+    {
+      "scenario": "STRATEGY_SYNTHESIS_CRASH",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "POLICY_VALIDATION_CRASH",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "ROOT_NODE_INITIALIZATION_CRASH",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "NODE_EXPANSION_CRASH",
+      "result": "PARTIAL_BRANCH_RECORDED_ABORTED"
+    },
+    {
+      "scenario": "BACKTRACK_POINT_PERSISTENCE_CRASH",
+      "result": "CLEAN_SNAPSHOT_RESTORED"
+    },
+    {
+      "scenario": "DELTA_SCREENING_GATEWAY_CRASH",
+      "result": "FULL_CLEAN_ROOM_RETAINED"
+    },
+    {
+      "scenario": "PRUNED_NODE_PERSISTENCE_CRASH",
+      "result": "PRUNE_STATUS_PRESERVED"
+    },
+    {
+      "scenario": "MID_SEARCH_TOOL_REVOCATION_CRASH",
+      "result": "FAIL_CLOSED_REVOKED_PERSISTED"
+    },
+    {
+      "scenario": "MID_SEARCH_TOOL_EXPIRATION_CRASH",
+      "result": "FAIL_CLOSED_EXPIRED_PERSISTED"
+    },
+    {
+      "scenario": "SEARCH_TREE_MERKLE_ROOT_CRASH",
+      "result": "INTEGRITY_VERIFIED_RECONSTITUTED"
+    },
+    {
+      "scenario": "CANDIDATE_PATCH_HANDOFF_CRASH",
+      "result": "ZERO_AUTHORITY_PRESERVED"
+    },
+    {
+      "scenario": "CLEAN_ROOM_VERIFICATION_CRASH",
+      "result": "SOVEREIGN_GATEWAY_SAFE_REJECT"
+    },
+    {
+      "scenario": "COLLABORATIVE_L7_HANDOFF_CRASH",
+      "result": "HUMAN_APPROVAL_GATE_PRESERVED"
+    },
+    {
+      "scenario": "TERMINAL_STATE_RECORDING_CRASH",
+      "result": "ZERO_FALSE_POSITIVE_GUARANTEED"
+    }
+  ],
+  "allScenariosPassed": true,
+  "dataLoss": false,
+  "corruptedIdentities": 0
+}

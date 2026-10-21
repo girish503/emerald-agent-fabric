@@ -1,0 +1,785 @@
+{
+  "scopesAudited": 60,
+  "evaluations": [
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-a-first-valid-d1-s1-dac1aefd",
+      "taskId": "TASK-L5-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-b-bounded-best-first-d1-s1-dac1aefd",
+      "taskId": "TASK-L5-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-c-failure-aware-backtrack-d1-s1-dac1aefd",
+      "taskId": "TASK-L5-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-01-policy-d-governed-adaptive-d1-s1-dac1aefd",
+      "taskId": "TASK-L5-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-a-first-valid-d1-s1-318b91cd",
+      "taskId": "TASK-L5-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-b-bounded-best-first-d1-s1-318b91cd",
+      "taskId": "TASK-L5-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-c-failure-aware-backtrack-d1-s1-318b91cd",
+      "taskId": "TASK-L5-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-02-policy-d-governed-adaptive-d1-s1-318b91cd",
+      "taskId": "TASK-L5-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-a-first-valid-d1-s1-4cbc51a2",
+      "taskId": "TASK-L5-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-b-bounded-best-first-d1-s1-4cbc51a2",
+      "taskId": "TASK-L5-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-c-failure-aware-backtrack-d1-s1-4cbc51a2",
+      "taskId": "TASK-L5-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-03-policy-d-governed-adaptive-d1-s1-4cbc51a2",
+      "taskId": "TASK-L5-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-a-first-valid-d1-s1-2b779688",
+      "taskId": "TASK-L5-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-b-bounded-best-first-d1-s1-2b779688",
+      "taskId": "TASK-L5-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-c-failure-aware-backtrack-d1-s1-2b779688",
+      "taskId": "TASK-L5-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-04-policy-d-governed-adaptive-d1-s1-2b779688",
+      "taskId": "TASK-L5-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-a-first-valid-d1-s1-2725d751",
+      "taskId": "TASK-L5-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-b-bounded-best-first-d1-s1-2725d751",
+      "taskId": "TASK-L5-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-c-failure-aware-backtrack-d1-s1-2725d751",
+      "taskId": "TASK-L5-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l5-05-policy-d-governed-adaptive-d1-s1-2725d751",
+      "taskId": "TASK-L5-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-a-first-valid-d1-s1-04f2d774",
+      "taskId": "TASK-L6-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-b-bounded-best-first-d1-s1-04f2d774",
+      "taskId": "TASK-L6-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-c-failure-aware-backtrack-d1-s1-04f2d774",
+      "taskId": "TASK-L6-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-01-policy-d-governed-adaptive-d1-s1-04f2d774",
+      "taskId": "TASK-L6-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-a-first-valid-d1-s1-362919ec",
+      "taskId": "TASK-L6-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-b-bounded-best-first-d1-s1-362919ec",
+      "taskId": "TASK-L6-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-c-failure-aware-backtrack-d1-s1-362919ec",
+      "taskId": "TASK-L6-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-02-policy-d-governed-adaptive-d1-s1-362919ec",
+      "taskId": "TASK-L6-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-a-first-valid-d1-s1-120fbb2e",
+      "taskId": "TASK-L6-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-b-bounded-best-first-d1-s1-120fbb2e",
+      "taskId": "TASK-L6-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-c-failure-aware-backtrack-d1-s1-120fbb2e",
+      "taskId": "TASK-L6-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-03-policy-d-governed-adaptive-d1-s1-120fbb2e",
+      "taskId": "TASK-L6-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-a-first-valid-d1-s1-2fc74e56",
+      "taskId": "TASK-L6-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-b-bounded-best-first-d1-s1-2fc74e56",
+      "taskId": "TASK-L6-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-c-failure-aware-backtrack-d1-s1-2fc74e56",
+      "taskId": "TASK-L6-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-04-policy-d-governed-adaptive-d1-s1-2fc74e56",
+      "taskId": "TASK-L6-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-a-first-valid-d1-s1-d1faffaf",
+      "taskId": "TASK-L6-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-b-bounded-best-first-d1-s1-d1faffaf",
+      "taskId": "TASK-L6-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-c-failure-aware-backtrack-d1-s1-d1faffaf",
+      "taskId": "TASK-L6-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l6-05-policy-d-governed-adaptive-d1-s1-d1faffaf",
+      "taskId": "TASK-L6-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-a-first-valid-d1-s1-57b1d37e",
+      "taskId": "TASK-L7-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-b-bounded-best-first-d1-s1-57b1d37e",
+      "taskId": "TASK-L7-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-c-failure-aware-backtrack-d1-s1-57b1d37e",
+      "taskId": "TASK-L7-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-01-policy-d-governed-adaptive-d1-s1-57b1d37e",
+      "taskId": "TASK-L7-01",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-a-first-valid-d1-s1-1c83e072",
+      "taskId": "TASK-L7-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-b-bounded-best-first-d1-s1-1c83e072",
+      "taskId": "TASK-L7-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-c-failure-aware-backtrack-d1-s1-1c83e072",
+      "taskId": "TASK-L7-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-02-policy-d-governed-adaptive-d1-s1-1c83e072",
+      "taskId": "TASK-L7-02",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-a-first-valid-d1-s1-a407d2b1",
+      "taskId": "TASK-L7-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-b-bounded-best-first-d1-s1-a407d2b1",
+      "taskId": "TASK-L7-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-c-failure-aware-backtrack-d1-s1-a407d2b1",
+      "taskId": "TASK-L7-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-03-policy-d-governed-adaptive-d1-s1-a407d2b1",
+      "taskId": "TASK-L7-03",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-a-first-valid-d1-s1-1ef6755b",
+      "taskId": "TASK-L7-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-b-bounded-best-first-d1-s1-1ef6755b",
+      "taskId": "TASK-L7-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-c-failure-aware-backtrack-d1-s1-1ef6755b",
+      "taskId": "TASK-L7-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-04-policy-d-governed-adaptive-d1-s1-1ef6755b",
+      "taskId": "TASK-L7-04",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-a-first-valid-d1-s1-886e9056",
+      "taskId": "TASK-L7-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-b-bounded-best-first-d1-s1-886e9056",
+      "taskId": "TASK-L7-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-c-failure-aware-backtrack-d1-s1-886e9056",
+      "taskId": "TASK-L7-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    },
+    {
+      "strategyId": "strat-wf-p88-task-l7-05-policy-d-governed-adaptive-d1-s1-886e9056",
+      "taskId": "TASK-L7-05",
+      "targetWorkspaces": [
+        "workspace/default"
+      ],
+      "targetRepositories": [
+        "repo-main"
+      ],
+      "workspaceScopeViolation": false,
+      "repositoryScopeViolation": false,
+      "cleanWorkspaceSnapshotIsolated": true
+    }
+  ]
+}

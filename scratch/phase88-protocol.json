@@ -1,0 +1,101 @@
+{
+  "phase": "PHASE_88",
+  "title": "Autonomous Multi-Tool Repair Strategy Synthesis and Governed Backtracking Exploration",
+  "frozenBaseline": "8e8948e65811ec814d0c4dc9bdcb36e93f68b3fc",
+  "researchQuestion": "Can Emerald autonomously search a bounded repair-strategy space without turning exploration authority into execution or terminal authority?",
+  "centralArchitecturalInvariant": "Strategy search may increase exploration. It must never increase authority.",
+  "authorityInvariants": [
+    {
+      "id": "S1",
+      "rule": "Strategy search cannot expand authority beyond existing caller workflow."
+    },
+    {
+      "id": "S2",
+      "rule": "Strategy search cannot widen repository or workspace scopes."
+    },
+    {
+      "id": "S3",
+      "rule": "Strategy search cannot manufacture or propagate credentials."
+    },
+    {
+      "id": "S4",
+      "rule": "Strategy search cannot modify MissionContract."
+    },
+    {
+      "id": "S5",
+      "rule": "Strategy search cannot sign evidence."
+    },
+    {
+      "id": "S6",
+      "rule": "Strategy search cannot issue terminal authority."
+    },
+    {
+      "id": "S7",
+      "rule": "Strategy search cannot bypass dual-gate clean-room verification."
+    },
+    {
+      "id": "S8",
+      "rule": "Strategy search cannot bypass fourfold verification."
+    },
+    {
+      "id": "S9",
+      "rule": "Strategy search cannot execute tools in REVOKED state."
+    },
+    {
+      "id": "S10",
+      "rule": "Strategy search cannot execute tools in EXPIRED state."
+    },
+    {
+      "id": "S11",
+      "rule": "Strategy search cannot exceed cumulative resource limits."
+    },
+    {
+      "id": "S12",
+      "rule": "Strategy search cannot convert delta test screening into terminal authority."
+    },
+    {
+      "id": "S13",
+      "rule": "Strategy search cannot revive pruned or expired branches."
+    },
+    {
+      "id": "S14",
+      "rule": "Strategy search cannot bypass clean-room workspace snapshot isolation."
+    },
+    {
+      "id": "S15",
+      "rule": "Strategy search cannot alter Merkle search tree provenance root."
+    },
+    {
+      "id": "S16",
+      "rule": "Strategy search cannot execute candidate patches on production state."
+    },
+    {
+      "id": "S17",
+      "rule": "Strategy search cannot convert untrusted observation into authority."
+    },
+    {
+      "id": "S18",
+      "rule": "Strategy search cannot self-authorize strategy proposals."
+    }
+  ],
+  "taskCohortSize": 15,
+  "trialsCount": 60,
+  "searchPolicies": [
+    "POLICY_A_FIRST_VALID",
+    "POLICY_B_BOUNDED_BEST_FIRST",
+    "POLICY_C_FAILURE_AWARE_BACKTRACK",
+    "POLICY_D_GOVERNED_ADAPTIVE"
+  ],
+  "resourceLimits": {
+    "maxSearchWallTimeMs": 120000,
+    "maxStrategyNodes": 16,
+    "maxDepth": 4,
+    "maxBranchesPerNode": 4,
+    "maxRepairAttempts": 12,
+    "maxToolInvocations": 32,
+    "maxCandidatePatches": 12,
+    "maxCompositionInvocations": 16,
+    "maxContextBytes": 131072,
+    "maxStrategyPayloadBytes": 65536
+  }
+}
