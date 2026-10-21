@@ -1,0 +1,53 @@
+{
+  "goalId": "goal-sub-01",
+  "clusters": [
+    {
+      "clusterId": "cluster-goal-sub-01-strategy-a-full-context",
+      "strategy": "STRATEGY_A_FULL_CONTEXT",
+      "selectedCount": 11,
+      "estimatedBytes": 12520,
+      "completeness": "COMPLETE",
+      "contextDigest": "c8f34c1646c42249f687382903c54e38e57df7eb77a13d309ce22eac91395c5c"
+    },
+    {
+      "clusterId": "cluster-goal-sub-01-strategy-b-ast-locality",
+      "strategy": "STRATEGY_B_AST_LOCALITY",
+      "selectedCount": 3,
+      "estimatedBytes": 2200,
+      "completeness": "COMPLETE",
+      "contextDigest": "7e2fa92811ead643b738e6fb8f14d2a5861d39cb67dc3cbd8401da7df275730b"
+    },
+    {
+      "clusterId": "cluster-goal-sub-01-strategy-c-call-centrality",
+      "strategy": "STRATEGY_C_CALL_CENTRALITY",
+      "selectedCount": 5,
+      "estimatedBytes": 6720,
+      "completeness": "COMPLETE",
+      "contextDigest": "b2a55e75b90eecf4c75943951bd607950b5cdac58624ae049caa5bc2b20d6347"
+    },
+    {
+      "clusterId": "cluster-goal-sub-01-strategy-d-dependency-closure",
+      "strategy": "STRATEGY_D_DEPENDENCY_CLOSURE",
+      "selectedCount": 1,
+      "estimatedBytes": 1200,
+      "completeness": "COMPLETE",
+      "contextDigest": "520988001d0bfe8fd54902548c745d9af6e0f7be4185a92ebee0994ea4774717"
+    },
+    {
+      "clusterId": "cluster-goal-sub-01-strategy-e-hybrid-relevance",
+      "strategy": "STRATEGY_E_HYBRID_RELEVANCE",
+      "selectedCount": 4,
+      "estimatedBytes": 2680,
+      "completeness": "COMPLETE",
+      "contextDigest": "1cb554ac46990e77c8ba14218755fcc1523bf2262d96982ee65763fcdf98a864"
+    },
+    {
+      "clusterId": "cluster-goal-sub-01-strategy-f-adaptive-goal-context",
+      "strategy": "STRATEGY_F_ADAPTIVE_GOAL_CONTEXT",
+      "selectedCount": 7,
+      "estimatedBytes": 6120,
+      "completeness": "COMPLETE",
+      "contextDigest": "3f11c4337cbec86b0942819d927aae0ac5bca995eeac06a45e15c8978d963c54"
+    }
+  ]
+}

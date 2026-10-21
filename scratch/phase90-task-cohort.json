@@ -1,0 +1,233 @@
+{
+  "totalTasks": 20,
+  "distribution": {
+    "L5": 5,
+    "L6": 5,
+    "L7": 10
+  },
+  "tasks": [
+    {
+      "taskId": "T-L5-01",
+      "tier": "L5",
+      "name": "State Store WAL Transition Mode Check",
+      "targetFiles": [
+        "src/adapters/persistence/sqlite-state-store.ts"
+      ],
+      "category": "single-module",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L5-02",
+      "tier": "L5",
+      "name": "Worker Lease Expiration Precision Guard",
+      "targetFiles": [
+        "src/application/lease-manager.ts"
+      ],
+      "category": "single-module",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L5-03",
+      "tier": "L5",
+      "name": "Attempt Sequence Monotonic Counter",
+      "targetFiles": [
+        "src/domain/action.ts"
+      ],
+      "category": "single-module",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L5-04",
+      "tier": "L5",
+      "name": "Dynamic Tool Manifest Schema Validation",
+      "targetFiles": [
+        "src/domain/dynamic-tool.ts"
+      ],
+      "category": "schema-validation",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L5-05",
+      "tier": "L5",
+      "name": "Evidence Bundle Ingestion Boundary Guard",
+      "targetFiles": [
+        "src/application/evidence-ingestion-gateway.ts"
+      ],
+      "category": "security-boundary",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L6-01",
+      "tier": "L6",
+      "name": "Multi-Stage Composition Failure Cascading",
+      "targetFiles": [
+        "src/application/dynamic-tool-composition-executor.ts",
+        "src/domain/dynamic-tool-composition.ts"
+      ],
+      "category": "multi-module",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L6-02",
+      "tier": "L6",
+      "name": "Cross-Repository AST Scope Boundary Sync",
+      "targetFiles": [
+        "src/application/cross-repo-context-propagator.ts",
+        "src/domain/cross-repo-context.ts"
+      ],
+      "category": "cross-repository",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L6-03",
+      "tier": "L6",
+      "name": "Dynamic Backtracking Decision Branch Pruning",
+      "targetFiles": [
+        "src/application/repair-strategy-executor.ts",
+        "src/domain/repair-strategy-search.ts"
+      ],
+      "category": "multi-module",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L6-04",
+      "tier": "L6",
+      "name": "Governed Intermediate Test Delta Filtering",
+      "targetFiles": [
+        "src/application/delta-test-verifier.ts",
+        "src/domain/delta-test-verification.ts"
+      ],
+      "category": "test-sensitive",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L6-05",
+      "tier": "L6",
+      "name": "Low-Centrality Fencing Policy Config Synchronization",
+      "targetFiles": [
+        "src/domain/action.ts",
+        "src/config/fencing-policy.json"
+      ],
+      "category": "low-centrality-critical-node",
+      "isCriticalConfig": true
+    },
+    {
+      "taskId": "T-L7-01",
+      "tier": "L7",
+      "name": "Distributed Consensus Lease Fencing Migration",
+      "targetFiles": [
+        "src/application/lease-manager.ts",
+        "src/adapters/persistence/sqlite-state-store.ts",
+        "src/ports/state-store.port.ts"
+      ],
+      "category": "distributed-state",
+      "isCriticalConfig": true
+    },
+    {
+      "taskId": "T-L7-02",
+      "tier": "L7",
+      "name": "Lock-Free Transaction Coordinator Re-Architecture",
+      "targetFiles": [
+        "src/application/worker-runtime.ts",
+        "src/domain/action.ts",
+        "src/ports/state-store.port.ts"
+      ],
+      "category": "concurrency-architecture",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L7-03",
+      "tier": "L7",
+      "name": "Cross-Shard State Store Partition Rebalancing",
+      "targetFiles": [
+        "src/adapters/persistence/sqlite-state-store.ts",
+        "src/ports/state-store.port.ts",
+        "src/application/run-coordinator.ts"
+      ],
+      "category": "storage-architecture",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L7-04",
+      "tier": "L7",
+      "name": "Zero-Downtime Schema Evolution Engine",
+      "targetFiles": [
+        "src/adapters/persistence/schema.ts",
+        "src/adapters/persistence/sqlite-state-store.ts"
+      ],
+      "category": "schema-evolution",
+      "isCriticalConfig": true
+    },
+    {
+      "taskId": "T-L7-05",
+      "tier": "L7",
+      "name": "Asynchronous Event Mesh Distributed Replay Fabric",
+      "targetFiles": [
+        "src/application/evidence-replay-verifier.ts",
+        "src/domain/events.ts",
+        "src/application/evidence-ingestion-gateway.ts"
+      ],
+      "category": "event-mesh",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L7-06",
+      "tier": "L7",
+      "name": "Federated Cross-Repository Interface Sync Engine",
+      "targetFiles": [
+        "src/application/cross-repo-context-propagator.ts",
+        "src/ports/state-store.port.ts",
+        "src/domain/cross-repo-context.ts"
+      ],
+      "category": "cross-repository-contract",
+      "isCriticalConfig": true
+    },
+    {
+      "taskId": "T-L7-07",
+      "tier": "L7",
+      "name": "Multi-Leader Dynamic Quorum Lease Coordinator",
+      "targetFiles": [
+        "src/application/lease-manager.ts",
+        "src/application/run-coordinator.ts",
+        "src/domain/action.ts"
+      ],
+      "category": "distributed-consensus",
+      "isCriticalConfig": false
+    },
+    {
+      "taskId": "T-L7-08",
+      "tier": "L7",
+      "name": "Byzantine Fault-Tolerant Merkle Proof Ingestion",
+      "targetFiles": [
+        "src/application/evidence-ingestion-gateway.ts",
+        "src/application/evidence-signer.ts",
+        "src/domain/evidence-bundle.ts"
+      ],
+      "category": "cryptographic-verification",
+      "isCriticalConfig": true
+    },
+    {
+      "taskId": "T-L7-09",
+      "tier": "L7",
+      "name": "Real-Time Distributed Transaction Fencing Fencepost",
+      "targetFiles": [
+        "src/application/worker-runtime.ts",
+        "src/adapters/persistence/sqlite-state-store.ts"
+      ],
+      "category": "distributed-fencing",
+      "isCriticalConfig": true
+    },
+    {
+      "taskId": "T-L7-10",
+      "tier": "L7",
+      "name": "Continuous Replicated State Machine Log Compaction",
+      "targetFiles": [
+        "src/application/run-coordinator.ts",
+        "src/adapters/persistence/sqlite-state-store.ts",
+        "src/domain/events.ts"
+      ],
+      "category": "log-compaction",
+      "isCriticalConfig": false
+    }
+  ]
+}

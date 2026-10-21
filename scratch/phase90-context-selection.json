@@ -1,0 +1,155 @@
+{
+  "goalId": "goal-sub-01",
+  "selections": [
+    {
+      "strategy": "STRATEGY_A_FULL_CONTEXT",
+      "selectedNodeIds": [
+        "node-fencing-config",
+        "node-migration-v2",
+        "node-action",
+        "node-action-test",
+        "node-worker-runtime",
+        "node-concurrency-test",
+        "node-logger",
+        "node-sqlite-store",
+        "node-lease-manager",
+        "node-aux-statestore",
+        "node-metrics"
+      ],
+      "excludedNodeIds": [],
+      "rationale": {
+        "node-action": "Strategy A: Full bounded context baseline",
+        "node-worker-runtime": "Strategy A: Full bounded context baseline",
+        "node-lease-manager": "Strategy A: Full bounded context baseline",
+        "node-sqlite-store": "Strategy A: Full bounded context baseline",
+        "node-logger": "Strategy A: Full bounded context baseline",
+        "node-metrics": "Strategy A: Full bounded context baseline",
+        "node-fencing-config": "Strategy A: Full bounded context baseline",
+        "node-migration-v2": "Strategy A: Full bounded context baseline",
+        "node-action-test": "Strategy A: Full bounded context baseline",
+        "node-concurrency-test": "Strategy A: Full bounded context baseline",
+        "node-aux-statestore": "Strategy A: Full bounded context baseline"
+      }
+    },
+    {
+      "strategy": "STRATEGY_B_AST_LOCALITY",
+      "selectedNodeIds": [
+        "node-fencing-config",
+        "node-action",
+        "node-logger"
+      ],
+      "excludedNodeIds": [
+        "node-worker-runtime",
+        "node-lease-manager",
+        "node-sqlite-store",
+        "node-metrics",
+        "node-migration-v2",
+        "node-action-test",
+        "node-concurrency-test",
+        "node-aux-statestore"
+      ],
+      "rationale": {
+        "node-action": "Strategy B: Target file node",
+        "node-fencing-config": "Strategy B: AST neighbor of node-action",
+        "node-logger": "Strategy B: AST neighbor of node-action"
+      }
+    },
+    {
+      "strategy": "STRATEGY_C_CALL_CENTRALITY",
+      "selectedNodeIds": [
+        "node-action",
+        "node-worker-runtime",
+        "node-logger",
+        "node-sqlite-store",
+        "node-metrics"
+      ],
+      "excludedNodeIds": [
+        "node-lease-manager",
+        "node-fencing-config",
+        "node-migration-v2",
+        "node-action-test",
+        "node-concurrency-test",
+        "node-aux-statestore"
+      ],
+      "rationale": {
+        "node-worker-runtime": "Strategy C: Top centrality rank (0.308)",
+        "node-logger": "Strategy C: Top centrality rank (0.224)",
+        "node-action": "Strategy C: Top centrality rank (0.128)",
+        "node-sqlite-store": "Strategy C: Top centrality rank (0.103)",
+        "node-metrics": "Strategy C: Top centrality rank (0.092)"
+      }
+    },
+    {
+      "strategy": "STRATEGY_D_DEPENDENCY_CLOSURE",
+      "selectedNodeIds": [
+        "node-action"
+      ],
+      "excludedNodeIds": [
+        "node-worker-runtime",
+        "node-lease-manager",
+        "node-sqlite-store",
+        "node-logger",
+        "node-metrics",
+        "node-fencing-config",
+        "node-migration-v2",
+        "node-action-test",
+        "node-concurrency-test",
+        "node-aux-statestore"
+      ],
+      "rationale": {
+        "node-action": "Strategy D: Target node"
+      }
+    },
+    {
+      "strategy": "STRATEGY_E_HYBRID_RELEVANCE",
+      "selectedNodeIds": [
+        "node-fencing-config",
+        "node-migration-v2",
+        "node-action",
+        "node-logger"
+      ],
+      "excludedNodeIds": [
+        "node-worker-runtime",
+        "node-lease-manager",
+        "node-sqlite-store",
+        "node-metrics",
+        "node-action-test",
+        "node-concurrency-test",
+        "node-aux-statestore"
+      ],
+      "rationale": {
+        "node-action": "Strategy E: Relevance 0.561",
+        "node-fencing-config": "Strategy E: Relevance 0.275 (Critical Node)",
+        "node-migration-v2": "Strategy E: Relevance 0.163 (Critical Node)",
+        "node-logger": "Expanded in Round 1 via edge e8"
+      }
+    },
+    {
+      "strategy": "STRATEGY_F_ADAPTIVE_GOAL_CONTEXT",
+      "selectedNodeIds": [
+        "node-fencing-config",
+        "node-migration-v2",
+        "node-action",
+        "node-action-test",
+        "node-concurrency-test",
+        "node-logger",
+        "node-metrics"
+      ],
+      "excludedNodeIds": [
+        "node-worker-runtime",
+        "node-lease-manager",
+        "node-sqlite-store",
+        "node-aux-statestore"
+      ],
+      "rationale": {
+        "node-action": "Strategy F: Goal-conditioned relevance (0.561)",
+        "node-fencing-config": "Strategy F: Critical architectural anchor retained",
+        "node-migration-v2": "Strategy F: Critical architectural anchor retained",
+        "node-action-test": "Strategy F: Direct test coverage node",
+        "node-concurrency-test": "Strategy F: Direct test coverage node",
+        "node-logger": "Expanded in Round 1 via edge e8",
+        "node-metrics": "Expanded in Round 1 via edge e13"
+      }
+    }
+  ]
+}

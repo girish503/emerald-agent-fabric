@@ -1,0 +1,96 @@
+{
+  "totalScenarios": 15,
+  "recoveredCount": 15,
+  "scenarios": [
+    {
+      "id": "REC-01",
+      "checkpoint": "After graph construction",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-02",
+      "checkpoint": "After centrality calculation",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-03",
+      "checkpoint": "After cluster selection",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-04",
+      "checkpoint": "After context materialization",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-05",
+      "checkpoint": "After context digest computation",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-06",
+      "checkpoint": "After expansion request",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-07",
+      "checkpoint": "During expansion loop",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-08",
+      "checkpoint": "After expansion completion",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-09",
+      "checkpoint": "Before strategy search handoff",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-10",
+      "checkpoint": "After strategy search context consumption",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-11",
+      "checkpoint": "Before local verification handoff",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-12",
+      "checkpoint": "After local verification crash",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-13",
+      "checkpoint": "Before global reconciliation",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-14",
+      "checkpoint": "After global reconciliation",
+      "recovered": true,
+      "cleanRollback": true
+    },
+    {
+      "id": "REC-15",
+      "checkpoint": "Before evidence bundle persistence",
+      "recovered": true,
+      "cleanRollback": true
+    }
+  ]
+}

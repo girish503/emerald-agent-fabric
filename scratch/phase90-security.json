@@ -1,0 +1,188 @@
+{
+  "phase90ControlsTested": 30,
+  "phase90ControlsPassed": 30,
+  "cumulativeControls": 450,
+  "cumulativePassed": 450,
+  "controls": [
+    {
+      "id": "N421",
+      "name": "Context Self-Authorization Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N422",
+      "name": "Context Capability Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N423",
+      "name": "Context Scope Boundary Expansion",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N424",
+      "name": "Context Repository Scope Expansion",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N425",
+      "name": "Context Credential Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N426",
+      "name": "Context Terminal Authority Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N427",
+      "name": "Context Policy Approval Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N428",
+      "name": "Graph-Edge Authority Claim Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N429",
+      "name": "Graph-Node Scope Substitution",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N430",
+      "name": "Source Digest Substitution Attack",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N431",
+      "name": "Context Digest Tampering / Substitution",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N432",
+      "name": "Provenance Root Substitution Attack",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N433",
+      "name": "Omitted Dependency Concealment",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N434",
+      "name": "Hidden Synthetic Reference Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N435",
+      "name": "Centrality-Score Authority Escalation",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N436",
+      "name": "Relevance-Score Authority Escalation",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N437",
+      "name": "Context-Expansion Recursion Overflow (>4)",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N438",
+      "name": "Context-Expansion Byte Budget Bypass (>128KB)",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N439",
+      "name": "Graph-Node Amplification (>256)",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N440",
+      "name": "Graph-Edge Amplification (>512)",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N441",
+      "name": "Undeclared Cross-Repository Graph Injection",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N442",
+      "name": "Stale-Context Silent Execution",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N443",
+      "name": "Revoked-Context Silent Execution",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N444",
+      "name": "Cross-Goal Context Contamination",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N445",
+      "name": "Cross-Repository Context Contamination",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N446",
+      "name": "Agent Authority Injection via Context",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N447",
+      "name": "Test Oracle / Reference Solution Leakage",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N448",
+      "name": "Context Bypassing Delta Screening",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N449",
+      "name": "Context Bypassing Clean-Room Fourfold",
+      "pass": true,
+      "failClosed": true
+    },
+    {
+      "id": "N450",
+      "name": "Terminal Authority Escalation via Context",
+      "pass": true,
+      "failClosed": true
+    }
+  ]
+}

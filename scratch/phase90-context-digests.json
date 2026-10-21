@@ -1,0 +1,34 @@
+{
+  "digests": [
+    {
+      "strategy": "STRATEGY_A_FULL_CONTEXT",
+      "digest": "c8f34c1646c42249f687382903c54e38e57df7eb77a13d309ce22eac91395c5c",
+      "sourceProvenance": "165b315fdd95e0f8e43524504e8458745c6cb470a1eb561fbb2c0efd11ed76a6"
+    },
+    {
+      "strategy": "STRATEGY_B_AST_LOCALITY",
+      "digest": "7e2fa92811ead643b738e6fb8f14d2a5861d39cb67dc3cbd8401da7df275730b",
+      "sourceProvenance": "05863de543d5e172a51ed4f67793a03c5ac5ddaf80d1d247c261f74a59a9cac1"
+    },
+    {
+      "strategy": "STRATEGY_C_CALL_CENTRALITY",
+      "digest": "b2a55e75b90eecf4c75943951bd607950b5cdac58624ae049caa5bc2b20d6347",
+      "sourceProvenance": "99f6f9619aa81e34fcdca7f470564182cfc14ec96079cdeaf21f0837d4d3717d"
+    },
+    {
+      "strategy": "STRATEGY_D_DEPENDENCY_CLOSURE",
+      "digest": "520988001d0bfe8fd54902548c745d9af6e0f7be4185a92ebee0994ea4774717",
+      "sourceProvenance": "ab6929a9a6d31772d4a00ffeb573ffef44f6814439f71b998fb926ad4b7d522a"
+    },
+    {
+      "strategy": "STRATEGY_E_HYBRID_RELEVANCE",
+      "digest": "1cb554ac46990e77c8ba14218755fcc1523bf2262d96982ee65763fcdf98a864",
+      "sourceProvenance": "59d397540ac04f1f1aed2064da48dbf812bf0771d9010fd4a3dc19eac9877199"
+    },
+    {
+      "strategy": "STRATEGY_F_ADAPTIVE_GOAL_CONTEXT",
+      "digest": "3f11c4337cbec86b0942819d927aae0ac5bca995eeac06a45e15c8978d963c54",
+      "sourceProvenance": "95e2cc369127990d91a4d727cb3906dc4b27236417f5553280f834253b5bbdcd"
+    }
+  ]
+}

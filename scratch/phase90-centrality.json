@@ -1,0 +1,161 @@
+{
+  "graphId": "graph-phase90-canonical",
+  "scores": {
+    "node-action": {
+      "degreeCentrality": 0.4,
+      "weightedCallCentrality": 0.05,
+      "betweennessApproximation": 0.04,
+      "dependencyCentrality": 0,
+      "testCentrality": 0.1,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.128
+    },
+    "node-worker-runtime": {
+      "degreeCentrality": 0.7,
+      "weightedCallCentrality": 0.17,
+      "betweennessApproximation": 0.06,
+      "dependencyCentrality": 0.4,
+      "testCentrality": 0.1,
+      "crossRepositoryCentrality": 0.1,
+      "aggregateCentralityScore": 0.308
+    },
+    "node-lease-manager": {
+      "degreeCentrality": 0.2,
+      "weightedCallCentrality": 0.06999999999999999,
+      "betweennessApproximation": 0.01,
+      "dependencyCentrality": 0,
+      "testCentrality": 0,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.073
+    },
+    "node-sqlite-store": {
+      "degreeCentrality": 0.3,
+      "weightedCallCentrality": 0.08,
+      "betweennessApproximation": 0.02,
+      "dependencyCentrality": 0,
+      "testCentrality": 0,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.103
+    },
+    "node-logger": {
+      "degreeCentrality": 0.5,
+      "weightedCallCentrality": 0.32999999999999996,
+      "betweennessApproximation": 0,
+      "dependencyCentrality": 0,
+      "testCentrality": 0,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.224
+    },
+    "node-metrics": {
+      "degreeCentrality": 0.2,
+      "weightedCallCentrality": 0.13999999999999999,
+      "betweennessApproximation": 0,
+      "dependencyCentrality": 0,
+      "testCentrality": 0,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.092
+    },
+    "node-fencing-config": {
+      "degreeCentrality": 0.1,
+      "weightedCallCentrality": 0,
+      "betweennessApproximation": 0,
+      "dependencyCentrality": 0,
+      "testCentrality": 0,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.025
+    },
+    "node-migration-v2": {
+      "degreeCentrality": 0.1,
+      "weightedCallCentrality": 0,
+      "betweennessApproximation": 0,
+      "dependencyCentrality": 0,
+      "testCentrality": 0,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.025
+    },
+    "node-action-test": {
+      "degreeCentrality": 0.2,
+      "weightedCallCentrality": 0.04,
+      "betweennessApproximation": 0,
+      "dependencyCentrality": 0,
+      "testCentrality": 0.1,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.067
+    },
+    "node-concurrency-test": {
+      "degreeCentrality": 0.2,
+      "weightedCallCentrality": 0.06,
+      "betweennessApproximation": 0,
+      "dependencyCentrality": 0,
+      "testCentrality": 0.1,
+      "crossRepositoryCentrality": 0,
+      "aggregateCentralityScore": 0.073
+    },
+    "node-aux-statestore": {
+      "degreeCentrality": 0.1,
+      "weightedCallCentrality": 0,
+      "betweennessApproximation": 0,
+      "dependencyCentrality": 0,
+      "testCentrality": 0,
+      "crossRepositoryCentrality": 0.1,
+      "aggregateCentralityScore": 0.03
+    }
+  },
+  "ranking": [
+    {
+      "nodeId": "node-worker-runtime",
+      "symbol": "WorkerRuntime",
+      "centrality": 0.308
+    },
+    {
+      "nodeId": "node-logger",
+      "symbol": "Logger",
+      "centrality": 0.224
+    },
+    {
+      "nodeId": "node-action",
+      "symbol": "Action",
+      "centrality": 0.128
+    },
+    {
+      "nodeId": "node-sqlite-store",
+      "symbol": "SqliteStateStore",
+      "centrality": 0.103
+    },
+    {
+      "nodeId": "node-metrics",
+      "symbol": "MetricsCollector",
+      "centrality": 0.092
+    },
+    {
+      "nodeId": "node-lease-manager",
+      "symbol": "LeaseManager",
+      "centrality": 0.073
+    },
+    {
+      "nodeId": "node-concurrency-test",
+      "symbol": "ConcurrencyIntegrationTest",
+      "centrality": 0.073
+    },
+    {
+      "nodeId": "node-action-test",
+      "symbol": "ActionUnitTest",
+      "centrality": 0.067
+    },
+    {
+      "nodeId": "node-aux-statestore",
+      "symbol": "AuxStateStore",
+      "centrality": 0.03
+    },
+    {
+      "nodeId": "node-fencing-config",
+      "symbol": "FencingPolicy",
+      "centrality": 0.025
+    },
+    {
+      "nodeId": "node-migration-v2",
+      "symbol": "LockFreeMigration",
+      "centrality": 0.025
+    }
+  ]
+}

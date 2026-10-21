@@ -1,0 +1,23 @@
+{
+  "phase": 90,
+  "title": "Dynamic Sub-Goal Context Distillation & AST Call-Graph Centrality Clustering",
+  "baseline": "f8fa2ad4dc71252042ecb176f744f60039f512b9",
+  "centralPrinciple": "Context compression may remove irrelevant information. It must never remove required evidence or create authority.",
+  "hypotheses": [
+    "H1: AST/call-graph-guided clustering substantially reduces context volume while preserving task-relevant information.",
+    "H2: Goal-conditioned context outperforms static global repository summaries.",
+    "H3: Centrality is useful but insufficient; hybrid relevance is required for low-centrality critical nodes.",
+    "H4: Context reduction does not alter authoritative clean-room verification outcomes.",
+    "H5: Context reduction improves candidate reasoning efficiency without bypassing the autonomous L7 boundary."
+  ],
+  "clusteringStrategies": [
+    "STRATEGY_A_FULL_CONTEXT",
+    "STRATEGY_B_AST_LOCALITY",
+    "STRATEGY_C_CALL_CENTRALITY",
+    "STRATEGY_D_DEPENDENCY_CLOSURE",
+    "STRATEGY_E_HYBRID_RELEVANCE",
+    "STRATEGY_F_ADAPTIVE_GOAL_CONTEXT"
+  ],
+  "totalTasks": 20,
+  "timestamp": "2026-10-21T07:15:00.000Z"
+}
