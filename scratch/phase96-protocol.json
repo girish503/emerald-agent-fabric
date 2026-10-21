@@ -1,0 +1,93 @@
+{
+  "phase": 96,
+  "title": "Governed Cross-Agent Hierarchical Goal Pre-emption Protocol",
+  "governingPrinciple": "Work priority may change. Goal authority must not.",
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "absoluteInvariants": [
+    "Priority != Authority",
+    "Preemption != Revocation",
+    "De-prioritization != Failure",
+    "Suspension != Cancellation",
+    "Priority change != MissionContract change"
+  ],
+  "priorityClasses": [
+    "CRITICAL",
+    "HIGH",
+    "NORMAL",
+    "LOW",
+    "DEFERRED"
+  ],
+  "pressureBands": [
+    "NORMAL",
+    "ELEVATED",
+    "HIGH",
+    "CRITICAL",
+    "EXHAUSTED"
+  ],
+  "policies": [
+    "FIFO",
+    "CRITICALITY_FIRST",
+    "DEPENDENCY_AWARE",
+    "FAIR_CRITICALITY",
+    "GOVERNED_ADAPTIVE"
+  ],
+  "conditions": [
+    {
+      "id": "A",
+      "name": "FIFO_CONTROL",
+      "policy": "FIFO",
+      "description": "Static FIFO scheduling baseline"
+    },
+    {
+      "id": "B",
+      "name": "CRITICALITY_FIRST",
+      "policy": "CRITICALITY_FIRST",
+      "description": "Criticality-driven pre-emption"
+    },
+    {
+      "id": "C",
+      "name": "DEPENDENCY_AWARE",
+      "policy": "DEPENDENCY_AWARE",
+      "description": "Dependency-aware pre-emption"
+    },
+    {
+      "id": "D",
+      "name": "FAIR_CRITICALITY",
+      "policy": "FAIR_CRITICALITY",
+      "description": "Criticality + starvation protection"
+    },
+    {
+      "id": "E",
+      "name": "GOVERNED_ADAPTIVE",
+      "policy": "GOVERNED_ADAPTIVE",
+      "description": "Full adaptive priority policy"
+    },
+    {
+      "id": "F",
+      "name": "PRIORITY_INVERSION",
+      "policy": "GOVERNED_ADAPTIVE",
+      "description": "Adversarial priority inversion stress"
+    },
+    {
+      "id": "G",
+      "name": "PREEMPTION_RACE",
+      "policy": "GOVERNED_ADAPTIVE",
+      "description": "Concurrent pre-emption/resume/verification races"
+    },
+    {
+      "id": "H",
+      "name": "FULL_RUNTIME_GOVERNANCE",
+      "policy": "GOVERNED_ADAPTIVE",
+      "description": "Full runtime integration across Phases 88-95"
+    }
+  ],
+  "targets": {
+    "CriticalGoalProtectionRate": 1,
+    "LostWorkRate": 0,
+    "StaleResumeAcceptanceRate": 0,
+    "PriorityAuthorityLeakRate": 0,
+    "HiddenCancellationRate": 0,
+    "PriorityStarvationRateUpperBound": 0.05,
+    "JainFairnessLowerBound": 0.88
+  }
+}

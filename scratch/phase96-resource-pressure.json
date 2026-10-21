@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "bands": [
+    {
+      "band": "NORMAL",
+      "interval": "0-50%",
+      "preemptionPolicy": "NO_PREEMPTION",
+      "action": "STANDARD_DISPATCH"
+    },
+    {
+      "band": "ELEVATED",
+      "interval": ">50-70%",
+      "preemptionPolicy": "DEFER_LOW_PRIORITY",
+      "action": "THROTTLE_SPECULATIVE"
+    },
+    {
+      "band": "HIGH",
+      "interval": ">70-85%",
+      "preemptionPolicy": "PREEMPT_DEFERRED_AND_LOW",
+      "action": "CHECKPOINT_AND_SUSPEND"
+    },
+    {
+      "band": "CRITICAL",
+      "interval": ">85-95%",
+      "preemptionPolicy": "PREEMPT_ALL_NON_CRITICAL",
+      "action": "PRIORITIZE_CRITICAL_PATH"
+    },
+    {
+      "band": "EXHAUSTED",
+      "interval": ">95%",
+      "preemptionPolicy": "EMERGENCY_FAIR_FREEZE",
+      "action": "BOUNDED_RECOVERY_FENCE"
+    }
+  ],
+  "observedPressureDistribution": {
+    "NORMAL": 0.42,
+    "ELEVATED": 0.28,
+    "HIGH": 0.18,
+    "CRITICAL": 0.1,
+    "EXHAUSTED": 0.02
+  }
+}

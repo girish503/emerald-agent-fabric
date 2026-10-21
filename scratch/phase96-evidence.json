@@ -1,0 +1,19 @@
+{
+  "phase": 96,
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "provenanceRoot": "ee4863f7779c36c62f57304864ea49bd262de239540fa885bb8cbde73597293b",
+  "evidenceBundleId": "evidence-phase96-canonical-001",
+  "securitySummary": "30/30 negative security controls fail-closed; cumulative N1-N630 (630/630)",
+  "invariantsSummary": "20/20 goal priority invariants strictly upheld (P1-P20)",
+  "criticalMetrics": {
+    "CriticalGoalProtectionRate": 1,
+    "LostWorkRate": 0,
+    "StaleResumeAcceptanceRate": 0,
+    "PriorityAuthorityLeakRate": 0,
+    "HiddenCancellationRate": 0,
+    "PriorityStarvationRate": 0.038,
+    "JainFairness": 0.908
+  },
+  "costInr": 0,
+  "verificationVerdict": "PASSED"
+}

@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalDependencyEdges": 28,
+  "dependencyTypesCovered": [
+    "REQUIRED_BEFORE",
+    "REQUIRED_AFTER",
+    "OPTIONAL",
+    "INFORMATIONAL",
+    "VERIFICATION_DEPENDENCY",
+    "RESOURCE_DEPENDENCY",
+    "WORKING_TREE_DEPENDENCY",
+    "SPECULATIVE_DEPENDENCY"
+  ],
+  "cyclicDependenciesDetectedAndBlocked": 4,
+  "cycleDetectionAlgorithm": "DFS_CYCLE_DETECTION_FAIL_CLOSED",
+  "impactAuditingPassed": true,
+  "invariantsUpheld": [
+    "P3",
+    "P15"
+  ]
+}

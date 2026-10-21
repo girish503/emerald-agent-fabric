@@ -1,0 +1,326 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalDecisions": 20,
+  "decisions": [
+    {
+      "decisionId": "dec-1",
+      "taskId": "task-l5-01",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l5-01-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-2",
+      "taskId": "task-l5-02",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l5-02-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-3",
+      "taskId": "task-l5-03",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l5-03-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-4",
+      "taskId": "task-l5-04",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l5-04-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-5",
+      "taskId": "task-l5-05",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l5-05-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-6",
+      "taskId": "task-l6-01",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l6-01-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-7",
+      "taskId": "task-l6-02",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l6-02-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-8",
+      "taskId": "task-l6-03",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l6-03-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-9",
+      "taskId": "task-l6-04",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l6-04-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-10",
+      "taskId": "task-l6-05",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l6-05-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-11",
+      "taskId": "task-l7-01",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l7-01-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-12",
+      "taskId": "task-l7-02",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l7-02-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-13",
+      "taskId": "task-l7-03",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l7-03-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-14",
+      "taskId": "task-l7-04",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l7-04-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-15",
+      "taskId": "task-l7-05",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l7-05-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-16",
+      "taskId": "task-l7-06",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l7-06-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-17",
+      "taskId": "task-l7-07",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l7-07-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-18",
+      "taskId": "task-l7-08",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l7-08-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-19",
+      "taskId": "task-l7-09",
+      "policyUsed": "GOVERNED_ADAPTIVE",
+      "selectedGoalId": "goal-task-l7-09-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-20",
+      "taskId": "task-l7-10",
+      "policyUsed": "FAIR_CRITICALITY",
+      "selectedGoalId": "goal-task-l7-10-sub-1",
+      "candidateCount": 3,
+      "scoreBreakdown": {
+        "baseCriticality": 95,
+        "urgencyWeight": 70,
+        "starvationAgeBoost": 12,
+        "compositeScore": 890
+      },
+      "dependencyImpact": "ALL_PREREQUISITES_SATISFIED",
+      "decision": "SCHEDULED_FOR_EXECUTION",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    }
+  ]
+}

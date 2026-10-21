@@ -1,0 +1,148 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalScenarios": 20,
+  "recoveredScenarios": 20,
+  "recoveryRate": 1,
+  "scenarios": [
+    {
+      "scenarioId": "crash-1",
+      "name": "priority creation",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-2",
+      "name": "priority assignment",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-3",
+      "name": "pre-emption request",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-4",
+      "name": "checkpoint creation",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-5",
+      "name": "checkpoint persistence",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-6",
+      "name": "suspension",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-7",
+      "name": "resource release",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-8",
+      "name": "resume",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-9",
+      "name": "stale resume",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-10",
+      "name": "worker crash during pre-emption",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-11",
+      "name": "worker crash after checkpoint",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-12",
+      "name": "worker crash during resume",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-13",
+      "name": "lease loss",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-14",
+      "name": "contract revocation",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-15",
+      "name": "verification during suspension",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-16",
+      "name": "speculative branch during suspension",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-17",
+      "name": "rollback during suspension",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-18",
+      "name": "role transition during suspension",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-19",
+      "name": "working-tree mutation during suspension",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-20",
+      "name": "final evidence persistence",
+      "recoveredState": "LAST_CONSISTENT_CHECKPOINT_OR_PRIORITY",
+      "stateDivergenceDetected": false,
+      "passed": true
+    }
+  ]
+}

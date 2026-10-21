@@ -20,3 +20,6 @@ export * from "./runtime-speculative-execution-policy.js";
 export * from "./agent-role-transition-manager.js";
 export * from "./role-rebalancing-policy.js";
 export * from "./role-negotiation-engine.js";
+export * from "./goal-preemption-manager.js";
+export * from "./preempted-goal-resumer.js";
+export * from "./goal-preemption-policy.js";

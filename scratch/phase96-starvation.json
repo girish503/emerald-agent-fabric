@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "starvationRatesByCondition": {
+    "A_FIFO_CONTROL": 0.365,
+    "B_CRITICALITY_FIRST": 0.22,
+    "C_DEPENDENCY_AWARE": 0.145,
+    "D_FAIR_CRITICALITY": 0.062,
+    "E_GOVERNED_ADAPTIVE": 0.038,
+    "F_PRIORITY_INVERSION": 0.04,
+    "G_PREEMPTION_RACE": 0.042,
+    "H_FULL_RUNTIME_GOVERNANCE": 0.035
+  },
+  "agingPolicy": "MONOTONIC_AGE_SCORE_BOOST",
+  "maxStarvationWaitSeconds": 112,
+  "starvationUpperBoundTarget": 0.05,
+  "targetMet": true,
+  "relativeReductionPercent": 89.6
+}
