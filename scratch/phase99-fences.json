@@ -1,0 +1,1903 @@
+{
+  "totalFences": 32,
+  "activeFences": 32,
+  "fences": [
+    {
+      "fenceId": "fence-1",
+      "subjectId": "agent-1",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "54ae661e8842bdb0cd23cba03e981dfb7c8d44fe8d4f62e66134dde071eabd4a"
+    },
+    {
+      "fenceId": "fence-2",
+      "subjectId": "agent-2",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-2",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "ec0e07a4ef490df1b0b307ec233b5ce5c8168ecdd058ac29a7b00e8545dc352e"
+    },
+    {
+      "fenceId": "fence-3",
+      "subjectId": "agent-3",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-3",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "aef3b994ec973615328c080d3a72a6833f4d7426bd5bd71d5e636e27dce93fc4"
+    },
+    {
+      "fenceId": "fence-4",
+      "subjectId": "agent-4",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-4",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "ff84637ca4df6c2414ec2402e91008f921118ecf0d0f10cfb2ddbb680dd9b7c8"
+    },
+    {
+      "fenceId": "fence-5",
+      "subjectId": "agent-5",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-5",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "7c9bcf4595bfc042cbfc7ad644581181b5d59ffd6d7f22b2b357d8d4bd99d138"
+    },
+    {
+      "fenceId": "fence-6",
+      "subjectId": "agent-6",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-6",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "d078012e0b2cebf999b24687f7416699aa425483fdbfd25bbff7f6e35a16708c"
+    },
+    {
+      "fenceId": "fence-7",
+      "subjectId": "agent-7",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-7",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "f1bba19b84b07de4f9553f265b00342e52d8629fb15d381b8da4c0ea6bea90f9"
+    },
+    {
+      "fenceId": "fence-8",
+      "subjectId": "agent-8",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-8",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "3e19bc725f1bc2f730569bfaba61db2ff025304572ccf4df5d3292f012854f6e"
+    },
+    {
+      "fenceId": "fence-9",
+      "subjectId": "agent-9",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-9",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "b7fc90dcb891f4405d8edcaf5e8862dc95bedccc9896beb5a571783a03f0f4e3"
+    },
+    {
+      "fenceId": "fence-10",
+      "subjectId": "agent-10",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-10",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "49ca6a76cef2978b2dc3df33a4ddcf5e54909accf68dc2a21848a5a9d51a0d5d"
+    },
+    {
+      "fenceId": "fence-11",
+      "subjectId": "agent-11",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-11",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "cd5d430b29f4b72a1cc448ab4ad3b260c9349a608b5a8149a078642fc7459993"
+    },
+    {
+      "fenceId": "fence-12",
+      "subjectId": "agent-12",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-12",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "0f3eae60f987c9b0d5bb57d7d972a4a1bb14fe56ad21cdbeee06081b8341ba4a"
+    },
+    {
+      "fenceId": "fence-13",
+      "subjectId": "agent-13",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-13",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "d7385a44dbd60c995227e7a3196d0a52a5802fac547e5b54e474bb1a10586585"
+    },
+    {
+      "fenceId": "fence-14",
+      "subjectId": "agent-14",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-14",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "2c5a7ed26b6d01eef18802db6b30dbeaf060e66b71e9931ea15fa2f48e69b419"
+    },
+    {
+      "fenceId": "fence-15",
+      "subjectId": "agent-15",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-15",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "7058ea279e70138ff5c16d60a12f1446cbe09f5dbb7ee4696448aa0e506cb0e1"
+    },
+    {
+      "fenceId": "fence-16",
+      "subjectId": "agent-16",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-16",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "b04d21f35f564014101367533a9441ff0f37b9d6100d89d77743c8e5f231e7fb"
+    },
+    {
+      "fenceId": "fence-17",
+      "subjectId": "agent-17",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-17",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "e1094274d01c4d26f02b02362bbec393fe1e0fed682a8a51aac74f0e642db243"
+    },
+    {
+      "fenceId": "fence-18",
+      "subjectId": "agent-18",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-18",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "025e868c69055f9931679fe210f0f94f55a2e8cd0a08020ee40e2e91545051e0"
+    },
+    {
+      "fenceId": "fence-19",
+      "subjectId": "agent-19",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-19",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "99ca132b4d09445d958f6253e42428581f8b2298b42de9362d5774c418eb0fd0"
+    },
+    {
+      "fenceId": "fence-20",
+      "subjectId": "agent-20",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-20",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "a51334aace0de08b9bbc81ed79116542e3d56ab9122ab96f5b7571218d289fe1"
+    },
+    {
+      "fenceId": "fence-21",
+      "subjectId": "agent-21",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-21",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "c985fa9341c0adbe92ed9bfbc877a3dba9a86a508314615c5a5d1f1797f7ee38"
+    },
+    {
+      "fenceId": "fence-22",
+      "subjectId": "agent-22",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-22",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "9083124a88e65614947fa29bb816eff971ff67c8e81bae0aca4ed1f57050bb67"
+    },
+    {
+      "fenceId": "fence-23",
+      "subjectId": "agent-23",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-23",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "d2b88b66894d4c3c747a6ab727ab119faa27558c7a358ac16e10d0fa109de55c"
+    },
+    {
+      "fenceId": "fence-24",
+      "subjectId": "agent-24",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-24",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "1525dd355c8a5c95b795bc19421551285ca539b450d11ec19c56cf3c4823c100"
+    },
+    {
+      "fenceId": "fence-25",
+      "subjectId": "agent-25",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-25",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "d4ae757d88962cf424934e778777a839695af448647e9f4b8527d924ded5951a"
+    },
+    {
+      "fenceId": "fence-26",
+      "subjectId": "agent-26",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-26",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "b9ce14bc27a798f10d44a4a6ad5beff54b6671c4252286cbb66f3d2ca543a02d"
+    },
+    {
+      "fenceId": "fence-27",
+      "subjectId": "agent-27",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-27",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "486b891fb8fb77372baa66fb1b1eb61f2d04a81dc5fefe00715a2f5b6f6148ef"
+    },
+    {
+      "fenceId": "fence-28",
+      "subjectId": "agent-28",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-28",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "d23f0c9c6c259e2f64c274311a9512e6e9cbf373cd237607c27a71f57d2c0247"
+    },
+    {
+      "fenceId": "fence-29",
+      "subjectId": "agent-29",
+      "roleId": "analyzer",
+      "harnessId": "ANALYSIS_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-29",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "d2e5de2bbf74acb01ff13e72658af523e94b690f3444762ec92754c719b1956f"
+    },
+    {
+      "fenceId": "fence-30",
+      "subjectId": "agent-30",
+      "roleId": "implementer",
+      "harnessId": "IMPLEMENTATION_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "WRITE_TEMPORARY_OUTPUT"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-30",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "68ec461b46a9cc947f27f5e0d2ec738eb1e2ffd1db52b7cac4cb4cd9725e2e68"
+    },
+    {
+      "fenceId": "fence-31",
+      "subjectId": "agent-31",
+      "roleId": "reviewer",
+      "harnessId": "REVIEW_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-31",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "94af5f0250a9d8ddb01a53404737af11fe5f8336df4e94054e7d2c398fc83465"
+    },
+    {
+      "fenceId": "fence-32",
+      "subjectId": "agent-32",
+      "roleId": "tester",
+      "harnessId": "TEST_HARNESS",
+      "allowedCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA"
+      ],
+      "forbiddenCapabilities": [
+        "WRITE_REPOSITORY",
+        "COMMIT_GIT",
+        "PUSH_GIT",
+        "MODIFY_POLICY",
+        "MODIFY_MISSION_CONTRACT",
+        "SIGN_EVIDENCE",
+        "ISSUE_TERMINAL_AUTHORITY",
+        "ACCESS_CREDENTIALS",
+        "ACCESS_PRIVATE_KEYS",
+        "CHANGE_WORKSPACE_BOUNDARY",
+        "SPAWN_UNBOUNDED_PROCESS",
+        "NETWORK_ACCESS",
+        "DOCKER_SOCKET_ACCESS",
+        "HOST_FILESYSTEM_ACCESS"
+      ],
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-32",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "trustLabel": "GOVERNED_OBSERVATION",
+      "status": "ACTIVE",
+      "delegatedFenceIds": [],
+      "version": 1,
+      "missionContractId": "contract-phase99-001",
+      "missionContractHash": "dd48bd3124f5065e6b850dcb6f1772c33978cb57cedff9cbb04aef91b7d57c7d",
+      "authoritative": false,
+      "terminalAuthority": false,
+      "sovereignAuthority": false,
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "hash": "5809b41b59a838a1efd8b78ad21533958e90c562c416b16586406f42cafc04f8"
+    }
+  ],
+  "digest": "a61fdb6ad4da79ca26a051a8daa011eebd06f415ab7286671a7c04096a089cc1"
+}

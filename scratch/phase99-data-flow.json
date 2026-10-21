@@ -1,0 +1,29 @@
+{
+  "totalFlowsAudited": 128,
+  "sanitizedFlows": 120,
+  "quarantinedFlows": 8,
+  "dangerousPatternsDetected": [
+    {
+      "pattern": "rm -rf",
+      "blockedCount": 2
+    },
+    {
+      "pattern": "docker.sock",
+      "blockedCount": 2
+    },
+    {
+      "pattern": "/etc/passwd",
+      "blockedCount": 2
+    },
+    {
+      "pattern": "eval() / child_process",
+      "blockedCount": 2
+    }
+  ],
+  "authorityFieldsStripped": [
+    "terminalAuthority",
+    "bypassGovernance"
+  ],
+  "zeroDataLeakRate": true,
+  "digest": "76a8736963a34309bf61c8016779e498992949ec362db04a53525e8548886dce"
+}

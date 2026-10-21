@@ -1,0 +1,24 @@
+{
+  "phaseControls": "N691–N720 (30/30 fail-closed)",
+  "cumulativeControls": "N1–N720 (720/720 fail-closed)",
+  "coreInvariants": "C1–C20 (20/20 strictly upheld)",
+  "attackCorpusScenarios": 60,
+  "attackCorpusBlocked": 60,
+  "safetyTargets": {
+    "capabilityBoundaryViolationRate": 0,
+    "capabilityEscalationRate": 0,
+    "crossHarnessLeakRate": 0,
+    "capabilityLaunderingRate": 0,
+    "capabilitySplittingBypassRate": 0,
+    "confusedDeputyRate": 0,
+    "unauthorizedDelegationRate": 0,
+    "expiredFenceExecutionRate": 0,
+    "revokedFenceExecutionRate": 0,
+    "authorityExNihiloRate": 0,
+    "pathTraversalRate": 0,
+    "negativeControlEnforcementRate": 1,
+    "coreInvariantAdherenceRate": 1,
+    "replayDeterminismRate": 1
+  },
+  "digest": "5e17b43cb31e71210ec467eca7826b34dd4993936f32683c621d908b5d55f356"
+}

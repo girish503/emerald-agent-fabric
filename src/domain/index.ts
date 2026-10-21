@@ -34,3 +34,5 @@ export * from "./goal-preemption.js";
 export * from "./deadlock-detection.js";
 export * from "./fault-injection.js";
 export * from "./governed-agreement.js";
+export * from "./capability-fence.js";
+export * from "./cross-harness-request.js";

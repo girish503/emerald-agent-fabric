@@ -1,0 +1,44 @@
+{
+  "latticeName": "GovernedCapabilityLattice",
+  "positiveCapabilities": [
+    "READ_WORKSPACE",
+    "READ_REPOSITORY",
+    "READ_AST",
+    "READ_DEPENDENCY_GRAPH",
+    "READ_TEST_METADATA",
+    "WRITE_TEMPORARY_OUTPUT",
+    "EXECUTE_ANALYSIS"
+  ],
+  "forbiddenCapabilities": [
+    "WRITE_REPOSITORY",
+    "COMMIT_GIT",
+    "PUSH_GIT",
+    "MODIFY_POLICY",
+    "MODIFY_MISSION_CONTRACT",
+    "SIGN_EVIDENCE",
+    "ISSUE_TERMINAL_AUTHORITY",
+    "ACCESS_CREDENTIALS",
+    "ACCESS_PRIVATE_KEYS",
+    "CHANGE_WORKSPACE_BOUNDARY",
+    "SPAWN_UNBOUNDED_PROCESS",
+    "NETWORK_ACCESS",
+    "DOCKER_SOCKET_ACCESS",
+    "HOST_FILESYSTEM_ACCESS"
+  ],
+  "bottomElement": [],
+  "topPositiveElement": [
+    "READ_WORKSPACE",
+    "READ_REPOSITORY",
+    "READ_AST",
+    "READ_DEPENDENCY_GRAPH",
+    "READ_TEST_METADATA",
+    "WRITE_TEMPORARY_OUTPUT",
+    "EXECUTE_ANALYSIS"
+  ],
+  "meetOperator": "INTERSECTION (Strict intersection ⋂)",
+  "joinOperator": "STRICTLY_PROHIBITED (Authority union rejected)",
+  "partialOrder": "Subset relation (A ⊆ B)",
+  "isCompleteLattice": true,
+  "monotonicityGuarantee": "Capabilities decrease monotonically on downward delegation",
+  "digest": "93f2528574093d970e0e85c05356fa54676b9620b79926895085be4e4262aa97"
+}

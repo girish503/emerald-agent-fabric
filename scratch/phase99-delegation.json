@@ -1,0 +1,919 @@
+{
+  "totalDelegations": 24,
+  "allDownwardSubset": true,
+  "delegations": [
+    {
+      "delegationId": "del-1",
+      "parentFenceId": "fence-1",
+      "childFenceId": "fence-child-1",
+      "parentSubjectId": "agent-1",
+      "childSubjectId": "agent-child-1",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "f2690b2be4d26354ec94612927600ff87c57001c250ef89fd37ff83213acf8fa"
+    },
+    {
+      "delegationId": "del-2",
+      "parentFenceId": "fence-2",
+      "childFenceId": "fence-child-2",
+      "parentSubjectId": "agent-2",
+      "childSubjectId": "agent-child-2",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "b234626bca75c406d3ba5cdc6b0a55cd02e9f9c62c970253b195776e950caa7d"
+    },
+    {
+      "delegationId": "del-3",
+      "parentFenceId": "fence-3",
+      "childFenceId": "fence-child-3",
+      "parentSubjectId": "agent-3",
+      "childSubjectId": "agent-child-3",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "16b59268b77908f2863cd0e4b0581b16dba05212986ac351b02a203443077219"
+    },
+    {
+      "delegationId": "del-4",
+      "parentFenceId": "fence-4",
+      "childFenceId": "fence-child-4",
+      "parentSubjectId": "agent-4",
+      "childSubjectId": "agent-child-4",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "a2b4e369e9e162a4d4dce4415c0df18d9099ed62ae7a230e5c05a0ee276392f6"
+    },
+    {
+      "delegationId": "del-5",
+      "parentFenceId": "fence-5",
+      "childFenceId": "fence-child-5",
+      "parentSubjectId": "agent-5",
+      "childSubjectId": "agent-child-5",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "372f5ffec67af8b6957147d0941f9e8f1e7324401deaaaf9e64ca7b7ba0fa16d"
+    },
+    {
+      "delegationId": "del-6",
+      "parentFenceId": "fence-6",
+      "childFenceId": "fence-child-6",
+      "parentSubjectId": "agent-6",
+      "childSubjectId": "agent-child-6",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "114ecf511fd5dfa007b42939d8c6bbae2a48fc2fd8d90c6a6bd057f73e850ad5"
+    },
+    {
+      "delegationId": "del-7",
+      "parentFenceId": "fence-7",
+      "childFenceId": "fence-child-7",
+      "parentSubjectId": "agent-7",
+      "childSubjectId": "agent-child-7",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "56a78dc09042e085c332404e81f5d0c2ed7aca3b13859ab824b212e2f67f9ec6"
+    },
+    {
+      "delegationId": "del-8",
+      "parentFenceId": "fence-8",
+      "childFenceId": "fence-child-8",
+      "parentSubjectId": "agent-8",
+      "childSubjectId": "agent-child-8",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "55f20806ea98b222b0528a59be3ab18bfb25fb1c5440c0285524dc955d99323c"
+    },
+    {
+      "delegationId": "del-9",
+      "parentFenceId": "fence-9",
+      "childFenceId": "fence-child-9",
+      "parentSubjectId": "agent-9",
+      "childSubjectId": "agent-child-9",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "15e82a17f1bf16cf8b4a0f88ba0c9f0fe8657e4310bfe04bf8dd81431d55cf77"
+    },
+    {
+      "delegationId": "del-10",
+      "parentFenceId": "fence-10",
+      "childFenceId": "fence-child-10",
+      "parentSubjectId": "agent-10",
+      "childSubjectId": "agent-child-10",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "a7a060c2fcc8420c902b715f8d1bc6d8a4a3570531d037aaa5dfcfe9d2c4b355"
+    },
+    {
+      "delegationId": "del-11",
+      "parentFenceId": "fence-11",
+      "childFenceId": "fence-child-11",
+      "parentSubjectId": "agent-11",
+      "childSubjectId": "agent-child-11",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "3afdc97926bfa61ea6131ac1dbbb118c2ac169b0c544d2e01bc4e5ad67752059"
+    },
+    {
+      "delegationId": "del-12",
+      "parentFenceId": "fence-12",
+      "childFenceId": "fence-child-12",
+      "parentSubjectId": "agent-12",
+      "childSubjectId": "agent-child-12",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "11f65fc611ca225187d336647b4bb73bb41f06f8ddf6e505ed58c0e2d1fb1c6f"
+    },
+    {
+      "delegationId": "del-13",
+      "parentFenceId": "fence-13",
+      "childFenceId": "fence-child-13",
+      "parentSubjectId": "agent-13",
+      "childSubjectId": "agent-child-13",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "e533c4115d3758a21a0fe75bdcc7928e160325e1e1934424133f6283233bc1e4"
+    },
+    {
+      "delegationId": "del-14",
+      "parentFenceId": "fence-14",
+      "childFenceId": "fence-child-14",
+      "parentSubjectId": "agent-14",
+      "childSubjectId": "agent-child-14",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "d87c22b58e09e30b315d81cf01e6d4b440ff0fcb352c4f04e580d2789648d201"
+    },
+    {
+      "delegationId": "del-15",
+      "parentFenceId": "fence-15",
+      "childFenceId": "fence-child-15",
+      "parentSubjectId": "agent-15",
+      "childSubjectId": "agent-child-15",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "7a9cbec393076eeb969106e0c9aa5f8b525efc3f0c895571aaadfb6cf145a8df"
+    },
+    {
+      "delegationId": "del-16",
+      "parentFenceId": "fence-16",
+      "childFenceId": "fence-child-16",
+      "parentSubjectId": "agent-16",
+      "childSubjectId": "agent-child-16",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "b6cab26863a750f6dc45745045f86100ed20571181176e98fd4e90ef7955784f"
+    },
+    {
+      "delegationId": "del-17",
+      "parentFenceId": "fence-17",
+      "childFenceId": "fence-child-17",
+      "parentSubjectId": "agent-17",
+      "childSubjectId": "agent-child-17",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "d91a7ce4e7ddb6fe443fdcbd98a76a15cc751a6b04dd05a318cb20b389abc9c4"
+    },
+    {
+      "delegationId": "del-18",
+      "parentFenceId": "fence-18",
+      "childFenceId": "fence-child-18",
+      "parentSubjectId": "agent-18",
+      "childSubjectId": "agent-child-18",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "5c86254801e4517a896b8bc63c26895975382fb1981dbcce356a08b7df793d9d"
+    },
+    {
+      "delegationId": "del-19",
+      "parentFenceId": "fence-19",
+      "childFenceId": "fence-child-19",
+      "parentSubjectId": "agent-19",
+      "childSubjectId": "agent-child-19",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "7d09d46520ac173a07da8b2b452706c79caf1568e9566bbcaae2b0f1fe6c0685"
+    },
+    {
+      "delegationId": "del-20",
+      "parentFenceId": "fence-20",
+      "childFenceId": "fence-child-20",
+      "parentSubjectId": "agent-20",
+      "childSubjectId": "agent-child-20",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "0e7ae47cc4395a33f87ffe7f1b9c8f4b1f4ae4d1e251c81a891f8c76fcc85a79"
+    },
+    {
+      "delegationId": "del-21",
+      "parentFenceId": "fence-21",
+      "childFenceId": "fence-child-21",
+      "parentSubjectId": "agent-21",
+      "childSubjectId": "agent-child-21",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "03ebea849433b07b1dbabf961ae4d29fc485adaee36e17c7a31ba587358432f8"
+    },
+    {
+      "delegationId": "del-22",
+      "parentFenceId": "fence-22",
+      "childFenceId": "fence-child-22",
+      "parentSubjectId": "agent-22",
+      "childSubjectId": "agent-child-22",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "1b8bed23c788ccd8ac4927d85ad69b7c6c5c0422fa4f761ad6b2776fa5738744"
+    },
+    {
+      "delegationId": "del-23",
+      "parentFenceId": "fence-23",
+      "childFenceId": "fence-child-23",
+      "parentSubjectId": "agent-23",
+      "childSubjectId": "agent-child-23",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "abb73274b364dfe2a6411c24a4f7373fc754527a751bc8bbd1169752297cdb73"
+    },
+    {
+      "delegationId": "del-24",
+      "parentFenceId": "fence-24",
+      "childFenceId": "fence-child-24",
+      "parentSubjectId": "agent-24",
+      "childSubjectId": "agent-child-24",
+      "delegatedCapabilities": [
+        "READ_WORKSPACE"
+      ],
+      "remainingParentCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST"
+      ],
+      "delegatedScope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "expiresAt": "2026-10-21T12:30:00.000Z",
+      "createdAt": "2026-10-21T12:00:00.000Z",
+      "hash": "cd55972a66a697a820437dfcdb851e0c61d546db71a7ef516e1a05150fbda911"
+    }
+  ],
+  "digest": "61a912eccf6e9e81202915e4dced8c11c1c78a1df4a835883cd684511eccdc17"
+}

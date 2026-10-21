@@ -1,0 +1,306 @@
+{
+  "totalDenials": 30,
+  "denials": [
+    {
+      "denialId": "denial-1",
+      "fenceId": "fence-1",
+      "subjectId": "agent-1",
+      "requestedCapability": "WRITE_REPOSITORY",
+      "reason": "Forbidden capability strictly prohibited",
+      "controlId": "N691",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "10332ea89efacb6e901de3ef1cfb493a9b3d3372e8cd7f51fe19cdbf58b79782"
+    },
+    {
+      "denialId": "denial-2",
+      "fenceId": "fence-2",
+      "subjectId": "agent-2",
+      "requestedCapability": "COMMIT_GIT",
+      "reason": "Forbidden git commit attempted",
+      "controlId": "N691",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "ecfa49c25612d6835b47094c32b20827313567ca8c0a2fa7b76f2b9d6ccd82fd"
+    },
+    {
+      "denialId": "denial-3",
+      "fenceId": "fence-3",
+      "subjectId": "agent-3",
+      "requestedCapability": "NETWORK_ACCESS",
+      "reason": "Unfenced network access attempted",
+      "controlId": "N712",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "d445d0f747446f6b0428a468aed49735e40cb283216b509cf1c9df4c1b9f6b9a"
+    },
+    {
+      "denialId": "denial-4",
+      "fenceId": "fence-4",
+      "subjectId": "agent-4",
+      "requestedCapability": "ISSUE_TERMINAL_AUTHORITY",
+      "reason": "Terminal authority claim ex nihilo rejected",
+      "controlId": "N720",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "f3bdc6bcfa5d68e4ee1f93a8a42aa57752ad8d32ae29d8e1b0a57e448c42051a"
+    },
+    {
+      "denialId": "denial-5",
+      "fenceId": "fence-5",
+      "subjectId": "agent-5",
+      "requestedCapability": "MODIFY_POLICY",
+      "reason": "Policy modification by agent runtime rejected",
+      "controlId": "N691",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "9278054f3ccf28d5ff5505cfa81bc1ec7612fcdf027fb3c83d35002bf0bfaf6f"
+    },
+    {
+      "denialId": "denial-6",
+      "fenceId": "fence-6",
+      "subjectId": "agent-6",
+      "requestedCapability": "EXECUTE_ANALYSIS",
+      "reason": "Undeclared capability for implementer role",
+      "controlId": "N691",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "cddd28eb5b90ef30866c76b6812ea26b31c6f30b9f6539666076c5226e01afd2"
+    },
+    {
+      "denialId": "denial-7",
+      "fenceId": "fence-7",
+      "subjectId": "agent-7",
+      "requestedCapability": "DELEGATE_SUPERSET",
+      "reason": "Child capabilities exceed parent envelope",
+      "controlId": "N697",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "bf93de6c4b2d3b9ed99b9dda628c997a02f8a9f4a5bea46ab753a6d17ff2e966"
+    },
+    {
+      "denialId": "denial-8",
+      "fenceId": "fence-8",
+      "subjectId": "agent-8",
+      "requestedCapability": "DELEGATE_OVERTIME",
+      "reason": "Child expiration exceeds parent fence lease",
+      "controlId": "N698",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "06d80ba4c88f718ec15d11034d48c37b017d47484548a40fd0a856ef8fda4718"
+    },
+    {
+      "denialId": "denial-9",
+      "fenceId": "fence-9",
+      "subjectId": "agent-9",
+      "requestedCapability": "DELEGATE_OVERSCOPE",
+      "reason": "Child scope exceeds parent resource budget",
+      "controlId": "N699",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "7c456deb19b1df4f94d9699fa510efd3aec46389af3c1957cd516e5a5ccce11b"
+    },
+    {
+      "denialId": "denial-10",
+      "fenceId": "fence-10",
+      "subjectId": "agent-10",
+      "requestedCapability": "EXPIRED_EXECUTION",
+      "reason": "Execution attempted with expired lease",
+      "controlId": "N700",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "c0fbe35a1971bcf2f95c7082ad3a1f8c9c350708817057c98a74bdb9738bf525"
+    },
+    {
+      "denialId": "denial-11",
+      "fenceId": "fence-11",
+      "subjectId": "agent-11",
+      "requestedCapability": "REVOKED_EXECUTION",
+      "reason": "Execution attempted with revoked fence",
+      "controlId": "N701",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "ee78b982a45a3deb43aaadb575b6b48f22cf828715cee2816addb6d6256425cd"
+    },
+    {
+      "denialId": "denial-12",
+      "fenceId": "fence-12",
+      "subjectId": "agent-12",
+      "requestedCapability": "VERSION_MISMATCH",
+      "reason": "Mismatched capability fence version",
+      "controlId": "N702",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "8823fb631a4486a723fa6c34904cdf9cb4a1373e11e497a753b68412f930fa63"
+    },
+    {
+      "denialId": "denial-13",
+      "fenceId": "fence-13",
+      "subjectId": "agent-13",
+      "requestedCapability": "CONTRACT_MISMATCH",
+      "reason": "Mismatched mission contract hash in grant",
+      "controlId": "N703",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "fdc8ce82c1be86d4f2c13ec47187f127278a113b79919248cf23053115d5b7a5"
+    },
+    {
+      "denialId": "denial-14",
+      "fenceId": "fence-14",
+      "subjectId": "agent-14",
+      "requestedCapability": "SYNTHETIC_GRANT",
+      "reason": "Synthetic capability grant without provenance",
+      "controlId": "N705",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "72cc15689c7e5bd76dffb855ebf959337c2ebd5163b91009b5e70a2723cbc005"
+    },
+    {
+      "denialId": "denial-15",
+      "fenceId": "fence-15",
+      "subjectId": "agent-15",
+      "requestedCapability": "EXPANDED_COMPOSITION",
+      "reason": "Composed capability expanding beyond intersection",
+      "controlId": "N706",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "5f31aa3934d5193896e5d7ab526b81316bf8020546bb4204d0f7d487a99cd3a4"
+    },
+    {
+      "denialId": "denial-16",
+      "fenceId": "fence-16",
+      "subjectId": "agent-16",
+      "requestedCapability": "DELEGATE_REPO_WRITE",
+      "reason": "Downward delegation to child with elevated repo write",
+      "controlId": "N707",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "d05bfb8cb26ef287520c306d5c3d801a834af8da8608f524714a09dae3816ec1"
+    },
+    {
+      "denialId": "denial-17",
+      "fenceId": "fence-17",
+      "subjectId": "agent-17",
+      "requestedCapability": "UPWARD_REFLECTION",
+      "reason": "Upward capability reflection claiming parent authority",
+      "controlId": "N708",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "84bf8171c013eb81a4c0bb9b9e5cb0ce40c8facfd09a0d397c647540139ab4cf"
+    },
+    {
+      "denialId": "denial-18",
+      "fenceId": "fence-18",
+      "subjectId": "agent-18",
+      "requestedCapability": "DIRTY_DATA_FLOW",
+      "reason": "Cross-harness data flow bypassing sanitization",
+      "controlId": "N709",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "a21c9e6f3e846f679f7f35cee0e6fe0501fee281210f4d91af9b05a76c5365ac"
+    },
+    {
+      "denialId": "denial-19",
+      "fenceId": "fence-19",
+      "subjectId": "agent-19",
+      "requestedCapability": "PATH_TRAVERSAL",
+      "reason": "Unfenced path traversal outside workspace root",
+      "controlId": "N710",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "6877ca91f04696ed3a4bc417e169c4bc7633fca71db4692b3052852aa425c14e"
+    },
+    {
+      "denialId": "denial-20",
+      "fenceId": "fence-20",
+      "subjectId": "agent-20",
+      "requestedCapability": "TOOL_HOST_ESCAPE",
+      "reason": "Tool attempting host escape",
+      "controlId": "N711",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "9c0476f5855ba6b1cf5ed82dfbac516220963b38ced023f6e33b74077d11b5a9"
+    },
+    {
+      "denialId": "denial-21",
+      "fenceId": "fence-21",
+      "subjectId": "agent-21",
+      "requestedCapability": "STALE_LEASE_REUSE",
+      "reason": "Stale capability lease reuse after role transition",
+      "controlId": "N713",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "4161d32b0f61523d67b330f6fc84f0efdbc756045eb5ca6ac2e6b85f0eb255b5"
+    },
+    {
+      "denialId": "denial-22",
+      "fenceId": "fence-22",
+      "subjectId": "agent-22",
+      "requestedCapability": "PREEMPT_SPOOF",
+      "reason": "Capability grant spoofing during pre-emption",
+      "controlId": "N714",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "e5c7417d27783fc732f36b382b72162adcffe92b7f3be8806b9408ad0ebad4e0"
+    },
+    {
+      "denialId": "denial-23",
+      "fenceId": "fence-23",
+      "subjectId": "agent-23",
+      "requestedCapability": "SPECULATIVE_EXPAND",
+      "reason": "Capability expansion through speculative branch",
+      "controlId": "N715",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "e7ff58164544cb68ec20298dd814f566ba429897e0e7fa398419f73b39d9d028"
+    },
+    {
+      "denialId": "denial-24",
+      "fenceId": "fence-24",
+      "subjectId": "agent-24",
+      "requestedCapability": "DEADLOCK_BYPASS",
+      "reason": "Deadlock cycle break granting bypass capability",
+      "controlId": "N716",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "70e9016c0004d160679ccf4c81e95dcd77e126cf621cdffb1a268196100f8765"
+    },
+    {
+      "denialId": "denial-25",
+      "fenceId": "fence-25",
+      "subjectId": "agent-25",
+      "requestedCapability": "BYZANTINE_QUORUM",
+      "reason": "Byzantine agreement attempting to manufacture terminal authority",
+      "controlId": "N717",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "ad55ab275b02b6084cff302f75cae1903c347822efca851b3c98553bf46a2b3d"
+    },
+    {
+      "denialId": "denial-26",
+      "fenceId": "fence-26",
+      "subjectId": "agent-26",
+      "requestedCapability": "MEMORY_FORGERY",
+      "reason": "Memory-assisted cross-agent authority forgery",
+      "controlId": "N718",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "959c6179a623f6ab39de101b05dd22913032c03986845db2ba45d39f3d7ba656"
+    },
+    {
+      "denialId": "denial-27",
+      "fenceId": "fence-27",
+      "subjectId": "agent-27",
+      "requestedCapability": "VERIFY_BYPASS",
+      "reason": "Clean-room sovereign verification bypass attempt",
+      "controlId": "N719",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "1d4e977d8a794e155c542b2d52a61a653e425d9d43fd891eefb37004f551bc3f"
+    },
+    {
+      "denialId": "denial-28",
+      "fenceId": "fence-28",
+      "subjectId": "agent-28",
+      "requestedCapability": "LAUNDERING_PROXY",
+      "reason": "Capability laundering attempt detected",
+      "controlId": "N694",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "fcbcf43d1864d614c49aff84a9ca45f04c88ff03dbcdf278199a9685727eb5d8"
+    },
+    {
+      "denialId": "denial-29",
+      "fenceId": "fence-29",
+      "subjectId": "agent-29",
+      "requestedCapability": "SPLITTING_CHAIN",
+      "reason": "Capability splitting aggregating to forbidden state",
+      "controlId": "N695",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "cb53b4225276a5544a04bc5a867f5bed73fca76e45c09dc57ec5097491a51e0f"
+    },
+    {
+      "denialId": "denial-30",
+      "fenceId": "fence-30",
+      "subjectId": "agent-30",
+      "requestedCapability": "CONFUSED_DEPUTY",
+      "reason": "Confused deputy cross-harness exploitation",
+      "controlId": "N696",
+      "attemptedAt": "2026-10-21T12:00:00.000Z",
+      "hash": "26387754e12a98029a2aae2c9b84486264c1d4b53aa3676dfd87a0f96fb191a8"
+    }
+  ],
+  "digest": "4621f8cd93d8028c2bffa524b1d4c293f4c8fea7034fc3abfd65d4c376d20405"
+}

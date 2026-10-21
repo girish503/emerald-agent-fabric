@@ -1,0 +1,2054 @@
+{
+  "totalGrants": 64,
+  "grants": [
+    {
+      "grantId": "grant-1",
+      "fenceId": "fence-2",
+      "subjectId": "agent-2",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-2",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "27b788115413d29bf4ffb274642196c646d911fb0909e04750cb84b2683c56a2",
+      "hash": "59206d70b7e0d48c306ad7d705f6f57ed11c2fdae45c16a31d324d4dab252984"
+    },
+    {
+      "grantId": "grant-2",
+      "fenceId": "fence-3",
+      "subjectId": "agent-3",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-3",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "bd02c212bf7d8306534aa3d7985574b1d12565326ffb2d330ae9ecef85fa0ca0",
+      "hash": "9c075f42a21f640fafcf877de387c0bd2496c442ef9fdbca3de988243c45a7e2"
+    },
+    {
+      "grantId": "grant-3",
+      "fenceId": "fence-4",
+      "subjectId": "agent-4",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-4",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "ef22383ad5a90b336d05b85eb83277e27fc1b20ebd220b885e14357973b39903",
+      "hash": "364327745f92d1cfc19d05542af65f2be096d91eb13b4dd4d2f57713ec308a1e"
+    },
+    {
+      "grantId": "grant-4",
+      "fenceId": "fence-5",
+      "subjectId": "agent-5",
+      "capability": "READ_AST",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-5",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "08228de6ea8716f26f83c62408d3d7aa1b5e9f2c2bb5435a26d5a74baf5605c8",
+      "hash": "d6024035684a21d61ff377c6e9007d9f4068dee6e84affc5f1d5352da14aff90"
+    },
+    {
+      "grantId": "grant-5",
+      "fenceId": "fence-6",
+      "subjectId": "agent-6",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-6",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "d77b00913f594d538cd76e1aa7afce65404220a8522840c76d14aecc7705a1b4",
+      "hash": "f430e7703d4443b4e050100707f8a3848c403a2b65e9f54fa5602355670892d1"
+    },
+    {
+      "grantId": "grant-6",
+      "fenceId": "fence-7",
+      "subjectId": "agent-7",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-7",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "e923e6cba345df0ba8bd3f6681c75499106d4eb7258fa1ea32ca45b06028f16a",
+      "hash": "d636186ebce8183c44759c6b6835f509bff94790cfefd75f072881526dd97eb9"
+    },
+    {
+      "grantId": "grant-7",
+      "fenceId": "fence-8",
+      "subjectId": "agent-8",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-8",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "4b3425dae04b68b868309e6e64e71ddff697487bfe0c5b9a30faef8e5d8f8f79",
+      "hash": "624a548d00b67e50f49d56349ed5e957fad401a49ee816f705a6fa15d3817cb1"
+    },
+    {
+      "grantId": "grant-8",
+      "fenceId": "fence-9",
+      "subjectId": "agent-9",
+      "capability": "EXECUTE_ANALYSIS",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-9",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "2ef50f555646911cd54a3de2772993d7a2b6de432e2bf48d50aefced030ee45e",
+      "hash": "53733499534cb5ae1697e0fb8a800dc8b6843a89ca7bcd13d580fe8cb7fd576a"
+    },
+    {
+      "grantId": "grant-9",
+      "fenceId": "fence-10",
+      "subjectId": "agent-10",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-10",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "384e6ba617ee523e1a33a7f6aaf11f6d4c20d49daa39cfe8bb3f58f4870cdb8a",
+      "hash": "10cb8e546b79355ad99591a6b2a8a8661711b540ea8cb52e4a23159056d6bfbd"
+    },
+    {
+      "grantId": "grant-10",
+      "fenceId": "fence-11",
+      "subjectId": "agent-11",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-11",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "98392b8017b7189d11353110fb718821a8ab92d9959cb2eb5ef95fa13e3d849f",
+      "hash": "4050e6319ef742714e6c2c4097c1dbc011045254c9f58d34dace97c5c044cf44"
+    },
+    {
+      "grantId": "grant-11",
+      "fenceId": "fence-12",
+      "subjectId": "agent-12",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-12",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "9c38376472819a49bf81e3e403a181050d0ca904fe87fce354e654a7c07d64cc",
+      "hash": "fcf87d84a7a1c1dba36da44fbba342c3df34e27d4cae9b624e5f1f61976f0392"
+    },
+    {
+      "grantId": "grant-12",
+      "fenceId": "fence-13",
+      "subjectId": "agent-13",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-13",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "3bd6024f6bd37127368d34a84838a714a296b2212f75af841d35346d1e23a47d",
+      "hash": "69b66d90388a80d8904f69abf88679514411d4de97a8eb61d67dfcc72660bf67"
+    },
+    {
+      "grantId": "grant-13",
+      "fenceId": "fence-14",
+      "subjectId": "agent-14",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-14",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "8181473621119ffc7e6e393c237dade7c28a88d204efc2c471b5da54f076f5a3",
+      "hash": "c40acb92ce7365573aaf123cc1171a4a4666a022e76ed378ea0b77c4ab13555b"
+    },
+    {
+      "grantId": "grant-14",
+      "fenceId": "fence-15",
+      "subjectId": "agent-15",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-15",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "f0cfacc7f1894bcf28843448854354025c5f21ea51c332bb1ef9f1c5cf307352",
+      "hash": "7d4b45f34d740d2b6c4cd8abcbb22100ff6fe7d94ea2ce9b3e39ae2eb96002e6"
+    },
+    {
+      "grantId": "grant-15",
+      "fenceId": "fence-16",
+      "subjectId": "agent-16",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-16",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "57bc1fcfa36149ac55c5685807ae533bc175df7837388d05ee70fb2615f3f1cd",
+      "hash": "d6ac4b0cd16a30c349cd2808c60c079d6a40a2849ca927f9cae6174c655b6420"
+    },
+    {
+      "grantId": "grant-16",
+      "fenceId": "fence-17",
+      "subjectId": "agent-17",
+      "capability": "READ_AST",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-17",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "b3c214767b0397fdaf289ee8a716c1f7dda4b648312bf2b53e96a3de5cc064af",
+      "hash": "0ce21fddadd11ca07d018735e721be0e9ad41fec9dcc70a7d7aa5b1c30c3e235"
+    },
+    {
+      "grantId": "grant-17",
+      "fenceId": "fence-18",
+      "subjectId": "agent-18",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-18",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "336a3590a806b7f9a12139ccd8e118ff376078981c8ce807a83ae219e9e75e7c",
+      "hash": "64e49070a0a09ef20f8d51f4a964afec1774fc2fd7fdc19d718b20cf8ab09040"
+    },
+    {
+      "grantId": "grant-18",
+      "fenceId": "fence-19",
+      "subjectId": "agent-19",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-19",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "11748fe44e1d86f113bbe4be578513dc01e93014e74ddf5633e4b5dc9aba40b6",
+      "hash": "a3fb9469059bd09aafa9b89a5d1322d89ff991319624d38618592e3b1f9b4629"
+    },
+    {
+      "grantId": "grant-19",
+      "fenceId": "fence-20",
+      "subjectId": "agent-20",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-20",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "e44af351267e3c36c39f8013aa5896938defcdce8920787d089bff9ec617885d",
+      "hash": "0359bfcfd6778b4ce81a79ec3a04df98c83816b7b2b604957ee7ebaf6f486e55"
+    },
+    {
+      "grantId": "grant-20",
+      "fenceId": "fence-21",
+      "subjectId": "agent-21",
+      "capability": "EXECUTE_ANALYSIS",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-21",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "1316e94fa4c8d53e0069ac109c47f6c5b5d0e9390249437fe42ff0aa2b248da2",
+      "hash": "486ffd6f7790a12ec636379c936a41b1b9e2a21af92ed6c8f48ab18c820c2699"
+    },
+    {
+      "grantId": "grant-21",
+      "fenceId": "fence-22",
+      "subjectId": "agent-22",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-22",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "f5b1af101c925fdde63f2b6f7a503a2b7acdb7da95d0aa7b6777ac9cb6dca212",
+      "hash": "a648f0656c9c2214aba905d59434d71e3e610074d3f3be79260f2eaf32543caa"
+    },
+    {
+      "grantId": "grant-22",
+      "fenceId": "fence-23",
+      "subjectId": "agent-23",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-23",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "c0d425da8169f346d505373f580d2147507a84bddb65a010b18a3fb63c3912d6",
+      "hash": "6e5522e89807c84a055e4173451627f7522ba796eb6422a813e5d6b642f1e196"
+    },
+    {
+      "grantId": "grant-23",
+      "fenceId": "fence-24",
+      "subjectId": "agent-24",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-24",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "ba720ee5aecd2a678bbac3bb9543ebe30b673df23779a2eceabc10c30db280f3",
+      "hash": "1ba712953ab923f33725b083cbf228d809db50fb0ce7d684fc2b33eb8cc7744a"
+    },
+    {
+      "grantId": "grant-24",
+      "fenceId": "fence-25",
+      "subjectId": "agent-25",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-25",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "f011aa1adb9016af950238e0871abea4c3b7c4a25427d24322ccc64de01aab68",
+      "hash": "fdab46d0e7938958a39ba5c663b12f0740abe5672fcf951e949461cd36e09d28"
+    },
+    {
+      "grantId": "grant-25",
+      "fenceId": "fence-26",
+      "subjectId": "agent-26",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-26",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "aef0e08f04fe04b75ba146678cf2b3f13347c31394b068533e738d85890bbbb5",
+      "hash": "ba08e81f9252e81c5488cc77feb7340d215a57e3d64685842fc343ceb8d2ad41"
+    },
+    {
+      "grantId": "grant-26",
+      "fenceId": "fence-27",
+      "subjectId": "agent-27",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-27",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "cb52beba0b574ea229c346e010f06388ada68800d09ff3dd7bfe6cc21f51b538",
+      "hash": "26aa34dcdcf1f86fff0b17bb147226135f21e3e39cede3ca5f66d7d9ac9650ba"
+    },
+    {
+      "grantId": "grant-27",
+      "fenceId": "fence-28",
+      "subjectId": "agent-28",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-28",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "70e1bb7f5bf26a21d7146db6f9460bcb346a3a2977cf0cbe6a0020a7550cfc09",
+      "hash": "48ecd501976e0802f8083b0e6ec1d971d811429fa3b29a50d6d7a6eda96c5d6d"
+    },
+    {
+      "grantId": "grant-28",
+      "fenceId": "fence-29",
+      "subjectId": "agent-29",
+      "capability": "READ_AST",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-29",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "8d4e7c9660d473fa2a223ae89690caed538eafe33a5e9fa69f24b850623d1321",
+      "hash": "5eacfad3a7f9c8d2362bbb8a5ed45e6c9ac46b0be8d772f03f2027a982a21b91"
+    },
+    {
+      "grantId": "grant-29",
+      "fenceId": "fence-30",
+      "subjectId": "agent-30",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-30",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "714e269186612fbab2712e8c19aea806f4748306c5cb4cf2b1f04b16283f3401",
+      "hash": "cb4b58f4c3bf011705adf37fe2407260236c9bdad1a922fbcf651bddd7fd6009"
+    },
+    {
+      "grantId": "grant-30",
+      "fenceId": "fence-31",
+      "subjectId": "agent-31",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-31",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "776b5876703d27c18166fe822407b4e64d6a346de3df04de218bc365f227bd0e",
+      "hash": "59c4d56bc72a329ed79015178f70721c078e714ab649281b5e0e77dece2f1090"
+    },
+    {
+      "grantId": "grant-31",
+      "fenceId": "fence-32",
+      "subjectId": "agent-32",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-32",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "ea05e442cd69c2895842d881d58b218cb1446e240ea4a9d910a6aeee071e63fc",
+      "hash": "31088433735678a87cafb784433e495e1a9f9abc42c1098cd6b296e076e00a12"
+    },
+    {
+      "grantId": "grant-32",
+      "fenceId": "fence-1",
+      "subjectId": "agent-1",
+      "capability": "EXECUTE_ANALYSIS",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "63bb7bd67770e971c515acaca3486853e2420e42a29841771bf056070d4163b7",
+      "hash": "991d75f6bcf5570ac98cb0ec5e4a5fa8697ce35cd20f34ddbabe4a759b74f845"
+    },
+    {
+      "grantId": "grant-33",
+      "fenceId": "fence-2",
+      "subjectId": "agent-2",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-2",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "93abd3ca93f3ee44df2f7274e40d997c1a8ae24597affffb66dfb58d6442e618",
+      "hash": "16dfcc70de18b896830240da8d3e842769b18eba02f00ce613a04ea2b82e678d"
+    },
+    {
+      "grantId": "grant-34",
+      "fenceId": "fence-3",
+      "subjectId": "agent-3",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-3",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "15d943c2c86e9723dc45fdb49655946ab9a9b432e0b1033ca4b5c75299f85a04",
+      "hash": "938b12265002da67e1b592d07ec3da59516617bc7a4b29f4a97fc6efb97c22e2"
+    },
+    {
+      "grantId": "grant-35",
+      "fenceId": "fence-4",
+      "subjectId": "agent-4",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-4",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "63b07a5c6fe44cf66b5fb71e0dd1fc999380d1da6a238feee2376ab44e6a01f3",
+      "hash": "2081d90aa503bd089f801097caf5303025f1a458c805cf02049c2bab4b109279"
+    },
+    {
+      "grantId": "grant-36",
+      "fenceId": "fence-5",
+      "subjectId": "agent-5",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-5",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "ebc4c42e118b0edcee35c7e05a6307db752ced6f37280eacfce83e9b88f48df0",
+      "hash": "911740e08f18ceea6c383fcbfe4b38e4c23ba1835c253f55c40687e4a255b188"
+    },
+    {
+      "grantId": "grant-37",
+      "fenceId": "fence-6",
+      "subjectId": "agent-6",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-6",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "a60d6615c54e1780d3bf9aaf7fe4b084527abcd1db2a0e65e33281b5da4ac8b7",
+      "hash": "e6ad2dc27df3f046dc306f2952ba82ec09e9a015333ffc385dc004ebfdf5d177"
+    },
+    {
+      "grantId": "grant-38",
+      "fenceId": "fence-7",
+      "subjectId": "agent-7",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-7",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "90e5d78cd376b7133ebdd26124dd3620b03434eea082bf596eeac52c6284036b",
+      "hash": "9757b94d5b13c2991f034c60f4c1d7cf51a56e4a60ee3ee87a3cf94b899026a7"
+    },
+    {
+      "grantId": "grant-39",
+      "fenceId": "fence-8",
+      "subjectId": "agent-8",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-8",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "9916071503b6798b453fe8c0dbf5f5240dac3a91b932f5a681c454b1e67bc872",
+      "hash": "5fe5ee9ad31bfa643b4ebf64551da6937c174e9c9d10b85fe7c11b69eb3c3098"
+    },
+    {
+      "grantId": "grant-40",
+      "fenceId": "fence-9",
+      "subjectId": "agent-9",
+      "capability": "READ_AST",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-9",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "fe12acdcf9d4a39d9648997d30694911f1a85bf395fbfe6f0f926ce1785a6287",
+      "hash": "1a0d5c1b01adb2e0f888977c0bd18f714be32ad00446b7f1758a28f6a2d50d64"
+    },
+    {
+      "grantId": "grant-41",
+      "fenceId": "fence-10",
+      "subjectId": "agent-10",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-10",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "ab58872a8e9570b085adc7a44047eb74ef60943031e70000bbc11ee4fe7a2756",
+      "hash": "6a07d949e18203348f7513f2b44119ff378684dee693ef656664638b3291b5f7"
+    },
+    {
+      "grantId": "grant-42",
+      "fenceId": "fence-11",
+      "subjectId": "agent-11",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-11",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "4fffff79ed4c44a21f3f9d860c56b3e1356a82b2a46afed3f675152ae1ed9d53",
+      "hash": "696a08492a0a9fa76213a465dd5fd5e72d0c30040fd0d0bb3ea2fd749be7df15"
+    },
+    {
+      "grantId": "grant-43",
+      "fenceId": "fence-12",
+      "subjectId": "agent-12",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-12",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "750ebc18eab6e0cb30e30143fb20dcd2f5fd43c37604db00b6b9864961b59f2d",
+      "hash": "bffaa0da9d820c71b9575019f9e6db6fd735e32b65ebf67a6fb28ea9774dd844"
+    },
+    {
+      "grantId": "grant-44",
+      "fenceId": "fence-13",
+      "subjectId": "agent-13",
+      "capability": "EXECUTE_ANALYSIS",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-13",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "75b661454a86528b1739bb8599857904ab3630fe9be187db26723fc671dd60c5",
+      "hash": "6fa700e9aa8b00395568692c19ccae73d51985f6eae46879b4087ee100dcedec"
+    },
+    {
+      "grantId": "grant-45",
+      "fenceId": "fence-14",
+      "subjectId": "agent-14",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-14",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "fd2ecdb62752e3d1a40309d90f535fc2b042dfade98ac53bb02c3cd917626b11",
+      "hash": "8ddee10c3555a4de6285acf3009e2e84a5622327c88b5aa5f95fa67f0509c129"
+    },
+    {
+      "grantId": "grant-46",
+      "fenceId": "fence-15",
+      "subjectId": "agent-15",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-15",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "2654de23d8fe2440953ac77706e112c1726f253ddae3a56d2055bb2ef95e05d3",
+      "hash": "9cea7e7b1d6adbee4aeaddfec84b02b5a20c07c85d077b0dfdf23a92b8865059"
+    },
+    {
+      "grantId": "grant-47",
+      "fenceId": "fence-16",
+      "subjectId": "agent-16",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-16",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "c9fb3a65bb3f325143ccb17ec8e334b7f86a2f882cbeb3a9f6f10488f6bf8b75",
+      "hash": "c0fdcfb63673e8765b9e967f1b336f9e467b4aa832f9d6ce026de592c81a0ef6"
+    },
+    {
+      "grantId": "grant-48",
+      "fenceId": "fence-17",
+      "subjectId": "agent-17",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-17",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "c6c12597f85ed8239db076b4ed0e187510157116d099b9445a8d97a83f274b8c",
+      "hash": "4c8ab50d863dde33557f4a40c80b1239c78fea74d8e16c8cf3048f627d8d2fca"
+    },
+    {
+      "grantId": "grant-49",
+      "fenceId": "fence-18",
+      "subjectId": "agent-18",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-18",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "66fffbd8527a9ea31b4dc493f84bb248376d44504aff900530ea2fd743752dc6",
+      "hash": "3b0ce05f504825d2da6e3e9e3b16ce6b1b1506e6abcc7e3ecf198dfff4fec247"
+    },
+    {
+      "grantId": "grant-50",
+      "fenceId": "fence-19",
+      "subjectId": "agent-19",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-19",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "9eef5c340ab2325cb6ef687da9b60587c53e66b3527e039bf227132b9115517a",
+      "hash": "76af2346a10d120a45a3b4ec62182084668502c22c9e38a8169723effbb7389b"
+    },
+    {
+      "grantId": "grant-51",
+      "fenceId": "fence-20",
+      "subjectId": "agent-20",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-20",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "90cc28c25599aa918ba537dd1e012df07b118bbd235ef83aefc022a1ecada739",
+      "hash": "486fde406be793c9246c4a6cfca00f70ff1079554f0d8851d3ec2118518f8862"
+    },
+    {
+      "grantId": "grant-52",
+      "fenceId": "fence-21",
+      "subjectId": "agent-21",
+      "capability": "READ_AST",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-21",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "a9ec4f6b561e989e59126693fa5b7f93a2d338edb0535440ef8d04c04745c8fa",
+      "hash": "8d1c91643c2c08991222c097732ec6c3139ab2fa5df2816a0ed998ca9892fbe5"
+    },
+    {
+      "grantId": "grant-53",
+      "fenceId": "fence-22",
+      "subjectId": "agent-22",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-22",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "767c3fb903cd177d2f97872edec1750742b9e381dd6d3c2832365b10c6971881",
+      "hash": "d9725cbab0b918c07db6fd53f6e3570469aaeb67b39dae1680e02332d0c40c3e"
+    },
+    {
+      "grantId": "grant-54",
+      "fenceId": "fence-23",
+      "subjectId": "agent-23",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-23",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "afaa0a1a07d2505d4d5d2e37a1019a6daf1f8b6079b17999e63a36365d528b81",
+      "hash": "9693a9d7af937f1d4102bc20ad3c2c070a57b11847c5b979577b2bfaf14b3d9d"
+    },
+    {
+      "grantId": "grant-55",
+      "fenceId": "fence-24",
+      "subjectId": "agent-24",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-24",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "b2a8673a4b827f1dcfaf06cf74efffeece269d5d8767fafc56b0581ffe85f80c",
+      "hash": "ca67b56963f8f1819898344ced0e3c4087f78f8568b25183b3cc705c4b321364"
+    },
+    {
+      "grantId": "grant-56",
+      "fenceId": "fence-25",
+      "subjectId": "agent-25",
+      "capability": "EXECUTE_ANALYSIS",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-25",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "247e15a156fd1eb84eb7e022bd3fa9f2bf481e1a76439b71ff41638e3d4f0ed5",
+      "hash": "351e53c0d5512afed65387c00e4235b03145176cb651658ca1540c7177298e87"
+    },
+    {
+      "grantId": "grant-57",
+      "fenceId": "fence-26",
+      "subjectId": "agent-26",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-26",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "50fa5c0721fccfd22f683c19b75b084ea445b2dbc080e63ad242b9f267f19e50",
+      "hash": "5c50c83f0a3d73c405413add672f876afa9c4ba8576856ffc409b56c59142edb"
+    },
+    {
+      "grantId": "grant-58",
+      "fenceId": "fence-27",
+      "subjectId": "agent-27",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-27",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "9b24a10707e8d889c759c318879475b3ae77dbd3c4b8301843c554bd3cbcc9d1",
+      "hash": "2c8e29f4f95c474855feabdc40333c59a64dbe115ed5fbf79f00e6eb74b14c2f"
+    },
+    {
+      "grantId": "grant-59",
+      "fenceId": "fence-28",
+      "subjectId": "agent-28",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-28",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "c907a42dc0eb4cabb5858049d58168e6ceed124d82e967dec6c91dc81d365517",
+      "hash": "9687511ab09852af74afb2f39b44d9d0e2e50df9bc6a7ef58cd66f2c2e111947"
+    },
+    {
+      "grantId": "grant-60",
+      "fenceId": "fence-29",
+      "subjectId": "agent-29",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-29",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "149ec0fb58d2b699ebe3ba0862f3cbae88d80443f299e4b58ed7ba904cda3d74",
+      "hash": "8403b6b13f2c7ee48da1362a3e446cd2e17a3afe9883cdd9b065076f15f0c402"
+    },
+    {
+      "grantId": "grant-61",
+      "fenceId": "fence-30",
+      "subjectId": "agent-30",
+      "capability": "WRITE_TEMPORARY_OUTPUT",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-30",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "d0d91be9c08d67c7e459cdcf8fd8967c378017e095f9236ba65e5c7cb5147a91",
+      "hash": "e61a4a61cb736e8fc06b583b82e3ac28e6b5d915b43735dc09555862e8162937"
+    },
+    {
+      "grantId": "grant-62",
+      "fenceId": "fence-31",
+      "subjectId": "agent-31",
+      "capability": "READ_WORKSPACE",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-31",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "dc48eb3640cb0a76dbbd1000a7959515c29670decfb19a08016c5407821b46db",
+      "hash": "a898473803420ab38934560c16b47bf6916e73ecb3e4a5a48cc929d44c6f544a"
+    },
+    {
+      "grantId": "grant-63",
+      "fenceId": "fence-32",
+      "subjectId": "agent-32",
+      "capability": "READ_TEST_METADATA",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-32",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "c0fead02746dd885fb3af935847246f828187d613fc68ab70a8ef3ceaa47e356",
+      "hash": "3b53f16843504b6ad47c91f3f2269d3ba34d155b6f5575b6ba3a02c90a49ccd5"
+    },
+    {
+      "grantId": "grant-64",
+      "fenceId": "fence-1",
+      "subjectId": "agent-1",
+      "capability": "READ_AST",
+      "scope": {
+        "allowedWorkspacePaths": [
+          "/workspace/agent-1",
+          "/workspace/shared"
+        ],
+        "forbiddenWorkspacePaths": [
+          "/workspace/.git",
+          "/etc",
+          "/root"
+        ],
+        "allowedTools": [
+          "read_file",
+          "search_code",
+          "execute_analysis",
+          "write_temp"
+        ],
+        "maxOperations": 100,
+        "maxMemoryBytes": 536870912,
+        "networkAllowed": false,
+        "gitWriteAllowed": false
+      },
+      "justification": "Authorized within active capability fence",
+      "issuedAt": "2026-10-21T12:00:00.000Z",
+      "expiresAt": "2026-10-21T13:00:00.000Z",
+      "signature": "3e343cf82da48453570e96f0b3eee6e75897765b61dfd1aede124b86b4d6a505",
+      "hash": "9d1ee0d5e74a4e027b987eceb5c6a2be66fd89ba98e8b64578b7bfd73b535cc0"
+    }
+  ],
+  "digest": "a061963ad219f90c19d119bc804c756d34b5854035864ccc44329569adad2f0e"
+}

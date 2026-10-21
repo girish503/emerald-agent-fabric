@@ -1,0 +1,79 @@
+{
+  "totalDimensions": 9,
+  "allSecure": true,
+  "matrix": [
+    {
+      "dimension": "AGENT",
+      "boundaryType": "LOGICAL_IDENTITY",
+      "status": "SECURE",
+      "checksPassed": 48,
+      "checksFailed": 0,
+      "details": "Agents isolated to assigned identity; impersonation rejected fail-closed."
+    },
+    {
+      "dimension": "ROLE",
+      "boundaryType": "CONTRACTUAL_ROLE",
+      "status": "SECURE",
+      "checksPassed": 40,
+      "checksFailed": 0,
+      "details": "Roles constrained to assigned capabilities; role escalation blocked."
+    },
+    {
+      "dimension": "HARNESS",
+      "boundaryType": "EXECUTION_ENVIRONMENT",
+      "status": "SECURE",
+      "checksPassed": 56,
+      "checksFailed": 0,
+      "details": "Harnesses isolated; cross-harness requests pass through anti-confused deputy gateway."
+    },
+    {
+      "dimension": "TOOL",
+      "boundaryType": "API_GATEWAY",
+      "status": "SECURE",
+      "checksPassed": 64,
+      "checksFailed": 0,
+      "details": "Tools strictly checked against fence allowedTools scope; undeclared tools denied."
+    },
+    {
+      "dimension": "WORKSPACE",
+      "boundaryType": "FILE_SYSTEM_CONTAINMENT",
+      "status": "SECURE",
+      "checksPassed": 52,
+      "checksFailed": 0,
+      "details": "Path traversals outside workspace root rejected fail-closed."
+    },
+    {
+      "dimension": "REPOSITORY",
+      "boundaryType": "GIT_INTEGRITY",
+      "status": "SECURE",
+      "checksPassed": 44,
+      "checksFailed": 0,
+      "details": "Repository write, commit, and push capabilities strictly forbidden for agent runtime."
+    },
+    {
+      "dimension": "PROVIDER",
+      "boundaryType": "MODEL_PROVIDER_ISOLATION",
+      "status": "SECURE",
+      "checksPassed": 36,
+      "checksFailed": 0,
+      "details": "Model execution produces non-authoritative proposals only; prompt injection fenced."
+    },
+    {
+      "dimension": "RESOURCE",
+      "boundaryType": "QUOTA_LEASING",
+      "status": "SECURE",
+      "checksPassed": 38,
+      "checksFailed": 0,
+      "details": "Operation count, memory bytes, and lease duration bounded deterministically."
+    },
+    {
+      "dimension": "MISSION_CONTRACT",
+      "boundaryType": "CRYPTOGRAPHIC_ROOT",
+      "status": "SECURE",
+      "checksPassed": 42,
+      "checksFailed": 0,
+      "details": "All fences, grants, and transfers bound to immutable mission contract hash."
+    }
+  ],
+  "digest": "d8df49a991cbe5f71c13d19fd6c8e76eba906b02f77b90ec612f1fbf70834688"
+}

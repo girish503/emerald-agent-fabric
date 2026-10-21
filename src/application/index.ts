@@ -29,3 +29,6 @@ export * from "./deadlock-governance-policy.js";
 export * from "./fault-injector.js";
 export * from "./byzantine-agreement-coordinator.js";
 export * from "./fault-governance-policy.js";
+export * from "./capability-fence-enforcer.js";
+export * from "./cross-harness-gateway.js";
+export * from "./capability-governance-policy.js";
