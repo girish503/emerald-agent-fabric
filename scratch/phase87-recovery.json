@@ -1,0 +1,59 @@
+{
+  "scenariosTested": [
+    {
+      "scenario": "COMPOSITION_CREATION_CRASH",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "VALIDATION_CRASH",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "AUTHORIZATION_CRASH",
+      "result": "SAFE_FAIL_CLOSED_RECONSTITUTED"
+    },
+    {
+      "scenario": "STAGE_1_CRASH",
+      "result": "PARTIAL_PIPELINE_RECORDED_ABORTED"
+    },
+    {
+      "scenario": "STAGE_1_OUTPUT_CRASH",
+      "result": "INPUT_FENCED_CLEANLY"
+    },
+    {
+      "scenario": "STAGE_2_CRASH",
+      "result": "PARTIAL_PIPELINE_RECORDED_ABORTED"
+    },
+    {
+      "scenario": "STAGE_2_OUTPUT_CRASH",
+      "result": "INPUT_FENCED_CLEANLY"
+    },
+    {
+      "scenario": "INTERMEDIATE_PROVENANCE_PERSISTENCE_CRASH",
+      "result": "CHAIN_INTEGRITY_VERIFIED"
+    },
+    {
+      "scenario": "FINAL_STAGE_CRASH",
+      "result": "SAFE_TIMEOUT_TERMINATED"
+    },
+    {
+      "scenario": "COMPOSITION_COMPLETION_CRASH",
+      "result": "RECONSTITUTED_WITHOUT_LOSS"
+    },
+    {
+      "scenario": "REVOCATION_CRASH",
+      "result": "REVOCATION_PRESERVED_ACROSS_CRASH"
+    },
+    {
+      "scenario": "EXPIRATION_CRASH",
+      "result": "EXPIRATION_PRESERVED_ACROSS_CRASH"
+    },
+    {
+      "scenario": "TERMINAL_WORKFLOW_HANDOFF_CRASH",
+      "result": "ZERO_AUTHORITY_PRESERVED"
+    }
+  ],
+  "allScenariosPassed": true,
+  "dataLoss": false,
+  "corruptedIdentities": 0
+}

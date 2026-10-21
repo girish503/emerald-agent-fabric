@@ -27,8 +27,12 @@ export function isSensitiveKey(key: string): boolean {
   if (/^credential[_-]?scopes?$/i.test(key)) {
     return false;
   }
-  // LLM token count metrics (e.g. contextEstimatedTokens, totalTokens, promptTokens, inputTokens, outputTokens) are non-secret execution metrics
-  if (/(?:estimated|prompt|input|output|total|eval)[_-]?tokens?$/i.test(key)) {
+  // LLM token count metrics (e.g. contextEstimatedTokens, totalTokens, promptTokens, inputTokens, outputTokens, tokenCount) are non-secret execution metrics
+  if (/(?:estimated|prompt|input|output|total|eval)[_-]?tokens?$|^token[_-]?counts?$/i.test(key)) {
+    return false;
+  }
+  // Idempotency tokens (e.g. idempotencyToken) are non-secret distributed execution coordinates
+  if (/^idempotency[_-]?tokens?$/i.test(key)) {
     return false;
   }
   return SENSITIVE_KEY_PATTERNS.some((pattern) => pattern.test(key));
@@ -76,6 +80,33 @@ export function redactSensitiveData(value: unknown): unknown {
   }
 
   return result;
+}
+
+/**
+ * Detects whether an arbitrary data structure contains unredacted sensitive keys with raw secret values.
+ * Returns true if any property matching isSensitiveKey possesses a raw value other than "[REDACTED]".
+ */
+export function containsUnredactedSecrets(value: unknown): boolean {
+  if (value === null || typeof value !== "object") {
+    return false;
+  }
+  if (Array.isArray(value)) {
+    return value.some((item) => containsUnredactedSecrets(item));
+  }
+  for (const [key, val] of Object.entries(value as Record<string, unknown>)) {
+    if (isSensitiveKey(key)) {
+      if (typeof val === "string" && val !== "[REDACTED]") {
+        return true;
+      }
+      if (typeof val === "number" || typeof val === "boolean") {
+        return true;
+      }
+    }
+    if (containsUnredactedSecrets(val)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**

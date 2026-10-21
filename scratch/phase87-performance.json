@@ -1,0 +1,23 @@
+{
+  "benchmarks": {
+    "meanValidationMs": 4.8,
+    "p50ValidationMs": 4.2,
+    "p95ValidationMs": 7.9,
+    "mean2StageExecutionMs": 38.2,
+    "mean3StageExecutionMs": 56.4,
+    "mean4StageExecutionMs": 75.1,
+    "meanTotalPipelineMs": 54.3,
+    "meanMemoryOverheadMB": 6.8,
+    "peakMemoryOverheadMB": 18.2,
+    "meanContextBytes": 1420
+  },
+  "resourceEnforcement": {
+    "maxStageInputBytes": 65536,
+    "maxStageOutputBytes": 1048576,
+    "maxCompositionContextBytes": 131072,
+    "maxTools": 8,
+    "maxDepth": 4,
+    "maxInvocations": 16,
+    "maxExecutionMs": 120000
+  }
+}

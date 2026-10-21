@@ -1,0 +1,1171 @@
+{
+  "count": 60,
+  "evaluations": [
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L5-01",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L5-01",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L5-01",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L5-01",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L5-02",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L5-02",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L5-02",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L5-02",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L5-03",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L5-03",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L5-03",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L5-03",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L5-04",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L5-04",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L5-04",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L5-04",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L5-05",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L5-05",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L5-05",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L5-05",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L6-01",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L6-01",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L6-01",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L6-01",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L6-02",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L6-02",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L6-02",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L6-02",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L6-03",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L6-03",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L6-03",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA",
+        "READ_DEPENDENCY_GRAPH"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA",
+        "READ_DEPENDENCY_GRAPH"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L6-03",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA",
+        "READ_DEPENDENCY_GRAPH"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_TEST_METADATA",
+        "READ_DEPENDENCY_GRAPH"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L6-04",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L6-04",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L6-04",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L6-04",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L6-05",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L6-05",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_DEPENDENCY_GRAPH"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_DEPENDENCY_GRAPH"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L6-05",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L6-05",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L7-01",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L7-01",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L7-01",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L7-01",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L7-02",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L7-02",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L7-02",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L7-02",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L7-03",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L7-03",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L7-03",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L7-03",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_DEPENDENCY_GRAPH",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L7-04",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L7-04",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L7-04",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L7-04",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS",
+        "READ_REPOSITORY",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_A_SINGLE_FIXED_TOOL",
+      "taskId": "TASK-L7-05",
+      "condition": "CONDITION_A_SINGLE_FIXED_TOOL",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "taskId": "TASK-L7-05",
+      "condition": "CONDITION_B_TWO_TOOL_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_C_MULTI_TOOL_CHAIN",
+      "taskId": "TASK-L7-05",
+      "condition": "CONDITION_C_MULTI_TOOL_CHAIN",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "taskId": "TASK-L7-05",
+      "condition": "CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "declaredCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "effectiveCapabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS",
+        "READ_AST",
+        "READ_TEST_METADATA"
+      ],
+      "unionEscalationDetected": false,
+      "transitiveEscalationDetected": false,
+      "outputAuthorityGranted": false
+    }
+  ]
+}

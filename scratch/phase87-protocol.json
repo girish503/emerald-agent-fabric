@@ -1,0 +1,83 @@
+{
+  "phase": "PHASE_87",
+  "title": "Governed Multi-Tool Composition and Sequential Dynamic Analysis Chains",
+  "frozenBaseline": "e64bc6c9b5aaf17da4acd28eb2251e45e10dc366",
+  "researchQuestion": "If every dynamic tool is independently validated, sandboxed, capability-scoped, and untrusted, does composing multiple tools introduce new authority, provenance, resource, recursion, data-flow, or security failures?",
+  "centralArchitecturalInvariant": "Tool composition may increase computational capability, but it must never increase authority.",
+  "authorityInvariants": [
+    {
+      "id": "C1",
+      "rule": "Composition cannot gain authority through capability union."
+    },
+    {
+      "id": "C2",
+      "rule": "Composition cannot gain repository scope through stage chaining."
+    },
+    {
+      "id": "C3",
+      "rule": "Composition cannot gain credentials through output propagation."
+    },
+    {
+      "id": "C4",
+      "rule": "Composition cannot authorize another composition."
+    },
+    {
+      "id": "C5",
+      "rule": "Composition cannot modify policy."
+    },
+    {
+      "id": "C6",
+      "rule": "Composition cannot modify MissionContract."
+    },
+    {
+      "id": "C7",
+      "rule": "Composition cannot sign evidence."
+    },
+    {
+      "id": "C8",
+      "rule": "Composition cannot issue terminal authority."
+    },
+    {
+      "id": "C9",
+      "rule": "Composition cannot bypass clean-room verification."
+    },
+    {
+      "id": "C10",
+      "rule": "Composition cannot bypass fourfold verification."
+    },
+    {
+      "id": "C11",
+      "rule": "Composition cannot execute revoked tools."
+    },
+    {
+      "id": "C12",
+      "rule": "Composition cannot execute expired tools."
+    },
+    {
+      "id": "C13",
+      "rule": "Composition cannot exceed cumulative resource limits."
+    },
+    {
+      "id": "C14",
+      "rule": "Composition cannot convert untrusted observation into authority."
+    }
+  ],
+  "taskCohortSize": 15,
+  "trialsCount": 60,
+  "topologies": [
+    "TOPOLOGY_A_LINEAR_2",
+    "TOPOLOGY_B_LINEAR_3",
+    "TOPOLOGY_C_LINEAR_4",
+    "TOPOLOGY_D_BRANCHED"
+  ],
+  "resourceBudgets": {
+    "maxStageInputBytes": 65536,
+    "maxStageOutputBytes": 1048576,
+    "maxCompositionContextBytes": 131072,
+    "maxTools": 8,
+    "maxDepth": 4,
+    "maxInvocations": 16,
+    "maxExecutionMs": 120000,
+    "maxMemoryBytes": 268435456
+  }
+}

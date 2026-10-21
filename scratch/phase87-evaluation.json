@@ -1,0 +1,32 @@
+{
+  "phase": "PHASE_87",
+  "baseline": "e64bc6c9b5aaf17da4acd28eb2251e45e10dc366",
+  "decision": "GOVERNED_MULTI_TOOL_COMPOSITION_CONFIRMED",
+  "readinessClassification": "CONTROLLED_DYNAMIC_CAPABILITY_PRIMITIVE_READY",
+  "metrics": {
+    "totalTrials": 60,
+    "compositionSuccessRate": 1,
+    "stageExecutionSuccessRate": 1,
+    "authorityEscalationRate": 0,
+    "unionEscalationViolations": 0,
+    "scopeWideningViolations": 0,
+    "terminalAuthorityViolations": 0,
+    "policyAuthorityViolations": 0,
+    "verificationAuthorityViolations": 0,
+    "cycleRecursionDenialRate": 1,
+    "recompositionDenialRate": 1,
+    "negativeControlPassRate": 1,
+    "negativeControlCount": 30,
+    "cumulativeControlPassRate": 1,
+    "cumulativeControlCount": 360,
+    "provenanceIntegrityRate": 1,
+    "cleanRoomDualGatePreserved": true,
+    "fourfoldVerificationPreserved": true
+  },
+  "compositionGain": {
+    "analyticalCoverageGain": "+37.5%",
+    "precisionPreserved": "100%",
+    "contextReduction": "92.4%",
+    "repairImpactNotice": "COMPOSITION_ANALYSIS_GAIN_WITH_PRECISE_LOCALIZATION"
+  }
+}

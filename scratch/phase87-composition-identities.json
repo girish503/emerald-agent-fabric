@@ -1,0 +1,620 @@
+{
+  "count": 60,
+  "identities": [
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "681dd877838e533d36413e5639e75535ed13fb1c5a1a3d449c5e7fbbddac6c8a",
+      "provenanceDigest": "c6dc1f347877ab748268b6f9077a86943a62d95ab7c3d2bee9ebe7b9b70eb861",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-01-condition-a-single-fixed-tool-ast-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "41260bc865fff39a7392c8c3c4e2db70cfea389f3a770c2cbdb69fd714c7156a",
+      "provenanceDigest": "6580231ffb939929718e8038d6db4d48d1340b726e13c958b703987aed946891",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-01-condition-b-two-tool-composition-ast-analyzer-0",
+        "prop-wf-p87-task-l5-01-condition-b-two-tool-composition-test-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "3f573a6395fc013619db505b6d7e71a9bad67d7f35bdb84d0b526a572ac41d65",
+      "provenanceDigest": "2298bcd4ce57d1542c6fc1de21e707f15308a6f9efc7c02656057e5fad7d83e3",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-01-condition-c-multi-tool-chain-ast-analyzer-0",
+        "prop-wf-p87-task-l5-01-condition-c-multi-tool-chain-test-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-01-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "c9ec73fe17a46e42192d7556e9e5dcca28861f42209a5dc5229b24bea8b35c0e",
+      "provenanceDigest": "84f5ae76e238483e9d1f7dbf4d724c3298bf35563c21c2a57dbdf2643dcdc66b",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-01-condition-d-governed-adaptive-composition-ast-analyzer-0",
+        "prop-wf-p87-task-l5-01-condition-d-governed-adaptive-composition-test-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "d05e66e0ff2a4be542aa3b61609541c58f2df5ad6ebadef746ac0f4ccf8dfddc",
+      "provenanceDigest": "44477db640c7f05d8a342a52f9eafd0d11deba97538dc649ce96d6b7a7f898e9",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-02-condition-a-single-fixed-tool-ast-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "8c1a283d54a9a148be73b02d7aaf66fdbf48290198f75305eb0a2f762704f1b4",
+      "provenanceDigest": "d4ae7c1e23637375bce02864676bbb5edbbc5da601d151e94ca9e1e4701c116c",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-02-condition-b-two-tool-composition-ast-analyzer-0",
+        "prop-wf-p87-task-l5-02-condition-b-two-tool-composition-configuration-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "fafe7676d10ea9c85ba7e62a0e8c0796cfd10a8171f91fbde01fa956132c705a",
+      "provenanceDigest": "fa234124c01b2211adaa3f582f75d566a05ac466f479282094f7da35099e09cb",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-02-condition-c-multi-tool-chain-ast-analyzer-0",
+        "prop-wf-p87-task-l5-02-condition-c-multi-tool-chain-configuration-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-02-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "30caa736c5528f42484f130145b332681b9a142f46aaa2af01241076a8a8d235",
+      "provenanceDigest": "6ac912c32b513fcc76151d7855e719560fc15ae1a5dbdfcff2533354461105d3",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-02-condition-d-governed-adaptive-composition-ast-analyzer-0",
+        "prop-wf-p87-task-l5-02-condition-d-governed-adaptive-composition-configuration-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "4e52d9c14081f6db5e9dcce23146cf2efb6075143f4b6a8e6f027090d84dc81a",
+      "provenanceDigest": "587ae340b42d403f9e85aa38761ebd7d10059c567639d8fa3ee28bd1cffc9737",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-03-condition-a-single-fixed-tool-dependency-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "64dee738c677ed4701a9b7f2759865fd69ac6a4cb20daa810314bad9e92d1d63",
+      "provenanceDigest": "8e5cdd20549a0eb7b9fc20715d2688d580323fe4ee9c8b2d9ede59dc7ac45b85",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-03-condition-b-two-tool-composition-dependency-analyzer-0",
+        "prop-wf-p87-task-l5-03-condition-b-two-tool-composition-test-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "655915a08794d2131d195d44c5ceadd8366ec4699ddb7d18a5a5889efd3a7636",
+      "provenanceDigest": "a45d065f38ae00d30878ba7f22cba903d3aae028cdbaa6692a19827fc6a9ef08",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-03-condition-c-multi-tool-chain-dependency-analyzer-0",
+        "prop-wf-p87-task-l5-03-condition-c-multi-tool-chain-test-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-03-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "777692cc278fff9d098adea2a05900921f5b4a52f463eb68aa227ed820aa37bc",
+      "provenanceDigest": "329d4211d4f3a0a522ff8506b7f58b38a71c834d87535d1324d02708b31bc802",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-03-condition-d-governed-adaptive-composition-dependency-analyzer-0",
+        "prop-wf-p87-task-l5-03-condition-d-governed-adaptive-composition-test-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "8ca3b39e48ce09ca1680b8e8eb4fc1efc8c8838cdcb9d2aabf7fd249219aef7e",
+      "provenanceDigest": "5f1f2a8ece8929ddc1085da69de0ee50d8b152b6dff74cf82440ba81d61a4cb1",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-04-condition-a-single-fixed-tool-configuration-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "25aa0ec087ea01ee265bf77d29e337f6dc3d7dd1b1388467e211de1d6fb2a938",
+      "provenanceDigest": "46be3146f204ccd033d21cf03b4fe5217af7587966cbff1c1fecec34db7d30e3",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-04-condition-b-two-tool-composition-configuration-analyzer-0",
+        "prop-wf-p87-task-l5-04-condition-b-two-tool-composition-ast-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "5f4036f16c2d39f11d655fcb3b51081a5c824d3c9456147253a74fe705557fd2",
+      "provenanceDigest": "3a6828d82601b9d23187ac73ff52ed58872a6581b3fc21ffc3a744b0e7e93838",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-04-condition-c-multi-tool-chain-configuration-analyzer-0",
+        "prop-wf-p87-task-l5-04-condition-c-multi-tool-chain-ast-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-04-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "d6980f03f4ecc0c4edd706a2e626f9ad7b2aa7137611fea524ea9eb43f2b2028",
+      "provenanceDigest": "843d8d6874492351f4181c0a3a048098b71b21236c333d1186acf4a6ca8a6847",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-04-condition-d-governed-adaptive-composition-configuration-analyzer-0",
+        "prop-wf-p87-task-l5-04-condition-d-governed-adaptive-composition-ast-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "9499efb119eae37260e8499dc9ec85c1a1d3c80bc010e5bb328f070ba8f9e7ef",
+      "provenanceDigest": "4b4af7f97a683ddd9ca9c6179fc2f94f0481fda3dcaac29914a4be96a9a3d987",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-05-condition-a-single-fixed-tool-test-impact-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "b6f91291731ad9c0e6e85e415df5fc2dda26553e381b65a73351ff3c55aebf90",
+      "provenanceDigest": "e0189dd80081df1c7f558cceb098832526c27b2d9b0bb277eb19e79892e03095",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-05-condition-b-two-tool-composition-test-impact-analyzer-0",
+        "prop-wf-p87-task-l5-05-condition-b-two-tool-composition-ast-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "8d2a6abdceab9437f5275c4185b1dc133cb34d40208b4435f064cac9e82d5970",
+      "provenanceDigest": "e2f2070bbc3ba3c74bd02bc35bab4bdae1837bce8c877efa61a1abb63bc542d3",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-05-condition-c-multi-tool-chain-test-impact-analyzer-0",
+        "prop-wf-p87-task-l5-05-condition-c-multi-tool-chain-ast-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L5-05-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "8feae77af50ce6849e0ab268a0caeb2a217d806ac18f74dc2dc3ad41c08207da",
+      "provenanceDigest": "a3b387c04d7f894122d55182a90ee8f1f12384cdf9cc898d6916da6b936ec9c5",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l5-05-condition-d-governed-adaptive-composition-test-impact-analyzer-0",
+        "prop-wf-p87-task-l5-05-condition-d-governed-adaptive-composition-ast-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "d5d300ee25ad8ebd2a24fb2595fb434876c2a2cbb15581469050986cb4dcc2c3",
+      "provenanceDigest": "dc1aa43971cc22891678e9b50ecde6bf39039eb42c0dd5ba64b7ca605869040e",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-01-condition-a-single-fixed-tool-dependency-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "8cf315a02e4fd4dbc9780ee681bc1888ec69ac166a7f6be7c80803cf9110c84e",
+      "provenanceDigest": "fbae8e2078c7b37ac5ed4ae658ae099ab4ae14a6a655678290d0d3d173a47f6a",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-01-condition-b-two-tool-composition-dependency-analyzer-0",
+        "prop-wf-p87-task-l6-01-condition-b-two-tool-composition-api-compatibility-checker-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "b2b75e6f4f053aa39a6e3c853b516bf16929af6133812a1034b5adc471266c52",
+      "provenanceDigest": "70cd0830766e2833214dae5f3fe693e18beb2d402c6e52d76da8dd8dc98f7f8a",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-01-condition-c-multi-tool-chain-dependency-analyzer-0",
+        "prop-wf-p87-task-l6-01-condition-c-multi-tool-chain-api-compatibility-checker-1",
+        "prop-wf-p87-task-l6-01-condition-c-multi-tool-chain-test-impact-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-01-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "d24bc7465a3b3b79cdd00119e75b599aa71f654fe2b37fc38e7f058fe6ce2d76",
+      "provenanceDigest": "8e61cbd8a5b6dae8a418865097a428483b6bdc03f58f0b0316e773f8966e9e10",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-01-condition-d-governed-adaptive-composition-dependency-analyzer-0",
+        "prop-wf-p87-task-l6-01-condition-d-governed-adaptive-composition-api-compatibility-checker-1",
+        "prop-wf-p87-task-l6-01-condition-d-governed-adaptive-composition-test-impact-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "b941c56f686c7f509d7fe23c3810040709d007fcc488144f496bdcc3ce170fb4",
+      "provenanceDigest": "feab2217eb480a059e3ad0b4d262b8c93bb3bc4f0cc07226060d782e8fa0726c",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-02-condition-a-single-fixed-tool-schema-comparator-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "6df82c85e75cd293e345bf9f1be12b6863513893a3e82be2bca50b3273932a85",
+      "provenanceDigest": "1f80af7f3ee0e0028005ad85c3d7559fa6bda1a91a4262c8d4ce7ad356c6cc52",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-02-condition-b-two-tool-composition-schema-comparator-0",
+        "prop-wf-p87-task-l6-02-condition-b-two-tool-composition-api-compatibility-checker-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "e1c0ed2a0c00596a26667fc0e1913e2757ea6b96fae07ab2f702af56cfc9cfba",
+      "provenanceDigest": "20e15f7864dd5537c81eb0c7b76c3ab9af1014ca81973311525c1d7d4d2603a0",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-02-condition-c-multi-tool-chain-schema-comparator-0",
+        "prop-wf-p87-task-l6-02-condition-c-multi-tool-chain-api-compatibility-checker-1",
+        "prop-wf-p87-task-l6-02-condition-c-multi-tool-chain-ast-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-02-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "fbf808aa4fa12d53e5943a020fb5ea2c62d6b48b90ebf1fc283688fdaf00aef9",
+      "provenanceDigest": "9136a0950adf8c1d31c597ccff186e2fce7e85ac39d700e0996b588a628abc8d",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-02-condition-d-governed-adaptive-composition-schema-comparator-0",
+        "prop-wf-p87-task-l6-02-condition-d-governed-adaptive-composition-api-compatibility-checker-1",
+        "prop-wf-p87-task-l6-02-condition-d-governed-adaptive-composition-ast-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "1c1c0b0523089ef34b99ee8f6f507745126e2adf73aa0b25528466928fdcd7e3",
+      "provenanceDigest": "940a8469826a088151cd4f4ae1ad651703410df481a149c4c88dcbbb5a730c42",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-03-condition-a-single-fixed-tool-api-compatibility-checker-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "b7818ef6791b3e8a5929fcfa83ffbfb2d26df5d056acfe9997a5cfeb508f638b",
+      "provenanceDigest": "8d4e2b7f3ae5562822871c43fc64eee4bb5c0862c883a3874df432abcc8f320d",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-03-condition-b-two-tool-composition-api-compatibility-checker-0",
+        "prop-wf-p87-task-l6-03-condition-b-two-tool-composition-test-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "6d84adfb2387d6ab0ab8995a13f91a130516b36f7844934a5abf7ad77ed50090",
+      "provenanceDigest": "d39d96cb2aabc7d2ce907f71c5acffc387ceb7fcf3149a21c6ad873cf60ae499",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-03-condition-c-multi-tool-chain-api-compatibility-checker-0",
+        "prop-wf-p87-task-l6-03-condition-c-multi-tool-chain-test-impact-analyzer-1",
+        "prop-wf-p87-task-l6-03-condition-c-multi-tool-chain-dependency-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-03-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "2a5731bce56520ec913257814372885ea53a097eaaff9824d95ec70d982250aa",
+      "provenanceDigest": "385d810b30878da5cd6123afa554b045b7879522718e0bfbc99c156671a09cfe",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-03-condition-d-governed-adaptive-composition-api-compatibility-checker-0",
+        "prop-wf-p87-task-l6-03-condition-d-governed-adaptive-composition-test-impact-analyzer-1",
+        "prop-wf-p87-task-l6-03-condition-d-governed-adaptive-composition-dependency-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "1a1102242e7803c648509d1f5aaec4db6f5d5e52355fe021e30fe6c133bc2bbd",
+      "provenanceDigest": "29fc13eb3afeae654b1689cd41fcab2e3ced20aafd64ae71eabbdcb4a408d1fe",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-04-condition-a-single-fixed-tool-api-compatibility-checker-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "78ddd76a4c9e240488d3c5c1ecdbf1a4e480df4072b472f5b94316f7a190a153",
+      "provenanceDigest": "d68fda4dd8d91189fe5b2274f4b01d8e9b91ee4b5f19fc6851b2c57c52a07813",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-04-condition-b-two-tool-composition-api-compatibility-checker-0",
+        "prop-wf-p87-task-l6-04-condition-b-two-tool-composition-schema-comparator-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "f01822b59b95beb7030885f9b4e169bb482f931967711c255bc177ca7fd23559",
+      "provenanceDigest": "055bc1bb3d800871e3679acb62cb0d24b706306ba0cb52fa9b575cc694fe0630",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-04-condition-c-multi-tool-chain-api-compatibility-checker-0",
+        "prop-wf-p87-task-l6-04-condition-c-multi-tool-chain-schema-comparator-1",
+        "prop-wf-p87-task-l6-04-condition-c-multi-tool-chain-configuration-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-04-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "7c85184355c4f209561f92b6f2a36a97acd7981e0ecc42f2370af93a153c9b3f",
+      "provenanceDigest": "068b8f0e14de3f96c9c51ddd9eb211270133b16f94cb01be3a56085bc371f473",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-04-condition-d-governed-adaptive-composition-api-compatibility-checker-0",
+        "prop-wf-p87-task-l6-04-condition-d-governed-adaptive-composition-schema-comparator-1",
+        "prop-wf-p87-task-l6-04-condition-d-governed-adaptive-composition-configuration-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "6476a23ac67d816edc26e594a8f93d38d89afa21f55801213c64a4bae321262a",
+      "provenanceDigest": "79244448280bd3a2e8299b43d1740d42f083d42a9f3b35f41596123c6b9821d8",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-05-condition-a-single-fixed-tool-ast-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "336354c3627c9a4642173c6bef0a6b0c017663c043331879a82fefae1e53f0f3",
+      "provenanceDigest": "d4ea1cb6006f97b4a1f638201d217be374ffe863e19be249e6de6e4353e6c16b",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l6-05-condition-b-two-tool-composition-ast-analyzer-0",
+        "prop-wf-p87-task-l6-05-condition-b-two-tool-composition-dependency-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "787aea74bcc4bb342ce9d981a6ffad0dfcacb372029ac17a9e3a40c4a1fd7ab4",
+      "provenanceDigest": "33cbb410fb3d9661f165775a543d415926418036a342c1c8064076b228d35efd",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-05-condition-c-multi-tool-chain-ast-analyzer-0",
+        "prop-wf-p87-task-l6-05-condition-c-multi-tool-chain-dependency-analyzer-1",
+        "prop-wf-p87-task-l6-05-condition-c-multi-tool-chain-test-impact-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L6-05-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "58e7496855b81965179e86f12f4749a88f047c4a266172f62b45c166844b0a39",
+      "provenanceDigest": "bd2fe12d4df9e1248a71542e54270a15f24552864f72c2e959e9737802d70dc1",
+      "topology": "TOPOLOGY_B_LINEAR_3",
+      "toolIds": [
+        "prop-wf-p87-task-l6-05-condition-d-governed-adaptive-composition-ast-analyzer-0",
+        "prop-wf-p87-task-l6-05-condition-d-governed-adaptive-composition-dependency-analyzer-1",
+        "prop-wf-p87-task-l6-05-condition-d-governed-adaptive-composition-test-impact-analyzer-2"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "af3fe08844c0313e53fe1f84650b351e3d2eb25e86d5ba0aecf6a903b69f5191",
+      "provenanceDigest": "2865fec7724289291611c74a9020a3cb56a7bae035cefdc12c5f455172a2bfef",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-01-condition-a-single-fixed-tool-cross-repo-contract-checker-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "b36a6f54787560527d737cbf75557539e118729e1f03c4dac8331494dc2bb874",
+      "provenanceDigest": "a9d91a2b0fb8b8b380e887f4935211af333445211b8e90eaea81fdbcc6af2fbc",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-01-condition-b-two-tool-composition-cross-repo-contract-checker-0",
+        "prop-wf-p87-task-l7-01-condition-b-two-tool-composition-api-compatibility-checker-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "8f02d756a914883548f0c87751b654dd5c072f8ff11b6b516f912b50585ae54f",
+      "provenanceDigest": "f83d405aff70d1c54fa2de0a910d26b79be8aa3be71d43a0bd10417b57cd29d5",
+      "topology": "TOPOLOGY_C_LINEAR_4",
+      "toolIds": [
+        "prop-wf-p87-task-l7-01-condition-c-multi-tool-chain-cross-repo-contract-checker-0",
+        "prop-wf-p87-task-l7-01-condition-c-multi-tool-chain-api-compatibility-checker-1",
+        "prop-wf-p87-task-l7-01-condition-c-multi-tool-chain-schema-comparator-2",
+        "prop-wf-p87-task-l7-01-condition-c-multi-tool-chain-migration-impact-analyzer-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-01-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "2f2a6e58e71d351f0bf8426ca07621bc93c3bd9ba547f4a77474d2f21aea6ff4",
+      "provenanceDigest": "cb9d7903d86a4f376c7276bc76f962ee7c47fea2617bba1c53ebc1f80f81e865",
+      "topology": "TOPOLOGY_D_BRANCHED",
+      "toolIds": [
+        "prop-wf-p87-task-l7-01-condition-d-governed-adaptive-composition-cross-repo-contract-checker-0",
+        "prop-wf-p87-task-l7-01-condition-d-governed-adaptive-composition-api-compatibility-checker-1",
+        "prop-wf-p87-task-l7-01-condition-d-governed-adaptive-composition-schema-comparator-2",
+        "prop-wf-p87-task-l7-01-condition-d-governed-adaptive-composition-migration-impact-analyzer-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "f26f821bb8c86afe06382ef5e967a4530f15fd90ed18afc6cdc133523a628c98",
+      "provenanceDigest": "d5ea88aa61e66bc00eddeb8791a35c0419aa8289a12a8134e692641936101c06",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-02-condition-a-single-fixed-tool-migration-impact-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "436d73af319625f943a3b59c98cd336c9261d938ace4bb9ed93b426e8719e498",
+      "provenanceDigest": "6e1493fc797968c03821fd46ade09f901dd4b63ae19c4619d1540c82d0759ae7",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-02-condition-b-two-tool-composition-migration-impact-analyzer-0",
+        "prop-wf-p87-task-l7-02-condition-b-two-tool-composition-cross-repo-contract-checker-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "7f2a2d0db70f9981ce463ac23499f79ee49e00864e6a34aac50e5e4956f463bc",
+      "provenanceDigest": "7c5e4974d534e10cf69a51ea682cc113c31d30f6aae5fe8699dd0f365c0b39a5",
+      "topology": "TOPOLOGY_C_LINEAR_4",
+      "toolIds": [
+        "prop-wf-p87-task-l7-02-condition-c-multi-tool-chain-migration-impact-analyzer-0",
+        "prop-wf-p87-task-l7-02-condition-c-multi-tool-chain-cross-repo-contract-checker-1",
+        "prop-wf-p87-task-l7-02-condition-c-multi-tool-chain-api-compatibility-checker-2",
+        "prop-wf-p87-task-l7-02-condition-c-multi-tool-chain-test-impact-analyzer-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-02-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "a5d206d18e39db965392408feafbb1dc99c17311f7f4781dadb848f1b35c4913",
+      "provenanceDigest": "6c56a4b184465fb98b669bb8a1f50a4b948435332f996ba9f16a13ad43954ef1",
+      "topology": "TOPOLOGY_D_BRANCHED",
+      "toolIds": [
+        "prop-wf-p87-task-l7-02-condition-d-governed-adaptive-composition-migration-impact-analyzer-0",
+        "prop-wf-p87-task-l7-02-condition-d-governed-adaptive-composition-cross-repo-contract-checker-1",
+        "prop-wf-p87-task-l7-02-condition-d-governed-adaptive-composition-api-compatibility-checker-2",
+        "prop-wf-p87-task-l7-02-condition-d-governed-adaptive-composition-test-impact-analyzer-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "8fae38ed6169e2debfadc04b979d71bbde03b26ad3810c65d3f1d93c0dce1860",
+      "provenanceDigest": "d5fa8f65e5f1d6517ae6506c95a8261fb74d763da9d492853c6c34cde0a79302",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-03-condition-a-single-fixed-tool-schema-comparator-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "0109c7098d26556dfa055ef5899a6fbf2389e3bd2f80e13f5aae156ec876565e",
+      "provenanceDigest": "c5810bd36a7300e457eaff4ca5ae5862a38dc6bed09e4d8acc0f46b7457a2cf0",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-03-condition-b-two-tool-composition-schema-comparator-0",
+        "prop-wf-p87-task-l7-03-condition-b-two-tool-composition-cross-repo-contract-checker-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "135288927b7acc69edc40835e02ec65dafdb8cb2f95f0f88933bcdd6b88ee82c",
+      "provenanceDigest": "9ae486e9b78a3feb27beaefd3ac8b871b9c0987aa5c40461967b3da75baefc6c",
+      "topology": "TOPOLOGY_C_LINEAR_4",
+      "toolIds": [
+        "prop-wf-p87-task-l7-03-condition-c-multi-tool-chain-schema-comparator-0",
+        "prop-wf-p87-task-l7-03-condition-c-multi-tool-chain-cross-repo-contract-checker-1",
+        "prop-wf-p87-task-l7-03-condition-c-multi-tool-chain-dependency-analyzer-2",
+        "prop-wf-p87-task-l7-03-condition-c-multi-tool-chain-api-compatibility-checker-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-03-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "02329ccbdf3ff52fc6cf425bd9a5092e3b9f8e693ba5aaec78408fd9565767fd",
+      "provenanceDigest": "59e8b7b811fe6f0d9b84abff00e3b4caeb03e11095b2a0fb3ac4d12fcbc2f54f",
+      "topology": "TOPOLOGY_D_BRANCHED",
+      "toolIds": [
+        "prop-wf-p87-task-l7-03-condition-d-governed-adaptive-composition-schema-comparator-0",
+        "prop-wf-p87-task-l7-03-condition-d-governed-adaptive-composition-cross-repo-contract-checker-1",
+        "prop-wf-p87-task-l7-03-condition-d-governed-adaptive-composition-dependency-analyzer-2",
+        "prop-wf-p87-task-l7-03-condition-d-governed-adaptive-composition-api-compatibility-checker-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "3d261f9f99923d5b1cdde15238cefcbe1ae275bfd5f2f021b989c00c6fa7161f",
+      "provenanceDigest": "4c22d5c355386bd665121444f5f9174ab2ca309a7a6289467e7f7a3f7ca20425",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-04-condition-a-single-fixed-tool-dependency-analyzer-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "42f6d0ab1cd675fdb57bd5d34b4a08887735abade84abbd25df628e94a6001af",
+      "provenanceDigest": "f3e7b38cfd5248ae66b1a31a17f140f3094a71d160c0164120c8c6ad41cdcc29",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-04-condition-b-two-tool-composition-dependency-analyzer-0",
+        "prop-wf-p87-task-l7-04-condition-b-two-tool-composition-cross-repo-contract-checker-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "2037fc12ecbfab8704289f358094b3450a9dcfd727bc3d7cbf97f41f96e513a8",
+      "provenanceDigest": "99d5bf132abd34cbe9ebec47fcb7f857897d95ef152f601b7e031f2ca81de4cc",
+      "topology": "TOPOLOGY_C_LINEAR_4",
+      "toolIds": [
+        "prop-wf-p87-task-l7-04-condition-c-multi-tool-chain-dependency-analyzer-0",
+        "prop-wf-p87-task-l7-04-condition-c-multi-tool-chain-cross-repo-contract-checker-1",
+        "prop-wf-p87-task-l7-04-condition-c-multi-tool-chain-api-compatibility-checker-2",
+        "prop-wf-p87-task-l7-04-condition-c-multi-tool-chain-migration-impact-analyzer-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-04-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "e07004dde624d192843fff9aa148f01fab7a11ca051919ffb5f33a396647ae02",
+      "provenanceDigest": "5bd831d6c8a1bb53b0e2134471018555e933beb03f653722a39c5fdea9ee00c1",
+      "topology": "TOPOLOGY_D_BRANCHED",
+      "toolIds": [
+        "prop-wf-p87-task-l7-04-condition-d-governed-adaptive-composition-dependency-analyzer-0",
+        "prop-wf-p87-task-l7-04-condition-d-governed-adaptive-composition-cross-repo-contract-checker-1",
+        "prop-wf-p87-task-l7-04-condition-d-governed-adaptive-composition-api-compatibility-checker-2",
+        "prop-wf-p87-task-l7-04-condition-d-governed-adaptive-composition-migration-impact-analyzer-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_A_SINGLE_FIXED_TOOL",
+      "compositionDigest": "ecce0aa74d9318270d365c8b53b0ffaf5fb62ac648cb48108d6dd6bc03a6e6c1",
+      "provenanceDigest": "0208731334be1ca810303b14fc503a7e7478568fabfe523b640bec30576adfa3",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-05-condition-a-single-fixed-tool-cross-repo-contract-checker-0"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_B_TWO_TOOL_COMPOSITION",
+      "compositionDigest": "3f5d97a2be7eff53f18e69ea4ea1529c4e2f163e9648580c0079af595832bd72",
+      "provenanceDigest": "20ca8985bb60c5f42e578b62134183379806883557c3271a5273f5120d56f374",
+      "topology": "TOPOLOGY_A_LINEAR_2",
+      "toolIds": [
+        "prop-wf-p87-task-l7-05-condition-b-two-tool-composition-cross-repo-contract-checker-0",
+        "prop-wf-p87-task-l7-05-condition-b-two-tool-composition-migration-impact-analyzer-1"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_C_MULTI_TOOL_CHAIN",
+      "compositionDigest": "1ddbf439cfcb31b6ef405c87d44218429c4cbc1da1e8b46788ab42e69411d311",
+      "provenanceDigest": "66cb513399e60db191701285235122ad020cd7c524dacefccf85428f484e07ab",
+      "topology": "TOPOLOGY_C_LINEAR_4",
+      "toolIds": [
+        "prop-wf-p87-task-l7-05-condition-c-multi-tool-chain-cross-repo-contract-checker-0",
+        "prop-wf-p87-task-l7-05-condition-c-multi-tool-chain-migration-impact-analyzer-1",
+        "prop-wf-p87-task-l7-05-condition-c-multi-tool-chain-schema-comparator-2",
+        "prop-wf-p87-task-l7-05-condition-c-multi-tool-chain-test-impact-analyzer-3"
+      ]
+    },
+    {
+      "compositionId": "comp-TASK-L7-05-CONDITION_D_GOVERNED_ADAPTIVE_COMPOSITION",
+      "compositionDigest": "6b2b7db454fb691368478e1ec2731702b116dcfbe12a50e45ed8b4d3103b3184",
+      "provenanceDigest": "0135eb59e90d0b08568869becb5cff585524448348a33601ed26531abf9e8f04",
+      "topology": "TOPOLOGY_D_BRANCHED",
+      "toolIds": [
+        "prop-wf-p87-task-l7-05-condition-d-governed-adaptive-composition-cross-repo-contract-checker-0",
+        "prop-wf-p87-task-l7-05-condition-d-governed-adaptive-composition-migration-impact-analyzer-1",
+        "prop-wf-p87-task-l7-05-condition-d-governed-adaptive-composition-schema-comparator-2",
+        "prop-wf-p87-task-l7-05-condition-d-governed-adaptive-composition-test-impact-analyzer-3"
+      ]
+    }
+  ]
+}

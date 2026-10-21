@@ -1,0 +1,99 @@
+{
+  "registeredToolCount": 8,
+  "tools": [
+    {
+      "toolId": "tool-prop-ast-analyzer-condition-a-static-builtin",
+      "toolName": "ast-syntax-analyzer-condition-a-static-builtin",
+      "toolClass": "AST_ANALYZER",
+      "sourceDigest": "11f0db750df883baea7db499d6e0fdf18587d553734b892c55265f054fd52879",
+      "manifestDigest": "353c1ac8fea0de6da00871fadbd3eb775d4a3adf2b0ad92e5675fc57506b999a",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ]
+    },
+    {
+      "toolId": "tool-prop-dependency-analyzer-condition-a-static-builtin",
+      "toolName": "module-dependency-analyzer-condition-a-static-builtin",
+      "toolClass": "DEPENDENCY_ANALYZER",
+      "sourceDigest": "c1b6f385f603ed6891ad865ad437f7cee5dc5760af8c5d3806ad78e1e03bb915",
+      "manifestDigest": "035ee39d318b63409a1bdf3e90b93c49c0195055d01f281276995895087e73c4",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_DEPENDENCY_GRAPH",
+        "EXECUTE_ANALYSIS"
+      ]
+    },
+    {
+      "toolId": "tool-prop-api-compatibility-checker-condition-a-static-builtin",
+      "toolName": "api-signature-checker-condition-a-static-builtin",
+      "toolClass": "API_COMPATIBILITY_CHECKER",
+      "sourceDigest": "7d8a86e49e2c5bf259ac53e9f388bec27a53c77d07973b89cfd97828e0eb88cc",
+      "manifestDigest": "367dbc2d405c7677444cb6e6b14d1608c1f3009e8725e047eb11d4561a6417ac",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ]
+    },
+    {
+      "toolId": "tool-prop-schema-comparator-condition-a-static-builtin",
+      "toolName": "json-schema-comparator-condition-a-static-builtin",
+      "toolClass": "SCHEMA_COMPARATOR",
+      "sourceDigest": "39366f259cc0a49e3fd9eb9d0629a049a3e604996225d42a8713215af541011a",
+      "manifestDigest": "4894530a96c56c61878a7cb260d356f338f3bfe27af918bffa19db0d23254a70",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ]
+    },
+    {
+      "toolId": "tool-prop-configuration-analyzer-condition-a-static-builtin",
+      "toolName": "package-config-analyzer-condition-a-static-builtin",
+      "toolClass": "CONFIGURATION_ANALYZER",
+      "sourceDigest": "a814f7e527458cb781d223fcd7ffcf5233b018f7bf673d323d254a43a9f0fdf4",
+      "manifestDigest": "b273eed627ac5c9b6576ac6f6e345f6a10380f06da9bb9fec7988b731088aa06",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "EXECUTE_ANALYSIS"
+      ]
+    },
+    {
+      "toolId": "tool-prop-test-impact-analyzer-condition-a-static-builtin",
+      "toolName": "test-impact-estimator-condition-a-static-builtin",
+      "toolClass": "TEST_IMPACT_ANALYZER",
+      "sourceDigest": "e4ded102f6a2883086d7476e62f607db73ab8c8678a57642e84ba6b5edd5dcc1",
+      "manifestDigest": "55cc65436764b07a735200c9603d357ce65ebfdbd2341cb844fc5b8b00c157c2",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_TEST_METADATA",
+        "EXECUTE_ANALYSIS"
+      ]
+    },
+    {
+      "toolId": "tool-prop-cross-repo-contract-checker-condition-a-static-builtin",
+      "toolName": "cross-repo-contract-auditor-condition-a-static-builtin",
+      "toolClass": "CROSS_REPO_CONTRACT_CHECKER",
+      "sourceDigest": "600bedcfed488d8174900e8f81358016dbf4f156f6692a2ae7d184510e118320",
+      "manifestDigest": "b939cb1b7773398b6a511593aea068952e4481f900dbc505ea0584b4308af84b",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_REPOSITORY",
+        "EXECUTE_ANALYSIS"
+      ]
+    },
+    {
+      "toolId": "tool-prop-migration-impact-analyzer-condition-a-static-builtin",
+      "toolName": "migration-readiness-analyzer-condition-a-static-builtin",
+      "toolClass": "MIGRATION_IMPACT_ANALYZER",
+      "sourceDigest": "d5021f11d3113aeed5eb0b711073159f4553c76856172adeee3dd977785ad28a",
+      "manifestDigest": "7bf117b59b6a62b7d1daf56a0755d5c65324b7aa1af85ddf2cc2271d7921e789",
+      "capabilities": [
+        "READ_WORKSPACE",
+        "READ_AST",
+        "EXECUTE_ANALYSIS"
+      ]
+    }
+  ]
+}
