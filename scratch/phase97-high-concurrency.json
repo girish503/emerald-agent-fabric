@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "concurrencyScaling": [
+    {
+      "logicalAgents": 4,
+      "actualWorkerConcurrency": 4,
+      "cycleCount": 4,
+      "detectionLatencyMs": 14,
+      "throughput": 152
+    },
+    {
+      "logicalAgents": 8,
+      "actualWorkerConcurrency": 4,
+      "cycleCount": 8,
+      "detectionLatencyMs": 22,
+      "throughput": 148
+    },
+    {
+      "logicalAgents": 16,
+      "actualWorkerConcurrency": 4,
+      "cycleCount": 14,
+      "detectionLatencyMs": 38,
+      "throughput": 139
+    },
+    {
+      "logicalAgents": 32,
+      "actualWorkerConcurrency": 4,
+      "cycleCount": 22,
+      "detectionLatencyMs": 64,
+      "throughput": 126
+    }
+  ],
+  "finding": "High logical concurrency increases wait-for graph density and cycle frequency; scheduler serialization bounds actual parallel speedup to physical worker limit (4 workers)."
+}

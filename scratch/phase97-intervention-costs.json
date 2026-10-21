@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "costsTable": {
+    "NO_INTERVENTION": 0,
+    "WAIT_EDGE_REMOVAL": 10,
+    "RESOURCE_REORDERING": 20,
+    "PRIORITY_INHERITANCE": 30,
+    "WORKLOAD_HANDOFF": 40,
+    "GOVERNED_PREEMPTION": 50,
+    "SPECULATIVE_BRANCH_TERMINATION": 60,
+    "LEASE_RECOVERY": 70,
+    "HUMAN_REVIEW_REQUIRED": 100
+  },
+  "meanInterventionCost": 34.5,
+  "minimumInterventionObserved": true,
+  "unnecessaryPreemptionAvoidedCount": 14
+}

@@ -1,0 +1,127 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalResolutions": 10,
+  "successfulResolutions": 10,
+  "resolutions": [
+    {
+      "resolutionId": "res-cycle-witness-1-task-l5-01-1",
+      "cycleId": "cycle-witness-1-task-l5-01",
+      "strategy": "NO_INTERVENTION",
+      "targetNodeId": "node-task-l5-01-3",
+      "targetEdgeId": "edge-task-l5-01-1-2",
+      "interventionCost": 0,
+      "rationale": "Resolved TRANSIENT_CONTENTION via minimum intervention strategy NO_INTERVENTION",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "04e6507e4fa2ad2d89db183bc590e7ffe1336f2e9c5c5abdd47a30130cf202d8"
+    },
+    {
+      "resolutionId": "res-cycle-witness-2-task-l5-02-2",
+      "cycleId": "cycle-witness-2-task-l5-02",
+      "strategy": "PRIORITY_INHERITANCE",
+      "targetNodeId": "node-task-l5-02-3",
+      "targetEdgeId": "edge-task-l5-02-1-2",
+      "interventionCost": 30,
+      "rationale": "Resolved PRIORITY_INVERSION via minimum intervention strategy PRIORITY_INHERITANCE",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "0a823df60ab5aaf61e17149345f285a30f59cf352f3c30264d3c2f7d0850201b"
+    },
+    {
+      "resolutionId": "res-cycle-witness-3-task-l5-03-3",
+      "cycleId": "cycle-witness-3-task-l5-03",
+      "strategy": "GOVERNED_PREEMPTION",
+      "targetNodeId": "node-task-l5-03-3",
+      "targetEdgeId": "edge-task-l5-03-1-2",
+      "interventionCost": 50,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy GOVERNED_PREEMPTION",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "24c62af9e62b999b20faaaeb001a02fce9e1205c808fd8234bc3a4f6b72e30ec"
+    },
+    {
+      "resolutionId": "res-cycle-witness-4-task-l5-04-4",
+      "cycleId": "cycle-witness-4-task-l5-04",
+      "strategy": "WAIT_EDGE_REMOVAL",
+      "targetNodeId": "node-task-l5-04-3",
+      "targetEdgeId": "edge-task-l5-04-1-2",
+      "interventionCost": 10,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy WAIT_EDGE_REMOVAL",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "3c1d22e6173afab8f690da3eb24791efc1e18d0a4843fb7f5636feda8643b638"
+    },
+    {
+      "resolutionId": "res-cycle-witness-5-task-l5-05-5",
+      "cycleId": "cycle-witness-5-task-l5-05",
+      "strategy": "WORKLOAD_HANDOFF",
+      "targetNodeId": "node-task-l5-05-3",
+      "targetEdgeId": "edge-task-l5-05-1-2",
+      "interventionCost": 40,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy WORKLOAD_HANDOFF",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "9bb5b817c4a42c185a861d05cc8c2b86a7c171f0549fe1784ee79b7e2c613eb3"
+    },
+    {
+      "resolutionId": "res-cycle-witness-6-task-l6-01-6",
+      "cycleId": "cycle-witness-6-task-l6-01",
+      "strategy": "SPECULATIVE_BRANCH_TERMINATION",
+      "targetNodeId": "node-task-l6-01-3",
+      "targetEdgeId": "edge-task-l6-01-1-2",
+      "interventionCost": 60,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy SPECULATIVE_BRANCH_TERMINATION",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "cd980d6b3e6912376fc8f5096b3e947b6faff9e57e5e0f4154e27d8bb9eee9e9"
+    },
+    {
+      "resolutionId": "res-cycle-witness-7-task-l6-02-7",
+      "cycleId": "cycle-witness-7-task-l6-02",
+      "strategy": "GOVERNED_PREEMPTION",
+      "targetNodeId": "node-task-l6-02-3",
+      "targetEdgeId": "edge-task-l6-02-1-2",
+      "interventionCost": 50,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy GOVERNED_PREEMPTION",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "a425ffcc9da2661fb5aba6c73faa33cfda04079cadbce2a6ef53e87e5158a3a3"
+    },
+    {
+      "resolutionId": "res-cycle-witness-8-task-l6-03-8",
+      "cycleId": "cycle-witness-8-task-l6-03",
+      "strategy": "GOVERNED_PREEMPTION",
+      "targetNodeId": "node-task-l6-03-3",
+      "targetEdgeId": "edge-task-l6-03-1-2",
+      "interventionCost": 50,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy GOVERNED_PREEMPTION",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "290b399e4e2d67a9c6137cba386d65ce42f242ef3ac74e4cec94755b476d4c7d"
+    },
+    {
+      "resolutionId": "res-cycle-witness-9-task-l6-04-9",
+      "cycleId": "cycle-witness-9-task-l6-04",
+      "strategy": "GOVERNED_PREEMPTION",
+      "targetNodeId": "node-task-l6-04-3",
+      "targetEdgeId": "edge-task-l6-04-1-2",
+      "interventionCost": 50,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy GOVERNED_PREEMPTION",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "52f8c74ab9312f9166afa6e49762e0e9bb20d407566762048cd583c70bd580b5"
+    },
+    {
+      "resolutionId": "res-cycle-witness-10-task-l6-05-10",
+      "cycleId": "cycle-witness-10-task-l6-05",
+      "strategy": "GOVERNED_PREEMPTION",
+      "targetNodeId": "node-task-l6-05-3",
+      "targetEdgeId": "edge-task-l6-05-1-2",
+      "interventionCost": 50,
+      "rationale": "Resolved TRUE_DEADLOCK via minimum intervention strategy GOVERNED_PREEMPTION",
+      "resolvedAt": "2026-10-21T12:05:00.000Z",
+      "authoritative": false,
+      "resolutionDigest": "0693a04561f30750107a4dd9d17c0b0bff2051573a9ce6d1fa584da40ad33f05"
+    }
+  ]
+}

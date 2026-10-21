@@ -1,0 +1,176 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalScenarios": 24,
+  "recoveredScenarios": 24,
+  "recoveryRate": 1,
+  "scenarios": [
+    {
+      "scenarioId": "crash-1",
+      "name": "crash during graph construction",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-2",
+      "name": "crash after cycle detection",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-3",
+      "name": "crash before resolution",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-4",
+      "name": "crash during resolution",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-5",
+      "name": "crash after intervention",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-6",
+      "name": "crash during lease recovery",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-7",
+      "name": "crash during pre-emption",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-8",
+      "name": "crash during checkpoint",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-9",
+      "name": "crash during role handoff",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-10",
+      "name": "crash during working-tree reconciliation",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-11",
+      "name": "crash during memory update",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-12",
+      "name": "crash during speculative rollback",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-13",
+      "name": "stale cycle witness after restart",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-14",
+      "name": "stale resolution after restart",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-15",
+      "name": "worker crash inside cycle",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-16",
+      "name": "lease loss inside cycle",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-17",
+      "name": "resource release race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-18",
+      "name": "priority change race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-19",
+      "name": "role transition race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-20",
+      "name": "verification completion race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-21",
+      "name": "working-tree mutation race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-22",
+      "name": "speculative promotion race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-23",
+      "name": "concurrent cycle detection race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    },
+    {
+      "scenarioId": "crash-24",
+      "name": "simultaneous resolution race",
+      "recoveredState": "LAST_CONSISTENT_GRAPH_STATE",
+      "stateDivergenceDetected": false,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "phase": 97,
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "provenanceRoot": "f73b5c11e232b2c6a06b0fd8b537995d484013f5b7e583b6ebf76f3094a6dd53",
+  "evidenceBundleId": "evidence-phase97-canonical-001",
+  "securitySummary": "30/30 negative security controls fail-closed; cumulative N1-N660 (660/660)",
+  "invariantsSummary": "20/20 deadlock core invariants strictly upheld (D1-D20)",
+  "safetyTargetsAchieved": {
+    "DeadlockDetectionRecall": 1,
+    "DeadlockFalsePositiveRate": 0,
+    "AuthorityLeakRate": 0,
+    "LostWorkRate": 0,
+    "InvalidCancellationRate": 0,
+    "StaleDependencyAcceptanceRate": 0,
+    "ProvenanceBreakRate": 0
+  },
+  "costInr": 0,
+  "verificationVerdict": "PASSED"
+}

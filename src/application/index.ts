@@ -23,3 +23,6 @@ export * from "./role-negotiation-engine.js";
 export * from "./goal-preemption-manager.js";
 export * from "./preempted-goal-resumer.js";
 export * from "./goal-preemption-policy.js";
+export * from "./deadlock-detector.js";
+export * from "./deadlock-resolver.js";
+export * from "./deadlock-governance-policy.js";

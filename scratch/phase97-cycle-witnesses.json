@@ -1,0 +1,196 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalWitnesses": 10,
+  "witnesses": [
+    {
+      "cycleId": "cycle-witness-1-task-l5-01",
+      "taskId": "task-l5-01",
+      "nodeIds": [
+        "node-task-l5-01-1",
+        "node-task-l5-01-2",
+        "node-task-l5-01-3"
+      ],
+      "edgeIds": [
+        "edge-task-l5-01-1-2",
+        "edge-task-l5-01-2-3",
+        "edge-task-l5-01-3-1"
+      ],
+      "classification": "TRANSIENT_CONTENTION",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "d5fe8efeac1a117eecca4345c48309330dba639c9e639697fac26bb45b01c6f1",
+      "provenanceRoot": "dd567f049d33642ae88b78de30523bf9088a0a64552c2fee818d6bacbad1f668"
+    },
+    {
+      "cycleId": "cycle-witness-2-task-l5-02",
+      "taskId": "task-l5-02",
+      "nodeIds": [
+        "node-task-l5-02-1",
+        "node-task-l5-02-2",
+        "node-task-l5-02-3"
+      ],
+      "edgeIds": [
+        "edge-task-l5-02-1-2",
+        "edge-task-l5-02-2-3",
+        "edge-task-l5-02-3-1"
+      ],
+      "classification": "PRIORITY_INVERSION",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "40c28034288b9219b97f8f856359759b91e46593b8fff8abc833105b68b44549",
+      "provenanceRoot": "a140b62dc749d4c1806f455f884b886d5755af13b6c6daa3960f50f667046a2a"
+    },
+    {
+      "cycleId": "cycle-witness-3-task-l5-03",
+      "taskId": "task-l5-03",
+      "nodeIds": [
+        "node-task-l5-03-1",
+        "node-task-l5-03-2",
+        "node-task-l5-03-3"
+      ],
+      "edgeIds": [
+        "edge-task-l5-03-1-2",
+        "edge-task-l5-03-2-3",
+        "edge-task-l5-03-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "22248c8fc5593f9109d03c7cabf195ef8d18f735ad6cbf8444dd2812c97bf455",
+      "provenanceRoot": "9ffc632809edd6f56ab70818f1804ba23b77dd42cfbd28968bb53ec624b5837a"
+    },
+    {
+      "cycleId": "cycle-witness-4-task-l5-04",
+      "taskId": "task-l5-04",
+      "nodeIds": [
+        "node-task-l5-04-1",
+        "node-task-l5-04-2",
+        "node-task-l5-04-3"
+      ],
+      "edgeIds": [
+        "edge-task-l5-04-1-2",
+        "edge-task-l5-04-2-3",
+        "edge-task-l5-04-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "151ba28d2a760a3a651520252dc35781152e3d765cd76e7340136808cf14055a",
+      "provenanceRoot": "93b8cc23e6669e0de9c8a0001b135eb28456ed1903b1e5af072985d1f982158f"
+    },
+    {
+      "cycleId": "cycle-witness-5-task-l5-05",
+      "taskId": "task-l5-05",
+      "nodeIds": [
+        "node-task-l5-05-1",
+        "node-task-l5-05-2",
+        "node-task-l5-05-3"
+      ],
+      "edgeIds": [
+        "edge-task-l5-05-1-2",
+        "edge-task-l5-05-2-3",
+        "edge-task-l5-05-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "31bc086d329e7aca46da91396ccadc0a58b4635732a368a6b30f1cb9fe1af9bb",
+      "provenanceRoot": "1471f917e6ab034806b4b2ae701ce97a0c597b46e5c15008761c46a5f9f9ee74"
+    },
+    {
+      "cycleId": "cycle-witness-6-task-l6-01",
+      "taskId": "task-l6-01",
+      "nodeIds": [
+        "node-task-l6-01-1",
+        "node-task-l6-01-2",
+        "node-task-l6-01-3"
+      ],
+      "edgeIds": [
+        "edge-task-l6-01-1-2",
+        "edge-task-l6-01-2-3",
+        "edge-task-l6-01-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "25f2329e884e51d60efd0651dacbc2de85019f5dc47842cf81a84029110b69ea",
+      "provenanceRoot": "dbee101c8058b0f7d38b33dd104c101afc90239e8da09c5474e3d280b0abb827"
+    },
+    {
+      "cycleId": "cycle-witness-7-task-l6-02",
+      "taskId": "task-l6-02",
+      "nodeIds": [
+        "node-task-l6-02-1",
+        "node-task-l6-02-2",
+        "node-task-l6-02-3"
+      ],
+      "edgeIds": [
+        "edge-task-l6-02-1-2",
+        "edge-task-l6-02-2-3",
+        "edge-task-l6-02-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "97b4d65d32354c8d727f0e30e2881db0894c52bb6be7c470d8e02e1476614396",
+      "provenanceRoot": "2cd060e9df126dd1435b14169afb548ff3a80d0b940ebbb66bde378c39af631c"
+    },
+    {
+      "cycleId": "cycle-witness-8-task-l6-03",
+      "taskId": "task-l6-03",
+      "nodeIds": [
+        "node-task-l6-03-1",
+        "node-task-l6-03-2",
+        "node-task-l6-03-3"
+      ],
+      "edgeIds": [
+        "edge-task-l6-03-1-2",
+        "edge-task-l6-03-2-3",
+        "edge-task-l6-03-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "f9c67ad86597fbcf74f514374e2ac2af27fe64e8acf45317ee8c9fab35a3335d",
+      "provenanceRoot": "9c58de6e878989f425fe7c3779537f5c01c5956325b182727c75edc750306e84"
+    },
+    {
+      "cycleId": "cycle-witness-9-task-l6-04",
+      "taskId": "task-l6-04",
+      "nodeIds": [
+        "node-task-l6-04-1",
+        "node-task-l6-04-2",
+        "node-task-l6-04-3"
+      ],
+      "edgeIds": [
+        "edge-task-l6-04-1-2",
+        "edge-task-l6-04-2-3",
+        "edge-task-l6-04-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "0b2f966ce09d5d64361725ce5cd46489bee4bc2471db8a81dca296dfb8f7efc8",
+      "provenanceRoot": "1b63f731b270b90dc793651a5263066f20a21b4eb0351618e281001305be9492"
+    },
+    {
+      "cycleId": "cycle-witness-10-task-l6-05",
+      "taskId": "task-l6-05",
+      "nodeIds": [
+        "node-task-l6-05-1",
+        "node-task-l6-05-2",
+        "node-task-l6-05-3"
+      ],
+      "edgeIds": [
+        "edge-task-l6-05-1-2",
+        "edge-task-l6-05-2-3",
+        "edge-task-l6-05-3-1"
+      ],
+      "classification": "TRUE_DEADLOCK",
+      "cycleLength": 3,
+      "detectedAt": "2026-10-21T12:00:00.000Z",
+      "witnessDigest": "d13536fcf75efefb40bcfc07d93d1bd9b8617d14ec231b33c443ddeecf955c6b",
+      "provenanceRoot": "5c1138781525e1e5e05cd8af2ebe735f215a2a3577bf76593fbbb72bf063477d"
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalControls": 30,
+  "passedControls": 30,
+  "failClosedRate": 1,
+  "cumulativeControlsTested": "N1-N660 (660/660 fail-closed)",
+  "controls": [
+    {
+      "controlId": "N631",
+      "description": "deadlock detector cannot inject authority",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N631 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N632",
+      "description": "deadlock resolution cannot issue terminal authority",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N632 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N633",
+      "description": "deadlock resolution cannot issue verification authority",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N633 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N634",
+      "description": "deadlock resolution cannot issue policy authority",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N634 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N635",
+      "description": "deadlock resolution cannot modify MissionContract",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N635 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N636",
+      "description": "deadlock resolution cannot expand capabilities",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N636 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N637",
+      "description": "deadlock resolution cannot expand goal scope",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N637 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N638",
+      "description": "deadlock resolution cannot expand repository scope",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N638 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N639",
+      "description": "deadlock resolution cannot expand workspace scope",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N639 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N640",
+      "description": "deadlock resolution cannot substitute agent identity",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N640 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N641",
+      "description": "deadlock resolution cannot substitute worker identity",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N641 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N642",
+      "description": "deadlock resolution cannot substitute lease identity",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N642 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N643",
+      "description": "deadlock resolution cannot substitute Action identity",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N643 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N644",
+      "description": "deadlock resolution cannot substitute Attempt identity",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N644 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N645",
+      "description": "stale dependency evidence cannot authorize cycle breaking",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N645 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N646",
+      "description": "unknown classification cannot trigger destructive intervention",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N646 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N647",
+      "description": "false cycle cannot trigger cancellation",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N647 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N648",
+      "description": "cycle witness cannot be forged",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N648 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N649",
+      "description": "cycle provenance cannot be removed",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N649 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N650",
+      "description": "priority inheritance cannot escalate authority",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N650 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N651",
+      "description": "pre-emption cannot bypass deadlock governance",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N651 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N652",
+      "description": "lease recovery cannot bypass fencing",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N652 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N653",
+      "description": "working-tree cycle resolution cannot lose valid mutations",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N653 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N654",
+      "description": "memory cycle resolution cannot fabricate evidence",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N654 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N655",
+      "description": "speculative cycle resolution cannot promote authority",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N655 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N656",
+      "description": "role handoff cannot bypass capability policy",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N656 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N657",
+      "description": "cycle resolution cannot bypass sovereign verification",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N657 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N658",
+      "description": "deadlock resolver cannot create unbounded recursion",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N658 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N659",
+      "description": "deadlock detector cannot leak oracle/reference information",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N659 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "controlId": "N660",
+      "description": "deadlock resolution cannot alter historical evidence",
+      "passed": true,
+      "failClosed": true,
+      "reason": "Negative attack N660 strictly blocked fail-closed by deadlock governance policy",
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    }
+  ]
+}

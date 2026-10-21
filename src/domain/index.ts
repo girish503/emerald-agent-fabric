@@ -31,3 +31,4 @@ export * from "./runtime-speculative-binding.js";
 export * from "./dynamic-agent-role.js";
 export * from "./goal-priority.js";
 export * from "./goal-preemption.js";
+export * from "./deadlock-detection.js";

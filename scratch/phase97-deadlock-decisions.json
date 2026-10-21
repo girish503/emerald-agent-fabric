@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-10-21T12:00:00.000Z",
+  "totalDecisions": 10,
+  "decisions": [
+    {
+      "decisionId": "dec-deadlock-1",
+      "cycleId": "cycle-witness-1-task-l5-01",
+      "classification": "TRANSIENT_CONTENTION",
+      "algorithmUsed": "GOVERNED_ADAPTIVE",
+      "cycleVerifiedClosed": false,
+      "actionable": false,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-2",
+      "cycleId": "cycle-witness-2-task-l5-02",
+      "classification": "PRIORITY_INVERSION",
+      "algorithmUsed": "SCC",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-3",
+      "cycleId": "cycle-witness-3-task-l5-03",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "GOVERNED_ADAPTIVE",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-4",
+      "cycleId": "cycle-witness-4-task-l5-04",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "SCC",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-5",
+      "cycleId": "cycle-witness-5-task-l5-05",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "GOVERNED_ADAPTIVE",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-6",
+      "cycleId": "cycle-witness-6-task-l6-01",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "SCC",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-7",
+      "cycleId": "cycle-witness-7-task-l6-02",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "GOVERNED_ADAPTIVE",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-8",
+      "cycleId": "cycle-witness-8-task-l6-03",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "SCC",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-9",
+      "cycleId": "cycle-witness-9-task-l6-04",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "GOVERNED_ADAPTIVE",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    },
+    {
+      "decisionId": "dec-deadlock-10",
+      "cycleId": "cycle-witness-10-task-l6-05",
+      "classification": "TRUE_DEADLOCK",
+      "algorithmUsed": "SCC",
+      "cycleVerifiedClosed": true,
+      "actionable": true,
+      "timestamp": "2026-10-21T12:00:00.000Z"
+    }
+  ]
+}
