@@ -50,6 +50,11 @@ import {
   DiagnosticConfig,
   DiagnosticMetrics,
 } from "../production/diagnostics/index.js";
+import {
+  ProductionRepairOrchestrator,
+  RepairSessionOutcome,
+  ExecuteRepairOptions,
+} from "../production/repair/index.js";
 
 export interface AgentProposal {
   readonly thought: string;
@@ -68,6 +73,7 @@ export class ProductionRuntimeEngine {
   private readonly verifier: ProductionVerifier;
   private readonly evidenceControl: EvidenceControl;
   private readonly diagnosticEngine: SourceDiagnosticEngine;
+  private readonly repairOrchestrator: ProductionRepairOrchestrator;
 
   constructor(
     private readonly config: ProductionConfig,
@@ -85,6 +91,31 @@ export class ProductionRuntimeEngine {
     this.verifier = verifier ?? new ProductionVerifier(this.clock);
     this.evidenceControl = evidenceControl ?? new EvidenceControl();
     this.diagnosticEngine = diagnosticEngine ?? new SourceDiagnosticEngine();
+    this.repairOrchestrator = new ProductionRepairOrchestrator(
+      this.config,
+      this.missionControl,
+      this.runControl,
+      this.fenceEnforcer,
+      this.crossHarnessGateway,
+      this.evidenceControl,
+      this.verifier,
+      undefined,
+      this.diagnosticEngine,
+      undefined,
+      this.clock,
+    );
+  }
+
+  /**
+   * Execute a bounded software repair session through the 10-stage repair orchestration loop:
+   * INSPECT -> PLAN -> PROPOSE -> VALIDATE -> GOVERN -> EXECUTE -> DIAGNOSE -> TEST -> LOCALIZE -> REVISE
+   */
+  public async executeRepairSession(
+    missionId: string,
+    modelAdapter: ModelAdapter,
+    options?: ExecuteRepairOptions,
+  ): Promise<RepairSessionOutcome> {
+    return this.repairOrchestrator.executeRepairSession(missionId, modelAdapter, options);
   }
 
   /**

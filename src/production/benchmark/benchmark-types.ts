@@ -27,6 +27,7 @@ export type BenchmarkCondition =
   | "CONTROL_B_GOVERNED_RUNTIME"
   | "CONTROL_B0_BASELINE"
   | "CONTROL_B1_DIAGNOSTIC"
+  | "CONTROL_B2_REPAIR_ORCHESTRATION"
   | "CONTROL_C_HUMAN_REFERENCE";
 
 export type BenchmarkFailureClass =

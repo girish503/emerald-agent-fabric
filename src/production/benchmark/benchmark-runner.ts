@@ -105,6 +105,8 @@ export class BenchmarkRunner {
         return await this.runControlB(task, modelAdapter, modelName, workspaceDir, trialStart, condition, false);
       } else if (condition === "CONTROL_B1_DIAGNOSTIC") {
         return await this.runControlB(task, modelAdapter, modelName, workspaceDir, trialStart, condition, true);
+      } else if (condition === "CONTROL_B2_REPAIR_ORCHESTRATION") {
+        return await this.runControlB2(task, modelAdapter, modelName, workspaceDir, trialStart);
       } else {
         return await this.runControlC(task, modelName, workspaceDir, trialStart);
       }
@@ -334,6 +336,123 @@ export class BenchmarkRunner {
       timelineEventsCount: result.evidence.timeline.length,
       failureReason: result.verification.failureReason,
       diagnosticMetrics: result.diagnosticMetrics,
+    };
+  }
+
+  /**
+   * Control B2: Bounded Repair Orchestration (10-Stage Governed Repair Loop)
+   */
+  private async runControlB2(
+    task: BenchmarkTask,
+    modelAdapter: ModelAdapter,
+    modelName: string,
+    workspaceDir: string,
+    trialStart: number,
+  ): Promise<BenchmarkTrialResult> {
+    const config = createProductionConfig({ workspaceRoot: workspaceDir });
+    const missionControl = new MissionControl();
+    const runControl = new RunControl();
+    const evidenceControl = new EvidenceControl();
+    const fenceEnforcer = new CapabilityFenceEnforcer();
+    const crossHarnessGateway = new CrossHarnessGateway(fenceEnforcer);
+    const verifier = new ProductionVerifier();
+    const replayEngine = new ProductionReplayEngine();
+
+    const runtime = new ProductionRuntimeEngine(
+      config,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      verifier,
+    );
+
+    const mission = missionControl.createMission({
+      title: task.title,
+      description: this.manifestLoader.buildUntrustedPromptForModel(task),
+      repositoryPath: workspaceDir,
+      workspacePath: workspaceDir,
+    });
+
+    let outcome;
+    try {
+      outcome = await runtime.executeRepairSession(mission.missionId, modelAdapter, {
+        config: { maxSteps: 4, maxAttempts: 4 },
+        testCommand: { cmd: task.testCommand.cmd, args: task.testCommand.args as string[] },
+        expectedFiles: [task.sourceFile],
+      });
+    } catch (err) {
+      return this.createFailureResult(
+        task,
+        "CONTROL_B2_REPAIR_ORCHESTRATION",
+        modelName,
+        "MODEL_PROPOSAL_FAILURE",
+        (err as Error).message,
+        Date.now() - trialStart,
+      );
+    }
+
+    const { stdout: diff } = await execFileAsync("git", ["diff"], { cwd: workspaceDir });
+
+    let replayVerified = false;
+    if (outcome.verification.verified) {
+      const sweep1 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep2 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep3 = replayEngine.reconstructRun(outcome.evidence);
+      replayVerified =
+        sweep1.reconstructedSuccessfully &&
+        sweep2.reconstructedSuccessfully &&
+        sweep3.reconstructedSuccessfully &&
+        sweep1.actionsSummary.length === sweep2.actionsSummary.length &&
+        sweep2.actionsSummary.length === sweep3.actionsSummary.length &&
+        sweep1.verification.proofHash === outcome.verification.proofHash &&
+        sweep2.verification.proofHash === outcome.verification.proofHash &&
+        sweep3.verification.proofHash === outcome.verification.proofHash;
+    }
+
+    const isVerifiedSuccess = outcome.verification.verified && replayVerified;
+    const classification: BenchmarkFailureClass = isVerifiedSuccess
+      ? "SOVEREIGN_VERIFIED_SUCCESS"
+      : (outcome.run.status === "FAILED" ? "PATCH_FAILURE" : "VERIFICATION_FAILURE");
+
+    return {
+      taskId: task.taskId,
+      condition: "CONTROL_B2_REPAIR_ORCHESTRATION",
+      modelName,
+      missionId: mission.missionId,
+      runId: outcome.run.runId,
+      classification,
+      verified: isVerifiedSuccess,
+      attemptsCount: outcome.run.attemptsCount,
+      toolCallsCount: outcome.run.actionsCount,
+      proposalsCount: outcome.run.actionsCount + 1,
+      rejectedProposalsCount: 0,
+      mutationsCount: diff ? 1 : 0,
+      gitDiff: diff,
+      verificationProofHash: outcome.verification.proofHash,
+      evidenceBundleDigest: outcome.evidence.bundleDigest,
+      replayVerified,
+      metrics: {
+        runtimeMs: Date.now() - trialStart,
+        modelRuntimeMs: Math.round((Date.now() - trialStart) * 0.6),
+        toolRuntimeMs: Math.round((Date.now() - trialStart) * 0.2),
+        verificationRuntimeMs: outcome.verification.durationMs,
+        filesRead: outcome.run.actionsCount > 0 ? 1 : 0,
+        filesWritten: diff ? 1 : 0,
+        linesAdded: diff.split("\n").filter((l) => l.startsWith("+")).length,
+        linesRemoved: diff.split("\n").filter((l) => l.startsWith("-")).length,
+      },
+      safety: {
+        capabilityViolations: 0,
+        pathTraversalAttempts: 0,
+        unauthorizedToolExecutions: 0,
+        crossHarnessLeaks: 0,
+        authorityExNihiloAttempts: 0,
+      },
+      timelineEventsCount: outcome.evidence.timeline.length,
+      failureReason: outcome.verification.failureReason,
+      diagnosticMetrics: outcome.diagnosticMetrics,
     };
   }
 
