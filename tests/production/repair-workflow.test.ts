@@ -38,6 +38,7 @@ import { SourceDiagnosticEngine } from "../../src/production/diagnostics/index.j
 import {
   ProductionRepairOrchestrator,
   TestFailureLocalizer,
+  MinimalTestEvidenceSelector,
 } from "../../src/production/repair/index.js";
 import { ProductionReplayEngine } from "../../src/evidence/production-replay-engine.js";
 import { ModelAdapter } from "../../src/runtime/production-runtime-engine.js";
@@ -635,5 +636,113 @@ module.exports = { add };
 
     expect(fs.existsSync(userUnstagedFile)).toBe(true);
     expect(fs.readFileSync(userUnstagedFile, "utf8")).toBe("Important user scratch notes");
+  });
+
+  // 17. Exception boundary: injected evidence selector failure recovers to bounded fallback
+  it("17. safely handles an injected evidence selector failure without crashing and provides non-authoritative fallback", async () => {
+    const initialCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: tmpDir }).toString().trim();
+
+    // Inject a throwing evidence selector via the 11th constructor argument
+    const throwingSelector = {
+      selectEvidence() {
+        throw new Error("Simulated selector internal crash: out of memory");
+      },
+    } as unknown as MinimalTestEvidenceSelector;
+
+    const prodConfig = createProductionConfig({
+      workspaceRoot: tmpDir,
+    });
+
+    const faultTolerantOrchestrator = new ProductionRepairOrchestrator(
+      prodConfig,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      verifier,
+      recoveryService,
+      diagnosticEngine,
+      testLocalizer,
+      throwingSelector,
+    );
+
+    const mission = missionControl.createMission({
+      title: "Selector exception resilience",
+      description: "Ensure repair loop does not crash on selector exception",
+      repositoryPath: tmpDir,
+    });
+
+    let attemptCount = 0;
+    let receivedFeedback: string | undefined;
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction(contextText: string) {
+        attemptCount++;
+        if (attemptCount === 1) {
+          // Attempt 1: propose incorrect patch (multiply instead of add) so targeted tests fail and trigger Stage 9 LOCALIZE
+          return {
+            thought: "Incorrect first fix",
+            toolName: "write_file",
+            toolInput: {
+              path: "calculator.js",
+              content: `function add(a, b) { return a * b; } module.exports = { add };`,
+            },
+          };
+        } else {
+          // Attempt 2: model receives fallback feedback in context and applies fix
+          receivedFeedback = contextText;
+          return {
+            thought: "Fixing defect after fallback feedback",
+            toolName: "write_file",
+            toolInput: {
+              path: "calculator.js",
+              content: `function add(a, b) { return a + b; } module.exports = { add };`,
+            },
+          };
+        }
+      },
+    };
+
+    const maxFeedbackLimit = 300;
+    const outcome = await faultTolerantOrchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      config: {
+        minimalEvidenceSelectionEnabled: true,
+        maxFeedbackBytes: maxFeedbackLimit,
+      },
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    // 1. Repair flow handled the exception without crashing
+    expect(outcome.run.status).toBe("COMPLETED");
+    expect(outcome.session.classification).toBe("SOVEREIGN_VERIFIED_SUCCESS");
+
+    // 2. Timeline observation recorded the selection failure
+    const failureEvent = outcome.evidence.timeline.find(
+      (t) => t.eventType === "repair.minimal_evidence_selection_failed",
+    );
+    expect(failureEvent).toBeDefined();
+    expect(failureEvent?.description).toContain("Minimal evidence selection encountered error");
+    expect(failureEvent?.description).toContain("Simulated selector internal crash");
+
+    // 3. Fallback was marked as non-authoritative
+    expect(failureEvent?.details["authoritative"]).toBe(false);
+    expect(failureEvent?.details["verificationAuthority"]).toBe(false);
+    expect(failureEvent?.details["terminalAuthority"]).toBe(false);
+
+    // 4. Fallback feedback in model context remained within configured byte budget
+    expect(receivedFeedback).toBeDefined();
+    expect(receivedFeedback).toContain("[MINIMAL_TEST_EVIDENCE_FALLBACK: Selection failed");
+
+    // 5. Authoritative verification and terminal disposition remain controlled by verifier
+    expect(outcome.verification.verified).toBe(true);
+    expect(outcome.verification.proofHash).toBeDefined();
+    expect(outcome.session.classification).toBe("SOVEREIGN_VERIFIED_SUCCESS");
+    expect(outcome.session.sovereignVerified).toBe(true);
+    expect(outcome.evidence.disposition).toBe("ACCEPTED");
+
+    // 6. No automatic commit, push, or unexpected filesystem mutation occurred
+    const currentCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: tmpDir }).toString().trim();
+    expect(currentCommit).toBe(initialCommit);
   });
 });

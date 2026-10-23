@@ -11,8 +11,6 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { createHash } from "node:crypto";
-import * as path from "node:path";
-import * as fs from "node:fs";
 
 import { computeCanonicalHash } from "../../domain/canonical-hash.js";
 import { CapabilityFence, computeCapabilityFenceHash } from "../../domain/capability-fence.js";
@@ -20,10 +18,10 @@ import { CapabilityFenceEnforcer } from "../../application/capability-fence-enfo
 import { CrossHarnessGateway } from "../../application/cross-harness-gateway.js";
 import { ProductionGovernanceFacade } from "../../governance/production-governance-facade.js";
 import { ProductionToolGateway, ToolExecutionContext } from "../../tools/production-tools.js";
-import { ProductionVerifier, ProductionVerificationResult } from "../../verification/production-verifier.js";
+import { ProductionVerifier } from "../../verification/production-verifier.js";
 import { EvidenceControl } from "../../control-plane/evidence-control.js";
 import { MissionControl } from "../../control-plane/mission-control.js";
-import { RunControl, ProductionRun } from "../../control-plane/run-control.js";
+import { RunControl } from "../../control-plane/run-control.js";
 import { ProductionConfig } from "../../config/production-config.js";
 import { ClockPort, SystemClock } from "../../ports/clock.port.js";
 import { SourceDiagnosticEngine } from "../diagnostics/source-diagnostic-engine.js";
@@ -36,10 +34,10 @@ import {
   DEFAULT_REPAIR_CONFIG,
   RepairSessionState,
   RepairSessionOutcome,
-  RepairFailureClassification,
-  TestFailureLocalization,
+  MinimalEvidenceSelectionMetrics,
 } from "./repair-types.js";
 import { TestFailureLocalizer } from "./test-failure-localizer.js";
+import { MinimalTestEvidenceSelector, truncateUtf8Safe } from "./minimal-test-evidence-selector.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -59,6 +57,7 @@ export class ProductionRepairOrchestrator {
   private readonly diagnosticEngine: SourceDiagnosticEngine;
   private readonly testLocalizer: TestFailureLocalizer;
   private readonly recoveryService: ProductionRecoveryService;
+  private readonly evidenceSelector: MinimalTestEvidenceSelector;
 
   constructor(
     private readonly prodConfig: ProductionConfig,
@@ -71,6 +70,7 @@ export class ProductionRepairOrchestrator {
     recoveryService?: ProductionRecoveryService,
     diagnosticEngine?: SourceDiagnosticEngine,
     testLocalizer?: TestFailureLocalizer,
+    evidenceSelector?: MinimalTestEvidenceSelector,
     private readonly clock: ClockPort = new SystemClock(),
   ) {
     this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway);
@@ -80,6 +80,8 @@ export class ProductionRepairOrchestrator {
     this.recoveryService = recoveryService ?? new ProductionRecoveryService(this.runControl, this.fenceEnforcer, this.clock);
     this.diagnosticEngine = diagnosticEngine ?? new SourceDiagnosticEngine();
     this.testLocalizer = testLocalizer ?? new TestFailureLocalizer();
+    this.evidenceSelector = evidenceSelector ?? new MinimalTestEvidenceSelector();
+    void this.recoveryService;
   }
 
   /**
@@ -101,7 +103,7 @@ export class ProductionRepairOrchestrator {
     // 1. Mission and Contract Invariants
     const mission = this.missionControl.getMission(missionId);
     if (!mission) throw new Error(`Mission not found for repair session: ${missionId}`);
-    if (mission.status === "REVOKED" || mission.status === "FAILED") {
+    if (mission.status === "REVOKED" || (mission.status as string) === "FAILED") {
       throw new Error(`Cannot start repair session on ${mission.status} mission: ${missionId}`);
     }
 
@@ -237,6 +239,15 @@ export class ProductionRepairOrchestrator {
     let totalDiagnosticContextBytes = 0;
     let diagnosticFailures = 0;
     let diagnosticRecoveries = 0;
+
+    // Evidence selection tracking (V1.4)
+    let totalSelections = 0;
+    let totalOriginalBytes = 0;
+    let totalSelectedBytes = 0;
+    let totalPayloadReductionSum = 0;
+    let totalOmittedRecords = 0;
+    let totalDeduplicatedRecords = 0;
+    let truncationCount = 0;
 
     // =========================================================================
     // THE BOUNDED 10-STAGE REPAIR LOOP
@@ -404,15 +415,55 @@ export class ProductionRepairOrchestrator {
       );
 
       if (!toolRes.success) {
+        if (proposal.toolName === "edit_file_anchor") {
+          const filePath = String(proposal.toolInput["path"] || proposal.toolInput["filePath"] || "");
+          this.evidenceControl.recordTimelineEntry(
+            run.runId,
+            "repair.file_anchored_edit_failed",
+            `Line-anchored edit failed for ${filePath}: ${toolRes.error}`,
+            actorId,
+            {
+              filePath,
+              outcome: "FAILED",
+              reason: toolRes.error,
+              authoritative: false,
+              verificationAuthority: false,
+              terminalAuthority: false,
+            },
+          );
+        }
         // Tool failed; continue loop if budgets permit
         continue;
       }
 
       // Check if this was a mutation
-      if (proposal.toolName === "write_file") {
+      if (proposal.toolName === "write_file" || proposal.toolName === "edit_file_anchor") {
         const filePath = String(proposal.toolInput["path"] || proposal.toolInput["filePath"] || "");
         if (filePath && !sessionState.modifiedFiles.includes(filePath)) {
           sessionState.modifiedFiles.push(filePath);
+        }
+
+        if (proposal.toolName === "edit_file_anchor") {
+          const editOutput = toolRes.output as any;
+          this.evidenceControl.recordTimelineEntry(
+            run.runId,
+            "repair.file_anchored_edit",
+            `Line-anchored edit applied to ${filePath} (${String(editOutput?.originalDigest || "").slice(0, 8)} -> ${String(editOutput?.resultingDigest || "").slice(0, 8)})`,
+            actorId,
+            {
+              filePath,
+              originalDigest: editOutput?.originalDigest,
+              resultingDigest: editOutput?.resultingDigest,
+              occurrences: editOutput?.occurrences,
+              replacedCount: editOutput?.replacedCount,
+              targetSpanLength: String(proposal.toolInput["searchAnchor"] || "").length,
+              outcome: "SUCCESS",
+              applied: true,
+              authoritative: false,
+              verificationAuthority: false,
+              terminalAuthority: false,
+            },
+          );
         }
 
         // Scope validation
@@ -495,21 +546,106 @@ export class ProductionRepairOrchestrator {
               // ---------------------------------------------------------------
               sessionState.currentPhase = "LOCALIZE";
               sessionState.localizationsCount++;
-              pendingTestFeedback = locResult.rawSummary;
 
-              this.evidenceControl.recordTimelineEntry(
-                run.runId,
-                "repair.test_localized",
-                `Targeted test failed: ${locResult.failingTests.length} tests failing. Localized ${locResult.localizedFiles.length} files.`,
-                "TestFailureLocalizer",
-                {
-                  localizationId: locResult.localizationId,
-                  exitCode: locResult.exitCode,
-                  failingCount: locResult.failingTests.length,
-                  authoritative: false,
-                  verificationAuthority: false,
-                },
-              );
+              if (repairConfig.minimalEvidenceSelectionEnabled) {
+                try {
+                  const selection = this.evidenceSelector.selectEvidence(locResult, {
+                    modifiedFiles: sessionState.modifiedFiles,
+                    maxFeedbackBytes: repairConfig.maxFeedbackBytes ?? 4096,
+                  });
+
+                  totalSelections++;
+                  totalOriginalBytes += selection.originalSerializedBytes;
+                  totalSelectedBytes += selection.selectedSerializedBytes;
+                  totalPayloadReductionSum += selection.payloadReductionPercent;
+                  totalOmittedRecords += selection.omittedCount;
+                  totalDeduplicatedRecords += selection.deduplicatedCount;
+                  if (selection.truncationApplied) {
+                    truncationCount++;
+                  }
+
+                  pendingTestFeedback = selection.formattedObservationText;
+
+                  this.evidenceControl.recordTimelineEntry(
+                    run.runId,
+                    "repair.minimal_evidence_selected",
+                    `Selected ${selection.selectedRecords.length} prioritized failure records (${selection.selectedSerializedBytes} bytes, ${selection.payloadReductionPercent.toFixed(1)}% reduction, ${selection.omittedCount} omitted, ${selection.deduplicatedCount} deduplicated).`,
+                    "MinimalTestEvidenceSelector",
+                    {
+                      originalEvidenceDigest: selection.originalEvidenceDigest,
+                      selectedEvidenceDigest: selection.selectedEvidenceDigest,
+                      originalBytes: selection.originalSerializedBytes,
+                      selectedBytes: selection.selectedSerializedBytes,
+                      reductionPercent: selection.payloadReductionPercent,
+                      omittedCount: selection.omittedCount,
+                      deduplicatedCount: selection.deduplicatedCount,
+                      truncationApplied: selection.truncationApplied,
+                      authoritative: false,
+                      verificationAuthority: false,
+                      terminalAuthority: false,
+                    },
+                  );
+                } catch (selectorErr: unknown) {
+                  const errMsg = selectorErr instanceof Error ? selectorErr.message : String(selectorErr);
+                  const rawMaxBytes = repairConfig.maxFeedbackBytes ?? 4096;
+                  const maxBytes = typeof rawMaxBytes === "number" && !Number.isNaN(rawMaxBytes)
+                    ? Math.max(0, Math.floor(rawMaxBytes))
+                    : 4096;
+
+                  const fallbackPrefix = "[MINIMAL_TEST_EVIDENCE_FALLBACK: Selection failed, displaying bounded raw summary]\n";
+                  const prefixBytes = Buffer.byteLength(fallbackPrefix, "utf8");
+                  const rawSummary = locResult.rawSummary ?? "";
+                  const fullFallback = fallbackPrefix + rawSummary;
+
+                  if (maxBytes === 0) {
+                    pendingTestFeedback = "";
+                  } else if (Buffer.byteLength(fullFallback, "utf8") <= maxBytes) {
+                    pendingTestFeedback = fullFallback;
+                  } else {
+                    const truncNote = "\n...[truncated for feedback budget]";
+                    const truncNoteBytes = Buffer.byteLength(truncNote, "utf8");
+
+                    if (maxBytes >= prefixBytes + truncNoteBytes) {
+                      const allowedRaw = maxBytes - prefixBytes - truncNoteBytes;
+                      pendingTestFeedback = fallbackPrefix + truncateUtf8Safe(rawSummary, allowedRaw) + truncNote;
+                    } else if (maxBytes >= prefixBytes) {
+                      const allowedRaw = maxBytes - prefixBytes;
+                      pendingTestFeedback = fallbackPrefix + truncateUtf8Safe(rawSummary, allowedRaw);
+                    } else {
+                      pendingTestFeedback = truncateUtf8Safe(fallbackPrefix, maxBytes);
+                    }
+                  }
+
+                  this.evidenceControl.recordTimelineEntry(
+                    run.runId,
+                    "repair.minimal_evidence_selection_failed",
+                    `Minimal evidence selection encountered error: ${errMsg}. Bounded raw summary fallback provided.`,
+                    "MinimalTestEvidenceSelector",
+                    {
+                      error: errMsg,
+                      authoritative: false,
+                      verificationAuthority: false,
+                      terminalAuthority: false,
+                    },
+                  );
+                }
+              } else {
+                pendingTestFeedback = locResult.rawSummary;
+
+                this.evidenceControl.recordTimelineEntry(
+                  run.runId,
+                  "repair.test_localized",
+                  `Targeted test failed: ${locResult.failingTests.length} tests failing. Localized ${locResult.localizedFiles.length} files.`,
+                  "TestFailureLocalizer",
+                  {
+                    localizationId: locResult.localizationId,
+                    exitCode: locResult.exitCode,
+                    failingCount: locResult.failingTests.length,
+                    authoritative: false,
+                    verificationAuthority: false,
+                  },
+                );
+              }
             } else {
               // Targeted tests passed cleanly!
               pendingTestFeedback = null;
@@ -672,12 +808,26 @@ export class ProductionRepairOrchestrator {
       diagnosticContextBytes: totalDiagnosticContextBytes,
     };
 
+    const evidenceSelectionMetrics: MinimalEvidenceSelectionMetrics | undefined =
+      totalSelections > 0
+        ? {
+            totalSelections,
+            totalOriginalBytes,
+            totalSelectedBytes,
+            meanPayloadReductionPercent: Number((totalPayloadReductionSum / totalSelections).toFixed(2)),
+            totalOmittedRecords,
+            totalDeduplicatedRecords,
+            truncationCount,
+          }
+        : undefined;
+
     return {
       session: sessionState,
       run: completedRun,
       evidence,
       verification: verificationResult,
       diagnosticMetrics,
+      evidenceSelectionMetrics,
       reviewableDiff: sessionState.finalDiff,
       changedFiles: sessionState.modifiedFiles,
       unexpectedChanges,

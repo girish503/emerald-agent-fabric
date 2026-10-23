@@ -60,6 +60,51 @@ export interface TestFailureLocalization {
 }
 
 /**
+ * A normalized, prioritized test failure record selected for model feedback.
+ */
+export interface SelectedFailureRecord {
+  readonly recordId: string;
+  readonly testName: string;
+  readonly assertionMessage: string;
+  readonly relevantFile?: string;
+  readonly lineNumber?: number;
+  readonly priorityReason: string;
+  readonly occurrenceCount: number;
+  readonly underlyingReferences: readonly string[];
+}
+
+/**
+ * Result of deterministic minimal test evidence selection.
+ */
+export interface MinimalEvidenceSelectionResult {
+  readonly selectedRecords: readonly SelectedFailureRecord[];
+  readonly fullyRepresentedRecords?: readonly SelectedFailureRecord[];
+  readonly omittedCount: number;
+  readonly deduplicatedCount: number;
+  readonly originalEvidenceDigest: string;
+  readonly selectedEvidenceDigest: string;
+  readonly originalSerializedBytes: number;
+  readonly selectedSerializedBytes: number;
+  readonly payloadReductionPercent: number;
+  readonly truncationApplied: boolean;
+  readonly partialRecordTruncationApplied?: boolean;
+  readonly formattedObservationText: string;
+  readonly authoritative: false;
+  readonly verificationAuthority: false;
+  readonly terminalAuthority: false;
+}
+
+export interface MinimalEvidenceSelectionMetrics {
+  readonly totalSelections: number;
+  readonly totalOriginalBytes: number;
+  readonly totalSelectedBytes: number;
+  readonly meanPayloadReductionPercent: number;
+  readonly totalOmittedRecords: number;
+  readonly totalDeduplicatedRecords: number;
+  readonly truncationCount: number;
+}
+
+/**
  * Resource budgets and operational constraints for a repair session.
  */
 export interface RepairSessionConfig {
@@ -70,6 +115,8 @@ export interface RepairSessionConfig {
   readonly maxFeedbackRoundsPerAction: number;
   readonly timeoutMs: number;
   readonly maxLocalizationBytes: number;
+  readonly maxFeedbackBytes?: number; // Explicit 4,096 bytes model feedback budget (V1.4)
+  readonly minimalEvidenceSelectionEnabled?: boolean;
   readonly allowedWorkspacePaths?: readonly string[];
   readonly expectedFiles?: readonly string[];
   readonly autoCommitForbidden: true;
@@ -84,6 +131,8 @@ export const DEFAULT_REPAIR_CONFIG: RepairSessionConfig = {
   maxFeedbackRoundsPerAction: 2,
   timeoutMs: 120_000,
   maxLocalizationBytes: 8192,
+  maxFeedbackBytes: 4096,
+  minimalEvidenceSelectionEnabled: false,
   autoCommitForbidden: true,
   autoPushForbidden: true,
 };
@@ -134,6 +183,7 @@ export interface RepairSessionOutcome {
   readonly evidence: ProductionEvidenceBundle;
   readonly verification: ProductionVerificationResult;
   readonly diagnosticMetrics?: DiagnosticMetrics;
+  readonly evidenceSelectionMetrics?: MinimalEvidenceSelectionMetrics;
   readonly reviewableDiff: string;
   readonly changedFiles: readonly string[];
   readonly unexpectedChanges: readonly string[];

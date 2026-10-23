@@ -49,6 +49,27 @@ export interface ReplayReport {
     readonly status: string;
     readonly summary: string;
   }[];
+  readonly evidenceSelectionObservations?: readonly {
+    readonly sequence: number;
+    readonly originalDigest: string;
+    readonly selectedDigest: string;
+    readonly originalEvidenceDigest?: string;
+    readonly selectedEvidenceDigest?: string;
+    readonly originalBytes: number;
+    readonly selectedBytes: number;
+    readonly omittedCount: number;
+    readonly reductionPercent?: number;
+    readonly summary: string;
+  }[];
+  readonly anchoredEditObservations?: readonly {
+    readonly sequence: number;
+    readonly eventType: string;
+    readonly path: string;
+    readonly originalDigest?: string;
+    readonly resultingDigest?: string;
+    readonly outcome: string;
+    readonly summary: string;
+  }[];
 }
 
 export class ProductionReplayEngine {
@@ -83,6 +104,31 @@ export class ProductionReplayEngine {
       summary: t.description,
     }));
 
+    const selectionEvents = bundle.timeline.filter((t) => t.eventType === "repair.minimal_evidence_selected");
+    const evidenceSelectionObservations = selectionEvents.map((t) => ({
+      sequence: t.sequence,
+      originalDigest: String(t.details["originalEvidenceDigest"] ?? t.details["originalDigest"] ?? ""),
+      selectedDigest: String(t.details["selectedEvidenceDigest"] ?? t.details["selectedDigest"] ?? ""),
+      originalEvidenceDigest: String(t.details["originalEvidenceDigest"] ?? t.details["originalDigest"] ?? ""),
+      selectedEvidenceDigest: String(t.details["selectedEvidenceDigest"] ?? t.details["selectedDigest"] ?? ""),
+      originalBytes: Number(t.details["originalBytes"] ?? 0),
+      selectedBytes: Number(t.details["selectedBytes"] ?? 0),
+      omittedCount: Number(t.details["omittedCount"] ?? 0),
+      reductionPercent: Number(t.details["reductionPercent"] ?? 0),
+      summary: t.description,
+    }));
+
+    const editEvents = bundle.timeline.filter((t) => t.eventType.startsWith("repair.file_anchored_edit"));
+    const anchoredEditObservations = editEvents.map((t) => ({
+      sequence: t.sequence,
+      eventType: t.eventType,
+      path: String(t.details["filePath"] ?? ""),
+      originalDigest: t.details["originalDigest"] ? String(t.details["originalDigest"]) : undefined,
+      resultingDigest: t.details["resultingDigest"] ? String(t.details["resultingDigest"]) : undefined,
+      outcome: String(t.details["outcome"] ?? "UNKNOWN"),
+      summary: t.description,
+    }));
+
     return {
       runId: bundle.runId,
       missionId: bundle.missionId,
@@ -104,6 +150,8 @@ export class ProductionReplayEngine {
       finalDisposition: bundle.disposition,
       stopReason,
       diagnosticObservations,
+      evidenceSelectionObservations,
+      anchoredEditObservations,
       reconstructedSuccessfully: true,
     };
   }
