@@ -22,6 +22,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { ProductionGovernanceFacade } from "../governance/production-governance-facade.js";
 import { HarnessType } from "../domain/cross-harness-request.js";
+import { LineAnchoredEditor, LineAnchoredEditResult } from "../production/repair/line-anchored-editor.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -104,6 +105,9 @@ export class ProductionToolGateway {
         case "write_file":
           resultOutput = await this.toolWriteFile(input, context);
           break;
+        case "edit_file_anchor":
+          resultOutput = await this.toolEditFileAnchor(input, context);
+          break;
         case "run_command":
           resultOutput = await this.toolRunCommand(input, context);
           break;
@@ -142,6 +146,7 @@ export class ProductionToolGateway {
       case "git_diff":
         return "READ_REPOSITORY";
       case "write_file":
+      case "edit_file_anchor":
         return "WRITE_TEMPORARY_OUTPUT";
       case "run_command":
         return "EXECUTE_ANALYSIS";
@@ -151,17 +156,19 @@ export class ProductionToolGateway {
   }
 
   private resolveSafePath(filePath: string, workspacePath: string): string {
-    const normalized = path.normalize(filePath);
-    if (normalized.includes("..") || path.isAbsolute(normalized)) {
-      const resolved = path.resolve(workspacePath, normalized);
-      const normResolved = resolved.replace(/\\/g, "/").toLowerCase();
-      const normBase = path.resolve(workspacePath).replace(/\\/g, "/").toLowerCase();
-      if (!normResolved.startsWith(normBase)) {
-        throw new Error(`Path traversal denied outside workspace: ${filePath}`);
-      }
-      return resolved;
+    if (/^[a-zA-Z]:(?![\/\\])/.test(filePath)) {
+      throw new Error(`Path traversal denied outside workspace: ${filePath}`);
     }
-    return path.resolve(workspacePath, normalized);
+
+    const normalized = path.normalize(filePath);
+    const resolved = path.resolve(workspacePath, normalized);
+    const normResolved = resolved.replace(/\\/g, "/").toLowerCase();
+    const normBase = path.resolve(workspacePath).replace(/\\/g, "/").toLowerCase();
+    const normBaseWithSlash = normBase.endsWith("/") ? normBase : normBase + "/";
+    if (normResolved !== normBase && !normResolved.startsWith(normBaseWithSlash)) {
+      throw new Error(`Path traversal denied outside workspace: ${filePath}`);
+    }
+    return resolved;
   }
 
   // --- Tool 1: read_file ---
@@ -171,6 +178,11 @@ export class ProductionToolGateway {
 
     if (!fs.existsSync(safePath)) {
       throw new Error(`File not found: ${rawPath}`);
+    }
+
+    const stat = fs.statSync(safePath);
+    if (!stat.isFile()) {
+      throw new Error(`Target path is not a regular file: ${rawPath}`);
     }
 
     const content = fs.readFileSync(safePath, "utf8");
@@ -261,11 +273,24 @@ export class ProductionToolGateway {
       fs.mkdirSync(dir, { recursive: true });
     }
 
+    if (fs.existsSync(safePath) && !fs.statSync(safePath).isFile()) {
+      throw new Error(`Target path is not a regular file: ${rawPath}`);
+    }
+
     fs.writeFileSync(safePath, content, "utf8");
     return {
       path: path.relative(context.workspacePath, safePath).replace(/\\/g, "/"),
       bytesWritten: Buffer.byteLength(content, "utf8"),
     };
+  }
+
+  // --- Tool 5b: edit_file_anchor ---
+  private async toolEditFileAnchor(
+    input: Record<string, unknown>,
+    context: ToolExecutionContext,
+  ): Promise<LineAnchoredEditResult> {
+    const editor = new LineAnchoredEditor();
+    return editor.applyEdit(input, context.workspacePath);
   }
 
   // --- Tool 6: run_command ---
