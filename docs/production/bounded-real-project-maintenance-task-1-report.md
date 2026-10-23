@@ -14,6 +14,8 @@
 - **Isolated Regression Probe**: [`scripts/verify-sop-maintenance-task-1.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/verify-sop-maintenance-task-1.ts)
 - **Evidence Artifact**: [`scratch/bounded-real-project-maintenance-task-1-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-maintenance-task-1-results.json)
 - **Prior Artifacts Preserved**: All 8 Task A–D report and scratch result files preserved byte-for-byte.
+- **Committed Implementation**: Commit `f16e466` (`fix(security): harden workspace path containment and drive-relative traversal in ProductionToolGateway`)
+- **Current Staged Scope**: Documentation-only reconciliation of this report.
 
 ---
 
@@ -114,8 +116,10 @@ The maintenance task was executed strictly according to the 10 stages defined in
 
 ---
 
-## 3. Git Diff Audit
+## 3. Git Diff & Patch Composition Audit
 
+### A. Initial Governed SOP Repair (Task sop-maint-1)
+The isolated SOP run modified `ProductionToolGateway.resolveSafePath` to enforce trailing-slash containment:
 ```diff
 --- a/src/tools/production-tools.ts
 +++ b/src/tools/production-tools.ts
@@ -133,8 +137,40 @@ The maintenance task was executed strictly according to the 10 stages defined in
 
 - **Lines Added**: 2
 - **Lines Removed**: 1
-- **Unrelated Changes**: 0
-- **Pre-existing Working Tree Changes**: Preserved byte-for-byte.
+- **Mutation Scope**: Confined strictly to `ProductionToolGateway.resolveSafePath`.
+
+### B. Subsequent Governed Hardening (Windows Drive-Relative Bypass)
+Following human audit review, `resolveSafePath` was further hardened to reject Windows drive-relative syntax (e.g., `D:file.txt`) and enforce unconditional path resolution:
+```diff
+@@ -156,12 +156,17 @@ export class ProductionToolGateway {
+   private resolveSafePath(filePath: string, workspacePath: string): string {
++    if (/^[a-zA-Z]:(?![\/\\])/.test(filePath)) {
++      throw new Error(`Path traversal denied outside workspace: ${filePath}`);
++    }
++
+     const normalized = path.normalize(filePath);
+-    if (normalized.includes("..") || path.isAbsolute(normalized)) {
+       const resolved = path.resolve(workspacePath, normalized);
+       const normResolved = resolved.replace(/\\/g, "/").toLowerCase();
+       const normBase = path.resolve(workspacePath).replace(/\\/g, "/").toLowerCase();
+       const normBaseWithSlash = normBase.endsWith("/") ? normBase : normBase + "/";
+       if (normResolved !== normBase && !normResolved.startsWith(normBaseWithSlash)) {
+         throw new Error(`Path traversal denied outside workspace: ${filePath}`);
+       }
+-      return resolved;
+-    }
+-    return path.resolve(workspacePath, normalized);
++    return resolved;
+   }
+```
+
+### C. Cumulative Committed Implementation Patch (Commit f16e466)
+The implementation patch committed in `src/tools/production-tools.ts` (34 insertions, 9 deletions in commit `f16e466`) represents the cumulative state of the active branch at the time of commit, which combined:
+1. **Maintenance Task 1**: Delimiter-aware boundary containment and Windows drive-relative rejection in `resolveSafePath`.
+2. **Prior Working-Tree Task B**: Addition of `edit_file_anchor` dispatcher and `LineAnchoredEditor` import (not introduced by Maintenance Task 1).
+3. **Prior Working-Tree Task D**: `stat.isFile()` validation in `toolReadFile` and `toolWriteFile` to reject directories (not introduced by Maintenance Task 1).
+
+All changes outside `resolveSafePath` belong to previously implemented tasks and were preserved rather than introduced by this maintenance operation. The current staged index contains only the documentation reconciliation for this report.
 
 ---
 
@@ -153,6 +189,11 @@ The maintenance task was executed strictly according to the 10 stages defined in
 | **Deterministic Replay** | **PASS** | `ProductionReplayEngine` (3 independent sweeps bit-identical) |
 | **Task A–D Artifact Integrity** | **PASS** | All 8 historical files byte-for-byte identical |
 | **Git Hygiene** | **PASS** | Zero automated commits, pushes, or unapproved mutations |
+
+> [!NOTE] Verification Scope & Execution Provenance
+> - **Standalone Regression Probe**: `scripts/verify-sop-maintenance-task-1.ts` directly exercises 3 core containment cases (`siblingBlocked: true`, `normalPermitted: true`, `rootPermitted: true`). It is a standalone probe and not part of the automated `vitest.config.ts` discovery glob.
+> - **Extended Edge Probe**: The extended 9-case containment battery (testing Windows drive-relative syntax `D:file.txt`, `C:test.txt`, UNC paths, trailing slashes, and nested subpaths) was executed via the diagnostic scratch probe `scratch/test-hardened.ts`.
+> - **Regression Battery Provenance**: Full Vitest (140/140), Component (20/20), and Phase 99 (262/262) results record test runs executed during implementation and post-hardening audit passes; they were not re-executed during read-only status reviews.
 
 ---
 
@@ -177,3 +218,12 @@ The maintenance task was executed strictly according to the 10 stages defined in
 2. **Predictable Local Model Behavior**: With explicit schema templates and single-purpose prompting, the local 3B model consistently produced valid `edit_file_anchor` proposals within memory and CPU limits (~81s inference latency).
 3. **Fail-Closed Governance Integrity**: The human approval checkpoint and line-anchor uniqueness check ensured that no unapproved or ambiguous edits could be applied to mutable source code.
 4. **Zero Regressions**: The repair harmonized `ProductionToolGateway` with `LineAnchoredEditor` without breaking existing tools, test suites, or historical audit records.
+
+---
+
+## 7. Security Boundary & Operating Limitations
+
+1. **Lexical Resolution Boundary**: `path.resolve()` and string normalizations evaluate paths lexically without resolving filesystem symlinks (`fs.realpathSync()`). A symlink inside the workspace pointing to an external target is not intercepted by lexical checks.
+2. **TOCTOU Window**: A non-atomic time gap exists between lexical path validation (`resolveSafePath`), metadata checks (`fs.statSync`), and subsequent I/O operations (`fs.readFileSync`, `fs.writeFileSync`).
+3. **Filesystem Semantics & Casing**: Case folding (`.toLowerCase()`) assumes Windows NTFS/FAT case insensitivity. On case-preserving or case-sensitive file systems, matching behavior is not guaranteed.
+4. **Finite Test Scope**: Passing finite test suites and edge probes confirms resolution of specific identified defects, but does not constitute a mathematical proof of universal filesystem safety or general production readiness.
