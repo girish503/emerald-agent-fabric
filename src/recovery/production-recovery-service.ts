@@ -23,6 +23,14 @@ export interface RecoveryOutcome {
   readonly details: string;
 }
 
+const TERMINAL_RUN_STATUSES: readonly string[] = [
+  "COMPLETED",
+  "FAILED",
+  "TIMED_OUT",
+  "CANCELLED",
+  "QUARANTINED",
+];
+
 export class ProductionRecoveryService {
   constructor(
     private readonly runControl: RunControl,
@@ -42,7 +50,7 @@ export class ProductionRecoveryService {
     const allRuns = this.runControl.listRuns();
 
     for (const run of allRuns) {
-      if (["ACTIVE", "PLANNING", "EXECUTING", "VERIFYING"].includes(run.status)) {
+      if (["ACTIVE", "PLANNING", "EXECUTING", "VERIFYING", "RECOVERING"].includes(run.status)) {
         const outcome = this.recoverRun(run.runId);
         outcomes.push(outcome);
       }
@@ -60,16 +68,39 @@ export class ProductionRecoveryService {
 
     const statusBefore = run.status;
 
-    // Transition run to RECOVERING first
-    this.runControl.transitionStatus(runId, "RECOVERING", "Crash or lease loss recovery initiated");
+    // Terminal state immutability guard: terminal runs must never be reopened or mutated
+    if (TERMINAL_RUN_STATUSES.includes(statusBefore)) {
+      return {
+        runId,
+        statusBefore,
+        statusAfter: statusBefore,
+        leasesFenced: 0,
+        actionsRecovered: run.actionsCount,
+        safeToResume: false,
+        details: `Run is in terminal state ${statusBefore}; recovery is an idempotent no-op.`,
+      };
+    }
+
+    // Transition run to RECOVERING first (skip if already RECOVERING)
+    if (statusBefore !== "RECOVERING") {
+      this.runControl.transitionStatus(runId, "RECOVERING", "Crash or lease loss recovery initiated");
+    }
 
     // Revoke any stale capability fences associated with this run's worker
-    let leasesFenced = 1;
-    if (this.fenceEnforcer && run.currentWorkerId) {
-      const activeFence = this.fenceEnforcer.getActiveFenceForSubject(run.currentWorkerId);
-      if (activeFence) {
-        this.fenceEnforcer.revokeFence(activeFence.fenceId, "Interrupted by process crash");
-        leasesFenced++;
+    let leasesFenced = run.leaseId ? 1 : 0;
+    if (this.fenceEnforcer) {
+      const candidates = new Set<string>();
+      if (run.currentWorkerId) {
+        candidates.add(run.currentWorkerId);
+      }
+      candidates.add("repair-orchestrator");
+
+      for (const subjectId of candidates) {
+        const activeFence = this.fenceEnforcer.getActiveFenceForSubject(subjectId);
+        if (activeFence) {
+          this.fenceEnforcer.revokeFence(activeFence.fenceId, "Interrupted by process crash");
+          leasesFenced++;
+        }
       }
     }
 

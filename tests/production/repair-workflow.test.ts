@@ -745,4 +745,119 @@ module.exports = { add };
     const currentCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: tmpDir }).toString().trim();
     expect(currentCommit).toBe(initialCommit);
   });
+
+  // 18. Crash boundary triggers recovery and fences capability fence
+  it("18. unhandled exception in repair session invokes recovery service and revokes active fence", async () => {
+    const mission = missionControl.createMission({
+      title: "Crash recovery boundary test",
+      description: "Verify unhandled exception triggers crash recovery",
+      repositoryPath: tmpDir,
+    });
+
+    const crashingVerifier = {
+      async verify() {
+        throw new Error("Simulated verifier catastrophic crash");
+      },
+    } as unknown as ProductionVerifier;
+
+    const prodConfig = createProductionConfig({
+      workspaceRoot: tmpDir,
+    });
+
+    const crashOrchestrator = new ProductionRepairOrchestrator(
+      prodConfig,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      crashingVerifier,
+      recoveryService,
+    );
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        return {
+          thought: "Claim goal reached to trigger verification crash",
+          toolName: "git_status",
+          toolInput: {},
+          isGoalReached: true,
+        };
+      },
+    };
+
+    let caughtError: Error | undefined;
+    try {
+      await crashOrchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+        testCommand: { cmd: "node", args: ["test.js"] },
+      });
+    } catch (err: any) {
+      caughtError = err;
+    }
+
+    expect(caughtError).toBeDefined();
+    expect(caughtError?.message).toBe("Simulated verifier catastrophic crash");
+
+    // Verify that the run was fenced to FAILED by ProductionRecoveryService
+    const runs = runControl.listRuns().filter((r) => r.missionId === mission.missionId);
+    expect(runs.length).toBe(1);
+    const sessionRun = runs[0]!;
+    expect(sessionRun.status).toBe("FAILED");
+
+    // Verify capability fence was revoked upon crash recovery
+    expect(fenceEnforcer.getActiveFenceForSubject("repair-orchestrator")).toBeUndefined();
+
+    // Verify timeline records session crash event
+    const timeline = evidenceControl.getTimeline(sessionRun.runId);
+    const crashEvent = timeline.find((t) => t.eventType === "repair.session_crashed");
+    expect(crashEvent).toBeDefined();
+    expect(crashEvent?.description).toContain("Unhandled repair session exception");
+  });
+
+  // 19. Expired capability fence lease halts Stage 5 tool execution fail-closed
+  it("19. expired capability fence lease blocks Stage 5 tool execution fail-closed", async () => {
+    const mission = missionControl.createMission({
+      title: "Fence expiry boundary test",
+      description: "Verify expired capability fence lease halts tool execution",
+      repositoryPath: tmpDir,
+    });
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        // Force the active fence lease to be expired in the past before Stage 5 runs
+        const activeFence = fenceEnforcer.getActiveFenceForSubject("repair-orchestrator");
+        if (activeFence) {
+          (activeFence as any).expiresAt = new Date(Date.now() - 10000).toISOString();
+        }
+        return {
+          thought: "Propose file read with expired fence lease",
+          toolName: "read_file",
+          toolInput: { path: "calculator.js" },
+        };
+      },
+    };
+
+    const outcome = await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    // Session halted fail-closed without executing tool
+    expect(outcome.session.classification).toBe("GOVERNANCE_REJECTION");
+    expect(outcome.session.stoppedReason).toContain("Session capability fence lease expired");
+    expect(outcome.session.sovereignVerified).toBe(false);
+    expect(outcome.run.status).toBe("FAILED");
+
+    // Timeline confirms fence lease expired event was recorded
+    const fenceExpiredEvent = outcome.evidence.timeline.find(
+      (t) => t.eventType === "repair.fence_expired",
+    );
+    expect(fenceExpiredEvent).toBeDefined();
+    expect(fenceExpiredEvent?.description).toContain("Session capability fence lease expired");
+
+    // Verify no tool execution was authorized or recorded
+    const toolExecEvent = outcome.evidence.timeline.find(
+      (t) => t.eventType === "tool.executed",
+    );
+    expect(toolExecEvent).toBeUndefined();
+  });
 });

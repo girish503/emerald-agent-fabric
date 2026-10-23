@@ -450,6 +450,95 @@ describe("Emerald Production Build V1: Components", () => {
       expect(outcomes[0]?.statusBefore).toBe("EXECUTING");
       expect(rc.getRun(r.runId)?.status).toBe("FAILED"); // Interrupted execution fenced
     });
+
+    it("9.2 preserves terminal state immutability when recoverRun is called on COMPLETED run", () => {
+      const mc = new MissionControl();
+      const rc = new RunControl();
+      const recovery = new ProductionRecoveryService(rc);
+
+      const m = mc.createMission({ title: "T", description: "D", repositoryPath: tempDir });
+      const r = rc.createRun(m);
+      rc.transitionStatus(r.runId, "COMPLETED");
+
+      const outcome = recovery.recoverRun(r.runId);
+      expect(outcome.statusBefore).toBe("COMPLETED");
+      expect(outcome.statusAfter).toBe("COMPLETED");
+      expect(outcome.safeToResume).toBe(false);
+      expect(rc.getRun(r.runId)?.status).toBe("COMPLETED");
+    });
+
+    it("9.3 preserves terminal status for FAILED, CANCELLED, and TIMED_OUT runs idempotently", () => {
+      const mc = new MissionControl();
+      const rc = new RunControl();
+      const recovery = new ProductionRecoveryService(rc);
+
+      const m = mc.createMission({ title: "T", description: "D", repositoryPath: tempDir });
+
+      for (const terminalStatus of ["FAILED", "CANCELLED", "TIMED_OUT", "QUARANTINED"] as const) {
+        const r = rc.createRun(m);
+        rc.transitionStatus(r.runId, terminalStatus);
+
+        const outcome1 = recovery.recoverRun(r.runId);
+        expect(outcome1.statusBefore).toBe(terminalStatus);
+        expect(outcome1.statusAfter).toBe(terminalStatus);
+        expect(outcome1.safeToResume).toBe(false);
+        expect(rc.getRun(r.runId)?.status).toBe(terminalStatus);
+
+        // Repeated recovery attempt is idempotent
+        const outcome2 = recovery.recoverRun(r.runId);
+        expect(outcome2.statusAfter).toBe(terminalStatus);
+        expect(rc.getRun(r.runId)?.status).toBe(terminalStatus);
+      }
+    });
+
+    it("9.4 revokes exact capability fence matching workerId during recovery", () => {
+      const mc = new MissionControl();
+      const rc = new RunControl();
+      const fe = new CapabilityFenceEnforcer();
+      const recovery = new ProductionRecoveryService(rc, fe);
+
+      const m = mc.createMission({ title: "T", description: "D", repositoryPath: tempDir });
+      const workerId = "repair-worker-run-test";
+      const r = rc.createRun(m, workerId);
+      rc.transitionStatus(r.runId, "EXECUTING");
+
+      const fenceId = `fence-${r.runId}`;
+      fe.registerFence({
+        fenceId,
+        subjectId: workerId,
+        roleId: "repair_orchestrator",
+        harnessId: "IMPLEMENTATION_HARNESS",
+        allowedCapabilities: ["READ_WORKSPACE"],
+        forbiddenCapabilities: [],
+        scope: {
+          allowedWorkspacePaths: [tempDir],
+          forbiddenWorkspacePaths: [],
+          allowedTools: ["read_file"],
+          maxOperations: 10,
+          maxMemoryBytes: 1024 * 1024,
+          networkAllowed: false,
+          gitWriteAllowed: false,
+        },
+        trustLabel: "GOVERNED_OBSERVATION",
+        status: "ACTIVE",
+        delegatedFenceIds: [],
+        version: 1,
+        missionContractId: "c1",
+        missionContractHash: "h1",
+        authoritative: false,
+        terminalAuthority: false,
+        sovereignAuthority: false,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+        hash: "dummyhash",
+      });
+
+      expect(fe.getActiveFenceForSubject(workerId)).toBeDefined();
+
+      const outcome = recovery.recoverRun(r.runId);
+      expect(outcome.leasesFenced).toBeGreaterThanOrEqual(1);
+      expect(fe.getActiveFenceForSubject(workerId)).toBeUndefined();
+    });
   });
 
   // ============================================================================

@@ -81,7 +81,10 @@ export class ProductionRepairOrchestrator {
     this.diagnosticEngine = diagnosticEngine ?? new SourceDiagnosticEngine();
     this.testLocalizer = testLocalizer ?? new TestFailureLocalizer();
     this.evidenceSelector = evidenceSelector ?? new MinimalTestEvidenceSelector();
-    void this.recoveryService;
+  }
+
+  public getRecoveryService(): ProductionRecoveryService {
+    return this.recoveryService;
   }
 
   /**
@@ -111,14 +114,15 @@ export class ProductionRepairOrchestrator {
     const initialGitHash = await this.captureWorkspaceBaseline(mission.workspacePath);
 
     // 3. Create and Register Production Run
-    const run = this.runControl.createRun(mission);
+    const actorId = "repair-orchestrator";
+    const run = this.runControl.createRun(mission, actorId);
     this.runControl.transitionStatus(run.runId, "ACTIVE");
 
-    const actorId = "repair-orchestrator";
     const fenceId = `fence-repair-${run.runId}`;
     const sessionId = `session-${run.runId}`;
 
-    // 4. Establish Governed Capability Fence
+    try {
+      // 4. Establish Governed Capability Fence
     const fenceRaw: Omit<CapabilityFence, "hash"> = {
       fenceId,
       subjectId: actorId,
@@ -365,6 +369,31 @@ export class ProductionRepairOrchestrator {
       // STAGE 5: GOVERN
       // -----------------------------------------------------------------------
       sessionState.currentPhase = "GOVERN";
+
+      // Stage 5 Fence lease validity check: fail closed if fence is missing, revoked, or expired
+      const currentFence = this.fenceEnforcer.getFence(fenceId);
+      const isFenceExpired =
+        !currentFence ||
+        currentFence.status !== "ACTIVE" ||
+        new Date(currentFence.expiresAt).getTime() <= this.clock.now().getTime();
+
+      if (isFenceExpired) {
+        sessionState.classification = "GOVERNANCE_REJECTION";
+        sessionState.stoppedReason = !currentFence
+          ? "Session capability fence missing or unregistered"
+          : currentFence.status === "REVOKED"
+            ? "Session capability fence has been revoked"
+            : "Session capability fence lease expired";
+        this.evidenceControl.recordTimelineEntry(
+          run.runId,
+          "repair.fence_expired",
+          sessionState.stoppedReason,
+          actorId,
+          { fenceId, fenceStatus: currentFence?.status },
+        );
+        break;
+      }
+
       const capability = this.toolGateway["mapToolToCapability"](proposal.toolName);
       const governanceDecision = this.governanceFacade.evaluateProposal({
         runId: run.runId,
@@ -744,6 +773,12 @@ export class ProductionRepairOrchestrator {
       if (sessionState.scopeViolations.length > 0 || unexpectedChanges.length > 0) {
         sessionState.classification = "VERIFICATION_FAILURE";
         sessionState.stoppedReason = "Verification rejected due to scope boundary violation";
+      } else if (
+        sessionState.classification === "GOVERNANCE_REJECTION" ||
+        sessionState.classification === "TIMEOUT" ||
+        sessionState.classification === "MODEL_PROPOSAL_FAILURE"
+      ) {
+        // Retain pre-terminal failure classification if loop exited prematurely
       } else {
         sessionState.classification = "SOVEREIGN_VERIFIED_SUCCESS";
         sessionState.stoppedReason = "Goal achieved and sovereign verification certified success";
@@ -821,18 +856,34 @@ export class ProductionRepairOrchestrator {
           }
         : undefined;
 
-    return {
-      session: sessionState,
-      run: completedRun,
-      evidence,
-      verification: verificationResult,
-      diagnosticMetrics,
-      evidenceSelectionMetrics,
-      reviewableDiff: sessionState.finalDiff,
-      changedFiles: sessionState.modifiedFiles,
-      unexpectedChanges,
-      durationMs: Date.now() - sessionStartTime,
-    };
+      return {
+        session: sessionState,
+        run: completedRun,
+        evidence,
+        verification: verificationResult,
+        diagnosticMetrics,
+        evidenceSelectionMetrics,
+        reviewableDiff: sessionState.finalDiff,
+        changedFiles: sessionState.modifiedFiles,
+        unexpectedChanges,
+        durationMs: Date.now() - sessionStartTime,
+      };
+    } catch (err: any) {
+      this.evidenceControl.recordTimelineEntry(
+        run.runId,
+        "repair.session_crashed",
+        `Unhandled repair session exception: ${err?.message ?? String(err)}`,
+        actorId,
+        { error: String(err?.stack ?? err) },
+      );
+      this.recoveryService.recoverRun(run.runId);
+      throw err;
+    } finally {
+      const activeFence = this.fenceEnforcer.getActiveFenceForSubject(actorId);
+      if (activeFence && activeFence.fenceId === fenceId && activeFence.status === "ACTIVE") {
+        this.fenceEnforcer.revokeFence(fenceId, "Repair session ended");
+      }
+    }
   }
 
   /**
