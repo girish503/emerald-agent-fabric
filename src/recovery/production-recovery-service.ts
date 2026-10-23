@@ -104,10 +104,11 @@ export class ProductionRecoveryService {
       }
     }
 
-    // Set run to FAILED or CANCELLED if it cannot be resumed cleanly
-    const safeToResume = statusBefore === "PLANNING" || statusBefore === "ACTIVE";
-    const statusAfter = safeToResume ? "VALIDATING" : "FAILED";
-    this.runControl.transitionStatus(runId, statusAfter, "Interrupted execution fenced; ready for safe resumption");
+    // In local-first zero-cost execution, there is no automatic checkpoint resume engine for interrupted runs.
+    // Interrupted execution is fenced and transitioned to terminal FAILED.
+    const safeToResume = false;
+    const statusAfter = "FAILED";
+    this.runControl.transitionStatus(runId, statusAfter, "Interrupted execution fenced; run marked FAILED (no safe in-flight resume path)");
 
     return {
       runId,

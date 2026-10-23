@@ -860,4 +860,180 @@ module.exports = { add };
     );
     expect(toolExecEvent).toBeUndefined();
   });
+
+  // 20. Mid-loop crash while run is ACTIVE transitions to FAILED
+  it("20. unhandled exception during active repair loop marks run FAILED without leaving it in VALIDATING", async () => {
+    const mission = missionControl.createMission({
+      title: "Mid-loop crash test",
+      description: "Verify unhandled exception while status is ACTIVE marks run FAILED",
+      repositoryPath: tmpDir,
+    });
+
+    const prodConfig = createProductionConfig({ workspaceRoot: tmpDir });
+
+    const crashingToolGateway = {
+      mapToolToCapability() {
+        return "READ_WORKSPACE";
+      },
+      async executeTool() {
+        throw new Error("Simulated tool gateway fatal crash");
+      },
+    } as unknown as any;
+
+    const crashOrchestrator = new ProductionRepairOrchestrator(
+      prodConfig,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      verifier,
+      recoveryService,
+    );
+    (crashOrchestrator as any).toolGateway = crashingToolGateway;
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        return {
+          thought: "Attempt tool call",
+          toolName: "read_file",
+          toolInput: { path: "calculator.js" },
+        };
+      },
+    };
+
+    let caughtError: Error | undefined;
+    try {
+      await crashOrchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+        testCommand: { cmd: "node", args: ["test.js"] },
+      });
+    } catch (err: any) {
+      caughtError = err;
+    }
+
+    expect(caughtError).toBeDefined();
+    expect(caughtError?.message).toBe("Simulated tool gateway fatal crash");
+
+    // The run was ACTIVE when the crash occurred; it must transition to terminal FAILED, NOT stay VALIDATING
+    const runs = runControl.listRuns().filter((r) => r.missionId === mission.missionId);
+    expect(runs.length).toBe(1);
+    const sessionRun = runs[0]!;
+    expect(sessionRun.status).toBe("FAILED");
+  });
+
+  // 21. Evidence disposition consistency: scope violation with passing tests must be REJECTED
+  it("21. scope boundary violation rejects evidence disposition even if workspace tests pass", async () => {
+    const mission = missionControl.createMission({
+      title: "Scope violation with passing tests",
+      description: "Ensure evidence disposition is REJECTED on scope violation",
+      repositoryPath: tmpDir,
+    });
+
+    let step = 0;
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        step++;
+        if (step === 1) {
+          // Commit a scope violation by modifying unauthorized file outside scope
+          return {
+            thought: "Modify unauthorized file outside scope",
+            toolName: "write_file",
+            toolInput: {
+              path: "unauthorized.js",
+              content: "console.log('unauthorized mutation');\n",
+            },
+          };
+        } else if (step === 2) {
+          // Fix calculator so tests pass
+          return {
+            thought: "Fix calculator bug",
+            toolName: "write_file",
+            toolInput: {
+              path: "calculator.js",
+              content: "function add(a, b) { return a + b; }\nmodule.exports = { add };\n",
+            },
+          };
+        } else {
+          return {
+            thought: "Declare done",
+            toolName: "git_status",
+            toolInput: {},
+            isGoalReached: true,
+          };
+        }
+      },
+    };
+
+    const outcome = await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      testCommand: { cmd: "node", args: ["test.js"] },
+      expectedFiles: ["calculator.js"], // unauthorized.js is a scope violation!
+    });
+
+    // Scope violation occurred
+    expect(outcome.session.scopeViolations).toContain("unauthorized.js");
+    expect(outcome.session.classification).toBe("VERIFICATION_FAILURE");
+    expect(outcome.session.sovereignVerified).toBe(false);
+    expect(outcome.run.status).toBe("FAILED");
+
+    // Authoritative evidence disposition MUST be REJECTED, not ACCEPTED
+    expect(outcome.evidence.disposition).toBe("REJECTED");
+  });
+
+  // 22. Exception-safe cleanup: recovery service failure does not mask primary session error
+  it("22. secondary recovery failure does not mask primary session error", async () => {
+    const mission = missionControl.createMission({
+      title: "Secondary failure masking test",
+      description: "Ensure primary session error is preserved if recovery service fails",
+      repositoryPath: tmpDir,
+    });
+
+    const prodConfig = createProductionConfig({ workspaceRoot: tmpDir });
+
+    const crashingVerifier = {
+      async verify() {
+        throw new Error("Primary session catastrophic crash");
+      },
+    } as unknown as ProductionVerifier;
+
+    const failingRecoveryService = {
+      recoverRun() {
+        throw new Error("Secondary recovery service disk full failure");
+      },
+    } as unknown as ProductionRecoveryService;
+
+    const orchestratorWithFailingRecovery = new ProductionRepairOrchestrator(
+      prodConfig,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      crashingVerifier,
+      failingRecoveryService,
+    );
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        return {
+          thought: "Claim goal reached",
+          toolName: "git_status",
+          toolInput: {},
+          isGoalReached: true,
+        };
+      },
+    };
+
+    let caughtError: Error | undefined;
+    try {
+      await orchestratorWithFailingRecovery.executeRepairSession(mission.missionId, modelAdapter, {
+        testCommand: { cmd: "node", args: ["test.js"] },
+      });
+    } catch (err: any) {
+      caughtError = err;
+    }
+
+    expect(caughtError).toBeDefined();
+    // Primary error MUST be preserved, not overwritten by secondary recovery error
+    expect(caughtError?.message).toBe("Primary session catastrophic crash");
+  });
 });

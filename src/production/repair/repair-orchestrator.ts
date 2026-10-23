@@ -121,6 +121,7 @@ export class ProductionRepairOrchestrator {
     const fenceId = `fence-repair-${run.runId}`;
     const sessionId = `session-${run.runId}`;
 
+    let sessionException: unknown = undefined;
     try {
       // 4. Establish Governed Capability Fence
     const fenceRaw: Omit<CapabilityFence, "hash"> = {
@@ -795,6 +796,11 @@ export class ProductionRepairOrchestrator {
     const finalStatus = sessionState.classification === "SOVEREIGN_VERIFIED_SUCCESS" ? "COMPLETED" : "FAILED";
     const completedRun = this.runControl.transitionStatus(run.runId, finalStatus, sessionState.stoppedReason);
 
+    // Sovereign verification authority: disposition and sovereignVerified state must reflect authoritative classification
+    const isAuthoritativelyAccepted =
+      sessionState.classification === "SOVEREIGN_VERIFIED_SUCCESS" && completedRun.status === "COMPLETED";
+    sessionState.sovereignVerified = isAuthoritativelyAccepted;
+
     // Seal Production Evidence Bundle
     const evidence = this.evidenceControl.sealEvidenceBundle({
       runId: run.runId,
@@ -825,7 +831,7 @@ export class ProductionRepairOrchestrator {
         proofHash: verificationResult.proofHash,
       },
       timeline: this.evidenceControl.getTimeline(run.runId),
-      disposition: verificationResult.verified ? "ACCEPTED" : "REJECTED",
+      disposition: isAuthoritativelyAccepted ? "ACCEPTED" : "REJECTED",
       completedAt: this.clock.now().toISOString(),
     });
 
@@ -868,20 +874,49 @@ export class ProductionRepairOrchestrator {
         unexpectedChanges,
         durationMs: Date.now() - sessionStartTime,
       };
-    } catch (err: any) {
-      this.evidenceControl.recordTimelineEntry(
-        run.runId,
-        "repair.session_crashed",
-        `Unhandled repair session exception: ${err?.message ?? String(err)}`,
-        actorId,
-        { error: String(err?.stack ?? err) },
-      );
-      this.recoveryService.recoverRun(run.runId);
+    } catch (err: unknown) {
+      sessionException = err;
+      try {
+        this.evidenceControl.recordTimelineEntry(
+          run.runId,
+          "repair.session_crashed",
+          `Unhandled repair session exception: ${err instanceof Error ? err.message : String(err)}`,
+          actorId,
+          { error: err instanceof Error ? String(err.stack ?? err.message) : String(err) },
+        );
+      } catch {
+        // Defensive: secondary timeline recording failure must not abort crash handling
+      }
+
+      try {
+        this.recoveryService.recoverRun(run.runId);
+      } catch (recoveryErr: unknown) {
+        // Secondary recovery error must not mask the primary session crash exception
+        try {
+          this.evidenceControl.recordTimelineEntry(
+            run.runId,
+            "repair.recovery_failed",
+            `Secondary failure during run recovery: ${recoveryErr instanceof Error ? recoveryErr.message : String(recoveryErr)}`,
+            actorId,
+            { recoveryError: recoveryErr instanceof Error ? String(recoveryErr.stack ?? recoveryErr.message) : String(recoveryErr) },
+          );
+        } catch {
+          // Ignore tertiary failure
+        }
+      }
+
       throw err;
     } finally {
-      const activeFence = this.fenceEnforcer.getActiveFenceForSubject(actorId);
-      if (activeFence && activeFence.fenceId === fenceId && activeFence.status === "ACTIVE") {
-        this.fenceEnforcer.revokeFence(fenceId, "Repair session ended");
+      try {
+        const activeFence = this.fenceEnforcer.getActiveFenceForSubject(actorId);
+        if (activeFence && activeFence.fenceId === fenceId && activeFence.status === "ACTIVE") {
+          this.fenceEnforcer.revokeFence(fenceId, "Repair session ended");
+        }
+      } catch (fenceErr: unknown) {
+        // If a primary session exception is already in-flight, do not let fence revocation mask it
+        if (!sessionException) {
+          throw fenceErr;
+        }
       }
     }
   }
