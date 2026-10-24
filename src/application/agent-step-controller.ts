@@ -678,7 +678,7 @@ export class AgentStepController {
             contextBytes: contextSnapshot.totalBytes,
             contextObservationsCount: contextSnapshot.observations.length,
             finishReason: "GOAL_REACHED",
-            proposalValid: true,
+            proposalValid: false,
             durationMs: this.clock.now().getTime() - stepStartTime,
             timestamp: stepTimestamp,
           })

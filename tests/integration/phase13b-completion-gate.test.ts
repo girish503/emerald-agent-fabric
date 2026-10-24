@@ -532,7 +532,7 @@ describe("Phase 13B — Authoritative Physical Verification Completion Gate", ()
 
     expect(result.terminalReason).toBe("COMPLETED");
     const goalStep = result.transcript.find((t) => t.finishReason === "GOAL_REACHED");
-    expect(goalStep?.proposalValid).toBe(true);
+    expect(goalStep?.proposalValid).toBe(false);
 
     // Durable events recorded
     const events = store.getEventsForRun(run.runId);
