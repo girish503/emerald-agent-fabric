@@ -32,6 +32,7 @@ import { ProductionReplayEngine } from "../../src/evidence/production-replay-eng
 import { ProductionRecoveryService } from "../../src/recovery/production-recovery-service.js";
 import { ProductionDoctor } from "../../src/cli/doctor.js";
 import { EmeraldCli } from "../../src/cli/emerald-cli.js";
+import { ModelAdapter } from "../../src/runtime/production-runtime-engine.js";
 import { CapabilityFence, computeCapabilityFenceHash } from "../../src/domain/capability-fence.js";
 
 describe("Emerald Production Build V1: Components", () => {
@@ -664,6 +665,142 @@ describe("Emerald Production Build V1: Components", () => {
       const missionRes = await cli.run(["mission", "create", "BugFixTask", "Fix memory bug", tempDir]);
       expect(missionRes.exitCode).toBe(0);
       expect(missionRes.output).toContain("Created Mission");
+    });
+
+    it("10.3 EmeraldCli benchmark run rejects unknown task ID with exit code 1", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "non-existent-task-id"]);
+      expect(res.exitCode).toBe(1);
+      expect(res.output).toContain("Task not found: non-existent-task-id");
+    });
+
+    it("10.4 EmeraldCli benchmark run executes offline reference with sovereign verification", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--offline", "--temp-dir", tempDir]);
+      expect(res.exitCode).toBe(0);
+      expect(res.output).toContain("Task ID:                 swe-easy-001");
+      expect(res.output).toContain("Condition:               CONTROL_C_HUMAN_REFERENCE");
+      expect(res.output).toContain("Model / Adapter:         human-reference-expert");
+      expect(res.output).toContain("Classification:          SOVEREIGN_VERIFIED_SUCCESS");
+      expect(res.output).toContain("Sovereign Verification:  PASSED");
+      expect(res.output).toContain("Deterministic Replay:    VERIFIED (3 sweeps)");
+      expect(res.output).toContain("Reviewable Git Diff:");
+      expect(res.output).toContain("+    if (this.tokens >= cost) {");
+    });
+
+    it("10.5 EmeraldCli benchmark run defaults to first task when taskId is omitted", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "--offline", "--temp-dir", tempDir]);
+      expect(res.exitCode).toBe(0);
+      expect(res.output).toContain("Task ID:                 swe-easy-001");
+      expect(res.output).toContain("Classification:          SOVEREIGN_VERIFIED_SUCCESS");
+    });
+
+    it("10.6 EmeraldCli benchmark run honestly reports adapter without falsely claiming Ollama", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--offline", "--temp-dir", tempDir]);
+      expect(res.output).toContain("Model / Adapter:         human-reference-expert");
+      expect(res.output).not.toContain("qwen");
+      expect(res.output).not.toContain("ollama");
+    });
+
+    it("10.7 EmeraldCli benchmark run fails safely when local Ollama is unreachable", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--endpoint", "http://127.0.0.1:59999"]);
+      expect(res.exitCode).toBe(1);
+      expect(res.output).toContain("Error: Local Ollama server is unreachable at http://127.0.0.1:59999");
+      expect(res.output).toContain("Please start Ollama or run with '--offline'");
+    });
+
+    it("10.8 EmeraldCli benchmark run propagates verification failure and exit-code 1 when repair fails", async () => {
+      const failingAdapter: ModelAdapter = {
+        async proposeAction() {
+          return {
+            thought: "Propose no-op change that fails verification",
+            toolName: "read_file",
+            toolInput: { path: "token-bucket.js" },
+            isGoalReached: true,
+          };
+        },
+      };
+
+      const cli = new EmeraldCli({ workspaceRoot: tempDir }, failingAdapter);
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--temp-dir", tempDir]);
+      expect(res.exitCode).toBe(1);
+      expect(res.output).toContain("Classification:");
+      expect(res.output).toContain("Sovereign Verification:  FAILED");
+      expect(res.output).not.toContain("SOVEREIGN_VERIFIED_SUCCESS");
+    });
+
+    it("10.9 EmeraldCli benchmark run rejects invalid condition with exit code 1", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--condition", "INVALID_CONDITION"]);
+      expect(res.exitCode).toBe(1);
+      expect(res.output).toContain("Error: Invalid condition 'INVALID_CONDITION'");
+      expect(res.output).toContain("Supported conditions: CONTROL_A_MODEL_ONLY");
+    });
+
+    it("10.10 EmeraldCli benchmark run rejects unsupported adapter with exit code 1", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--adapter", "openai"]);
+      expect(res.exitCode).toBe(1);
+      expect(res.output).toContain("Error: Unsupported adapter 'openai'");
+      expect(res.output).toContain("Supported adapters: 'ollama', 'offline', 'human-reference'");
+    });
+
+    it("10.11 EmeraldCli benchmark run validates missing or empty option values", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+
+      const res1 = await cli.run(["benchmark", "run", "swe-easy-001", "--model"]);
+      expect(res1.exitCode).toBe(1);
+      expect(res1.output).toContain("Error: Missing required value for option '--model'");
+
+      const res2 = await cli.run(["benchmark", "run", "swe-easy-001", "--model="]);
+      expect(res2.exitCode).toBe(1);
+      expect(res2.output).toContain("Error: Missing required value for option '--model'");
+
+      const res3 = await cli.run(["benchmark", "run", "swe-easy-001", "--adapter"]);
+      expect(res3.exitCode).toBe(1);
+      expect(res3.output).toContain("Error: Missing required value for option '--adapter'");
+
+      const res4 = await cli.run(["benchmark", "run", "swe-easy-001", "--endpoint", "--offline"]);
+      expect(res4.exitCode).toBe(1);
+      expect(res4.output).toContain("Error: Missing required value for option '--endpoint'");
+
+      const res5 = await cli.run(["benchmark", "run", "swe-easy-001", "--temp-dir"]);
+      expect(res5.exitCode).toBe(1);
+      expect(res5.output).toContain("Error: Missing required value for option '--temp-dir'");
+
+      const res6 = await cli.run(["benchmark", "run", "swe-easy-001", "--condition"]);
+      expect(res6.exitCode).toBe(1);
+      expect(res6.output).toContain("Error: Missing required value for option '--condition'");
+    });
+
+    it("10.12 EmeraldCli benchmark run rejects conflict between --offline and non-human-reference condition", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--offline", "--condition", "CONTROL_B_GOVERNED_RUNTIME"]);
+      expect(res.exitCode).toBe(1);
+      expect(res.output).toContain("Error: Conflict: '--offline' mode cannot be combined with condition 'CONTROL_B_GOVERNED_RUNTIME'");
+    });
+
+    it("10.13 EmeraldCli benchmark run rejects conflict between --adapter ollama and --offline / CONTROL_C", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+
+      const res1 = await cli.run(["benchmark", "run", "swe-easy-001", "--adapter", "ollama", "--offline"]);
+      expect(res1.exitCode).toBe(1);
+      expect(res1.output).toContain("Error: Conflict: Adapter 'ollama' cannot be combined with '--offline' mode");
+
+      const res2 = await cli.run(["benchmark", "run", "swe-easy-001", "--adapter", "ollama", "--condition", "CONTROL_C_HUMAN_REFERENCE"]);
+      expect(res2.exitCode).toBe(1);
+      expect(res2.output).toContain("Error: Conflict: Adapter 'ollama' cannot be used with condition 'CONTROL_C_HUMAN_REFERENCE'");
+    });
+
+    it("10.14 EmeraldCli benchmark run reports missing model when Ollama does not have model installed", async () => {
+      const cli = new EmeraldCli({ workspaceRoot: tempDir });
+      const res = await cli.run(["benchmark", "run", "swe-easy-001", "--model", "nonexistent-model-xyz-12345"]);
+      expect(res.exitCode).toBe(1);
+      expect(res.output).toContain("Error: Model 'nonexistent-model-xyz-12345' is not installed in local Ollama library");
+      expect(res.output).toContain("ollama pull nonexistent-model-xyz-12345");
     });
   });
 });

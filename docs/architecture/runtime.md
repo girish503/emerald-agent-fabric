@@ -1616,3 +1616,52 @@ The SWE evaluation suite (`src/application/evaluation/swe-eval-tasks.ts`) define
   - `createPhase9ExperimentPlan()`: Statically resolves the canonical 60-trial experimental matrix without invoking models.
   - `executeLiveSweExperiment()`: Dispatches the full 60-trial live experiment (Tasks J–O × 2 conditions × 5 trials).
   - Binds immutable `FROZEN_RULE_BASED_REFLEX_CONFIG_HASH` with zero heuristics or threshold changes.
+
+---
+
+## 38. Governed Clean-Room Replay & Evidence Bundle Provenance (Phase 33)
+
+### 38.1 Scope & Guarantees
+Phase 33 introduces the capability to export a completed or failed mission into an immutable `EvidenceBundle` and verify it using an offline `EvidenceReplayVerifier`.
+- **Integrity**: Proves the bundle has not been mutated since export via `bundleId` and `provenanceRoot`.
+- **Validity**: Proves the historical sequence of state transitions, contract bindings, checkpoints, monotonic attempts, authority leases, and fourfold completion meet Emerald's deterministic invariants.
+- **Negative Boundary**: Replay explicitly does NOT claim physical execution truth for external side effects outside the recorded evidence.
+
+### 38.2 Offline Replay Verifier Requirements
+- **Zero I/O**: Verifier executes purely in memory without database, network, filesystem, or Docker access.
+- **Deterministic Derivation**: Derives fourfold completion (`taskSatisfied`, `verificationPassed`, `policySatisfied`, `evidenceComplete`) and terminal state (`COMPLETED` vs `FAILED`) independently of producer-provided flags.
+- **Tamper Detection**: Formally verifies 19 distinct tamper scenarios, including single-field mutations, sequence gaps, forged previous hashes, attempt numbering skips, and authority divergence.
+
+---
+
+## 39. Cross-Host Untrusted Evidence Ingestion & Archival Integrity Boundary (Phase 34)
+
+### 39.1 Ingestion Gateway Pipeline
+The `EvidenceIngestionGateway` serves as the untrusted ingestion boundary for receiving evidence bundles exported across hosts:
+1. **Size Gating**: Rejects payloads exceeding 10 MB prior to parsing (`BUNDLE_TOO_LARGE`).
+2. **Schema Validation**: Validates JSON syntax and strict structural schema conformance (`INVALID_JSON`, `UNSUPPORTED_SCHEMA`).
+3. **Security Policy Check**: Recursively scans payload for unredacted credentials (`SECURITY_POLICY_FAILURE`).
+4. **Bundle Identity Check**: Recomputes SHA-256 digest of canonical bundle content and validates against declared `bundleId` (`INVALID_BUNDLE_ID`).
+5. **Provenance Root Check**: Recomputes subsystem provenance root and validates against declared `provenanceRoot` (`INVALID_PROVENANCE_ROOT`).
+6. **Replay Verification**: Invokes offline `EvidenceReplayVerifier.verify(bundle)` without network or database access (`REPLAY_VERIFICATION_FAILURE`).
+7. **Archive Collision Check**: Checks archive for existing records. If identical bytes exist, returns `DUPLICATE`. If different bytes exist under same `bundleId`, quarantines with `IDENTITY_CONFLICT`.
+8. **Archival Commitment**: Writes verified bundle to `archive/accepted/<bundleId>.json` and returns `ACCEPTED`.
+
+### 39.2 Independence Guarantees
+- The receiving verifier requires zero direct connectivity to the producing host.
+- The producing host SQLite database, workspace directory, Docker daemon, and Ollama server may be terminated or deleted with zero impact on ingestion or re-verification.
+
+---
+
+## 40. Asymmetric Evidence Signing & Public-Key Authority Ingestion (Phase 35)
+
+### 40.1 Signing Workflow
+At mission completion, the producer runtime computes the final `bundleId` and `provenanceRoot`, constructs the `signingPayload`, signs it using its local Ed25519 private key via `EvidenceSigner.sign`, and attaches the resulting `EvidenceSignature` object. The bundle identity and provenance root remain invariant before and after signing.
+
+### 40.2 Authority Verification Boundary
+At the ingestion boundary, the `EvidenceIngestionGateway` evaluates the signature against a local `TrustedKeyring`:
+- **Trusted Keys**: Bundles signed by registered, active keys verify cryptographically and proceed to replay verification.
+- **Unknown Keys**: Unrecognized `keyId` values fail closed with `UNKNOWN_SIGNING_KEY`.
+- **Revoked Keys**: Keys marked `REVOKED` fail closed with `REVOKED_SIGNING_KEY` for new submissions.
+- **Dual Verification Requirement**: A valid Ed25519 signature never overrides replay verification failure. Both signature and deterministic replay must pass for acceptance.
+- **Legacy Compatibility**: Unsigned bundles can be accepted under explicit `allowUnsignedLegacy` policy, reporting authority as `NOT_ESTABLISHED`.

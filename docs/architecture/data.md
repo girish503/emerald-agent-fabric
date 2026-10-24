@@ -137,3 +137,73 @@ Every record and event in the system is correlated across five canonical identif
 3. `worker_id`: Executing process/host identity.
 4. `lease_id`: Time-bounded exclusive fencing token.
 5. `event_id`: Specific immutable audit event in the lifecycle stream.
+
+---
+
+## 5. Evidence Bundle & Cryptographic Provenance Architecture (Phase 33)
+
+### 5.1 Evidence Bundle Structure
+An `EvidenceBundle` (`emerald-evidence-bundle-v1`) is an immutable, content-hashed artifact representing the complete execution history of a mission:
+- `bundleId`: SHA-256 digest of canonical bundle content (excluding `bundleId`).
+- `provenanceRoot`: SHA-256 digest of subsystem roots (`attemptRoot`, `checkpointRoot`, `contractHash`, `eventRoot`, `verificationRoot`).
+- `run`: Run snapshot and operational metadata.
+- `contract`: Complete `MissionContract` specification, lifecycle, and content hash.
+- `checkpoints`: Monotonically ordered `MissionCheckpoint` records.
+- `events`: Contiguous, gapless event stream ($1..M$) augmented with cryptographic hash chain pointers (`previousEventHash`, `eventHash`).
+- `actions`: Complete `ActionSnapshot` collection.
+- `attempts`: Monotonically numbered `AttemptSnapshot` collection preserving historical immutability.
+- `supervisorEvidence`: `SupervisorLease` records proving recovery and supervision authority.
+- `verificationEvidence`: Content-hashed `Evidence` records.
+- `verificationResults`: Independent verification evaluations.
+- `terminalState`: Derived or recorded terminal status and outputs.
+- `provenance`: Export timestamp, exporter version, and provenance metadata.
+
+### 5.2 Cryptographic Event Hash Chaining
+Every event $i \in \{1 \dots M\}$ binds its predecessor:
+- $e_1.\text{previousEventHash} = \text{SHA256}(\text{"genesis:"} + \text{runId})$
+- $e_i.\text{previousEventHash} = e_{i-1}.\text{eventHash}$ for $i > 1$
+- $e_i.\text{eventHash} = \text{SHA256}(\text{canonicalJsonStringify}(\{ \text{sequence}, \text{eventId}, \text{eventType}, \text{timestamp}, \text{producer}, \text{payload}, \text{previousEventHash} \}))$
+
+### 5.3 Deterministic Canonicalization
+All hashed data structures utilize `canonicalJsonStringify` (RFC-8785 conforming recursive key sorting, array stability, and explicit null preservation) to guarantee byte-for-byte serialization determinism across diverse runtimes.
+
+---
+
+## 6. Content-Addressed Immutable Evidence Archive & Ingestion Schemas (Phase 34)
+
+### 6.1 Content-Addressed Archival Layout
+Accepted evidence bundles are archived in a deterministic, content-addressed directory structure:
+- `archive/accepted/<bundleId>.json`: Formatted as canonical JSON where `<bundleId>` is the strict 64-character lowercase hex SHA-256 digest of the bundle content (`^[0-9a-f]{64}$`).
+- Once written, files in `archive/accepted/` are immutable and read-only. Ingestion never overwrites an existing accepted file.
+
+### 6.2 Isolated Quarantine Hierarchy
+Unverified, malformed, or tampered bundles are stored in an isolated quarantine hierarchy:
+- `archive/quarantine/<reasonCode>/<quarantineId>.json`: Grouped by failure reason code (`BUNDLE_TOO_LARGE`, `INVALID_JSON`, `UNSUPPORTED_SCHEMA`, `INVALID_BUNDLE_ID`, `INVALID_PROVENANCE_ROOT`, `CONTRACT_INTEGRITY_FAILURE`, `EVENT_INTEGRITY_FAILURE`, `CHECKPOINT_INTEGRITY_FAILURE`, `ATTEMPT_INTEGRITY_FAILURE`, `AUTHORITY_INTEGRITY_FAILURE`, `VERIFICATION_INTEGRITY_FAILURE`, `REPLAY_VERIFICATION_FAILURE`, `IDENTITY_CONFLICT`, `SECURITY_POLICY_FAILURE`).
+- Quarantined bundles are strictly segregated from accepted bundles and never treated as verified evidence.
+
+### 6.3 Ingestion Domain Types
+- `IngestionStatus`: `'ACCEPTED' | 'DUPLICATE' | 'QUARANTINED'`
+- `IngestionReasonCode`: Deterministic failure taxonomy codes.
+- `IngestionResult`: Complete receipt containing `status`, `bundleId`, `reasonCodes`, `ingestedAt`, `sizeBytes`, `replayValid`, and optional `archivePath` or `quarantinePath`.
+
+---
+
+## 7. Asymmetric Evidence Signing & Cryptographic Authority Schema (Phase 35)
+
+### 7.1 Evidence Signature Structure
+An `EvidenceBundle` may carry an optional Ed25519 signature object:
+- `algorithm`: Strictly `"Ed25519"`.
+- `keyId`: Non-empty producer key identifier resolved against local authority.
+- `publicKeyFingerprint`: Deterministic 64-character lowercase hex SHA-256 digest of the public key's SPKI DER representation (`^[0-9a-f]{64}$`).
+- `signature`: 128-character lowercase hex representation of the 64-byte Ed25519 signature (`^[0-9a-f]{128}$`).
+- `signedContentDigest`: 64-character lowercase hex SHA-256 digest of the canonical JSON string of the signing payload.
+
+### 7.2 Deterministic Signing Payload
+The signature is computed strictly over the canonical serialization of the identity tuple:
+$$\text{signingPayload} = \{ \text{bundleId}, \text{formatVersion}, \text{provenanceRoot}, \text{schemaVersion} \}$$
+Because `bundleId` is a SHA-256 commitment over the entire canonical bundle content and `provenanceRoot` commits to all subsystem Merkle roots, this tuple transitively protects the entire accepted evidence bundle without circular hash dependencies.
+
+### 7.3 Authority & Signature Ingestion Domain Types
+- `KeyAuthorityStatus`: `'TRUSTED' | 'REVOKED'`
+- `SignatureStatus`: `'VALID' | 'INVALID' | 'UNSIGNED_LEGACY'`
+- `AuthorityStatus`: `'TRUSTED' | 'REVOKED' | 'UNKNOWN' | 'NOT_ESTABLISHED'`

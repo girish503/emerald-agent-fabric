@@ -208,4 +208,45 @@ Durable Event Persistence (evidence.recorded)
   ```
 - **Deterministic Terminal Failure**: Verification failure on deterministic operations represents a semantic violation. It transitions immediately to terminal `FAILED` without retrying.
 
+---
 
+## 7. Evidence Bundle Provenance & Secret Redaction (Phase 33)
+
+### 7.1 Deterministic Redaction Policy
+Before an `EvidenceBundle` is serialized or hashed:
+- All payloads are traversed recursively via `redactSensitiveData`.
+- Keys matching sensitive patterns (`token`, `secret`, `password`, `credential`, `authorization`, `api_key`, `access_key`, `private_key`) have their primitive values replaced with `"[REDACTED]"`.
+- Non-secret coordination coordinates (`credentialScopes`, `idempotencyToken`, LLM token counts) are explicitly preserved.
+- **Integrity Rule**: Cryptographic hashes are computed strictly over the *redacted canonical representation*. The bundle never claims unredacted authenticity for scrubbed credentials.
+
+### 7.2 Passive Offline Verification Boundary
+- `EvidenceReplayVerifier` treats bundles as untrusted input.
+- Zero network I/O, zero SQLite access, zero dynamic evaluation (`eval`), and zero filesystem writes occur during replay.
+- Protects evaluating environments from remote code execution or sandbox escapes when inspecting bundles produced by untrusted or compromised agents.
+
+---
+
+## 8. Untrusted Evidence Ingestion Boundary Security & Anti-Poisoning (Phase 34)
+
+### 8.1 Threat Model for Remote Evidence
+Cross-host evidence ingestion treats all incoming bundles as untrusted adversary-controlled input:
+1. **Parser Exploits & DoS**: Attackers may submit multi-gigabyte files or JSON bombs. Defense: Immediate pre-parse payload gating at 10 MB (`BUNDLE_TOO_LARGE`).
+2. **Path Traversal & Filename Injection**: Attackers may submit malicious `bundleId` strings (e.g. `../../etc/passwd` or `..\..\Windows`). Defense: Strict regex enforcement (`^[0-9a-f]{64}$`) on all archive filenames.
+3. **Secret Exfiltration & Ingestion Poisoning**: Bundles containing leaked raw credentials must not be stored in archives. Defense: `containsUnredactedSecrets` scans recursive bundle payloads and quarantines violations with `SECURITY_POLICY_FAILURE`.
+4. **Archive Poisoning / Identity Collisions**: Attackers may attempt to overwrite legitimate evidence using duplicate IDs. Defense: Strict content-addressed immutability. If bytes differ, `IDENTITY_CONFLICT` is returned, and existing files are protected from mutation.
+5. **Remote Code Execution**: Verification must never evaluate code snippets, run terminal commands, or invoke models. Defense: Complete passive structural and cryptographic analysis.
+
+---
+
+## 9. Asymmetric Cryptographic Signing (Ed25519) & Key Authority Boundary (Phase 35)
+
+### 9.1 Cryptographic Identity vs Content Integrity
+Phase 35 separates content integrity from producer authenticity:
+- **Content Integrity (SHA-256)**: Proves the bundle content has not suffered bit-rot or mutation.
+- **Authenticity (Ed25519)**: Proves possession of the private key corresponding to the public key registered in the local authority.
+- **Authority (Local Trusted Keyring)**: Evaluates whether the identified key is authorized (`TRUSTED`) or revoked (`REVOKED`).
+
+### 9.2 Key Confidentiality & Anti-Leakage
+- Private signing keys must never be serialized into `EvidenceBundle` JSON documents, written to the filesystem archive, committed to version control, or written to logs.
+- Key fingerprints are computed as the SHA-256 digest of standard SPKI DER bytes, preventing key label spoofing.
+- Verification occurs completely offline in memory with zero external network access, preventing key exfiltration or timing oracle attacks.

@@ -20,6 +20,7 @@
  */
 
 import * as fs from "node:fs";
+import * as os from "node:os";
 import { createProductionConfig, ProductionConfig } from "../config/production-config.js";
 import { MissionControl } from "../control-plane/mission-control.js";
 import { RunControl } from "../control-plane/run-control.js";
@@ -27,10 +28,30 @@ import { EvidenceControl } from "../control-plane/evidence-control.js";
 import { ApprovalControl } from "../control-plane/approval-control.js";
 import { CapabilityFenceEnforcer } from "../application/capability-fence-enforcer.js";
 import { CrossHarnessGateway } from "../application/cross-harness-gateway.js";
-import { ProductionRuntimeEngine, ModelAdapter } from "../runtime/production-runtime-engine.js";
+import { ProductionRuntimeEngine, ModelAdapter, AgentProposal } from "../runtime/production-runtime-engine.js";
 import { ProductionReplayEngine } from "../evidence/production-replay-engine.js";
 import { ProductionDoctor } from "./doctor.js";
-import { BenchmarkDoctor, BenchmarkManifestLoader } from "../production/benchmark/index.js";
+import {
+  BenchmarkDoctor,
+  BenchmarkManifestLoader,
+  BenchmarkRunner,
+  OllamaModelAdapter,
+  BenchmarkCondition,
+} from "../production/benchmark/index.js";
+
+export const SUPPORTED_BENCHMARK_CONDITIONS: readonly BenchmarkCondition[] = [
+  "CONTROL_A_MODEL_ONLY",
+  "CONTROL_B_GOVERNED_RUNTIME",
+  "CONTROL_B0_BASELINE",
+  "CONTROL_B1_DIAGNOSTIC",
+  "CONTROL_B2_REPAIR_ORCHESTRATION",
+  "CONTROL_B3_MINIMAL_EVIDENCE",
+  "CONTROL_B4_ANCHORED_EDITING",
+  "CONTROL_B5_ANCHORED_DEMONSTRATION",
+  "CONTROL_C_HUMAN_REFERENCE",
+] as const;
+
+export const SUPPORTED_BENCHMARK_ADAPTERS = ["ollama", "offline", "human-reference"] as const;
 
 export class EmeraldCli {
   private readonly config: ProductionConfig;
@@ -44,7 +65,10 @@ export class EmeraldCli {
   private readonly replayEngine: ProductionReplayEngine;
   private readonly doctor: ProductionDoctor;
 
-  constructor(configOverrides?: Partial<ProductionConfig>) {
+  constructor(
+    configOverrides?: Partial<ProductionConfig>,
+    private readonly customModelAdapter?: ModelAdapter,
+  ) {
     this.config = createProductionConfig(configOverrides);
     this.missionControl = new MissionControl();
     this.runControl = new RunControl();
@@ -145,7 +169,7 @@ export class EmeraldCli {
           } else if (subCmd === "doctor") {
             return await this.handleBenchmarkDoctor();
           } else if (subCmd === "run") {
-            return await this.handleBenchmarkRun(args[2]);
+            return await this.handleBenchmarkRun(args.slice(2));
           } else if (subCmd === "status") {
             return this.handleBenchmarkStatus();
           } else if (subCmd === "report") {
@@ -382,21 +406,294 @@ export class EmeraldCli {
     return { exitCode: rep.overallStatus === "BLOCKED" ? 1 : 0, output: lines.join("\n") };
   }
 
-  private async handleBenchmarkRun(taskId?: string): Promise<{ exitCode: number; output: string }> {
+  private async handleBenchmarkRun(
+    rawArgs?: string | readonly string[],
+  ): Promise<{ exitCode: number; output: string }> {
+    const rawList = Array.isArray(rawArgs)
+      ? rawArgs
+      : typeof rawArgs === "string"
+        ? [rawArgs]
+        : [];
+
+    let taskId: string | undefined;
+    let modelName = "qwen2.5-coder:3b";
+    let isOffline = false;
+    let explicitAdapter: string | undefined;
+    let customTempDir: string | undefined;
+    let endpoint = "http://127.0.0.1:11434";
+    let conditionOverride: BenchmarkCondition | undefined;
+
+    for (let i = 0; i < rawList.length; i++) {
+      const arg = rawList[i]!;
+
+      if (arg === "--offline" || arg === "--control-c") {
+        isOffline = true;
+      } else if (arg === "--model" || arg.startsWith("--model=")) {
+        let val: string;
+        if (arg === "--model") {
+          const next = rawList[i + 1];
+          if (!next || next.startsWith("--") || next.trim() === "") {
+            return { exitCode: 1, output: "Error: Missing required value for option '--model'." };
+          }
+          val = rawList[++i]!;
+        } else {
+          val = arg.slice("--model=".length).trim();
+          if (!val) {
+            return { exitCode: 1, output: "Error: Missing required value for option '--model'." };
+          }
+        }
+        modelName = val;
+      } else if (arg === "--adapter" || arg.startsWith("--adapter=")) {
+        let val: string;
+        if (arg === "--adapter") {
+          const next = rawList[i + 1];
+          if (!next || next.startsWith("--") || next.trim() === "") {
+            return { exitCode: 1, output: "Error: Missing required value for option '--adapter'." };
+          }
+          val = rawList[++i]!;
+        } else {
+          val = arg.slice("--adapter=".length).trim();
+          if (!val) {
+            return { exitCode: 1, output: "Error: Missing required value for option '--adapter'." };
+          }
+        }
+        const normalized = val.toLowerCase();
+        if (!SUPPORTED_BENCHMARK_ADAPTERS.includes(normalized as any) && normalized !== "custom") {
+          return {
+            exitCode: 1,
+            output: `Error: Unsupported adapter '${val}'. Supported adapters: ${SUPPORTED_BENCHMARK_ADAPTERS.map((a) => `'${a}'`).join(", ")}.`,
+          };
+        }
+        explicitAdapter = normalized;
+        if (normalized === "offline" || normalized === "human-reference") {
+          isOffline = true;
+        }
+      } else if (arg === "--endpoint" || arg.startsWith("--endpoint=")) {
+        let val: string;
+        if (arg === "--endpoint") {
+          const next = rawList[i + 1];
+          if (!next || next.startsWith("--") || next.trim() === "") {
+            return { exitCode: 1, output: "Error: Missing required value for option '--endpoint'." };
+          }
+          val = rawList[++i]!;
+        } else {
+          val = arg.slice("--endpoint=".length).trim();
+          if (!val) {
+            return { exitCode: 1, output: "Error: Missing required value for option '--endpoint'." };
+          }
+        }
+        endpoint = val;
+      } else if (arg === "--temp-dir" || arg.startsWith("--temp-dir=")) {
+        let val: string;
+        if (arg === "--temp-dir") {
+          const next = rawList[i + 1];
+          if (!next || next.startsWith("--") || next.trim() === "") {
+            return { exitCode: 1, output: "Error: Missing required value for option '--temp-dir'." };
+          }
+          val = rawList[++i]!;
+        } else {
+          val = arg.slice("--temp-dir=".length).trim();
+          if (!val) {
+            return { exitCode: 1, output: "Error: Missing required value for option '--temp-dir'." };
+          }
+        }
+        customTempDir = val;
+      } else if (arg === "--condition" || arg.startsWith("--condition=")) {
+        let val: string;
+        if (arg === "--condition") {
+          const next = rawList[i + 1];
+          if (!next || next.startsWith("--") || next.trim() === "") {
+            return { exitCode: 1, output: "Error: Missing required value for option '--condition'." };
+          }
+          val = rawList[++i]!;
+        } else {
+          val = arg.slice("--condition=".length).trim();
+          if (!val) {
+            return { exitCode: 1, output: "Error: Missing required value for option '--condition'." };
+          }
+        }
+        if (!SUPPORTED_BENCHMARK_CONDITIONS.includes(val as BenchmarkCondition)) {
+          return {
+            exitCode: 1,
+            output: `Error: Invalid condition '${val}'. Supported conditions: ${SUPPORTED_BENCHMARK_CONDITIONS.join(", ")}.`,
+          };
+        }
+        conditionOverride = val as BenchmarkCondition;
+      } else if (!arg.startsWith("-") && !taskId) {
+        taskId = arg;
+      } else if (arg.startsWith("-")) {
+        return { exitCode: 1, output: `Error: Unknown option '${arg}'.` };
+      }
+    }
+
+    // Validate adapter and condition compatibility
+    if (isOffline && conditionOverride && conditionOverride !== "CONTROL_C_HUMAN_REFERENCE") {
+      return {
+        exitCode: 1,
+        output: `Error: Conflict: '--offline' mode cannot be combined with condition '${conditionOverride}'. Offline execution only supports 'CONTROL_C_HUMAN_REFERENCE'.`,
+      };
+    }
+
+    if (explicitAdapter === "ollama" && isOffline) {
+      return {
+        exitCode: 1,
+        output: `Error: Conflict: Adapter 'ollama' cannot be combined with '--offline' mode.`,
+      };
+    }
+
+    if (explicitAdapter === "ollama" && conditionOverride === "CONTROL_C_HUMAN_REFERENCE") {
+      return {
+        exitCode: 1,
+        output: `Error: Conflict: Adapter 'ollama' cannot be used with condition 'CONTROL_C_HUMAN_REFERENCE' (human reference baseline).`,
+      };
+    }
+
+    if (conditionOverride === "CONTROL_C_HUMAN_REFERENCE") {
+      isOffline = true;
+    }
+
     const loader = new BenchmarkManifestLoader();
     const manifest = loader.loadManifest();
-    const targetTasks = taskId
-      ? manifest.tasks.filter((t) => t.taskId === taskId)
-      : manifest.tasks.slice(0, 3); // Default to pilot subset when run from CLI
 
-    if (targetTasks.length === 0) {
+    if (!taskId) {
+      taskId = manifest.tasks[0]?.taskId ?? "swe-easy-001";
+    }
+
+    const task = manifest.tasks.find((t) => t.taskId === taskId);
+    if (!task) {
       return { exitCode: 1, output: `Task not found: ${taskId}` };
     }
 
-    return {
-      exitCode: 0,
-      output: `Scheduled benchmark run for ${targetTasks.length} task(s). Run 'scripts/run-production-benchmark.ts' for full matrix.`,
-    };
+    let condition: BenchmarkCondition;
+    let adapter: ModelAdapter;
+    let effectiveModelName: string;
+
+    if (this.customModelAdapter) {
+      condition = conditionOverride ?? (isOffline ? "CONTROL_C_HUMAN_REFERENCE" : "CONTROL_B_GOVERNED_RUNTIME");
+      adapter = this.customModelAdapter;
+      effectiveModelName = modelName !== "qwen2.5-coder:3b" ? modelName : "custom-test-adapter";
+    } else if (isOffline) {
+      condition = "CONTROL_C_HUMAN_REFERENCE";
+      effectiveModelName = "human-reference-expert";
+      adapter = {
+        async proposeAction(): Promise<AgentProposal> {
+          return {
+            thought: "Offline human reference baseline",
+            toolName: "read_file",
+            toolInput: { path: task.sourceFile },
+          };
+        },
+      };
+    } else {
+      // Local Ollama inference
+      const probe = await this.probeOllama(endpoint, modelName);
+      if (!probe.reachable) {
+        return {
+          exitCode: 1,
+          output: `Error: Local Ollama server is unreachable at ${endpoint}. Please start Ollama or run with '--offline' for offline reference mode.`,
+        };
+      }
+      if (!probe.modelAvailable) {
+        const installedList =
+          probe.installedModels && probe.installedModels.length > 0
+            ? probe.installedModels.join(", ")
+            : "none";
+        return {
+          exitCode: 1,
+          output: `Error: Model '${modelName}' is not installed in local Ollama library. Installed models: ${installedList}. Run 'ollama pull ${modelName}' to install it, or specify an installed model with '--model <name>'.`,
+        };
+      }
+      condition = conditionOverride ?? "CONTROL_B_GOVERNED_RUNTIME";
+      effectiveModelName = modelName;
+      adapter = new OllamaModelAdapter(modelName, endpoint, 60000, false);
+    }
+
+    const runner = new BenchmarkRunner(loader);
+    const tempBaseDir = customTempDir ?? os.tmpdir();
+
+    try {
+      const result = await runner.runTrial(
+        task,
+        condition,
+        adapter,
+        effectiveModelName,
+        tempBaseDir,
+      );
+
+      const lines = [
+        `Benchmark Trial Results:`,
+        `========================`,
+        `Task ID:                 ${result.taskId}`,
+        `Condition:               ${result.condition}`,
+        `Model / Adapter:         ${result.modelName}`,
+        `Classification:          ${result.classification}`,
+        `Sovereign Verification:  ${result.verified ? "PASSED" : "FAILED"}`,
+        `Verification Proof:      ${result.verificationProofHash ?? "None"}`,
+        `Evidence Bundle Digest:  ${result.evidenceBundleDigest ?? "None"}`,
+        `Deterministic Replay:    ${result.replayVerified ? "VERIFIED (3 sweeps)" : "FAILED"}`,
+        `Changed Files:           ${result.metrics.filesWritten} (${result.metrics.linesAdded} lines added, ${result.metrics.linesRemoved} lines removed)`,
+        `Total Latency:           ${result.metrics.runtimeMs}ms`,
+      ];
+
+      if (result.failureReason) {
+        lines.push(`Failure Reason:          ${result.failureReason}`);
+      }
+
+      lines.push(``, `Reviewable Git Diff:`, `--------------------`);
+      if (result.gitDiff && result.gitDiff.trim().length > 0) {
+        lines.push(result.gitDiff.trim());
+      } else {
+        lines.push(`(No files modified)`);
+      }
+
+      const isSuccess =
+        result.classification === "SOVEREIGN_VERIFIED_SUCCESS" && result.verified;
+      const exitCode = isSuccess ? 0 : 1;
+
+      return { exitCode, output: lines.join("\n") };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return { exitCode: 1, output: `Benchmark trial failed with error: ${msg}` };
+    }
+  }
+
+  private async probeOllama(
+    endpoint: string,
+    modelName: string,
+  ): Promise<{ reachable: boolean; modelAvailable: boolean; installedModels?: string[] }> {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch(`${endpoint.replace(/\/$/, "")}/api/tags`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      if (!res.ok) {
+        return { reachable: false, modelAvailable: false };
+      }
+      const data = (await res.json()) as { models?: Array<{ name: string }> };
+      const installed = (data.models || []).map((m) => m.name);
+
+      const targetPrefix = modelName.split(":")[0]?.toLowerCase() || "";
+      const isAvailable = installed.some((name) => {
+        const lower = name.toLowerCase();
+        const modelLower = modelName.toLowerCase();
+        return (
+          lower === modelLower ||
+          lower.startsWith(`${modelLower}:`) ||
+          lower === `${modelLower}:latest` ||
+          (targetPrefix.length > 0 && lower.split(":")[0] === targetPrefix)
+        );
+      });
+
+      return {
+        reachable: true,
+        modelAvailable: isAvailable,
+        installedModels: installed,
+      };
+    } catch {
+      return { reachable: false, modelAvailable: false };
+    }
   }
 
   private handleBenchmarkStatus(): { exitCode: number; output: string } {
