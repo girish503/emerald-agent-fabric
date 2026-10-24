@@ -375,6 +375,101 @@ describe("Emerald Production Build V1: Components", () => {
       expect(res.success).toBe(false);
       expect(res.error).toContain("traversal");
     });
+
+    it("6.4 search_code does not follow directory junctions escaping workspace and prevents external leakage", async () => {
+      const externalDir = fs.mkdtempSync(path.join(os.tmpdir(), "emerald-search-ext-"));
+      try {
+        fs.writeFileSync(path.join(externalDir, "secret.ts"), "const LEAKED_PASSWORD = 'TOP_SECRET_SEARCH_DATA';", "utf8");
+
+        const junctionPath = path.join(tempDir, "ext_junction");
+        fs.symlinkSync(externalDir, junctionPath, "junction");
+
+        const searchRes = await tools.executeTool("search_code", { pattern: "TOP_SECRET_SEARCH_DATA" }, toolCtx);
+        expect(searchRes.success).toBe(true);
+        const results = searchRes.output as Array<{ file: string; text: string }>;
+        expect(results.length).toBe(0);
+      } finally {
+        try {
+          fs.rmSync(externalDir, { recursive: true, force: true });
+        } catch {
+          // Ignore cleanup error
+        }
+      }
+    });
+
+    it("6.5 search_code does not follow in-workspace directory junctions, preventing duplicate results and recursion loops", async () => {
+      await tools.executeTool("write_file", { path: "src/token.ts", content: "const UNIQUE_TOKEN = 'SEARCH_TOKEN_123';" }, toolCtx);
+
+      const srcDir = path.join(tempDir, "src");
+      const linkSubdir = path.join(tempDir, "link_src");
+      fs.symlinkSync(srcDir, linkSubdir, "junction");
+
+      const searchRes = await tools.executeTool("search_code", { pattern: "SEARCH_TOKEN_123" }, toolCtx);
+      expect(searchRes.success).toBe(true);
+      const results = searchRes.output as Array<{ file: string; text: string }>;
+      expect(results.length).toBe(1);
+      expect(results[0]?.file).toBe("src/token.ts");
+    });
+
+    it("6.6 search_code respects .git and node_modules exclusions", async () => {
+      const gitDir = path.join(tempDir, ".git");
+      fs.mkdirSync(gitDir, { recursive: true });
+      fs.writeFileSync(path.join(gitDir, "internal.ts"), "const GIT_INTERNAL = 'EXCLUDE_GIT_KEY';", "utf8");
+
+      const nodeModulesDir = path.join(tempDir, "node_modules", "package");
+      fs.mkdirSync(nodeModulesDir, { recursive: true });
+      fs.writeFileSync(path.join(nodeModulesDir, "dep.ts"), "const DEP_KEY = 'EXCLUDE_NODE_MODULES_KEY';", "utf8");
+
+      const gitSearch = await tools.executeTool("search_code", { pattern: "EXCLUDE_GIT_KEY" }, toolCtx);
+      expect(gitSearch.success).toBe(true);
+      expect((gitSearch.output as any[]).length).toBe(0);
+
+      const nmSearch = await tools.executeTool("search_code", { pattern: "EXCLUDE_NODE_MODULES_KEY" }, toolCtx);
+      expect(nmSearch.success).toBe(true);
+      expect((nmSearch.output as any[]).length).toBe(0);
+    });
+
+    it("6.7 search_code fails safely on broken junctions or inaccessible directories without crashing", async () => {
+      const brokenTarget = path.join(os.tmpdir(), "emerald-broken-" + Date.now());
+      const brokenLink = path.join(tempDir, "broken_junction");
+      fs.symlinkSync(brokenTarget, brokenLink, "junction");
+
+      await tools.executeTool("write_file", { path: "src/valid.ts", content: "const VALID = 'STILL_FOUND_KEY';" }, toolCtx);
+
+      const searchRes = await tools.executeTool("search_code", { pattern: "STILL_FOUND_KEY" }, toolCtx);
+      expect(searchRes.success).toBe(true);
+      const results = searchRes.output as Array<{ file: string; text: string }>;
+      expect(results.length).toBe(1);
+      expect(results[0]?.text).toContain("STILL_FOUND_KEY");
+    });
+
+    it("6.8 search_code path argument validates containment and rejects escaping paths fail-closed", async () => {
+      const externalDir = fs.mkdtempSync(path.join(os.tmpdir(), "emerald-search-ext2-"));
+      try {
+        const junctionPath = path.join(tempDir, "escaping_sub_junc");
+        fs.symlinkSync(externalDir, junctionPath, "junction");
+
+        const relRes = await tools.executeTool("search_code", { pattern: "test", path: "../../external" }, toolCtx);
+        expect(relRes.success).toBe(false);
+        expect(relRes.error).toContain("traversal");
+
+        const juncRes = await tools.executeTool("search_code", { pattern: "test", path: "escaping_sub_junc" }, toolCtx);
+        expect(juncRes.success).toBe(false);
+        expect(juncRes.error).toContain("traversal");
+
+        await tools.executeTool("write_file", { path: "src/module.ts", content: "const SUB_VAL = 'IN_SUBPATH';" }, toolCtx);
+        const subRes = await tools.executeTool("search_code", { pattern: "IN_SUBPATH", path: "src" }, toolCtx);
+        expect(subRes.success).toBe(true);
+        const results = subRes.output as Array<{ file: string; text: string }>;
+        expect(results.length).toBe(1);
+      } finally {
+        try {
+          fs.rmSync(externalDir, { recursive: true, force: true });
+        } catch {
+          // Ignore cleanup error
+        }
+      }
+    });
   });
 
   // ============================================================================

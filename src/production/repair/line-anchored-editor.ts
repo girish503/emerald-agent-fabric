@@ -44,7 +44,8 @@ export interface LineAnchoredEditResult {
 export class LineAnchoredEditor {
   /**
    * Resolves and verifies that a relative path stays within the workspace boundary.
-   * Throws on directory traversal or outside absolute paths.
+   * Enforces both lexical containment and canonical filesystem (realpath) containment.
+   * Throws on directory traversal, outside absolute paths, or symlink/junction escapes.
    */
   public resolveSafePath(filePath: string, workspacePath: string): string {
     if (!filePath || typeof filePath !== "string") {
@@ -56,15 +57,93 @@ export class LineAnchoredEditor {
       throw new Error(`Path traversal denied outside workspace: ${filePath}`);
     }
 
+    // 1. Lexical root-or-descendant boundary check
     const normalized = path.normalize(filePath);
     const resolved = path.resolve(workspacePath, normalized);
-    const normResolved = resolved.replace(/\\/g, "/").toLowerCase();
-    const normBase = path.resolve(workspacePath).replace(/\\/g, "/").toLowerCase();
+    const normResolved = resolved.split("\\").join("/").toLowerCase();
+    const normBase = path.resolve(workspacePath).split("\\").join("/").toLowerCase();
     const normBaseWithSlash = normBase.endsWith("/") ? normBase : normBase + "/";
 
     // Security: ensure target is either the workspace root itself or a descendant separated by delimiter
     if (normResolved !== normBase && !normResolved.startsWith(normBaseWithSlash)) {
       throw new Error(`Path traversal denied outside workspace: ${filePath}`);
+    }
+
+    // 2. Canonical filesystem (realpath) containment check
+    const canonicalRealpath = (p: string): string => {
+      if (typeof fs.realpathSync.native === "function") {
+        return fs.realpathSync.native(p);
+      }
+      return fs.realpathSync(p);
+    };
+
+    const normalizeCanonical = (p: string): string => {
+      let s = p.split("\\").join("/");
+      if (s.startsWith("//?/")) {
+        s = s.slice(4);
+      }
+      return s.toLowerCase();
+    };
+
+    let canonicalWorkspace: string;
+    try {
+      canonicalWorkspace = canonicalRealpath(path.resolve(workspacePath));
+    } catch {
+      canonicalWorkspace = path.resolve(workspacePath);
+    }
+    const normCanonicalBase = normalizeCanonical(canonicalWorkspace);
+    const normCanonicalBaseWithSlash = normCanonicalBase.endsWith("/") ? normCanonicalBase : normCanonicalBase + "/";
+
+    // 3. For existing targets, validate canonical target
+    if (fs.existsSync(resolved)) {
+      let canonicalTarget: string;
+      try {
+        canonicalTarget = canonicalRealpath(resolved);
+      } catch (err: any) {
+        throw new Error(`Path traversal denied outside workspace (failed to canonicalize): ${filePath}`);
+      }
+      const normCanonicalTarget = normalizeCanonical(canonicalTarget);
+      if (normCanonicalTarget !== normCanonicalBase && !normCanonicalTarget.startsWith(normCanonicalBaseWithSlash)) {
+        throw new Error(`Path traversal denied outside workspace (canonical symlink escape): ${filePath}`);
+      }
+    } else {
+      // 4. For non-existent targets, locate nearest existing ancestor and validate canonical path
+      let curr = path.dirname(resolved);
+      let existingAncestor: string | null = null;
+      while (true) {
+        if (fs.existsSync(curr)) {
+          existingAncestor = curr;
+          break;
+        }
+        const parent = path.dirname(curr);
+        if (parent === curr) {
+          break;
+        }
+        curr = parent;
+      }
+
+      if (!existingAncestor) {
+        throw new Error(`Path traversal denied outside workspace (no valid existing ancestor): ${filePath}`);
+      }
+
+      let canonicalAncestor: string;
+      try {
+        canonicalAncestor = canonicalRealpath(existingAncestor);
+      } catch (err: any) {
+        throw new Error(`Path traversal denied outside workspace (failed to canonicalize ancestor): ${filePath}`);
+      }
+
+      const normCanonicalAncestor = normalizeCanonical(canonicalAncestor);
+      if (normCanonicalAncestor !== normCanonicalBase && !normCanonicalAncestor.startsWith(normCanonicalBaseWithSlash)) {
+        throw new Error(`Path traversal denied outside workspace (symlink ancestor escape): ${filePath}`);
+      }
+
+      const relFromAncestor = path.relative(existingAncestor, resolved);
+      const canonicalTarget = path.resolve(canonicalAncestor, relFromAncestor);
+      const normCanonicalTarget = normalizeCanonical(canonicalTarget);
+      if (normCanonicalTarget !== normCanonicalBase && !normCanonicalTarget.startsWith(normCanonicalBaseWithSlash)) {
+        throw new Error(`Path traversal denied outside workspace (canonical target escape): ${filePath}`);
+      }
     }
 
     return resolved;
