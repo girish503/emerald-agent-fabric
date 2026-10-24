@@ -5,6 +5,10 @@
  * model feasibility matrices, and trial outcome structures.
  */
 
+import { DetailedFailureAttribution } from "./failure-attribution.js";
+
+export * from "./failure-attribution.js";
+
 export type BenchmarkDifficulty = "EASY" | "MEDIUM" | "HARD";
 
 export interface BenchmarkTask {
@@ -20,6 +24,7 @@ export interface BenchmarkTask {
   readonly verificationCommand: { readonly cmd: string; readonly args: readonly string[] };
   readonly initialCode: string;
   readonly testCode: string;
+  readonly additionalFiles?: readonly { readonly path: string; readonly content: string }[];
 }
 
 export type BenchmarkCondition =
@@ -28,6 +33,9 @@ export type BenchmarkCondition =
   | "CONTROL_B0_BASELINE"
   | "CONTROL_B1_DIAGNOSTIC"
   | "CONTROL_B2_REPAIR_ORCHESTRATION"
+  | "CONTROL_B3_MINIMAL_EVIDENCE"
+  | "CONTROL_B4_ANCHORED_EDITING"
+  | "CONTROL_B5_ANCHORED_DEMONSTRATION"
   | "CONTROL_C_HUMAN_REFERENCE";
 
 export type BenchmarkFailureClass =
@@ -115,6 +123,16 @@ export interface BenchmarkTrialResult {
     readonly p95DiagnosticLatency: number;
     readonly diagnosticContextBytes: number;
   };
+  readonly evidenceSelectionMetrics?: {
+    readonly totalSelections: number;
+    readonly totalOriginalBytes: number;
+    readonly totalSelectedBytes: number;
+    readonly meanPayloadReductionPercent: number;
+    readonly totalOmittedRecords: number;
+    readonly totalDeduplicatedRecords: number;
+    readonly truncationCount: number;
+  };
+  readonly attribution?: DetailedFailureAttribution;
 }
 
 export interface BenchmarkManifest {

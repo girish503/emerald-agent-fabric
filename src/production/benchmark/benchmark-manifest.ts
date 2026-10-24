@@ -63,7 +63,49 @@ export class BenchmarkManifestLoader {
   /**
    * Constructs an untrusted prompt for the model without leaking gold patch or tests.
    */
-  public buildUntrustedPromptForModel(task: BenchmarkTask): string {
+  public buildUntrustedPromptForModel(
+    task: BenchmarkTask,
+    options?: { lineAnchoredEditingEnabled?: boolean },
+  ): string {
+    if (options?.lineAnchoredEditingEnabled) {
+      return `You are operating as an autonomous software-engineering agent within the Emerald Agent Fabric.
+
+MISSION OBJECTIVE:
+Task ID: ${task.taskId}
+Title: ${task.title}
+Difficulty: ${task.difficulty}
+
+PROBLEM STATEMENT:
+${task.issue}
+
+PRIMARY SOURCE FILE:
+${task.sourceFile}
+
+AVAILABLE TOOLS:
+- read_file: inspect file contents ({"path": string})
+- edit_file_anchor: precisely replace a unique text snippet without rewriting whole file ({"path": string, "searchAnchor": string, "replacementText": string})
+- write_file: write complete file ({"path": string, "content": string})
+- search_code: search code patterns in workspace ({"pattern": string})
+- git_status: check working tree modifications ({})
+- git_diff: review working tree patch ({})
+
+INSTRUCTIONS:
+1. First inspect ${task.sourceFile} using read_file.
+2. For bug fixes, PREFER edit_file_anchor to replace ONLY the exact buggy code lines without modifying or deleting the rest of the file. Use write_file only if completely replacing the whole file.
+3. Review git_status and git_diff to ensure no unintended modifications.
+4. Signal goal completion by setting isGoalReached: true.
+
+OUTPUT FORMAT:
+Respond ONLY with a single valid JSON object:
+{
+  "thought": "<concise explanation of your reasoning>",
+  "toolName": "<read_file | edit_file_anchor | write_file | search_code | git_status | git_diff>",
+  "toolInput": { <tool arguments> },
+  "isGoalReached": <optional boolean, set to true when repair is complete>
+}
+`;
+    }
+
     return `You are operating as an autonomous software-engineering agent within the Emerald Agent Fabric.
 
 MISSION OBJECTIVE:
@@ -78,7 +120,7 @@ PRIMARY SOURCE FILE:
 ${task.sourceFile}
 
 AVAILABLE TOOLS:
-- read_file: inspect file contents ({"path": string, "offsetLine"?: number, "limitLines"?: number})
+- read_file: inspect file contents ({"path": string})
 - write_file: write repaired code ({"path": string, "content": string})
 - search_code: search code patterns in workspace ({"pattern": string})
 - git_status: check working tree modifications ({})

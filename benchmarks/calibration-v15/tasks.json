@@ -1,0 +1,78 @@
+[
+  {
+    "taskId": "calib-001",
+    "title": "Fix payment authorization boolean flag",
+    "difficulty": "EASY",
+    "language": "javascript",
+    "issue": "The authorizeTransaction function erroneously hardcodes approved: false even when validation succeeds.",
+    "expectedBehavior": "Set approved: true when validation passes.",
+    "sourceFile": "auth.js",
+    "testFile": "test-auth.js",
+    "testCommand": { "cmd": "node", "args": ["test-auth.js"] },
+    "verificationCommand": { "cmd": "node", "args": ["test-auth.js"] },
+    "initialCode": "function authorizeTransaction(user, amount) {\n  if (!user || typeof amount !== 'number' || amount <= 0) {\n    return { approved: false, code: 'INVALID_INPUT' };\n  }\n  // BUG: Hardcoded false instead of true\n  return { approved: false, code: 'AUTH_OK' };\n}\nmodule.exports = { authorizeTransaction };\n",
+    "testCode": "const { authorizeTransaction } = require('./auth.js');\nconst assert = require('assert');\n\nconst resValid = authorizeTransaction({ id: 'u1' }, 100);\nassert.strictEqual(resValid.approved, true, 'Valid transaction should be approved');\nassert.strictEqual(resValid.code, 'AUTH_OK', 'Valid transaction code must be AUTH_OK');\n\nconst resInvalid = authorizeTransaction(null, 50);\nassert.strictEqual(resInvalid.approved, false, 'Invalid user must be rejected');\n\nconsole.log('PASS');\n"
+  },
+  {
+    "taskId": "calib-002",
+    "title": "Implement numeric clamp within upper and lower bounds",
+    "difficulty": "EASY",
+    "language": "javascript",
+    "issue": "clampNumber currently returns the input value unmodified, ignoring the min and max boundary parameters.",
+    "expectedBehavior": "Return min if value is less than min, max if value is greater than max, and value otherwise.",
+    "sourceFile": "clamp.js",
+    "testFile": "test-clamp.js",
+    "testCommand": { "cmd": "node", "args": ["test-clamp.js"] },
+    "verificationCommand": { "cmd": "node", "args": ["test-clamp.js"] },
+    "initialCode": "function clampNumber(val, min, max) {\n  // BUG: Returns value directly without applying clamp bounds\n  return val;\n}\nmodule.exports = { clampNumber };\n",
+    "testCode": "const { clampNumber } = require('./clamp.js');\nconst assert = require('assert');\n\nassert.strictEqual(clampNumber(5, 0, 10), 5, 'Inside bounds should return value');\nassert.strictEqual(clampNumber(-5, 0, 10), 0, 'Below min should return min');\nassert.strictEqual(clampNumber(15, 0, 10), 10, 'Above max should return max');\nassert.strictEqual(clampNumber(0, 0, 10), 0, 'Exact min boundary check');\nassert.strictEqual(clampNumber(10, 0, 10), 10, 'Exact max boundary check');\n\nconsole.log('PASS');\n"
+  },
+  {
+    "taskId": "calib-003",
+    "title": "Fix off-by-one and empty array handling in averageScore",
+    "difficulty": "MEDIUM",
+    "language": "javascript",
+    "issue": "averageScore divides the sum by (scores.length - 1) which causes division by zero on 1-element arrays and NaN/Infinity on empty arrays.",
+    "expectedBehavior": "Return 0 when scores is null or empty, and return sum / scores.length otherwise.",
+    "sourceFile": "average.js",
+    "testFile": "test-average.js",
+    "testCommand": { "cmd": "node", "args": ["test-average.js"] },
+    "verificationCommand": { "cmd": "node", "args": ["test-average.js"] },
+    "initialCode": "function averageScore(scores) {\n  if (!scores) return 0;\n  let sum = 0;\n  for (let i = 0; i < scores.length; i++) {\n    sum += scores[i];\n  }\n  // BUG: Divides by length - 1 causing off-by-one and division by zero\n  return sum / (scores.length - 1);\n}\nmodule.exports = { averageScore };\n",
+    "testCode": "const { averageScore } = require('./average.js');\nconst assert = require('assert');\n\nassert.strictEqual(averageScore([]), 0, 'Empty array must return 0');\nassert.strictEqual(averageScore([10]), 10, 'Single element array must return that value');\nassert.strictEqual(averageScore([10, 20, 30]), 20, 'Array [10, 20, 30] mean must be 20');\nassert.strictEqual(averageScore(null), 0, 'Null input must return 0');\n\nconsole.log('PASS');\n"
+  },
+  {
+    "taskId": "calib-004",
+    "title": "Implement run-length string encoding",
+    "difficulty": "MEDIUM",
+    "language": "javascript",
+    "issue": "compressString returns the input string without performing run-length encoding on consecutive repeating characters.",
+    "expectedBehavior": "Encode consecutive identical characters as count followed by the character (e.g. 'AABBBCCCC' -> '2A3B4C'). Return empty string for empty input.",
+    "sourceFile": "compress.js",
+    "testFile": "test-compress.js",
+    "testCommand": { "cmd": "node", "args": ["test-compress.js"] },
+    "verificationCommand": { "cmd": "node", "args": ["test-compress.js"] },
+    "initialCode": "function compressString(str) {\n  // BUG: Does not perform run-length encoding\n  if (!str) return \"\";\n  return str;\n}\nmodule.exports = { compressString };\n",
+    "testCode": "const { compressString } = require('./compress.js');\nconst assert = require('assert');\n\nassert.strictEqual(compressString(\"\"), \"\", 'Empty string must return empty string');\nassert.strictEqual(compressString(\"A\"), \"1A\", 'Single char should be 1A');\nassert.strictEqual(compressString(\"AABBBCCCC\"), \"2A3B4C\", 'Repeated characters must be compressed');\nassert.strictEqual(compressString(\"ABBA\"), \"1A2B1A\", 'Non-adjacent repeats must be preserved separately');\n\nconsole.log('PASS');\n"
+  },
+  {
+    "taskId": "calib-005",
+    "title": "Coordinated API version update across configuration and header formatting",
+    "difficulty": "HARD",
+    "language": "javascript",
+    "issue": "API_VERSION in version.js is outdated ('v1'), and generateHeader in header.js fails to reflect the updated v2 API specification.",
+    "expectedBehavior": "Export API_VERSION = 'v2' in version.js and ensure generateHeader(endpoint) outputs 'Endpoint: <endpoint> | Version: v2'.",
+    "sourceFile": "version.js",
+    "testFile": "test-header.js",
+    "testCommand": { "cmd": "node", "args": ["test-header.js"] },
+    "verificationCommand": { "cmd": "node", "args": ["test-header.js"] },
+    "initialCode": "const API_VERSION = \"v1\";\nmodule.exports = { API_VERSION };\n",
+    "additionalFiles": [
+      {
+        "path": "header.js",
+        "content": "const { API_VERSION } = require('./version.js');\nfunction generateHeader(endpoint) {\n  return `Endpoint: ${endpoint} | Version: ${API_VERSION}`;\n}\nmodule.exports = { generateHeader };\n"
+      }
+    ],
+    "testCode": "const { API_VERSION } = require('./version.js');\nconst { generateHeader } = require('./header.js');\nconst assert = require('assert');\n\nassert.strictEqual(API_VERSION, 'v2', 'API_VERSION must be updated to v2');\nassert.strictEqual(generateHeader('/status'), 'Endpoint: /status | Version: v2');\nassert.strictEqual(generateHeader('/users'), 'Endpoint: /users | Version: v2');\n\nconsole.log('PASS');\n"
+  }
+]

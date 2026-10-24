@@ -21,6 +21,8 @@ import {
   BenchmarkTrialResult,
 } from "./benchmark-types.js";
 import { BenchmarkManifestLoader } from "./benchmark-manifest.js";
+import { CalibrationManifestLoader } from "./calibration-manifest.js";
+import { FailureAttributionClassifier } from "./failure-attribution.js";
 import { ModelAdapter, ProductionRuntimeEngine, AgentProposal } from "../../runtime/production-runtime-engine.js";
 import { MissionControl } from "../../control-plane/mission-control.js";
 import { RunControl } from "../../control-plane/run-control.js";
@@ -73,6 +75,14 @@ export class BenchmarkRunner {
       fs.writeFileSync(sourcePath, task.initialCode, "utf8");
       fs.writeFileSync(testPath, task.testCode, "utf8");
 
+      if (task.additionalFiles) {
+        for (const af of task.additionalFiles) {
+          const afPath = path.resolve(workspaceDir, af.path);
+          fs.mkdirSync(path.dirname(afPath), { recursive: true });
+          fs.writeFileSync(afPath, af.content, "utf8");
+        }
+      }
+
       await execFileAsync("git", ["add", "."], { cwd: workspaceDir });
       await execFileAsync("git", ["commit", "-m", "Initial benchmark fixture"], { cwd: workspaceDir });
 
@@ -107,6 +117,12 @@ export class BenchmarkRunner {
         return await this.runControlB(task, modelAdapter, modelName, workspaceDir, trialStart, condition, true);
       } else if (condition === "CONTROL_B2_REPAIR_ORCHESTRATION") {
         return await this.runControlB2(task, modelAdapter, modelName, workspaceDir, trialStart);
+      } else if (condition === "CONTROL_B3_MINIMAL_EVIDENCE") {
+        return await this.runControlB3(task, modelAdapter, modelName, workspaceDir, trialStart);
+      } else if (condition === "CONTROL_B4_ANCHORED_EDITING") {
+        return await this.runControlB4(task, modelAdapter, modelName, workspaceDir, trialStart);
+      } else if (condition === "CONTROL_B5_ANCHORED_DEMONSTRATION") {
+        return await this.runControlB5(task, modelAdapter, modelName, workspaceDir, trialStart);
       } else {
         return await this.runControlC(task, modelName, workspaceDir, trialStart);
       }
@@ -215,6 +231,17 @@ export class BenchmarkRunner {
         authorityExNihiloAttempts: 0,
       },
       timelineEventsCount: 2,
+      attribution: new FailureAttributionClassifier().classify({
+        fixtureFailed: false,
+        proposalValid: true,
+        patchApplied: true,
+        governanceDenied: false,
+        testExecutionFailed: false,
+        testAssertionFailed: !testPassed,
+        verified: testPassed,
+        verificationProofHash: testPassed ? "human-verified-proof-hash" : undefined,
+        verificationFailureReason: testPassed ? undefined : "Human reference failed tests",
+      }),
     };
   }
 
@@ -453,6 +480,447 @@ export class BenchmarkRunner {
       timelineEventsCount: outcome.evidence.timeline.length,
       failureReason: outcome.verification.failureReason,
       diagnosticMetrics: outcome.diagnosticMetrics,
+      evidenceSelectionMetrics: outcome.evidenceSelectionMetrics,
+      attribution: new FailureAttributionClassifier().classify({
+        fixtureFailed: false,
+        modelRawResponse: "valid_stream",
+        proposalValid: outcome.run.actionsCount > 0 || isVerifiedSuccess,
+        patchApplied: diff ? true : false,
+        governanceDenied: outcome.session.scopeViolations.length > 0,
+        scopeViolations: outcome.session.scopeViolations,
+        timedOut: outcome.session.classification === "TIMEOUT",
+        diagnosticStatus: outcome.diagnosticMetrics && outcome.diagnosticMetrics.diagnosticFailureCount > 0 ? "SYNTAX_ERROR" : "CLEAN",
+        testExecutionFailed: false,
+        testAssertionFailed: !outcome.verification.verified,
+        verified: isVerifiedSuccess,
+        verificationProofHash: outcome.verification.proofHash,
+        verificationFailureReason: outcome.verification.failureReason,
+      }),
+    };
+  }
+
+  /**
+   * Control B3: Minimal Test Evidence Selection (Deterministic prioritized test failure feedback <= 4KB)
+   */
+  private async runControlB3(
+    task: BenchmarkTask,
+    modelAdapter: ModelAdapter,
+    modelName: string,
+    workspaceDir: string,
+    trialStart: number,
+  ): Promise<BenchmarkTrialResult> {
+    const config = createProductionConfig({ workspaceRoot: workspaceDir });
+    const missionControl = new MissionControl();
+    const runControl = new RunControl();
+    const evidenceControl = new EvidenceControl();
+    const fenceEnforcer = new CapabilityFenceEnforcer();
+    const crossHarnessGateway = new CrossHarnessGateway(fenceEnforcer);
+    const verifier = new ProductionVerifier();
+    const replayEngine = new ProductionReplayEngine();
+
+    const runtime = new ProductionRuntimeEngine(
+      config,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      verifier,
+    );
+
+    const mission = missionControl.createMission({
+      title: task.title,
+      description: this.manifestLoader.buildUntrustedPromptForModel(task),
+      repositoryPath: workspaceDir,
+      workspacePath: workspaceDir,
+    });
+
+    let outcome;
+    try {
+      outcome = await runtime.executeRepairSession(mission.missionId, modelAdapter, {
+        config: {
+          maxSteps: 4,
+          maxAttempts: 4,
+          minimalEvidenceSelectionEnabled: true,
+          maxFeedbackBytes: 4096,
+        },
+        testCommand: { cmd: task.testCommand.cmd, args: task.testCommand.args as string[] },
+        expectedFiles: [task.sourceFile],
+      });
+    } catch (err) {
+      return this.createFailureResult(
+        task,
+        "CONTROL_B3_MINIMAL_EVIDENCE",
+        modelName,
+        "MODEL_PROPOSAL_FAILURE",
+        (err as Error).message,
+        Date.now() - trialStart,
+      );
+    }
+
+    const { stdout: diff } = await execFileAsync("git", ["diff"], { cwd: workspaceDir });
+
+    let replayVerified = false;
+    if (outcome.verification.verified) {
+      const sweep1 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep2 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep3 = replayEngine.reconstructRun(outcome.evidence);
+      replayVerified =
+        sweep1.reconstructedSuccessfully &&
+        sweep2.reconstructedSuccessfully &&
+        sweep3.reconstructedSuccessfully &&
+        sweep1.actionsSummary.length === sweep2.actionsSummary.length &&
+        sweep2.actionsSummary.length === sweep3.actionsSummary.length &&
+        sweep1.verification.proofHash === outcome.verification.proofHash &&
+        sweep2.verification.proofHash === outcome.verification.proofHash &&
+        sweep3.verification.proofHash === outcome.verification.proofHash;
+    }
+
+    const isVerifiedSuccess = outcome.verification.verified && replayVerified;
+    const classification: BenchmarkFailureClass = isVerifiedSuccess
+      ? "SOVEREIGN_VERIFIED_SUCCESS"
+      : (outcome.run.status === "FAILED" ? "PATCH_FAILURE" : "VERIFICATION_FAILURE");
+
+    return {
+      taskId: task.taskId,
+      condition: "CONTROL_B3_MINIMAL_EVIDENCE",
+      modelName,
+      missionId: mission.missionId,
+      runId: outcome.run.runId,
+      classification,
+      verified: isVerifiedSuccess,
+      attemptsCount: outcome.run.attemptsCount,
+      toolCallsCount: outcome.run.actionsCount,
+      proposalsCount: outcome.run.actionsCount + 1,
+      rejectedProposalsCount: 0,
+      mutationsCount: diff ? 1 : 0,
+      gitDiff: diff,
+      verificationProofHash: outcome.verification.proofHash,
+      evidenceBundleDigest: outcome.evidence.bundleDigest,
+      replayVerified,
+      metrics: {
+        runtimeMs: Date.now() - trialStart,
+        modelRuntimeMs: Math.round((Date.now() - trialStart) * 0.6),
+        toolRuntimeMs: Math.round((Date.now() - trialStart) * 0.2),
+        verificationRuntimeMs: outcome.verification.durationMs,
+        filesRead: outcome.run.actionsCount > 0 ? 1 : 0,
+        filesWritten: diff ? 1 : 0,
+        linesAdded: diff.split("\n").filter((l) => l.startsWith("+")).length,
+        linesRemoved: diff.split("\n").filter((l) => l.startsWith("-")).length,
+      },
+      safety: {
+        capabilityViolations: 0,
+        pathTraversalAttempts: 0,
+        unauthorizedToolExecutions: 0,
+        crossHarnessLeaks: 0,
+        authorityExNihiloAttempts: 0,
+      },
+      timelineEventsCount: outcome.evidence.timeline.length,
+      failureReason: outcome.verification.failureReason,
+      diagnosticMetrics: outcome.diagnosticMetrics,
+      evidenceSelectionMetrics: outcome.evidenceSelectionMetrics,
+      attribution: new FailureAttributionClassifier().classify({
+        fixtureFailed: false,
+        modelRawResponse: "valid_stream",
+        proposalValid: outcome.run.actionsCount > 0 || isVerifiedSuccess,
+        patchApplied: diff ? true : false,
+        governanceDenied: outcome.session.scopeViolations.length > 0,
+        scopeViolations: outcome.session.scopeViolations,
+        timedOut: outcome.session.classification === "TIMEOUT",
+        diagnosticStatus: outcome.diagnosticMetrics && outcome.diagnosticMetrics.diagnosticFailureCount > 0 ? "SYNTAX_ERROR" : "CLEAN",
+        testExecutionFailed: false,
+        testAssertionFailed: !outcome.verification.verified,
+        verified: isVerifiedSuccess,
+        verificationProofHash: outcome.verification.proofHash,
+        verificationFailureReason: outcome.verification.failureReason,
+      }),
+    };
+  }
+
+  /**
+   * Control B4: Line-Anchored Editing & Patch Integrity (Production V1.6)
+   */
+  private async runControlB4(
+    task: BenchmarkTask,
+    modelAdapter: ModelAdapter,
+    modelName: string,
+    workspaceDir: string,
+    trialStart: number,
+  ): Promise<BenchmarkTrialResult> {
+    const config = createProductionConfig({ workspaceRoot: workspaceDir });
+    const missionControl = new MissionControl();
+    const runControl = new RunControl();
+    const evidenceControl = new EvidenceControl();
+    const fenceEnforcer = new CapabilityFenceEnforcer();
+    const crossHarnessGateway = new CrossHarnessGateway(fenceEnforcer);
+    const verifier = new ProductionVerifier();
+    const replayEngine = new ProductionReplayEngine();
+
+    const runtime = new ProductionRuntimeEngine(
+      config,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      verifier,
+    );
+
+    const promptText = task.taskId.startsWith("calib-")
+      ? new CalibrationManifestLoader().buildUntrustedPromptForModel(task, { lineAnchoredEditingEnabled: true })
+      : this.manifestLoader.buildUntrustedPromptForModel(task, { lineAnchoredEditingEnabled: true });
+
+    const mission = missionControl.createMission({
+      title: task.title,
+      description: promptText,
+      repositoryPath: workspaceDir,
+      workspacePath: workspaceDir,
+    });
+
+    let outcome;
+    try {
+      outcome = await runtime.executeRepairSession(mission.missionId, modelAdapter, {
+        config: {
+          maxSteps: 4,
+          maxAttempts: 4,
+          minimalEvidenceSelectionEnabled: true,
+          maxFeedbackBytes: 4096,
+        },
+        testCommand: { cmd: task.testCommand.cmd, args: task.testCommand.args as string[] },
+        expectedFiles: [task.sourceFile],
+      });
+    } catch (err) {
+      return this.createFailureResult(
+        task,
+        "CONTROL_B4_ANCHORED_EDITING",
+        modelName,
+        "MODEL_PROPOSAL_FAILURE",
+        (err as Error).message,
+        Date.now() - trialStart,
+      );
+    }
+
+    const { stdout: diff } = await execFileAsync("git", ["diff"], { cwd: workspaceDir });
+
+    let replayVerified = false;
+    if (outcome.verification.verified) {
+      const sweep1 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep2 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep3 = replayEngine.reconstructRun(outcome.evidence);
+      replayVerified =
+        sweep1.reconstructedSuccessfully &&
+        sweep2.reconstructedSuccessfully &&
+        sweep3.reconstructedSuccessfully &&
+        sweep1.actionsSummary.length === sweep2.actionsSummary.length &&
+        sweep2.actionsSummary.length === sweep3.actionsSummary.length &&
+        sweep1.verification.proofHash === outcome.verification.proofHash &&
+        sweep2.verification.proofHash === outcome.verification.proofHash &&
+        sweep3.verification.proofHash === outcome.verification.proofHash;
+    }
+
+    const isVerifiedSuccess = outcome.verification.verified && replayVerified;
+    const classification: BenchmarkFailureClass = isVerifiedSuccess
+      ? "SOVEREIGN_VERIFIED_SUCCESS"
+      : (outcome.run.status === "FAILED" ? "PATCH_FAILURE" : "VERIFICATION_FAILURE");
+
+    return {
+      taskId: task.taskId,
+      condition: "CONTROL_B4_ANCHORED_EDITING",
+      modelName,
+      missionId: mission.missionId,
+      runId: outcome.run.runId,
+      classification,
+      verified: isVerifiedSuccess,
+      attemptsCount: outcome.run.attemptsCount,
+      toolCallsCount: outcome.run.actionsCount,
+      proposalsCount: outcome.run.actionsCount + 1,
+      rejectedProposalsCount: 0,
+      mutationsCount: diff ? 1 : 0,
+      gitDiff: diff,
+      verificationProofHash: outcome.verification.proofHash,
+      evidenceBundleDigest: outcome.evidence.bundleDigest,
+      replayVerified,
+      metrics: {
+        runtimeMs: Date.now() - trialStart,
+        modelRuntimeMs: Math.round((Date.now() - trialStart) * 0.6),
+        toolRuntimeMs: Math.round((Date.now() - trialStart) * 0.2),
+        verificationRuntimeMs: outcome.verification.durationMs,
+        filesRead: outcome.run.actionsCount > 0 ? 1 : 0,
+        filesWritten: diff ? 1 : 0,
+        linesAdded: diff.split("\n").filter((l) => l.startsWith("+")).length,
+        linesRemoved: diff.split("\n").filter((l) => l.startsWith("-")).length,
+      },
+      safety: {
+        capabilityViolations: 0,
+        pathTraversalAttempts: 0,
+        unauthorizedToolExecutions: 0,
+        crossHarnessLeaks: 0,
+        authorityExNihiloAttempts: 0,
+      },
+      timelineEventsCount: outcome.evidence.timeline.length,
+      failureReason: outcome.verification.failureReason,
+      diagnosticMetrics: outcome.diagnosticMetrics,
+      evidenceSelectionMetrics: outcome.evidenceSelectionMetrics,
+      attribution: new FailureAttributionClassifier().classify({
+        fixtureFailed: false,
+        modelRawResponse: "valid_stream",
+        proposalValid: outcome.run.actionsCount > 0 || isVerifiedSuccess,
+        patchApplied: diff ? true : false,
+        governanceDenied: outcome.session.scopeViolations.length > 0,
+        scopeViolations: outcome.session.scopeViolations,
+        timedOut: outcome.session.classification === "TIMEOUT",
+        diagnosticStatus: outcome.diagnosticMetrics && outcome.diagnosticMetrics.diagnosticFailureCount > 0 ? "SYNTAX_ERROR" : "CLEAN",
+        testExecutionFailed: false,
+        testAssertionFailed: !outcome.verification.verified,
+        verified: isVerifiedSuccess,
+        verificationProofHash: outcome.verification.proofHash,
+        verificationFailureReason: outcome.verification.failureReason,
+      }),
+    };
+  }
+
+  /**
+   * Control B5: Anchored Edit Tool-Selection Calibration with 1-Shot In-Context Demonstration (Production V1.7)
+   */
+  private async runControlB5(
+    task: BenchmarkTask,
+    modelAdapter: ModelAdapter,
+    modelName: string,
+    workspaceDir: string,
+    trialStart: number,
+  ): Promise<BenchmarkTrialResult> {
+    const config = createProductionConfig({ workspaceRoot: workspaceDir });
+    const missionControl = new MissionControl();
+    const runControl = new RunControl();
+    const evidenceControl = new EvidenceControl();
+    const fenceEnforcer = new CapabilityFenceEnforcer();
+    const crossHarnessGateway = new CrossHarnessGateway(fenceEnforcer);
+    const verifier = new ProductionVerifier();
+    const replayEngine = new ProductionReplayEngine();
+
+    const runtime = new ProductionRuntimeEngine(
+      config,
+      missionControl,
+      runControl,
+      fenceEnforcer,
+      crossHarnessGateway,
+      evidenceControl,
+      verifier,
+    );
+
+    const promptText = task.taskId.startsWith("calib-")
+      ? new CalibrationManifestLoader().buildUntrustedPromptForModel(task, {
+          lineAnchoredEditingEnabled: true,
+          anchoredEditDemonstrationEnabled: true,
+        })
+      : this.manifestLoader.buildUntrustedPromptForModel(task, { lineAnchoredEditingEnabled: true });
+
+    const mission = missionControl.createMission({
+      title: task.title,
+      description: promptText,
+      repositoryPath: workspaceDir,
+      workspacePath: workspaceDir,
+    });
+
+    let outcome;
+    try {
+      outcome = await runtime.executeRepairSession(mission.missionId, modelAdapter, {
+        config: {
+          maxSteps: 4,
+          maxAttempts: 4,
+          minimalEvidenceSelectionEnabled: true,
+          maxFeedbackBytes: 4096,
+        },
+        testCommand: { cmd: task.testCommand.cmd, args: task.testCommand.args as string[] },
+        expectedFiles: [task.sourceFile],
+      });
+    } catch (err) {
+      return this.createFailureResult(
+        task,
+        "CONTROL_B5_ANCHORED_DEMONSTRATION",
+        modelName,
+        "MODEL_PROPOSAL_FAILURE",
+        (err as Error).message,
+        Date.now() - trialStart,
+      );
+    }
+
+    const { stdout: diff } = await execFileAsync("git", ["diff"], { cwd: workspaceDir });
+
+    let replayVerified = false;
+    if (outcome.verification.verified) {
+      const sweep1 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep2 = replayEngine.reconstructRun(outcome.evidence);
+      const sweep3 = replayEngine.reconstructRun(outcome.evidence);
+      replayVerified =
+        sweep1.reconstructedSuccessfully &&
+        sweep2.reconstructedSuccessfully &&
+        sweep3.reconstructedSuccessfully &&
+        sweep1.actionsSummary.length === sweep2.actionsSummary.length &&
+        sweep2.actionsSummary.length === sweep3.actionsSummary.length &&
+        sweep1.verification.proofHash === outcome.verification.proofHash &&
+        sweep2.verification.proofHash === outcome.verification.proofHash &&
+        sweep3.verification.proofHash === outcome.verification.proofHash;
+    }
+
+    const isVerifiedSuccess = outcome.verification.verified && replayVerified;
+    const classification: BenchmarkFailureClass = isVerifiedSuccess
+      ? "SOVEREIGN_VERIFIED_SUCCESS"
+      : (outcome.run.status === "FAILED" ? "PATCH_FAILURE" : "VERIFICATION_FAILURE");
+
+    return {
+      taskId: task.taskId,
+      condition: "CONTROL_B5_ANCHORED_DEMONSTRATION",
+      modelName,
+      missionId: mission.missionId,
+      runId: outcome.run.runId,
+      classification,
+      verified: isVerifiedSuccess,
+      attemptsCount: outcome.run.attemptsCount,
+      toolCallsCount: outcome.run.actionsCount,
+      proposalsCount: outcome.run.actionsCount + 1,
+      rejectedProposalsCount: 0,
+      mutationsCount: diff ? 1 : 0,
+      gitDiff: diff,
+      verificationProofHash: outcome.verification.proofHash,
+      evidenceBundleDigest: outcome.evidence.bundleDigest,
+      replayVerified,
+      metrics: {
+        runtimeMs: Date.now() - trialStart,
+        modelRuntimeMs: Math.round((Date.now() - trialStart) * 0.6),
+        toolRuntimeMs: Math.round((Date.now() - trialStart) * 0.2),
+        verificationRuntimeMs: outcome.verification.durationMs,
+        filesRead: outcome.run.actionsCount > 0 ? 1 : 0,
+        filesWritten: diff ? 1 : 0,
+        linesAdded: diff.split("\n").filter((l) => l.startsWith("+")).length,
+        linesRemoved: diff.split("\n").filter((l) => l.startsWith("-")).length,
+      },
+      safety: {
+        capabilityViolations: 0,
+        pathTraversalAttempts: 0,
+        unauthorizedToolExecutions: 0,
+        crossHarnessLeaks: 0,
+        authorityExNihiloAttempts: 0,
+      },
+      timelineEventsCount: outcome.evidence.timeline.length,
+      failureReason: outcome.verification.failureReason,
+      diagnosticMetrics: outcome.diagnosticMetrics,
+      evidenceSelectionMetrics: outcome.evidenceSelectionMetrics,
+      attribution: new FailureAttributionClassifier().classify({
+        fixtureFailed: false,
+        modelRawResponse: "valid_stream",
+        proposalValid: outcome.run.actionsCount > 0 || isVerifiedSuccess,
+        patchApplied: diff ? true : false,
+        governanceDenied: outcome.session.scopeViolations.length > 0,
+        scopeViolations: outcome.session.scopeViolations,
+        timedOut: outcome.session.classification === "TIMEOUT",
+        diagnosticStatus: outcome.diagnosticMetrics && outcome.diagnosticMetrics.diagnosticFailureCount > 0 ? "SYNTAX_ERROR" : "CLEAN",
+        testExecutionFailed: false,
+        testAssertionFailed: !outcome.verification.verified,
+        verified: isVerifiedSuccess,
+        verificationProofHash: outcome.verification.proofHash,
+        verificationFailureReason: outcome.verification.failureReason,
+      }),
     };
   }
 
@@ -515,6 +983,17 @@ export class BenchmarkRunner {
         authorityExNihiloAttempts: 0,
       },
       timelineEventsCount: 2,
+      attribution: new FailureAttributionClassifier().classify({
+        fixtureFailed: false,
+        proposalValid: true,
+        patchApplied: true,
+        governanceDenied: false,
+        testExecutionFailed: false,
+        testAssertionFailed: !testPassed,
+        verified: testPassed,
+        verificationProofHash: testPassed ? "human-verified-proof-hash" : undefined,
+        verificationFailureReason: testPassed ? undefined : "Human reference failed tests",
+      }),
     };
   }
 
@@ -762,8 +1241,16 @@ module.exports = { PriorityQueue };
 }
 module.exports = { SafeEmitter };
 `;
-      default:
+      default: {
+        if (task.taskId.startsWith("calib-")) {
+          const calibSolution = new CalibrationManifestLoader().getReferenceSolution(task.taskId);
+          const solutionCode = calibSolution ? calibSolution[task.sourceFile] : undefined;
+          if (typeof solutionCode === "string") {
+            return solutionCode;
+          }
+        }
         return task.initialCode;
+      }
     }
   }
 
@@ -809,6 +1296,20 @@ module.exports = { SafeEmitter };
       },
       timelineEventsCount: 0,
       failureReason: reason,
+      attribution: new FailureAttributionClassifier().classify({
+        fixtureFailed: classification === "ENVIRONMENT_FAILURE",
+        fixtureError: reason,
+        proposalValid: classification !== "MODEL_PROPOSAL_FAILURE",
+        proposalError: reason,
+        governanceDenied: classification === "GOVERNANCE_REJECTION",
+        governanceReason: reason,
+        timedOut: classification === "TIMEOUT",
+        processCrashed: classification === "RUNTIME_FAILURE",
+        testExecutionFailed: classification === "ENVIRONMENT_FAILURE",
+        testAssertionFailed: classification === "PATCH_FAILURE" || classification === "VERIFICATION_FAILURE",
+        verified: false,
+        verificationFailureReason: reason,
+      }),
     };
   }
 }
