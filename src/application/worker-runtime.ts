@@ -1071,19 +1071,6 @@ export class WorkerRuntime {
 
     if (existingAction) {
       if (isTerminalActionStatus(existingAction.status)) {
-        if (existingAction.status === "SUCCEEDED") {
-          const attempts = store.getAttemptsForAction(existingAction.actionId);
-          const succeededAttempt = attempts.find((a) => a.status === "SUCCEEDED");
-          return {
-            status: "SUCCEEDED",
-            actionId: existingAction.actionId,
-            runId: run.runId,
-            attemptId: succeededAttempt?.attemptId,
-            output: existingAction.resultPayload,
-            action: existingAction,
-            attempt: succeededAttempt ?? null,
-          };
-        }
         throw new TerminalStateError(existingAction.status, "executeAction");
       }
       actionSnapshot = existingAction;

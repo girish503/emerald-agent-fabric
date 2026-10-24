@@ -39,7 +39,13 @@ import {
   InvalidAttemptTransitionError,
   InvalidContractBindingError,
   InvalidRunError,
+  LeaseExpiredError,
   LeaseLostError,
+  AttemptNotOwnedError,
+  SupervisorLeaseExpiredError,
+  SupervisorLeaseLostError,
+  InvalidCheckpointError,
+  CheckpointVersionConflictError,
   PayloadLimitExceededError,
   TerminalStateError,
   VersionConflictError,
@@ -56,6 +62,9 @@ import {
   LeaseFencingCheck,
   LeaseRecord,
   LeaseState,
+  SupervisorLease,
+  SupervisorFencingCheck,
+  MissionCheckpoint,
   PersistedEvent,
   StateStorePort,
   StorageTransaction,
@@ -166,6 +175,68 @@ interface DbAttemptRow {
   error_payload: string | null;
   evidence_ids: string;
   provider_metadata: string | null;
+}
+
+interface DbSupervisorLeaseRow {
+  lease_id: string;
+  run_id: string;
+  supervisor_id: string;
+  acquired_at: string;
+  expires_at: string;
+  released_at: string | null;
+  state: string;
+}
+
+interface DbCheckpointRow {
+  checkpoint_id: string;
+  run_id: string;
+  checkpoint_version: number;
+  contract_id: string;
+  contract_version: number;
+  contract_hash: string;
+  action_id: string | null;
+  attempt_number: number | null;
+  durable_state: string;
+  event_sequence: number;
+  created_at: string;
+  updated_at: string;
+}
+
+function mapSupervisorLeaseRow(row: DbSupervisorLeaseRow): SupervisorLease {
+  return {
+    leaseId: row.lease_id,
+    runId: row.run_id,
+    supervisorId: row.supervisor_id,
+    acquiredAt: row.acquired_at,
+    expiresAt: row.expires_at,
+    releasedAt: row.released_at,
+    state: row.state as "ACTIVE" | "EXPIRED" | "RELEASED",
+  };
+}
+
+function mapCheckpointRow(row: DbCheckpointRow): MissionCheckpoint {
+  let durableState: Record<string, unknown> = {};
+  try {
+    durableState = JSON.parse(row.durable_state);
+  } catch {
+    durableState = {};
+  }
+  return {
+    checkpointId: row.checkpoint_id,
+    runId: row.run_id,
+    checkpointVersion: row.checkpoint_version,
+    contractBinding: {
+      contractId: row.contract_id,
+      version: row.contract_version,
+      contentHash: row.contract_hash,
+    },
+    actionId: row.action_id,
+    attemptNumber: row.attempt_number,
+    durableState,
+    eventSequence: row.event_sequence,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
 }
 
 export const MAX_PERSISTED_PAYLOAD_BYTES = 1024 * 1024; // 1 MB boundary
@@ -948,6 +1019,27 @@ export class SqliteStorageTransaction implements StorageTransaction {
     }
   }
 
+  private validateLeaseFencing(runId: string, fencing: LeaseFencingCheck): void {
+    const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
+    const runRow = runStmt.get(runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
+    if (!runRow) {
+      throw new Error(`Run '${runId}' not found`);
+    }
+    if (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId) {
+      throw new LeaseLostError(runId, fencing.leaseId, runRow.lease_id);
+    }
+    const leaseStmt = this.db.prepare(`SELECT state, expires_at FROM leases WHERE lease_id = ?`);
+    const leaseRow = leaseStmt.get(fencing.leaseId) as { state: string; expires_at: string } | undefined;
+    if (leaseRow) {
+      if (leaseRow.state !== "ACTIVE") {
+        throw new LeaseLostError(runId, fencing.leaseId, runRow.lease_id);
+      }
+      if (fencing.nowIso && leaseRow.expires_at <= fencing.nowIso) {
+        throw new LeaseExpiredError(fencing.leaseId, leaseRow.expires_at, fencing.nowIso);
+      }
+    }
+  }
+
   // Action Operations
   insertAction(snapshot: ActionSnapshot, event: AnyActionEvent, fencing?: LeaseFencingCheck): PersistedEvent {
     validateActionInvariants(snapshot);
@@ -989,9 +1081,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
     }
 
     if (fencing) {
-      if (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId) {
-        throw new LeaseLostError(snapshot.runId, fencing.leaseId, runRow.lease_id);
-      }
+      this.validateLeaseFencing(snapshot.runId, fencing);
     }
 
     const seqStmt = this.db.prepare(
@@ -1069,14 +1159,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
     validateActionInvariants(nextSnapshot);
 
     if (fencing) {
-      const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
-      const runRow = runStmt.get(nextSnapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
-      if (!runRow) {
-        throw new Error(`Run '${nextSnapshot.runId}' not found`);
-      }
-      if (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId) {
-        throw new LeaseLostError(nextSnapshot.runId, fencing.leaseId, runRow.lease_id);
-      }
+      this.validateLeaseFencing(nextSnapshot.runId, fencing);
     }
 
     // Intent immutability check
@@ -1163,6 +1246,19 @@ export class SqliteStorageTransaction implements StorageTransaction {
     if (!current) {
       throw new ActionNotFoundError(actionId);
     }
+    if (fencing) {
+      this.validateLeaseFencing(current.runId, fencing);
+    }
+    // Idempotent duplicate SUCCEED check
+    if (current.status === "SUCCEEDED" && command.type === "SUCCEED") {
+      const events = this.getEventsForRun(current.runId);
+      const existingEvent = events.find(
+        (e) => e.eventType === "action.completed" && (e.payload as any)?.actionId === actionId
+      );
+      if (existingEvent) {
+        return { snapshot: current, event: existingEvent };
+      }
+    }
     const { nextSnapshot, event } = applyActionTransition(current, command, eventIdGenerator);
     const persistedEvent = this.updateAction(actionId, nextSnapshot, event, fencing);
     return { snapshot: nextSnapshot, event: persistedEvent };
@@ -1214,16 +1310,8 @@ export class SqliteStorageTransaction implements StorageTransaction {
       ]);
     }
 
-    const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
-    const runRow = runStmt.get(snapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
-    if (!runRow) {
-      throw new Error(`Run '${snapshot.runId}' not found`);
-    }
-
-    const effectiveFencing = fencing ?? { workerId: snapshot.workerId, leaseId: snapshot.leaseId };
-    if (runRow.current_worker_id !== effectiveFencing.workerId || runRow.lease_id !== effectiveFencing.leaseId) {
-      throw new LeaseLostError(snapshot.runId, effectiveFencing.leaseId, runRow.lease_id);
-    }
+    const effectiveFencing = fencing ?? { workerId: snapshot.workerId, leaseId: snapshot.leaseId, nowIso: snapshot.startedAt };
+    this.validateLeaseFencing(snapshot.runId, effectiveFencing);
 
     // Gapless attempt numbering check
     const attSeqStmt = this.db.prepare(
@@ -1311,13 +1399,9 @@ export class SqliteStorageTransaction implements StorageTransaction {
     validateAttemptInvariants(nextSnapshot);
 
     if (fencing) {
-      const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
-      const runRow = runStmt.get(nextSnapshot.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
-      if (!runRow) {
-        throw new Error(`Run '${nextSnapshot.runId}' not found`);
-      }
-      if (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId) {
-        throw new LeaseLostError(nextSnapshot.runId, fencing.leaseId, runRow.lease_id);
+      this.validateLeaseFencing(nextSnapshot.runId, fencing);
+      if (current.workerId !== fencing.workerId || current.leaseId !== fencing.leaseId) {
+        throw new AttemptNotOwnedError(attemptId, current.workerId, fencing.workerId, current.leaseId, fencing.leaseId);
       }
     }
 
@@ -1438,15 +1522,322 @@ export class SqliteStorageTransaction implements StorageTransaction {
       throw new AttemptNotFoundError(attemptId);
     }
     if (fencing) {
-      const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
-      const runRow = runStmt.get(current.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
-      if (runRow && (runRow.current_worker_id !== fencing.workerId || runRow.lease_id !== fencing.leaseId)) {
-        throw new LeaseLostError(current.runId, fencing.leaseId, runRow.lease_id);
+      this.validateLeaseFencing(current.runId, fencing);
+      if (current.workerId !== fencing.workerId || current.leaseId !== fencing.leaseId) {
+        throw new AttemptNotOwnedError(attemptId, current.workerId, fencing.workerId, current.leaseId, fencing.leaseId);
+      }
+    }
+    // Idempotent duplicate COMPLETE check
+    if (current.status === "SUCCEEDED" && command.type === "COMPLETE") {
+      const events = this.getEventsForRun(current.runId);
+      const existingEvent = events.find(
+        (e) => e.eventType === "attempt.completed" && (e.payload as any)?.attemptId === attemptId
+      );
+      if (existingEvent) {
+        return { snapshot: current, event: existingEvent };
       }
     }
     const { nextSnapshot, event } = applyAttemptTransition(current, command, eventIdGenerator);
     const persistedEvent = this.updateAttempt(attemptId, nextSnapshot, event, fencing);
     return { snapshot: nextSnapshot, event: persistedEvent };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Supervisor Lease Operations
+  // ---------------------------------------------------------------------------
+
+  validateSupervisorFencing(runId: string, fencing: SupervisorFencingCheck): void {
+    const stmt = this.db.prepare(
+      `SELECT * FROM supervisor_leases WHERE lease_id = ? AND run_id = ?`
+    );
+    const row = stmt.get(fencing.leaseId, runId) as DbSupervisorLeaseRow | undefined;
+    if (!row) {
+      throw new SupervisorLeaseLostError(runId, fencing.supervisorId, null, "Supervisor lease not found");
+    }
+    if (row.state !== "ACTIVE") {
+      throw new SupervisorLeaseLostError(runId, fencing.supervisorId, row.supervisor_id, `Supervisor lease state is '${row.state}'`);
+    }
+    if (row.supervisor_id !== fencing.supervisorId) {
+      throw new SupervisorLeaseLostError(runId, fencing.supervisorId, row.supervisor_id, "Supervisor identity mismatch");
+    }
+    if (fencing.nowIso && new Date(fencing.nowIso).getTime() >= new Date(row.expires_at).getTime()) {
+      throw new SupervisorLeaseExpiredError(fencing.leaseId, row.expires_at, fencing.nowIso);
+    }
+  }
+
+  acquireSupervisorLease(params: {
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease {
+    const run = this.getRun(params.runId);
+    if (!run) {
+      throw new Error(`Run '${params.runId}' not found`);
+    }
+
+    const activeStmt = this.db.prepare(
+      `SELECT * FROM supervisor_leases WHERE run_id = ? AND state = 'ACTIVE' ORDER BY expires_at DESC LIMIT 1`
+    );
+    const existing = activeStmt.get(params.runId) as DbSupervisorLeaseRow | undefined;
+
+    if (existing) {
+      const nowMs = new Date(params.nowIso).getTime();
+      const expiresMs = new Date(existing.expires_at).getTime();
+
+      if (nowMs < expiresMs) {
+        if (existing.supervisor_id !== params.supervisorId) {
+          throw new SupervisorLeaseLostError(
+            params.runId,
+            params.supervisorId,
+            existing.supervisor_id,
+            `Active unexpired supervisor lease held by '${existing.supervisor_id}' until ${existing.expires_at}`
+          );
+        }
+      } else {
+        this.db.prepare(`UPDATE supervisor_leases SET state = 'EXPIRED' WHERE lease_id = ?`).run(existing.lease_id);
+      }
+    }
+
+    const leaseId = crypto.randomUUID();
+    const expiresAt = new Date(new Date(params.nowIso).getTime() + params.ttlMs).toISOString();
+
+    const insertStmt = this.db.prepare(
+      `INSERT INTO supervisor_leases (lease_id, run_id, supervisor_id, acquired_at, expires_at, state)
+       VALUES (?, ?, ?, ?, ?, 'ACTIVE')`
+    );
+    insertStmt.run(leaseId, params.runId, params.supervisorId, params.nowIso, expiresAt);
+
+    return {
+      leaseId,
+      runId: params.runId,
+      supervisorId: params.supervisorId,
+      acquiredAt: params.nowIso,
+      expiresAt,
+      releasedAt: null,
+      state: "ACTIVE",
+    };
+  }
+
+  renewSupervisorLease(params: {
+    leaseId: string;
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease {
+    const stmt = this.db.prepare(`SELECT * FROM supervisor_leases WHERE lease_id = ?`);
+    const row = stmt.get(params.leaseId) as DbSupervisorLeaseRow | undefined;
+
+    if (!row || row.run_id !== params.runId) {
+      throw new SupervisorLeaseLostError(
+        params.runId,
+        params.supervisorId,
+        row?.supervisor_id ?? null,
+        "Supervisor lease not found or run mismatch"
+      );
+    }
+
+    if (row.supervisor_id !== params.supervisorId) {
+      throw new SupervisorLeaseLostError(
+        params.runId,
+        params.supervisorId,
+        row.supervisor_id,
+        "Supervisor identity mismatch"
+      );
+    }
+
+    if (row.state !== "ACTIVE") {
+      throw new SupervisorLeaseLostError(
+        params.runId,
+        params.supervisorId,
+        row.supervisor_id,
+        `Cannot renew supervisor lease in state '${row.state}'`
+      );
+    }
+
+    const nowMs = new Date(params.nowIso).getTime();
+    const expiresMs = new Date(row.expires_at).getTime();
+
+    if (nowMs >= expiresMs) {
+      this.db.prepare(`UPDATE supervisor_leases SET state = 'EXPIRED' WHERE lease_id = ?`).run(params.leaseId);
+      throw new SupervisorLeaseExpiredError(params.leaseId, row.expires_at, params.nowIso);
+    }
+
+    const usurperStmt = this.db.prepare(
+      `SELECT * FROM supervisor_leases WHERE run_id = ? AND state = 'ACTIVE' AND lease_id != ?`
+    );
+    const usurper = usurperStmt.get(params.runId, params.leaseId) as DbSupervisorLeaseRow | undefined;
+    if (usurper) {
+      throw new SupervisorLeaseLostError(
+        params.runId,
+        params.supervisorId,
+        usurper.supervisor_id,
+        "Supervisor lease usurped by another supervisor"
+      );
+    }
+
+    const newExpiresAt = new Date(nowMs + params.ttlMs).toISOString();
+    this.db.prepare(`UPDATE supervisor_leases SET expires_at = ? WHERE lease_id = ?`).run(newExpiresAt, params.leaseId);
+
+    return {
+      leaseId: params.leaseId,
+      runId: params.runId,
+      supervisorId: params.supervisorId,
+      acquiredAt: row.acquired_at,
+      expiresAt: newExpiresAt,
+      releasedAt: row.released_at,
+      state: "ACTIVE",
+    };
+  }
+
+  releaseSupervisorLease(leaseId: string, nowIso: string): void {
+    this.db.prepare(`UPDATE supervisor_leases SET state = 'RELEASED', released_at = ? WHERE lease_id = ?`).run(nowIso, leaseId);
+  }
+
+  expireSupervisorLease(leaseId: string, _nowIso: string): void {
+    this.db.prepare(`UPDATE supervisor_leases SET state = 'EXPIRED' WHERE lease_id = ?`).run(leaseId);
+  }
+
+  getSupervisorLease(leaseId: string): SupervisorLease | null {
+    const stmt = this.db.prepare(`SELECT * FROM supervisor_leases WHERE lease_id = ?`);
+    const row = stmt.get(leaseId) as DbSupervisorLeaseRow | undefined;
+    return row ? mapSupervisorLeaseRow(row) : null;
+  }
+
+  findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null {
+    const stmt = this.db.prepare(
+      `SELECT * FROM supervisor_leases WHERE run_id = ? AND state = 'ACTIVE' ORDER BY expires_at DESC LIMIT 1`
+    );
+    const row = stmt.get(runId) as DbSupervisorLeaseRow | undefined;
+    if (!row) return null;
+    if (nowIso && new Date(nowIso).getTime() >= new Date(row.expires_at).getTime()) {
+      return null;
+    }
+    return mapSupervisorLeaseRow(row);
+  }
+
+  getSupervisorLeasesForRun(runId: string): readonly SupervisorLease[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM supervisor_leases WHERE run_id = ? ORDER BY acquired_at ASC`
+    );
+    const rows = stmt.all(runId) as unknown as DbSupervisorLeaseRow[];
+    return rows.map(mapSupervisorLeaseRow);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Checkpoint Operations
+  // ---------------------------------------------------------------------------
+
+  insertCheckpoint(checkpoint: MissionCheckpoint): void {
+    const run = this.getRun(checkpoint.runId);
+    if (!run) {
+      throw new InvalidCheckpointError(checkpoint.runId, [`Run '${checkpoint.runId}' not found`]);
+    }
+
+    if (run.contractBinding) {
+      if (
+        run.contractBinding.contractId !== checkpoint.contractBinding.contractId ||
+        run.contractBinding.version !== checkpoint.contractBinding.version ||
+        run.contractBinding.contentHash.toLowerCase() !== checkpoint.contractBinding.contentHash.toLowerCase()
+      ) {
+        throw new ContractIntegrityError(
+          checkpoint.runId,
+          run.contractBinding.contentHash,
+          checkpoint.contractBinding.contentHash
+        );
+      }
+    }
+
+    const contractStmt = this.db.prepare(
+      `SELECT content_hash, status FROM mission_contracts WHERE contract_id = ? AND version = ?`
+    );
+    const contractRow = contractStmt.get(
+      checkpoint.contractBinding.contractId,
+      checkpoint.contractBinding.version
+    ) as { content_hash: string; status: string } | undefined;
+
+    if (!contractRow) {
+      throw new InvalidCheckpointError(checkpoint.runId, [
+        `Referenced MissionContract '${checkpoint.contractBinding.contractId}' v${checkpoint.contractBinding.version} not found in database`,
+      ]);
+    }
+
+    if (contractRow.content_hash.toLowerCase() !== checkpoint.contractBinding.contentHash.toLowerCase()) {
+      throw new ContractIntegrityError(
+        checkpoint.runId,
+        checkpoint.contractBinding.contentHash,
+        contractRow.content_hash
+      );
+    }
+
+    if (contractRow.status === "REVOKED") {
+      throw new InvalidMissionContractError(
+        `Bound MissionContract '${checkpoint.contractBinding.contractId}' v${checkpoint.contractBinding.version} has been REVOKED`
+      );
+    }
+
+    const maxVerStmt = this.db.prepare(
+      `SELECT MAX(checkpoint_version) as max_version FROM mission_checkpoints WHERE run_id = ?`
+    );
+    const maxVerRow = maxVerStmt.get(checkpoint.runId) as { max_version: number | null } | undefined;
+    const currentMax = maxVerRow?.max_version;
+
+    if (currentMax !== null && currentMax !== undefined) {
+      if (checkpoint.checkpointVersion <= currentMax) {
+        throw new CheckpointVersionConflictError(
+          checkpoint.runId,
+          checkpoint.checkpointVersion,
+          currentMax
+        );
+      }
+    } else {
+      if (checkpoint.checkpointVersion < 1) {
+        throw new InvalidCheckpointError(checkpoint.runId, [
+          `checkpointVersion must be an integer >= 1, received ${checkpoint.checkpointVersion}`,
+        ]);
+      }
+    }
+
+    const serializedState = serializeBoundedPayload(checkpoint.durableState, "durableState") ?? "{}";
+
+    const insertStmt = this.db.prepare(
+      `INSERT INTO mission_checkpoints (
+        checkpoint_id, run_id, checkpoint_version, contract_id, contract_version, contract_hash,
+        action_id, attempt_number, durable_state, event_sequence, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+
+    insertStmt.run(
+      checkpoint.checkpointId,
+      checkpoint.runId,
+      checkpoint.checkpointVersion,
+      checkpoint.contractBinding.contractId,
+      checkpoint.contractBinding.version,
+      checkpoint.contractBinding.contentHash,
+      checkpoint.actionId ?? null,
+      checkpoint.attemptNumber ?? null,
+      serializedState,
+      checkpoint.eventSequence,
+      checkpoint.createdAt,
+      checkpoint.updatedAt
+    );
+  }
+
+  getLatestCheckpoint(runId: string): MissionCheckpoint | null {
+    const stmt = this.db.prepare(
+      `SELECT * FROM mission_checkpoints WHERE run_id = ? ORDER BY checkpoint_version DESC LIMIT 1`
+    );
+    const row = stmt.get(runId) as DbCheckpointRow | undefined;
+    return row ? mapCheckpointRow(row) : null;
+  }
+
+  getCheckpoints(runId: string): readonly MissionCheckpoint[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM mission_checkpoints WHERE run_id = ? ORDER BY checkpoint_version ASC`
+    );
+    const rows = stmt.all(runId) as unknown as DbCheckpointRow[];
+    return rows.map(mapCheckpointRow);
   }
 }
 
@@ -1607,6 +1998,41 @@ export class SqliteStateStore implements StateStorePort {
   findInFlightActions(limit: number = 50): readonly ActionSnapshot[] {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.findInFlightActions(limit);
+  }
+
+  getSupervisorLease(leaseId: string): SupervisorLease | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getSupervisorLease(leaseId);
+  }
+
+  findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findActiveSupervisorLease(runId, nowIso);
+  }
+
+  getSupervisorLeasesForRun(runId: string): readonly SupervisorLease[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getSupervisorLeasesForRun(runId);
+  }
+
+  releaseSupervisorLease(leaseId: string, nowIso?: string): void {
+    const tx = new SqliteStorageTransaction(this.db);
+    tx.releaseSupervisorLease(leaseId, nowIso ?? new Date().toISOString());
+  }
+
+  expireSupervisorLease(leaseId: string, nowIso?: string): void {
+    const tx = new SqliteStorageTransaction(this.db);
+    tx.expireSupervisorLease(leaseId, nowIso ?? new Date().toISOString());
+  }
+
+  getLatestCheckpoint(runId: string): MissionCheckpoint | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getLatestCheckpoint(runId);
+  }
+
+  getCheckpoints(runId: string): readonly MissionCheckpoint[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getCheckpoints(runId);
   }
 
   close(): void {

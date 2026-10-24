@@ -161,6 +161,37 @@ CREATE INDEX IF NOT EXISTS idx_attempts_action_num ON attempts(action_id, attemp
 CREATE INDEX IF NOT EXISTS idx_attempts_run_lease ON attempts(run_id, lease_id);
 CREATE INDEX IF NOT EXISTS idx_attempts_status ON attempts(status);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_attempts_action_active ON attempts(action_id) WHERE status IN ('CREATED', 'DISPATCHED', 'RUNNING');
+
+CREATE TABLE IF NOT EXISTS supervisor_leases (
+    lease_id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES runs(run_id),
+    supervisor_id TEXT NOT NULL,
+    acquired_at TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    released_at TEXT,
+    state TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_sup_leases_run_state ON supervisor_leases(run_id, state);
+
+CREATE TABLE IF NOT EXISTS mission_checkpoints (
+    checkpoint_id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL REFERENCES runs(run_id),
+    checkpoint_version INTEGER NOT NULL,
+    contract_id TEXT NOT NULL,
+    contract_version INTEGER NOT NULL,
+    contract_hash TEXT NOT NULL,
+    action_id TEXT,
+    attempt_number INTEGER,
+    durable_state TEXT NOT NULL,
+    event_sequence INTEGER NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    FOREIGN KEY(contract_id, contract_version) REFERENCES mission_contracts(contract_id, version),
+    UNIQUE(run_id, checkpoint_version)
+);
+
+CREATE INDEX IF NOT EXISTS idx_checkpoints_run_ver ON mission_checkpoints(run_id, checkpoint_version);
 `;
 
 /**
@@ -292,5 +323,39 @@ export function migrateDatabase(db: DatabaseSync): void {
     CREATE INDEX IF NOT EXISTS idx_attempts_run_lease ON attempts(run_id, lease_id);
     CREATE INDEX IF NOT EXISTS idx_attempts_status ON attempts(status);
     CREATE UNIQUE INDEX IF NOT EXISTS idx_attempts_action_active ON attempts(action_id) WHERE status IN ('CREATED', 'DISPATCHED', 'RUNNING');
+  `);
+
+  // Step 6: Ensure supervisor_leases and mission_checkpoints tables exist
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS supervisor_leases (
+        lease_id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL REFERENCES runs(run_id),
+        supervisor_id TEXT NOT NULL,
+        acquired_at TEXT NOT NULL,
+        expires_at TEXT NOT NULL,
+        released_at TEXT,
+        state TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_sup_leases_run_state ON supervisor_leases(run_id, state);
+
+    CREATE TABLE IF NOT EXISTS mission_checkpoints (
+        checkpoint_id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL REFERENCES runs(run_id),
+        checkpoint_version INTEGER NOT NULL,
+        contract_id TEXT NOT NULL,
+        contract_version INTEGER NOT NULL,
+        contract_hash TEXT NOT NULL,
+        action_id TEXT,
+        attempt_number INTEGER,
+        durable_state TEXT NOT NULL,
+        event_sequence INTEGER NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        FOREIGN KEY(contract_id, contract_version) REFERENCES mission_contracts(contract_id, version),
+        UNIQUE(run_id, checkpoint_version)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_checkpoints_run_ver ON mission_checkpoints(run_id, checkpoint_version);
   `);
 }

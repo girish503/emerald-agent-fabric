@@ -1,5 +1,6 @@
 import { ClockPort } from "../ports/clock.port.js";
 import { LeaseRecord, StorageTransaction } from "../ports/state-store.port.js";
+import { LeaseExpiredError, LeaseLostError } from "../domain/errors.js";
 
 export interface AcquireLeaseParams {
   readonly runId: string;
@@ -57,6 +58,15 @@ export class LeaseManager {
 
     if (lease.state !== "ACTIVE") {
       throw new Error(`Cannot renew lease '${params.leaseId}' in state '${lease.state}'`);
+    }
+
+    if (new Date(nowIso).getTime() >= new Date(lease.expiresAt).getTime()) {
+      throw new LeaseExpiredError(params.leaseId, lease.expiresAt, nowIso);
+    }
+
+    const run = tx.getRun(params.runId);
+    if (!run || run.leaseId !== params.leaseId || run.currentWorkerId !== lease.workerId) {
+      throw new LeaseLostError(params.runId, params.leaseId, run?.leaseId ?? null);
     }
 
     const newExpiresAt = new Date(new Date(nowIso).getTime() + params.ttlMs).toISOString();

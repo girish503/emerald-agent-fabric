@@ -69,6 +69,70 @@ export class LeaseLostError extends DomainError {
   }
 }
 
+export class LeaseExpiredError extends DomainError {
+  readonly code = "LEASE_EXPIRED";
+
+  constructor(
+    readonly leaseId: string,
+    readonly expiresAt: string,
+    readonly now: string
+  ) {
+    super(`Lease '${leaseId}' expired at ${expiresAt} (current time: ${now})`);
+  }
+}
+
+export class SupervisorLeaseExpiredError extends DomainError {
+  readonly code = "SUPERVISOR_LEASE_EXPIRED";
+
+  constructor(
+    readonly leaseId: string,
+    readonly expiresAt: string,
+    readonly now: string
+  ) {
+    super(`Supervisor lease '${leaseId}' expired at ${expiresAt} (current time: ${now})`);
+  }
+}
+
+export class SupervisorLeaseLostError extends DomainError {
+  readonly code = "SUPERVISOR_LEASE_LOST";
+
+  constructor(
+    readonly runId: string,
+    readonly requestedSupervisorId: string,
+    readonly activeSupervisorId: string | null,
+    readonly reason?: string
+  ) {
+    super(
+      `Supervisor '${requestedSupervisorId}' does not hold active authority for run '${runId}' (active supervisor: '${activeSupervisorId ?? "none"}')${reason ? `: ${reason}` : ""}`
+    );
+  }
+}
+
+export class InvalidCheckpointError extends DomainError {
+  readonly code = "INVALID_CHECKPOINT";
+
+  constructor(
+    readonly runId: string,
+    readonly violations: readonly string[]
+  ) {
+    super(`Invalid checkpoint for run '${runId}': ${violations.join("; ")}`);
+  }
+}
+
+export class CheckpointVersionConflictError extends DomainError {
+  readonly code = "CHECKPOINT_VERSION_CONFLICT";
+
+  constructor(
+    readonly runId: string,
+    readonly version: number,
+    readonly latestVersion: number
+  ) {
+    super(
+      `Checkpoint version ${version} is non-monotonic for run '${runId}' (latest version: ${latestVersion})`
+    );
+  }
+}
+
 export class InvalidRunError extends DomainError {
   readonly code = "INVALID_RUN_INVARIANT";
 
@@ -623,6 +687,22 @@ export class AttemptNotFoundError extends DomainError {
 
   constructor(readonly attemptId: string) {
     super(`Attempt '${attemptId}' not found`);
+  }
+}
+
+export class AttemptNotOwnedError extends DomainError {
+  readonly code = "ATTEMPT_NOT_OWNED";
+
+  constructor(
+    readonly attemptId: string,
+    readonly expectedWorkerId: string,
+    readonly actualWorkerId: string,
+    readonly expectedLeaseId: string,
+    readonly actualLeaseId: string
+  ) {
+    super(
+      `Attempt '${attemptId}' is owned by worker '${expectedWorkerId}' (lease '${expectedLeaseId}'), not worker '${actualWorkerId}' (lease '${actualLeaseId}')`
+    );
   }
 }
 

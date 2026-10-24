@@ -8,6 +8,8 @@ import {
   MissionContractTaskMismatchError,
   NoActiveMissionContractError,
   ResourceLimitExceededError,
+  MissingBoundContractError,
+  SupervisorLeaseExpiredError,
 } from "../domain/errors.js";
 import {
   DomainEvent,
@@ -23,9 +25,15 @@ import {
   evaluateRetryEligibility,
   isTerminalActionStatus,
 } from "../domain/action.js";
-import { AttemptSnapshot, isTerminalAttemptStatus } from "../domain/attempt.js";
+import {
+  Attempt,
+  AttemptSnapshot,
+  createAttemptIdempotencyToken,
+  isTerminalAttemptStatus,
+} from "../domain/attempt.js";
 import { Run } from "../domain/run.js";
 import {
+  ContractBinding,
   createContractBinding,
   RunSnapshot,
 } from "../domain/invariants.js";
@@ -34,6 +42,9 @@ import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import {
   LeaseFencingCheck,
   LeaseRecord,
+  SupervisorLease,
+  SupervisorFencingCheck,
+  MissionCheckpoint,
   PersistedEvent,
   StateStorePort,
   StorageTransaction,
@@ -73,6 +84,35 @@ export interface TransitionResult {
 export interface RecoverExpiredResult {
   readonly recoveredCount: number;
   readonly runs: readonly RunSnapshot[];
+}
+
+export interface RecoverMissionParams {
+  readonly runId: string;
+  readonly supervisorId: string;
+  readonly supervisorLeaseId: string;
+  readonly newWorkerId?: string;
+  readonly newWorkerLeaseId?: string;
+  readonly nowIso?: string;
+}
+
+export interface RecoverMissionResult {
+  readonly run: RunSnapshot;
+  readonly checkpoint: MissionCheckpoint;
+  readonly previousAttempt: AttemptSnapshot | null;
+  readonly newAttempt: AttemptSnapshot | null;
+  readonly events: readonly PersistedEvent[];
+}
+
+export interface SaveCheckpointParams {
+  readonly runId: string;
+  readonly checkpointVersion: number;
+  readonly contractBinding?: ContractBinding;
+  readonly actionId?: string | null;
+  readonly attemptNumber?: number | null;
+  readonly durableState: Record<string, unknown>;
+  readonly eventSequence?: number;
+  readonly supervisorFencing?: SupervisorFencingCheck;
+  readonly nowIso?: string;
 }
 
 export interface StaleExecutionRecoveryOptions {
@@ -1436,5 +1476,448 @@ export class RunCoordinator {
 
   getAttemptsForAction(actionId: string): readonly AttemptSnapshot[] {
     return this.stateStore.getAttemptsForAction(actionId);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Phase 32 Supervisor Lease & Checkpoint Operations
+  // ---------------------------------------------------------------------------
+
+  claimSupervisorLease(params: {
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso?: string;
+  }): SupervisorLease {
+    const nowIso = params.nowIso ?? this.clock.nowIso();
+    return this.stateStore.transaction((tx) => {
+      return tx.acquireSupervisorLease({
+        runId: params.runId,
+        supervisorId: params.supervisorId,
+        ttlMs: params.ttlMs,
+        nowIso,
+      });
+    });
+  }
+
+  renewSupervisorLease(params: {
+    leaseId: string;
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso?: string;
+  }): SupervisorLease {
+    const nowIso = params.nowIso ?? this.clock.nowIso();
+    return this.stateStore.transaction((tx) => {
+      return tx.renewSupervisorLease({
+        leaseId: params.leaseId,
+        runId: params.runId,
+        supervisorId: params.supervisorId,
+        ttlMs: params.ttlMs,
+        nowIso,
+      });
+    });
+  }
+
+  heartbeatSupervisor(params: {
+    runId: string;
+    supervisorId: string;
+    leaseId: string;
+    ttlMs?: number;
+    nowIso?: string;
+  }): SupervisorLease {
+    const nowIso = params.nowIso ?? this.clock.nowIso();
+    const ttlMs = params.ttlMs ?? 10000;
+    try {
+      return this.stateStore.transaction((tx) => {
+        return tx.renewSupervisorLease({
+          leaseId: params.leaseId,
+          runId: params.runId,
+          supervisorId: params.supervisorId,
+          ttlMs,
+          nowIso,
+        });
+      });
+    } catch (err: unknown) {
+      if (err instanceof SupervisorLeaseExpiredError) {
+        this.stateStore.expireSupervisorLease(params.leaseId, nowIso);
+      }
+      throw err;
+    }
+  }
+
+  releaseSupervisorLease(leaseId: string, nowIso?: string): void {
+    const ts = nowIso ?? this.clock.nowIso();
+    this.stateStore.transaction((tx) => {
+      tx.releaseSupervisorLease(leaseId, ts);
+    });
+  }
+
+  getSupervisorLease(leaseId: string): SupervisorLease | null {
+    return this.stateStore.getSupervisorLease(leaseId);
+  }
+
+  findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null {
+    return this.stateStore.findActiveSupervisorLease(runId, nowIso ?? this.clock.nowIso());
+  }
+
+  saveCheckpoint(params: SaveCheckpointParams): MissionCheckpoint {
+    const nowIso = params.nowIso ?? this.clock.nowIso();
+    return this.stateStore.transaction((tx) => {
+      if (params.supervisorFencing) {
+        (tx as any).validateSupervisorFencing(params.runId, {
+          ...params.supervisorFencing,
+          nowIso,
+        });
+      }
+
+      const run = tx.getRun(params.runId);
+      if (!run) {
+        throw new Error(`Run '${params.runId}' not found`);
+      }
+
+      const contractBinding = params.contractBinding ?? run.contractBinding;
+      if (!contractBinding) {
+        throw new MissingBoundContractError(params.runId);
+      }
+
+      const events = tx.getEventsForRun(params.runId);
+      const lastEvent = events.length > 0 ? events[events.length - 1] : undefined;
+      const eventSequence = params.eventSequence ?? (lastEvent ? lastEvent.sequence : 1);
+
+      const checkpoint: MissionCheckpoint = {
+        checkpointId: crypto.randomUUID(),
+        runId: params.runId,
+        checkpointVersion: params.checkpointVersion,
+        contractBinding,
+        actionId: params.actionId ?? null,
+        attemptNumber: params.attemptNumber ?? null,
+        durableState: params.durableState,
+        eventSequence,
+        createdAt: nowIso,
+        updatedAt: nowIso,
+      };
+
+      tx.insertCheckpoint(checkpoint);
+      return checkpoint;
+    });
+  }
+
+  getLatestCheckpoint(runId: string): MissionCheckpoint | null {
+    return this.stateStore.getLatestCheckpoint(runId);
+  }
+
+  getCheckpoints(runId: string): readonly MissionCheckpoint[] {
+    return this.stateStore.getCheckpoints(runId);
+  }
+
+  recoverMission(params: RecoverMissionParams): RecoverMissionResult {
+    const nowIso = params.nowIso ?? this.clock.nowIso();
+
+    return this.stateStore.transaction((tx) => {
+      // 1. Validate supervisor lease and fencing
+      (tx as any).validateSupervisorFencing(params.runId, {
+        supervisorId: params.supervisorId,
+        leaseId: params.supervisorLeaseId,
+        nowIso,
+      });
+
+      // 2. Validate run exists
+      let runSnapshot: RunSnapshot | null = null;
+      try {
+        runSnapshot = tx.getRun(params.runId);
+      } catch (err: unknown) {
+        if (
+          err instanceof InvalidMissionContractError &&
+          err.message.includes("Content hash mismatch") &&
+          tx.getRunRaw
+        ) {
+          runSnapshot = tx.getRunRaw(params.runId);
+        } else {
+          throw err;
+        }
+      }
+      if (!runSnapshot) {
+        throw new Error(`Run '${params.runId}' not found`);
+      }
+
+      // 3. Validate contract binding
+      if (!runSnapshot.contractBinding) {
+        throw new MissingBoundContractError(runSnapshot.runId);
+      }
+      const binding = runSnapshot.contractBinding;
+
+      let contract: MissionContract;
+      try {
+        const found = tx.getContract(binding.contractId, binding.version);
+        if (!found) {
+          throw new MissingBoundContractError(binding.contractId, binding.version);
+        }
+        contract = found;
+      } catch (err: unknown) {
+        if (
+          err instanceof InvalidMissionContractError &&
+          err.message.includes("Content hash mismatch")
+        ) {
+          throw new ContractIntegrityError(
+            runSnapshot.runId,
+            binding.contentHash,
+            "corrupted_content_hash"
+          );
+        }
+        throw err;
+      }
+
+      // 4. Validate contract content hash integrity
+      const { contentHash: recomputedHash } = computeCanonicalHash(contract.spec);
+      if (
+        recomputedHash !== contract.contentHash ||
+        contract.contentHash !== binding.contentHash
+      ) {
+        throw new ContractIntegrityError(
+          runSnapshot.runId,
+          binding.contentHash,
+          contract.contentHash
+        );
+      }
+
+      // 5. Validate contract lifecycle
+      if (contract.lifecycle.status === "REVOKED") {
+        throw new InvalidMissionContractError(
+          `Bound MissionContract '${contract.spec.contractId}' v${contract.spec.version} has been REVOKED`
+        );
+      }
+      if (contract.lifecycle.status !== "ACTIVE") {
+        throw new InvalidMissionContractError(
+          `Bound MissionContract '${contract.spec.contractId}' v${contract.spec.version} is not ACTIVE (status: '${contract.lifecycle.status}')`
+        );
+      }
+
+      // 6. Inspect current checkpoint
+      const latestCheckpoint = tx.getLatestCheckpoint(params.runId);
+
+      // 7. Inspect actions & attempts
+      const actions = tx.getActionsForRun(params.runId);
+      const targetAction = actions.length > 0 ? actions[actions.length - 1] : null;
+
+      let previousAttempt: AttemptSnapshot | null = null;
+      let newAttempt: AttemptSnapshot | null = null;
+
+      if (targetAction) {
+        const attempts = tx.getAttemptsForAction(targetAction.actionId);
+        const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : null;
+
+        // Check for duplicate recovery (idempotency check):
+        if (
+          latestAttempt &&
+          !isTerminalAttemptStatus(latestAttempt.status) &&
+          latestAttempt.attemptNumber > 1
+        ) {
+          const prevAtt: AttemptSnapshot | null = attempts.length > 1 ? (attempts[attempts.length - 2] ?? null) : null;
+          const currentCheckpoint = latestCheckpoint ?? {
+            checkpointId: crypto.randomUUID(),
+            runId: params.runId,
+            checkpointVersion: 1,
+            contractBinding: binding,
+            actionId: targetAction.actionId,
+            attemptNumber: latestAttempt.attemptNumber,
+            durableState: { status: "RECOVERED", recoveryTimestamp: nowIso, supervisorId: params.supervisorId },
+            eventSequence: 1,
+            createdAt: nowIso,
+            updatedAt: nowIso,
+          };
+          return {
+            run: runSnapshot,
+            checkpoint: currentCheckpoint,
+            previousAttempt: prevAtt,
+            newAttempt: latestAttempt,
+            events: tx.getEventsForRun(params.runId),
+          };
+        }
+
+        // Reconcile Attempt N if it's currently in-flight
+        if (latestAttempt) {
+          if (!isTerminalAttemptStatus(latestAttempt.status)) {
+            if (latestAttempt.status === "CREATED") {
+              const res = tx.transitionAttempt(
+                latestAttempt.attemptId,
+                { type: "CANCEL", reason: "Supervisor recovery cancelled un-dispatched attempt", now: nowIso },
+                () => crypto.randomUUID()
+              );
+              previousAttempt = res.snapshot;
+            } else {
+              const res = tx.transitionAttempt(
+                latestAttempt.attemptId,
+                {
+                  type: "MARK_UNKNOWN",
+                  reason: "Supervisor recovery of crashed attempt",
+                  reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+                  now: nowIso,
+                },
+                () => crypto.randomUUID()
+              );
+              previousAttempt = res.snapshot;
+            }
+          } else {
+            previousAttempt = latestAttempt;
+          }
+        }
+
+        // Action transition
+        if (!isTerminalActionStatus(targetAction.status)) {
+          if (targetAction.status !== "RETRYING") {
+            tx.transitionAction(
+              targetAction.actionId,
+              {
+                type: "PREPARE_RETRY",
+                errorPayload: { code: "EXECUTION_UNCERTAIN", reason: "Supervisor recovery" },
+                now: nowIso,
+              },
+              () => crypto.randomUUID()
+            );
+          }
+        }
+
+        // Check if Action can retry
+        const currentTotalAttempts = targetAction.totalAttempts;
+        if (currentTotalAttempts < targetAction.maxAttempts) {
+          const nextAttemptNumber = (previousAttempt?.attemptNumber ?? currentTotalAttempts) + 1;
+          const newAttemptId = crypto.randomUUID();
+          const newWorkerId = params.newWorkerId ?? "supervisor-recovery-worker";
+          const newWorkerLeaseId = params.newWorkerLeaseId ?? `lease-recovery-${crypto.randomUUID()}`;
+
+          // Ensure worker exists
+          const existingWorker = tx.getWorker(newWorkerId);
+          if (!existingWorker) {
+            tx.insertWorker({
+              workerId: newWorkerId,
+              hostname: "supervisor-node",
+              pid: 1000,
+              status: "ACTIVE",
+              lastHeartbeatAt: nowIso,
+              createdAt: nowIso,
+            });
+          }
+
+          // Ensure worker lease exists
+          const newLeaseExpiresAt = new Date(new Date(nowIso).getTime() + 60000).toISOString();
+          const existingWorkerLease = tx.getLease(newWorkerLeaseId);
+          if (!existingWorkerLease) {
+            tx.insertLease({
+              leaseId: newWorkerLeaseId,
+              runId: params.runId,
+              workerId: newWorkerId,
+              acquiredAt: nowIso,
+              expiresAt: newLeaseExpiresAt,
+              releasedAt: null,
+              state: "ACTIVE",
+            });
+          }
+
+          // Expire previous worker lease if active
+          if (runSnapshot.leaseId && runSnapshot.leaseId !== newWorkerLeaseId) {
+            const oldLease = tx.getLease(runSnapshot.leaseId);
+            if (oldLease && oldLease.state === "ACTIVE") {
+              tx.updateLeaseState(runSnapshot.leaseId, "EXPIRED", nowIso);
+            }
+          }
+
+          // Re-bind run to the new worker and lease under supervisor authority
+          const updatedRunSnapshot: RunSnapshot = {
+            ...runSnapshot,
+            currentWorkerId: newWorkerId,
+            leaseId: newWorkerLeaseId,
+            leaseExpiresAt: newLeaseExpiresAt,
+            status: "RUNNING",
+            version: runSnapshot.version + 1,
+            updatedAt: nowIso,
+          };
+          tx.updateRun(
+            params.runId,
+            runSnapshot.version,
+            updatedRunSnapshot,
+            {
+              eventId: crypto.randomUUID(),
+              runId: params.runId,
+              timestamp: nowIso,
+              eventType: "run.recovered",
+              schemaVersion: 1,
+              producer: `supervisor.${params.supervisorId}`,
+              payload: {
+                previousWorkerId: runSnapshot.currentWorkerId,
+                previousLeaseId: runSnapshot.leaseId,
+                newWorkerId,
+                newLeaseId: newWorkerLeaseId,
+              },
+            }
+          );
+
+          const idempotencyToken = createAttemptIdempotencyToken(
+            params.runId,
+            targetAction.actionId,
+            nextAttemptNumber
+          );
+
+          const { attempt: attNext, event: attNextEvt } = Attempt.create({
+            attemptId: newAttemptId,
+            actionId: targetAction.actionId,
+            runId: params.runId,
+            attemptNumber: nextAttemptNumber,
+            workerId: newWorkerId,
+            leaseId: newWorkerLeaseId,
+            idempotencyToken,
+            now: nowIso,
+          });
+
+          tx.transitionAction(
+            targetAction.actionId,
+            { type: "START_ATTEMPT", attemptNumber: nextAttemptNumber, now: nowIso },
+            () => crypto.randomUUID()
+          );
+
+          tx.insertAttempt(attNext.snapshot, attNextEvt, {
+            workerId: newWorkerId,
+            leaseId: newWorkerLeaseId,
+          });
+
+          newAttempt = attNext.snapshot;
+        }
+      }
+
+      // Checkpoint creation
+      const nextCheckpointVersion = (latestCheckpoint?.checkpointVersion ?? 0) + 1;
+      const events = tx.getEventsForRun(params.runId);
+      const lastEvent = events.length > 0 ? events[events.length - 1] : undefined;
+      const latestSeq = lastEvent ? lastEvent.sequence : 1;
+
+      const checkpoint: MissionCheckpoint = {
+        checkpointId: crypto.randomUUID(),
+        runId: params.runId,
+        checkpointVersion: nextCheckpointVersion,
+        contractBinding: binding,
+        actionId: targetAction?.actionId ?? null,
+        attemptNumber: newAttempt?.attemptNumber ?? previousAttempt?.attemptNumber ?? null,
+        durableState: {
+          status: "RECOVERED",
+          supervisorId: params.supervisorId,
+          recoveredAt: nowIso,
+          actionId: targetAction?.actionId ?? null,
+          previousAttemptId: previousAttempt?.attemptId ?? null,
+          newAttemptId: newAttempt?.attemptId ?? null,
+        },
+        eventSequence: latestSeq,
+        createdAt: nowIso,
+        updatedAt: nowIso,
+      };
+
+      tx.insertCheckpoint(checkpoint);
+
+      return {
+        run: tx.getRun(params.runId)!,
+        checkpoint,
+        previousAttempt,
+        newAttempt,
+        events,
+      };
+    });
   }
 }

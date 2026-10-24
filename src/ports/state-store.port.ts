@@ -1,5 +1,5 @@
 import { AnyActionEvent, AnyAttemptEvent, DomainEvent } from "../domain/events.js";
-import { RunSnapshot } from "../domain/invariants.js";
+import { ContractBinding, RunSnapshot } from "../domain/invariants.js";
 import { ActionCommand, ActionSnapshot } from "../domain/action.js";
 import { AttemptCommand, AttemptSnapshot } from "../domain/attempt.js";
 import { MissionContractStorePort } from "./mission-contract-store.port.js";
@@ -36,6 +36,35 @@ export interface LeaseRecord {
   readonly state: LeaseState;
 }
 
+export interface SupervisorLease {
+  readonly leaseId: string;
+  readonly runId: string;
+  readonly supervisorId: string;
+  readonly acquiredAt: string;
+  readonly expiresAt: string;
+  readonly releasedAt: string | null;
+  readonly state: "ACTIVE" | "EXPIRED" | "RELEASED";
+}
+
+export interface SupervisorFencingCheck {
+  readonly supervisorId: string;
+  readonly leaseId: string;
+  readonly nowIso?: string;
+}
+
+export interface MissionCheckpoint {
+  readonly checkpointId: string;
+  readonly runId: string;
+  readonly checkpointVersion: number;
+  readonly contractBinding: ContractBinding;
+  readonly actionId?: string | null;
+  readonly attemptNumber?: number | null;
+  readonly durableState: Record<string, unknown>;
+  readonly eventSequence: number;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}
+
 export interface PersistedEvent<T = unknown> {
   readonly eventId: string;
   readonly runId: string;
@@ -50,6 +79,7 @@ export interface PersistedEvent<T = unknown> {
 export interface LeaseFencingCheck {
   readonly workerId: string;
   readonly leaseId: string;
+  readonly nowIso?: string;
 }
 
 /**
@@ -128,6 +158,31 @@ export interface StorageTransaction extends MissionContractStorePort {
   updateLeaseState(leaseId: string, state: LeaseState, releasedAt?: string): void;
   updateLeaseExpiresAt(leaseId: string, expiresAt: string): void;
   updateRunLeaseExpiresAt(runId: string, leaseExpiresAt: string): void;
+
+  // Supervisor Lease Operations
+  acquireSupervisorLease(params: {
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease;
+  renewSupervisorLease(params: {
+    leaseId: string;
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease;
+  releaseSupervisorLease(leaseId: string, nowIso: string): void;
+  expireSupervisorLease(leaseId: string, nowIso: string): void;
+  getSupervisorLease(leaseId: string): SupervisorLease | null;
+  findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null;
+  getSupervisorLeasesForRun(runId: string): readonly SupervisorLease[];
+
+  // Checkpoint Operations
+  insertCheckpoint(checkpoint: MissionCheckpoint): void;
+  getLatestCheckpoint(runId: string): MissionCheckpoint | null;
+  getCheckpoints(runId: string): readonly MissionCheckpoint[];
 }
 
 /**
@@ -163,5 +218,15 @@ export interface StateStorePort extends MissionContractStorePort {
   getTask(taskId: string): TaskRecord | null;
   getWorker(workerId: string): WorkerRecord | null;
   getLease(leaseId: string): LeaseRecord | null;
+
+  // Supervisor & Checkpoint Operations on Store Port
+  getSupervisorLease(leaseId: string): SupervisorLease | null;
+  findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null;
+  getSupervisorLeasesForRun(runId: string): readonly SupervisorLease[];
+  releaseSupervisorLease(leaseId: string, nowIso?: string): void;
+  expireSupervisorLease(leaseId: string, nowIso?: string): void;
+  getLatestCheckpoint(runId: string): MissionCheckpoint | null;
+  getCheckpoints(runId: string): readonly MissionCheckpoint[];
+
   close(): void;
 }
