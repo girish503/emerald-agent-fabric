@@ -1036,4 +1036,379 @@ module.exports = { add };
     // Primary error MUST be preserved, not overwritten by secondary recovery error
     expect(caughtError?.message).toBe("Primary session catastrophic crash");
   });
+
+  // 23. Observation feedback: successful read_file output is provided to the next planning turn and cleared after consumption
+  it("23. successful read_file output becomes available to the next planning turn and is cleared after consumption", async () => {
+    const mission = missionControl.createMission({
+      title: "Read file observation test",
+      description: "Verify read_file output is delivered to the next planning turn",
+      repositoryPath: tmpDir,
+    });
+
+    const receivedContexts: string[] = [];
+    let callCount = 0;
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction(contextText: string) {
+        receivedContexts.push(contextText);
+        callCount++;
+
+        if (callCount === 1) {
+          // Turn 1: Inspect calculator.js
+          return {
+            thought: "Inspect file contents",
+            toolName: "read_file",
+            toolInput: { path: "calculator.js" },
+          };
+        } else if (callCount === 2) {
+          // Turn 2: Inspect git_status
+          return {
+            thought: "Check working tree status",
+            toolName: "git_status",
+            toolInput: {},
+          };
+        } else {
+          // Turn 3: Complete task
+          return {
+            thought: "Repair complete",
+            toolName: "git_status",
+            toolInput: {},
+            isGoalReached: true,
+          };
+        }
+      },
+    };
+
+    await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    expect(receivedContexts.length).toBeGreaterThanOrEqual(3);
+
+    // Turn 1: Initial context has no tool observation
+    expect(receivedContexts[0]).not.toContain("=== TOOL OBSERVATION");
+
+    // Turn 2: Receives the contents of calculator.js from read_file
+    expect(receivedContexts[1]).toContain("=== TOOL OBSERVATION (read_file: calculator.js) ===");
+    expect(receivedContexts[1]).toContain("function add(a, b)");
+    expect(receivedContexts[1]).toContain("BUG: subtraction instead of addition");
+
+    // Turn 3: Previous read_file observation must be cleared (not reused); contains git_status observation
+    expect(receivedContexts[2]).not.toContain("=== TOOL OBSERVATION (read_file: calculator.js) ===");
+    expect(receivedContexts[2]).toContain("=== TOOL OBSERVATION (git_status) ===");
+  });
+
+  // 24. Failure feedback: failed edit_file_anchor provides diagnostic to next planning turn and is cleared after consumption
+  it("24. failed edit_file_anchor provides diagnostic error to next planning turn and is cleared after consumption", async () => {
+    const mission = missionControl.createMission({
+      title: "Failed edit_file_anchor feedback test",
+      description: "Verify edit_file_anchor error is delivered to next turn and enables recovery",
+      repositoryPath: tmpDir,
+    });
+
+    const receivedContexts: string[] = [];
+    let callCount = 0;
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction(contextText: string) {
+        receivedContexts.push(contextText);
+        callCount++;
+
+        if (callCount === 1) {
+          // Turn 1: Deliberately propose an invalid searchAnchor that does not exist in calculator.js
+          return {
+            thought: "Attempt anchored edit with bad anchor",
+            toolName: "edit_file_anchor",
+            toolInput: {
+              path: "calculator.js",
+              searchAnchor: "return a * b; // non-existent code",
+              replacementText: "return a + b;",
+            },
+          };
+        } else if (callCount === 2) {
+          // Turn 2: Model sees error feedback and provides the correct anchor
+          return {
+            thought: "Correct the anchor based on tool error feedback",
+            toolName: "edit_file_anchor",
+            toolInput: {
+              path: "calculator.js",
+              searchAnchor: "return a - b; // BUG: subtraction instead of addition",
+              replacementText: "return a + b; // FIXED",
+            },
+          };
+        } else {
+          // Turn 3: Finish
+          return {
+            thought: "Completed",
+            toolName: "git_status",
+            toolInput: {},
+            isGoalReached: true,
+          };
+        }
+      },
+    };
+
+    const outcome = await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    expect(receivedContexts.length).toBeGreaterThanOrEqual(2);
+
+    // Turn 1: Initial context has no tool error
+    expect(receivedContexts[0]).not.toContain("=== TOOL ERROR");
+
+    // Turn 2: Receives the exact error from LineAnchoredEditor
+    expect(receivedContexts[1]).toContain("=== TOOL ERROR (edit_file_anchor: calculator.js) ===");
+    expect(receivedContexts[1]).toContain("Search anchor not found in calculator.js: 0 occurrences matched");
+    expect(receivedContexts[1]).toContain("Guidance: Ensure searchAnchor matches the exact file contents");
+
+    // Successful edit in Turn 2 should result in successful verification and repair
+    expect(outcome.verification.verified).toBe(true);
+    expect(outcome.session.classification).toBe("SOVEREIGN_VERIFIED_SUCCESS");
+
+    // File on disk was modified correctly
+    const finalContent = fs.readFileSync(path.join(tmpDir, "calculator.js"), "utf8");
+    expect(finalContent).toContain("return a + b; // FIXED");
+  });
+
+  // 25. Budget & Redaction: observation feedback respects maximum byte budget and redacts sensitive data
+  it("25. observation feedback respects maxFeedbackBytes budget and sensitive data redaction", async () => {
+    // Write a file with a sensitive token and large content
+    const largeContent = `const apiKey = "sk-super-secret-production-token-12345";\n` + "x".repeat(6000);
+    fs.writeFileSync(path.join(tmpDir, "large.js"), largeContent, "utf8");
+
+    const mission = missionControl.createMission({
+      title: "Budget and redaction observation test",
+      description: "Ensure large read_file output is truncated to budget",
+      repositoryPath: tmpDir,
+    });
+
+    const receivedContexts: string[] = [];
+    let callCount = 0;
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction(contextText: string) {
+        receivedContexts.push(contextText);
+        callCount++;
+
+        if (callCount === 1) {
+          return {
+            thought: "Read large file",
+            toolName: "read_file",
+            toolInput: { path: "large.js" },
+          };
+        }
+        return {
+          thought: "Stop",
+          toolName: "git_status",
+          toolInput: {},
+          isGoalReached: true,
+        };
+      },
+    };
+
+    await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      config: { maxFeedbackBytes: 1024 },
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    expect(receivedContexts.length).toBeGreaterThanOrEqual(2);
+
+    // Turn 2 receives truncated observation
+    const turn2Context = receivedContexts[1]!;
+    expect(turn2Context).toContain("=== TOOL OBSERVATION (read_file: large.js) ===");
+    expect(turn2Context).toContain("...[truncated for feedback budget]");
+    const obsSection = turn2Context.slice(turn2Context.indexOf("=== TOOL OBSERVATION"));
+    expect(Buffer.byteLength(obsSection, "utf8")).toBeLessThanOrEqual(1500);
+  });
+
+  // 26. (Test A) Final Edit With Goal-Reached: executes valid edit_file_anchor even when isGoalReached is true
+  it("26. executes valid edit_file_anchor proposal when isGoalReached is true without discarding the edit", async () => {
+    const mission = missionControl.createMission({
+      title: "Compound edit and goal-reached test",
+      description: "Ensure edit_file_anchor is executed when proposal sets isGoalReached: true",
+      repositoryPath: tmpDir,
+    });
+
+    let proposalCount = 0;
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        proposalCount++;
+        // Single turn: model proposes correct edit AND sets isGoalReached: true
+        return {
+          thought: "Fix calculator defect with line anchor and signal completion",
+          toolName: "edit_file_anchor",
+          toolInput: {
+            path: "calculator.js",
+            searchAnchor: "return a - b; // BUG: subtraction instead of addition",
+            replacementText: "return a + b; // FIXED_COMPOUND",
+          },
+          isGoalReached: true,
+        };
+      },
+    };
+
+    const outcome = await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      testCommand: { cmd: "node", args: ["test.js"] },
+      expectedFiles: ["calculator.js"],
+    });
+
+    expect(proposalCount).toBe(1);
+
+    // Edit was NOT discarded: file was modified on disk
+    const onDiskContent = fs.readFileSync(path.join(tmpDir, "calculator.js"), "utf8");
+    expect(onDiskContent).toContain("return a + b; // FIXED_COMPOUND");
+
+    // Sovereign verification ran on the patched file and succeeded
+    expect(outcome.verification.verified).toBe(true);
+    expect(outcome.session.classification).toBe("SOVEREIGN_VERIFIED_SUCCESS");
+    expect(outcome.session.sovereignVerified).toBe(true);
+    expect(outcome.changedFiles).toContain("calculator.js");
+
+    // Timeline confirms tool execution and completion evidence
+    const timeline = evidenceControl.getTimeline(outcome.run.runId);
+    const toolExecEntry = timeline.find((e) => e.eventType === "repair.file_anchored_edit");
+    expect(toolExecEntry).toBeDefined();
+    expect(toolExecEntry?.details["outcome"]).toBe("SUCCESS");
+  });
+
+  // 27. (Test B) Pure Goal-Reached Signal: terminates immediately without executing unnecessary tools
+  it("27. pure goal-reached signal terminates loop without executing unnecessary tool operations", async () => {
+    const mission = missionControl.createMission({
+      title: "Pure goal-reached signal test",
+      description: "Ensure pure completion signal halts loop without running tools",
+      repositoryPath: tmpDir,
+    });
+
+    let proposalCount = 0;
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        proposalCount++;
+        return {
+          thought: "Signal pure completion without action",
+          toolName: "git_status",
+          toolInput: {},
+          isGoalReached: true,
+        };
+      },
+    };
+
+    const outcome = await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    expect(proposalCount).toBe(1);
+
+    // Timeline confirms model declared done without tool execution
+    const timeline = evidenceControl.getTimeline(outcome.run.runId);
+    const declaredDone = timeline.find((e) => e.eventType === "repair.model_declared_done");
+    expect(declaredDone).toBeDefined();
+    expect(declaredDone?.description).toContain("without pending mutation");
+
+    const executedTools = timeline.filter((e) => e.eventType === "tool.executed");
+    expect(executedTools.length).toBe(0);
+
+    // Independent sovereign verification ran on unedited file and failed
+    expect(outcome.verification.verified).toBe(false);
+    expect(outcome.session.classification).toBe("VERIFICATION_FAILURE");
+  });
+
+  // 28. (Test C) Failed Final Edit With Goal-Reached: feeds error back and does not terminate prematurely
+  it("28. failed edit_file_anchor with isGoalReached does not terminate prematurely when attempts remain", async () => {
+    const mission = missionControl.createMission({
+      title: "Failed edit with goal-reached test",
+      description: "Ensure failed edit delivers error to next turn despite isGoalReached: true",
+      repositoryPath: tmpDir,
+    });
+
+    const receivedContexts: string[] = [];
+    let callCount = 0;
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction(contextText: string) {
+        receivedContexts.push(contextText);
+        callCount++;
+
+        if (callCount === 1) {
+          // Turn 1: Bad anchor + isGoalReached: true
+          return {
+            thought: "Attempt wrong edit with premature goal reached",
+            toolName: "edit_file_anchor",
+            toolInput: {
+              path: "calculator.js",
+              searchAnchor: "return a / b; // non-existent",
+              replacementText: "return a + b;",
+            },
+            isGoalReached: true,
+          };
+        } else {
+          // Turn 2: Recover with correct anchor
+          return {
+            thought: "Recover using correct anchor",
+            toolName: "edit_file_anchor",
+            toolInput: {
+              path: "calculator.js",
+              searchAnchor: "return a - b; // BUG: subtraction instead of addition",
+              replacementText: "return a + b; // FIXED_RECOVERED",
+            },
+            isGoalReached: true,
+          };
+        }
+      },
+    };
+
+    const outcome = await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    expect(callCount).toBe(2);
+    expect(receivedContexts.length).toBe(2);
+
+    // Turn 2 received actual tool error
+    expect(receivedContexts[1]).toContain("=== TOOL ERROR (edit_file_anchor: calculator.js) ===");
+    expect(receivedContexts[1]).toContain("Search anchor not found in calculator.js: 0 occurrences matched");
+
+    // Final outcome is verified success after recovery in Turn 2
+    expect(outcome.verification.verified).toBe(true);
+    expect(outcome.session.classification).toBe("SOVEREIGN_VERIFIED_SUCCESS");
+
+    const onDiskContent = fs.readFileSync(path.join(tmpDir, "calculator.js"), "utf8");
+    expect(onDiskContent).toContain("return a + b; // FIXED_RECOVERED");
+  });
+
+  // 29. (Test C variant) Failed Final Edit with Goal-Reached and exhausted budget safely fails without inventing success
+  it("29. failed edit_file_anchor with isGoalReached and 1 attempt budget safely fails without inventing success", async () => {
+    const mission = missionControl.createMission({
+      title: "Exhausted budget failure test",
+      description: "Ensure single-attempt failure with isGoalReached: true fails closed safely",
+      repositoryPath: tmpDir,
+    });
+
+    const modelAdapter: ModelAdapter = {
+      async proposeAction() {
+        return {
+          thought: "Bad anchor that will fail",
+          toolName: "edit_file_anchor",
+          toolInput: {
+            path: "calculator.js",
+            searchAnchor: "non_existent_anchor",
+            replacementText: "whatever",
+          },
+          isGoalReached: true,
+        };
+      },
+    };
+
+    const outcome = await orchestrator.executeRepairSession(mission.missionId, modelAdapter, {
+      config: { maxAttempts: 1, maxSteps: 1 },
+      testCommand: { cmd: "node", args: ["test.js"] },
+    });
+
+    // Zero files modified
+    expect(outcome.changedFiles.length).toBe(0);
+    // Sovereign verification failed
+    expect(outcome.verification.verified).toBe(false);
+    expect(outcome.session.classification).toBe("VERIFICATION_FAILURE");
+    expect(outcome.session.sovereignVerified).toBe(false);
+  });
 });

@@ -12,7 +12,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { createHash } from "node:crypto";
 
-import { computeCanonicalHash } from "../../domain/canonical-hash.js";
+import { computeCanonicalHash, redactSensitiveData } from "../../domain/canonical-hash.js";
 import { CapabilityFence, computeCapabilityFenceHash } from "../../domain/capability-fence.js";
 import { CapabilityFenceEnforcer } from "../../application/capability-fence-enforcer.js";
 import { CrossHarnessGateway } from "../../application/cross-harness-gateway.js";
@@ -154,7 +154,7 @@ export class ProductionRepairOrchestrator {
       scope: {
         allowedWorkspacePaths: [mission.workspacePath],
         forbiddenWorkspacePaths: [".git", "/etc", "/root"],
-        allowedTools: ["read_file", "search_code", "git_status", "git_diff", "write_file", "run_command"],
+        allowedTools: ["read_file", "search_code", "git_status", "git_diff", "write_file", "edit_file_anchor", "run_command"],
         maxOperations: repairConfig.maxToolCalls * 2,
         maxMemoryBytes: 512 * 1024 * 1024,
         networkAllowed: false,
@@ -237,6 +237,7 @@ export class ProductionRepairOrchestrator {
 
     let pendingDiagnosticFeedback: string | null = null;
     let pendingTestFeedback: string | null = null;
+    let pendingObservationFeedback: string | null = null;
     let lastFailedMutationHash: string | null = null;
     let consecutiveIdenticalFailures = 0;
     let sovereignVerificationCallsAvoided = 0;
@@ -299,6 +300,10 @@ export class ProductionRepairOrchestrator {
         `Modified Files So Far: ${sessionState.modifiedFiles.length > 0 ? sessionState.modifiedFiles.join(", ") : "None"}`,
       ].join("\n");
 
+      if (pendingObservationFeedback) {
+        contextText += `\n\n${pendingObservationFeedback}`;
+        pendingObservationFeedback = null;
+      }
       if (pendingDiagnosticFeedback) {
         contextText += `\n\n${pendingDiagnosticFeedback}`;
       }
@@ -337,13 +342,22 @@ export class ProductionRepairOrchestrator {
         { toolName: proposal.toolName, input: proposal.toolInput },
       );
 
-      // Model claims goal reached
-      if (proposal.isGoalReached) {
+      // Check if proposal contains an actionable substantive mutation operation
+      const hasSubstantiveAction = Boolean(
+        proposal.toolName &&
+        (proposal.toolName === "edit_file_anchor" || proposal.toolName === "write_file") &&
+        proposal.toolInput &&
+        typeof proposal.toolInput === "object" &&
+        Object.keys(proposal.toolInput).length > 0,
+      );
+
+      // Pure goal-reached signal: model declares done with no pending substantive mutation
+      if (proposal.isGoalReached && !hasSubstantiveAction) {
         // Model cannot declare completion autonomously. Trigger sovereign verification.
         this.evidenceControl.recordTimelineEntry(
           run.runId,
           "repair.model_declared_done",
-          "Model declared goal reached. Initiating authoritative verification gate.",
+          "Model declared goal reached without pending mutation. Initiating authoritative verification gate.",
           actorId,
         );
         break;
@@ -445,6 +459,12 @@ export class ProductionRepairOrchestrator {
       );
 
       if (!toolRes.success) {
+        const rawErr = toolRes.error || "Tool execution failed";
+        const maxBytes = repairConfig.maxFeedbackBytes ?? 4096;
+        const boundedErr = Buffer.byteLength(rawErr, "utf8") > maxBytes
+          ? truncateUtf8Safe(rawErr, maxBytes) + "\n...[truncated for feedback budget]"
+          : rawErr;
+
         if (proposal.toolName === "edit_file_anchor") {
           const filePath = String(proposal.toolInput["path"] || proposal.toolInput["filePath"] || "");
           this.evidenceControl.recordTimelineEntry(
@@ -461,9 +481,33 @@ export class ProductionRepairOrchestrator {
               terminalAuthority: false,
             },
           );
+          pendingObservationFeedback = `=== TOOL ERROR (edit_file_anchor: ${filePath}) ===\n${boundedErr}\nGuidance: Ensure searchAnchor matches the exact file contents including whitespace, indentation, and newlines. Inspect the file using read_file if needed.`;
+        } else {
+          pendingObservationFeedback = `=== TOOL ERROR (${proposal.toolName}) ===\n${boundedErr}`;
         }
         // Tool failed; continue loop if budgets permit
         continue;
+      }
+
+      // Capture observation-tool output for next planning turn
+      if (proposal.toolName !== "write_file" && proposal.toolName !== "edit_file_anchor") {
+        const targetLabel = proposal.toolInput["path"] || proposal.toolInput["filePath"] || proposal.toolInput["pattern"] || "";
+        const labelSuffix = targetLabel ? `: ${targetLabel}` : "";
+        let formattedOutput: string;
+        if (typeof toolRes.output === "string") {
+          formattedOutput = toolRes.output;
+        } else if (typeof toolRes.output === "object" && toolRes.output !== null) {
+          formattedOutput = JSON.stringify(redactSensitiveData(toolRes.output), null, 2);
+        } else {
+          formattedOutput = String(toolRes.output ?? "");
+        }
+
+        const maxBytes = repairConfig.maxFeedbackBytes ?? 4096;
+        const boundedOut = Buffer.byteLength(formattedOutput, "utf8") > maxBytes
+          ? truncateUtf8Safe(formattedOutput, maxBytes) + "\n...[truncated for feedback budget]"
+          : formattedOutput;
+
+        pendingObservationFeedback = `=== TOOL OBSERVATION (${proposal.toolName}${labelSuffix}) ===\n${boundedOut}`;
       }
 
       // Check if this was a mutation
@@ -727,6 +771,16 @@ export class ProductionRepairOrchestrator {
       // STAGE 10: REVISE (Implicit in proceeding to next loop iteration)
       // -----------------------------------------------------------------------
       sessionState.currentPhase = "REVISE";
+
+      if (proposal.isGoalReached && !pendingDiagnosticFeedback && !pendingTestFeedback) {
+        this.evidenceControl.recordTimelineEntry(
+          run.runId,
+          "repair.model_declared_done",
+          "Model declared goal reached after executing proposed action. Initiating authoritative verification gate.",
+          actorId,
+        );
+        break;
+      }
     }
 
     // Capture Final Reviewable Diff
