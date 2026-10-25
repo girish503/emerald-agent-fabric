@@ -1,0 +1,52 @@
+{
+  "phase": "42",
+  "protocolVersion": "emerald-phase42-swe-pilot-v1",
+  "protocolFrozen": true,
+  "systemPromptDigest": "a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0",
+  "taskPromptTemplateDigest": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "toolCatalogDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "resourceLimits": {
+    "maxSteps": 10,
+    "maxAttempts": 3,
+    "wallClockLimitMs": 600000,
+    "actionLimit": 15,
+    "failureLimit": 3,
+    "proposalRejectionLimit": 3,
+    "toolTimeoutMs": 30000,
+    "outputLimitBytes": 65536,
+    "stepTimeoutMs": 120000
+  },
+  "modelConfiguration": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd82851",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 4096,
+    "OllamaVersion": "0.40.6",
+    "NodeVersion": "v20.x",
+    "OS": "win32",
+    "CPU": "Intel Core i3-N305 (8 Efficient Cores, Alder Lake-N)",
+    "RAM": "7.6 GiB total (~1.4 GiB free)",
+    "gpuAcceleration": false,
+    "deterministicSeed": null,
+    "stochasticityNote": "STOCHASTICITY_NOT_CONTROLLED"
+  },
+  "verificationPolicy": {
+    "dualGateCleanRoom": true,
+    "failToPassRequired": true,
+    "passToPassRequired": true,
+    "suiteRanRequired": true,
+    "suiteRanRegex": "/(?:PASS|Tests?:?\\s+[1-9]\\d*|passing|# tests [1-9]\\d*)/i",
+    "fourfoldGate": "TaskSatisfied && VerificationPassed && PolicySatisfied && EvidenceComplete",
+    "authorityComposition": {
+      "threshold": "2-of-3",
+      "authorities": [
+        "WORKER_PRODUCER",
+        "SUPERVISOR",
+        "INDEPENDENT_VERIFIER"
+      ]
+    },
+    "terminalFencing": "Invariant B: One run -> at most one authoritative terminal record",
+    "offlineAuditorCrossCheck": true
+  }
+}
