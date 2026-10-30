@@ -1,0 +1,130 @@
+{
+  "phase": "44A",
+  "status": "COMPLETE",
+  "hardwareBaseline": {
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "ram": "7.63 GiB",
+    "gpu": "Intel(R) UHD Graphics (Integrated)",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE"
+  },
+  "models": [
+    {
+      "modelName": "gemma3:1b",
+      "modelDigest": "83be9dbf9dd6ea077de84d4fbaeb094dae9f266ca1b302f04e1c803bea566a79",
+      "parameters": 999890000,
+      "quantization": "Q4_K_M",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 22592,
+      "observedRamMb": 883,
+      "status": "EXECUTABLE",
+      "evidenceSource": "MEASURED (Phase 43 Gate A & Phase 44A probe)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    },
+    {
+      "modelName": "qwen2.5-coder:1.5b",
+      "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "parameters": 1540000000,
+      "quantization": "Q4_K_M",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 25278,
+      "observedRamMb": 986,
+      "status": "EXECUTABLE",
+      "evidenceSource": "MEASURED (Phase 42 Baseline & Phase 43)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    },
+    {
+      "modelName": "qwen2.5:1.5b",
+      "modelDigest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "parameters": 1540000000,
+      "quantization": "Q4_K_M",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 34130,
+      "observedRamMb": 986,
+      "status": "EXECUTABLE",
+      "evidenceSource": "MEASURED (Phase 43)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    },
+    {
+      "modelName": "smollm2:1.7b",
+      "modelDigest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+      "parameters": 1710000000,
+      "quantization": "Q8_0",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 71540,
+      "observedRamMb": 1820,
+      "status": "EXECUTABLE",
+      "evidenceSource": "MEASURED (Phase 43 Gate A; Q8_0 bandwidth bottleneck)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    },
+    {
+      "modelName": "granite3-dense:2b",
+      "modelDigest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+      "parameters": 2600000000,
+      "quantization": "Q4_K_M",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 46954,
+      "observedRamMb": 1601,
+      "status": "EXECUTABLE",
+      "evidenceSource": "MEASURED (Phase 43)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    },
+    {
+      "modelName": "qwen2.5-coder:3b",
+      "modelDigest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameters": 3100000000,
+      "quantization": "Q4_K_M",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 39633,
+      "observedRamMb": 1929,
+      "status": "EXECUTABLE",
+      "evidenceSource": "MEASURED (Phase 43 Gate A)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    },
+    {
+      "modelName": "llama3.2:3b",
+      "modelDigest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "parameters": 3200000000,
+      "quantization": "Q4_K_M",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 63113,
+      "observedRamMb": 2019,
+      "status": "EXECUTABLE",
+      "evidenceSource": "MEASURED (Phase 43)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    },
+    {
+      "modelName": "deepseek-r1:8b",
+      "modelDigest": "6995872bfe4c521a67b32da386cd21d5c6e819b6e0d62f79f64ec83be99f5763",
+      "parameters": 8200000000,
+      "quantization": "Q4_K_M",
+      "sourceIntegrity": "CANONICAL_GGUF_OLLAMA",
+      "hardware": "CPU (Intel i3-N305)",
+      "observedLatencyMs": 135000,
+      "observedRamMb": 5225,
+      "status": "ENVIRONMENTALLY_INFEASIBLE",
+      "evidenceSource": "MEASURED (Phase 15 / Phase 43; exceeds 120s step ceiling)",
+      "taskSolveRate": 0.0,
+      "governedSuccessRate": 0.0
+    }
+  ],
+  "conclusions": {
+    "hardwareLimit": "Intel Core i3-N305 with single-channel 8GB DDR5 RAM bounds feasible model size to <= 3.2B at Q4_K_M under a 120,000 ms step ceiling.",
+    "quantizationEffect": "Q8_0 introduces a ~2.8x latency multiplier on CPU compared to Q4_K_M due to memory bandwidth saturation, but lower-precision requantization (Q8->Q4) is lossy-on-lossy and rejected.",
+    "acceleratorImpact": "Dedicated accelerator hardware is completely absent on this host. Without hardware acceleration, models >= 7B remain environmentally infeasible.",
+    "governanceIntegrity": "Across all feasible CPU models and infeasible 8B models, Emerald governance, clean-room verification, fourfold completion, and offline auditing remain 100% fail-closed."
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase20-external-reference-contract.json",
+  "contractId": "phase20-external-reference-contract",
+  "version": "1.0.0",
+  "timestamp": "2026-10-18T07:43:00Z",
+  "governingAdr": "ADR-0030",
+  "governingConstitution": "GEMINI.md v1.0",
+  "baselineCommit": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "hypotheses": {
+    "H1": {
+      "statement": "A sufficiently capable external coding model can cross the capability boundary that the tested local CPU model set failed to cross, while Emerald's governance, execution, clean-room verification, and evidence architecture remain unchanged.",
+      "testMethod": "Substitute model provider with external reference model under frozen Emerald pipeline",
+      "falsificationCondition": "External reference model fails due to model capability limits or fails verification"
+    },
+    "H2": {
+      "statement": "The dominant limitation observed in Phases 15-19 is model/inference capability rather than Emerald's execution/governance architecture.",
+      "testMethod": "Audit governance and verification pipeline performance under reference model execution",
+      "falsificationCondition": "External model fails due to defects or invalid rejections in Emerald's governance or verifier"
+    }
+  },
+  "task": {
+    "taskId": "math-repair-swe",
+    "targetFile": "src/math.js",
+    "taskDescription": "Repair src/math.js so add(2,3) returns 5 while preserving the existing multiply behavior. Inspect the existing implementation before editing it.",
+    "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+    "hashAlgorithm": "SHA-256",
+    "fixture": {
+      "source": "src/math.js",
+      "targetTest": "test/target.test.js",
+      "regressionTest": "test/regression.test.js"
+    }
+  },
+  "frozenVariables": {
+    "baselineCommit": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+    "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+    "missionContract": "Least privilege, read/write workspace",
+    "toolCatalog": ["read_file", "write_file", "search_code", "git_status", "git_diff", "run_command"],
+    "toolSchemas": "src/domain/tool-schemas.ts strict Zod schemas",
+    "contextConstruction": "ContextEngine and ContextSnapshot",
+    "systemInstructions": "LiveAgentBrain standard prompt sections",
+    "proposalSchema": "ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA anyOf union",
+    "proposalValidator": "11-stage governance pipeline",
+    "reflex": "Rule-based reflex hash 5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+    "policyEvaluator": "Capability authorization gate",
+    "toolGateway": "Lexical path boundary and resource enforcement",
+    "workerRuntime": "Action/Attempt state machine and lease verification",
+    "actionAttemptSemantics": "Relational SQLite persistence",
+    "resourceLimits": "Execution timeouts and buffer size limits",
+    "rejectionCeiling": "DEFAULT_STEP_CONTROLLER_BUDGET",
+    "agentStepController": "Orchestrated step loop",
+    "cleanRoomVerifier": "Phase 14 independent clean-room verification harness",
+    "independentEvidence": "StateStore SQLite records and JSON evidence bundle",
+    "successCriteria": "Fourfold completion gate predicate"
+  },
+  "independentVariable": {
+    "name": "modelInferenceProviderAndIdentity",
+    "baseline": {
+      "provider": "ollama",
+      "models": ["gemma3:1b", "qwen2.5:1.5b", "llama3.2:3b", "qwen2.5:3b", "qwen3:4b", "deepseek-r1:8b"],
+      "device": "CPU (Intel Core i3-N305)",
+      "cost": 0
+    },
+    "referenceTreatment": {
+      "provider": "TBD (external provider)",
+      "model": "TBD (frontier coding model >=30B)",
+      "device": "Remote managed API",
+      "cost": "Metered (subject to budget cap)"
+    }
+  },
+  "gates": {
+    "gateA": {
+      "name": "Model Response Feasibility",
+      "timeoutCeilingMs": 120000,
+      "metrics": [
+        "requestLatencyMs",
+        "responseLatencyMs",
+        "httpStatusCode",
+        "inputTokens",
+        "outputTokens",
+        "totalTokens",
+        "rawOutputBytes",
+        "proposalJsonValid",
+        "proposalSchemaValid"
+      ],
+      "passCriteria": [
+        "Response received within 120000ms",
+        "Valid JSON deserialization",
+        "action_proposal schema conformance",
+        "isGoalReached === false with executable tool action",
+        "Valid registered toolName",
+        "Valid inputPayload"
+      ],
+      "failureRule": "Premature isGoalReached: true is an immediate Gate A failure"
+    },
+    "gateB": {
+      "name": "Governed Execution",
+      "metrics": [
+        "totalModelCalls",
+        "validProposals",
+        "invalidProposals",
+        "proposalRejectionsByStage",
+        "physicalToolExecutions",
+        "actionCount",
+        "attemptCount",
+        "mutationEvidence",
+        "recoveryBehavior",
+        "finalLoopStatus"
+      ],
+      "passCriteria": [
+        "Physical inspection via read_file on src/math.js",
+        "Physical repair via write_file on src/math.js",
+        "Zero governance bypasses",
+        "Zero security violations",
+        "Completion claimed only after physical repair"
+      ]
+    },
+    "gateC": {
+      "name": "Clean-Room Verification",
+      "verifier": "CleanRoomVerifier (Phase 14)",
+      "passCriteria": [
+        "Pristine baseline materialized",
+        "Baseline FAIL_TO_PASS confirms defect (exitCode != 0)",
+        "Baseline PASS_TO_PASS confirms regression tests pass (exitCode === 0)",
+        "Unified patch successfully captured from workspace",
+        "Unified patch cleanly applied to pristine baseline",
+        "Patched FAIL_TO_PASS succeeds (exitCode === 0)",
+        "Patched PASS_TO_PASS succeeds (exitCode === 0)",
+        "Suite execution count > 0",
+        "Static scope audit passed (changes restricted to src/math.js)",
+        "Clean-room environment cleanly disposed"
+      ]
+    },
+    "gateD": {
+      "name": "Fourfold Completion",
+      "predicate": "TaskSatisfied && VerificationPassed && PolicySatisfied && EvidenceComplete",
+      "passCriteria": [
+        "TaskSatisfied: Model claimed completion after valid repair",
+        "VerificationPassed: CleanRoomVerifier confirmed F2P=1.0 and P2P=1.0",
+        "PolicySatisfied: Zero capability or lease violations",
+        "EvidenceComplete: Complete relational SQLite trace and verified JSON bundle"
+      ]
+    }
+  },
+  "successPredicate": {
+    "definition": "FULL_END_TO_END_SUCCESS",
+    "requires": [
+      "Gate A PASS",
+      "At least one physical mutation",
+      "Correct task-directed repair in src/math.js",
+      "Preserved regression behavior in test/regression.test.js",
+      "No unauthorized action",
+      "Correct completion behavior (no premature completion)",
+      "Clean-room verification PASS (F2P=1.0, P2P=1.0, SUITE_RAN>0, SCOPE_AUDIT=PASSED)",
+      "EvidenceComplete === true",
+      "Final fourfold predicate === true"
+    ]
+  },
+  "failureClassifications": [
+    { "code": "NETWORK_FAILURE", "precedence": 1, "domain": "environment", "description": "Socket error, DNS failure, connection reset, or network unreachable" },
+    { "code": "AUTHENTICATION_FAILURE", "precedence": 2, "domain": "provider", "description": "Missing, invalid, expired, or rejected API credentials" },
+    { "code": "RATE_LIMIT_FAILURE", "precedence": 3, "domain": "provider", "description": "HTTP 429 or quota exceeded from external provider" },
+    { "code": "PROVIDER_TIMEOUT", "precedence": 4, "domain": "provider", "description": "External provider exceeded 120s timeout ceiling" },
+    { "code": "PROVIDER_API_FAILURE", "precedence": 5, "domain": "provider", "description": "External API returned HTTP 4xx/5xx or malformed provider response" },
+    { "code": "ENVIRONMENT_FAILURE", "precedence": 6, "domain": "environment", "description": "Local host OOM, Docker daemon failure, or OS process crash" },
+    { "code": "GOVERNANCE_FAILURE", "precedence": 7, "domain": "architecture", "description": "Emerald governance erroneously rejected a compliant, authorized proposal" },
+    { "code": "VERIFICATION_FAILURE", "precedence": 8, "domain": "architecture", "description": "CleanRoomVerifier crashed or failed due to test harness defects" },
+    { "code": "MODEL_SCHEMA_FAILURE", "precedence": 9, "domain": "model", "description": "Output is unparseable JSON, malformed schema, or premature completion claim" },
+    { "code": "MODEL_CAPABILITY_FAILURE", "precedence": 10, "domain": "model", "description": "Model trapped in loops, unable to sustain trajectory, or hallucinating arguments" },
+    { "code": "MODEL_CODING_FAILURE", "precedence": 11, "domain": "model", "description": "Model produces incorrect code, syntax errors, or placeholder comments" },
+    { "code": "MODEL_RECOVERY_FAILURE", "precedence": 12, "domain": "model", "description": "Model fails to correct behavior after receiving governance rejection feedback" },
+    { "code": "MODEL_VERIFICATION_FAILURE", "precedence": 13, "domain": "model", "description": "Model claims completion but clean-room verification fails (F2P or P2P failure)" },
+    { "code": "UNKNOWN_FAILURE", "precedence": 14, "domain": "unclassified", "description": "Unhandled anomaly not captured by above classifications" }
+  ],
+  "regressionRequirements": {
+    "gitHeadExpected": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+    "commands": [
+      { "name": "TypeScript Typecheck", "cmd": "npx tsc --noEmit", "expectedExit": 0 },
+      { "name": "Phase 14 Verification Tests", "cmd": "npx vitest run tests/integration/phase14-independent-verification.test.ts", "expectedExit": 0, "expectedTests": "11 passed" },
+      { "name": "Integration Test Suite", "cmd": "npx vitest run tests/integration/", "expectedExit": 0, "expectedTests": "83 passed, 1 skipped" },
+      { "name": "Historical Artifact Verification", "cmd": "node scripts/verify-phase10h-artifacts.ts", "expectedExit": 0, "expectedHashes": "9 of 9 verified" },
+      { "name": "Git Diff Check", "cmd": "git diff --check", "expectedExit": 0 },
+      { "name": "Git Rev Parse HEAD", "cmd": "git rev-parse HEAD", "expectedOutput": "70979cf4bcbf4a237b79af3a23449a4b932104d5" }
+    ]
+  },
+  "costPolicy": {
+    "phase20Cost": "₹0.00 (Zero external API calls made in Phase 20)",
+    "futureExperimentCeilings": {
+      "maxPerExperimentUSD": 1.00,
+      "maxPerExperimentINR": 85.00,
+      "maxPerStepUSD": 0.10,
+      "maxPerStepINR": 8.50,
+      "enforcement": "Hard execution halt on budget breach"
+    },
+    "accountingMetrics": [
+      "inputTokens",
+      "outputTokens",
+      "totalTokens",
+      "inputCostUSD",
+      "outputCostUSD",
+      "totalCostUSD"
+    ]
+  },
+  "providerSelectionCriteria": [
+    "Coding Capability: Documented strong performance on public SWE benchmarks (SWE-bench Verified >40%)",
+    "Structured Output Reliability: Native support for strict JSON Schema output matching action_proposal",
+    "Tool-Use Reliability: High fidelity in function calling and closed-schema parameter adherence",
+    "Latency: Typical response latency under 15 seconds for 2k-4k context tokens",
+    "API Stability: Documented, versioned HTTP API with formal backward-compatibility policies",
+    "Cost Transparency: Clear per-token pricing with no opaque minimum commitments",
+    "Privacy & Data Retention: Zero-data-retention or enterprise privacy options (code not used for training)",
+    "Context Capacity: Minimum 32k context window to comfortably handle workspace contexts",
+    "Deterministic Evaluation Capability: Support for seed and temperature: 0.0",
+    "Port Compatibility: Direct integration via standard HTTPS behind ModelProviderPort without heavy SDK"
+  ]
+}

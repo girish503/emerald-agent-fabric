@@ -1,0 +1,103 @@
+{
+  "phase": "29",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "name": "smollm2:1.7b",
+    "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+    "parameters": "1.7B (~1.71B)",
+    "architecture": "llama",
+    "quantization": "Q8_0",
+    "size": "1.82 GB (1,820,428,533 bytes)"
+  },
+  "phase28Confound": {
+    "quantization": "Q8_0",
+    "latencyMs": 120065,
+    "capabilityEvaluated": false,
+    "confoundAnalysis": "Phase 28 timed out at Gate A prior to token generation, failing to evaluate SmolLM2's agentic or recovery capabilities. It cannot be determined from Phase 28 alone whether the model architecture/training is incapable of recovery (Hypothesis A) or whether 8-bit memory bus throughput on the CPU caused an operational timeout (Hypothesis B)."
+  },
+  "quantizationPaths": [
+    {
+      "name": "Path 1 — Direct Re-quantization (Q8_0 -> Q4_K_M)",
+      "supported": false,
+      "scientificValidity": "INVALID",
+      "rationale": "Quantizing an already-quantized integer representation (lossy-on-lossy re-quantization) induces severe compounding truncation noise and invalidates k-quant block scaling statistics. llama-quantize expects unquantized floating-point weights (F32, F16, or BF16); applying Q4_K_M algorithms to Q8_0 is either rejected by tooling or degrades model perplexity."
+    },
+    {
+      "name": "Path 2 — Canonical Source Quantization (BF16 -> Q4_K_M)",
+      "supported": true,
+      "scientificValidity": "VALID",
+      "rationale": "Converting original Hugging Face Safetensors (BF16) to GGUF using convert_hf_to_gguf.py, followed by llama-quantize Q4_K_M. This preserves tensor calibration and exact block scale parameters.",
+      "localFeasibility": "NOT_FEASIBLE_LOCALLY",
+      "blocker": "Original BF16 Safetensors weights (~3.4 GB) are NOT present on the local filesystem. Only the Ollama Q8_0 GGUF blob exists locally."
+    },
+    {
+      "name": "Path 3 — Ollama Modelfile Build (ollama create)",
+      "supported": false,
+      "scientificValidity": "NOT_APPLICABLE",
+      "rationale": "Ollama's 'create' command packages existing GGUF blobs with templates and parameters. It does NOT possess an internal tensor quantization engine and cannot transcode Q8_0 weights into Q4_K_M tensors."
+    }
+  ],
+  "sourceCheckpointRequirement": {
+    "requiredFormat": "Hugging Face Safetensors (BF16/FP16) or unquantized F16/BF16 GGUF",
+    "canonicalRepository": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+    "requiredDiskSpaceMb": 3400,
+    "locallyPresent": false,
+    "localAvailabilityAudit": "Inspected C:\\Users\\Adusumalli Girish\\.ollama\\models and C:\\Users\\Adusumalli Girish\\.cache. Zero unquantized SmolLM2 checkpoints exist on disk. Only the Q8_0 blob (4d2396b16114...) exists locally."
+  },
+  "tooling": [
+    {
+      "tool": "llama-quantize",
+      "presentLocally": false,
+      "status": "Not installed in PATH or system binaries."
+    },
+    {
+      "tool": "python (v3.13)",
+      "presentLocally": true,
+      "status": "Installed in Anaconda environment, but lacks llama.cpp / gguf conversion packages."
+    },
+    {
+      "tool": "ollama (v0.40.6)",
+      "presentLocally": true,
+      "status": "Installed and active, but does not support standalone tensor quantization."
+    }
+  ],
+  "artifactRequirements": {
+    "targetGguf": "SmolLM2-1.7B-Instruct-Q4_K_M.gguf",
+    "tensorQuantization": "Q4_K_M",
+    "expectedFileSizeMb": 1050,
+    "targetOllamaModel": "smollm2:1.7b-q4_k_m",
+    "tokenizerPreservation": "Must retain exact LlamaTokenizer / vocab size 49,152",
+    "templatePreservation": "Must retain identical SmolTalk chat template and stop tokens (<|im_start|>, <|im_end|>)"
+  },
+  "experimentalControls": [
+    "Baseline commit SHA (70979cf4bcbf4a237b79af3a23449a4b932104d5)",
+    "Task directive SHA-256 (649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58)",
+    "Strict Zod tool schemas (src/domain/tool-schemas.ts)",
+    "Standardized tool projection and prompt formatting",
+    "ContextEngine observation snapshotting and limits",
+    "ProposalValidator multi-stage structural validation",
+    "Reflex engine rejection budgeting (maxProposalRejections=6)",
+    "AgentStepController limits (maxSteps=12, maxActions=8)",
+    "Operational feasibility ceiling (120,000ms per step)",
+    "CleanRoomVerifier independent verification contract",
+    "Host CPU execution environment (Intel Core i3-N305, 8 E-cores)"
+  ],
+  "latencyAssessment": {
+    "measuredQ8LatencyMs": 120065,
+    "q8ModelSizeMb": 1820,
+    "q4EstimatedModelSizeMb": 1050,
+    "memoryBandwidthReductionPct": 42.3,
+    "estimatedQ4GateALatencySec": "70s - 90s",
+    "hardwareFeasibilityPlausibility": "PLAUSIBLE_WITHIN_120S",
+    "latencyAnalysis": "In memory-bandwidth-bound decode phases, a 42% reduction in model footprint proportionally decreases byte transfer overhead. Based on empirical measurements of qwen2.5:1.5b (986 MB Q4_K_M, Gate A: 49.8s-69.4s) and qwen2.5-coder:1.5b (986 MB Q4_K_M, Gate A: 64.4s), a 1.71B Q4_K_M model would plausibly execute Step 1 in approximately 70s-90s, bringing it beneath the 120s feasibility ceiling."
+  },
+  "reproducibility": {
+    "isLocallyReproducible": false,
+    "reason": "Producing a scientifically sound Q4_K_M GGUF requires acquiring the unquantized 3.4 GB Safetensors base checkpoint from Hugging Face and building/installing llama.cpp quantization binaries. Because neither the source checkpoint nor the compilation tooling exists on disk, local derivation cannot be executed under current host invariants without new external acquisitions."
+  },
+  "decision": "Q4_EXPERIMENT_NOT_REPRODUCIBLE",
+  "reasoning": "While Q4_K_M quantization would theoretically reduce memory footprint by ~42% and plausibly bring Gate A latency under 120s, a scientifically valid Q4_K_M artifact cannot be derived locally from the existing Q8_0 installation without invalid lossy-on-lossy re-quantization. Because the original unquantized base checkpoint is not locally available and quantization tooling is absent, the experiment cannot be cleanly established under current disk state.",
+  "futureExperiment": {
+    "recommendation": "Formalize architectural decision ADR-0031 establishing that local CPU-only execution without discrete acceleration has reached an empirical feasibility ceiling for models >=1.7B, and establish hardware acceleration (OpenVINO / discrete GPU) as the mandatory precondition for future agentic model evaluations."
+  }
+}

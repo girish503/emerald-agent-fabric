@@ -1,0 +1,93 @@
+{
+  "phase": "31",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "currentSemantics": {
+    "actionModel": "Immutable intent, monotonic attempt tracking, explicit retry eligibility",
+    "attemptModel": "Per-trial identity, monotonic attempt numbers, fail-closed UNKNOWN status",
+    "leaseCoordination": "TTL leases, heartbeat renewal, sweeper-driven recovery",
+    "persistence": "SQLite in WAL mode, atomic operation and event append"
+  },
+  "invariants": [
+    "Invariant A: Lease Ownership",
+    "Invariant B: Lease Fencing",
+    "Invariant C: Attempt Identity",
+    "Invariant D: Attempt Number Monotonicity",
+    "Invariant E: Action / Attempt Consistency",
+    "Invariant F: Attempt Immutability",
+    "Invariant G: Idempotent Duplicate Completion",
+    "Invariant H: Fail-Closed UNKNOWN Semantics",
+    "Invariant I: Gapless Event Sequencing"
+  ],
+  "implementationChanges": [
+    "src/domain/errors.ts: Added LeaseExpiredError and AttemptNotOwnedError",
+    "src/ports/state-store.port.ts: Added optional nowIso timestamp to LeaseFencingCheck",
+    "src/application/lease-manager.ts: Enforced expiration timestamp validation and run-matching in renew()",
+    "src/adapters/persistence/sqlite-state-store.ts: Added validateLeaseFencing with expiration check, attempt ownership fencing, and idempotent duplicate completion in transitionAttempt and transitionAction",
+    "src/application/worker-runtime.ts: Passed nowIso to executeAction fencing checks and implemented idempotent early return for duplicate SUCCEEDED actions"
+  ],
+  "leaseFencing": {
+    "activeLeaseRequired": true,
+    "expirationCheck": "nowIso >= lease.expiresAt rejected with LeaseExpiredError",
+    "runMismatchCheck": "run.lease_id !== fencing.leaseId rejected with LeaseLostError",
+    "attemptOwnershipCheck": "attempt.lease_id !== fencing.leaseId rejected with AttemptNotOwnedError"
+  },
+  "attemptRecovery": {
+    "multiAttemptPreserved": true,
+    "attemptNImmutable": true,
+    "attemptNPlusOneMonotonic": true,
+    "gaplessNumberingEnforced": true
+  },
+  "crashRecovery": {
+    "inFlightAttemptDisposition": "CREATED -> CANCELLED, DISPATCHED/RUNNING -> UNKNOWN",
+    "sweeperAtomicity": "All stale actions and attempts reconciled within single atomic SQLite transaction",
+    "failClosedSemantics": "UNKNOWN attempts do not trigger unsafe non-idempotent tool retries"
+  },
+  "staleWorkerTests": {
+    "total": 5,
+    "passed": 5,
+    "scenarios": [
+      "T2: Stale worker rejected on transitionAction with LeaseLostError",
+      "T4: Stale worker rejected on updateAttempt with LeaseLostError",
+      "T6: Stale worker rejected on transitionAttempt with LeaseLostError",
+      "T11: Stale worker rejected on attempting to complete attempt owned by another lease with AttemptNotOwnedError",
+      "T16: Zombie worker rejected on completeRun after sweeper reassignment"
+    ]
+  },
+  "concurrencyTests": {
+    "total": 3,
+    "passed": 3,
+    "scenarios": [
+      "T5: Two workers attempting to insert conflicting Attempt 1",
+      "T11: Worker B rejected from advancing Attempt 1 owned by Worker A",
+      "T17: Lease renewal rejected when clock passes expiration timestamp"
+    ]
+  },
+  "idempotencyTests": {
+    "total": 4,
+    "passed": 4,
+    "scenarios": [
+      "T3: Duplicate SUCCEEDED action execution returns existing snapshot without re-execution",
+      "T7: Duplicate COMPLETE command on SUCCEEDED attempt is idempotent with identical event returned",
+      "T13: Idempotent retry execution for read_file tool creates Attempt 2 after Attempt 1 failure",
+      "T18: Idempotent duplicate completion of Action and Attempt returns clean snapshot and event without duplicates"
+    ]
+  },
+  "eventIntegrity": {
+    "gaplessSequencing": true,
+    "rollbackOnRejection": true,
+    "testScenario": "T12: Per-run sequence numbers strictly 1..N with zero gaps despite rejected operations"
+  },
+  "regression": {
+    "tscNoEmit": "CLEAN",
+    "phase14IndependentVerification": "11/11 PASSED",
+    "integrationSuite": "83 passed, 1 skipped",
+    "phase10hArtifactIntegrity": "36/36 PASSED",
+    "gitDiffCheck": "CLEAN",
+    "newTests": "18/18 PASSED (tests/persistence/phase31-recovery-fencing.test.ts)"
+  },
+  "remainingRisks": [
+    "Physical non-idempotent side-effects that execute concurrently before worker realizes lease expired cannot be undone by persistence fencing; fail-closed UNKNOWN isolates durable state",
+    "In multi-process topologies across machines, physical clock drift must be bounded by NTP to keep local nowIso aligned with lease.expiresAt timestamps"
+  ],
+  "nextRecommendation": "Phase 32: Formalize Mission Contract checkpointing and distributed supervisor heartbeating over multi-attempt failure boundaries."
+}

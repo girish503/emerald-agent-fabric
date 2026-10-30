@@ -1,0 +1,1053 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase16-interface-complexity-report.json",
+  "experimentId": "exp-phase16-1792300997763",
+  "timestamp": "2026-10-18T05:23:17.763Z",
+  "baselineCommitSha": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "identifier": "qwen2.5:1.5b",
+    "digest": "65ec06548149",
+    "size": "1.5B",
+    "quantization": "Q4_K_M",
+    "provider": "ollama",
+    "hardware": "CPU"
+  },
+  "overallClassification": "INTERFACE_COMPLEXITY_NOT_SUPPORTED",
+  "thresholds": {
+    "latencyImprovementThresholdPct": 20,
+    "proposalValidityThresholdPct": 20,
+    "capabilityDepthThresholdSteps": 1,
+    "rejectionReductionThresholdCount": 2
+  },
+  "comparativeMatrix": {
+    "metric": [
+      "First-response latency (s)",
+      "Prompt bytes (Step 1)",
+      "Context bytes (Step 1)",
+      "Tool catalog bytes",
+      "Valid proposal rate (%)",
+      "Total proposals",
+      "Physical mutation occurred",
+      "Rejection count",
+      "Recovery outcome",
+      "Hallucinated contentHash",
+      "Capability depth (0-8)",
+      "Clean-room reached",
+      "Final completion",
+      "Condition classification"
+    ],
+    "conditionA": [
+      "69.4",
+      7649,
+      3899,
+      1489,
+      "14.3%",
+      7,
+      true,
+      6,
+      "RECOVERY_FAILURE",
+      true,
+      5,
+      false,
+      false,
+      "MODEL_CODING_FAILURE"
+    ],
+    "conditionB": [
+      "65.8",
+      6699,
+      3914,
+      568,
+      "14.3%",
+      7,
+      true,
+      6,
+      "RECOVERY_FAILURE",
+      true,
+      5,
+      false,
+      false,
+      "MODEL_CODING_FAILURE"
+    ],
+    "conditionC": [
+      "64.5",
+      6285,
+      3920,
+      185,
+      "14.3%",
+      7,
+      true,
+      6,
+      "RECOVERY_FAILURE",
+      true,
+      5,
+      false,
+      false,
+      "MODEL_CODING_FAILURE"
+    ],
+    "conditionD": [
+      "49.8",
+      5283,
+      3908,
+      185,
+      "25%",
+      8,
+      true,
+      6,
+      "RECOVERY_FAILURE",
+      true,
+      5,
+      false,
+      false,
+      "MODEL_CODING_FAILURE"
+    ]
+  },
+  "conditions": {
+    "A": {
+      "condition": "A",
+      "conditionName": "Condition A — Production Interface (Control)",
+      "status": "RUNNING",
+      "classification": "MODEL_CODING_FAILURE",
+      "firstResponseLatencyMs": 69412,
+      "totalDurationMs": 229783,
+      "promptBytesStep1": 7649,
+      "contextBytesStep1": 3899,
+      "toolCatalogBytes": 1489,
+      "totalProposals": 7,
+      "validProposals": 1,
+      "invalidProposals": 6,
+      "proposalValidityRatePct": 14.3,
+      "readSelected": false,
+      "readExecuted": false,
+      "writeSelected": true,
+      "writeExecuted": true,
+      "physicalActionCount": 1,
+      "physicalMutationOccurred": true,
+      "hallucinatedContentHash": true,
+      "rejectionCount": 6,
+      "recoveryOutcome": "RECOVERY_FAILURE",
+      "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+      "cleanRoomReached": false,
+      "capabilityDepth": {
+        "depth": 5,
+        "description": "Physical workspace mutation verified",
+        "step0_modelResponded": true,
+        "step1_validProposal": true,
+        "step2_firstToolExecuted": true,
+        "step3_obsIncorporated": false,
+        "step4_secondToolProposal": false,
+        "step5_physicalMutation": true,
+        "step6_correctGoalClaim": false,
+        "step7_independentVerification": false,
+        "step8_verifiedCompleted": false
+      },
+      "records": [
+        {
+          "sequenceNumber": 1,
+          "timestamp": "2026-10-18T05:08:12.390Z",
+          "condition": "A",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 3899,
+          "promptBytes": 7649,
+          "toolCatalogBytes": 1489,
+          "responseBytes": 364,
+          "durationMs": 69412,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"7f9d6fc8-b095-4de2-8368-8bc44b716667\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\"\n  },\n  \"contextSnapshotHash\": \"b9043842265bc0d3d4bc6709d5ac93d13c48bebfce5f42b6f702f07b04750d2d\"\n}",
+          "proposal": {
+            "proposalId": "7f9d6fc8-b095-4de2-8368-8bc44b716667",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "content": "function add(a, b) {\n  return a + b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}"
+            },
+            "contextSnapshotHash": "b9043842265bc0d3d4bc6709d5ac93d13c48bebfce5f42b6f702f07b04750d2d"
+          },
+          "proposalValid": true,
+          "rejectionReason": null,
+          "toolName": "write_file",
+          "hasContentHashInput": false,
+          "actionStatus": "SUCCEEDED",
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 2,
+          "timestamp": "2026-10-18T05:09:15.315Z",
+          "condition": "A",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7987,
+          "promptBytes": 12615,
+          "toolCatalogBytes": 1489,
+          "responseBytes": 343,
+          "durationMs": 62848,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"d4dc1406-7b95-4aeb-b59a-c6ad877aca0d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9\"\n}",
+          "proposal": {
+            "proposalId": "d4dc1406-7b95-4aeb-b59a-c6ad877aca0d",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+            },
+            "contextSnapshotHash": "e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 3,
+          "timestamp": "2026-10-18T05:09:34.369Z",
+          "condition": "A",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7987,
+          "promptBytes": 12615,
+          "toolCatalogBytes": 1489,
+          "responseBytes": 343,
+          "durationMs": 19047,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"d4dc1406-7b95-4aeb-b59a-c6ad877aca0d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9\"\n}",
+          "proposal": {
+            "proposalId": "d4dc1406-7b95-4aeb-b59a-c6ad877aca0d",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+            },
+            "contextSnapshotHash": "e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 4,
+          "timestamp": "2026-10-18T05:09:54.271Z",
+          "condition": "A",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7987,
+          "promptBytes": 12615,
+          "toolCatalogBytes": 1489,
+          "responseBytes": 343,
+          "durationMs": 19878,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"d4dc1406-7b95-4aeb-b59a-c6ad877aca0d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9\"\n}",
+          "proposal": {
+            "proposalId": "d4dc1406-7b95-4aeb-b59a-c6ad877aca0d",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+            },
+            "contextSnapshotHash": "e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 5,
+          "timestamp": "2026-10-18T05:10:13.044Z",
+          "condition": "A",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7987,
+          "promptBytes": 12615,
+          "toolCatalogBytes": 1489,
+          "responseBytes": 343,
+          "durationMs": 18766,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"d4dc1406-7b95-4aeb-b59a-c6ad877aca0d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9\"\n}",
+          "proposal": {
+            "proposalId": "d4dc1406-7b95-4aeb-b59a-c6ad877aca0d",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+            },
+            "contextSnapshotHash": "e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 6,
+          "timestamp": "2026-10-18T05:10:31.681Z",
+          "condition": "A",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7987,
+          "promptBytes": 12615,
+          "toolCatalogBytes": 1489,
+          "responseBytes": 343,
+          "durationMs": 18632,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"d4dc1406-7b95-4aeb-b59a-c6ad877aca0d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9\"\n}",
+          "proposal": {
+            "proposalId": "d4dc1406-7b95-4aeb-b59a-c6ad877aca0d",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+            },
+            "contextSnapshotHash": "e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 7,
+          "timestamp": "2026-10-18T05:10:52.614Z",
+          "condition": "A",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7987,
+          "promptBytes": 12615,
+          "toolCatalogBytes": 1489,
+          "responseBytes": 343,
+          "durationMs": 20928,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"d4dc1406-7b95-4aeb-b59a-c6ad877aca0d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9\"\n}",
+          "proposal": {
+            "proposalId": "d4dc1406-7b95-4aeb-b59a-c6ad877aca0d",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+            },
+            "contextSnapshotHash": "e8efe45e8713893ec3b1f31e70ebbcf758a3e20c77b6571c73f1f2851e1b55f9"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        }
+      ]
+    },
+    "B": {
+      "condition": "B",
+      "conditionName": "Condition B — Minimal Tool Surface (read_file + write_file)",
+      "status": "RUNNING",
+      "classification": "MODEL_CODING_FAILURE",
+      "firstResponseLatencyMs": 65777,
+      "totalDurationMs": 222544,
+      "promptBytesStep1": 6699,
+      "contextBytesStep1": 3914,
+      "toolCatalogBytes": 568,
+      "totalProposals": 7,
+      "validProposals": 1,
+      "invalidProposals": 6,
+      "proposalValidityRatePct": 14.3,
+      "readSelected": false,
+      "readExecuted": false,
+      "writeSelected": true,
+      "writeExecuted": true,
+      "physicalActionCount": 1,
+      "physicalMutationOccurred": true,
+      "hallucinatedContentHash": true,
+      "rejectionCount": 6,
+      "recoveryOutcome": "RECOVERY_FAILURE",
+      "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+      "cleanRoomReached": false,
+      "capabilityDepth": {
+        "depth": 5,
+        "description": "Physical workspace mutation verified",
+        "step0_modelResponded": true,
+        "step1_validProposal": true,
+        "step2_firstToolExecuted": true,
+        "step3_obsIncorporated": false,
+        "step4_secondToolProposal": false,
+        "step5_physicalMutation": true,
+        "step6_correctGoalClaim": false,
+        "step7_independentVerification": false,
+        "step8_verifiedCompleted": false
+      },
+      "records": [
+        {
+          "sequenceNumber": 1,
+          "timestamp": "2026-10-18T05:11:58.578Z",
+          "condition": "B",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 3914,
+          "promptBytes": 6699,
+          "toolCatalogBytes": 568,
+          "responseBytes": 340,
+          "durationMs": 65777,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"832e902d-6893-478c-954b-1951058b97d1\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b;\\n}\\n\\nmodule.exports = add;\"\n  },\n  \"contextSnapshotHash\": \"7814135808ef339a8edf2bcb2277953723ca43f7ca07c1209d7aa5e43af01536\"\n}",
+          "proposal": {
+            "proposalId": "832e902d-6893-478c-954b-1951058b97d1",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "content": "function add(a, b) {\n  return a + b;\n}\n\nmodule.exports = add;"
+            },
+            "contextSnapshotHash": "7814135808ef339a8edf2bcb2277953723ca43f7ca07c1209d7aa5e43af01536"
+          },
+          "proposalValid": true,
+          "rejectionReason": null,
+          "toolName": "write_file",
+          "hasContentHashInput": false,
+          "actionStatus": "SUCCEEDED",
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 2,
+          "timestamp": "2026-10-18T05:13:02.569Z",
+          "condition": "B",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7976,
+          "promptBytes": 11637,
+          "toolCatalogBytes": 568,
+          "responseBytes": 323,
+          "durationMs": 63969,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e\"\n}",
+          "proposal": {
+            "proposalId": "1234567890abcdef",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 3,
+          "timestamp": "2026-10-18T05:13:21.575Z",
+          "condition": "B",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7976,
+          "promptBytes": 11637,
+          "toolCatalogBytes": 568,
+          "responseBytes": 323,
+          "durationMs": 19000,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e\"\n}",
+          "proposal": {
+            "proposalId": "1234567890abcdef",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 4,
+          "timestamp": "2026-10-18T05:13:40.305Z",
+          "condition": "B",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7976,
+          "promptBytes": 11637,
+          "toolCatalogBytes": 568,
+          "responseBytes": 323,
+          "durationMs": 18723,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e\"\n}",
+          "proposal": {
+            "proposalId": "1234567890abcdef",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 5,
+          "timestamp": "2026-10-18T05:13:58.183Z",
+          "condition": "B",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7976,
+          "promptBytes": 11637,
+          "toolCatalogBytes": 568,
+          "responseBytes": 323,
+          "durationMs": 17873,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e\"\n}",
+          "proposal": {
+            "proposalId": "1234567890abcdef",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 6,
+          "timestamp": "2026-10-18T05:14:16.720Z",
+          "condition": "B",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7976,
+          "promptBytes": 11637,
+          "toolCatalogBytes": 568,
+          "responseBytes": 323,
+          "durationMs": 18532,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e\"\n}",
+          "proposal": {
+            "proposalId": "1234567890abcdef",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 7,
+          "timestamp": "2026-10-18T05:14:35.278Z",
+          "condition": "B",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7976,
+          "promptBytes": 11637,
+          "toolCatalogBytes": 568,
+          "responseBytes": 323,
+          "durationMs": 18533,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e\"\n}",
+          "proposal": {
+            "proposalId": "1234567890abcdef",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "117808a39eedd21bdeb6d7f17557026d7538d18c62c6fb60a5520a770ef0496e"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        }
+      ]
+    },
+    "C": {
+      "condition": "C",
+      "conditionName": "Condition C — Minimal Schema Surface (stripped tool descriptions)",
+      "status": "RUNNING",
+      "classification": "MODEL_CODING_FAILURE",
+      "firstResponseLatencyMs": 64459,
+      "totalDurationMs": 231513,
+      "promptBytesStep1": 6285,
+      "contextBytesStep1": 3920,
+      "toolCatalogBytes": 185,
+      "totalProposals": 7,
+      "validProposals": 1,
+      "invalidProposals": 6,
+      "proposalValidityRatePct": 14.3,
+      "readSelected": false,
+      "readExecuted": false,
+      "writeSelected": true,
+      "writeExecuted": true,
+      "physicalActionCount": 1,
+      "physicalMutationOccurred": true,
+      "hallucinatedContentHash": true,
+      "rejectionCount": 6,
+      "recoveryOutcome": "RECOVERY_FAILURE",
+      "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+      "cleanRoomReached": false,
+      "capabilityDepth": {
+        "depth": 5,
+        "description": "Physical workspace mutation verified",
+        "step0_modelResponded": true,
+        "step1_validProposal": true,
+        "step2_firstToolExecuted": true,
+        "step3_obsIncorporated": false,
+        "step4_secondToolProposal": false,
+        "step5_physicalMutation": true,
+        "step6_correctGoalClaim": false,
+        "step7_independentVerification": false,
+        "step8_verifiedCompleted": false
+      },
+      "records": [
+        {
+          "sequenceNumber": 1,
+          "timestamp": "2026-10-18T05:15:39.927Z",
+          "condition": "C",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 3920,
+          "promptBytes": 6285,
+          "toolCatalogBytes": 185,
+          "responseBytes": 340,
+          "durationMs": 64459,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"7db55c7d-6207-4ec0-9b2d-0809ab243f9c\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b;\\n}\\n\\nmodule.exports = add;\"\n  },\n  \"contextSnapshotHash\": \"2ab178f20f9c04ee43789769d6909f86aee3413ea39b9a5dcf2cb6152febd084\"\n}",
+          "proposal": {
+            "proposalId": "7db55c7d-6207-4ec0-9b2d-0809ab243f9c",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "content": "function add(a, b) {\n  return a + b;\n}\n\nmodule.exports = add;"
+            },
+            "contextSnapshotHash": "2ab178f20f9c04ee43789769d6909f86aee3413ea39b9a5dcf2cb6152febd084"
+          },
+          "proposalValid": true,
+          "rejectionReason": null,
+          "toolName": "write_file",
+          "hasContentHashInput": false,
+          "actionStatus": "SUCCEEDED",
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 2,
+          "timestamp": "2026-10-18T05:16:44.913Z",
+          "condition": "C",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7982,
+          "promptBytes": 11223,
+          "toolCatalogBytes": 185,
+          "responseBytes": 343,
+          "durationMs": 64952,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"18934606-3605-4b9b-be1a-579d7ce5a760\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691\"\n}",
+          "proposal": {
+            "proposalId": "18934606-3605-4b9b-be1a-579d7ce5a760",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 3,
+          "timestamp": "2026-10-18T05:17:04.796Z",
+          "condition": "C",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7982,
+          "promptBytes": 11223,
+          "toolCatalogBytes": 185,
+          "responseBytes": 343,
+          "durationMs": 19874,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"18934606-3605-4b9b-be1a-579d7ce5a760\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691\"\n}",
+          "proposal": {
+            "proposalId": "18934606-3605-4b9b-be1a-579d7ce5a760",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 4,
+          "timestamp": "2026-10-18T05:17:26.052Z",
+          "condition": "C",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7982,
+          "promptBytes": 11223,
+          "toolCatalogBytes": 185,
+          "responseBytes": 343,
+          "durationMs": 21231,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"18934606-3605-4b9b-be1a-579d7ce5a760\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691\"\n}",
+          "proposal": {
+            "proposalId": "18934606-3605-4b9b-be1a-579d7ce5a760",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 5,
+          "timestamp": "2026-10-18T05:17:46.458Z",
+          "condition": "C",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7982,
+          "promptBytes": 11223,
+          "toolCatalogBytes": 185,
+          "responseBytes": 343,
+          "durationMs": 20401,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"18934606-3605-4b9b-be1a-579d7ce5a760\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691\"\n}",
+          "proposal": {
+            "proposalId": "18934606-3605-4b9b-be1a-579d7ce5a760",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 6,
+          "timestamp": "2026-10-18T05:18:09.807Z",
+          "condition": "C",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7982,
+          "promptBytes": 11223,
+          "toolCatalogBytes": 185,
+          "responseBytes": 343,
+          "durationMs": 23344,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"18934606-3605-4b9b-be1a-579d7ce5a760\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691\"\n}",
+          "proposal": {
+            "proposalId": "18934606-3605-4b9b-be1a-579d7ce5a760",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 7,
+          "timestamp": "2026-10-18T05:18:26.853Z",
+          "condition": "C",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7982,
+          "promptBytes": 11223,
+          "toolCatalogBytes": 185,
+          "responseBytes": 343,
+          "durationMs": 17042,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"18934606-3605-4b9b-be1a-579d7ce5a760\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6\"\n  },\n  \"contextSnapshotHash\": \"569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691\"\n}",
+          "proposal": {
+            "proposalId": "18934606-3605-4b9b-be1a-579d7ce5a760",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "contentHash": "944f901714f80f4710d8ca052eb38273e4aeaea0cae9721e53a667e47f9826b6"
+            },
+            "contextSnapshotHash": "569aa4429ea27f9b8399125f9acec4e4a12e097faedd8c779f13a3709f2be691"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        }
+      ]
+    },
+    "D": {
+      "condition": "D",
+      "conditionName": "Condition D — Minimal Task Context (minimized prompt)",
+      "status": "RUNNING",
+      "classification": "MODEL_CODING_FAILURE",
+      "firstResponseLatencyMs": 49841,
+      "totalDurationMs": 290853,
+      "promptBytesStep1": 5283,
+      "contextBytesStep1": 3908,
+      "toolCatalogBytes": 185,
+      "totalProposals": 8,
+      "validProposals": 2,
+      "invalidProposals": 6,
+      "proposalValidityRatePct": 25,
+      "readSelected": false,
+      "readExecuted": false,
+      "writeSelected": true,
+      "writeExecuted": true,
+      "physicalActionCount": 2,
+      "physicalMutationOccurred": true,
+      "hallucinatedContentHash": true,
+      "rejectionCount": 6,
+      "recoveryOutcome": "RECOVERY_FAILURE",
+      "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+      "cleanRoomReached": false,
+      "capabilityDepth": {
+        "depth": 5,
+        "description": "Physical workspace mutation verified",
+        "step0_modelResponded": true,
+        "step1_validProposal": true,
+        "step2_firstToolExecuted": true,
+        "step3_obsIncorporated": true,
+        "step4_secondToolProposal": true,
+        "step5_physicalMutation": true,
+        "step6_correctGoalClaim": false,
+        "step7_independentVerification": false,
+        "step8_verifiedCompleted": false
+      },
+      "records": [
+        {
+          "sequenceNumber": 1,
+          "timestamp": "2026-10-18T05:19:16.776Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 3908,
+          "promptBytes": 5283,
+          "toolCatalogBytes": 185,
+          "responseBytes": 368,
+          "durationMs": 49841,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"52e66dee635960b832255a34a92cda6839be4766a979eee87fd797c97a72e9c9\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b;\\n}\\n\\nmodule.exports = add;\"\n  },\n  \"contextSnapshotHash\": \"52e66dee635960b832255a34a92cda6839be4766a979eee87fd797c97a72e9c9\"\n}",
+          "proposal": {
+            "proposalId": "52e66dee635960b832255a34a92cda6839be4766a979eee87fd797c97a72e9c9",
+            "toolName": "write_file",
+            "inputPayload": {
+              "path": "src/math.js",
+              "content": "function add(a, b) {\n  return a + b;\n}\n\nmodule.exports = add;"
+            },
+            "contextSnapshotHash": "52e66dee635960b832255a34a92cda6839be4766a979eee87fd797c97a72e9c9"
+          },
+          "proposalValid": true,
+          "rejectionReason": null,
+          "toolName": "write_file",
+          "hasContentHashInput": false,
+          "actionStatus": "SUCCEEDED",
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 2,
+          "timestamp": "2026-10-18T05:20:47.678Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 7970,
+          "promptBytes": 9973,
+          "toolCatalogBytes": 185,
+          "responseBytes": 363,
+          "durationMs": 90885,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"e91ecfe4-074a-4ab0-b03a-3091cdf81e22\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"content\": \"function add(a, b) {\\n  return a + b;\\n}\\n\\nmodule.exports = add;\",\n    \"overwrite\": true,\n    \"path\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"5465ebeab1ea739e1bcbe54f1991f7a6e8334b89858cddabcc2ae3fc4ca94ca5\"\n}",
+          "proposal": {
+            "proposalId": "e91ecfe4-074a-4ab0-b03a-3091cdf81e22",
+            "toolName": "write_file",
+            "inputPayload": {
+              "content": "function add(a, b) {\n  return a + b;\n}\n\nmodule.exports = add;",
+              "overwrite": true,
+              "path": "src/math.js"
+            },
+            "contextSnapshotHash": "5465ebeab1ea739e1bcbe54f1991f7a6e8334b89858cddabcc2ae3fc4ca94ca5"
+          },
+          "proposalValid": true,
+          "rejectionReason": null,
+          "toolName": "write_file",
+          "hasContentHashInput": false,
+          "actionStatus": "SUCCEEDED",
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 3,
+          "timestamp": "2026-10-18T05:21:47.108Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 12039,
+          "promptBytes": 14670,
+          "toolCatalogBytes": 185,
+          "responseBytes": 343,
+          "durationMs": 59379,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"2cc0cf82-74d5-4434-81f6-b3a5413f6773\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"contentHash\": \"dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa\",\n    \"path\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1\"\n}",
+          "proposal": {
+            "proposalId": "2cc0cf82-74d5-4434-81f6-b3a5413f6773",
+            "toolName": "write_file",
+            "inputPayload": {
+              "contentHash": "dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa",
+              "path": "src/math.js"
+            },
+            "contextSnapshotHash": "50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 4,
+          "timestamp": "2026-10-18T05:22:05.179Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 12039,
+          "promptBytes": 14670,
+          "toolCatalogBytes": 185,
+          "responseBytes": 348,
+          "durationMs": 18060,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"2cc0cf82-74d5-4434-81f6-b3a5413f6773\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"contentHash\": \"dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa\",\n    \"inputPath\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1\"\n}",
+          "proposal": {
+            "proposalId": "2cc0cf82-74d5-4434-81f6-b3a5413f6773",
+            "toolName": "write_file",
+            "inputPayload": {
+              "contentHash": "dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa",
+              "inputPath": "src/math.js"
+            },
+            "contextSnapshotHash": "50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 5,
+          "timestamp": "2026-10-18T05:22:22.715Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 12039,
+          "promptBytes": 14670,
+          "toolCatalogBytes": 185,
+          "responseBytes": 348,
+          "durationMs": 17532,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"2cc0cf82-74d5-4434-81f6-b3a5413f6773\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"contentHash\": \"dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa\",\n    \"inputPath\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1\"\n}",
+          "proposal": {
+            "proposalId": "2cc0cf82-74d5-4434-81f6-b3a5413f6773",
+            "toolName": "write_file",
+            "inputPayload": {
+              "contentHash": "dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa",
+              "inputPath": "src/math.js"
+            },
+            "contextSnapshotHash": "50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 6,
+          "timestamp": "2026-10-18T05:22:42.688Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 12039,
+          "promptBytes": 14670,
+          "toolCatalogBytes": 185,
+          "responseBytes": 348,
+          "durationMs": 19966,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"2cc0cf82-74d5-4434-81f6-b3a5413f6773\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"contentHash\": \"dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa\",\n    \"inputPath\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1\"\n}",
+          "proposal": {
+            "proposalId": "2cc0cf82-74d5-4434-81f6-b3a5413f6773",
+            "toolName": "write_file",
+            "inputPayload": {
+              "contentHash": "dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa",
+              "inputPath": "src/math.js"
+            },
+            "contextSnapshotHash": "50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 7,
+          "timestamp": "2026-10-18T05:23:00.250Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 12039,
+          "promptBytes": 14670,
+          "toolCatalogBytes": 185,
+          "responseBytes": 348,
+          "durationMs": 17555,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"2cc0cf82-74d5-4434-81f6-b3a5413f6773\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"contentHash\": \"dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa\",\n    \"inputPath\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1\"\n}",
+          "proposal": {
+            "proposalId": "2cc0cf82-74d5-4434-81f6-b3a5413f6773",
+            "toolName": "write_file",
+            "inputPayload": {
+              "contentHash": "dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa",
+              "inputPath": "src/math.js"
+            },
+            "contextSnapshotHash": "50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        },
+        {
+          "sequenceNumber": 8,
+          "timestamp": "2026-10-18T05:23:17.707Z",
+          "condition": "D",
+          "model": "qwen2.5:1.5b",
+          "contextBytes": 12039,
+          "promptBytes": 14670,
+          "toolCatalogBytes": 185,
+          "responseBytes": 348,
+          "durationMs": 17432,
+          "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"2cc0cf82-74d5-4434-81f6-b3a5413f6773\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"contentHash\": \"dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa\",\n    \"inputPath\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1\"\n}",
+          "proposal": {
+            "proposalId": "2cc0cf82-74d5-4434-81f6-b3a5413f6773",
+            "toolName": "write_file",
+            "inputPayload": {
+              "contentHash": "dc1c9c41a1d892985a0ea23a42c30f25a6c91d5a8b7c809210b19b47e71af9fa",
+              "inputPath": "src/math.js"
+            },
+            "contextSnapshotHash": "50efc77eed3c67990c33e3e54b54080e37e801dc5c77f36fa9b101efcd75e8c1"
+          },
+          "proposalValid": false,
+          "rejectionReason": "INVALID_TOOL_INPUT",
+          "toolName": "write_file",
+          "hasContentHashInput": true,
+          "actionStatus": null,
+          "attemptStatus": null
+        }
+      ]
+    }
+  }
+}

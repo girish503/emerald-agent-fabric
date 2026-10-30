@@ -28,6 +28,15 @@ export interface ExecutionPolicy {
    * Untrusted operations are never permitted in-process.
    */
   readonly trustedInProcessOperations?: readonly string[];
+  /**
+   * When governedBenchmarkRepairMode is active, whole-file overwrites via write_file
+   * are disallowed for existing files if localized editing (edit_file) is authorized.
+   */
+  readonly governedBenchmarkRepairMode?: boolean;
+  /**
+   * Explicit override permitting whole-file overwrites even when governedBenchmarkRepairMode is active.
+   */
+  readonly allowWholeFileReplacement?: boolean;
 }
 
 export interface CreateExecutionPolicyOptions {
@@ -35,6 +44,8 @@ export interface CreateExecutionPolicyOptions {
   readonly allowedCapabilities: Iterable<string>;
   readonly isolationRequirement: IsolationRequirement;
   readonly trustedInProcessOperations?: Iterable<string>;
+  readonly governedBenchmarkRepairMode?: boolean;
+  readonly allowWholeFileReplacement?: boolean;
 }
 
 /**
@@ -74,6 +85,8 @@ export function createExecutionPolicy(options: CreateExecutionPolicyOptions): Ex
     allowedCapabilities: Object.freeze(Array.from(allowedSet)),
     isolationRequirement: options.isolationRequirement,
     trustedInProcessOperations: Object.freeze(Array.from(trustedInProcessSet)),
+    governedBenchmarkRepairMode: options.governedBenchmarkRepairMode ?? false,
+    allowWholeFileReplacement: options.allowWholeFileReplacement ?? false,
   });
 }
 
@@ -140,7 +153,21 @@ export type PolicyDenialReasonCode =
   | "UNKNOWN_CAPABILITY"
   | "INVALID_REQUEST"
   | "IN_PROCESS_NOT_TRUSTED"
-  | "INVALID_POLICY";
+  | "INVALID_POLICY"
+  | "DISALLOWED_FILE_OVERWRITE";
+
+export interface FileOperationEvaluationRequest {
+  readonly toolName: string;
+  readonly path: string;
+  readonly fileExists: boolean;
+  readonly isEditFileAvailableAndAuthorized: boolean;
+}
+
+export interface FileOperationPolicyDecision {
+  readonly allowed: boolean;
+  readonly reasonCode?: PolicyDenialReasonCode;
+  readonly message: string;
+}
 
 export interface PolicyDecision {
   readonly status: PolicyDecisionStatus;
@@ -437,5 +464,42 @@ export class PolicyEvaluator {
     policy: ExecutionPolicy | unknown
   ): PolicyDecision {
     return PolicyEvaluator.evaluateCapability(capabilityName, policy);
+  }
+
+  /**
+   * Pure evaluator for a file mutation operation under an ExecutionPolicy.
+   * Enforces governed benchmark repair mode restrictions against whole-file overwrites.
+   */
+  static evaluateFileOperation(
+    request: FileOperationEvaluationRequest,
+    policy: ExecutionPolicy
+  ): FileOperationPolicyDecision {
+    if (
+      request.toolName === "write_file" &&
+      policy.governedBenchmarkRepairMode &&
+      !policy.allowWholeFileReplacement &&
+      request.fileExists &&
+      request.isEditFileAvailableAndAuthorized
+    ) {
+      return {
+        allowed: false,
+        reasonCode: "DISALLOWED_FILE_OVERWRITE",
+        message: `Direct overwrite of existing file '${request.path}' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.`,
+      };
+    }
+    return {
+      allowed: true,
+      message: `File operation '${request.toolName}' on '${request.path}' is permitted under policy '${policy.policyId}'.`,
+    };
+  }
+
+  /**
+   * Instance evaluateFileOperation wrapper delegating to static evaluator.
+   */
+  evaluateFileOperation(
+    request: FileOperationEvaluationRequest,
+    policy: ExecutionPolicy
+  ): FileOperationPolicyDecision {
+    return PolicyEvaluator.evaluateFileOperation(request, policy);
   }
 }

@@ -15,6 +15,8 @@
 import { z } from "zod";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
 import {
+  EditFileInputSchema,
+  EditFileOutputSchema,
   GitDiffInputSchema,
   GitDiffOutputSchema,
   GitStatusInputSchema,
@@ -47,8 +49,19 @@ export const TOOL_NAMES = [
 
 export type ToolName = (typeof TOOL_NAMES)[number];
 
-export function isValidToolName(name: string): name is ToolName {
-  return (TOOL_NAMES as readonly string[]).includes(name);
+export const EXTENDED_TOOL_NAMES = [
+  ...TOOL_NAMES,
+  "edit_file",
+] as const;
+
+export type ExtendedToolName = (typeof EXTENDED_TOOL_NAMES)[number];
+
+export function isValidToolName(name: string): name is ExtendedToolName {
+  return (EXTENDED_TOOL_NAMES as readonly string[]).includes(name);
+}
+
+export function isValidExtendedToolName(name: string): name is ExtendedToolName {
+  return (EXTENDED_TOOL_NAMES as readonly string[]).includes(name);
 }
 
 // ============================================================================
@@ -62,9 +75,10 @@ export const TOOL_CAPABILITY_MAP = {
   git_status: "git.read",
   git_diff: "git.read",
   run_command: "process.execute",
-} as const satisfies Record<ToolName, string>;
+  edit_file: "workspace.file.write",
+} as const satisfies Record<ExtendedToolName, string>;
 
-export type ToolCapability = (typeof TOOL_CAPABILITY_MAP)[ToolName];
+export type ToolCapability = (typeof TOOL_CAPABILITY_MAP)[ExtendedToolName];
 
 export const KNOWN_TOOL_CAPABILITIES: readonly ToolCapability[] = Object.freeze(
   Array.from(new Set(Object.values(TOOL_CAPABILITY_MAP)))
@@ -83,13 +97,14 @@ export function toolNameToCapabilityName(toolName: string): ToolCapability | nul
 
 export type ToolIdempotency = "IDEMPOTENT" | "NON_IDEMPOTENT";
 
-export const TOOL_IDEMPOTENCY_MAP: Readonly<Record<ToolName, ToolIdempotency>> = {
+export const TOOL_IDEMPOTENCY_MAP: Readonly<Record<ExtendedToolName, ToolIdempotency>> = {
   read_file: "IDEMPOTENT",
   search_code: "IDEMPOTENT",
   git_status: "IDEMPOTENT",
   git_diff: "IDEMPOTENT",
   write_file: "NON_IDEMPOTENT",
   run_command: "NON_IDEMPOTENT",
+  edit_file: "NON_IDEMPOTENT",
 };
 
 // ============================================================================
@@ -98,13 +113,14 @@ export const TOOL_IDEMPOTENCY_MAP: Readonly<Record<ToolName, ToolIdempotency>> =
 
 export type ToolIsolationRequirement = "WORKSPACE" | "SANDBOX";
 
-export const TOOL_ISOLATION_MAP: Readonly<Record<ToolName, ToolIsolationRequirement>> = {
+export const TOOL_ISOLATION_MAP: Readonly<Record<ExtendedToolName, ToolIsolationRequirement>> = {
   read_file: "WORKSPACE",
   write_file: "WORKSPACE",
   search_code: "WORKSPACE",
   git_status: "WORKSPACE",
   git_diff: "WORKSPACE",
   run_command: "SANDBOX",
+  edit_file: "WORKSPACE",
 };
 
 // ============================================================================
@@ -241,6 +257,22 @@ export const RUN_COMMAND_TOOL: ToolDefinition<"run_command"> = Object.freeze({
   outputSchema: RunCommandOutputSchema,
 });
 
+export const EDIT_FILE_TOOL: ToolDefinition<any> = Object.freeze({
+  name: "edit_file",
+  version: "1.0.0",
+  description: "Applies a constrained, line-anchored search-and-replace edit to an existing file within the workspace sandbox.",
+  requiredCapability: "workspace.file.write",
+  isolationRequirement: "WORKSPACE",
+  idempotency: "NON_IDEMPOTENT",
+  resourceDescriptor: Object.freeze({
+    supportedDimensions: Object.freeze(["maxBytes"] as const),
+    defaultMaxBytes: 1024 * 1024,
+    maxMaxBytes: 10 * 1024 * 1024,
+  }),
+  inputSchema: EditFileInputSchema,
+  outputSchema: EditFileOutputSchema,
+});
+
 export const INITIAL_TOOL_DEFINITIONS: readonly ToolDefinition[] = Object.freeze([
   READ_FILE_TOOL,
   WRITE_FILE_TOOL,
@@ -248,6 +280,11 @@ export const INITIAL_TOOL_DEFINITIONS: readonly ToolDefinition[] = Object.freeze
   GIT_STATUS_TOOL,
   GIT_DIFF_TOOL,
   RUN_COMMAND_TOOL,
+]);
+
+export const EXTENDED_TOOL_DEFINITIONS: readonly ToolDefinition[] = Object.freeze([
+  ...INITIAL_TOOL_DEFINITIONS,
+  EDIT_FILE_TOOL,
 ]);
 
 // ============================================================================
@@ -299,9 +336,14 @@ export class StaticToolRegistry implements ToolRegistryPort {
     return this.tools.has(name);
   }
 
+  register(tool: ToolDefinition): void {
+    this.tools.set(tool.name, tool);
+  }
+
   listTools(): readonly ToolDefinition[] {
     return Array.from(this.tools.values());
   }
 }
 
 export const staticToolRegistry = new StaticToolRegistry();
+export const defaultGovernedToolRegistry = new StaticToolRegistry(EXTENDED_TOOL_DEFINITIONS);

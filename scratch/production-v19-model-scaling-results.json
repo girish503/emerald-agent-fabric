@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-10-22T09:47:30.000Z",
+  "harnessVersion": "production-v1.9",
+  "milestone": "Production V1.9: Local Model Scaling Feasibility & Semantic Repair Benchmark",
+  "gitHead": "7109911fa4488c5759000fe08c3a77895ed214f4",
+  "gitBranch": "master",
+  "hardwareSpecs": {
+    "cpu": "Intel(R) Core(TM) i3-N305 (8 physical cores, 8 logical processors, 1.80 GHz)",
+    "gpu": "Intel(R) UHD Graphics (integrated, shared system RAM, 0 MB dedicated VRAM)",
+    "totalRamKb": 8000580,
+    "totalRamGb": 7.63,
+    "freeRamKb": 1367520,
+    "freeRamGb": 1.30,
+    "ramUtilizationPercent": 82.9
+  },
+  "ollamaEnvironment": {
+    "version": "0.40.7",
+    "endpoint": "http://localhost:11434",
+    "installedModels": [
+      { "name": "smollm2:1.7b", "id": "cef4a1e09247", "size": "1.8 GB" },
+      { "name": "granite3-dense:2b", "id": "5c2e6f3112f4", "size": "1.6 GB" },
+      { "name": "qwen2.5-coder:3b", "id": "f72c60cabf62", "size": "1.9 GB" },
+      { "name": "qwen2.5-coder:1.5b", "id": "d7372fd82851", "size": "986 MB" },
+      { "name": "gemma3:1b", "id": "83be9dbf9dd6", "size": "815 MB" },
+      { "name": "deepseek-r1:8b", "id": "6995872bfe4c", "size": "5.2 GB" },
+      { "name": "llama3.2:3b", "id": "a80c4f17acd5", "size": "2.0 GB" },
+      { "name": "qwen3:4b", "id": "359d7dd4bcda", "size": "2.5 GB" },
+      { "name": "gemma3:latest", "id": "a2af6cc3eb7f", "size": "3.3 GB" },
+      { "name": "qwen2.5:3b", "id": "357c53fb659c", "size": "1.9 GB" },
+      { "name": "qwen2.5:1.5b", "id": "65ec06548149", "size": "986 MB" }
+    ],
+    "targetCandidate": "qwen2.5-coder:7b",
+    "targetCandidateInstalled": false
+  },
+  "feasibilityAssessment": {
+    "candidateAvailable": false,
+    "reason": "qwen2.5-coder:7b is not installed in the local Ollama inventory. Pulling or downloading models during this milestone is strictly forbidden by frozen constraints.",
+    "resourceFeasibility": "INFEASIBLE_HOST_RAM",
+    "resourceDetails": "Host machine possesses 7.63 GB total physical RAM with only 1.30 GB free. A 7B parameter Q4_K_M model requires ~4.7 GB RAM plus KV-cache, which exceeds available free RAM by 3.4 GB and would cause OS memory starvation, swap thrashing, or OOM crashes."
+  },
+  "v18HistoricalReference": {
+    "v18aUnconstrained": {
+      "totalTrials": 5,
+      "responsesReceived": 18,
+      "jsonParseSuccessRate": 100,
+      "schemaValidationSuccessRate": 100,
+      "editAnchorRequests": 1,
+      "successfulEdits": 0,
+      "sovereignVerifiedRate": 0,
+      "stageDistribution": { "STAGE_3_PATCH_APPLICATION": 5 }
+    },
+    "v18bConstrained": {
+      "totalTrials": 5,
+      "responsesReceived": 15,
+      "jsonParseSuccessRate": 93,
+      "schemaValidationSuccessRate": 93,
+      "editAnchorRequests": 4,
+      "successfulEdits": 0,
+      "sovereignVerifiedRate": 0,
+      "stageDistribution": { "STAGE_3_PATCH_APPLICATION": 5 }
+    }
+  },
+  "decision": "MODEL_SCALING_FEASIBILITY_BLOCKED",
+  "decisionReason": "No suitable 7B open-weight coding candidate (qwen2.5-coder:7b) is installed locally in Ollama, and host memory limits (7.63 GB total, 1.30 GB free) preclude running 7B models safely. Frozen constraints strictly prohibit downloading models during this milestone."
+}

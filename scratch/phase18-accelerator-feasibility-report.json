@@ -1,0 +1,111 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase18-accelerator-feasibility-report.json",
+  "experimentId": "exp-phase18-accelerator-feasibility",
+  "timestamp": "2026-10-18T07:15:42Z",
+  "baselineCommitSha": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "hardware": {
+    "os": "Windows 11 Home",
+    "osVersion": "10.0.26200",
+    "osArchitecture": "64-bit",
+    "cpu": {
+      "model": "Intel(R) Core(TM) i3-N305",
+      "architecture": "Alder Lake-N (E-cores only)",
+      "physicalCores": 8,
+      "logicalProcessors": 8,
+      "maxClockSpeedMHz": 1800
+    },
+    "ram": {
+      "totalMiB": 7813,
+      "freeMiB": 1438,
+      "note": "Free memory at time of inspection; system under normal desktop load"
+    },
+    "gpu": {
+      "present": true,
+      "discrete": false,
+      "vendor": "Intel",
+      "model": "Intel(R) UHD Graphics",
+      "type": "Integrated",
+      "adapterRAMBytes": 2147479552,
+      "adapterRAMNote": "Shared from system RAM, not dedicated VRAM",
+      "driverVersion": "32.0.101.7076",
+      "videoProcessor": "Intel(R) UHD Graphics Family"
+    },
+    "nvidia": {
+      "present": false,
+      "nvidiaSmiAvailable": false
+    },
+    "amd": {
+      "discreteGpu": false,
+      "rocmAvailable": false
+    },
+    "disk": {
+      "driveId": "C:",
+      "totalGB": 475.2,
+      "freeGB": 195.6
+    }
+  },
+  "accelerator": {
+    "available": false,
+    "reason": "No discrete GPU. Only Intel UHD integrated graphics present. Ollama does not support Intel iGPU for inference acceleration. Ollama requires NVIDIA CUDA, AMD ROCm, or Apple Metal. None are available on this machine.",
+    "ollamaBufferAllocation": {
+      "modelBuffer": "CPU 1818.63 MiB",
+      "modelBufferRepack": "CPU_REPACK 3159.00 MiB",
+      "outputBuffer": "CPU 0.58 MiB",
+      "kvCacheBuffer": "CPU 576.00 MiB",
+      "computeBuffer": "CPU 116.02 MiB"
+    },
+    "totalCpuBufferMiB": 5670.23
+  },
+  "ollamaRuntime": {
+    "version": "0.40.6",
+    "executionDevice": "CPU-only",
+    "gpuAcceleration": false,
+    "modelsCurrentlyLoaded": 0
+  },
+  "docker": {
+    "version": "29.8.0"
+  },
+  "modelInventory": [
+    { "name": "gemma3:1b", "id": "83be9dbf9dd6", "size": "815 MB" },
+    { "name": "deepseek-r1:8b", "id": "6995872bfe4c", "size": "5.2 GB" },
+    { "name": "llama3.2:3b", "id": "a80c4f17acd5", "size": "2.0 GB" },
+    { "name": "qwen3:4b", "id": "359d7dd4bcda", "size": "2.5 GB" },
+    { "name": "gemma3:latest", "id": "a2af6cc3eb7f", "size": "3.3 GB" },
+    { "name": "qwen2.5:3b", "id": "357c53fb659c", "size": "1.9 GB" },
+    { "name": "qwen2.5:1.5b", "id": "65ec06548149", "size": "986 MB" }
+  ],
+  "controlModel": {
+    "identifier": "deepseek-r1:8b",
+    "installed": true,
+    "gateAExecuted": false,
+    "gateASkipReason": "ACCELERATOR_UNAVAILABLE — no supported GPU accelerator on this machine"
+  },
+  "phase17CpuBaseline": {
+    "model": "deepseek-r1:8b",
+    "device": "CPU",
+    "inferenceTimeMs": 600453,
+    "result": "TIMEOUT",
+    "classification": "ENVIRONMENT_FAILURE"
+  },
+  "gateA": {
+    "status": "NOT_RUN",
+    "reason": "No accelerator available. Per Section 4: accelerator unavailable → STOP.",
+    "classification": "ACCELERATOR_UNAVAILABLE"
+  },
+  "gateB": {
+    "status": "NOT_RUN"
+  },
+  "cpuVsAcceleratorComparison": {
+    "status": "NOT_APPLICABLE",
+    "reason": "No accelerated inference was possible. Comparison cannot be performed."
+  },
+  "primaryClassification": "ACCELERATOR_UNAVAILABLE",
+  "regressionAudit": {
+    "typescript": { "errors": 0, "status": "PASSED" },
+    "phase14Tests": { "passed": 11, "total": 11, "status": "PASSED" },
+    "integrationTests": { "passed": 83, "skipped": 1, "total": 84, "status": "PASSED" },
+    "phase10hArtifacts": { "records": 36, "hashes": 9, "status": "PASSED" },
+    "gitDiffCheck": "clean",
+    "gitHead": "70979cf4bcbf4a237b79af3a23449a4b932104d5"
+  }
+}

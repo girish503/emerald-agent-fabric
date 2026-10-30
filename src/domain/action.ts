@@ -33,6 +33,7 @@ import {
   getContractBindingViolations,
 } from "./invariants.js";
 import {
+  ExtendedToolName,
   isValidToolName,
   TOOL_IDEMPOTENCY_MAP,
   ToolIdempotency,
@@ -90,7 +91,7 @@ export interface ActionSnapshot {
   readonly actionId: string;
   readonly runId: string;
   readonly sequenceNumber: number;
-  readonly toolName: ToolName;
+  readonly toolName: ExtendedToolName;
   readonly inputPayload: unknown;
   readonly inputHash: string;
   readonly idempotency: ToolIdempotency;
@@ -787,7 +788,7 @@ export interface CreateActionParams {
   readonly actionId?: string;
   readonly runId: string;
   readonly sequenceNumber: number;
-  readonly toolName: ToolName;
+  readonly toolName: ExtendedToolName;
   readonly inputPayload: unknown;
   readonly inputHash?: string;
   readonly contractBinding: ContractBinding;
@@ -906,7 +907,7 @@ export class Action {
     return this._snapshot.sequenceNumber;
   }
 
-  get toolName(): ToolName {
+  get toolName(): ExtendedToolName {
     return this._snapshot.toolName;
   }
 

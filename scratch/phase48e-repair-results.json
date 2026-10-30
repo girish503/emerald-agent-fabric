@@ -1,0 +1,251 @@
+{
+  "phase": "Phase 48E",
+  "task": "EAF-BM-01",
+  "taskTitle": "Core Arithmetic Off-by-One Fix",
+  "classification": "REPAIR_FAILED",
+  "model": {
+    "name": "qwen2.5-coder:1.5b",
+    "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameters": "1.5B",
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "endpoint": "http://127.0.0.1:11434"
+  },
+  "timing": {
+    "startedAt": "2026-10-26T15:40:46.498Z",
+    "completedAt": "2026-10-26T15:45:33.760Z",
+    "wallClockDurationMs": 287262
+  },
+  "configuration": {
+    "governedBenchmarkRepairMode": true,
+    "allowWholeFileReplacement": false,
+    "maxSteps": 8,
+    "maxWallClockMs": 720000,
+    "maxProposalRejections": 3,
+    "maxConsecutiveIneffectiveEdits": 3,
+    "dynamicToolFiltering": true,
+    "intermediateTestFeedback": true,
+    "sourceGroundedVerificationContext": true,
+    "failedAnchorGuard": true,
+    "zeroMatchSearchRecovery": true,
+    "toolsEnabled": [
+      "read_file",
+      "write_file",
+      "edit_file",
+      "run_command",
+      "search_code",
+      "git_status",
+      "git_diff"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 4,
+    "modelFailures": 0,
+    "promptTokens": 8742,
+    "evalTokens": 779,
+    "totalTokens": 9521
+  },
+  "execution": {
+    "verified": false,
+    "terminalStatus": "FAILED",
+    "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+    "totalSteps": 4,
+    "totalActions": 1,
+    "totalProposalRejections": 3,
+    "readActionsCount": 1,
+    "writeActionsCount": 1,
+    "editActionsCount": 2
+  },
+  "governedEditingTelemetry": {
+    "editFileAttemptsCount": 2,
+    "editFileAcceptedCount": 0,
+    "editFileRejectedCount": 2,
+    "noopEditRejectionsCount": 0,
+    "repeatedFailedAnchorRejectionsCount": 0,
+    "writeFileAttemptsCount": 1,
+    "writeFileExistingDenialsCount": 0,
+    "writeFileNewAllowedCount": 0,
+    "disallowedFileOverwriteDenials": [],
+    "noopEditDenials": [],
+    "repeatedFailedAnchorDenials": [],
+    "anchorFailuresCount": 0,
+    "ambiguousAnchorsCount": 0,
+    "anchorDetails": [
+      {
+        "step": 3,
+        "proposalValid": false,
+        "rejectionReason": null,
+        "anchor": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "replacement": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "executionStatus": null,
+        "executionError": null
+      },
+      {
+        "step": 4,
+        "proposalValid": false,
+        "rejectionReason": null,
+        "anchor": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "replacement": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "executionStatus": null,
+        "executionError": null
+      }
+    ]
+  },
+  "stageProgression": {
+    "stageA_proposal": {
+      "proposedEditFile": true,
+      "editProposalsCount": 2
+    },
+    "stageB_mutation": {
+      "appliedSuccessfully": false,
+      "targetFile": "src/calc.js",
+      "initialHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "finalHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "goldHash": "4da0696dcd9f68c3a4157dd7ba7cdfbd85f19efb878b4e380af81b13ee65f2d4",
+      "candidateMatchesGold": false,
+      "targetFileModified": false,
+      "unrelatedFilesPreserved": false,
+      "finalTargetFileContent": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+    },
+    "stageC_verification": {
+      "cleanRoomStatus": "NONE",
+      "cleanRoomVerified": false,
+      "f2pPass": false,
+      "p2pPass": false
+    },
+    "stageD_evidence": {
+      "bundleId": "4e29bebb6d0ba3ea09b7ce7ee05d7a17d02047faf2932d618bdf270a27aca73f",
+      "provenanceRoot": "08548719d154de35208367704b893c899706fc5b8606b10557d10722445660b9",
+      "signaturesCount": 2,
+      "eventsCount": 16,
+      "offlineAuditStatus": "VERIFIED",
+      "thresholdSatisfied": true,
+      "fourfoldSatisfied": false,
+      "auditFailures": [],
+      "replayDerivedOutcome": "FAILED",
+      "fourfoldPredicates": {
+        "taskSatisfied": false,
+        "policySatisfied": true,
+        "verificationPassed": false,
+        "evidenceComplete": false
+      }
+    }
+  },
+  "stepTranscript": [
+    {
+      "stepNumber": 1,
+      "timestamp": "2026-10-26T15:40:46.609Z",
+      "durationMs": 80588,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "action-1",
+      "toolName": "read_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "offsetLine": 1,
+        "limitLines": 50,
+        "maxBytes": 1048576
+      },
+      "actionId": "cf52e4b3-bc62-4755-a1a7-f508a1032691",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"3d806321577aab1a5d110647dc1fa104d6147c8a9d99d0275a44b2fdf301d43e\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"limitLines\": 50,\n    \"maxBytes\": 1048576\n  }\n}"
+    },
+    {
+      "stepNumber": 2,
+      "timestamp": "2026-10-26T15:42:07.198Z",
+      "durationMs": 64381,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": false,
+      "proposalId": "1234567890",
+      "toolName": "write_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "content": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+      },
+      "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+      "rejectionMessage": "Direct overwrite of existing file 'src/calc.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+      "eligibleTools": [
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [
+        "read_file"
+      ],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"94f04c6f5b5ac7c7fc3dfdfbce392d67a2bc61d63ceb693ce0bd3838b67e263a\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
+    },
+    {
+      "stepNumber": 3,
+      "timestamp": "2026-10-26T15:43:11.594Z",
+      "durationMs": 72195,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": false,
+      "proposalId": "1234567890",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "searchAnchor": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "replacementText": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+      },
+      "rejectionReason": "NOOP_EDIT_DISALLOWED",
+      "rejectionMessage": "edit_file proposal rejected: 'searchAnchor' and 'replacementText' are identical. A localized edit must specify a different 'replacementText' that modifies the target file.",
+      "eligibleTools": [
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [
+        "read_file"
+      ],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"10596ab66832b940a1f17cc50349e93180dd8f934d40de087cfc6e6d3d499cd1\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\",\n    \"replacementText\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
+    },
+    {
+      "stepNumber": 4,
+      "timestamp": "2026-10-26T15:44:23.791Z",
+      "durationMs": 69893,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": false,
+      "proposalId": "1234567890",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "searchAnchor": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "replacementText": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+      },
+      "rejectionReason": "NOOP_EDIT_DISALLOWED",
+      "rejectionMessage": "edit_file proposal rejected: 'searchAnchor' and 'replacementText' are identical. A localized edit must specify a different 'replacementText' that modifies the target file.",
+      "eligibleTools": [
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [
+        "read_file"
+      ],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"5b4cfa9ba082005b69a990fb9085d66c6339a0c0e0bb41b9e9e0d5edaded9403\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\",\n    \"replacementText\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
+    }
+  ]
+}

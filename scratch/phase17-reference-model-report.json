@@ -1,0 +1,29 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase17-reference-model-report.json",
+  "experimentId": "exp-phase17-1792302856004",
+  "timestamp": "2026-10-18T05:54:16.005Z",
+  "baselineCommitSha": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "identifier": "deepseek-r1:8b",
+    "digest": "6995872bfe4c",
+    "size": "8.2B",
+    "quantization": "Q4_K_M",
+    "provider": "ollama",
+    "hardware": "CPU"
+  },
+  "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "contextBytes": 3293,
+  "promptBytes": 6971,
+  "gateA": {
+    "inferenceTimeMs": 600453,
+    "response": "TIMEOUT",
+    "validProposal": false,
+    "classification": "ENVIRONMENT_FAILURE",
+    "rawModelResponse": null
+  },
+  "gateB": {
+    "status": "NOT_RUN"
+  },
+  "finalRunStatus": "NOT_RUN",
+  "primaryClassification": "ENVIRONMENT_FAILURE"
+}

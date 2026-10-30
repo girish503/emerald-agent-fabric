@@ -965,3 +965,240 @@ export class ArtifactSecurityError extends DomainError {
   }
 }
 
+export class MutationIntentNotFoundError extends DomainError {
+  readonly code = "MUTATION_INTENT_NOT_FOUND";
+
+  constructor(readonly mutationId: string) {
+    super(`Mutation intent '${mutationId}' not found in state store.`);
+  }
+}
+
+export class InvalidMutationTransitionError extends DomainError {
+  readonly code = "INVALID_MUTATION_TRANSITION";
+
+  constructor(
+    readonly mutationId: string,
+    readonly fromStatus: string,
+    readonly toStatus: string,
+    readonly reason?: string
+  ) {
+    super(
+      `Cannot transition mutation '${mutationId}' from '${fromStatus}' to '${toStatus}'${
+        reason ? `: ${reason}` : ""
+      }`
+    );
+  }
+}
+
+export class DuplicateMutationIntentError extends DomainError {
+  readonly code = "DUPLICATE_MUTATION_INTENT";
+
+  constructor(readonly runId: string, readonly relativePath: string, readonly version: number) {
+    super(
+      `Duplicate mutation intent for run '${runId}', path '${relativePath}' version ${version}.`
+    );
+  }
+}
+
+export class RunRollbackNotFoundError extends DomainError {
+  readonly code = "RUN_ROLLBACK_NOT_FOUND";
+
+  constructor(readonly runId: string) {
+    super(`Run rollback record for run '${runId}' not found.`);
+  }
+}
+
+export class GovernedWamiRequiredError extends DomainError {
+  readonly code = "GOVERNED_WAMI_REQUIRED";
+
+  constructor(readonly runId: string, readonly path: string, readonly reason: string) {
+    super(`Governed mutation requires WAMI for path '${path}' (run: '${runId}'): ${reason}`);
+  }
+}
+
+export class PreRenameConflictError extends DomainError {
+  readonly code = "PRE_RENAME_CONFLICT";
+
+  constructor(
+    readonly path: string,
+    readonly expectedBaseDigest: string,
+    readonly actualDiskDigest: string,
+    message: string
+  ) {
+    super(message);
+  }
+}
+
+export class PostWriteVerificationError extends DomainError {
+  readonly code = "POST_WRITE_VERIFICATION_FAILED";
+
+  constructor(
+    readonly path: string,
+    readonly expectedDigest: string,
+    readonly actualDigest: string,
+    message: string
+  ) {
+    super(message);
+  }
+}
+
+export class IncompletePriorMutationError extends DomainError {
+  readonly code = "INCOMPLETE_PRIOR_MUTATION";
+
+  constructor(
+    readonly path: string,
+    readonly priorMutationId: string,
+    readonly priorStatus: string,
+    message: string
+  ) {
+    super(message);
+  }
+}
+
+export class SnapshotContainmentError extends DomainError {
+  readonly code = "SNAPSHOT_CONTAINMENT_VIOLATION";
+
+  constructor(readonly identifier: string, readonly resolvedPath: string, message: string) {
+    super(message);
+  }
+}
+
+export class SnapshotCreationError extends DomainError {
+  readonly code = "SNAPSHOT_CREATION_FAILED";
+
+  constructor(readonly path: string, readonly mutationId: string, message: string) {
+    super(message);
+  }
+}
+
+export class DigestMismatchError extends DomainError {
+  readonly code = "DIGEST_MISMATCH";
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class UnauthorizedMutationTransitionError extends DomainError {
+  readonly code = "UNAUTHORIZED_MUTATION_TRANSITION";
+
+  constructor(
+    readonly mutationId: string,
+    readonly authority: "WORKER" | "SUPERVISOR",
+    readonly fromStatus: string,
+    readonly toStatus: string,
+    message?: string
+  ) {
+    super(
+      message ??
+        `Authority '${authority}' is not authorized to transition mutation '${mutationId}' from '${fromStatus}' to '${toStatus}'`
+    );
+  }
+}
+
+export class MissingMutationAuthorityError extends DomainError {
+  readonly code = "MISSING_MUTATION_AUTHORITY";
+
+  constructor(
+    readonly mutationId: string,
+    message?: string
+  ) {
+    super(
+      message ??
+        `Mutation transition for '${mutationId}' requires a valid MutationAuthorityContext (WORKER or SUPERVISOR)`
+    );
+  }
+}
+
+export class RollbackSnapshotMissingError extends DomainError {
+  readonly code = "ROLLBACK_SNAPSHOT_MISSING";
+
+  constructor(readonly relativePath: string, readonly snapshotRef: string) {
+    super(`Rollback snapshot missing for path '${relativePath}': '${snapshotRef}'`);
+  }
+}
+
+export class RollbackSnapshotCorruptError extends DomainError {
+  readonly code = "ROLLBACK_SNAPSHOT_CORRUPT";
+
+  constructor(
+    readonly relativePath: string,
+    readonly expectedDigest: string,
+    readonly actualDigest: string
+  ) {
+    super(
+      `Rollback snapshot corrupt for path '${relativePath}': expected digest '${expectedDigest}', got '${actualDigest}'`
+    );
+  }
+}
+
+export class RollbackConflictDetectedError extends DomainError {
+  readonly code = "ROLLBACK_CONFLICT_DETECTED";
+
+  constructor(
+    readonly relativePath: string,
+    readonly expectedDigest: string,
+    readonly actualDigest: string,
+    message?: string
+  ) {
+    super(
+      message ??
+        `Rollback conflict detected for path '${relativePath}': expected '${expectedDigest}', got '${actualDigest}'`
+    );
+  }
+}
+
+export class ActiveWorkerLeaseFencingError extends DomainError {
+  readonly code = "ACTIVE_WORKER_LEASE_FENCING";
+
+  constructor(
+    readonly runId: string,
+    readonly workerId: string,
+    readonly leaseId: string,
+    readonly expiresAt: string
+  ) {
+    super(
+      `Recovery supervisor cannot recover run '${runId}': active worker lease '${leaseId}' held by '${workerId}' is unexpired until ${expiresAt}`
+    );
+  }
+}
+
+export class WorkspaceBindingConflictError extends DomainError {
+  readonly code = "WORKSPACE_BINDING_CONFLICT";
+
+  constructor(
+    readonly runId: string,
+    readonly boundRoot: string,
+    readonly requestedRoot: string
+  ) {
+    super(
+      `Run '${runId}' is bound to workspace '${boundRoot}'; refusing conflicting workspace '${requestedRoot}'`
+    );
+  }
+}
+
+export class WorkspaceResolutionError extends DomainError {
+  readonly code = "WORKSPACE_RESOLUTION_FAILED";
+
+  constructor(
+    readonly runId: string,
+    readonly reason: string
+  ) {
+    super(`Cannot resolve an authorized workspace for run '${runId}': ${reason}`);
+  }
+}
+
+export class WorkspaceOwnershipMismatchError extends DomainError {
+  readonly code = "WORKSPACE_OWNERSHIP_MISMATCH";
+
+  constructor(
+    readonly runId: string,
+    readonly relativePath: string,
+    readonly recordedPath: string,
+    readonly resolvedPath: string
+  ) {
+    super(
+      `Run '${runId}' recorded mutation of '${relativePath}' at '${recordedPath}', which is not inside the supplied workspace (resolves to '${resolvedPath}'); refusing to act on a workspace the mutation did not occur in`
+    );
+  }
+}

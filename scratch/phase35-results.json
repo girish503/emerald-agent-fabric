@@ -1,0 +1,135 @@
+{
+  "phase": "35",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "signing": {
+    "algorithm": "Ed25519",
+    "pureStandardLibrary": true,
+    "signingPayload": {
+      "bundleId": "string",
+      "formatVersion": "emerald-evidence-bundle-v1",
+      "provenanceRoot": "string",
+      "schemaVersion": 1
+    },
+    "deterministicSignedContentDigest": true,
+    "deterministicSignatureBytes": true,
+    "transitiveProtection": true,
+    "nonCircularBundleId": true
+  },
+  "signatureVerification": {
+    "implementation": "EvidenceSignatureVerifier",
+    "offlineEvaluation": true,
+    "zeroNetworkIo": true,
+    "zeroDynamicExecution": true,
+    "zeroModelInference": true,
+    "signatureStatuses": ["VALID", "INVALID", "UNSIGNED_LEGACY"],
+    "authorityStatuses": ["TRUSTED", "REVOKED", "UNKNOWN", "NOT_ESTABLISHED"]
+  },
+  "keyAuthority": {
+    "implementation": "TrustedKeyring",
+    "localRegistryOnly": true,
+    "noExternalCa": true,
+    "fingerprintMethod": "SHA256(SPKI_DER_BYTES)",
+    "fingerprintHexLength": 64,
+    "authorityDecoupledFromLabel": true
+  },
+  "legacyBundles": {
+    "supportedUnderExplicitPolicy": true,
+    "legacyDefault": "allowUnsignedLegacy = true",
+    "strictModeSupported": "allowUnsignedLegacy = false",
+    "legacySignatureStatus": "UNSIGNED_LEGACY",
+    "legacyAuthorityStatus": "NOT_ESTABLISHED",
+    "zeroFalseUpgrade": true
+  },
+  "keyRotation": {
+    "nonDestructive": true,
+    "newSubmissionsFromRevokedKeyRejected": true,
+    "historicalArchivedEvidenceRetained": true,
+    "historicalReVerificationReportsRevoked": true
+  },
+  "ingestion": {
+    "gateway": "EvidenceIngestionGateway",
+    "pipelineOrder": [
+      "sizeGate (10MB)",
+      "jsonParse",
+      "schemaValidation",
+      "signatureStructureValidation",
+      "bundleIdentityRecalculation",
+      "trustedKeyLookupAndEd25519Verification",
+      "offlineReplayVerification",
+      "securitySecretPolicy",
+      "duplicateAndConflictHandling",
+      "archiveCommitment"
+    ],
+    "dualConjunctionEnforced": "ValidSignature AND ValidReplay AND ValidPolicy"
+  },
+  "archive": {
+    "implementation": "FileSystemEvidenceArchive",
+    "contentAddressed": true,
+    "reVerificationSupportsSignatureAudit": true,
+    "quarantineSegregation": true
+  },
+  "tamperTests": {
+    "totalTests": 30,
+    "passed": 30,
+    "failed": 0,
+    "cases": [
+      "T1: Generate Ed25519 keypair",
+      "T2: Sign valid bundle",
+      "T3: Valid signature + trusted key -> ACCEPTED",
+      "T4: Modify bundle payload -> signature fails",
+      "T5: Modify bundleId -> signature fails",
+      "T6: Modify provenanceRoot -> signature fails",
+      "T7: Modify signature bytes -> fails",
+      "T8: Wrong public key -> fails",
+      "T9: Unknown keyId -> QUARANTINED",
+      "T10: Revoked key -> QUARANTINED",
+      "T11: Signature algorithm mismatch -> QUARANTINED",
+      "T12: Truncated signature -> QUARANTINED",
+      "T13: Malformed public key -> QUARANTINED",
+      "T14: Signed bundle with replay-invalid evidence -> QUARANTINED",
+      "T15: Replay-valid but unsigned bundle -> follows explicit legacy policy",
+      "T16: Two trusted keys sign two valid bundles -> both verify independently",
+      "T17: Key rotation: old trusted key -> valid",
+      "T18: Key rotation: revoked old key -> new submission rejected",
+      "T19: Historical bundle signed by subsequently revoked key -> retained but authority reported REVOKED",
+      "T20: Private key never appears in serialized bundle",
+      "T21: Private key never appears in archive",
+      "T22: Deterministic signature payload",
+      "T23: Same bundle + same private key -> deterministic signature behavior",
+      "T24: Cross-host signed bundle simulation",
+      "T25: Accepted signed archive reload -> signature + replay verification PASS",
+      "T26: Archive tampering -> signature/replay integrity failure",
+      "T27: Unsigned historical Phase 33 bundle remains verifiable according to legacy policy",
+      "T28: Phase 34 duplicate semantics remain intact",
+      "T29: Signature verification performs zero network access",
+      "T30: Signature verification performs zero model inference"
+    ]
+  },
+  "security": {
+    "privateKeyLeakagePrevented": true,
+    "publicKeySubstitutionPrevented": true,
+    "keyIdSubstitutionPrevented": true,
+    "signatureSubstitutionPrevented": true,
+    "algorithmDowngradePrevented": true,
+    "malformedSignaturePrevented": true,
+    "malformedKeyPrevented": true,
+    "revokedAuthorityPrevented": true,
+    "unknownAuthorityPrevented": true,
+    "signedTamperedBundlePrevented": true,
+    "validSignatureReplayInvalidBundlePrevented": true
+  },
+  "regression": {
+    "phase35Tests": "30/30 passed",
+    "phase34Tests": "25/25 passed",
+    "phase33Tests": "23/23 passed",
+    "phase32Tests": "24/24 passed",
+    "phase31Tests": "18/18 passed",
+    "phase14Tests": "11/11 passed",
+    "allIntegrationTests": "161 passed | 1 skipped",
+    "phase10hArtifacts": "36/36 passed",
+    "typeScriptCheck": "CLEAN",
+    "gitDiffCheck": "CLEAN"
+  },
+  "failureClassification": [],
+  "conclusion": "Emerald provides offline Ed25519 authenticity verification for evidence bundles against an explicitly configured local trusted-key authority, while retaining independent SHA-256 integrity verification and deterministic replay validation."
+}

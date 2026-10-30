@@ -16,6 +16,7 @@
  */
 
 import {
+  ExtendedToolName,
   ToolCapability,
   ToolIsolationRequirement,
   ToolName,
@@ -30,7 +31,7 @@ export interface ToolExecutionContext {
   readonly taskId: string;
   readonly workerId: string;
   readonly leaseId: string;
-  readonly toolName: ToolName;
+  readonly toolName: ExtendedToolName;
   readonly requiredCapability: ToolCapability;
   readonly isolationRequirement: ToolIsolationRequirement;
   readonly workspace: {
@@ -43,12 +44,14 @@ export interface ToolExecutionContext {
     readonly maxOutputBytes: number;
   };
   readonly abortSignal?: AbortSignal;
+  readonly governedBenchmarkRepairMode?: boolean;
+  readonly allowWholeFileReplacement?: boolean;
 }
 
 /**
  * Contract for a typed tool execution adapter.
  */
-export interface ToolAdapter<TName extends ToolName = ToolName> {
+export interface ToolAdapter<TName extends ExtendedToolName = ExtendedToolName> {
   readonly toolName: TName;
   execute(
     context: ToolExecutionContext,
@@ -63,7 +66,7 @@ export interface ToolAdapterRegistryPort {
   /**
    * Retrieves an adapter by tool name, or null if not registered.
    */
-  getAdapter<TName extends ToolName>(name: TName): ToolAdapter<TName> | null;
+  getAdapter<TName extends ExtendedToolName>(name: TName): ToolAdapter<TName> | null;
   getAdapter(name: string): ToolAdapter | null;
 
   /**

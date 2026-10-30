@@ -108,6 +108,13 @@ export class WriteFileToolAdapter implements ToolAdapter<"write_file"> {
           `File already exists and overwrite is set to false: '${input.path}'`
         );
       }
+
+      if (context.governedBenchmarkRepairMode && !context.allowWholeFileReplacement) {
+        throw new ToolExecutionFailedError(
+          this.toolName,
+          `Direct overwrite of existing file '${input.path}' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.`
+        );
+      }
     } catch (err: unknown) {
       if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
         throw err;

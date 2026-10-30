@@ -1,0 +1,106 @@
+{
+  "trial": "Phase 44C Preflight",
+  "task": "EAF-BM-01",
+  "model": "qwen2.5-coder:1.5b",
+  "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+  "classification": "PREFLIGHT_PASS",
+  "timestamps": {
+    "startedAt": "2026-10-26T12:10:39.859Z",
+    "completedAt": "2026-10-26T12:12:11.528Z",
+    "wallClockDurationMs": 91666
+  },
+  "schema": {
+    "name": "action_proposal",
+    "branchCount": 7,
+    "toolsCovered": [
+      "read_file",
+      "write_file",
+      "search_code",
+      "git_status",
+      "git_diff",
+      "run_command"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 1,
+    "modelFailures": 0,
+    "promptTokens": 2402,
+    "evalTokens": 113,
+    "totalTokens": 2515,
+    "durationMs": 91322
+  },
+  "execution": {
+    "stepCount": 1,
+    "actionCount": 1,
+    "proposalRejectionCount": 0,
+    "terminalStatus": "TIMED_OUT",
+    "terminalReason": "MAX_STEPS"
+  },
+  "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"c40a9dcfdb758676ba7182fc655492435866ac7769c4f12cb09b481806e36edd\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
+  "stepDiagnostic": {
+    "stepNumber": 1,
+    "timestamp": "2026-10-26T12:10:40.046Z",
+    "durationMs": 91426,
+    "finishReason": "ACTION_PROPOSED",
+    "proposalValid": true,
+    "proposalId": "action-1",
+    "toolName": "read_file",
+    "inputPayload": {
+      "path": "src/calc.js",
+      "offsetLine": 1,
+      "limitLines": 500
+    },
+    "actionId": "3b49b147-5641-4c93-b2a6-3c21e09b8864",
+    "actionStatus": "SUCCEEDED",
+    "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"c40a9dcfdb758676ba7182fc655492435866ac7769c4f12cb09b481806e36edd\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
+  },
+  "proposalRejection": null,
+  "evidenceBundle": {
+    "bundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
+    "provenanceRoot": "99ae21e2666d038df93c00effbefb0a765a84c077ac6bd5fd97a9cfef61e3cfa",
+    "signaturesCount": 2,
+    "eventsCount": 13
+  },
+  "offlineAudit": {
+    "status": "FAILED",
+    "targetType": "SINGLE_BUNDLE",
+    "runIds": [
+      "1e189bad-2aa5-415f-a752-09b5545971ca"
+    ],
+    "bundleIds": [
+      "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd"
+    ],
+    "authoritativeTerminalBundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
+    "terminalOutcome": "FAILED",
+    "thresholdSatisfied": false,
+    "replayValid": true,
+    "policyValid": true,
+    "secretPolicySatisfied": true,
+    "evidenceComplete": false,
+    "fourfoldSatisfied": false,
+    "terminalAuthorityValid": true,
+    "failures": [
+      {
+        "code": "UNKNOWN_AUTHORITY",
+        "message": "Threshold authority policy not satisfied: Signing key 'key-worker-p43' not found in trusted keyring; Signing key 'key-supervisor-p43' not found in trusted keyring",
+        "bundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
+        "runId": "1e189bad-2aa5-415f-a752-09b5545971ca"
+      }
+    ],
+    "bundleSummaries": [
+      {
+        "bundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
+        "runId": "1e189bad-2aa5-415f-a752-09b5545971ca",
+        "terminalStatus": "FAILED",
+        "isTerminal": true,
+        "contentIdValid": true,
+        "provenanceRootValid": true,
+        "replayValid": true,
+        "secretPolicySatisfied": true,
+        "signatureStatus": "UNKNOWN_AUTHORITY",
+        "thresholdSatisfied": false,
+        "fourfoldSatisfied": false
+      }
+    ]
+  }
+}

@@ -3,6 +3,7 @@ import { ContractBinding, RunSnapshot } from "../domain/invariants.js";
 import { ActionCommand, ActionSnapshot } from "../domain/action.js";
 import { AttemptCommand, AttemptSnapshot } from "../domain/attempt.js";
 import { MissionContractStorePort } from "./mission-contract-store.port.js";
+import { MutationIntentStorePort } from "./mutation-intent-store.port.js";
 
 export interface TaskRecord {
   readonly taskId: string;
@@ -86,7 +87,7 @@ export interface LeaseFencingCheck {
  * StorageTransaction encapsulates operations executed within an atomic database transaction.
  * Guarantee: state mutations and event appends commit or roll back together.
  */
-export interface StorageTransaction extends MissionContractStorePort {
+export interface StorageTransaction extends MissionContractStorePort, MutationIntentStorePort {
   insertTask(task: TaskRecord): void;
   getTask(taskId: string): TaskRecord | null;
 
@@ -104,6 +105,7 @@ export interface StorageTransaction extends MissionContractStorePort {
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
   findQueuedRuns(limit?: number): readonly RunSnapshot[];
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];
+  findRecoveringRuns?(limit?: number): readonly RunSnapshot[];
   findRunIdForWorkspace?(workspaceId: string): string | null;
 
   // Action Operations
@@ -173,6 +175,7 @@ export interface StorageTransaction extends MissionContractStorePort {
     ttlMs: number;
     nowIso: string;
   }): SupervisorLease;
+  validateSupervisorFencing(runId: string, fencing: SupervisorFencingCheck): void;
   releaseSupervisorLease(leaseId: string, nowIso: string): void;
   expireSupervisorLease(leaseId: string, nowIso: string): void;
   getSupervisorLease(leaseId: string): SupervisorLease | null;
@@ -189,7 +192,7 @@ export interface StorageTransaction extends MissionContractStorePort {
  * StateStorePort defines the persistence contract for runtime state and event streams.
  * Free of any infrastructure or SQLite details.
  */
-export interface StateStorePort extends MissionContractStorePort {
+export interface StateStorePort extends MissionContractStorePort, MutationIntentStorePort {
   /**
    * Executes a series of operations atomically inside a single ACID transaction.
    */
@@ -200,6 +203,7 @@ export interface StateStorePort extends MissionContractStorePort {
   getRunByIdempotencyKey(key: string): RunSnapshot | null;
   findQueuedRuns(limit?: number): readonly RunSnapshot[];
   findExpiredRuns(nowIso: string): readonly RunSnapshot[];
+  findRecoveringRuns?(limit?: number): readonly RunSnapshot[];
   findRunIdForWorkspace?(workspaceId: string): string | null;
 
   getAction(actionId: string): ActionSnapshot | null;
@@ -220,6 +224,20 @@ export interface StateStorePort extends MissionContractStorePort {
   getLease(leaseId: string): LeaseRecord | null;
 
   // Supervisor & Checkpoint Operations on Store Port
+  acquireSupervisorLease(params: {
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease;
+  renewSupervisorLease(params: {
+    leaseId: string;
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease;
+  validateSupervisorFencing(runId: string, fencing: SupervisorFencingCheck): void;
   getSupervisorLease(leaseId: string): SupervisorLease | null;
   findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null;
   getSupervisorLeasesForRun(runId: string): readonly SupervisorLease[];
@@ -227,6 +245,13 @@ export interface StateStorePort extends MissionContractStorePort {
   expireSupervisorLease(leaseId: string, nowIso?: string): void;
   getLatestCheckpoint(runId: string): MissionCheckpoint | null;
   getCheckpoints(runId: string): readonly MissionCheckpoint[];
+
+  /**
+   * Binds a run to the canonical workspace root it owns. First bind wins; rebinding
+   * the same run to a different root throws WorkspaceBindingConflictError.
+   */
+  bindRunWorkspace(runId: string, workspaceRoot: string, nowIso: string): string;
+  getRunWorkspaceBinding(runId: string): string | null;
 
   close(): void;
 }

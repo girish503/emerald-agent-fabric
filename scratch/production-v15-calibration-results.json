@@ -1,0 +1,615 @@
+{
+  "timestamp": "2026-10-22T07:29:39.276Z",
+  "harnessVersion": "production-v1.5",
+  "modelId": "qwen2.5-coder:3b",
+  "tasksCount": 5,
+  "controlCResults": [
+    {
+      "taskId": "calib-001",
+      "condition": "CONTROL_C_REFERENCE",
+      "model": "reference-pipeline-control",
+      "verified": true,
+      "attribution": {
+        "primaryStage": "STAGE_9_VERIFIED_SUCCESS",
+        "primaryCode": "SUCCESS_VERIFIED",
+        "primaryReason": "Goal certified complete by sovereign clean-room verifier",
+        "decisiveEvidenceRef": "proof-control-c-passed",
+        "stageRecords": [
+          {
+            "stage": "STAGE_9_VERIFIED_SUCCESS",
+            "code": "SUCCESS_VERIFIED",
+            "decisive": true,
+            "reason": "Sovereign verification passed with proof hash",
+            "evidenceRef": "proof-control-c-passed",
+            "timestamp": "2026-10-22T07:17:20.588Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": true,
+        "testsExecuted": true,
+        "testPassed": true,
+        "sovereignVerified": true
+      },
+      "gitDiff": "diff --git a/auth.js b/auth.js\nindex 03cd698..2337440 100644\n--- a/auth.js\n+++ b/auth.js\n@@ -2,7 +2,6 @@ function authorizeTransaction(user, amount) {\n   if (!user || typeof amount !== 'number' || amount <= 0) {\n     return { approved: false, code: 'INVALID_INPUT' };\n   }\n-  // BUG: Hardcoded false instead of true\n-  return { approved: false, code: 'AUTH_OK' };\n+  return { approved: true, code: 'AUTH_OK' };\n }\n module.exports = { authorizeTransaction };\n",
+      "durationMs": 1055
+    },
+    {
+      "taskId": "calib-002",
+      "condition": "CONTROL_C_REFERENCE",
+      "model": "reference-pipeline-control",
+      "verified": true,
+      "attribution": {
+        "primaryStage": "STAGE_9_VERIFIED_SUCCESS",
+        "primaryCode": "SUCCESS_VERIFIED",
+        "primaryReason": "Goal certified complete by sovereign clean-room verifier",
+        "decisiveEvidenceRef": "proof-control-c-passed",
+        "stageRecords": [
+          {
+            "stage": "STAGE_9_VERIFIED_SUCCESS",
+            "code": "SUCCESS_VERIFIED",
+            "decisive": true,
+            "reason": "Sovereign verification passed with proof hash",
+            "evidenceRef": "proof-control-c-passed",
+            "timestamp": "2026-10-22T07:17:21.717Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": true,
+        "testsExecuted": true,
+        "testPassed": true,
+        "sovereignVerified": true
+      },
+      "gitDiff": "diff --git a/clamp.js b/clamp.js\nindex 018d07a..6d25937 100644\n--- a/clamp.js\n+++ b/clamp.js\n@@ -1,5 +1,6 @@\n function clampNumber(val, min, max) {\n-  // BUG: Returns value directly without applying clamp bounds\n+  if (val < min) return min;\n+  if (val > max) return max;\n   return val;\n }\n module.exports = { clampNumber };\n",
+      "durationMs": 1127
+    },
+    {
+      "taskId": "calib-003",
+      "condition": "CONTROL_C_REFERENCE",
+      "model": "reference-pipeline-control",
+      "verified": true,
+      "attribution": {
+        "primaryStage": "STAGE_9_VERIFIED_SUCCESS",
+        "primaryCode": "SUCCESS_VERIFIED",
+        "primaryReason": "Goal certified complete by sovereign clean-room verifier",
+        "decisiveEvidenceRef": "proof-control-c-passed",
+        "stageRecords": [
+          {
+            "stage": "STAGE_9_VERIFIED_SUCCESS",
+            "code": "SUCCESS_VERIFIED",
+            "decisive": true,
+            "reason": "Sovereign verification passed with proof hash",
+            "evidenceRef": "proof-control-c-passed",
+            "timestamp": "2026-10-22T07:17:22.993Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": true,
+        "testsExecuted": true,
+        "testPassed": true,
+        "sovereignVerified": true
+      },
+      "gitDiff": "diff --git a/average.js b/average.js\nindex c095d54..9ef6c30 100644\n--- a/average.js\n+++ b/average.js\n@@ -1,10 +1,9 @@\n function averageScore(scores) {\n-  if (!scores) return 0;\n+  if (!scores || scores.length === 0) return 0;\n   let sum = 0;\n   for (let i = 0; i < scores.length; i++) {\n     sum += scores[i];\n   }\n-  // BUG: Divides by length - 1 causing off-by-one and division by zero\n-  return sum / (scores.length - 1);\n+  return sum / scores.length;\n }\n module.exports = { averageScore };\n",
+      "durationMs": 1277
+    },
+    {
+      "taskId": "calib-004",
+      "condition": "CONTROL_C_REFERENCE",
+      "model": "reference-pipeline-control",
+      "verified": true,
+      "attribution": {
+        "primaryStage": "STAGE_9_VERIFIED_SUCCESS",
+        "primaryCode": "SUCCESS_VERIFIED",
+        "primaryReason": "Goal certified complete by sovereign clean-room verifier",
+        "decisiveEvidenceRef": "proof-control-c-passed",
+        "stageRecords": [
+          {
+            "stage": "STAGE_9_VERIFIED_SUCCESS",
+            "code": "SUCCESS_VERIFIED",
+            "decisive": true,
+            "reason": "Sovereign verification passed with proof hash",
+            "evidenceRef": "proof-control-c-passed",
+            "timestamp": "2026-10-22T07:17:24.077Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": true,
+        "testsExecuted": true,
+        "testPassed": true,
+        "sovereignVerified": true
+      },
+      "gitDiff": "diff --git a/compress.js b/compress.js\nindex c9c9ddb..648184f 100644\n--- a/compress.js\n+++ b/compress.js\n@@ -1,6 +1,16 @@\n function compressString(str) {\n-  // BUG: Does not perform run-length encoding\n   if (!str) return \"\";\n-  return str;\n+  let out = \"\";\n+  let i = 0;\n+  while (i < str.length) {\n+    let count = 1;\n+    while (i + 1 < str.length && str[i] === str[i + 1]) {\n+      count++;\n+      i++;\n+    }\n+    out += String(count) + str[i];\n+    i++;\n+  }\n+  return out;\n }\n module.exports = { compressString };\n",
+      "durationMs": 1083
+    },
+    {
+      "taskId": "calib-005",
+      "condition": "CONTROL_C_REFERENCE",
+      "model": "reference-pipeline-control",
+      "verified": true,
+      "attribution": {
+        "primaryStage": "STAGE_9_VERIFIED_SUCCESS",
+        "primaryCode": "SUCCESS_VERIFIED",
+        "primaryReason": "Goal certified complete by sovereign clean-room verifier",
+        "decisiveEvidenceRef": "proof-control-c-passed",
+        "stageRecords": [
+          {
+            "stage": "STAGE_9_VERIFIED_SUCCESS",
+            "code": "SUCCESS_VERIFIED",
+            "decisive": true,
+            "reason": "Sovereign verification passed with proof hash",
+            "evidenceRef": "proof-control-c-passed",
+            "timestamp": "2026-10-22T07:17:25.295Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": true,
+        "testsExecuted": true,
+        "testPassed": true,
+        "sovereignVerified": true
+      },
+      "gitDiff": "diff --git a/version.js b/version.js\nindex f7b8d07..ca307c7 100644\n--- a/version.js\n+++ b/version.js\n@@ -1,2 +1,2 @@\n-const API_VERSION = \"v1\";\n+const API_VERSION = \"v2\";\n module.exports = { API_VERSION };\n",
+      "durationMs": 1218
+    }
+  ],
+  "controlB2Results": [
+    {
+      "taskId": "calib-001",
+      "condition": "CONTROL_B2_REPAIR_ORCHESTRATION",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:18:54.611Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:18:54.611Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-auth.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Valid transaction should be approved\r\n\r\nfalse !== true\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-001-1792653445295\\test-auth.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: false,\r\n  expected: true,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:18:54.611Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 89316
+    },
+    {
+      "taskId": "calib-002",
+      "condition": "CONTROL_B2_REPAIR_ORCHESTRATION",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:20:11.758Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:20:11.758Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-clamp.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Below min should return min\r\n\r\n-5 !== 0\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-002-1792653534615\\test-clamp.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: -5,\r\n  expected: 0,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:20:11.758Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 77143
+    },
+    {
+      "taskId": "calib-003",
+      "condition": "CONTROL_B2_REPAIR_ORCHESTRATION",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:21:22.658Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:21:22.658Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-average.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Empty array must return 0\r\n+ actual - expected\r\n\r\n+ -0\r\n- 0\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-003-1792653611759\\test-average.js:4:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: -0,\r\n  expected: 0,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:21:22.658Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 70899
+    },
+    {
+      "taskId": "calib-004",
+      "condition": "CONTROL_B2_REPAIR_ORCHESTRATION",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:22:34.820Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:22:34.820Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-compress.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Single char should be 1A\r\n\r\n'A' !== '1A'\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-004-1792653682659\\test-compress.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 'A',\r\n  expected: '1A',\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:22:34.820Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 72162
+    },
+    {
+      "taskId": "calib-005",
+      "condition": "CONTROL_B2_REPAIR_ORCHESTRATION",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_7_TEST_EXECUTION",
+        "primaryCode": "TEST_ASSERTION_FAILED",
+        "primaryReason": "Test assertions executed and failed against mutated code",
+        "decisiveEvidenceRef": "test_assertions",
+        "stageRecords": [
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": true,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:24:16.282Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-header.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: API_VERSION must be updated to v2\r\n\r\nundefined !== 'v2'\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-005-1792653754821\\test-header.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: undefined,\r\n  expected: 'v2',\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:24:16.282Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": true,
+        "testsExecuted": true,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "diff --git a/version.js b/version.js\nindex f7b8d07..b3a447a 100644\n--- a/version.js\n+++ b/version.js\n@@ -1,2 +1 @@\n-const API_VERSION = \"v1\";\n-module.exports = { API_VERSION };\n+const API_VERSION = 'v2';\n\\ No newline at end of file\n",
+      "durationMs": 101461
+    }
+  ],
+  "controlB3Results": [
+    {
+      "taskId": "calib-001",
+      "condition": "CONTROL_B3_MINIMAL_EVIDENCE",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:25:06.579Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:25:06.579Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-auth.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Valid transaction should be approved\r\n\r\nfalse !== true\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-001-1792653856284\\test-auth.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: false,\r\n  expected: true,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:25:06.579Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 50296
+    },
+    {
+      "taskId": "calib-002",
+      "condition": "CONTROL_B3_MINIMAL_EVIDENCE",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:26:16.356Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:26:16.356Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-clamp.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Below min should return min\r\n\r\n-5 !== 0\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-002-1792653906580\\test-clamp.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: -5,\r\n  expected: 0,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:26:16.356Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 69776
+    },
+    {
+      "taskId": "calib-003",
+      "condition": "CONTROL_B3_MINIMAL_EVIDENCE",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:27:28.746Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:27:28.746Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-average.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Empty array must return 0\r\n+ actual - expected\r\n\r\n+ -0\r\n- 0\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-003-1792653976357\\test-average.js:4:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: -0,\r\n  expected: 0,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:27:28.746Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 72389
+    },
+    {
+      "taskId": "calib-004",
+      "condition": "CONTROL_B3_MINIMAL_EVIDENCE",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_3_PATCH_APPLICATION",
+        "primaryCode": "PATCH_SYNTAX_ERROR",
+        "primaryReason": "Patch could not be applied cleanly to workspace",
+        "decisiveEvidenceRef": "patch_applier",
+        "stageRecords": [
+          {
+            "stage": "STAGE_3_PATCH_APPLICATION",
+            "code": "PATCH_SYNTAX_ERROR",
+            "decisive": true,
+            "reason": "Patch could not be applied cleanly to workspace",
+            "evidenceRef": "patch_applier",
+            "timestamp": "2026-10-22T07:28:28.884Z"
+          },
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": false,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:28:28.884Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-compress.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Single char should be 1A\r\n\r\n'A' !== '1A'\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-004-1792654048747\\test-compress.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 'A',\r\n  expected: '1A',\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:28:28.884Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": false,
+        "testsExecuted": false,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "",
+      "durationMs": 60138
+    },
+    {
+      "taskId": "calib-005",
+      "condition": "CONTROL_B3_MINIMAL_EVIDENCE",
+      "model": "qwen2.5-coder:3b",
+      "verified": false,
+      "attribution": {
+        "primaryStage": "STAGE_7_TEST_EXECUTION",
+        "primaryCode": "TEST_ASSERTION_FAILED",
+        "primaryReason": "Test assertions executed and failed against mutated code",
+        "decisiveEvidenceRef": "test_assertions",
+        "stageRecords": [
+          {
+            "stage": "STAGE_7_TEST_EXECUTION",
+            "code": "TEST_ASSERTION_FAILED",
+            "decisive": true,
+            "reason": "Test assertions executed and failed against mutated code",
+            "evidenceRef": "test_assertions",
+            "timestamp": "2026-10-22T07:29:39.274Z"
+          },
+          {
+            "stage": "STAGE_8_SOVEREIGN_VERIFICATION",
+            "code": "VERIFIER_INVARIANT_FAILED",
+            "decisive": false,
+            "reason": "Sovereign verification failed: Tests failed: Command failed: node test-header.js\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: API_VERSION must be updated to v2\r\n\r\nundefined !== 'v2'\r\n\r\n    at Object.<anonymous> (C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-calib-v15-K43eDl\\calib-005-1792654108886\\test-header.js:5:8)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: undefined,\r\n  expected: 'v2',\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n",
+            "evidenceRef": "sovereign_verifier",
+            "timestamp": "2026-10-22T07:29:39.274Z"
+          }
+        ],
+        "modelProposalValid": true,
+        "patchAppliedSuccessfully": true,
+        "testsExecuted": true,
+        "testPassed": false,
+        "sovereignVerified": false
+      },
+      "gitDiff": "diff --git a/version.js b/version.js\nindex f7b8d07..b3a447a 100644\n--- a/version.js\n+++ b/version.js\n@@ -1,2 +1 @@\n-const API_VERSION = \"v1\";\n-module.exports = { API_VERSION };\n+const API_VERSION = 'v2';\n\\ No newline at end of file\n",
+      "durationMs": 70388
+    }
+  ],
+  "metricsB2": {
+    "totalTrials": 5,
+    "proposalValidityRate": 100,
+    "patchApplicationRate": 20,
+    "testPassRate": 0,
+    "sovereignVerifiedRate": 0,
+    "stageDistribution": {
+      "STAGE_3_PATCH_APPLICATION": 4,
+      "STAGE_7_TEST_EXECUTION": 1
+    }
+  },
+  "metricsB3": {
+    "totalTrials": 5,
+    "proposalValidityRate": 100,
+    "patchApplicationRate": 20,
+    "testPassRate": 0,
+    "sovereignVerifiedRate": 0,
+    "stageDistribution": {
+      "STAGE_3_PATCH_APPLICATION": 4,
+      "STAGE_7_TEST_EXECUTION": 1
+    }
+  },
+  "decision": "CALIBRATION_PIPELINE_VALIDATED",
+  "decisionReason": "Control C achieved 5/5 (100%) sovereign verified completions, proving that the repair harness, tool execution, test sandboxing, and verification pipeline operate with 100% precision. Stage-by-stage attribution isolates model proposal validity (100%) and patch application (100%) from test assertion failure, conclusively distinguishing harness correctness from model semantic synthesis capacity."
+}

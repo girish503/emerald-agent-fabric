@@ -18,7 +18,7 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { canonicalJsonStringify } from "./canonical-hash.js";
-import { ToolDefinition, ToolName } from "./tool.js";
+import { ExtendedToolName, ToolDefinition, ToolName } from "./tool.js";
 
 // ============================================================================
 // 1. Semantic Metadata Contract & Declarations
@@ -37,7 +37,7 @@ export interface ToolSemanticMetadata {
  * Static, immutable semantic metadata declarations for the six core tools.
  * Each entry is strictly validated against the corresponding runtime Zod schema in contract tests.
  */
-export const TOOL_SEMANTIC_METADATA: Readonly<Record<ToolName, ToolSemanticMetadata>> = Object.freeze({
+export const TOOL_SEMANTIC_METADATA: Readonly<Record<ExtendedToolName, ToolSemanticMetadata>> = Object.freeze({
   read_file: Object.freeze({
     summary: "Read UTF-8 text from file with line offset and limit bounds.",
     minimalExample: Object.freeze({ path: "src/index.ts", offsetLine: 1, limitLines: 50 }),
@@ -68,6 +68,17 @@ export const TOOL_SEMANTIC_METADATA: Readonly<Record<ToolName, ToolSemanticMetad
     minimalExample: Object.freeze({ argv: ["npm", "test"] }),
     invalidFieldWarning: 'Use "argv" string array (NOT raw string like "cmd" or "command").',
   }),
+  edit_file: Object.freeze({
+    summary:
+      "Replace an exact literal text segment in an existing file. Prefer the smallest relevant code fragment rather than whole-file replacement. searchAnchor must be exact literal text from the file (NOT a line number, label, or regex). After a failed match, inspect the file with read_file and copy a new literal anchor.",
+    minimalExample: Object.freeze({
+      path: "src/calc.js",
+      searchAnchor: "return a + b + 1;",
+      replacementText: "return a + b;",
+    }),
+    invalidFieldWarning:
+      'searchAnchor must be exact literal source text from the file (NOT line numbers like "line:10" or pseudo-selectors). searchAnchor and replacementText must be different.',
+  }),
 });
 
 // ============================================================================
@@ -82,7 +93,7 @@ export interface ProjectedParameter {
 }
 
 export interface ProjectedToolInspection {
-  readonly toolName: ToolName;
+  readonly toolName: ExtendedToolName;
   readonly summary: string;
   readonly parameters: readonly ProjectedParameter[];
   readonly minimalExample: Record<string, unknown>;
@@ -152,10 +163,41 @@ function getTypeName(inner: z.ZodTypeAny): string {
 }
 
 /**
+ * Parameters excluded from model-facing tool projections.
+ * Internal synchronization tokens (e.g. optimistic concurrency tokens like expectedDigest)
+ * are handled by runtime adapters and must not be exposed to autonomous models to prevent hallucination.
+ */
+export const INTERNAL_TOOL_PARAMETER_EXCLUSIONS: ReadonlySet<string> = new Set([
+  "expectedDigest",
+]);
+
+export interface ToolProjectionOptions {
+  /**
+   * Whether governed benchmark repair mode is active without whole-file replacement.
+   * When true, write_file cannot overwrite existing files; the overwrite parameter is omitted,
+   * and description explicitly directs to edit_file for existing files.
+   */
+  readonly governedBenchmarkRepairMode?: boolean;
+  readonly allowWholeFileReplacement?: boolean;
+}
+
+export const BENCHMARK_REPAIR_WRITE_FILE_METADATA: ToolSemanticMetadata = Object.freeze({
+  summary:
+    "Atomically create a new file with UTF-8 text. Overwriting existing files is disallowed; use edit_file for existing files.",
+  minimalExample: Object.freeze({ path: "src/new-file.js", content: "export const x = 1;\n" }),
+  invalidFieldWarning:
+    'Use "path" and "content" to create a new file. Direct overwrite of existing files is disallowed; use edit_file.',
+});
+
+/**
  * Introspects a tool's input schema (z.ZodObject) directly from its AST,
  * extracting parameter names, inferred types, and optionality.
+ * Internal parameters (such as expectedDigest) and context-sensitive exclusions are omitted.
  */
-export function introspectToolInputSchema(schema: z.ZodTypeAny): readonly ProjectedParameter[] {
+export function introspectToolInputSchema(
+  schema: z.ZodTypeAny,
+  options?: { extraExclusions?: ReadonlySet<string> }
+): readonly ProjectedParameter[] {
   let target: z.ZodTypeAny = schema;
   while (target instanceof z.ZodEffects) {
     target = target.innerType();
@@ -169,6 +211,9 @@ export function introspectToolInputSchema(schema: z.ZodTypeAny): readonly Projec
   const parameters: ProjectedParameter[] = [];
 
   for (const [key, fieldDef] of Object.entries(shape)) {
+    if (INTERNAL_TOOL_PARAMETER_EXCLUSIONS.has(key) || options?.extraExclusions?.has(key)) {
+      continue;
+    }
     const { inner, isOptional, defaultValue } = unwrapZodType(fieldDef as z.ZodTypeAny);
     const typeName = getTypeName(inner);
     parameters.push(
@@ -193,20 +238,36 @@ export function introspectToolInputSchema(schema: z.ZodTypeAny): readonly Projec
  * Format:
  * `- <tool_name>(<params>): <summary> Example: <json>. Warning: <warning>`
  */
-export function projectToolDefinition(tool: ToolDefinition): string {
-  const metadata = TOOL_SEMANTIC_METADATA[tool.name as ToolName];
-  const summary = metadata?.summary ?? tool.description;
-  const params = introspectToolInputSchema(tool.inputSchema);
+export function projectToolDefinition(
+  tool: ToolDefinition,
+  options?: ToolProjectionOptions
+): string {
+  const isBenchmarkRepair = Boolean(
+    options?.governedBenchmarkRepairMode && !options?.allowWholeFileReplacement
+  );
+
+  const metadata = (isBenchmarkRepair && tool.name === "write_file")
+    ? BENCHMARK_REPAIR_WRITE_FILE_METADATA
+    : (TOOL_SEMANTIC_METADATA[tool.name as ExtendedToolName] ?? {
+        summary: tool.description,
+        minimalExample: {},
+        invalidFieldWarning: "",
+      });
+
+  const extraExclusions = (isBenchmarkRepair && tool.name === "write_file")
+    ? new Set(["overwrite"])
+    : undefined;
+
+  const summary = metadata.summary;
+  const params = introspectToolInputSchema(tool.inputSchema, { extraExclusions });
 
   const paramSignatures = params.map((p) =>
     p.isOptional ? `${p.name}?: ${p.type}` : `${p.name}: ${p.type}`
   );
 
   const sig = `${tool.name}(${paramSignatures.join(", ")})`;
-  const exampleJson = metadata
-    ? canonicalJsonStringify(metadata.minimalExample)
-    : "{}";
-  const warningText = metadata?.invalidFieldWarning
+  const exampleJson = canonicalJsonStringify(metadata.minimalExample);
+  const warningText = metadata.invalidFieldWarning
     ? ` Warning: ${metadata.invalidFieldWarning}`
     : "";
 
@@ -216,19 +277,30 @@ export function projectToolDefinition(tool: ToolDefinition): string {
 /**
  * Produces full inspection metadata for a tool projection, including byte length and SHA-256 hash.
  */
-export function inspectToolProjection(tool: ToolDefinition): ProjectedToolInspection {
-  const metadata = TOOL_SEMANTIC_METADATA[tool.name as ToolName] ?? {
-    summary: tool.description,
-    minimalExample: {},
-    invalidFieldWarning: "",
-  };
-  const parameters = introspectToolInputSchema(tool.inputSchema);
-  const formattedProjection = projectToolDefinition(tool);
+export function inspectToolProjection(
+  tool: ToolDefinition,
+  options?: ToolProjectionOptions
+): ProjectedToolInspection {
+  const isBenchmarkRepair = Boolean(
+    options?.governedBenchmarkRepairMode && !options?.allowWholeFileReplacement
+  );
+  const metadata = (isBenchmarkRepair && tool.name === "write_file")
+    ? BENCHMARK_REPAIR_WRITE_FILE_METADATA
+    : (TOOL_SEMANTIC_METADATA[tool.name as ExtendedToolName] ?? {
+        summary: tool.description,
+        minimalExample: {},
+        invalidFieldWarning: "",
+      });
+  const extraExclusions = (isBenchmarkRepair && tool.name === "write_file")
+    ? new Set(["overwrite"])
+    : undefined;
+  const parameters = introspectToolInputSchema(tool.inputSchema, { extraExclusions });
+  const formattedProjection = projectToolDefinition(tool, options);
   const byteLength = Buffer.byteLength(formattedProjection, "utf8");
   const sha256 = createHash("sha256").update(formattedProjection, "utf8").digest("hex");
 
   return Object.freeze({
-    toolName: tool.name,
+    toolName: tool.name as ExtendedToolName,
     summary: metadata.summary,
     parameters,
     minimalExample: metadata.minimalExample,
@@ -242,9 +314,12 @@ export function inspectToolProjection(tool: ToolDefinition): ProjectedToolInspec
 /**
  * Formats an array of available tools into the model-facing catalog block for LiveAgentBrain.
  */
-export function formatModelFacingToolCatalog(tools: readonly ToolDefinition[]): string {
+export function formatModelFacingToolCatalog(
+  tools: readonly ToolDefinition[],
+  options?: ToolProjectionOptions
+): string {
   if (tools.length === 0) {
     return "No tools available.";
   }
-  return tools.map((tool) => projectToolDefinition(tool)).join("\n");
+  return tools.map((tool) => projectToolDefinition(tool, options)).join("\n");
 }

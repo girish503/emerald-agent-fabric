@@ -108,9 +108,16 @@ export function findForbiddenAuthorityKeys(value: unknown): readonly string[] {
 // 3. Action Proposal Domain Type & Schema
 // ============================================================================
 
+export const ACTION_PROPOSAL_TOOL_NAMES = [
+  ...TOOL_NAMES,
+  "edit_file",
+] as const;
+
+export type ActionProposalToolName = (typeof ACTION_PROPOSAL_TOOL_NAMES)[number];
+
 export interface ActionProposal {
   readonly proposalId: string;
-  readonly toolName: ToolName;
+  readonly toolName: ActionProposalToolName;
   readonly inputPayload: Readonly<Record<string, unknown>>;
   readonly contextSnapshotHash: string;
   readonly rationale?: string;
@@ -123,7 +130,7 @@ export const ActionProposalSchema = z
       .string()
       .min(1, "proposalId cannot be empty")
       .max(256, "proposalId exceeds max length of 256"),
-    toolName: z.enum(TOOL_NAMES),
+    toolName: z.enum(ACTION_PROPOSAL_TOOL_NAMES),
     inputPayload: z.record(z.unknown()),
     contextSnapshotHash: z
       .string()
@@ -157,7 +164,14 @@ export type ProposalRejectionReason =
   | "RESOURCE_LIMIT_EXCEEDED"
   | "RUN_NOT_ACTIVE"
   | "LEASE_INVALID"
-  | "UNVERIFIED_COMPLETION_CLAIM";
+  | "UNVERIFIED_COMPLETION_CLAIM"
+  | "DISALLOWED_FILE_OVERWRITE"
+  | "NOOP_EDIT_DISALLOWED"
+  | "REPEATED_FAILED_ANCHOR_DISALLOWED"
+  | "WHOLE_FILE_ANCHOR_DISALLOWED"
+  | "DUPLICATE_PROPOSAL_DISALLOWED"
+  | "POST_VERIFICATION_MUTATION_DISALLOWED"
+  | "INEFFECTIVE_MUTATION_DISALLOWED";
 
 export interface ProposalValidationSuccess {
   readonly valid: true;

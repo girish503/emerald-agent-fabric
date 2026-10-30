@@ -91,11 +91,13 @@ CREATE TABLE IF NOT EXISTS run_events (
     schema_version INTEGER NOT NULL DEFAULT 1,
     producer TEXT NOT NULL,
     payload TEXT NOT NULL,
+    dedup_token TEXT,
     UNIQUE(run_id, sequence)
 );
 
 CREATE INDEX IF NOT EXISTS idx_events_run_seq ON run_events(run_id, sequence);
 CREATE INDEX IF NOT EXISTS idx_events_type ON run_events(event_type);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_run_events_dedup ON run_events(dedup_token) WHERE dedup_token IS NOT NULL;
 
 CREATE TABLE IF NOT EXISTS leases (
     lease_id TEXT PRIMARY KEY,
@@ -192,6 +194,66 @@ CREATE TABLE IF NOT EXISTS mission_checkpoints (
 );
 
 CREATE INDEX IF NOT EXISTS idx_checkpoints_run_ver ON mission_checkpoints(run_id, checkpoint_version);
+
+CREATE TABLE IF NOT EXISTS mutation_intents (
+    mutation_id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL,
+    worker_lease_id TEXT NOT NULL,
+    relative_path TEXT NOT NULL,
+    canonical_path TEXT NOT NULL,
+    parent_mutation_id TEXT NULL,
+    path_mutation_version INTEGER NOT NULL,
+    base_digest TEXT NOT NULL,
+    expected_resulting_digest TEXT NOT NULL,
+    snapshot_ref TEXT NOT NULL,
+    recovery_dedup_token TEXT NOT NULL UNIQUE,
+    lifecycle_status TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    conflict_details TEXT NULL,
+    FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT,
+    FOREIGN KEY (parent_mutation_id) REFERENCES mutation_intents(mutation_id) ON DELETE RESTRICT,
+    UNIQUE (run_id, relative_path, path_mutation_version)
+);
+
+CREATE INDEX IF NOT EXISTS idx_mutation_intents_run_path
+ON mutation_intents(run_id, relative_path, path_mutation_version ASC);
+
+CREATE INDEX IF NOT EXISTS idx_mutation_intents_status
+ON mutation_intents(lifecycle_status);
+
+CREATE INDEX IF NOT EXISTS idx_mutation_intents_lease
+ON mutation_intents(worker_lease_id);
+
+CREATE TABLE IF NOT EXISTS run_rollbacks (
+    run_id TEXT PRIMARY KEY,
+    status TEXT NOT NULL,
+    initiated_by TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    completed_at INTEGER NULL,
+    conflict_details TEXT NULL,
+    FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS path_rollback_progress (
+    run_id TEXT NOT NULL,
+    relative_path TEXT NOT NULL,
+    status TEXT NOT NULL,
+    initial_base_digest TEXT NOT NULL,
+    latest_expected_digest TEXT NOT NULL,
+    baseline_snapshot_ref TEXT NOT NULL,
+    updated_at INTEGER NOT NULL,
+    error_message TEXT NULL,
+    PRIMARY KEY (run_id, relative_path),
+    FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS run_workspace_bindings (
+    run_id TEXT PRIMARY KEY,
+    workspace_root TEXT NOT NULL,
+    bound_at TEXT NOT NULL,
+    FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT
+);
 `;
 
 /**
@@ -357,5 +419,96 @@ export function migrateDatabase(db: DatabaseSync): void {
     );
 
     CREATE INDEX IF NOT EXISTS idx_checkpoints_run_ver ON mission_checkpoints(run_id, checkpoint_version);
+  `);
+
+  // Step 7: Ensure dedup_token column and unique partial index on run_events
+  const eventsCheckStmt = db.prepare(
+    `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'run_events'`
+  );
+  if (eventsCheckStmt.get() !== undefined) {
+    const tableInfoStmt = db.prepare(`PRAGMA table_info(run_events)`);
+    const columns = (tableInfoStmt.all() as unknown as { name: string }[]).map((c) => c.name);
+    if (!columns.includes("dedup_token")) {
+      db.exec(`ALTER TABLE run_events ADD COLUMN dedup_token TEXT;`);
+    }
+    db.exec(`
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_run_events_dedup
+      ON run_events(dedup_token)
+      WHERE dedup_token IS NOT NULL;
+    `);
+  }
+
+  // Step 8: Ensure mutation_intents, run_rollbacks, and path_rollback_progress exist
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS mutation_intents (
+        mutation_id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL,
+        worker_lease_id TEXT NOT NULL,
+        relative_path TEXT NOT NULL,
+        canonical_path TEXT NOT NULL,
+        parent_mutation_id TEXT NULL,
+        path_mutation_version INTEGER NOT NULL,
+        base_digest TEXT NOT NULL,
+        expected_resulting_digest TEXT NOT NULL,
+        snapshot_ref TEXT NOT NULL,
+        recovery_dedup_token TEXT NOT NULL UNIQUE,
+        lifecycle_status TEXT NOT NULL,
+        created_at INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL,
+        conflict_details TEXT NULL,
+        FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT,
+        FOREIGN KEY (parent_mutation_id) REFERENCES mutation_intents(mutation_id) ON DELETE RESTRICT,
+        UNIQUE (run_id, relative_path, path_mutation_version)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_mutation_intents_run_path
+    ON mutation_intents(run_id, relative_path, path_mutation_version ASC);
+
+    CREATE INDEX IF NOT EXISTS idx_mutation_intents_status
+    ON mutation_intents(lifecycle_status);
+
+    CREATE INDEX IF NOT EXISTS idx_mutation_intents_lease
+    ON mutation_intents(worker_lease_id);
+
+    CREATE TABLE IF NOT EXISTS run_rollbacks (
+        run_id TEXT PRIMARY KEY,
+        status TEXT NOT NULL,
+        initiated_by TEXT NOT NULL,
+        created_at INTEGER NOT NULL,
+        completed_at INTEGER NULL,
+        conflict_details TEXT NULL,
+        FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT
+    );
+
+    CREATE TABLE IF NOT EXISTS path_rollback_progress (
+        run_id TEXT NOT NULL,
+        relative_path TEXT NOT NULL,
+        status TEXT NOT NULL,
+        initial_base_digest TEXT NOT NULL,
+        latest_expected_digest TEXT NOT NULL,
+        baseline_snapshot_ref TEXT NOT NULL,
+        updated_at INTEGER NOT NULL,
+        error_message TEXT NULL,
+        PRIMARY KEY (run_id, relative_path),
+        FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT
+    );
+
+    CREATE TABLE IF NOT EXISTS run_workspace_bindings (
+            run_id TEXT PRIMARY KEY,
+            workspace_root TEXT NOT NULL,
+            bound_at TEXT NOT NULL,
+            FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT
+    );
+
+    -- Exclusive supervisor authority: demote legacy duplicate ACTIVE leases (keep the latest
+    -- expiry per run), then let the database enforce a single ACTIVE lease per run.
+    UPDATE supervisor_leases SET state = 'EXPIRED'
+    WHERE state = 'ACTIVE' AND rowid NOT IN (
+      SELECT rowid FROM (
+        SELECT rowid, ROW_NUMBER() OVER (PARTITION BY run_id ORDER BY expires_at DESC, rowid DESC) AS rn
+        FROM supervisor_leases WHERE state = 'ACTIVE'
+      ) WHERE rn = 1
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_sup_leases_one_active ON supervisor_leases(run_id) WHERE state = 'ACTIVE';
   `);
 }

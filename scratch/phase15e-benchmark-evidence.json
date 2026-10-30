@@ -1,0 +1,230 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase15e-benchmark-evidence.json",
+  "experimentId": "exp-phase15e-1792261080348",
+  "runId": "1dea32db-08a8-491e-9287-0750670c7e1d",
+  "taskId": "dc5cae93-ea2b-465d-8be9-0418ab2e3c18",
+  "baselineCommitSha": "b5d7b01539fb07863fa05d1b276b5bc9fbb858f3",
+  "model": "qwen2.5:1.5b",
+  "provider": "ollama",
+  "modelSize": "1.5B",
+  "thinking": "not_supported",
+  "hardware": "CPU",
+  "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "contextBytes": 3293,
+  "promptBytes": 6971,
+  "gateA": {
+    "inferenceTimeMs": 67059,
+    "response": "RECEIVED",
+    "validProposal": true,
+    "classification": "INFERENCE_VALIDATED"
+  },
+  "gateB": {
+    "status": "EXECUTED",
+    "modelCalls": 7,
+    "modelSteps": 7,
+    "proposalRecords": [
+      {
+        "stepNumber": 1,
+        "timestamp": "2026-10-17T18:13:50.988Z",
+        "model": "qwen2.5:1.5b",
+        "contextBytes": 3891,
+        "promptBytes": 7641,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"476dad6f9e7012276686442d838c297cdbe376f546ff5c3f8e9a8c6a1f75f653\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\"\n  },\n  \"contextSnapshotHash\": \"476dad6f9e7012276686442d838c297cdbe376f546ff5c3f8e9a8c6a1f75f653\"\n}",
+        "proposal": {
+          "proposalId": "476dad6f9e7012276686442d838c297cdbe376f546ff5c3f8e9a8c6a1f75f653",
+          "toolName": "write_file",
+          "inputPayload": {
+            "path": "src/math.js",
+            "content": "function add(a, b) {\n  return a + b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}",
+            "overwrite": true
+          }
+        },
+        "proposalValidationResult": "VALID",
+        "proposalRejectionReason": null,
+        "actionStatus": "SUCCEEDED",
+        "attemptStatus": "SUCCEEDED"
+      },
+      {
+        "stepNumber": 2,
+        "timestamp": "2026-10-17T18:15:03.755Z",
+        "model": "qwen2.5:1.5b",
+        "contextBytes": 7979,
+        "promptBytes": 12607,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"c8806aeb-4254-42ee-ac86-0f874e42566e\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e36cbe40649a6e6065b363a739f0e5e74a389f50762514f1d437701b6ebf0bee\"\n}",
+        "proposal": {
+          "proposalId": "c8806aeb-4254-42ee-ac86-0f874e42566e",
+          "toolName": "write_file",
+          "inputPayload": {
+            "path": "src/math.js",
+            "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+          }
+        },
+        "proposalValidationResult": "INVALID",
+        "proposalRejectionReason": "INVALID_TOOL_INPUT",
+        "actionStatus": null,
+        "attemptStatus": null
+      },
+      {
+        "stepNumber": 3,
+        "timestamp": "2026-10-17T18:16:09.597Z",
+        "model": "qwen2.5:1.5b",
+        "contextBytes": 7979,
+        "promptBytes": 12607,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1dea32db-08a8-491e-9287-0750670c7e1d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e36cbe40649a6e6065b363a739f0e5e74a389f50762514f1d437701b6ebf0bee\"\n}",
+        "proposal": {
+          "proposalId": "1dea32db-08a8-491e-9287-0750670c7e1d",
+          "toolName": "write_file",
+          "inputPayload": {
+            "path": "src/math.js",
+            "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+          }
+        },
+        "proposalValidationResult": "INVALID",
+        "proposalRejectionReason": "INVALID_TOOL_INPUT",
+        "actionStatus": null,
+        "attemptStatus": null
+      },
+      {
+        "stepNumber": 4,
+        "timestamp": "2026-10-17T18:16:31.699Z",
+        "model": "qwen2.5:1.5b",
+        "contextBytes": 7979,
+        "promptBytes": 12607,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1dea32db-08a8-491e-9287-0750670c7e1d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e36cbe40649a6e6065b363a739f0e5e74a389f50762514f1d437701b6ebf0bee\"\n}",
+        "proposal": {
+          "proposalId": "1dea32db-08a8-491e-9287-0750670c7e1d",
+          "toolName": "write_file",
+          "inputPayload": {
+            "path": "src/math.js",
+            "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+          }
+        },
+        "proposalValidationResult": "INVALID",
+        "proposalRejectionReason": "INVALID_TOOL_INPUT",
+        "actionStatus": null,
+        "attemptStatus": null
+      },
+      {
+        "stepNumber": 5,
+        "timestamp": "2026-10-17T18:16:53.582Z",
+        "model": "qwen2.5:1.5b",
+        "contextBytes": 7979,
+        "promptBytes": 12607,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1dea32db-08a8-491e-9287-0750670c7e1d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e36cbe40649a6e6065b363a739f0e5e74a389f50762514f1d437701b6ebf0bee\"\n}",
+        "proposal": {
+          "proposalId": "1dea32db-08a8-491e-9287-0750670c7e1d",
+          "toolName": "write_file",
+          "inputPayload": {
+            "path": "src/math.js",
+            "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+          }
+        },
+        "proposalValidationResult": "INVALID",
+        "proposalRejectionReason": "INVALID_TOOL_INPUT",
+        "actionStatus": null,
+        "attemptStatus": null
+      },
+      {
+        "stepNumber": 6,
+        "timestamp": "2026-10-17T18:17:13.524Z",
+        "model": "qwen2.5:1.5b",
+        "contextBytes": 7979,
+        "promptBytes": 12607,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1dea32db-08a8-491e-9287-0750670c7e1d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e36cbe40649a6e6065b363a739f0e5e74a389f50762514f1d437701b6ebf0bee\"\n}",
+        "proposal": {
+          "proposalId": "1dea32db-08a8-491e-9287-0750670c7e1d",
+          "toolName": "write_file",
+          "inputPayload": {
+            "path": "src/math.js",
+            "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+          }
+        },
+        "proposalValidationResult": "INVALID",
+        "proposalRejectionReason": "INVALID_TOOL_INPUT",
+        "actionStatus": null,
+        "attemptStatus": null
+      },
+      {
+        "stepNumber": 7,
+        "timestamp": "2026-10-17T18:17:38.739Z",
+        "model": "qwen2.5:1.5b",
+        "contextBytes": 7979,
+        "promptBytes": 12607,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1dea32db-08a8-491e-9287-0750670c7e1d\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"contentHash\": \"d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb\"\n  },\n  \"contextSnapshotHash\": \"e36cbe40649a6e6065b363a739f0e5e74a389f50762514f1d437701b6ebf0bee\"\n}",
+        "proposal": {
+          "proposalId": "1dea32db-08a8-491e-9287-0750670c7e1d",
+          "toolName": "write_file",
+          "inputPayload": {
+            "path": "src/math.js",
+            "contentHash": "d3872bd0bb6240fc75d8f29de9e6f7adf52660ab38098df101c4eb2be4393edb"
+          }
+        },
+        "proposalValidationResult": "INVALID",
+        "proposalRejectionReason": "INVALID_TOOL_INPUT",
+        "actionStatus": null,
+        "attemptStatus": null
+      }
+    ],
+    "actionIds": [
+      "c8806aeb-4254-42ee-ac86-0f874e42566e"
+    ],
+    "attemptIds": [
+      "9805f7b4-a144-48dc-b263-7bb4dc8465df"
+    ],
+    "physicalActionCount": 1,
+    "physicalAttemptCount": 1,
+    "candidatePatchDigest": "",
+    "candidatePatchSize": 0,
+    "baselineF2P": null,
+    "baselineP2P": null,
+    "patchedF2P": null,
+    "patchedP2P": null,
+    "suiteTestsExecuted": 0,
+    "independentEvidence": false,
+    "taskSatisfied": false,
+    "verificationPassed": false,
+    "policySatisfied": false,
+    "evidenceComplete": false,
+    "timings": {
+      "modelInferenceMs": 249156,
+      "toolExecutionMs": 37,
+      "patchExtractionMs": 0,
+      "cleanRoomMaterializationMs": 0,
+      "patchApplicationMs": 0,
+      "f2pMs": 0,
+      "p2pMs": 0,
+      "evidencePersistenceMs": 0,
+      "totalWallClockMs": 249362,
+      "loopDurationMs": 249264
+    },
+    "gates": {
+      "gate1_modelResponded": true,
+      "gate2_validReadProposal": false,
+      "gate3_readExecuted": false,
+      "gate4_observationPropagated": true,
+      "gate5_validWriteProposal": true,
+      "gate6_writeExecuted": true,
+      "gate7_actualMutationOccurred": true,
+      "gate8_modelEmittedGoalReached": false,
+      "gate9_cleanRoomVerifierExecuted": false,
+      "gate10_immutableBaselineUsed": false,
+      "gate11_baselineTargetFailed": false,
+      "gate12_baselineRegressionPassed": false,
+      "gate13_candidatePatchCaptured": false,
+      "gate14_patchAppliedCleanly": false,
+      "gate15_patchedTargetPassed": false,
+      "gate16_patchedRegressionPassed": false,
+      "gate17_suiteRanMatched": false,
+      "gate18_independentEvidencePersisted": false,
+      "gate19_evidenceSourceIndependent": false,
+      "gate20_fourfoldInvariantSatisfied": false,
+      "gate21_finalRunStatusCompleted": false,
+      "gate22_cleanRoomWorkspaceDisposed": true,
+      "gate23_agentWorkspacePreserved": true
+    },
+    "finalRunStatus": "FAILED",
+    "classification": "MODEL_CODING_FAILURE"
+  },
+  "finalRunStatus": "FAILED",
+  "classification": "MODEL_CODING_FAILURE"
+}

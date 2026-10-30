@@ -52,6 +52,7 @@ import {
   WorkerRecord,
 } from "../ports/state-store.port.js";
 import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
+import { isRollbackPendingStatus } from "../domain/mutation-intent.js";
 import { LeaseManager } from "./lease-manager.js";
 
 export interface CreateTaskParams {
@@ -84,6 +85,13 @@ export interface TransitionResult {
 export interface RecoverExpiredResult {
   readonly recoveredCount: number;
   readonly runs: readonly RunSnapshot[];
+  /**
+   * Runs left untouched because they hold unreconciled workspace mutations. They are retried
+   * only after the RecoverySupervisor has durably rolled back (or failed closed on) the workspace.
+   */
+  readonly heldForRollbackRunIds?: readonly string[];
+  /** Runs requeued/failed although discarding their crashed workspace failed (operator attention). */
+  readonly workspaceCleanupFailedRunIds?: readonly string[];
 }
 
 export interface RecoverMissionParams {
@@ -170,6 +178,19 @@ export class RunCoordinator {
   }
 
   private readonly activeWorkspaceIds = new Set<string>();
+
+  /**
+   * Binds the run to the canonical workspace root it owns for its whole lifetime (all attempts).
+   * Requires the caller to hold the run's current worker lease. Idempotent for the same root;
+   * throws WorkspaceBindingConflictError if the run is already bound to a different root.
+   */
+  bindRunWorkspace(runId: string, workspaceRoot: string, fencing: LeaseFencingCheck): string {
+    const run = this.stateStore.getRun(runId);
+    if (!run || run.leaseId !== fencing.leaseId || run.currentWorkerId !== fencing.workerId) {
+      throw new LeaseLostError(runId, fencing.leaseId, run?.leaseId ?? null);
+    }
+    return this.stateStore.bindRunWorkspace(runId, workspaceRoot, this.clock.nowIso());
+  }
 
   /**
    * Records a workspace lifecycle event transactionally into the event stream.
@@ -719,9 +740,19 @@ export class RunCoordinator {
   recoverExpiredRuns(): RecoverExpiredResult {
     const nowIso = this.clock.nowIso();
     const expiredCandidates = this.stateStore.findExpiredRuns(nowIso);
+    // Runs the supervisor has rolled back and handed over (left RECOVERING) are retried here too.
+    const recoveringCandidates = this.stateStore.findRecoveringRuns ? this.stateStore.findRecoveringRuns() : [];
+    const seenCandidateIds = new Set<string>();
+    const candidates = [...expiredCandidates, ...recoveringCandidates].filter((c) => {
+      if (seenCandidateIds.has(c.runId)) return false;
+      seenCandidateIds.add(c.runId);
+      return true;
+    });
     const recoveredRuns: RunSnapshot[] = [];
+    const heldForRollback: string[] = [];
+    const cleanupFailed = new Set<string>();
 
-    for (const candidate of expiredCandidates) {
+    for (const candidate of candidates) {
       this.stateStore.transaction((tx) => {
         let snapshot: RunSnapshot | null = null;
         let reconstitutionError: Error | null = null;
@@ -739,26 +770,35 @@ export class RunCoordinator {
           snapshot = tx.getRunRaw ? tx.getRunRaw(candidate.runId) : null;
         }
 
-        if (
-          !snapshot ||
-          (snapshot.status !== "RUNNING" && snapshot.status !== "LEASED") ||
-          !snapshot.leaseExpiresAt ||
-          snapshot.leaseExpiresAt > nowIso
-        ) {
+        const workerLeaseExpired =
+          !!snapshot &&
+          (snapshot.status === "RUNNING" || snapshot.status === "LEASED") &&
+          !!snapshot.leaseExpiresAt &&
+          snapshot.leaseExpiresAt <= nowIso;
+        if (!snapshot || !(workerLeaseExpired || snapshot.status === "RECOVERING")) {
           // Changed concurrently or lease renewed
           return;
         }
 
-        if (snapshot.leaseId) {
+        // Retry gate: a run holding unreconciled workspace mutations must not be requeued (and its
+        // workspace must not be discarded) until the RecoverySupervisor has rolled it back.
+        if (this.requiresRollbackBeforeRetry(tx, snapshot.runId)) {
+          heldForRollback.push(snapshot.runId);
+          return;
+        }
+
+        if (workerLeaseExpired && snapshot.leaseId) {
           this.leaseManager.expire(tx, snapshot.leaseId, nowIso);
         }
 
         const run = Run.reconstitute(snapshot);
 
-        // Transition: LEASED/RUNNING -> RECOVERING
-        const versionBeforeExpire = snapshot.version;
-        const expireEvent = run.expireLease(nowIso);
-        tx.updateRun(snapshot.runId, versionBeforeExpire, run.snapshot, expireEvent);
+        if (workerLeaseExpired) {
+          // Transition: LEASED/RUNNING -> RECOVERING
+          const versionBeforeExpire = snapshot.version;
+          const expireEvent = run.expireLease(nowIso);
+          tx.updateRun(snapshot.runId, versionBeforeExpire, run.snapshot, expireEvent);
+        }
 
         // Reconcile in-flight actions and attempts for this crashed run atomically
         this.reconcileStaleActionsAndAttemptsForRun(tx, snapshot.runId, nowIso);
@@ -819,10 +859,12 @@ export class RunCoordinator {
                     },
                   };
                   tx.appendEvent(failedEvent);
+                  cleanupFailed.add(snapshot.runId);
                 }
               }
             } catch {
             // Quarantine / log
+            cleanupFailed.add(snapshot.runId);
           }
         };
 
@@ -1002,7 +1044,21 @@ export class RunCoordinator {
     return {
       recoveredCount: recoveredRuns.length,
       runs: recoveredRuns,
+      ...(heldForRollback.length > 0 ? { heldForRollbackRunIds: heldForRollback } : {}),
+      ...(cleanupFailed.size > 0 ? { workspaceCleanupFailedRunIds: Array.from(cleanupFailed) } : {}),
     };
+  }
+
+  /**
+   * True when the run recorded workspace mutations that have not been durably reconciled:
+   * any non-terminal mutation intent, or a rollback aggregate that did not complete.
+   */
+  private requiresRollbackBeforeRetry(tx: StorageTransaction, runId: string): boolean {
+    const intents = tx.getIntentsForRun(runId);
+    if (intents.length === 0) return false;
+    if (intents.some((i) => isRollbackPendingStatus(i.lifecycleStatus))) return true;
+    const rollback = tx.getRunRollback(runId);
+    return rollback !== null && rollback.status !== "COMPLETED";
   }
 
   /**

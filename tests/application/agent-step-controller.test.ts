@@ -784,7 +784,172 @@ describe("AgentStepController — Governed Autonomous Reasoning Loop (Task 5.3)"
   });
 
   // =========================================================================
-  // 15. Context Hash Provenance Binding
+  // 15. Repeated Read Progress Advisory
+  // =========================================================================
+  it("injects one observable advisory after consecutive identical successful reads without mutating the workspace", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    const readPath = path.join(workspace.hostPath, "repeat.txt");
+    fs.writeFileSync(readPath, "unchanged content", "utf8");
+    const advisoryCounts: number[] = [];
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "repeat-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "repeat.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "repeat-read-2",
+          toolName: "read_file",
+          inputPayload: { path: "repeat.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => {
+        advisoryCounts.push(
+          req.contextSnapshot.observations.filter(
+            (observation) =>
+              observation.category === "SYSTEM_EVENT" &&
+              observation.content.feedbackKind === "REPEATED_IDENTICAL_READ",
+          ).length,
+        );
+        return {
+          proposal: {
+            proposalId: "repeat-read-3",
+            toolName: "read_file",
+            inputPayload: { path: "repeat.txt" },
+            contextSnapshotHash: req.contextSnapshot.contextHash,
+          },
+          finishReason: "ACTION_PROPOSED",
+        };
+      })
+      .queueStep((req) => {
+        advisoryCounts.push(
+          req.contextSnapshot.observations.filter(
+            (observation) =>
+              observation.category === "SYSTEM_EVENT" &&
+              observation.content.feedbackKind === "REPEATED_IDENTICAL_READ",
+          ).length,
+        );
+        return { finishReason: "GOAL_REACHED" };
+      });
+
+    const result = await stepController.runStepLoop({
+      runId,
+      workerId,
+      leaseId,
+      workspace,
+      budget: { maxConsecutiveIdenticalReads: 5 },
+    });
+
+    expect(result.terminalReason).toBe("COMPLETED");
+    expect(result.totalActions).toBe(3);
+    expect(result.totalProposalRejections).toBe(0);
+    expect(result.transcript[1]!.progressAdvisory).toContain("same read_file request");
+    expect(advisoryCounts).toEqual([1, 0]);
+    expect(fs.readFileSync(readPath, "utf8")).toBe("unchanged content");
+  });
+
+  it("does not advise when a repeated read returns changed content", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    const readPath = path.join(workspace.hostPath, "changed.txt");
+    fs.writeFileSync(readPath, "first version", "utf8");
+    let advisoryCount = -1;
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "changed-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "changed.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => {
+        fs.writeFileSync(readPath, "second version", "utf8");
+        return {
+          proposal: {
+            proposalId: "changed-read-2",
+            toolName: "read_file",
+            inputPayload: { path: "changed.txt" },
+            contextSnapshotHash: req.contextSnapshot.contextHash,
+          },
+          finishReason: "ACTION_PROPOSED",
+        };
+      })
+      .queueStep((req) => {
+        advisoryCount = req.contextSnapshot.observations.filter(
+          (observation) => observation.content.feedbackKind === "REPEATED_IDENTICAL_READ",
+        ).length;
+        return { finishReason: "GOAL_REACHED" };
+      });
+
+    const result = await stepController.runStepLoop({
+      runId,
+      workerId,
+      leaseId,
+      workspace,
+      budget: { maxConsecutiveIdenticalReads: 5 },
+    });
+
+    expect(result.terminalReason).toBe("COMPLETED");
+    expect(result.transcript[1]!.progressAdvisory).toBeUndefined();
+    expect(advisoryCount).toBe(0);
+  });
+
+  it("does not advise for reads of distinct ranges in the same file", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    fs.writeFileSync(path.join(workspace.hostPath, "ranges.txt"), "first\nsecond\n", "utf8");
+    let advisoryCount = -1;
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "range-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "ranges.txt", offsetLine: 1, limitLines: 1 },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "range-read-2",
+          toolName: "read_file",
+          inputPayload: { path: "ranges.txt", offsetLine: 2, limitLines: 1 },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => {
+        advisoryCount = req.contextSnapshot.observations.filter(
+          (observation) => observation.content.feedbackKind === "REPEATED_IDENTICAL_READ",
+        ).length;
+        return { finishReason: "GOAL_REACHED" };
+      });
+
+    const result = await stepController.runStepLoop({
+      runId,
+      workerId,
+      leaseId,
+      workspace,
+      budget: { maxConsecutiveIdenticalReads: 5 },
+    });
+
+    expect(result.terminalReason).toBe("COMPLETED");
+    expect(result.transcript[1]!.progressAdvisory).toBeUndefined();
+    expect(advisoryCount).toBe(0);
+  });
+
+  // =========================================================================
+  // 16. Context Hash Provenance Binding
   // =========================================================================
   it("rejects proposal if model provides a mismatched context hash", async () => {
     const { runId, leaseId, workspace } = await setupGovernedRun();
@@ -972,5 +1137,285 @@ describe("AgentStepController — Governed Autonomous Reasoning Loop (Task 5.3)"
 
     expect(result.lastContextSnapshot).toBeDefined();
     expect(result.totalWallClockMs).toBeGreaterThanOrEqual(0);
+  });
+
+  // =========================================================================
+  // 22. Bounded Progression Control & Redundant Read Stagnation
+  // =========================================================================
+  it("halts with STAGNATION when consecutive identical successful reads reach default ceiling (3)", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    const filePath = path.join(workspace.hostPath, "stagnant.txt");
+    fs.writeFileSync(filePath, "alpha beta gamma", "utf8");
+
+    let step4Invoked = false;
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "read-1",
+          toolName: "read_file",
+          inputPayload: { path: "stagnant.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "read-2",
+          toolName: "read_file",
+          inputPayload: { path: "stagnant.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "read-3",
+          toolName: "read_file",
+          inputPayload: { path: "stagnant.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep(() => {
+        step4Invoked = true;
+        return { finishReason: "GOAL_REACHED" };
+      });
+
+    const result = await stepController.runStepLoop({ runId, workerId, leaseId, workspace });
+
+    expect(result.terminalReason).toBe("STAGNATION");
+    expect(result.terminalMessage).toContain(
+      "Execution loop halted due to stagnation: 3 consecutive identical successful reads of 'stagnant.txt' without progress"
+    );
+    expect(result.totalActions).toBe(3);
+    expect(result.totalSteps).toBe(3);
+    expect(result.totalProposalRejections).toBe(0);
+    expect(step4Invoked).toBe(false);
+
+    // Advisory was recorded in transcript at step 2
+    expect(result.transcript[1]!.progressAdvisory).toContain("same read_file request for 'stagnant.txt'");
+
+    // Workspace file was never modified merely because stagnation was detected
+    expect(fs.readFileSync(filePath, "utf8")).toBe("alpha beta gamma");
+  });
+
+  it("resets stagnation counter when file content changes between reads", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    const filePath = path.join(workspace.hostPath, "mutable.txt");
+    fs.writeFileSync(filePath, "version-1", "utf8");
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "mut-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "mutable.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => {
+        return {
+          proposal: {
+            proposalId: "mut-read-2",
+            toolName: "read_file",
+            inputPayload: { path: "mutable.txt" },
+            contextSnapshotHash: req.contextSnapshot.contextHash,
+          },
+          finishReason: "ACTION_PROPOSED",
+        };
+      })
+      .queueStep((req) => {
+        // Workspace file changed externally
+        fs.writeFileSync(filePath, "version-2", "utf8");
+        return {
+          proposal: {
+            proposalId: "mut-read-3",
+            toolName: "read_file",
+            inputPayload: { path: "mutable.txt" },
+            contextSnapshotHash: req.contextSnapshot.contextHash,
+          },
+          finishReason: "ACTION_PROPOSED",
+        };
+      })
+      .queueStep(() => ({ finishReason: "GOAL_REACHED" }));
+
+    const result = await stepController.runStepLoop({ runId, workerId, leaseId, workspace });
+
+    expect(result.terminalReason).toBe("COMPLETED");
+    expect(result.totalActions).toBe(3);
+  });
+
+  it("resets stagnation counter when reading distinct line ranges of the same file", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    const filePath = path.join(workspace.hostPath, "lines.txt");
+    fs.writeFileSync(filePath, "line 1\nline 2\nline 3\nline 4\n", "utf8");
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "line-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "lines.txt", offsetLine: 1, limitLines: 1 },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "line-read-2",
+          toolName: "read_file",
+          inputPayload: { path: "lines.txt", offsetLine: 1, limitLines: 1 },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "line-read-3",
+          toolName: "read_file",
+          inputPayload: { path: "lines.txt", offsetLine: 2, limitLines: 2 },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep(() => ({ finishReason: "GOAL_REACHED" }));
+
+    const result = await stepController.runStepLoop({ runId, workerId, leaseId, workspace });
+
+    expect(result.terminalReason).toBe("COMPLETED");
+    expect(result.totalActions).toBe(3);
+  });
+
+  it("resets stagnation counter when reading different file paths", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    fs.writeFileSync(path.join(workspace.hostPath, "docA.txt"), "A", "utf8");
+    fs.writeFileSync(path.join(workspace.hostPath, "docB.txt"), "B", "utf8");
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "doc-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "docA.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "doc-read-2",
+          toolName: "read_file",
+          inputPayload: { path: "docA.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "doc-read-3",
+          toolName: "read_file",
+          inputPayload: { path: "docB.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep(() => ({ finishReason: "GOAL_REACHED" }));
+
+    const result = await stepController.runStepLoop({ runId, workerId, leaseId, workspace });
+
+    expect(result.terminalReason).toBe("COMPLETED");
+    expect(result.totalActions).toBe(3);
+  });
+
+  it("resets stagnation counter when an intervening state-changing action executes", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    const filePath = path.join(workspace.hostPath, "target.txt");
+    fs.writeFileSync(filePath, "old content", "utf8");
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "action-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "target.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "action-read-2",
+          toolName: "read_file",
+          inputPayload: { path: "target.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "action-write",
+          toolName: "write_file",
+          inputPayload: { path: "target.txt", content: "new content" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep(() => ({ finishReason: "GOAL_REACHED" }));
+
+    const result = await stepController.runStepLoop({ runId, workerId, leaseId, workspace });
+
+    expect(result.terminalReason).toBe("COMPLETED");
+    expect(result.totalActions).toBe(3);
+    expect(fs.readFileSync(filePath, "utf8")).toBe("new content");
+  });
+
+  it("honors custom maxConsecutiveIdenticalReads budget override", async () => {
+    const { runId, leaseId, workspace } = await setupGovernedRun();
+    const filePath = path.join(workspace.hostPath, "quick.txt");
+    fs.writeFileSync(filePath, "sample content", "utf8");
+
+    let step3Invoked = false;
+
+    brain
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "custom-read-1",
+          toolName: "read_file",
+          inputPayload: { path: "quick.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep((req) => ({
+        proposal: {
+          proposalId: "custom-read-2",
+          toolName: "read_file",
+          inputPayload: { path: "quick.txt" },
+          contextSnapshotHash: req.contextSnapshot.contextHash,
+        },
+        finishReason: "ACTION_PROPOSED",
+      }))
+      .queueStep(() => {
+        step3Invoked = true;
+        return { finishReason: "GOAL_REACHED" };
+      });
+
+    const result = await stepController.runStepLoop({
+      runId,
+      workerId,
+      leaseId,
+      workspace,
+      budget: { maxConsecutiveIdenticalReads: 2 },
+    });
+
+    expect(result.terminalReason).toBe("STAGNATION");
+    expect(result.terminalMessage).toContain(
+      "Execution loop halted due to stagnation: 2 consecutive identical successful reads of 'quick.txt' without progress"
+    );
+    expect(result.totalActions).toBe(2);
+    expect(result.totalSteps).toBe(2);
+    expect(step3Invoked).toBe(false);
   });
 });

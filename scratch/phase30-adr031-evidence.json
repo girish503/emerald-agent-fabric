@@ -1,0 +1,161 @@
+{
+  "phase": "30",
+  "adr": "ADR-0031",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "hardware": {
+    "processor": "Intel Core i3-N305",
+    "architecture": "x86-64 (Gracemont microarchitecture)",
+    "cores": 8,
+    "threads": 8,
+    "vectorExtensions": ["AVX", "AVX2", "FMA3"],
+    "totalRamBytes": 8160436224,
+    "totalRamGiB": 7.6,
+    "typicalFreeRamGiB": 1.4,
+    "gpu": "Intel UHD Graphics (integrated, Gen12 Xe)",
+    "discreteGpu": null,
+    "inferenceEngine": "Ollama (v0.40.6, CPU execution)",
+    "operationalCeilingMs": 120000,
+    "operationalCeilingNature": "Emerald experimental and evaluation constraint, not a physical law"
+  },
+  "modelEvidence": [
+    {
+      "model": "gemma3:1b",
+      "approxParams": "~1.0B",
+      "quantization": "Q4_K_M",
+      "gateALatency": "~57s",
+      "gateALatencyMs": 57100,
+      "result": "Gate A passed",
+      "capabilityTested": "Partial",
+      "notes": "Emitted premature goal claim (isGoalReached: true) without physical workspace action or verification"
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "approxParams": "~1.54B",
+      "quantization": "Q4_K_M",
+      "gateALatency": "~20–69s",
+      "gateALatencyMs": 49800,
+      "result": "Gate A passed",
+      "capabilityTested": "Yes",
+      "notes": "Valid initial tool execution, physical mutation achieved, subsequent observation/input confusion, contentHash hallucination, repeated rejection loop, 0 successful recoveries"
+    },
+    {
+      "model": "qwen2.5-coder:1.5b",
+      "approxParams": "~1.54B",
+      "quantization": "Q4_K_M",
+      "gateALatency": "~64s",
+      "gateALatencyMs": 64415,
+      "result": "Gate A passed",
+      "capabilityTested": "Yes",
+      "notes": "Valid initial tool interaction, write argument grounding failure, repeated rejection loop, 0 successful recoveries"
+    },
+    {
+      "model": "llama3.2:3b",
+      "approxParams": "~3.21B",
+      "quantization": "Q4_K_M",
+      "gateALatency": "~119s",
+      "gateALatencyMs": 118900,
+      "result": "Boundary",
+      "capabilityTested": "Partial",
+      "notes": "Invalid tool arguments, schema failure, effectively at the operational boundary (118.9s)"
+    },
+    {
+      "model": "granite3-dense:2b",
+      "approxParams": "~2.63B",
+      "quantization": "Q4_K_M",
+      "gateALatency": "~120.1s",
+      "gateALatencyMs": 120078,
+      "result": "Timeout",
+      "capabilityTested": "No",
+      "notes": "Gate A timeout (>120s) during prompt prefill; zero capability evaluated"
+    },
+    {
+      "model": "qwen2.5-coder:3b",
+      "approxParams": "~3.09B",
+      "quantization": "Q4_K_M",
+      "gateALatency": "~120s",
+      "gateALatencyMs": 120042,
+      "result": "Timeout",
+      "capabilityTested": "No",
+      "notes": "Gate A timeout (>120s) during prompt prefill; zero capability evaluated"
+    },
+    {
+      "model": "qwen2.5:3b",
+      "approxParams": "~3.09B",
+      "quantization": "Q4_K_M",
+      "gateALatency": ">120s",
+      "gateALatencyMs": 120050,
+      "result": "Timeout",
+      "capabilityTested": "No",
+      "notes": "CPU inference failure; consistently timed out at Gate A"
+    },
+    {
+      "model": "qwen3:4b",
+      "approxParams": "~4.02B",
+      "quantization": "Q4_K_M",
+      "gateALatency": ">180s",
+      "gateALatencyMs": 180000,
+      "result": "Timeout",
+      "capabilityTested": "No",
+      "notes": "CPU inference failure; consistently exceeded 180s–600s ceilings"
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "approxParams": "~8.2B",
+      "quantization": "Q4_K_M",
+      "gateALatency": ">600s",
+      "gateALatencyMs": 600453,
+      "result": "Timeout",
+      "capabilityTested": "No",
+      "notes": "Severe CPU/RAM pressure; exceeded 600s without completing first-token generation"
+    },
+    {
+      "model": "smollm2:1.7b",
+      "approxParams": "~1.71B",
+      "quantization": "Q8_0",
+      "gateALatency": "~120.1s",
+      "gateALatencyMs": 120065,
+      "result": "Timeout",
+      "capabilityTested": "No",
+      "notes": "Gate A timeout on default Q8_0 distribution; capability not tested; important quantization confound"
+    }
+  ],
+  "empiricalBoundary": {
+    "host": "Intel Core i3-N305 CPU-only",
+    "cpuFeasibleCapacity": "<=1.54B at Q4_K_M (latencies 20s-69s)",
+    "boundaryCapacity": "~3.21B at Q4_K_M (latency ~119s, near 120s limit)",
+    "infeasibleCapacity": ">=2.63B at Q4_K_M (consistently exceeds 120s on CPU prefill)",
+    "quantizationConfoundCapacity": "1.71B at Q8_0 (1.82 GB memory footprint exceeds 120s due to 8-bit memory bus saturation)"
+  },
+  "quantizationFindings": {
+    "twoDimensionalConstraint": "Parameter count alone is insufficient to predict inference latency; quantization precision and memory footprint are equally decisive.",
+    "smollm2Phase28Observation": "Phase 28 established a valid Q8_0 CPU latency failure (ENVIRONMENT_FAILURE), NOT a model capability failure.",
+    "smollm2UntestedCapabilities": ["tool grounding", "recovery", "coding", "clean-room verification"],
+    "q4SmolLM2LatencyProjection": "ESTIMATE ONLY: 70s-90s Gate A latency based on 42.3% memory reduction from 1.82 GB to ~1.05 GB; not a physical measurement.",
+    "q4DerivationRequirements": "Requires original unquantized BF16 Safetensors (~3.4 GB) and canonical llama.cpp compilation tooling. Direct lossy-on-lossy Q8_0 -> Q4_K_M re-quantization is rejected as scientifically invalid."
+  },
+  "decision": "The current CPU-only development environment is formally codified as an empirical evaluation boundary for Emerald's local model research under the 120,000 ms per-step constraint. The project stops repeatedly acquiring models that are likely to cross the measured CPU latency boundary. Future model evaluations require either (1) a verified local artifact compatible with the hardware budget, (2) a scientifically controlled lower-bit quantization artifact, (3) local hardware acceleration, or (4) an approved change to the evaluation envelope.",
+  "nonDecisions": [
+    "Which model Emerald will ultimately use",
+    "Whether GPU acceleration will be added",
+    "Whether OpenVINO will be adopted",
+    "Whether SmolLM2 Q4 should eventually be tested",
+    "Whether Emerald requires a GPU in production",
+    "Whether small models are fundamentally incapable of agentic coding",
+    "Whether model inference is the long-term product bottleneck"
+  ],
+  "futureEvaluationRequirements": [
+    "Intel OpenVINO runtime support",
+    "Intel integrated GPU/NPU support where driver/runtime validated",
+    "Local discrete GPU with open-source drivers/toolchains",
+    "Canonical, reproducible GGUF quantization workflows preserving tokenizers and chat templates"
+  ],
+  "nextResearchDirection": [
+    "Multi-attempt recovery primitives with deterministic recovery semantics",
+    "Durable recovery and worker crash/restart/retry semantics",
+    "Deterministic replay reconstructing exact execution state and evidence",
+    "Independent clean-room verification and tamper detection",
+    "Structured evidence audit trails connecting proposal -> policy -> action -> attempt -> observation -> verification",
+    "Taxonomic failure classification separating model, environment, policy, and verification failures",
+    "Evaluation benchmarking agent behavior without conflating model capability with infrastructure correctness"
+  ]
+}

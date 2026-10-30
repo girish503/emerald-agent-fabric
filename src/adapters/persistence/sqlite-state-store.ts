@@ -49,11 +49,31 @@ import {
   PayloadLimitExceededError,
   TerminalStateError,
   VersionConflictError,
+  MutationIntentNotFoundError,
+  InvalidMutationTransitionError,
+  UnauthorizedMutationTransitionError,
+  MissingMutationAuthorityError,
+  WorkspaceBindingConflictError,
 } from "../../domain/errors.js";
 import { AnyActionEvent, AnyAttemptEvent, DomainEvent } from "../../domain/events.js";
 import {
+  MutationIntent,
+  MutationLifecycleStatus,
+  PathRollbackProgress,
+  PathRollbackStatus,
+  RunRollback,
+  RunRollbackStatus,
+  isLegalMutationTransition,
+  validateMutationIntentInvariants,
+} from "../../domain/mutation-intent.js";
+import {
+  MutationIntentStorePort,
+  TransitionMutationStatusParams,
+} from "../../ports/mutation-intent-store.port.js";
+import {
   ContractBinding,
   createContractBinding,
+  isTerminalState,
   RunSnapshot,
   RunStatus,
   validateRunInvariants,
@@ -115,6 +135,7 @@ interface DbEventRow {
   schema_version: number;
   producer: string;
   payload: string;
+  dedup_token?: string | null;
 }
 
 interface DbWorkerRow {
@@ -211,6 +232,88 @@ function mapSupervisorLeaseRow(row: DbSupervisorLeaseRow): SupervisorLease {
     expiresAt: row.expires_at,
     releasedAt: row.released_at,
     state: row.state as "ACTIVE" | "EXPIRED" | "RELEASED",
+  };
+}
+
+interface DbMutationIntentRow {
+  mutation_id: string;
+  run_id: string;
+  worker_lease_id: string;
+  relative_path: string;
+  canonical_path: string;
+  parent_mutation_id: string | null;
+  path_mutation_version: number;
+  base_digest: string;
+  expected_resulting_digest: string;
+  snapshot_ref: string;
+  recovery_dedup_token: string;
+  lifecycle_status: string;
+  created_at: number;
+  updated_at: number;
+  conflict_details: string | null;
+}
+
+interface DbRunRollbackRow {
+  run_id: string;
+  status: string;
+  initiated_by: string;
+  created_at: number;
+  completed_at: number | null;
+  conflict_details: string | null;
+}
+
+interface DbPathRollbackProgressRow {
+  run_id: string;
+  relative_path: string;
+  status: string;
+  initial_base_digest: string;
+  latest_expected_digest: string;
+  baseline_snapshot_ref: string;
+  updated_at: number;
+  error_message: string | null;
+}
+
+function mapMutationIntentRow(row: DbMutationIntentRow): MutationIntent {
+  return {
+    mutationId: row.mutation_id,
+    runId: row.run_id,
+    workerLeaseId: row.worker_lease_id,
+    relativePath: row.relative_path,
+    canonicalPath: row.canonical_path,
+    parentMutationId: row.parent_mutation_id,
+    pathMutationVersion: row.path_mutation_version,
+    baseDigest: row.base_digest,
+    expectedResultingDigest: row.expected_resulting_digest,
+    snapshotRef: row.snapshot_ref,
+    recoveryDedupToken: row.recovery_dedup_token,
+    lifecycleStatus: row.lifecycle_status as MutationLifecycleStatus,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    conflictDetails: row.conflict_details,
+  };
+}
+
+function mapRunRollbackRow(row: DbRunRollbackRow): RunRollback {
+  return {
+    runId: row.run_id,
+    status: row.status as RunRollbackStatus,
+    initiatedBy: row.initiated_by,
+    createdAt: row.created_at,
+    completedAt: row.completed_at,
+    conflictDetails: row.conflict_details,
+  };
+}
+
+function mapPathRollbackProgressRow(row: DbPathRollbackProgressRow): PathRollbackProgress {
+  return {
+    runId: row.run_id,
+    relativePath: row.relative_path,
+    status: row.status as PathRollbackStatus,
+    initialBaseDigest: row.initial_base_digest,
+    latestExpectedDigest: row.latest_expected_digest,
+    baselineSnapshotRef: row.baseline_snapshot_ref,
+    updatedAt: row.updated_at,
+    errorMessage: row.error_message,
   };
 }
 
@@ -490,7 +593,7 @@ function mapRowToMissionContract(row: DbMissionContractRow): MissionContract {
   );
 }
 
-export class SqliteStorageTransaction implements StorageTransaction {
+export class SqliteStorageTransaction implements StorageTransaction, MutationIntentStorePort {
   constructor(private readonly db: DatabaseSync) {}
 
   insertTask(task: TaskRecord): void {
@@ -732,6 +835,22 @@ export class SqliteStorageTransaction implements StorageTransaction {
     return result;
   }
 
+  findRecoveringRuns(limit = 100): readonly RunSnapshot[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM runs WHERE status = 'RECOVERING' ORDER BY updated_at ASC LIMIT ?`
+    );
+    const rows = stmt.all(limit) as unknown as DbRunRow[];
+    const result: RunSnapshot[] = [];
+    for (const r of rows) {
+      try {
+        result.push(mapRunRowToSnapshot(r, this.db));
+      } catch {
+        result.push(mapRunRowToSnapshot(r, undefined));
+      }
+    }
+    return result;
+  }
+
   findRunIdForWorkspace(workspaceId: string): string | null {
     const stmt = this.db.prepare(
       `SELECT run_id FROM run_events WHERE payload LIKE ? ORDER BY sequence DESC LIMIT 1`
@@ -740,7 +859,7 @@ export class SqliteStorageTransaction implements StorageTransaction {
     return row?.run_id ?? null;
   }
 
-  appendEvent(event: DomainEvent): PersistedEvent {
+  appendEvent(event: DomainEvent, dedupToken?: string | null): PersistedEvent {
     // Calculate gapless sequence inside BEGIN IMMEDIATE transaction
     const seqStmt = this.db.prepare(
       `SELECT COALESCE(MAX(sequence), 0) + 1 AS next_seq FROM run_events WHERE run_id = ?`
@@ -750,8 +869,8 @@ export class SqliteStorageTransaction implements StorageTransaction {
 
     const insertStmt = this.db.prepare(
       `INSERT INTO run_events (
-         event_id, run_id, sequence, timestamp, event_type, schema_version, producer, payload
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+         event_id, run_id, sequence, timestamp, event_type, schema_version, producer, payload, dedup_token
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
     );
 
     insertStmt.run(
@@ -762,7 +881,8 @@ export class SqliteStorageTransaction implements StorageTransaction {
       event.eventType,
       event.schemaVersion,
       event.producer,
-      JSON.stringify(event.payload)
+      JSON.stringify(event.payload),
+      dedupToken ?? null
     );
 
     return {
@@ -1560,8 +1680,25 @@ export class SqliteStorageTransaction implements StorageTransaction {
     if (row.supervisor_id !== fencing.supervisorId) {
       throw new SupervisorLeaseLostError(runId, fencing.supervisorId, row.supervisor_id, "Supervisor identity mismatch");
     }
-    if (fencing.nowIso && new Date(fencing.nowIso).getTime() >= new Date(row.expires_at).getTime()) {
-      throw new SupervisorLeaseExpiredError(fencing.leaseId, row.expires_at, fencing.nowIso);
+    const expiresMs = new Date(row.expires_at).getTime();
+    if (isNaN(expiresMs)) {
+      throw new SupervisorLeaseExpiredError(fencing.leaseId, row.expires_at, new Date().toISOString());
+    }
+
+    let effectiveNowMs = Date.now();
+    if (fencing.nowIso !== undefined) {
+      if (typeof fencing.nowIso !== "string" || fencing.nowIso.trim().length === 0) {
+        throw new MissingMutationAuthorityError(runId, "Supervisor fencing nowIso must be a non-empty string when provided");
+      }
+      const callerNowMs = new Date(fencing.nowIso).getTime();
+      if (isNaN(callerNowMs)) {
+        throw new MissingMutationAuthorityError(runId, `Invalid supervisor fencing nowIso timestamp format: '${fencing.nowIso}'`);
+      }
+      effectiveNowMs = Math.max(Date.now(), callerNowMs);
+    }
+
+    if (effectiveNowMs >= expiresMs) {
+      throw new SupervisorLeaseExpiredError(fencing.leaseId, row.expires_at, new Date(effectiveNowMs).toISOString());
     }
   }
 
@@ -1586,14 +1723,16 @@ export class SqliteStorageTransaction implements StorageTransaction {
       const expiresMs = new Date(existing.expires_at).getTime();
 
       if (nowMs < expiresMs) {
-        if (existing.supervisor_id !== params.supervisorId) {
-          throw new SupervisorLeaseLostError(
-            params.runId,
-            params.supervisorId,
-            existing.supervisor_id,
-            `Active unexpired supervisor lease held by '${existing.supervisor_id}' until ${existing.expires_at}`
-          );
-        }
+        // Exclusive: a second ACTIVE lease is never issued, even to the same supervisor id
+        // (a holder extends its own lease with renewSupervisorLease).
+        throw new SupervisorLeaseLostError(
+          params.runId,
+          params.supervisorId,
+          existing.supervisor_id,
+          existing.supervisor_id === params.supervisorId
+            ? `Supervisor '${existing.supervisor_id}' already holds an unexpired lease until ${existing.expires_at}; renew it or use a unique supervisor id`
+            : `Active unexpired supervisor lease held by '${existing.supervisor_id}' until ${existing.expires_at}`
+        );
       } else {
         this.db.prepare(`UPDATE supervisor_leases SET state = 'EXPIRED' WHERE lease_id = ?`).run(existing.lease_id);
       }
@@ -1606,7 +1745,19 @@ export class SqliteStorageTransaction implements StorageTransaction {
       `INSERT INTO supervisor_leases (lease_id, run_id, supervisor_id, acquired_at, expires_at, state)
        VALUES (?, ?, ?, ?, ?, 'ACTIVE')`
     );
-    insertStmt.run(leaseId, params.runId, params.supervisorId, params.nowIso, expiresAt);
+    try {
+      insertStmt.run(leaseId, params.runId, params.supervisorId, params.nowIso, expiresAt);
+    } catch (err: unknown) {
+      if (err instanceof Error && /UNIQUE constraint failed/i.test(err.message)) {
+        throw new SupervisorLeaseLostError(
+          params.runId,
+          params.supervisorId,
+          null,
+          "Another supervisor acquired the run concurrently"
+        );
+      }
+      throw err;
+    }
 
     return {
       leaseId,
@@ -1839,9 +1990,448 @@ export class SqliteStorageTransaction implements StorageTransaction {
     const rows = stmt.all(runId) as unknown as DbCheckpointRow[];
     return rows.map(mapCheckpointRow);
   }
+
+  // ---------------------------------------------------------------------------
+  // Mutation Intent Operations (ADR-0036)
+  // ---------------------------------------------------------------------------
+
+  recordIntent(intent: MutationIntent): void {
+    validateMutationIntentInvariants(intent);
+
+    // 1. Authoritative run existence & worker/lease assignment check
+    const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id FROM runs WHERE run_id = ?`);
+    const runRow = runStmt.get(intent.runId) as { current_worker_id: string | null; lease_id: string | null } | undefined;
+    if (!runRow) {
+      throw new LeaseLostError(intent.runId, intent.workerLeaseId, null);
+    }
+    if (runRow.lease_id !== intent.workerLeaseId) {
+      throw new LeaseLostError(intent.runId, intent.workerLeaseId, runRow.lease_id);
+    }
+
+    // 2. Authoritative lease validation per ADR-0036 Section 2.4 and Gate 0
+    const leaseStmt = this.db.prepare(`SELECT run_id, worker_id, state, expires_at FROM leases WHERE lease_id = ?`);
+    const leaseRow = leaseStmt.get(intent.workerLeaseId) as { run_id: string; worker_id: string; state: string; expires_at: string } | undefined;
+    if (!leaseRow || leaseRow.state !== "ACTIVE") {
+      throw new LeaseLostError(intent.runId, intent.workerLeaseId, runRow.lease_id);
+    }
+    if (leaseRow.run_id !== intent.runId) {
+      throw new LeaseLostError(intent.runId, intent.workerLeaseId, runRow.lease_id);
+    }
+    if (runRow.current_worker_id !== leaseRow.worker_id) {
+      throw new LeaseLostError(intent.runId, intent.workerLeaseId, runRow.lease_id);
+    }
+
+    const nowIso = new Date().toISOString();
+    if (leaseRow.expires_at <= nowIso) {
+      throw new LeaseExpiredError(intent.workerLeaseId, leaseRow.expires_at, nowIso);
+    }
+
+    const stmt = this.db.prepare(`
+      INSERT INTO mutation_intents (
+        mutation_id, run_id, worker_lease_id, relative_path, canonical_path,
+        parent_mutation_id, path_mutation_version, base_digest, expected_resulting_digest,
+        snapshot_ref, recovery_dedup_token, lifecycle_status, created_at, updated_at, conflict_details
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    stmt.run(
+      intent.mutationId,
+      intent.runId,
+      intent.workerLeaseId,
+      intent.relativePath,
+      intent.canonicalPath,
+      intent.parentMutationId,
+      intent.pathMutationVersion,
+      intent.baseDigest,
+      intent.expectedResultingDigest,
+      intent.snapshotRef,
+      intent.recoveryDedupToken,
+      intent.lifecycleStatus,
+      intent.createdAt,
+      intent.updatedAt,
+      intent.conflictDetails ?? null
+    );
+  }
+
+  getIntent(mutationId: string): MutationIntent | null {
+    const stmt = this.db.prepare(`SELECT * FROM mutation_intents WHERE mutation_id = ?`);
+    const row = stmt.get(mutationId) as DbMutationIntentRow | undefined;
+    return row ? mapMutationIntentRow(row) : null;
+  }
+
+  getIntentsForRun(runId: string): readonly MutationIntent[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM mutation_intents WHERE run_id = ? ORDER BY path_mutation_version ASC, created_at ASC`
+    );
+    const rows = stmt.all(runId) as unknown as DbMutationIntentRow[];
+    return rows.map(mapMutationIntentRow);
+  }
+
+  getIntentsForPath(runId: string, relativePath: string): readonly MutationIntent[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM mutation_intents WHERE run_id = ? AND relative_path = ? ORDER BY path_mutation_version ASC`
+    );
+    const rows = stmt.all(runId, relativePath) as unknown as DbMutationIntentRow[];
+    return rows.map(mapMutationIntentRow);
+  }
+
+  getLatestIntentForPath(runId: string, relativePath: string): MutationIntent | null {
+    const stmt = this.db.prepare(
+      `SELECT * FROM mutation_intents WHERE run_id = ? AND relative_path = ? ORDER BY path_mutation_version DESC LIMIT 1`
+    );
+    const row = stmt.get(runId, relativePath) as DbMutationIntentRow | undefined;
+    return row ? mapMutationIntentRow(row) : null;
+  }
+
+  transitionMutationStatus(params: TransitionMutationStatusParams): PersistedEvent {
+    // 0. Authority Context Validation (mandatory)
+    if (
+      !params.authorityContext ||
+      typeof params.authorityContext !== "object" ||
+      !("authority" in params.authorityContext)
+    ) {
+      throw new MissingMutationAuthorityError(params.mutationId);
+    }
+    const { authority } = params.authorityContext;
+    if (authority !== "WORKER" && authority !== "SUPERVISOR") {
+      throw new MissingMutationAuthorityError(
+        params.mutationId,
+        `Invalid mutation transition authority: '${String(authority)}'. Must be 'WORKER' or 'SUPERVISOR'`
+      );
+    }
+
+    // 1. Validate legal status transition
+    if (!isLegalMutationTransition(params.fromStatus, params.toStatus)) {
+      throw new InvalidMutationTransitionError(
+        params.mutationId,
+        params.fromStatus,
+        params.toStatus,
+        `Illegal transition from '${params.fromStatus}' to '${params.toStatus}'`
+      );
+    }
+
+    // 2. Query existing intent
+    const intentStmt = this.db.prepare(`SELECT * FROM mutation_intents WHERE mutation_id = ?`);
+    const intentRow = intentStmt.get(params.mutationId) as DbMutationIntentRow | undefined;
+    if (!intentRow) {
+      throw new MutationIntentNotFoundError(params.mutationId);
+    }
+
+    // 3. Query run row for identity, lease assignment, and lifecycle state
+    const runStmt = this.db.prepare(`SELECT current_worker_id, lease_id, status FROM runs WHERE run_id = ?`);
+    const runRow = runStmt.get(intentRow.run_id) as { current_worker_id: string | null; lease_id: string | null; status: string } | undefined;
+    if (!runRow) {
+      throw new Error(`Run '${intentRow.run_id}' not found`);
+    }
+
+    // Fail closed if run has reached terminal state
+    if (isTerminalState(runRow.status as RunStatus)) {
+      throw new TerminalStateError(runRow.status, `transitionMutationStatus(${params.toStatus})`);
+    }
+
+    // 4. Authority-specific transition permission, lifecycle binding, and fencing validation
+    if (authority === "WORKER") {
+      const workerAllowed: readonly MutationLifecycleStatus[] = [
+        "SNAPSHOT_WRITTEN",
+        "APPLYING_MUTATION",
+        "COMMITTED",
+      ];
+      if (!workerAllowed.includes(params.toStatus)) {
+        throw new UnauthorizedMutationTransitionError(
+          params.mutationId,
+          "WORKER",
+          params.fromStatus,
+          params.toStatus,
+          `Worker authority is not permitted to transition mutation '${params.mutationId}' to status '${params.toStatus}'`
+        );
+      }
+
+      const WORKER_PERMITTED_RUN_STATES: readonly RunStatus[] = ["RUNNING", "VERIFYING"];
+      if (!WORKER_PERMITTED_RUN_STATES.includes(runRow.status as RunStatus)) {
+        throw new UnauthorizedMutationTransitionError(
+          params.mutationId,
+          "WORKER",
+          params.fromStatus,
+          params.toStatus,
+          `Worker authority cannot transition mutations when run '${intentRow.run_id}' is in '${runRow.status}' status`
+        );
+      }
+
+      const { fencing } = params.authorityContext as { authority: "WORKER"; fencing: LeaseFencingCheck };
+      if (!fencing || typeof fencing !== "object") {
+        throw new MissingMutationAuthorityError(
+          params.mutationId,
+          `Worker authority context requires valid LeaseFencingCheck`
+        );
+      }
+      if (!fencing.leaseId || typeof fencing.leaseId !== "string" || fencing.leaseId.trim().length === 0) {
+        throw new MissingMutationAuthorityError(
+          params.mutationId,
+          `Worker authority context requires valid non-empty leaseId`
+        );
+      }
+      if (!fencing.workerId || typeof fencing.workerId !== "string" || fencing.workerId.trim().length === 0) {
+        throw new MissingMutationAuthorityError(
+          params.mutationId,
+          `Worker authority context requires valid non-empty workerId`
+        );
+      }
+
+      // Check worker lease matches the lease recorded on the intent (worker cannot transition another worker's intent)
+      if (intentRow.worker_lease_id !== fencing.leaseId) {
+        throw new LeaseLostError(intentRow.run_id, fencing.leaseId, intentRow.worker_lease_id);
+      }
+
+      // Check run row assignments with strict unconditional equality
+      if (runRow.lease_id !== fencing.leaseId) {
+        throw new LeaseLostError(intentRow.run_id, fencing.leaseId, runRow.lease_id);
+      }
+      if (runRow.current_worker_id !== fencing.workerId) {
+        throw new LeaseLostError(intentRow.run_id, fencing.leaseId, runRow.lease_id);
+      }
+
+      // Check lease row
+      const leaseStmt = this.db.prepare(`SELECT run_id, worker_id, state, expires_at FROM leases WHERE lease_id = ?`);
+      const leaseRow = leaseStmt.get(fencing.leaseId) as { run_id: string; worker_id: string; state: string; expires_at: string } | undefined;
+      if (!leaseRow || leaseRow.state !== "ACTIVE" || leaseRow.run_id !== intentRow.run_id) {
+        throw new LeaseLostError(intentRow.run_id, fencing.leaseId, runRow.lease_id);
+      }
+      if (leaseRow.worker_id !== fencing.workerId) {
+        throw new LeaseLostError(intentRow.run_id, fencing.leaseId, runRow.lease_id);
+      }
+
+      const leaseExpiresMs = new Date(leaseRow.expires_at).getTime();
+      if (isNaN(leaseExpiresMs)) {
+        throw new LeaseExpiredError(fencing.leaseId, leaseRow.expires_at, new Date().toISOString());
+      }
+
+      let effectiveNowMs = Date.now();
+      if (fencing.nowIso !== undefined) {
+        if (typeof fencing.nowIso !== "string" || fencing.nowIso.trim().length === 0) {
+          throw new MissingMutationAuthorityError(params.mutationId, "Worker fencing nowIso must be a non-empty string when provided");
+        }
+        const callerNowMs = new Date(fencing.nowIso).getTime();
+        if (isNaN(callerNowMs)) {
+          throw new MissingMutationAuthorityError(params.mutationId, `Invalid worker fencing nowIso timestamp format: '${fencing.nowIso}'`);
+        }
+        effectiveNowMs = Math.max(Date.now(), callerNowMs);
+      }
+
+      if (effectiveNowMs >= leaseExpiresMs) {
+        throw new LeaseExpiredError(fencing.leaseId, leaseRow.expires_at, new Date(effectiveNowMs).toISOString());
+      }
+    } else {
+      // SUPERVISOR
+      const supervisorAllowed: readonly MutationLifecycleStatus[] = [
+        "ABORTED_UNMUTATED",
+        "ROLLING_BACK",
+        "ROLLED_BACK",
+        "ROLLBACK_CONFLICT_LOST_UPDATE",
+        "ROLLBACK_CONFLICT_HASH_MISMATCH",
+        "RESTORE_FAILED",
+      ];
+      if (!supervisorAllowed.includes(params.toStatus)) {
+        throw new UnauthorizedMutationTransitionError(
+          params.mutationId,
+          "SUPERVISOR",
+          params.fromStatus,
+          params.toStatus,
+          `Supervisor authority is not permitted to transition mutation '${params.mutationId}' to status '${params.toStatus}'`
+        );
+      }
+
+      const SUPERVISOR_PERMITTED_RUN_STATES: readonly RunStatus[] = ["RECOVERING", "RUNNING", "LEASED"];
+      if (!SUPERVISOR_PERMITTED_RUN_STATES.includes(runRow.status as RunStatus)) {
+        throw new UnauthorizedMutationTransitionError(
+          params.mutationId,
+          "SUPERVISOR",
+          params.fromStatus,
+          params.toStatus,
+          `Supervisor authority cannot transition mutations when run '${intentRow.run_id}' is in '${runRow.status}' status`
+        );
+      }
+
+      const { supervisorFencing } = params.authorityContext as { authority: "SUPERVISOR"; supervisorFencing: SupervisorFencingCheck };
+      if (!supervisorFencing || typeof supervisorFencing !== "object") {
+        throw new MissingMutationAuthorityError(
+          params.mutationId,
+          `Supervisor authority context requires valid SupervisorFencingCheck`
+        );
+      }
+      if (!supervisorFencing.leaseId || typeof supervisorFencing.leaseId !== "string" || supervisorFencing.leaseId.trim().length === 0) {
+        throw new MissingMutationAuthorityError(
+          params.mutationId,
+          `Supervisor authority context requires valid non-empty leaseId`
+        );
+      }
+      if (!supervisorFencing.supervisorId || typeof supervisorFencing.supervisorId !== "string" || supervisorFencing.supervisorId.trim().length === 0) {
+        throw new MissingMutationAuthorityError(
+          params.mutationId,
+          `Supervisor authority context requires valid non-empty supervisorId`
+        );
+      }
+
+      // Authoritative supervisor fencing check against supervisor_leases table
+      this.validateSupervisorFencing(intentRow.run_id, supervisorFencing);
+    }
+
+    // 4. Idempotency check: if already at toStatus and dedupToken matches
+    if (intentRow.lifecycle_status === params.toStatus && intentRow.recovery_dedup_token === params.nextDedupToken) {
+      const eventStmt = this.db.prepare(`SELECT * FROM run_events WHERE dedup_token = ?`);
+      const eventRow = eventStmt.get(params.nextDedupToken) as DbEventRow | undefined;
+      if (eventRow) {
+        return mapEventRowToPersistedEvent(eventRow);
+      }
+    }
+
+    // 5. Current status check
+    if (intentRow.lifecycle_status !== params.fromStatus) {
+      throw new InvalidMutationTransitionError(
+        params.mutationId,
+        intentRow.lifecycle_status,
+        params.toStatus,
+        `Expected current status '${params.fromStatus}' but found '${intentRow.lifecycle_status}'`
+      );
+    }
+
+    const nowMs = params.nowMs ?? Date.now();
+
+    // 6. Update mutation_intents
+    const updateStmt = this.db.prepare(`
+      UPDATE mutation_intents
+      SET lifecycle_status = ?,
+          recovery_dedup_token = ?,
+          updated_at = ?,
+          conflict_details = COALESCE(?, conflict_details)
+      WHERE mutation_id = ? AND lifecycle_status = ?
+    `);
+    updateStmt.run(
+      params.toStatus,
+      params.nextDedupToken,
+      nowMs,
+      params.conflictDetails ?? null,
+      params.mutationId,
+      params.fromStatus
+    );
+
+    // 7. Append domain event with dedupToken
+    return this.appendEvent(params.event, params.nextDedupToken);
+  }
+
+  recordRunRollback(rollback: RunRollback, pathProgressList: readonly PathRollbackProgress[]): void {
+    const runRow = this.db.prepare(`SELECT run_id FROM runs WHERE run_id = ?`).get(rollback.runId);
+    if (!runRow) {
+      throw new Error(`Run '${rollback.runId}' not found`);
+    }
+
+    const rollbackStmt = this.db.prepare(`
+      INSERT INTO run_rollbacks (
+        run_id, status, initiated_by, created_at, completed_at, conflict_details
+      ) VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    rollbackStmt.run(
+      rollback.runId,
+      rollback.status,
+      rollback.initiatedBy,
+      rollback.createdAt,
+      rollback.completedAt ?? null,
+      rollback.conflictDetails ?? null
+    );
+
+    const progressStmt = this.db.prepare(`
+      INSERT INTO path_rollback_progress (
+        run_id, relative_path, status, initial_base_digest, latest_expected_digest,
+        baseline_snapshot_ref, updated_at, error_message
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    for (const progress of pathProgressList) {
+      if (progress.runId !== rollback.runId) {
+        throw new Error(`Path progress runId '${progress.runId}' does not match rollback runId '${rollback.runId}'`);
+      }
+      progressStmt.run(
+        progress.runId,
+        progress.relativePath,
+        progress.status,
+        progress.initialBaseDigest,
+        progress.latestExpectedDigest,
+        progress.baselineSnapshotRef,
+        progress.updatedAt,
+        progress.errorMessage ?? null
+      );
+    }
+  }
+
+  resetCompletedRunRollback(runId: string): void {
+    const row = this.db.prepare(`SELECT status FROM run_rollbacks WHERE run_id = ?`).get(runId) as
+      | { status: string }
+      | undefined;
+    if (!row || row.status !== "COMPLETED") {
+      throw new Error(
+        `Cannot reset rollback for run '${runId}': record is ${row ? row.status : "absent"}, not COMPLETED`
+      );
+    }
+    this.db.prepare(`DELETE FROM path_rollback_progress WHERE run_id = ?`).run(runId);
+    this.db.prepare(`DELETE FROM run_rollbacks WHERE run_id = ?`).run(runId);
+  }
+
+  getRunRollback(runId: string): RunRollback | null {
+    const stmt = this.db.prepare(`SELECT * FROM run_rollbacks WHERE run_id = ?`);
+    const row = stmt.get(runId) as DbRunRollbackRow | undefined;
+    return row ? mapRunRollbackRow(row) : null;
+  }
+
+  updateRunRollbackStatus(
+    runId: string,
+    status: RunRollbackStatus,
+    completedAt?: number | null,
+    conflictDetails?: string | null
+  ): void {
+    const stmt = this.db.prepare(`
+      UPDATE run_rollbacks
+      SET status = ?,
+          completed_at = COALESCE(?, completed_at),
+          conflict_details = COALESCE(?, conflict_details)
+      WHERE run_id = ?
+    `);
+    stmt.run(status, completedAt ?? null, conflictDetails ?? null, runId);
+  }
+
+  getPathRollbackProgress(runId: string, relativePath: string): PathRollbackProgress | null {
+    const stmt = this.db.prepare(
+      `SELECT * FROM path_rollback_progress WHERE run_id = ? AND relative_path = ?`
+    );
+    const row = stmt.get(runId, relativePath) as DbPathRollbackProgressRow | undefined;
+    return row ? mapPathRollbackProgressRow(row) : null;
+  }
+
+  listPathRollbackProgress(runId: string): readonly PathRollbackProgress[] {
+    const stmt = this.db.prepare(
+      `SELECT * FROM path_rollback_progress WHERE run_id = ? ORDER BY relative_path ASC`
+    );
+    const rows = stmt.all(runId) as unknown as DbPathRollbackProgressRow[];
+    return rows.map(mapPathRollbackProgressRow);
+  }
+
+  updatePathRollbackProgress(
+    runId: string,
+    relativePath: string,
+    status: PathRollbackStatus,
+    errorMessage?: string | null,
+    nowMs?: number
+  ): void {
+    const stmt = this.db.prepare(`
+      UPDATE path_rollback_progress
+      SET status = ?,
+          error_message = COALESCE(?, error_message),
+          updated_at = ?
+      WHERE run_id = ? AND relative_path = ?
+    `);
+    stmt.run(status, errorMessage ?? null, nowMs ?? Date.now(), runId, relativePath);
+  }
 }
 
-export class SqliteStateStore implements StateStorePort {
+export class SqliteStateStore implements StateStorePort, MutationIntentStorePort {
   private readonly db: DatabaseSync;
 
   constructor(dbOrConfig?: DatabaseSync | SqliteClientConfig) {
@@ -1892,6 +2482,11 @@ export class SqliteStateStore implements StateStorePort {
   findExpiredRuns(nowIso: string): readonly RunSnapshot[] {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.findExpiredRuns(nowIso);
+  }
+
+  findRecoveringRuns(limit?: number): readonly RunSnapshot[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.findRecoveringRuns(limit);
   }
 
   findRunIdForWorkspace(workspaceId: string): string | null {
@@ -2033,6 +2628,147 @@ export class SqliteStateStore implements StateStorePort {
   getCheckpoints(runId: string): readonly MissionCheckpoint[] {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.getCheckpoints(runId);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Mutation Intent Operations (ADR-0036)
+  // ---------------------------------------------------------------------------
+
+  recordIntent(intent: MutationIntent): void {
+    this.transaction((tx) => {
+      tx.recordIntent(intent);
+    });
+  }
+
+  getIntent(mutationId: string): MutationIntent | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getIntent(mutationId);
+  }
+
+  getIntentsForRun(runId: string): readonly MutationIntent[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getIntentsForRun(runId);
+  }
+
+  getIntentsForPath(runId: string, relativePath: string): readonly MutationIntent[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getIntentsForPath(runId, relativePath);
+  }
+
+  getLatestIntentForPath(runId: string, relativePath: string): MutationIntent | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getLatestIntentForPath(runId, relativePath);
+  }
+
+  transitionMutationStatus(params: TransitionMutationStatusParams): PersistedEvent {
+    return this.transaction((tx) => {
+      return tx.transitionMutationStatus(params);
+    });
+  }
+
+  recordRunRollback(rollback: RunRollback, pathProgressList: readonly PathRollbackProgress[]): void {
+    this.transaction((tx) => {
+      tx.recordRunRollback(rollback, pathProgressList);
+    });
+  }
+
+  resetCompletedRunRollback(runId: string): void {
+    this.transaction((tx) => {
+      tx.resetCompletedRunRollback(runId);
+    });
+  }
+
+  getRunRollback(runId: string): RunRollback | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getRunRollback(runId);
+  }
+
+  updateRunRollbackStatus(
+    runId: string,
+    status: RunRollbackStatus,
+    completedAt?: number | null,
+    conflictDetails?: string | null
+  ): void {
+    this.transaction((tx) => {
+      tx.updateRunRollbackStatus(runId, status, completedAt, conflictDetails);
+    });
+  }
+
+  getPathRollbackProgress(runId: string, relativePath: string): PathRollbackProgress | null {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getPathRollbackProgress(runId, relativePath);
+  }
+
+  listPathRollbackProgress(runId: string): readonly PathRollbackProgress[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.listPathRollbackProgress(runId);
+  }
+
+  updatePathRollbackProgress(
+    runId: string,
+    relativePath: string,
+    status: PathRollbackStatus,
+    errorMessage?: string | null,
+    nowMs?: number
+  ): void {
+    this.transaction((tx) => {
+      tx.updatePathRollbackProgress(runId, relativePath, status, errorMessage, nowMs);
+    });
+  }
+
+  acquireSupervisorLease(params: {
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease {
+    return this.transaction((tx) => {
+      return tx.acquireSupervisorLease(params);
+    });
+  }
+
+  renewSupervisorLease(params: {
+    leaseId: string;
+    runId: string;
+    supervisorId: string;
+    ttlMs: number;
+    nowIso: string;
+  }): SupervisorLease {
+    return this.transaction((tx) => {
+      return tx.renewSupervisorLease(params);
+    });
+  }
+
+  validateSupervisorFencing(runId: string, fencing: SupervisorFencingCheck): void {
+    const tx = new SqliteStorageTransaction(this.db);
+    tx.validateSupervisorFencing(runId, fencing);
+  }
+
+  bindRunWorkspace(runId: string, workspaceRoot: string, nowIso: string): string {
+    if (!this.getRun(runId)) {
+      throw new Error(`Run '${runId}' not found`);
+    }
+    if (!workspaceRoot || typeof workspaceRoot !== "string") {
+      throw new Error("workspaceRoot must be a non-empty string");
+    }
+    this.db
+      .prepare(
+        `INSERT INTO run_workspace_bindings (run_id, workspace_root, bound_at)
+         VALUES (?, ?, ?) ON CONFLICT(run_id) DO NOTHING`
+      )
+      .run(runId, workspaceRoot, nowIso);
+    const bound = this.getRunWorkspaceBinding(runId) as string;
+    if (bound !== workspaceRoot) {
+      throw new WorkspaceBindingConflictError(runId, bound, workspaceRoot);
+    }
+    return bound;
+  }
+
+  getRunWorkspaceBinding(runId: string): string | null {
+    const row = this.db
+      .prepare(`SELECT workspace_root FROM run_workspace_bindings WHERE run_id = ?`)
+      .get(runId) as { workspace_root: string } | undefined;
+    return row ? row.workspace_root : null;
   }
 
   close(): void {

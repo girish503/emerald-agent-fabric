@@ -37,6 +37,7 @@ import {
   PolicyEvaluator,
 } from "../domain/policy.js";
 import {
+  ExtendedToolName,
   ToolName,
   ToolRequest,
   ToolResult,
@@ -47,6 +48,7 @@ import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../ports/execution-provider.port.js";
 import { LeaseFencingCheck, WorkerRecord } from "../ports/state-store.port.js";
 import { ToolAdapterRegistryPort } from "../ports/tool-adapter.port.js";
+import { MutationIntentStorePort } from "../ports/mutation-intent-store.port.js";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
 import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import {
@@ -96,7 +98,7 @@ export interface ExecuteActionParams {
   readonly runId: string;
   readonly actionId?: string;
   readonly sequenceNumber?: number;
-  readonly toolName?: ToolName;
+  readonly toolName?: ExtendedToolName;
   readonly inputPayload?: unknown;
   readonly maxAttempts?: number;
   readonly leaseId?: string;
@@ -140,6 +142,7 @@ export interface WorkerRuntimeOptions {
   readonly toolGateway?: ToolExecutionGateway;
   readonly toolAdapterRegistry?: ToolAdapterRegistryPort;
   readonly toolRegistry?: ToolRegistryPort;
+  readonly mutationStore?: MutationIntentStorePort;
 }
 
 /**
@@ -197,10 +200,19 @@ export class WorkerRuntime {
     if (options.toolGateway) {
       this.toolGateway = options.toolGateway;
     } else {
+      const coordinatorStore = this.coordinator.store;
+      const mutationStore =
+        options.mutationStore ??
+        (coordinatorStore && typeof (coordinatorStore as any).recordIntent === "function"
+          ? (coordinatorStore as unknown as MutationIntentStorePort)
+          : undefined);
+
       const adapterRegistry =
         options.toolAdapterRegistry ??
         (this.workspacePort
-          ? createWorkspaceToolAdapterRegistry(this.workspacePort, this.executionProvider)
+          ? createWorkspaceToolAdapterRegistry(this.workspacePort, this.executionProvider, {
+              mutationStore,
+            })
           : undefined);
 
       this.toolGateway = new ToolExecutionGateway({
@@ -581,8 +593,9 @@ export class WorkerRuntime {
     let workspaceHandle: WorkspaceHandle | undefined;
 
     if (this.workspacePort) {
-      // 9a. Workspace identity: distinct from runId
-      const workspaceId = `ws-${run.runId.slice(0, 8)}-${crypto.randomUUID().slice(0, 8)}`;
+      // 9a. Workspace identity: distinct from runId but stable for the run, so every attempt of
+      // a run maps to the same workspace path (one workspace per run; ownership is bound below).
+      const workspaceId = `ws-${run.runId}`;
 
       // 9b. Verify workspace limits against MissionContract authority
       const contractMaxOutput = contract.spec.resourceLimits.maxOutputBytes;
@@ -634,6 +647,29 @@ export class WorkerRuntime {
           code: "WORKSPACE_BOUNDARY_FAILURE",
           message: "Workspace handle returned by adapter failed containment or identity check",
           details: { workspaceId },
+        });
+      }
+
+      // 9d'. Bind the run to its workspace root so recovery never has to guess it.
+      try {
+        this.coordinator.bindRunWorkspace(run.runId, workspaceHandle.hostPath, {
+          workerId: this.workerId,
+          leaseId: lease.leaseId,
+        });
+      } catch (bindErr: unknown) {
+        if (bindErr instanceof LeaseLostError) {
+          return { status: "FENCED", runId: run.runId, error: bindErr };
+        }
+        const failedEvent = workspace.markFailed({
+          errorMessage: `Workspace ownership binding failed: ${bindErr instanceof Error ? bindErr.message : String(bindErr)}`,
+          now: this.clock.nowIso(),
+        });
+        this.coordinator.recordWorkspaceEvent(failedEvent);
+        await this.workspacePort.disposeWorkspace(workspaceId).catch(() => {});
+        return failRunSafely({
+          code: "WORKSPACE_BOUNDARY_FAILURE",
+          message: "Run workspace ownership binding failed or conflicts with the run's bound workspace",
+          details: { workspaceId, error: bindErr instanceof Error ? bindErr.message : String(bindErr) },
         });
       }
 

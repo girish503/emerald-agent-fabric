@@ -1,0 +1,321 @@
+{
+  "phase": "39",
+  "researchQuestion": "What is the correct authoritative identity model for a logical Emerald execution, and where should Emerald prevent contradictory terminal evidence from becoming accepted without destroying legitimate historical evidence?",
+  "identityModel": {
+    "missionId": {
+      "example": "task-p39-main",
+      "immutable": true,
+      "scope": "specification",
+      "currentAuthority": "MissionContract / User Specification"
+    },
+    "runId": {
+      "example": "run-p39-main",
+      "immutable": true,
+      "scope": "logical execution lifecycle",
+      "currentAuthority": "SQLite StateStore / RunCoordinator State Machine"
+    },
+    "actionId": {
+      "example": "act-p39-1",
+      "immutable": true,
+      "scope": "logical action sequence",
+      "currentAuthority": "Action Domain Model / Monotonic Sequence"
+    },
+    "attemptId": {
+      "example": "att-p39-1",
+      "immutable": true,
+      "scope": "physical attempt execution",
+      "currentAuthority": "Attempt Domain Model / Worker Lease"
+    },
+    "checkpoint": {
+      "example": "checkpointVersion: 2",
+      "immutable": true,
+      "scope": "supervisor recovery state",
+      "currentAuthority": "Supervisor Lease / Monotonic Checkpoint Store"
+    },
+    "bundleId": {
+      "example": "4a71b...64hex",
+      "immutable": true,
+      "scope": "exact byte-level evidence content",
+      "currentAuthority": "Canonical JSON Digest / Content Addressing"
+    },
+    "provenanceRoot": {
+      "example": "8f3c...64hex",
+      "immutable": true,
+      "scope": "subsystem Merkle root",
+      "currentAuthority": "Cryptographic Witness Chain"
+    },
+    "terminalState": {
+      "example": "status: COMPLETED",
+      "immutable": true,
+      "scope": "lifecycle completion",
+      "currentAuthority": "Run State Machine / Verification Results"
+    },
+    "authorityIdentity": {
+      "example": "WORKER_PRODUCER, SUPERVISOR, INDEPENDENT_VERIFIER",
+      "immutable": true,
+      "scope": "cryptographic endorsement",
+      "currentAuthority": "TrustedKeyring / Asymmetric Ed25519 Quorum"
+    }
+  },
+  "scenarios": [
+    {
+      "scenarioId": "L1",
+      "title": "Two Valid Terminal Bundles (Same runId)",
+      "setup": "Two distinct exports of the same completed runId with differing export timestamps (bundleId1 != bundleId2)",
+      "bundleA": "runId: run-p39, status: COMPLETED, bundleId: b1",
+      "bundleB": "runId: run-p39, status: COMPLETED, bundleId: b2",
+      "expected": "Under pure content addressing, both bundles are accepted without cross-bundle runId uniqueness",
+      "observed": "Both accepted into archive/accepted/ as separate bundleId files",
+      "classification": "DEMONSTRATED",
+      "securityImpact": "Archive stores multiple valid certificates for the same logical run"
+    },
+    {
+      "scenarioId": "L2",
+      "title": "Contradictory Terminal Outcomes (COMPLETED vs FAILED)",
+      "setup": "One bundle claims COMPLETED, second bundle claims FAILED for the same runId; both have valid 2-of-3 threshold",
+      "bundleA": "runId: run-p39, status: COMPLETED, bundleId: b_comp",
+      "bundleB": "runId: run-p39, status: FAILED, bundleId: b_fail",
+      "expected": "Under pure content addressing, both contradictory bundles are accepted",
+      "observed": "Both accepted into archive/accepted/; external verifier receives contradictory authoritative outcomes",
+      "classification": "ARCHITECTURAL_GAP",
+      "securityImpact": "CRITICAL: Content addressing alone fails to prevent contradictory terminal evidence"
+    },
+    {
+      "scenarioId": "L3",
+      "title": "Newer Checkpoint Followed by Older Checkpoint",
+      "setup": "Newer checkpoint 2 bundle ingested first, followed by older checkpoint 1 bundle",
+      "bundleA": "runId: run-p39, checkpoint: 2, bundleId: b_new",
+      "bundleB": "runId: run-p39, checkpoint: 1, bundleId: b_old",
+      "expected": "Content archive accepts both; no temporal or monotonic ordering enforced across bundles",
+      "observed": "Both accepted into archive/accepted/ in reverse temporal order",
+      "classification": "DEMONSTRATED",
+      "securityImpact": "Older evidence can be archived after newer evidence without ordering validation"
+    },
+    {
+      "scenarioId": "L4",
+      "title": "Terminal Bundle Followed by Non-Terminal Bundle",
+      "setup": "Final terminal COMPLETED bundle ingested first, followed by an intermediate RUNNING snapshot",
+      "bundleA": "runId: run-p39, status: COMPLETED, bundleId: b_term",
+      "bundleB": "runId: run-p39, status: RUNNING, bundleId: b_nonterm",
+      "expected": "Content archive accepts both; non-terminal evidence accepted post-termination",
+      "observed": "Both accepted into archive/accepted/",
+      "classification": "DEMONSTRATED",
+      "securityImpact": "Terminal state does not seal the run against subsequent intermediate snapshots"
+    },
+    {
+      "scenarioId": "L5",
+      "title": "Non-Terminal Bundle Followed by Terminal Bundle",
+      "setup": "Intermediate RUNNING snapshot ingested first, followed by final terminal COMPLETED bundle",
+      "bundleA": "runId: run-p39, status: RUNNING, bundleId: b_nonterm",
+      "bundleB": "runId: run-p39, status: COMPLETED, bundleId: b_term",
+      "expected": "Both accepted; legitimate intermediate monitoring succeeds",
+      "observed": "Both accepted into archive/accepted/",
+      "classification": "DEMONSTRATED",
+      "securityImpact": "Shows that legitimate intermediate snapshots must not be blocked by runId indexing"
+    },
+    {
+      "scenarioId": "L6",
+      "title": "Duplicate Terminal Export",
+      "setup": "Identical bundleId ingested twice",
+      "bundleA": "bundleId: b_same",
+      "bundleB": "bundleId: b_same",
+      "expected": "Second ingestion returns DUPLICATE idempotently",
+      "observed": "First ingestion ACCEPTED; second ingestion returned DUPLICATE",
+      "classification": "EXPECTED",
+      "securityImpact": "Content-addressed idempotency verified"
+    },
+    {
+      "scenarioId": "L7",
+      "title": "Crash Recovery Duplicate Terminal Exports",
+      "setup": "Pre-recovery and post-recovery terminal bundles exported with different supervisor lease evidence",
+      "bundleA": "runId: run-p39, pre-recovery, bundleId: b_pre",
+      "bundleB": "runId: run-p39, post-recovery, bundleId: b_post",
+      "expected": "Both accepted under content addressing",
+      "observed": "Both accepted into archive/accepted/",
+      "classification": "DEMONSTRATED",
+      "securityImpact": "Crash recovery generates distinct valid bundleIds for the same runId"
+    },
+    {
+      "scenarioId": "L8",
+      "title": "Two Supervisors Produce Terminal Evidence",
+      "setup": "Two independent supervisors endorse distinct exports for the same runId",
+      "bundleA": "Supervisor 1 endorsement, bundleId: b_sup1",
+      "bundleB": "Supervisor 2 endorsement, bundleId: b_sup2",
+      "expected": "Both accepted under 2-of-3 threshold",
+      "observed": "Both accepted into archive/accepted/",
+      "classification": "DEMONSTRATED",
+      "securityImpact": "Multi-supervisor authority requires logical execution coordination"
+    },
+    {
+      "scenarioId": "L9",
+      "title": "Worker Retries After Terminal State in Store",
+      "setup": "Worker attempts to execute actions or transition an already terminal run in SQLite",
+      "bundleA": "Run status: COMPLETED in SQLite",
+      "bundleB": "Attempted completion / retry command",
+      "expected": "Coordinator and SQLite transaction throw; state machine rejects post-terminal mutations",
+      "observed": "Threw error; SQLite strictly enforces terminal finality locally",
+      "classification": "EXPECTED",
+      "securityImpact": "Local SQLite state machine correctly fences terminal transitions"
+    },
+    {
+      "scenarioId": "L10",
+      "title": "Stale Worker Submits Evidence After Recovery",
+      "setup": "Stale worker submits evidence signed only by itself after supervisor recovery",
+      "bundleA": "Worker-only signature (1-of-3)",
+      "bundleB": "N/A",
+      "expected": "Gateway quarantines with INSUFFICIENT_AUTHORITIES",
+      "observed": "Quarantined with INSUFFICIENT_AUTHORITIES",
+      "classification": "EXPECTED",
+      "securityImpact": "Threshold authority prevents stale uncoordinated worker evidence"
+    },
+    {
+      "scenarioId": "L11",
+      "title": "Valid Threshold Signatures on Stale Evidence",
+      "setup": "Worker and Supervisor sign an older intermediate snapshot",
+      "bundleA": "Checkpoint 1 snapshot with 2-of-3 signatures",
+      "bundleB": "N/A",
+      "expected": "Accepted by content archive because content and signatures are valid",
+      "observed": "Accepted into archive/accepted/",
+      "classification": "DEMONSTRATED",
+      "securityImpact": "Threshold signing does not enforce fresh state over stale snapshots"
+    },
+    {
+      "scenarioId": "L12",
+      "title": "Threshold Signatures on Conflicting Terminal Outcomes",
+      "setup": "Two bundles with conflicting terminal states (COMPLETED vs FAILED), each signed by 2-of-3 quorum",
+      "bundleA": "COMPLETED, signed by Worker + Supervisor",
+      "bundleB": "FAILED, signed by Worker + Supervisor",
+      "expected": "Both accepted; threshold signing operates purely over byte payloads, not cross-bundle run logic",
+      "observed": "Both accepted into archive/accepted/",
+      "classification": "ARCHITECTURAL_GAP",
+      "securityImpact": "Threshold quorum alone does not resolve logical outcome conflicts"
+    },
+    {
+      "scenarioId": "L13",
+      "title": "Mismatched Contract Content Hash",
+      "setup": "Bundle claiming runId has contract contentHash mutated",
+      "bundleA": "contractHash: 0000...0000",
+      "bundleB": "N/A",
+      "expected": "Gateway quarantines with CONTRACT_INTEGRITY_FAILURE",
+      "observed": "Quarantined with CONTRACT_INTEGRITY_FAILURE",
+      "classification": "EXPECTED",
+      "securityImpact": "Contract continuity strictly enforced"
+    },
+    {
+      "scenarioId": "L14",
+      "title": "Mismatched Mission Contract Version",
+      "setup": "Bundle claiming runId has contract version mutated to 999",
+      "bundleA": "contract version: 999",
+      "bundleB": "N/A",
+      "expected": "Gateway quarantines with CONTRACT_INTEGRITY_FAILURE",
+      "observed": "Quarantined with CONTRACT_INTEGRITY_FAILURE",
+      "classification": "EXPECTED",
+      "securityImpact": "Contract version binding strictly enforced"
+    },
+    {
+      "scenarioId": "L15",
+      "title": "Tampered Provenance Root",
+      "setup": "Bundle has provenanceRoot mutated without modifying payload",
+      "bundleA": "provenanceRoot: aaaa...aaaa",
+      "bundleB": "N/A",
+      "expected": "Gateway quarantines with INVALID_PROVENANCE_ROOT",
+      "observed": "Quarantined with INVALID_PROVENANCE_ROOT",
+      "classification": "EXPECTED",
+      "securityImpact": "Merkle provenance root integrity strictly verified"
+    },
+    {
+      "scenarioId": "L16",
+      "title": "Verification Evidence Omission / Failure in Terminal Bundle",
+      "setup": "Bundle claims COMPLETED but attempt exitCode is 1; fourfold derivation yields FAILED",
+      "bundleA": "run claims COMPLETED, attempt exitCode: 1",
+      "bundleB": "N/A",
+      "expected": "Replay verifier derives FAILED; gateway quarantines with REPLAY_VERIFICATION_FAILURE",
+      "observed": "Quarantined with REPLAY_VERIFICATION_FAILURE",
+      "classification": "EXPECTED",
+      "securityImpact": "Fourfold replay verification prevents unearned completion claims"
+    }
+  ],
+  "candidateArchitectures": [
+    {
+      "id": "A",
+      "name": "Strict runId Uniqueness in Archive",
+      "safety": "PASS",
+      "liveness": "FAIL",
+      "recovery": "FAIL",
+      "historicalAudit": "FAIL",
+      "complexity": "LOW",
+      "verdict": "FAIL",
+      "rationale": "Rejects all secondary bundles for a runId. Destroys multi-checkpoint auditing because intermediate checkpoint 1 blocks final terminal checkpoint 2."
+    },
+    {
+      "id": "B",
+      "name": "runId + Terminal Outcome Uniqueness",
+      "safety": "PASS",
+      "liveness": "PASS",
+      "recovery": "TRADEOFF",
+      "historicalAudit": "PASS",
+      "complexity": "MEDIUM",
+      "verdict": "TRADEOFF",
+      "rationale": "Permits multiple non-terminal snapshots, but enforces at most one terminal certificate per runId. Fails if a crash-recovered terminal run produces a second terminal certificate."
+    },
+    {
+      "id": "C",
+      "name": "Monotonic Terminal Sequence",
+      "safety": "PASS",
+      "liveness": "PASS",
+      "recovery": "PASS",
+      "historicalAudit": "PASS",
+      "complexity": "HIGH",
+      "verdict": "TRADEOFF",
+      "rationale": "Introduces terminalSequence counter. Unnecessary complexity since Emerald run lifecycles terminate at most once in SQLite."
+    },
+    {
+      "id": "D",
+      "name": "Authoritative Terminal Record Index",
+      "safety": "PASS",
+      "liveness": "PASS",
+      "recovery": "PASS",
+      "historicalAudit": "PASS",
+      "complexity": "MEDIUM",
+      "verdict": "PASS",
+      "rationale": "Preserves pure content-addressing for evidence bytes in archive/accepted/{bundleId}.json, while introducing a separate logical execution index (runId -> AuthoritativeTerminalRecord) at the archival boundary. Completely resolves contradictory terminal evidence without breaking intermediate snapshots."
+    },
+    {
+      "id": "E",
+      "name": "Producer Terminal Export Fencing",
+      "safety": "PASS",
+      "liveness": "PASS",
+      "recovery": "PASS",
+      "historicalAudit": "PASS",
+      "complexity": "HIGH",
+      "verdict": "TRADEOFF",
+      "rationale": "Fences export at the producing SQLite store. Does not protect remote/untrusted ingestion gateways from receiving contradictory synthetic bundles produced offline."
+    },
+    {
+      "id": "F",
+      "name": "Checkpoint-Bound Evidence",
+      "safety": "TRADEOFF",
+      "liveness": "PASS",
+      "recovery": "PASS",
+      "historicalAudit": "PASS",
+      "complexity": "MEDIUM",
+      "verdict": "TRADEOFF",
+      "rationale": "Indexes by (runId, checkpointVersion). Solves intermediate checkpoint collision, but does not prevent contradictory terminal bundles sharing the same final checkpointVersion."
+    }
+  ],
+  "demonstratedGaps": [
+    "Content-addressed evidence archiving indexes strictly on bundleId, allowing contradictory terminal outcomes (COMPLETED and FAILED) for the exact same runId to be accepted simultaneously into archive/accepted/.",
+    "Threshold Ed25519 signatures bind to payload bytes, but do not provide cross-bundle logical execution conflict detection."
+  ],
+  "demonstratedProperties": [
+    "runId represents a single logical task lifecycle that strictly terminates locally in SQLite.",
+    "bundleId represents the exact immutable bytes of an evidence snapshot.",
+    "Multiple intermediate evidence snapshots per run are legitimate and essential for long-running mission auditing.",
+    "Option D (Authoritative Terminal Record Index) cleanly separates content identity from logical execution identity."
+  ],
+  "regressions": {
+    "phase39Suite": "24/24 passed",
+    "phase10hAudit": "36/36 trial records intact"
+  },
+  "recommendation": "RECOMMENDED_IDENTITY_MODEL: OPTION_D_AUTHORITATIVE_TERMINAL_RECORD_INDEX"
+}

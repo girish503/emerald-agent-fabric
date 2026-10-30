@@ -10,3 +10,4 @@ export * from "./agent-brain.port.js";
 export * from "./model-provider.port.js";
 export * from "./reflex.port.js";
 export * from "./evidence-archive.port.js";
+export * from "./mutation-intent-store.port.js";

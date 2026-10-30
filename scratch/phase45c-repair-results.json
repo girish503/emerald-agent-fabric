@@ -1,0 +1,160 @@
+{
+  "trial": "Phase 45C Governed Live Repair Trial",
+  "task": "EAF-BM-01",
+  "taskTitle": "Core Arithmetic Off-by-One Fix",
+  "model": "qwen2.5-coder:1.5b",
+  "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+  "classification": "STAGNATION_TERMINATED",
+  "timestamps": {
+    "startedAt": "2026-10-26T09:10:06.103Z",
+    "completedAt": "2026-10-26T09:13:37.628Z",
+    "wallClockDurationMs": 211522
+  },
+  "schema": {
+    "name": "action_proposal",
+    "branchCount": 7,
+    "toolsCovered": [
+      "read_file",
+      "write_file",
+      "search_code",
+      "git_status",
+      "git_diff",
+      "run_command"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 3,
+    "modelFailures": 0,
+    "promptTokens": 6504,
+    "evalTokens": 365,
+    "totalTokens": 6869
+  },
+  "execution": {
+    "verified": false,
+    "terminalStatus": "FAILED",
+    "terminalReason": "STAGNATION",
+    "totalSteps": 3,
+    "totalActions": 3,
+    "totalProposalRejections": 0,
+    "writeActionsCount": 0,
+    "progressAdvisoriesCount": 1,
+    "progressAdvisories": [
+      {
+        "stepNumber": 2,
+        "advisory": "The same read_file request for 'src/calc.js' returned identical content in consecutive successful actions. The information is already available in context; choose a justified next action or read a meaningfully different range/file."
+      }
+    ]
+  },
+  "workspaceMutation": {
+    "targetFile": "src/calc.js",
+    "targetFileFound": true,
+    "targetFileModified": false,
+    "initialContentLength": 125,
+    "finalContentLength": 125,
+    "finalTargetFileContent": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+  },
+  "patch": {
+    "candidatePatchBytes": 0,
+    "candidatePatchHash": "none"
+  },
+  "cleanRoomVerification": null,
+  "evidenceBundle": {
+    "bundleId": "b397b43953b2904338db9ba2d64afb5509559f47b8615669eb38385b66df63c9",
+    "provenanceRoot": "6d28c386b644affb0aae537e4620d5bb12372935d8067223c4120d5cb4335ecf",
+    "signaturesCount": 2,
+    "eventsCount": 29
+  },
+  "offlineAudit": {
+    "status": "VERIFIED",
+    "thresholdSatisfied": true,
+    "fourfoldSatisfied": false,
+    "failures": []
+  },
+  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1793005806129-do0x0N",
+  "diagnostics": {
+    "stepDiagnostics": [
+      {
+        "stepNumber": 1,
+        "timestamp": "2026-10-26T09:10:06.340Z",
+        "durationMs": 74071,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": true,
+        "proposalId": "action-1",
+        "toolName": "read_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "offsetLine": 1,
+          "limitLines": 500
+        },
+        "actionId": "6c582af6-e7cf-40a0-91b1-c5c77d0b305b",
+        "actionStatus": "SUCCEEDED",
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"27ad43f40cdd41825cd280c8646c97abfdbbacfee84032b956e1f121166279d7\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
+      },
+      {
+        "stepNumber": 2,
+        "timestamp": "2026-10-26T09:11:20.412Z",
+        "durationMs": 62565,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": true,
+        "proposalId": "action-123",
+        "toolName": "read_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "offsetLine": 1,
+          "limitLines": 500
+        },
+        "actionId": "7b1315e8-bbb0-4357-95f6-beff3110286b",
+        "actionStatus": "SUCCEEDED",
+        "progressAdvisory": "The same read_file request for 'src/calc.js' returned identical content in consecutive successful actions. The information is already available in context; choose a justified next action or read a meaningfully different range/file.",
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-123\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"7ac3ea617bec824f50605d8e7562aacc29db6bd99772cc159152f10ddaa3fb4c\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 13\n}"
+      },
+      {
+        "stepNumber": 3,
+        "timestamp": "2026-10-26T09:12:22.978Z",
+        "durationMs": 74519,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": true,
+        "proposalId": "1234567890",
+        "toolName": "read_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "offsetLine": 1,
+          "limitLines": 500
+        },
+        "actionId": "55c79861-7b7e-4c9d-ad0c-f460939bb426",
+        "actionStatus": "SUCCEEDED",
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"e4027c79203763187bd5d9f9be8520a69bbe76c52925521f9425bf7573bb397a\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 21\n}"
+      }
+    ],
+    "proposalRejections": [],
+    "rawCompletions": [
+      {
+        "callIndex": 1,
+        "durationMs": 73997,
+        "promptTokens": 2404,
+        "evalTokens": 112,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"27ad43f40cdd41825cd280c8646c97abfdbbacfee84032b956e1f121166279d7\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
+        "truncated": false,
+        "originalLength": 227
+      },
+      {
+        "callIndex": 2,
+        "durationMs": 62490,
+        "promptTokens": 2050,
+        "evalTokens": 121,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-123\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"7ac3ea617bec824f50605d8e7562aacc29db6bd99772cc159152f10ddaa3fb4c\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 13\n}",
+        "truncated": false,
+        "originalLength": 251
+      },
+      {
+        "callIndex": 3,
+        "durationMs": 74351,
+        "promptTokens": 2050,
+        "evalTokens": 132,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"e4027c79203763187bd5d9f9be8520a69bbe76c52925521f9425bf7573bb397a\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 21\n}",
+        "truncated": false,
+        "originalLength": 251
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase24-qwen25-coder-3b-report.json",
+  "experimentId": "exp-phase24-1792315621632",
+  "timestamp": "2026-10-18T09:27:01.632Z",
+  "projectConstraint": "₹0-cost, open-source/open-weight-model-only (Proprietary cloud models strictly rejected)",
+  "baselineCommitSha": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "identifier": "qwen2.5-coder:3b",
+    "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+    "size": "1.9 GB (1,929,912,626 bytes)",
+    "parameters": "3.09B",
+    "quantization": "Q4_K_M",
+    "architecture": "qwen2",
+    "contextLength": 32768,
+    "license": "Qwen Research License Agreement (Open-weight, ₹0 cost)",
+    "category": "Coding-specialized open-weight model",
+    "provider": "ollama (local)",
+    "hardware": "CPU (Intel Core i3-N305, 8 E-cores, 8 GB RAM)"
+  },
+  "selectionRationale": "Open-source coding-specialized model at 3B scale evaluated to test whether increased capacity overcomes closed-loop recovery and coding failure or hits the CPU feasibility boundary.",
+  "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "contextBytes": 3298,
+  "promptBytes": 6976,
+  "gateA": {
+    "inferenceTimeMs": 120047,
+    "responseStatus": "TIMEOUT",
+    "responseBytes": 0,
+    "validProposal": false,
+    "prematureGoalReached": false,
+    "classification": "ENVIRONMENT_FAILURE",
+    "rawModelResponse": null,
+    "proposal": null,
+    "validationReason": null,
+    "selectedTool": null,
+    "inputPayload": null
+  },
+  "gateB": {
+    "status": "NOT_RUN"
+  },
+  "gateC": {
+    "status": "NOT_RUN"
+  },
+  "gateD": {
+    "status": "NOT_RUN"
+  },
+  "finalRunStatus": "NOT_RUN",
+  "primaryClassification": "ENVIRONMENT_FAILURE",
+  "hypothesisTest": {
+    "winningHypothesis": "H2 — Hardware boundary",
+    "scientificClassification": "ENVIRONMENT_FAILURE",
+    "summary": "Model capability could not be evaluated because local inference exceeded the fixed feasibility boundary (120s ceiling reached after 120.0s). The current hardware prevented evaluation under the predefined feasibility boundary."
+  },
+  "systemMetrics": {
+    "memoryMb": 32
+  }
+}

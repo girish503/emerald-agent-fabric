@@ -1,0 +1,453 @@
+{
+  "phase": "27",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "researchQuestion": "Is there an open-weight model within the feasible small-model region (0.5B-1.7B) whose training specifically targets instruction adherence, tool use, structured interaction, or negative-feedback recovery strongly enough to overcome the observed failure mode under Emerald's frozen interface?",
+  "empiricalEvidence": [
+    {
+      "model": "gemma3:1b",
+      "parameters": "999.89M (~1.0B)",
+      "quantization": "Q4_K_M",
+      "size": "815 MB",
+      "gateALatencyMs": 57400,
+      "gateAStatus": "MODEL_SCHEMA_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Premature goal reached claim (isGoalReached: true) at Step 0 without executing any tools.",
+      "phase": "19"
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "parameters": "1.54B",
+      "quantization": "Q4_K_M",
+      "size": "986 MB",
+      "gateALatencyMs": 20300,
+      "gateAStatus": "INFERENCE_VALIDATED",
+      "capabilityDepth": 5,
+      "failureMode": "Mutated code on step 1, but hallucinated observation metadata (contentHash) into step 2 tool input; repeated identical invalid proposal 5 times upon validator rejection until budget exhausted.",
+      "phase": "15E/16"
+    },
+    {
+      "model": "qwen2.5-coder:1.5b",
+      "parameters": "1.54B",
+      "quantization": "Q4_K_M",
+      "size": "986 MB",
+      "gateALatencyMs": 64378,
+      "gateAStatus": "INFERENCE_VALIDATED",
+      "capabilityDepth": 2,
+      "failureMode": "Executed read_file, but failed to deduce repair from observation, hallucinated filePath parameter instead of path, used dummy path, and repeated identical invalid proposal 5 times across negative feedback.",
+      "phase": "23"
+    },
+    {
+      "model": "llama3.2:3b",
+      "parameters": "3.21B",
+      "quantization": "Q4_K_M",
+      "size": "2.0 GB",
+      "gateALatencyMs": 118987,
+      "gateAStatus": "MODEL_SCHEMA_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Violated numeric minimum bounds (offsetLine: 0, limitLines: 0, maxBytes: 0), hallucinated context hash, operated within 1.0s of the 120s timeout.",
+      "phase": "21"
+    },
+    {
+      "model": "qwen2.5:3b",
+      "parameters": "3.09B",
+      "quantization": "Q4_K_M",
+      "size": "1.9 GB",
+      "gateALatencyMs": 120000,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Timed out on CPU execution exceeding the 120,000ms operational ceiling.",
+      "phase": "15D"
+    },
+    {
+      "model": "qwen3:4b",
+      "parameters": "4.02B",
+      "quantization": "Q4_K_M",
+      "size": "2.5 GB",
+      "gateALatencyMs": 180000,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Severe CPU latency (>180s per step); exceeded operational ceiling.",
+      "phase": "15"
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "parameters": "8.20B",
+      "quantization": "Q4_K_M",
+      "size": "5.2 GB",
+      "gateALatencyMs": 600000,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Severe RAM swapping and extreme latency on 7.6GB host; unusable on CPU.",
+      "phase": "17"
+    },
+    {
+      "model": "qwen2.5-coder:3b",
+      "parameters": "3.09B",
+      "quantization": "Q4_K_M",
+      "size": "1.9 GB",
+      "gateALatencyMs": 120047,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Timed out at 120,047ms on CPU; prevented evaluation of coding capability.",
+      "phase": "24"
+    },
+    {
+      "model": "granite3-dense:2b",
+      "parameters": "2.63B",
+      "quantization": "Q4_K_M",
+      "size": "1.6 GB",
+      "gateALatencyMs": 120053,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Timed out at 120,053ms on CPU; demonstrated that ~2.6B parameter models exceed the 120s feasibility ceiling on this host.",
+      "phase": "26"
+    }
+  ],
+  "capabilityHypotheses": [
+    {
+      "hypothesis": "A. GENERAL REASONING CAPACITY",
+      "classification": "PARTIALLY_SUPPORTED",
+      "rationale": "qwen2.5:1.5b and qwen2.5-coder:1.5b successfully interpreted initial task instructions to generate appropriate first actions (inspecting or mutating), but qwen2.5-coder:1.5b failed to deduce the trivial causal fix (changing '-' to '+') from the read_file observation."
+    },
+    {
+      "hypothesis": "B. STRUCTURED TOOL USE",
+      "classification": "SUPPORTED",
+      "rationale": "While initial single-step schemas were followed by Qwen models, subsequent turns consistently suffered from hallucinated keys (filePath, contentHash) or invalid bounds (offsetLine: 0 in llama3.2:3b), violating strict Zod contracts."
+    },
+    {
+      "hypothesis": "C. NEGATIVE-FEEDBACK RECOVERY",
+      "classification": "SUPPORTED",
+      "rationale": "In 100% of cases where a proposal was rejected by ProposalValidator (qwen2.5:1.5b and qwen2.5-coder:1.5b), models failed to update their proposal. They entered deterministic 5-step repetition loops until budget exhaustion."
+    },
+    {
+      "hypothesis": "D. STATE TRACKING",
+      "classification": "SUPPORTED",
+      "rationale": "Models consistently conflated tool output metadata with tool inputs (e.g. qwen2.5:1.5b copying contentHash from observation into write_file arguments) and regurgitated unedited code verbatim from read_file into write_file."
+    },
+    {
+      "hypothesis": "E. MULTI-TURN ATTENTION",
+      "classification": "PARTIALLY_SUPPORTED",
+      "rationale": "Context growth from 3.8KB (Step 1) to >7KB (Step 2) degraded output quality into repetition. However, Phase 16 proved that compacting context to 3.2KB reduced latency but did not eliminate the recovery repetition loop."
+    },
+    {
+      "hypothesis": "F. CODE GENERATION",
+      "classification": "NOT_SUPPORTED",
+      "rationale": "The required code repair (function add(a, b) { return a + b; }) is trivial JavaScript. Failure occurred in schema parameter binding, observation interpretation, and error recovery, not in raw syntax generation."
+    },
+    {
+      "hypothesis": "G. COMPLETION JUDGMENT",
+      "classification": "PARTIALLY_SUPPORTED",
+      "rationale": "Model-dependent: gemma3:1b failed completely by claiming goal completion at Step 0, whereas Qwen 1.5B models reliably avoided premature completion across all 6 turns."
+    },
+    {
+      "hypothesis": "H. COMBINATION",
+      "classification": "SUPPORTED",
+      "rationale": "The primary operational failure is an interaction of (C) Negative-Feedback Recovery with (B) Structured Tool Use and (D) State Tracking. Models make a parameter error, receive structured feedback, but lack the multi-turn alignment to update previous token generation."
+    }
+  ],
+  "installedModels": [
+    {
+      "name": "granite3-dense:2b",
+      "parameters": "2.63B",
+      "quantization": "Q4_K_M",
+      "size": "1.6 GB",
+      "license": "Apache 2.0",
+      "architecture": "granite",
+      "codingSpecialization": false,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "High (IBM ToolBench fine-tuning)",
+      "previouslyTested": true,
+      "previousResult": "Phase 26: ENVIRONMENT_FAILURE (120,053ms timeout)",
+      "unresolvedCapability": "None on current hardware; exceeds the 120s feasibility ceiling on CPU."
+    },
+    {
+      "name": "qwen2.5-coder:3b",
+      "parameters": "3.09B",
+      "quantization": "Q4_K_M",
+      "size": "1.9 GB",
+      "license": "Qwen Research License",
+      "architecture": "qwen2",
+      "codingSpecialization": true,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "High",
+      "previouslyTested": true,
+      "previousResult": "Phase 24: ENVIRONMENT_FAILURE (120,047ms timeout)",
+      "unresolvedCapability": "None on current hardware; exceeds 120s feasibility ceiling."
+    },
+    {
+      "name": "qwen2.5-coder:1.5b",
+      "parameters": "1.54B",
+      "quantization": "Q4_K_M",
+      "size": "986 MB",
+      "license": "Apache 2.0",
+      "architecture": "qwen2",
+      "codingSpecialization": true,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "High for code syntax",
+      "previouslyTested": true,
+      "previousResult": "Phase 23: MODEL_RECOVERY_FAILURE (0/5 recovery, repeated invalid proposals)",
+      "unresolvedCapability": "Cannot recover from validator rejection; coding pre-training does not fix tool schema adherence."
+    },
+    {
+      "name": "gemma3:1b",
+      "parameters": "999.89M",
+      "quantization": "Q4_K_M",
+      "size": "815 MB",
+      "license": "Gemma Terms of Use",
+      "architecture": "gemma3",
+      "codingSpecialization": false,
+      "toolCalling": false,
+      "structuredOutput": false,
+      "instructionFollowing": "Low for agentic tool protocols",
+      "previouslyTested": true,
+      "previousResult": "Phase 19: MODEL_SCHEMA_FAILURE (Premature goal reached claim at Step 0)",
+      "unresolvedCapability": "Lacks tool-calling fine-tuning and state-tracking capabilities."
+    },
+    {
+      "name": "deepseek-r1:8b",
+      "parameters": "8.20B",
+      "quantization": "Q4_K_M",
+      "size": "5.2 GB",
+      "license": "MIT",
+      "architecture": "qwen3",
+      "codingSpecialization": false,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "High with reasoning traces",
+      "previouslyTested": true,
+      "previousResult": "Phase 17/21: ENVIRONMENT_FAILURE (>600s, memory swapping)",
+      "unresolvedCapability": "Infeasible on 8GB host without discrete GPU."
+    },
+    {
+      "name": "llama3.2:3b",
+      "parameters": "3.21B",
+      "quantization": "Q4_K_M",
+      "size": "2.0 GB",
+      "license": "Llama 3.2 Community License",
+      "architecture": "llama3.2",
+      "codingSpecialization": false,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "Moderate",
+      "previouslyTested": true,
+      "previousResult": "Phase 21: MODEL_SCHEMA_FAILURE (118,987ms latency, schema boundary violations)",
+      "unresolvedCapability": "Violates integer minimums (0 bounds); operates at the extreme 119s edge of timeout."
+    },
+    {
+      "name": "qwen3:4b",
+      "parameters": "4.02B",
+      "quantization": "Q4_K_M",
+      "size": "2.5 GB",
+      "license": "Apache 2.0",
+      "architecture": "qwen3",
+      "codingSpecialization": false,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "High",
+      "previouslyTested": true,
+      "previousResult": "Phase 15: ENVIRONMENT_FAILURE (>180s per step)",
+      "unresolvedCapability": "Hardware-infeasible on CPU."
+    },
+    {
+      "name": "gemma3:latest",
+      "parameters": "4.30B",
+      "quantization": "Q4_K_M",
+      "size": "3.3 GB",
+      "license": "Gemma Terms of Use",
+      "architecture": "gemma3",
+      "codingSpecialization": false,
+      "toolCalling": false,
+      "structuredOutput": false,
+      "instructionFollowing": "Moderate multimodal",
+      "previouslyTested": false,
+      "previousResult": "Audited in Phase 21: Hardware infeasible (>4B on CPU) and lacks native tool calling.",
+      "unresolvedCapability": "Lacks function-calling tuning and cannot meet 120s latency ceiling."
+    },
+    {
+      "name": "qwen2.5:3b",
+      "parameters": "3.09B",
+      "quantization": "Q4_K_M",
+      "size": "1.9 GB",
+      "license": "Qwen Research License",
+      "architecture": "qwen2",
+      "codingSpecialization": false,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "High",
+      "previouslyTested": true,
+      "previousResult": "Phase 15D: ENVIRONMENT_FAILURE (>120s timeout)",
+      "unresolvedCapability": "Hardware-infeasible on CPU."
+    },
+    {
+      "name": "qwen2.5:1.5b",
+      "parameters": "1.54B",
+      "quantization": "Q4_K_M",
+      "size": "986 MB",
+      "license": "Apache 2.0",
+      "architecture": "qwen2",
+      "codingSpecialization": false,
+      "toolCalling": true,
+      "structuredOutput": true,
+      "instructionFollowing": "High for initial single-turn action",
+      "previouslyTested": true,
+      "previousResult": "Phase 15E/16: MODEL_RECOVERY_FAILURE (0/5 recovery, repeated contentHash error)",
+      "unresolvedCapability": "In-context negative feedback recovery fails completely."
+    }
+  ],
+  "externalCandidates": [
+    {
+      "name": "smollm2:1.7b",
+      "fullIdentifier": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "parameters": "1.71B",
+      "quantization": "Q4_K_M",
+      "size": "1.05 GB",
+      "architecture": "smollm2 (Llama-based)",
+      "contextWindow": 8192,
+      "license": "Apache 2.0 (Permissive open-source, ₹0 cost)",
+      "trainingDifferentiation": "Trained specifically on SmolTalk dataset curated by Hugging Face for multi-turn instruction following, synthetic tool-use/function-calling trajectories, and DPO alignment against constraint violations.",
+      "relevance": "Directly targets the two missing capabilities: multi-turn instruction adherence and negative-constraint following in a lightweight sub-2B architecture."
+    },
+    {
+      "name": "llama3.2:1b",
+      "fullIdentifier": "meta-llama/Llama-3.2-1B-Instruct",
+      "parameters": "1.23B",
+      "quantization": "Q4_K_M",
+      "size": "750 MB",
+      "architecture": "llama3.2",
+      "contextWindow": 131072,
+      "license": "Llama 3.2 Community License (Free, custom terms)",
+      "trainingDifferentiation": "Logit-distilled from Llama 3.1 8B with general tool-calling fine-tuning.",
+      "relevance": "Low. The 3.2B parent model already failed basic schema bounds (offsetLine: 0); aggressive pruning to 1.2B degrades schema conformance further."
+    },
+    {
+      "name": "deepseek-coder:1.3b",
+      "fullIdentifier": "deepseek-ai/deepseek-coder-1.3b-instruct",
+      "parameters": "1.30B",
+      "quantization": "Q4_K_M",
+      "size": "800 MB",
+      "architecture": "deepseek",
+      "contextWindow": 16384,
+      "license": "DeepSeek License Agreement",
+      "trainingDifferentiation": "Trained on 2T code tokens and fill-in-the-middle syntax.",
+      "relevance": "Low. Code pre-training without explicit tool-calling or multi-turn agentic feedback tuning; duplicates the exact failure mode observed in qwen2.5-coder:1.5b."
+    },
+    {
+      "name": "qwen2.5-coder:0.5b",
+      "fullIdentifier": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+      "parameters": "0.49B",
+      "quantization": "Q4_K_M",
+      "size": "390 MB",
+      "architecture": "qwen2",
+      "contextWindow": 32768,
+      "license": "Apache 2.0",
+      "trainingDifferentiation": "Pruned 0.5B version of Qwen2.5-Coder.",
+      "relevance": "Very low. Strictly lower capacity than the 1.5B variant that already failed closed-loop recovery."
+    }
+  ],
+  "candidateScores": [
+    {
+      "model": "smollm2:1.7b",
+      "trainingDifferentiation": 4,
+      "toolAgentRelevance": 4,
+      "recoveryRelevance": 3,
+      "codingRelevance": 3,
+      "hardwareFeasibility": 5,
+      "licenseCompatibility": 5,
+      "experimentalInformationGain": 4,
+      "totalScore": 28,
+      "classification": "HIGH_INFORMATION_GAIN",
+      "justification": "SmolLM2-1.7B is the only sub-2B candidate with dedicated synthetic tool-use training and multi-turn instruction-following DPO. At 1.71B parameters, it comfortably fits the CPU feasibility envelope (~55s-75s) and carries a permissive Apache 2.0 license."
+    },
+    {
+      "model": "llama3.2:1b",
+      "trainingDifferentiation": 2,
+      "toolAgentRelevance": 3,
+      "recoveryRelevance": 1,
+      "codingRelevance": 2,
+      "hardwareFeasibility": 5,
+      "licenseCompatibility": 4,
+      "experimentalInformationGain": 2,
+      "totalScore": 19,
+      "classification": "LOW_INFORMATION_GAIN",
+      "justification": "Distilled variant of Llama 3.2 where the 3.2B parent model already exhibited severe schema boundary violations (offsetLine: 0) and context hash hallucinations."
+    },
+    {
+      "model": "deepseek-coder:1.3b",
+      "trainingDifferentiation": 2,
+      "toolAgentRelevance": 1,
+      "recoveryRelevance": 1,
+      "codingRelevance": 4,
+      "hardwareFeasibility": 5,
+      "licenseCompatibility": 3,
+      "experimentalInformationGain": 1,
+      "totalScore": 17,
+      "classification": "LOW_INFORMATION_GAIN",
+      "justification": "Trained for code completion and FIM, lacking agentic tool-calling SFT. Duplicates the proven failure mode of qwen2.5-coder:1.5b."
+    },
+    {
+      "model": "qwen2.5-coder:0.5b",
+      "trainingDifferentiation": 1,
+      "toolAgentRelevance": 1,
+      "recoveryRelevance": 1,
+      "codingRelevance": 2,
+      "hardwareFeasibility": 5,
+      "licenseCompatibility": 5,
+      "experimentalInformationGain": 1,
+      "totalScore": 16,
+      "classification": "LOW_INFORMATION_GAIN",
+      "justification": "Severe capacity pruning of an architecture that already failed at 1.5B; near-zero probability of successful multi-step recovery."
+    }
+  ],
+  "hardwareBoundary": {
+    "hostCpu": "Intel Core i3-N305 (8 physical/logical Gracemont E-cores, AVX2, up to 3.8 GHz burst)",
+    "hostMemory": "7.63 GiB physical RAM (~1.4-1.7 GiB free headroom)",
+    "hostGpu": "Intel UHD Graphics (integrated, CPU-only execution in Ollama)",
+    "operationalCeilingMs": 120000,
+    "observedLatencies": {
+      "gemma3:1b": "57.4s (FEASIBLE)",
+      "qwen2.5:1.5b": "20.3s - 69.4s (FEASIBLE)",
+      "qwen2.5-coder:1.5b": "31.9s - 64.4s (FEASIBLE)",
+      "granite3-dense:2b": "120.1s (TIMED OUT - INFEASIBLE)",
+      "qwen2.5:3b": ">120.0s (TIMED OUT - INFEASIBLE)",
+      "qwen2.5-coder:3b": "120.0s (TIMED OUT - INFEASIBLE)",
+      "llama3.2:3b": "119.0s (BORDERLINE FEASIBLE - 1.0s margin, schema failed)"
+    },
+    "hardwareLimitConclusion": "On the i3-N305 CPU, models with >=2.6B parameters consistently hit or exceed the 120s feasibility ceiling under ~7KB prompt contexts. The operational feasibility envelope for CPU inference is strictly bounded below 2.0B parameters."
+  },
+  "recommendedOption": "OPTION B — ONE NEW SMALL MODEL",
+  "recommendedCandidate": {
+    "model": "smollm2:1.7b",
+    "fullIdentifier": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+    "parameterScale": "1.71B",
+    "quantization": "Q4_K_M",
+    "estimatedDownloadSize": "1.05 GB",
+    "estimatedCpuLatency": "55s - 75s",
+    "license": "Apache 2.0",
+    "differentiatingFactor": "Synthetic multi-turn tool-calling trajectories and DPO instruction alignment rather than raw code tokens."
+  },
+  "informationGainRationale": "Across 10 phases, Emerald has tested general-purpose models (gemma3:1b, qwen2.5:1.5b), coding-specialized models (qwen2.5-coder:1.5b), and intermediate tool models (granite3-dense:2b). The only remaining unexplored training methodology in the feasible sub-2B regime is synthetic multi-turn tool-use and instruction-following DPO (SmolLM2). Testing smollm2:1.7b completes the empirical matrix across all major training paradigms. If it succeeds, it demonstrates that training methodology overcomes parameter constraints; if it fails, it conclusively proves that sub-2B models have an intrinsic capacity limitation for closed-loop recovery under formal schemas, permanently establishing that hardware acceleration (Option D) is required for agentic operations.",
+  "falsificationCriteria": [
+    "Falsification of Training Deficiency Hypothesis: If smollm2:1.7b also enters an identical repetition loop after validator rejection or fails Gate A schema validation, the hypothesis that training data alignment can enable sub-2B recovery is FALSIFIED, proving an intrinsic capacity floor.",
+    "Falsification of Small-Model Incapacity: If smollm2:1.7b successfully reads validator rejection feedback, mutates its tool arguments to conform with the schema, and executes a second valid tool action, the claim that small models cannot recover is FALSIFIED.",
+    "Falsification of Hardware Feasibility: If smollm2:1.7b exceeds 120,000ms on Gate A, the hypothesis that 1.7B models fit the i3-N305 operational envelope is FALSIFIED."
+  ],
+  "nextSingleVariableExperiment": {
+    "phase": "28",
+    "targetModel": "smollm2:1.7b",
+    "independentVariable": "Model Training Pedigree (Synthetic multi-turn tool/alignment SFT vs Code-syntax pre-training)",
+    "fixedVariables": [
+      "Task directive SHA-256 (649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58)",
+      "Standardized tool projection and prompt schema",
+      "ProposalValidator strict Zod validation rules",
+      "Reflex engine governance and rejection accounting",
+      "AgentStepController budgets (maxSteps=12, maxActions=8, maxProposalRejections=6)",
+      "120,000ms per-step feasibility ceiling",
+      "CleanRoomVerifier independent verification contract",
+      "Frozen repository baseline (70979cf4bcbf4a237b79af3a23449a4b932104d5)"
+    ],
+    "successMetric": "Execution of at least one valid recovery transition (Step N rejected -> Step N+1 proposal valid and differentiated) and progression past Depth 2."
+  }
+}

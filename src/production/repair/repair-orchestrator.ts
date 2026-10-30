@@ -28,6 +28,7 @@ import { SourceDiagnosticEngine } from "../diagnostics/source-diagnostic-engine.
 import { DiagnosticMetrics } from "../diagnostics/diagnostic-feedback.js";
 import { ModelAdapter, AgentProposal } from "../../runtime/production-runtime-engine.js";
 import { ProductionRecoveryService } from "../../recovery/production-recovery-service.js";
+import { MutationIntentStorePort } from "../../ports/mutation-intent-store.port.js";
 
 import {
   RepairSessionConfig,
@@ -58,6 +59,7 @@ export class ProductionRepairOrchestrator {
   private readonly testLocalizer: TestFailureLocalizer;
   private readonly recoveryService: ProductionRecoveryService;
   private readonly evidenceSelector: MinimalTestEvidenceSelector;
+  private readonly mutationStore?: MutationIntentStorePort;
 
   constructor(
     private readonly prodConfig: ProductionConfig,
@@ -72,9 +74,20 @@ export class ProductionRepairOrchestrator {
     testLocalizer?: TestFailureLocalizer,
     evidenceSelector?: MinimalTestEvidenceSelector,
     private readonly clock: ClockPort = new SystemClock(),
+    mutationStore?: MutationIntentStorePort,
+    snapshotBasePath?: string,
   ) {
+    const resolvedStore: MutationIntentStorePort | undefined =
+      mutationStore ??
+      (this.runControl.getCoordinator() && typeof (this.runControl.getCoordinator()!.store as any).recordIntent === "function"
+        ? (this.runControl.getCoordinator()!.store as any)
+        : this.runControl.getStateStore() && typeof (this.runControl.getStateStore() as any).recordIntent === "function"
+          ? (this.runControl.getStateStore() as any)
+          : undefined);
+
+    this.mutationStore = resolvedStore;
     this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway);
-    this.toolGateway = new ProductionToolGateway(this.governanceFacade);
+    this.toolGateway = new ProductionToolGateway(this.governanceFacade, resolvedStore, snapshotBasePath);
     this.verifier = verifier ?? new ProductionVerifier(this.clock);
     this.evidenceControl = evidenceControl ?? new EvidenceControl();
     this.recoveryService = recoveryService ?? new ProductionRecoveryService(this.runControl, this.fenceEnforcer, this.clock);
@@ -120,6 +133,83 @@ export class ProductionRepairOrchestrator {
 
     const fenceId = `fence-repair-${run.runId}`;
     const sessionId = `session-${run.runId}`;
+
+    if (this.mutationStore && typeof (this.mutationStore as any).transaction === "function") {
+      (this.mutationStore as any).transaction((tx: any) => {
+        try {
+          tx.insertWorker({
+            workerId: actorId,
+            hostname: "localhost",
+            pid: process.pid,
+            status: "ACTIVE",
+            lastHeartbeatAt: this.clock.now().toISOString(),
+            createdAt: this.clock.now().toISOString(),
+          });
+        } catch {
+          // Ignore if worker already exists
+        }
+        try {
+          tx.insertTask({
+            taskId: mission.taskId,
+            title: mission.title,
+            description: mission.description,
+            inputPayload: {},
+            createdAt: this.clock.now().toISOString(),
+            updatedAt: this.clock.now().toISOString(),
+          });
+        } catch {
+          // Ignore if task already exists
+        }
+        try {
+          tx.insertContract(mission.contract);
+        } catch {
+          // Ignore if contract already exists
+        }
+        tx.insertRun(
+          {
+            runId: run.runId,
+            taskId: mission.taskId,
+            status: "RUNNING",
+            version: 1,
+            attemptCount: 1,
+            maxAttempts: 3,
+            timeoutMs: repairConfig.timeoutMs,
+            idempotencyKey: null,
+            currentWorkerId: actorId,
+            leaseId: fenceId,
+            leaseExpiresAt: new Date(Date.now() + repairConfig.timeoutMs + 3600000).toISOString(),
+            resultPayload: null,
+            errorPayload: null,
+            createdAt: this.clock.now().toISOString(),
+            updatedAt: this.clock.now().toISOString(),
+            contractBinding: {
+              contractId: mission.contract.spec.contractId,
+              version: mission.contract.spec.version,
+              contentHash: mission.contract.contentHash,
+            },
+            maxOutputBytes: this.prodConfig.resourceLimits.maxOutputBytes,
+          },
+          {
+            eventId: `evt-run-created-${run.runId}`,
+            runId: run.runId,
+            timestamp: this.clock.now().toISOString(),
+            eventType: "run.created",
+            schemaVersion: 1,
+            producer: "RepairOrchestrator",
+            payload: {},
+          }
+        );
+        tx.insertLease({
+          leaseId: fenceId,
+          runId: run.runId,
+          workerId: actorId,
+          acquiredAt: this.clock.now().toISOString(),
+          expiresAt: new Date(Date.now() + repairConfig.timeoutMs + 3600000).toISOString(),
+          releasedAt: null,
+          state: "ACTIVE",
+        });
+      });
+    }
 
     let sessionException: unknown = undefined;
     try {
@@ -233,6 +323,7 @@ export class ProductionRepairOrchestrator {
       missionContractHash: mission.contract.contentHash,
       maxOutputBytes: this.prodConfig.resourceLimits.maxOutputBytes,
       timeoutMs: this.prodConfig.timeouts.actionTimeoutMs,
+      governedBenchmarkRepairMode: mission.contract.spec.policy.governedBenchmarkRepairMode,
     };
 
     let pendingDiagnosticFeedback: string | null = null;

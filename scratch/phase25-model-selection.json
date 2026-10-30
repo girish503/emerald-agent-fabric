@@ -1,0 +1,343 @@
+{
+  "phase": "25",
+  "classification": "DOWNLOAD_REQUIRED_DEFERRED",
+  "researchQuestion": "Determine exactly which agent capabilities are currently missing in the tested small open-weight models and whether there is a credible open-source/open-weight model candidate that could address those missing capabilities while remaining feasible on the current hardware.",
+  "empiricalFindings": [
+    {
+      "model": "gemma3:1b",
+      "parameters": "999.89M",
+      "quantization": "Q4_K_M",
+      "size": "815 MB",
+      "gateALatencyMs": 57400,
+      "gateAStatus": "PASSED_LATENCY_FAILED_SCHEMA",
+      "capabilityDepth": 0,
+      "failureMode": "Premature goal reached at sequence 1 without physical action or tool execution",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 19)"
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "parameters": "1.54B",
+      "quantization": "Q4_K_M",
+      "size": "986 MB",
+      "gateALatencyMs": 69400,
+      "gateAStatus": "INFERENCE_VALIDATED",
+      "capabilityDepth": 5,
+      "failureMode": "Injected observation metadata ('contentHash') into tool arguments; repeated invalid proposals 5x until max rejections ceiling (6 >= 6)",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 15E / Phase 16)"
+    },
+    {
+      "model": "llama3.2:3b",
+      "parameters": "3.21B",
+      "quantization": "Q4_K_M",
+      "size": "2.0 GB",
+      "gateALatencyMs": 118987,
+      "gateAStatus": "MODEL_SCHEMA_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Violated numeric schema constraints (offsetLine: 0, limitLines: 0, maxBytes: 0 where >= 1 and > 0 required); hallucinated context hash",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 21)"
+    },
+    {
+      "model": "qwen2.5:3b",
+      "parameters": "3.09B",
+      "quantization": "Q4_K_M",
+      "size": "1.9 GB",
+      "gateALatencyMs": 120000,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Inference exceeded 120s feasibility ceiling on host CPU",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 15D)"
+    },
+    {
+      "model": "qwen3:4b",
+      "parameters": "4.02B",
+      "quantization": "Q4_K_M",
+      "size": "2.5 GB",
+      "gateALatencyMs": 180000,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Inference latency exceeded 180s-600s feasibility boundary on host CPU",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 15)"
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "parameters": "8.20B",
+      "quantization": "Q4_K_M",
+      "size": "5.2 GB",
+      "gateALatencyMs": 600000,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Severe RAM exhaustion and swap thrashing on 7.6GB host; step latency >600s",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 17)"
+    },
+    {
+      "model": "qwen2.5-coder:1.5b",
+      "parameters": "1.54B",
+      "quantization": "Q4_K_M",
+      "size": "986 MB",
+      "gateALatencyMs": 64378,
+      "gateAStatus": "INFERENCE_VALIDATED",
+      "capabilityDepth": 2,
+      "failureMode": "Executed read_file physically, but hallucinated 'filePath' key and dummy path on write_file; reproduced defective code; repeated 5x identical invalid proposals",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 23)"
+    },
+    {
+      "model": "qwen2.5-coder:3b",
+      "parameters": "3.09B",
+      "quantization": "Q4_K_M",
+      "size": "1.9 GB",
+      "gateALatencyMs": 120047,
+      "gateAStatus": "ENVIRONMENT_FAILURE",
+      "capabilityDepth": 0,
+      "failureMode": "Inference timed out at 120,047ms on host CPU; prevented evaluation of coding capability",
+      "cleanRoomReached": false,
+      "evidenceSource": "measured (Phase 24)"
+    }
+  ],
+  "capabilityMatrix": [
+    {
+      "dimension": "Tool argument grounding",
+      "status": "PARTIALLY DEMONSTRATED",
+      "evidence": "Demonstrated on Step 1 with single-shot task prompt (path: 'src/math.js'); completely broken on subsequent steps (invented 'filePath' or dummy paths)",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Strict structured-output adherence",
+      "status": "DEMONSTRATED",
+      "evidence": "All tested 1.5B-3B models emitted valid top-level JSON syntax matching the discriminated anyOf proposal envelope",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Schema constraint adherence",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "Models routinely violate strict Zod schemas: inventing keys ('contentHash', 'filePath') or violating integer bounds (offsetLine: 0)",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Observation -> next-action transformation",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "Models either copy metadata from observations into arguments or regurgitate observed defective code without fixing it",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Error-message interpretation",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "Structured rejection messages (e.g. 'path: Required, Unrecognized key(s): filePath') are present in context snapshot but completely ignored",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Recovery after validator rejection",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "Zero successful recovery events across all live model evaluations; 100% of rejections led to rejection ceiling exhaustion",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Repeated-failure avoidance",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "Models enter rigid deterministic repetition loops, emitting 5-6 identical invalid proposals in succession",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Code reasoning",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "qwen2.5-coder:1.5b read defective code 'a - b' and specification 'add(2,3) must return 5', yet failed to deduce 'a + b'",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Code editing",
+      "status": "PARTIALLY DEMONSTRATED",
+      "evidence": "qwen2.5:1.5b produced valid JS mutation to src/math.js in Phase 15E/16, but qwen2.5-coder:1.5b failed to produce valid write arguments",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Context retention",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "As context grows from ~3.8KB to >8KB with multi-step observation history, model generation degrades into repetition loops",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Tool-state understanding",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "Models do not maintain an accurate mental model of physical file state or executed side effects",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Completion-state judgment",
+      "status": "PARTIALLY DEMONSTRATED",
+      "evidence": "Qwen models avoided premature isGoalReached: true, but Gemma 3 claimed completion at sequence 1 without actions",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Distinguishing observations from tool inputs",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "Observation properties ('contentHash', execution status) bleed into subsequent tool input arguments",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Ability to maintain a multi-step execution plan",
+      "status": "NOT DEMONSTRATED",
+      "evidence": "No tested model maintained a coherent inspect -> edit -> verify plan beyond Depth 2",
+      "evidenceType": "measured"
+    },
+    {
+      "dimension": "Ability to preserve task constraints across multiple steps",
+      "status": "PARTIALLY DEMONSTRATED",
+      "evidence": "Syntactic preservation of unaffected functions (multiply) is partially maintained, but tool constraints are lost",
+      "evidenceType": "measured"
+    }
+  ],
+  "failurePatterns": [
+    {
+      "pattern": "Pattern A",
+      "description": "Model emits valid initial tool call (read_file or write_file) but fails on subsequent tool arguments",
+      "occurrence": "Observed in qwen2.5:1.5b (Step 2+), qwen2.5-coder:1.5b (Step 2+)",
+      "analysis": "Single-shot initial prompt provides strong local conditioning; once context contains multi-turn history, attention shifts and argument grounding fails",
+      "evidenceType": "measured"
+    },
+    {
+      "pattern": "Pattern B",
+      "description": "Model confuses observation metadata with tool input parameters",
+      "occurrence": "Observed in qwen2.5:1.5b ('contentHash' hallucinated into write_file input)",
+      "analysis": "Model fails to distinguish between the output schema of previous tool attempts and the input schema of subsequent tool calls",
+      "evidenceType": "measured"
+    },
+    {
+      "pattern": "Pattern C",
+      "description": "Model receives explicit structured rejection feedback but repeats identical or mutated invalid proposal",
+      "occurrence": "Observed in qwen2.5:1.5b (6 rejections), qwen2.5-coder:1.5b (6 rejections)",
+      "analysis": "Sub-2B models lack in-context meta-reasoning to treat negative feedback as an instruction to alter specific parameters",
+      "evidenceType": "measured"
+    },
+    {
+      "pattern": "Pattern D",
+      "description": "Coding-specialized qwen2.5-coder:1.5b still fails to construct a valid write_file request",
+      "occurrence": "Observed in Phase 23 (hallucinated 'filePath' key, dummy path '/path/to/output/file.js', and repeated defect)",
+      "analysis": "Code pre-training optimizes code syntax completion, not strict parameter key adherence in tool calling protocols",
+      "evidenceType": "measured"
+    },
+    {
+      "pattern": "Pattern E",
+      "description": "Increasing model size improves no demonstrated capability because 3B+ models cross the CPU latency boundary",
+      "occurrence": "Observed in qwen2.5:3b (>120s), llama3.2:3b (119s / schema failure), qwen2.5-coder:3b (120.0s timeout), qwen3:4b (>180s), deepseek-r1:8b (>600s)",
+      "analysis": "Commodity 8-core CPU without hardware acceleration is strictly throughput-bounded for 3B+ parameters over multi-thousand token contexts",
+      "evidenceType": "measured"
+    },
+    {
+      "pattern": "Pattern F",
+      "description": "Interface compression in Phase 16 improved latency but did not remove fundamental recovery failure",
+      "occurrence": "Observed in Phase 16 (latency dropped from 69.4s to 49.8s, but rejections remained 6 and capability depth remained 5)",
+      "analysis": "Interface verbosity contributes to latency, but does not cause the fundamental lack of closed-loop recovery",
+      "evidenceType": "measured"
+    }
+  ],
+  "modelCandidates": [
+    {
+      "name": "granite3-dense:2b",
+      "parameters": "2.63B",
+      "architecture": "Dense Transformer (IBM Granite 3.0)",
+      "license": "Apache 2.0 (Permissive open-source)",
+      "codingSpecialization": "Code generation, bug-fixing, translation",
+      "toolCallingSupport": "Native; pre-trained and fine-tuned specifically for function-calling, ToolBench, and structured JSON",
+      "structuredOutputSupport": "Native JSON schema adherence",
+      "agentTrainingEvidence": "Trained on 12T tokens with dedicated multi-turn tool interaction datasets (IBM Research)",
+      "codingBenchmarkEvidence": "Strong ToolBench and Berkeley Function Calling Leaderboard (BFCL) rankings for sub-3B class",
+      "ollamaAvailability": "Available in official Ollama library ('ollama run granite3-dense:2b')",
+      "modelSize": "1.6 GB (Q4_K_M)",
+      "estimatedRamMb": 2400,
+      "expectedFeasibility": "Estimated 80-95s CPU latency; operates within 120s ceiling and 7.6GB RAM",
+      "keyAdvantage": "Only sub-3B open-weight model engineered specifically with tool/function-calling as primary architectural objective rather than an afterthought",
+      "keyRisk": "At 2.63B, latency is close to 100s, leaving thin headroom; code logic repair on arithmetic may remain shallow",
+      "confidenceLevel": "MEDIUM-HIGH",
+      "evidenceType": "documented + estimated"
+    },
+    {
+      "name": "smollm2:1.7b",
+      "parameters": "1.71B",
+      "architecture": "Llama-based (Hugging Face SmolLM2)",
+      "license": "Apache 2.0 (Permissive open-source)",
+      "codingSpecialization": "Instruction following, STEM, coding/math assistance",
+      "toolCallingSupport": "Fine-tuned on synthetic function calling and instruction following datasets",
+      "structuredOutputSupport": "Good JSON instruction following",
+      "agentTrainingEvidence": "Explicit multi-turn instruction and tool-use fine-tuning",
+      "codingBenchmarkEvidence": "Competitive on HumanEval and GSM8k for 1.7B parameter scale",
+      "ollamaAvailability": "Available in official Ollama library ('ollama run smollm2:1.7b')",
+      "modelSize": "1.1 GB (Q4_K_M)",
+      "estimatedRamMb": 2000,
+      "expectedFeasibility": "Estimated 60-75s CPU latency; well within 120s ceiling and RAM budget",
+      "keyAdvantage": "Operates at comfortable CPU latency while offering newer synthetic alignment for instruction following",
+      "keyRisk": "General-purpose SLM; lacks deep AST-level code specialization; may exhibit similar recovery repetition",
+      "confidenceLevel": "MEDIUM",
+      "evidenceType": "documented + estimated"
+    },
+    {
+      "name": "deepseek-coder:1.3b",
+      "parameters": "1.3B",
+      "architecture": "DeepSeek",
+      "license": "DeepSeek License (Permissive research/commercial with attribution)",
+      "codingSpecialization": "87% code pre-training tokens; high code completion density",
+      "toolCallingSupport": "Weak; trained primarily for infilling and raw code generation rather than structured tool contracts",
+      "structuredOutputSupport": "Poor; prone to emitting markdown code fences instead of structured JSON",
+      "agentTrainingEvidence": "Limited agentic/tool fine-tuning; predominantly code generation",
+      "codingBenchmarkEvidence": "High raw HumanEval score for 1.3B",
+      "ollamaAvailability": "Available in official Ollama library",
+      "modelSize": "800 MB (Q4_K_M)",
+      "estimatedRamMb": 1600,
+      "expectedFeasibility": "Estimated 45-55s CPU latency; very fast on CPU",
+      "keyAdvantage": "Fastest code-specialized model; low memory pressure",
+      "keyRisk": "High probability of tool schema rejection (markdown fences, missing JSON parameters)",
+      "confidenceLevel": "LOW",
+      "evidenceType": "documented + estimated"
+    },
+    {
+      "name": "qwen2.5-coder:0.5b",
+      "parameters": "494M",
+      "architecture": "Qwen 2.5",
+      "license": "Apache 2.0",
+      "codingSpecialization": "Code completion",
+      "toolCallingSupport": "Rudimentary",
+      "structuredOutputSupport": "Fragile at sub-500M scale",
+      "agentTrainingEvidence": "Minimal parameter capacity for multi-turn state tracking",
+      "codingBenchmarkEvidence": "Low multi-step reasoning scores",
+      "ollamaAvailability": "Available in official Ollama library",
+      "modelSize": "390 MB (Q4_K_M)",
+      "estimatedRamMb": 1000,
+      "expectedFeasibility": "Estimated 15-20s CPU latency; trivial hardware footprint",
+      "keyAdvantage": "Ultra-fast execution",
+      "keyRisk": "Cognitive capacity is strictly inferior to 1.5B; guaranteed recovery failure",
+      "confidenceLevel": "VERY LOW",
+      "evidenceType": "documented + estimated"
+    }
+  ],
+  "recommendedCandidate": "granite3-dense:2b",
+  "reasons": [
+    "Native Function-Calling Pedigree: Unlike Qwen-Coder (code syntax pre-training) or DeepSeek-Coder (code infilling), IBM Granite 3.0 was explicitly trained on multi-turn function calling and tool contracts (ToolBench, BFCL).",
+    "Parameter Sweet Spot: At 2.63B parameters, it sits directly between the under-parameterized 1.54B models (which lack recovery capacity) and the 3.09B-3.21B models (which exceeded the 120s CPU boundary).",
+    "Hardware Feasibility: At 1.6 GB Q4_K_M, estimated CPU inference is ~80-95s, fitting inside the 120,000 ms ceiling and 7.6GB RAM envelope.",
+    "Open-Source & ₹0 Cost: Apache 2.0 license, available directly via local Ollama without proprietary cloud dependencies."
+  ],
+  "hardwareConstraints": [
+    "CPU: Intel Core i3-N305 (8 physical/logical E-cores, AVX2, up to 1.8-3.8 GHz)",
+    "RAM: 7.63 GiB total visible, ~1.4 GiB free headroom under standard desktop load",
+    "GPU: Intel UHD integrated graphics (no discrete acceleration, CPU-only execution)",
+    "Execution Budget: 120,000 ms hard feasibility ceiling for single-step inference",
+    "Storage: ~194 GiB free SSD headroom on C:\\"
+  ],
+  "uncertainties": [
+    "CPU Latency Margin: At 2.63B, inference on multi-thousand token contexts may approach 95-105s, leaving little margin below 120s.",
+    "Code Logic Repair: While Granite 3.0 excels at tool schemas, its arithmetic logic reasoning on the defective math repair must be empirically verified.",
+    "Rejection Recovery: Whether native tool training translates into effective recovery upon receiving Emerald's structured schema rejection feedback remains unproven."
+  ],
+  "nextExperiment": {
+    "targetModel": "granite3-dense:2b",
+    "phase": "26",
+    "objective": "Controlled evaluation of native tool-calling architecture at 2.63B scale to determine if structured recovery can be achieved within the 120s CPU feasibility ceiling",
+    "gateACeilingMs": 120000,
+    "status": "DOWNLOAD_REQUIRED_DEFERRED"
+  }
+}

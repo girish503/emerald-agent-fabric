@@ -1,0 +1,130 @@
+{
+  "timestamp": "2026-10-22T14:53:57.620Z",
+  "gitBaselineSha": "7109911fa4488c5759000fe08c3a77895ed214f4",
+  "gitBranch": "master",
+  "modelId": "qwen2.5-coder:3b",
+  "trialsPerCondition": 3,
+  "totalTrials": 6,
+  "conditionA": {
+    "validCount": 0,
+    "invalidCount": 3,
+    "validityRate": 0,
+    "unexpectedFieldsCount": {},
+    "meanInferenceMs": 35683
+  },
+  "conditionB": {
+    "validCount": 3,
+    "invalidCount": 0,
+    "validityRate": 1,
+    "unexpectedFieldsCount": {},
+    "meanInferenceMs": 15433
+  },
+  "decision": "PROMPT_CHANGE_SUPPORTED",
+  "trials": [
+    {
+      "condition": "CONDITION_A_EXISTING",
+      "trialIndex": 1,
+      "targetFile": "src/production/diagnostics/source-diagnostic-engine.ts",
+      "promptText": "You are an AI assistant inside Emerald Agent Fabric.\nTask: Inspect src/production/diagnostics/source-diagnostic-engine.ts to explain the component architecture.\nDo NOT edit or write to any files. Propose a read_file action with limitLines=50.\nRespond with a single JSON object conforming strictly to this format:\n{\"version\":\"v1.8.0\",\"thought\":\"Inspect src/production/diagnostics/source-diagnostic-engine.ts\",\"toolName\":\"read_file\",\"toolInput\":{\"path\":\"src/production/diagnostics/source-diagnostic-engine.ts\",\"offsetLine\":1,\"limitLines\":50},\"isGoalReached\":false}",
+      "rawProposal": null,
+      "schemaValidationPassed": false,
+      "errorCode": "INFERENCE_ERROR",
+      "errorMessage": "Constrained proposal schema violation [INVALID_ARGUMENTS]: Tool argument validation failed for 'read_file': input: Unrecognized key(s) in object: 'content'",
+      "unexpectedFields": [],
+      "missingFields": [],
+      "inferenceDurationMs": 41978,
+      "wallClockDurationMs": 41978,
+      "executionPreventedOnFailure": true
+    },
+    {
+      "condition": "CONDITION_A_EXISTING",
+      "trialIndex": 2,
+      "targetFile": "src/evidence/production-replay-engine.ts",
+      "promptText": "You are an AI assistant inside Emerald Agent Fabric.\nTask: Inspect src/evidence/production-replay-engine.ts to explain the component architecture.\nDo NOT edit or write to any files. Propose a read_file action with limitLines=50.\nRespond with a single JSON object conforming strictly to this format:\n{\"version\":\"v1.8.0\",\"thought\":\"Inspect src/evidence/production-replay-engine.ts\",\"toolName\":\"read_file\",\"toolInput\":{\"path\":\"src/evidence/production-replay-engine.ts\",\"offsetLine\":1,\"limitLines\":50},\"isGoalReached\":false}",
+      "rawProposal": null,
+      "schemaValidationPassed": false,
+      "errorCode": "INFERENCE_ERROR",
+      "errorMessage": "Constrained proposal schema violation [INVALID_ARGUMENTS]: Tool argument validation failed for 'read_file': input: Unrecognized key(s) in object: 'content'",
+      "unexpectedFields": [],
+      "missingFields": [],
+      "inferenceDurationMs": 28775,
+      "wallClockDurationMs": 28775,
+      "executionPreventedOnFailure": true
+    },
+    {
+      "condition": "CONDITION_A_EXISTING",
+      "trialIndex": 3,
+      "targetFile": "src/control-plane/approval-control.ts",
+      "promptText": "You are an AI assistant inside Emerald Agent Fabric.\nTask: Inspect src/control-plane/approval-control.ts to explain the component architecture.\nDo NOT edit or write to any files. Propose a read_file action with limitLines=50.\nRespond with a single JSON object conforming strictly to this format:\n{\"version\":\"v1.8.0\",\"thought\":\"Inspect src/control-plane/approval-control.ts\",\"toolName\":\"read_file\",\"toolInput\":{\"path\":\"src/control-plane/approval-control.ts\",\"offsetLine\":1,\"limitLines\":50},\"isGoalReached\":false}",
+      "rawProposal": null,
+      "schemaValidationPassed": false,
+      "errorCode": "INFERENCE_ERROR",
+      "errorMessage": "Constrained proposal schema violation [INVALID_ARGUMENTS]: Tool argument validation failed for 'read_file': input: Unrecognized key(s) in object: 'content'",
+      "unexpectedFields": [],
+      "missingFields": [],
+      "inferenceDurationMs": 36296,
+      "wallClockDurationMs": 36296,
+      "executionPreventedOnFailure": true
+    },
+    {
+      "condition": "CONDITION_B_CANONICAL",
+      "trialIndex": 1,
+      "targetFile": "src/production/diagnostics/source-diagnostic-engine.ts",
+      "promptText": "You are an AI assistant inside Emerald Agent Fabric.\nTask: Inspect src/production/diagnostics/source-diagnostic-engine.ts to explain the component architecture.\nDo NOT edit or write to any files. Propose a read_file action.\nRespond with a single JSON object conforming strictly to this format:\n{\"version\":\"v1.8.0\",\"thought\":\"Inspect src/production/diagnostics/source-diagnostic-engine.ts\",\"toolName\":\"read_file\",\"toolInput\":{\"path\":\"src/production/diagnostics/source-diagnostic-engine.ts\"},\"isGoalReached\":false}",
+      "rawProposal": {
+        "thought": "Inspect src/production/diagnostics/source-diagnostic-engine.ts",
+        "toolName": "read_file",
+        "toolInput": {
+          "path": "src/production/diagnostics/source-diagnostic-engine.ts"
+        },
+        "isGoalReached": false
+      },
+      "schemaValidationPassed": true,
+      "unexpectedFields": [],
+      "missingFields": [],
+      "inferenceDurationMs": 16447,
+      "wallClockDurationMs": 16447,
+      "executionPreventedOnFailure": false
+    },
+    {
+      "condition": "CONDITION_B_CANONICAL",
+      "trialIndex": 2,
+      "targetFile": "src/evidence/production-replay-engine.ts",
+      "promptText": "You are an AI assistant inside Emerald Agent Fabric.\nTask: Inspect src/evidence/production-replay-engine.ts to explain the component architecture.\nDo NOT edit or write to any files. Propose a read_file action.\nRespond with a single JSON object conforming strictly to this format:\n{\"version\":\"v1.8.0\",\"thought\":\"Inspect src/evidence/production-replay-engine.ts\",\"toolName\":\"read_file\",\"toolInput\":{\"path\":\"src/evidence/production-replay-engine.ts\"},\"isGoalReached\":false}",
+      "rawProposal": {
+        "thought": "Inspect src/evidence/production-replay-engine.ts",
+        "toolName": "read_file",
+        "toolInput": {
+          "path": "src/evidence/production-replay-engine.ts"
+        },
+        "isGoalReached": false
+      },
+      "schemaValidationPassed": true,
+      "unexpectedFields": [],
+      "missingFields": [],
+      "inferenceDurationMs": 14458,
+      "wallClockDurationMs": 14458,
+      "executionPreventedOnFailure": false
+    },
+    {
+      "condition": "CONDITION_B_CANONICAL",
+      "trialIndex": 3,
+      "targetFile": "src/control-plane/approval-control.ts",
+      "promptText": "You are an AI assistant inside Emerald Agent Fabric.\nTask: Inspect src/control-plane/approval-control.ts to explain the component architecture.\nDo NOT edit or write to any files. Propose a read_file action.\nRespond with a single JSON object conforming strictly to this format:\n{\"version\":\"v1.8.0\",\"thought\":\"Inspect src/control-plane/approval-control.ts\",\"toolName\":\"read_file\",\"toolInput\":{\"path\":\"src/control-plane/approval-control.ts\"},\"isGoalReached\":false}",
+      "rawProposal": {
+        "thought": "Inspect src/control-plane/approval-control.ts",
+        "toolName": "read_file",
+        "toolInput": {
+          "path": "src/control-plane/approval-control.ts"
+        },
+        "isGoalReached": false
+      },
+      "schemaValidationPassed": true,
+      "unexpectedFields": [],
+      "missingFields": [],
+      "inferenceDurationMs": 15395,
+      "wallClockDurationMs": 15395,
+      "executionPreventedOnFailure": false
+    }
+  ]
+}

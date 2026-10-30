@@ -1,0 +1,66 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase21-open-source-model-report.json",
+  "experimentId": "exp-phase21-1792310879107",
+  "timestamp": "2026-10-18T08:07:59.107Z",
+  "projectConstraint": "₹0-cost, open-source/open-weight-model-only (Proprietary cloud models strictly rejected)",
+  "baselineCommitSha": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "identifier": "llama3.2:3b",
+    "digest": "a80c4f17acd5",
+    "size": "2.0 GB (2,019,393,189 bytes)",
+    "parameters": "3.21B",
+    "quantization": "Q4_K_M",
+    "architecture": "llama",
+    "contextLength": 131072,
+    "license": "LLAMA 3.2 COMMUNITY LICENSE (Open-weight, ₹0 cost)",
+    "category": "Tool/function-calling specialized open model",
+    "provider": "ollama (local)",
+    "hardware": "CPU (Intel Core i3-N305, 8 E-cores, 8 GB RAM)"
+  },
+  "selectionRationale": "Only installed open-weight model with explicit tool/function-calling capability and parameters >1.5B within practical CPU feasibility limit.",
+  "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "contextBytes": 3299,
+  "promptBytes": 6977,
+  "gateA": {
+    "inferenceTimeMs": 118987,
+    "responseStatus": "RECEIVED",
+    "responseBytes": 326,
+    "validProposal": false,
+    "prematureGoalReached": false,
+    "classification": "MODEL_SCHEMA_FAILURE",
+    "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \" proposal-1510afc7-f25f-40fe-9635-e05dca769341\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\",\n    \"offsetLine\": 0,\n    \"limitLines\": 0,\n    \"maxBytes\": 0\n  },\n  \"contextSnapshotHash\": \"0c3e124aeb940430377f72ad44dd9367b3e773efdb44af0c10ff92ac82dca2d4\"\n}",
+    "proposal": {
+      "proposalId": " proposal-1510afc7-f25f-40fe-9635-e05dca769341",
+      "toolName": "read_file",
+      "inputPayload": {
+        "path": "src/math.js",
+        "offsetLine": 0,
+        "limitLines": 0,
+        "maxBytes": 0
+      },
+      "contextSnapshotHash": "0c3e124aeb940430377f72ad44dd9367b3e773efdb44af0c10ff92ac82dca2d4"
+    },
+    "validationReason": "INVALID_TOOL_INPUT",
+    "selectedTool": "read_file",
+    "inputPayload": {
+      "path": "src/math.js",
+      "offsetLine": 0,
+      "limitLines": 0,
+      "maxBytes": 0
+    }
+  },
+  "gateB": {
+    "status": "NOT_RUN"
+  },
+  "gateC": {
+    "status": "NOT_RUN"
+  },
+  "gateD": {
+    "status": "NOT_RUN"
+  },
+  "finalRunStatus": "NOT_RUN",
+  "primaryClassification": "MODEL_SCHEMA_FAILURE",
+  "systemMetrics": {
+    "memoryMb": 27
+  }
+}

@@ -55,6 +55,7 @@ import {
   RepairSessionOutcome,
   ExecuteRepairOptions,
 } from "../production/repair/index.js";
+import { MutationIntentStorePort } from "../ports/mutation-intent-store.port.js";
 
 export interface AgentProposal {
   readonly thought: string;
@@ -85,9 +86,19 @@ export class ProductionRuntimeEngine {
     verifier?: ProductionVerifier,
     private readonly clock: ClockPort = new SystemClock(),
     diagnosticEngine?: SourceDiagnosticEngine,
+    mutationStore?: MutationIntentStorePort,
+    snapshotBasePath?: string,
   ) {
+    const resolvedStore: MutationIntentStorePort | undefined =
+      mutationStore ??
+      (this.runControl.getCoordinator() && typeof (this.runControl.getCoordinator()!.store as any).recordIntent === "function"
+        ? (this.runControl.getCoordinator()!.store as any)
+        : this.runControl.getStateStore() && typeof (this.runControl.getStateStore() as any).recordIntent === "function"
+          ? (this.runControl.getStateStore() as any)
+          : undefined);
+
     this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway);
-    this.toolGateway = new ProductionToolGateway(this.governanceFacade);
+    this.toolGateway = new ProductionToolGateway(this.governanceFacade, resolvedStore, snapshotBasePath);
     this.verifier = verifier ?? new ProductionVerifier(this.clock);
     this.evidenceControl = evidenceControl ?? new EvidenceControl();
     this.diagnosticEngine = diagnosticEngine ?? new SourceDiagnosticEngine();
@@ -104,6 +115,8 @@ export class ProductionRuntimeEngine {
       undefined,
       undefined,
       this.clock,
+      resolvedStore,
+      snapshotBasePath,
     );
   }
 

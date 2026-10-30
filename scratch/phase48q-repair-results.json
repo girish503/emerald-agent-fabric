@@ -1,0 +1,393 @@
+{
+  "phase": "Phase 48Q",
+  "task": "EAF-BM-02",
+  "taskTitle": "Shorthand Hexadecimal Parsing Fix",
+  "classification": "REPAIR_ATTEMPT_FAILED",
+  "model": {
+    "name": "qwen2.5-coder:3b",
+    "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+    "parameters": "3.1B",
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "endpoint": "http://127.0.0.1:11434"
+  },
+  "timing": {
+    "startedAt": "2026-10-26T21:10:22.246Z",
+    "completedAt": "2026-10-26T21:25:58.104Z",
+    "wallClockDurationMs": 935812,
+    "preWarmDurationMs": 18120
+  },
+  "configuration": {
+    "governedBenchmarkRepairMode": true,
+    "allowWholeFileReplacement": false,
+    "maxSteps": 8,
+    "stepTimeoutMs": 300000,
+    "maxWallClockMs": 2400000,
+    "maxProposalRejections": 3,
+    "maxConsecutiveIneffectiveEdits": 3,
+    "dynamicToolFiltering": true,
+    "intermediateTestFeedback": true,
+    "postPassVerificationLatch": true,
+    "sourceGroundedVerificationContext": true,
+    "failedAnchorGuard": true,
+    "zeroMatchSearchRecovery": true,
+    "wholeFileNoOpGuidance": true,
+    "duplicateProposalGuard": true,
+    "ineffectiveMutationGuard": true,
+    "stalePreconditionRecovery": true,
+    "toolsEnabled": [
+      "read_file",
+      "write_file",
+      "edit_file",
+      "run_command",
+      "search_code",
+      "git_status",
+      "git_diff"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 6,
+    "modelFailures": 0,
+    "promptTokens": 12753,
+    "evalTokens": 1307,
+    "totalTokens": 14060
+  },
+  "execution": {
+    "verified": false,
+    "terminalStatus": "FAILED",
+    "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+    "totalSteps": 6,
+    "totalActions": 3,
+    "totalProposalRejections": 3,
+    "readActionsCount": 1,
+    "writeActionsCount": 1,
+    "editActionsCount": 4,
+    "postPassLatchSnapshot": {
+      "isLatched": false,
+      "protectedPaths": [],
+      "cleanRoomVerified": false
+    }
+  },
+  "postPassLatchTelemetry": {
+    "isLatched": false,
+    "latchedAtStep": null,
+    "latchedTimestamp": null,
+    "protectedPaths": [],
+    "cleanRoomVerified": false,
+    "postPassMutationProposalsCount": 0,
+    "postPassMutationRejectionsCount": 0,
+    "postPassRejectionDenials": []
+  },
+  "governedEditingTelemetry": {
+    "editFileAttemptsCount": 4,
+    "editFileAcceptedCount": 2,
+    "editFileRejectedCount": 2,
+    "noopEditRejectionsCount": 1,
+    "duplicateProposalRejectionsCount": 0,
+    "repeatedFailedAnchorRejectionsCount": 1,
+    "ineffectiveMutationRejectionsCount": 0,
+    "repeatedProposalSubmitted": false,
+    "duplicateBlockedBeforeAdapter": true,
+    "writeFileAttemptsCount": 1,
+    "writeFileExistingDenialsCount": 1,
+    "writeFileNewAllowedCount": 0,
+    "disallowedFileOverwriteDenials": [
+      {
+        "step": 2,
+        "toolName": "write_file",
+        "reason": "DISALLOWED_FILE_OVERWRITE",
+        "message": "Direct overwrite of existing file 'src/hex.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true."
+      }
+    ],
+    "noopEditDenials": [
+      {
+        "step": 3,
+        "toolName": "edit_file",
+        "reason": "NOOP_EDIT_DISALLOWED",
+        "message": "edit_file proposal rejected: 'searchAnchor' and 'replacementText' are identical. A localized edit must specify a different 'replacementText' that modifies the target file."
+      }
+    ],
+    "duplicateProposalDenials": [],
+    "ineffectiveMutationDenials": [],
+    "repeatedFailedAnchorDenials": [
+      {
+        "step": 6,
+        "toolName": "edit_file",
+        "reason": "REPEATED_FAILED_ANCHOR_DISALLOWED",
+        "message": "edit_file proposal rejected: The searchAnchor has already failed in 'src/hex.js' (missing or ambiguous) and no fresh successful read of the file has occurred since the failure. Re-read the file using 'read_file' to obtain current literal source text before proposing edits."
+      }
+    ],
+    "anchorFailuresCount": 1,
+    "ambiguousAnchorsCount": 0,
+    "anchorDetails": [
+      {
+        "step": 3,
+        "proposalValid": false,
+        "rejectionReason": "NOOP_EDIT_DISALLOWED",
+        "anchor": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n",
+        "replacement": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "hadExpectedDigest": false,
+        "executionStatus": null,
+        "executionError": null
+      },
+      {
+        "step": 4,
+        "proposalValid": true,
+        "rejectionReason": null,
+        "anchor": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n",
+        "replacement": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n\n// Additional code here",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "hadExpectedDigest": false,
+        "executionStatus": "SUCCEEDED",
+        "executionError": null
+      },
+      {
+        "step": 5,
+        "proposalValid": true,
+        "rejectionReason": null,
+        "anchor": "function hexToDecimal(hex) {",
+        "replacement": "function hexToDecimal(hex) { return parseInt(hex, 16); }",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "hadExpectedDigest": false,
+        "executionStatus": "FAILED",
+        "executionError": "Tool 'edit_file' execution failed: Search anchor not found in src/hex.js: 0 occurrences matched 'function hexToDecimal(hex) {'"
+      },
+      {
+        "step": 6,
+        "proposalValid": false,
+        "rejectionReason": "REPEATED_FAILED_ANCHOR_DISALLOWED",
+        "anchor": "function hexToDecimal(hex) {",
+        "replacement": "function hexToDecimal(hex) { return parseInt(hex, 16); }",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "hadExpectedDigest": false,
+        "executionStatus": null,
+        "executionError": null
+      }
+    ]
+  },
+  "stageProgression": {
+    "stageA_proposal": {
+      "proposedEditFile": true,
+      "editProposalsCount": 4
+    },
+    "stageB_mutation": {
+      "appliedSuccessfully": true,
+      "targetFile": "src/hex.js",
+      "initialHash": "57d5818676a6972c4884fe42cea6dd177b968b26ad919e403a5182b273096b06",
+      "finalHash": "7a5c41176f6b091c3aaf3926981ae02bad45f6f53885b4ae1a655a7c11ddccf2",
+      "goldHash": "365e44cd51dd272b9a024d7a89c893bbd39668cd7f275a4a77373c1d50f5098b",
+      "candidateMatchesGold": false,
+      "targetFileModified": true,
+      "policyCompliant": true,
+      "disallowedFilesTouched": [],
+      "finalTargetFileContent": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n\n// Additional code here"
+    },
+    "stageC_verification": {
+      "cleanRoomStatus": "NONE",
+      "cleanRoomVerified": false,
+      "f2pRatio": 0,
+      "p2pRatio": 0
+    },
+    "stageD_evidence": {
+      "bundleId": "b5196c84b4f51159b197368c1a61ff00dc105a2bf8e4848ce89a8e8c8e5a02b2",
+      "provenanceRoot": "d44a1e186aa9635f6e3575e821dd1baeb6e7eae11aa9df9c5b17e87df30818f8",
+      "signaturesCount": 2,
+      "eventsCount": 32,
+      "offlineAuditStatus": "VERIFIED",
+      "thresholdSatisfied": true,
+      "fourfoldSatisfied": false,
+      "auditFailures": [],
+      "replayDerivedOutcome": "FAILED",
+      "fourfoldPredicates": {
+        "taskSatisfied": false,
+        "policySatisfied": true,
+        "verificationPassed": false,
+        "evidenceComplete": false
+      }
+    }
+  },
+  "stepTranscript": [
+    {
+      "stepNumber": 1,
+      "timestamp": "2026-10-26T21:10:22.789Z",
+      "durationMs": 160023,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "1",
+      "toolName": "read_file",
+      "inputPayload": {
+        "path": "src/hex.js",
+        "offsetLine": 1,
+        "limitLines": 500
+      },
+      "actionId": "7dff8379-7b1e-4384-bec3-e8cc7d5d6b67",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"69e6ef5ed58fd25af71d44fe015d41873687ad12ae0c888274a06b9f045c06c1\",\n  \"inputPayload\": {\n    \"path\": \"src/hex.js\"\n  }\n}"
+    },
+    {
+      "stepNumber": 2,
+      "timestamp": "2026-10-26T21:13:02.813Z",
+      "durationMs": 141744,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": false,
+      "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+      "toolName": "write_file",
+      "inputPayload": {
+        "path": "src/hex.js",
+        "content": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n"
+      },
+      "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+      "rejectionMessage": "Direct overwrite of existing file 'src/hex.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+      "eligibleTools": [
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [
+        "read_file"
+      ],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"acacce844abae2a8550b54d33d339d75bff330966be8fa612ec547cbfdba50ce\",\n  \"inputPayload\": {\n    \"path\": \"src/hex.js\",\n    \"content\": \"function parseHex(h) {\\n  if (h.length === 4) return undefined;\\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\\n}\\n\\nmodule.exports = { parseHex };\\n\"\n  }\n}"
+    },
+    {
+      "stepNumber": 3,
+      "timestamp": "2026-10-26T21:15:24.560Z",
+      "durationMs": 172666,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": false,
+      "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/hex.js",
+        "searchAnchor": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n",
+        "replacementText": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n",
+        "allowMultipleMatches": false,
+        "maxBytes": 1024
+      },
+      "rejectionReason": "NOOP_EDIT_DISALLOWED",
+      "rejectionMessage": "edit_file proposal rejected: 'searchAnchor' and 'replacementText' are identical. A localized edit must specify a different 'replacementText' that modifies the target file.",
+      "eligibleTools": [
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [
+        "read_file"
+      ],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"88d7752147a816e41d628b104ca942ab96d3520bd0b8d5f739c90bbbba65945c\",\n  \"inputPayload\": {\n    \"path\": \"src/hex.js\",\n    \"searchAnchor\": \"function parseHex(h) {\\n  if (h.length === 4) return undefined;\\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\\n}\\n\\nmodule.exports = { parseHex };\\n\",\n    \"replacementText\": \"function parseHex(h) {\\n  if (h.length === 4) return undefined;\\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\\n}\\n\\nmodule.exports = { parseHex };\\n\",\n    \"allowMultipleMatches\": false,\n    \"maxBytes\": 1024\n  }\n}"
+    },
+    {
+      "stepNumber": 4,
+      "timestamp": "2026-10-26T21:18:17.237Z",
+      "durationMs": 167076,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/hex.js",
+        "searchAnchor": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n",
+        "replacementText": "function parseHex(h) {\n  if (h.length === 4) return undefined;\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\n}\n\nmodule.exports = { parseHex };\n\n// Additional code here",
+        "allowMultipleMatches": false
+      },
+      "actionId": "870b6c3d-9558-472c-a012-6f77285c8828",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [
+        "read_file"
+      ],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"effb6003e221b58ffa80e7d11a15e0256c760fc9476d041562b265e56ca573cb\",\n  \"inputPayload\": {\n    \"path\": \"src/hex.js\",\n    \"searchAnchor\": \"function parseHex(h) {\\n  if (h.length === 4) return undefined;\\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\\n}\\n\\nmodule.exports = { parseHex };\\n\",\n    \"replacementText\": \"function parseHex(h) {\\n  if (h.length === 4) return undefined;\\n  return [parseInt(h.slice(1,3), 16), parseInt(h.slice(3,5), 16), parseInt(h.slice(5,7), 16)];\\n}\\n\\nmodule.exports = { parseHex };\\n\\n// Additional code here\"\n  }\n}"
+    },
+    {
+      "stepNumber": 5,
+      "timestamp": "2026-10-26T21:21:04.315Z",
+      "durationMs": 139597,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "870b6c3d-9558-472c-a012-6f77285c8828",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/hex.js",
+        "searchAnchor": "function hexToDecimal(hex) {",
+        "replacementText": "function hexToDecimal(hex) { return parseInt(hex, 16); }",
+        "allowMultipleMatches": false
+      },
+      "actionId": "40c2393b-9364-423c-8f2e-c3ec8a696ca4",
+      "actionStatus": "FAILED",
+      "executionError": {
+        "code": "TOOL_EXECUTION_FAILED",
+        "category": "execution",
+        "message": "Tool 'edit_file' execution failed: Search anchor not found in src/hex.js: 0 occurrences matched 'function hexToDecimal(hex) {'"
+      },
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"870b6c3d-9558-472c-a012-6f77285c8828\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"cec0e8417022a226b3be120bb5d540d7b121cabcee547682802e45a873886de0\",\n  \"inputPayload\": {\n    \"path\": \"src/hex.js\",\n    \"searchAnchor\": \"function hexToDecimal(hex) {\",\n    \"replacementText\": \"function hexToDecimal(hex) { return parseInt(hex, 16); }\"\n  }\n}"
+    },
+    {
+      "stepNumber": 6,
+      "timestamp": "2026-10-26T21:23:23.917Z",
+      "durationMs": 154051,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": false,
+      "proposalId": "40c2393b-9364-423c-8f2e-c3ec8a696ca4",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/hex.js",
+        "searchAnchor": "function hexToDecimal(hex) {",
+        "replacementText": "function hexToDecimal(hex) { return parseInt(hex, 16); }"
+      },
+      "rejectionReason": "REPEATED_FAILED_ANCHOR_DISALLOWED",
+      "rejectionMessage": "edit_file proposal rejected: The searchAnchor has already failed in 'src/hex.js' (missing or ambiguous) and no fresh successful read of the file has occurred since the failure. Re-read the file using 'read_file' to obtain current literal source text before proposing edits.",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"40c2393b-9364-423c-8f2e-c3ec8a696ca4\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"940a553dbf979fba0321fba929884168a9d17b0691789f096347997b60c0899c\",\n  \"inputPayload\": {\n    \"path\": \"src/hex.js\",\n    \"searchAnchor\": \"function hexToDecimal(hex) {\",\n    \"replacementText\": \"function hexToDecimal(hex) { return parseInt(hex, 16); }\"\n  }\n}"
+    }
+  ]
+}

@@ -1,0 +1,426 @@
+{
+  "phase": "Phase 47D",
+  "task": "EAF-BM-01",
+  "taskTitle": "Core Arithmetic Off-by-One Fix",
+  "classification": "REPAIR_FAILED",
+  "model": {
+    "name": "qwen2.5-coder:1.5b",
+    "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameters": "1.5B",
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "endpoint": "http://127.0.0.1:11434"
+  },
+  "timing": {
+    "startedAt": "2026-10-26T16:32:44.441Z",
+    "completedAt": "2026-10-26T16:41:01.177Z",
+    "wallClockDurationMs": 496733
+  },
+  "configuration": {
+    "governedBenchmarkRepairMode": true,
+    "allowWholeFileReplacement": false,
+    "maxSteps": 8,
+    "maxWallClockMs": 720000,
+    "maxProposalRejections": 3,
+    "maxConsecutiveIneffectiveEdits": 3,
+    "dynamicToolFiltering": true,
+    "intermediateTestFeedback": true,
+    "toolsEnabled": [
+      "read_file",
+      "write_file",
+      "edit_file",
+      "run_command",
+      "search_code",
+      "git_status",
+      "git_diff"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 6,
+    "modelFailures": 0,
+    "promptTokens": 12731,
+    "evalTokens": 997,
+    "totalTokens": 13728
+  },
+  "execution": {
+    "verified": false,
+    "terminalStatus": "FAILED",
+    "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+    "totalSteps": 6,
+    "totalActions": 3,
+    "totalProposalRejections": 3,
+    "readActionsCount": 1,
+    "writeActionsCount": 3,
+    "editActionsCount": 2
+  },
+  "governedEditingTelemetry": {
+    "editFileAttemptsCount": 2,
+    "editFileAcceptedCount": 2,
+    "editFileRejectedCount": 0,
+    "writeFileAttemptsCount": 3,
+    "writeFileExistingDenialsCount": 0,
+    "writeFileNewAllowedCount": 0,
+    "disallowedFileOverwriteDenials": [],
+    "anchorFailuresCount": 0,
+    "ambiguousAnchorsCount": 0
+  },
+  "stageProgression": {
+    "stageA_proposal": {
+      "proposedEditFile": true,
+      "editProposalsCount": 2
+    },
+    "stageB_mutation": {
+      "appliedSuccessfully": false,
+      "targetFile": "src/calc.js",
+      "initialHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "finalHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "goldHash": "4da0696dcd9f68c3a4157dd7ba7cdfbd85f19efb878b4e380af81b13ee65f2d4",
+      "candidateMatchesGold": false,
+      "targetFileModified": false,
+      "unrelatedFilesPreserved": false,
+      "finalTargetFileContent": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+    },
+    "stageC_verification": {
+      "cleanRoomStatus": "NONE",
+      "cleanRoomVerified": false,
+      "f2pPass": false,
+      "p2pPass": false
+    },
+    "stageD_evidence": {
+      "bundleId": "722bf49b466defb9721830d86da3d2c294d03a219472ee46c3b7393765dcd2c2",
+      "signaturesCount": 2,
+      "eventsCount": 32,
+      "offlineAuditStatus": "VERIFIED",
+      "thresholdSatisfied": true,
+      "fourfoldSatisfied": false,
+      "auditFailures": []
+    }
+  },
+  "cleanRoomVerification": null,
+  "evidenceBundle": {
+    "bundleId": "722bf49b466defb9721830d86da3d2c294d03a219472ee46c3b7393765dcd2c2",
+    "provenanceRoot": "0686e0acd4d4eed381085e7dc2f9210c8329ac886dd2fb36641a522812b466c0",
+    "signaturesCount": 2,
+    "eventsCount": 32
+  },
+  "offlineAudit": {
+    "status": "VERIFIED",
+    "thresholdSatisfied": true,
+    "fourfoldSatisfied": false,
+    "failures": []
+  },
+  "comparisonWithHistoricalTrials": {
+    "phase44d": {
+      "configuration": "Static 7-branch schema, ungrounded task context, no edit_file, no stagnation control",
+      "behavior": "Repeated read_file 5 times",
+      "terminalStatus": "TIMED_OUT",
+      "terminalReason": "MAX_STEPS",
+      "steps": 5,
+      "actions": 5,
+      "editActions": 0,
+      "writeActions": 0,
+      "verified": false
+    },
+    "phase45c": {
+      "configuration": "Static 7-branch schema, grounded defect context, read stagnation advisory",
+      "behavior": "Repeated read_file 3 times, halted by stagnation advisory",
+      "terminalStatus": "FAILED",
+      "terminalReason": "STAGNATION",
+      "steps": 3,
+      "actions": 3,
+      "editActions": 0,
+      "writeActions": 0,
+      "verified": false
+    },
+    "phase46c": {
+      "configuration": "Dynamic schema filtering, whole-file write_file permitted",
+      "behavior": "1 read, followed by full-file write_file attempts (syntax error console.log(42))",
+      "terminalStatus": "FAILED",
+      "terminalReason": "VERIFICATION_FAILED",
+      "steps": 5,
+      "actions": 5,
+      "editActions": 0,
+      "writeActions": 4,
+      "verified": false
+    },
+    "phase47b": {
+      "configuration": "Dynamic schema filtering + edit_file + intermediate test feedback + edit stagnation",
+      "behavior": "1 read, 3 whole-file writes (failed F2P and broke P2P), terminated by stagnation",
+      "terminalStatus": "FAILED",
+      "terminalReason": "STAGNATION",
+      "steps": 4,
+      "actions": 4,
+      "editActions": 0,
+      "writeActions": 3,
+      "verified": false
+    },
+    "phase47d": {
+      "configuration": "Phase 47C Governed Overwrite Policy + Dynamic tool filtering + edit_file + intermediate test feedback",
+      "behavior": "1 reads, 2 edits, 3 writes, steps=6, terminalReason=MAX_PROPOSAL_REJECTIONS",
+      "terminalStatus": "FAILED",
+      "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+      "steps": 6,
+      "actions": 3,
+      "editActions": 2,
+      "writeActions": 3,
+      "overwriteRejectionsCount": 0,
+      "verified": false
+    }
+  },
+  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1793032364464-xvxL3M",
+  "diagnostics": {
+    "stepDiagnostics": [
+      {
+        "stepNumber": 1,
+        "timestamp": "2026-10-26T16:32:44.661Z",
+        "durationMs": 97108,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": true,
+        "proposalId": "action-1",
+        "toolName": "read_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "offsetLine": 1,
+          "limitLines": 500
+        },
+        "actionId": "de88d425-46b8-4302-bff3-6f5872ee90a5",
+        "actionStatus": "SUCCEEDED",
+        "eligibleTools": [
+          "read_file",
+          "write_file",
+          "search_code",
+          "git_status",
+          "git_diff",
+          "run_command",
+          "edit_file"
+        ],
+        "filteredTools": [],
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"20ed2c8ab17950d7f9ba4d1f8e9a2ec2d94e461c855cb9cf859dd13a728ec2c4\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
+      },
+      {
+        "stepNumber": 2,
+        "timestamp": "2026-10-26T16:34:21.770Z",
+        "durationMs": 79215,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": false,
+        "proposalId": "1234567890",
+        "toolName": "write_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "content": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+        },
+        "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+        "rejectionMessage": "Direct overwrite of existing file 'src/calc.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+        "eligibleTools": [
+          "write_file",
+          "search_code",
+          "git_status",
+          "git_diff",
+          "run_command",
+          "edit_file"
+        ],
+        "filteredTools": [
+          "read_file"
+        ],
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"a3d07f57129e728881e9ab0d9dde452059096f1cabd727cf536145975a7c812e\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
+      },
+      {
+        "stepNumber": 3,
+        "timestamp": "2026-10-26T16:35:41.010Z",
+        "durationMs": 75229,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": true,
+        "proposalId": "1234567890",
+        "toolName": "edit_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "searchAnchor": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+          "replacementText": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+          "allowMultipleMatches": false
+        },
+        "actionId": "4a781a6a-2989-40ca-a9e4-b1fa4f14eef8",
+        "actionStatus": "SUCCEEDED",
+        "eligibleTools": [
+          "write_file",
+          "search_code",
+          "git_status",
+          "git_diff",
+          "run_command",
+          "edit_file"
+        ],
+        "filteredTools": [
+          "read_file"
+        ],
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"8135bf598b209fd813f64e52ff9d1751873f48fb580f531c8bef44e397e88450\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\",\n    \"replacementText\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
+      },
+      {
+        "stepNumber": 4,
+        "timestamp": "2026-10-26T16:36:56.243Z",
+        "durationMs": 84778,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": false,
+        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+        "toolName": "write_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "content": "console.log(42);"
+        },
+        "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+        "rejectionMessage": "Direct overwrite of existing file 'src/calc.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+        "eligibleTools": [
+          "read_file",
+          "write_file",
+          "search_code",
+          "git_status",
+          "git_diff",
+          "run_command",
+          "edit_file"
+        ],
+        "filteredTools": [],
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"61afab4256b80923f3434a32568a27ddf6c67e1b5ba910f2263123b34f994856\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"console.log(42);\"\n  }\n}"
+      },
+      {
+        "stepNumber": 5,
+        "timestamp": "2026-10-26T16:38:21.026Z",
+        "durationMs": 78301,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": true,
+        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+        "toolName": "edit_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "searchAnchor": "line:10",
+          "replacementText": "console.log('Hello, world!');",
+          "allowMultipleMatches": false
+        },
+        "actionId": "11e18ed0-43d7-4098-9e77-49241b26655a",
+        "actionStatus": "FAILED",
+        "eligibleTools": [
+          "read_file",
+          "write_file",
+          "search_code",
+          "git_status",
+          "git_diff",
+          "run_command",
+          "edit_file"
+        ],
+        "filteredTools": [],
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"71b90bfa00cdbd27548231c08589c6a47c68c9a6c040041d525a6b9af1ec6ec6\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"line:10\",\n    \"replacementText\": \"console.log('Hello, world!');\"\n  }\n}"
+      },
+      {
+        "stepNumber": 6,
+        "timestamp": "2026-10-26T16:39:39.330Z",
+        "durationMs": 81607,
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": false,
+        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+        "toolName": "write_file",
+        "inputPayload": {
+          "path": "src/calc.js",
+          "content": "line:10"
+        },
+        "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+        "rejectionMessage": "Direct overwrite of existing file 'src/calc.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+        "eligibleTools": [
+          "read_file",
+          "write_file",
+          "search_code",
+          "git_status",
+          "git_diff",
+          "run_command",
+          "edit_file"
+        ],
+        "filteredTools": [],
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"043dc6f83298a9a23611f290d0c1ee4db731fc2a7e1b76c943d44b0401c01cc9\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"line:10\"\n  }\n}"
+      }
+    ],
+    "proposalRejections": [
+      {
+        "stepNumber": 2,
+        "proposalId": "1234567890",
+        "toolName": "write_file",
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": false,
+        "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+        "rejectionMessage": "Direct overwrite of existing file 'src/calc.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"a3d07f57129e728881e9ab0d9dde452059096f1cabd727cf536145975a7c812e\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
+      },
+      {
+        "stepNumber": 4,
+        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+        "toolName": "write_file",
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": false,
+        "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+        "rejectionMessage": "Direct overwrite of existing file 'src/calc.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"61afab4256b80923f3434a32568a27ddf6c67e1b5ba910f2263123b34f994856\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"console.log(42);\"\n  }\n}"
+      },
+      {
+        "stepNumber": 6,
+        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
+        "toolName": "write_file",
+        "finishReason": "ACTION_PROPOSED",
+        "proposalValid": false,
+        "rejectionReason": "DISALLOWED_FILE_OVERWRITE",
+        "rejectionMessage": "Direct overwrite of existing file 'src/calc.js' via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact line/anchor targeting or set allowWholeFileReplacement=true.",
+        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"043dc6f83298a9a23611f290d0c1ee4db731fc2a7e1b76c943d44b0401c01cc9\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"line:10\"\n  }\n}"
+      }
+    ],
+    "rawCompletions": [
+      {
+        "callIndex": 1,
+        "durationMs": 97012,
+        "promptTokens": 2481,
+        "evalTokens": 114,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"20ed2c8ab17950d7f9ba4d1f8e9a2ec2d94e461c855cb9cf859dd13a728ec2c4\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
+        "truncated": false,
+        "originalLength": 227
+      },
+      {
+        "callIndex": 2,
+        "durationMs": 79112,
+        "promptTokens": 2050,
+        "evalTokens": 178,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"a3d07f57129e728881e9ab0d9dde452059096f1cabd727cf536145975a7c812e\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}",
+        "truncated": false,
+        "originalLength": 383
+      },
+      {
+        "callIndex": 3,
+        "durationMs": 74866,
+        "promptTokens": 2050,
+        "evalTokens": 235,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"1234567890\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"8135bf598b209fd813f64e52ff9d1751873f48fb580f531c8bef44e397e88450\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\",\n    \"replacementText\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}",
+        "truncated": false,
+        "originalLength": 548
+      },
+      {
+        "callIndex": 4,
+        "durationMs": 84739,
+        "promptTokens": 2050,
+        "evalTokens": 153,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"61afab4256b80923f3434a32568a27ddf6c67e1b5ba910f2263123b34f994856\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"console.log(42);\"\n  }\n}",
+        "truncated": false,
+        "originalLength": 291
+      },
+      {
+        "callIndex": 5,
+        "durationMs": 78121,
+        "promptTokens": 2050,
+        "evalTokens": 166,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"71b90bfa00cdbd27548231c08589c6a47c68c9a6c040041d525a6b9af1ec6ec6\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"line:10\",\n    \"replacementText\": \"console.log('Hello, world!');\"\n  }\n}",
+        "truncated": false,
+        "originalLength": 342
+      },
+      {
+        "callIndex": 6,
+        "durationMs": 81507,
+        "promptTokens": 2050,
+        "evalTokens": 151,
+        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"043dc6f83298a9a23611f290d0c1ee4db731fc2a7e1b76c943d44b0401c01cc9\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"line:10\"\n  }\n}",
+        "truncated": false,
+        "originalLength": 282
+      }
+    ]
+  }
+}

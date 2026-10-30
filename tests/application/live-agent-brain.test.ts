@@ -1174,7 +1174,7 @@ describe("LiveAgentBrain — Provider-Neutral Agent Brain Bridge (Phase 6.2)", (
       const schema = ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA.jsonSchema as any;
       expect(schema.anyOf).toBeDefined();
       expect(Array.isArray(schema.anyOf)).toBe(true);
-      expect(schema.anyOf.length).toBe(2);
+      expect(schema.anyOf.length).toBe(7);
 
       // Branch 1: GoalReachedProposal
       const goalBranch = schema.anyOf[0];
@@ -1189,19 +1189,37 @@ describe("LiveAgentBrain — Provider-Neutral Agent Brain Bridge (Phase 6.2)", (
       expect(goalBranch.properties.toolName).toBeUndefined();
       expect(goalBranch.properties.inputPayload).toBeUndefined();
 
-      // Branch 2: ToolActionProposal
-      const toolBranch = schema.anyOf[1];
-      expect(toolBranch.type).toBe("object");
-      expect(toolBranch.properties.isGoalReached.enum).toEqual([false]);
-      expect(toolBranch.required).toEqual([
-        "isGoalReached",
-        "proposalId",
-        "toolName",
-        "inputPayload",
-        "contextSnapshotHash",
-      ]);
-      expect(toolBranch.additionalProperties).toBe(false);
-      expect(toolBranch.properties.toolName.enum).toBeDefined();
+      // Branches 2-7: ToolActionProposals per tool
+      const toolBranches = schema.anyOf.slice(1);
+      expect(toolBranches.length).toBe(6);
+
+      for (const branch of toolBranches) {
+        expect(branch.type).toBe("object");
+        expect(branch.properties.isGoalReached.enum).toEqual([false]);
+        expect(branch.required).toEqual([
+          "isGoalReached",
+          "proposalId",
+          "toolName",
+          "inputPayload",
+          "contextSnapshotHash",
+        ]);
+        expect(branch.additionalProperties).toBe(false);
+        expect(branch.properties.toolName.enum).toBeDefined();
+        expect(branch.properties.inputPayload.type).toBe("object");
+        expect(branch.properties.inputPayload.additionalProperties).toBe(false);
+      }
+
+      // Check specific tool constraints
+      const readBranch = toolBranches.find((b: any) => b.properties.toolName.enum[0] === "read_file");
+      expect(readBranch).toBeDefined();
+      expect(readBranch.properties.inputPayload.properties.path).toBeDefined();
+      expect(readBranch.properties.inputPayload.properties.filePath).toBeUndefined();
+      expect(readBranch.properties.inputPayload.required).toEqual(["path"]);
+
+      const writeBranch = toolBranches.find((b: any) => b.properties.toolName.enum[0] === "write_file");
+      expect(writeBranch).toBeDefined();
+      expect(writeBranch.properties.inputPayload.properties.content).toBeDefined();
+      expect(writeBranch.properties.inputPayload.required).toEqual(["path", "content"]);
     });
 
     it("44. valid goal-completion proposal returns GOAL_REACHED", async () => {
@@ -1544,6 +1562,140 @@ describe("LiveAgentBrain — Provider-Neutral Agent Brain Bridge (Phase 6.2)", (
       expect(result.error).toContain(
         "missing required boolean discriminator 'isGoalReached'"
       );
+    });
+  });
+
+  // --------------------------------------------------------------------------
+  // 13. Task-Context Contract & Progression Guidance (Phase 45B)
+  // --------------------------------------------------------------------------
+  describe("13. Task-Context Contract & Progression Guidance (Phase 45B)", () => {
+    it("56. includes Task Title and Task Objective & Criteria in prompt when MISSION_CONTEXT contains taskDetails", () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const missionObs = {
+        observationId: "obs-mission-contract",
+        category: "MISSION_CONTEXT" as const,
+        provenance: {
+          entityKind: "MissionContract" as const,
+          entityId: "contract-eaf-bm-01",
+          runId: "run-test-1",
+          timestamp: "2026-10-26T12:00:00.000Z",
+          isAuthoritativeRuntimeFact: true,
+        },
+        freshness: "CURRENT" as const,
+        priority: 90,
+        content: {
+          contractId: "contract-eaf-bm-01",
+          taskDetails: {
+            title: "Core Arithmetic Off-by-One Fix",
+            description: [
+              "Task: Core Arithmetic Off-by-One Fix",
+              "Category: CODE_NAVIGATION",
+              "Target File: src/calc.js",
+              "Allowed Modification Scope: src/calc.js",
+              "Objective: Repair the defect in 'src/calc.js'.",
+              "Verification Criteria:",
+              "- Verification test 'node test/f2p.test.js' must pass with exit code 0.",
+              "- Regression test 'node test/p2p.test.js' must pass with exit code 0.",
+            ].join("\n"),
+            inputPayload: {
+              taskId: "EAF-BM-01",
+              targetFile: "src/calc.js",
+            },
+          },
+        },
+        contentHash: "c".repeat(64),
+        estimatedTokens: 60,
+        estimatedBytes: 240,
+        isMandatory: true,
+      };
+
+      const baseReq = createTestBrainRequest();
+      const brainReq: AgentBrainRequest = {
+        ...baseReq,
+        contextSnapshot: {
+          ...baseReq.contextSnapshot,
+          observations: [...baseReq.contextSnapshot.observations, missionObs],
+        },
+      };
+
+      const modelReq = brain.buildModelRequest(brainReq);
+      const userContent = modelReq.input[1]!.content;
+
+      expect(userContent).toContain("- Task Title: Core Arithmetic Off-by-One Fix");
+      expect(userContent).toContain("### Task Objective & Criteria");
+      expect(userContent).toContain("Target File: src/calc.js");
+      expect(userContent).toContain("Verification test 'node test/f2p.test.js' must pass with exit code 0.");
+      expect(userContent).toContain("Regression test 'node test/p2p.test.js' must pass with exit code 0.");
+    });
+
+    it("57. preserves baseline prompt structure when MISSION_CONTEXT has generic navigation task without description", () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const missionObs = {
+        observationId: "obs-mission-generic",
+        category: "MISSION_CONTEXT" as const,
+        provenance: {
+          entityKind: "MissionContract" as const,
+          entityId: "contract-generic",
+          runId: "run-test-1",
+          timestamp: "2026-10-26T12:00:00.000Z",
+          isAuthoritativeRuntimeFact: true,
+        },
+        freshness: "CURRENT" as const,
+        priority: 90,
+        content: {
+          contractId: "contract-generic",
+          taskDetails: {
+            title: "Generic Navigation Task",
+            description: "",
+          },
+        },
+        contentHash: "d".repeat(64),
+        estimatedTokens: 20,
+        estimatedBytes: 80,
+        isMandatory: true,
+      };
+
+      const baseReq = createTestBrainRequest();
+      const brainReq: AgentBrainRequest = {
+        ...baseReq,
+        contextSnapshot: {
+          ...baseReq.contextSnapshot,
+          observations: [...baseReq.contextSnapshot.observations, missionObs],
+        },
+      };
+
+      const modelReq = brain.buildModelRequest(brainReq);
+      const userContent = modelReq.input[1]!.content;
+
+      expect(userContent).toContain("- Task Title: Generic Navigation Task");
+      expect(userContent).not.toContain("### Task Objective & Criteria");
+      expect(userContent).not.toContain("Repair the defect");
+    });
+
+    it("58. preserves baseline prompt structure when MISSION_CONTEXT is absent", () => {
+      const provider = new FakeModelProvider();
+      const brain = new LiveAgentBrain({
+        modelProvider: provider,
+        model: "test-model-1",
+      });
+
+      const brainReq = createTestBrainRequest();
+      const modelReq = brain.buildModelRequest(brainReq);
+      const userContent = modelReq.input[1]!.content;
+
+      expect(userContent).not.toContain("Task Title:");
+      expect(userContent).not.toContain("### Task Objective & Criteria");
+      expect(modelReq.generation?.structuredOutput?.name).toBe("action_proposal");
     });
   });
 });

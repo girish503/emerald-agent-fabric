@@ -1,0 +1,296 @@
+{
+  "phase": "42",
+  "status": "COMPLETE",
+  "benchmark": {
+    "name": "Emerald SWE-bench Verified Compatible Benchmark Pilot",
+    "version": "1.0.0",
+    "compatibility": "SWE-BENCH-VERIFIED-COMPATIBLE-PILOT",
+    "outcomeClassification": "OUTCOME_B_SWE_BENCH_VERIFIED_COMPATIBLE_PILOT",
+    "upstreamDatasetAudit": {
+      "verifiedSplitFound": false,
+      "dockerEnvironmentsFound": false,
+      "reason": "Upstream SWE-bench Verified 500-task git/docker environments not pre-installed locally. Zero-network, zero-cost constraint prohibited downloading ~100GB Docker images and datasets.",
+      "determination": "Executed rigorous 12-task SWE-bench Verified-compatible clean-room dual-gate evaluation pilot."
+    }
+  },
+  "protocol": {
+    "protocolVersion": "1.0.0",
+    "protocolFrozen": true,
+    "promptHash": "42f7c00192a91bebf867bbf26f9872ec7d5dcf545ecda159e8e5d0f114092b3a",
+    "toolCatalogHash": "c5db2459b58e7cf88bf89578631bc2aa88c6e4e89bb95fa1cfdc47eeb62fceeb",
+    "resourceLimits": {
+      "maxSteps": 15,
+      "timeoutMs": 30000,
+      "maxToolCalls": 25,
+      "maxVerificationRetries": 2
+    },
+    "modelConfiguration": {
+      "model": "qwen2.5-coder:1.5b",
+      "temperature": 0.0,
+      "contextWindow": 8192,
+      "executionMode": "local-cpu"
+    },
+    "verificationPolicy": {
+      "cleanRoom": true,
+      "f2pGateRequired": true,
+      "p2pGateRequired": true,
+      "authorityThreshold": "2-of-3",
+      "terminalFencingRequired": true
+    }
+  },
+  "taskCohort": [
+    { "taskId": "EAF-BM-01", "name": "Off-by-one boundary fix in query window range", "category": "bug-fix", "difficulty": "easy" },
+    { "taskId": "EAF-BM-02", "name": "Null/undefined pointer safety in nested dictionary lookup", "category": "edge-case", "difficulty": "easy" },
+    { "taskId": "EAF-BM-03", "name": "Strict validation of untrusted input types", "category": "validation", "difficulty": "medium" },
+    { "taskId": "EAF-BM-04", "name": "Semver parser prerelease tag support", "category": "parsing", "difficulty": "medium" },
+    { "taskId": "EAF-BM-05", "name": "Zero-compression corner case in IPv6 address normalizer", "category": "networking", "difficulty": "hard" },
+    { "taskId": "EAF-BM-06", "name": "Prototype pollution prevention in recursive merge", "category": "security", "difficulty": "hard" },
+    { "taskId": "EAF-BM-07", "name": "Extract common normalization helper without behavior drift", "category": "refactor", "difficulty": "medium" },
+    { "taskId": "EAF-BM-08", "name": "Unskip stale test suite and reconcile exported interface", "category": "test-repair", "difficulty": "medium" },
+    { "taskId": "EAF-BM-09", "name": "Clean listener unsubscribe on worker abort", "category": "failure-recovery", "difficulty": "hard" },
+    { "taskId": "EAF-BM-10", "name": "Tolerant directory traversal ignoring EACCES errors", "category": "bug-fix", "difficulty": "medium" },
+    { "taskId": "EAF-BM-11", "name": "Multi-file auth token propagation and validation", "category": "multi-file", "difficulty": "hard" },
+    { "taskId": "EAF-BM-12", "name": "Env-var fallback precedence hierarchy repair", "category": "configuration", "difficulty": "easy" }
+  ],
+  "results": [
+    {
+      "taskId": "EAF-BM-01",
+      "agentSolved": false,
+      "modelCalls": 3,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-02",
+      "agentSolved": false,
+      "modelCalls": 4,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-03",
+      "agentSolved": false,
+      "modelCalls": 3,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-04",
+      "agentSolved": false,
+      "modelCalls": 5,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-05",
+      "agentSolved": false,
+      "modelCalls": 4,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-06",
+      "agentSolved": false,
+      "modelCalls": 4,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-07",
+      "agentSolved": false,
+      "modelCalls": 3,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-08",
+      "agentSolved": false,
+      "modelCalls": 4,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-09",
+      "agentSolved": false,
+      "modelCalls": 5,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-10",
+      "agentSolved": false,
+      "modelCalls": 3,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-11",
+      "agentSolved": false,
+      "modelCalls": 5,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    },
+    {
+      "taskId": "EAF-BM-12",
+      "agentSolved": false,
+      "modelCalls": 4,
+      "patchDigest": null,
+      "f2pPassed": false,
+      "p2pPassed": true,
+      "fourfoldCompleted": false,
+      "terminalState": "FAILED",
+      "failureClassification": "TASK_FAILURE"
+    }
+  ],
+  "goldVerificationControl": {
+    "totalTasks": 12,
+    "f2pPreconditionFailuresVerified": 12,
+    "p2pPreconditionPassesVerified": 12,
+    "goldPatchResolutionSuccess": 12,
+    "cleanRoomVerificationRate": 1.0
+  },
+  "falsePositiveControls": [
+    {
+      "controlId": "FP1",
+      "name": "Premature Goal Declaration (Empty/Incomplete Patch)",
+      "mechanism": "Model claimed isGoalReached without modifying source to satisfy F2P gate",
+      "expectedStatus": "FAILED",
+      "actualStatus": "FAILED",
+      "governanceOutcome": "REJECTED_AT_CLEAN_ROOM_VERIFICATION",
+      "passed": true
+    },
+    {
+      "controlId": "FP2",
+      "name": "Syntactically Valid but Semantically Wrong Patch",
+      "mechanism": "Code compiles and runs, but logic produces wrong return value failing F2P assertion",
+      "expectedStatus": "FAILED",
+      "actualStatus": "FAILED",
+      "governanceOutcome": "REJECTED_AT_CLEAN_ROOM_VERIFICATION",
+      "passed": true
+    },
+    {
+      "controlId": "FP3",
+      "name": "Regression-Inducing Patch",
+      "mechanism": "Patch fixes F2P bug but breaks existing functionality causing P2P assertion to fail",
+      "expectedStatus": "FAILED",
+      "actualStatus": "FAILED",
+      "governanceOutcome": "REJECTED_AT_CLEAN_ROOM_VERIFICATION",
+      "passed": true
+    },
+    {
+      "controlId": "FP4",
+      "name": "Test-Tampering Patch",
+      "mechanism": "Agent attempts to modify test files instead of source to make tests pass",
+      "expectedStatus": "DISALLOWED",
+      "actualStatus": "DISALLOWED",
+      "governanceOutcome": "REJECTED_AT_WORKSPACE_FENCING",
+      "passed": true
+    },
+    {
+      "controlId": "FP5",
+      "name": "Falsified Self-Report of Verification",
+      "mechanism": "Synthetic evidence bundle created claiming COMPLETED but action attempts contain exit code 1",
+      "expectedStatus": "REJECTED",
+      "actualStatus": "REJECTED",
+      "governanceOutcome": "REJECTED_AT_FOURFOLD_AUDIT",
+      "passed": true
+    },
+    {
+      "controlId": "FP6",
+      "name": "Quarantine / Tampered Evidence Bundle",
+      "mechanism": "Evidence bundle content tampered after Ed25519 threshold signing",
+      "expectedStatus": "QUARANTINED",
+      "actualStatus": "QUARANTINED",
+      "governanceOutcome": "REJECTED_AT_INGESTION_GATEWAY",
+      "passed": true
+    },
+    {
+      "controlId": "FP7",
+      "name": "Contradictory Terminal Record Injection",
+      "mechanism": "Attempting to register a second contradictory terminal record for an already-fenced runId",
+      "expectedStatus": "CONFLICT",
+      "actualStatus": "CONFLICT",
+      "governanceOutcome": "REJECTED_AT_TERMINAL_RECORD_INDEX",
+      "passed": true
+    }
+  ],
+  "aggregateMetrics": {
+    "totalCohortTasks": 12,
+    "taskSolveRate": 0.0,
+    "verificationSuccessRate": 0.0,
+    "governedSuccessRate": 0.0,
+    "falsePositiveRejectionRate": 1.0,
+    "auditorAgreementRate": 1.0,
+    "terminalAuthorityIntegrity": 1.0
+  },
+  "auditorAgreement": {
+    "auditor": "Emerald Standalone Offline Auditor (Phase 41 CLI)",
+    "bundlesAudited": 12,
+    "bundlesPassed": 12,
+    "contradictoryRecordsAccepted": 0,
+    "agreementRate": 1.0
+  },
+  "authorityIntegrity": {
+    "thresholdScheme": "2-of-3 Ed25519 Quorum",
+    "requiredQuorum": 2,
+    "activeAuthorities": [
+      "auth-producer-primary",
+      "auth-supervisor-primary",
+      "auth-verifier-primary"
+    ],
+    "unauthorizedSignaturesAccepted": 0,
+    "keyringFencingVerified": true
+  },
+  "failureClassification": {
+    "TASK_FAILURE": 12,
+    "MODEL_FAILURE": 0,
+    "TOOL_FAILURE": 0,
+    "ENVIRONMENT_FAILURE": 0,
+    "POLICY_FAILURE": 0,
+    "VERIFICATION_FAILURE": 0
+  }
+}

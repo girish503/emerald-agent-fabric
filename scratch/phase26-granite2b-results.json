@@ -1,0 +1,157 @@
+{
+  "phase": "26",
+  "timestamp": "2026-10-18T09:52:18.121Z",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "name": "granite3-dense:2b",
+    "digest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+    "parameters": "2.63B",
+    "quantization": "Q4_K_M",
+    "size": "1.6 GB (1,601,931,868 bytes)",
+    "architecture": "granite",
+    "contextLength": 4096,
+    "license": "Apache License 2.0 (Permissive open-source, ₹0 cost)",
+    "category": "Native function/tool-calling open-weight model",
+    "provider": "ollama (local)"
+  },
+  "hardware": {
+    "cpu": "Intel Core i3-N305 (8 physical/logical E-cores, AVX2)",
+    "ramTotalMb": 7813,
+    "ramFreeMb": 1662,
+    "gpu": "Intel UHD Graphics (integrated, CPU-only execution)",
+    "ollamaVersion": "0.40.6",
+    "freeDiskGb": 194.05
+  },
+  "successLevel": {
+    "level": "LEVEL 0 — INFERENCE FAILURE",
+    "description": "No valid proposal produced within the 120,000ms ceiling."
+  },
+  "gateA": {
+    "inferenceDurationMs": 120053,
+    "responseStatus": "TIMEOUT",
+    "responseBytes": 0,
+    "promptBytes": 6978,
+    "contextBytes": 3300,
+    "proposalValid": false,
+    "selectedTool": null,
+    "rejectionReason": "CPU_INFERENCE_LATENCY_BOUNDARY",
+    "classification": "ENVIRONMENT_FAILURE",
+    "rawModelResponse": null,
+    "proposal": null
+  },
+  "gateB": {
+    "status": "NOT_RUN"
+  },
+  "recovery": {
+    "recoveryEvents": 0,
+    "recoverySuccesses": 0,
+    "repeatedIdenticalProposal": false,
+    "notes": "Gate B was not executed because Gate A failed."
+  },
+  "coding": {
+    "inspectedBeforeEdit": false,
+    "usedPathNotFilePath": false,
+    "preservedArgumentNames": false,
+    "respectedIntegerBounds": false,
+    "groundingNotes": "Gate A failed.",
+    "treatedMetadataAsInput": false,
+    "observationNotes": "No observation generated.",
+    "physicalMutationOccurred": false,
+    "correctMathRepair": false,
+    "preservedMultiply": false,
+    "patchSnippet": null
+  },
+  "verification": {
+    "cleanRoomReached": false,
+    "cleanRoomVerified": false,
+    "failToPass": null,
+    "passToPass": null,
+    "fourfoldPassed": false
+  },
+  "hypotheses": {
+    "H1": "NOT_SUPPORTED",
+    "H2": "NOT_TESTABLE",
+    "H3": "NOT_TESTABLE",
+    "H4": "NOT_TESTABLE",
+    "H5": "NOT_SUPPORTED"
+  },
+  "failureClassification": {
+    "primary": "ENVIRONMENT_FAILURE",
+    "primaryDescription": "Granite 2B inference exceeded the 120,000ms CPU feasibility boundary on the Intel i3-N305.",
+    "secondary": []
+  },
+  "comparison": [
+    {
+      "model": "gemma3:1b",
+      "params": "~1B",
+      "gateALatency": "57.4s",
+      "initialProposal": "Premature GOAL_REACHED",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Failed",
+      "finalStatus": "MODEL_SCHEMA_FAILURE"
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "params": "~1.5B",
+      "gateALatency": "69.4s",
+      "initialProposal": "write_file",
+      "mutation": "Yes",
+      "recovery": "No (6 rejections)",
+      "verification": "Not reached",
+      "finalStatus": "MODEL_RECOVERY_FAILURE"
+    },
+    {
+      "model": "qwen2.5-coder:1.5b",
+      "params": "~1.5B",
+      "gateALatency": "64.4s",
+      "initialProposal": "read_file",
+      "mutation": "No",
+      "recovery": "No (6 rejections)",
+      "verification": "Not reached",
+      "finalStatus": "MODEL_RECOVERY_FAILURE"
+    },
+    {
+      "model": "llama3.2:3b",
+      "params": "~3B",
+      "gateALatency": "119.0s",
+      "initialProposal": "read_file (invalid bounds)",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Not reached",
+      "finalStatus": "MODEL_SCHEMA_FAILURE"
+    },
+    {
+      "model": "qwen2.5:3b",
+      "params": "~3B",
+      "gateALatency": ">120.0s",
+      "initialProposal": "None (timeout)",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Not reached",
+      "finalStatus": "ENVIRONMENT_FAILURE"
+    },
+    {
+      "model": "qwen2.5-coder:3b",
+      "params": "~3B",
+      "gateALatency": "120.0s (timeout)",
+      "initialProposal": "None (timeout)",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Not reached",
+      "finalStatus": "ENVIRONMENT_FAILURE"
+    },
+    {
+      "model": "Granite 2B",
+      "params": "~2.6B",
+      "gateALatency": "120.1s",
+      "initialProposal": "None",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Not reached",
+      "finalStatus": "ENVIRONMENT_FAILURE"
+    }
+  ],
+  "conclusion": "Granite 2B evaluated at ~2.63B parameters failed Gate A feasibility with classification ENVIRONMENT_FAILURE (120.1s). The model could not produce a valid initial action proposal within the 120s feasibility ceiling on the Intel Core i3-N305.",
+  "nextExperiment": "Evaluate whether Granite 2B's latency is purely CPU-bound or if smaller sub-2B models with native tool training (e.g. smollm2:1.7b) can execute within budget."
+}

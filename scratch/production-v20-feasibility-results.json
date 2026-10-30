@@ -1,0 +1,197 @@
+{
+  "timestamp": "2026-10-22T10:00:00.000Z",
+  "harnessVersion": "production-v2.0",
+  "milestone": "Production V2.0: Existing-Model Repair Feasibility and Failure Attribution",
+  "gitHead": "7109911fa4488c5759000fe08c3a77895ed214f4",
+  "gitBranch": "master",
+  "hostHardware": {
+    "cpu": "Intel(R) Core(TM) i3-N305 (8 physical cores, 8 logical processors, 1.80 GHz)",
+    "gpu": "Intel(R) UHD Graphics (integrated, shared system RAM, 0 MB dedicated VRAM)",
+    "totalRamKb": 8000580,
+    "totalRamGb": 7.63,
+    "freeRamKb": 1367520,
+    "freeRamGb": 1.30,
+    "ramUtilizationPercent": 82.9
+  },
+  "failureAttributionMatrix": {
+    "calib-001": {
+      "taskName": "Fix payment authorization boolean flag",
+      "model": "qwen2.5-coder:3b",
+      "proposalsReceived": 3,
+      "schemaValidCount": 3,
+      "toolSelection": { "read_file": 2, "edit_file_anchor": 1 },
+      "earliestFailureCategory": 4,
+      "earliestFailureCategoryName": "Missing, ambiguous, or inaccurate edit anchor",
+      "earliestFailureStage": "STAGE_3_PATCH_APPLICATION",
+      "earliestFailureCode": "PATCH_SYNTAX_ERROR",
+      "decisiveReason": "searchAnchor string emitted by model failed exact verbatim matching in target file; fail-closed rejection without disk mutation",
+      "secondaryFailureCategory": 8,
+      "secondaryFailureCategoryName": "Invariant or test assertion failure on untouched code",
+      "sovereignVerifierOutcome": "FAIL (AssertionError: Valid transaction should be approved, false !== true)"
+    },
+    "calib-002": {
+      "taskName": "Implement numeric clamp within upper and lower bounds",
+      "model": "qwen2.5-coder:3b",
+      "proposalsReceived": 4,
+      "schemaValidCount": 4,
+      "toolSelection": { "read_file": 3, "edit_file_anchor": 1 },
+      "earliestFailureCategory": 4,
+      "earliestFailureCategoryName": "Missing, ambiguous, or inaccurate edit anchor",
+      "earliestFailureStage": "STAGE_3_PATCH_APPLICATION",
+      "earliestFailureCode": "PATCH_SYNTAX_ERROR",
+      "decisiveReason": "searchAnchor string emitted by model failed exact verbatim matching in target file; fail-closed rejection without disk mutation",
+      "secondaryFailureCategory": 8,
+      "secondaryFailureCategoryName": "Invariant or test assertion failure on untouched code",
+      "sovereignVerifierOutcome": "FAIL (AssertionError: Below min should return min, -5 !== 0)"
+    },
+    "calib-003": {
+      "taskName": "Fix off-by-one and empty array handling in averageScore",
+      "model": "qwen2.5-coder:3b",
+      "proposalsReceived": 2,
+      "schemaValidCount": 2,
+      "toolSelection": { "read_file": 1, "edit_file_anchor": 1 },
+      "earliestFailureCategory": 4,
+      "earliestFailureCategoryName": "Missing, ambiguous, or inaccurate edit anchor",
+      "earliestFailureStage": "STAGE_3_PATCH_APPLICATION",
+      "earliestFailureCode": "PATCH_SYNTAX_ERROR",
+      "decisiveReason": "searchAnchor string emitted by model failed exact verbatim matching in target file; fail-closed rejection without disk mutation",
+      "secondaryFailureCategory": 8,
+      "secondaryFailureCategoryName": "Invariant or test assertion failure on untouched code",
+      "sovereignVerifierOutcome": "FAIL (AssertionError: Empty array must return 0, -0 !== 0)"
+    },
+    "calib-004": {
+      "taskName": "Implement run-length string encoding",
+      "model": "qwen2.5-coder:3b",
+      "proposalsReceived": 4,
+      "schemaValidCount": 3,
+      "toolSelection": { "read_file": 3 },
+      "earliestFailureCategory": 3,
+      "earliestFailureCategoryName": "Wrong tool selected / repetitive exploration without edit proposal",
+      "earliestFailureStage": "STAGE_3_PATCH_APPLICATION",
+      "earliestFailureCode": "PATCH_SYNTAX_ERROR",
+      "decisiveReason": "Model exhausted step budget calling read_file without formulating an edit proposal",
+      "secondaryFailureCategory": 8,
+      "secondaryFailureCategoryName": "Invariant or test assertion failure on untouched code",
+      "sovereignVerifierOutcome": "FAIL (AssertionError: Single char should be 1A, 'A' !== '1A')"
+    },
+    "calib-005": {
+      "taskName": "Coordinated API version update across configuration and header formatting",
+      "model": "qwen2.5-coder:3b",
+      "proposalsReceived": 2,
+      "schemaValidCount": 2,
+      "toolSelection": { "read_file": 1, "edit_file_anchor": 1 },
+      "earliestFailureCategory": 4,
+      "earliestFailureCategoryName": "Missing, ambiguous, or inaccurate edit anchor",
+      "earliestFailureStage": "STAGE_3_PATCH_APPLICATION",
+      "earliestFailureCode": "PATCH_SYNTAX_ERROR",
+      "decisiveReason": "searchAnchor string emitted by model failed exact verbatim matching in target file; fail-closed rejection without disk mutation",
+      "secondaryFailureCategory": 8,
+      "secondaryFailureCategoryName": "Invariant or test assertion failure on untouched code",
+      "sovereignVerifierOutcome": "FAIL (AssertionError: API_VERSION must be updated to v2, 'v1' !== 'v2')"
+    }
+  },
+  "installedModelFeasibilityMatrix": [
+    {
+      "modelName": "qwen2.5-coder:3b",
+      "sizeOnDisk": "1.9 GB",
+      "parameterCount": "3B",
+      "codingSpecialized": true,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "Current baseline; best instruction and coding performance under 4B parameters; exhibits verbatim anchor mismatch errors",
+      "recommendation": "MAINTAIN_BASELINE"
+    },
+    {
+      "modelName": "qwen2.5-coder:1.5b",
+      "sizeOnDisk": "986 MB",
+      "parameterCount": "1.5B",
+      "codingSpecialized": true,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "Evaluated in Phase 23; strictly inferior coding and instruction-following capability compared to 3B model",
+      "recommendation": "REJECT_INFERIOR"
+    },
+    {
+      "modelName": "granite3-dense:2b",
+      "sizeOnDisk": "1.6 GB",
+      "parameterCount": "2B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "Evaluated in Phase 26; general-purpose dense model; inferior structured JSON schema compliance and coding capabilities",
+      "recommendation": "REJECT_INFERIOR"
+    },
+    {
+      "modelName": "smollm2:1.7b",
+      "sizeOnDisk": "1.8 GB",
+      "parameterCount": "1.7B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "Evaluated in Phase 28; small general model; high hallucination and schema invalidity rates",
+      "recommendation": "REJECT_INFERIOR"
+    },
+    {
+      "modelName": "gemma3:1b",
+      "sizeOnDisk": "815 MB",
+      "parameterCount": "1B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "Evaluated in Phase 19; ultra-compact model; incapable of multi-step tool reasoning or verbatim anchor extraction",
+      "recommendation": "REJECT_INFERIOR"
+    },
+    {
+      "modelName": "gemma3:latest",
+      "sizeOnDisk": "3.3 GB",
+      "parameterCount": "4B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "MARGINAL_SWAP_RISK",
+      "comparativeAssessment": "General multimodal/chat model; not specialized for code repair; requires >3.5 GB RAM which exceeds 1.30 GB free RAM",
+      "recommendation": "REJECT_UNSUITABLE"
+    },
+    {
+      "modelName": "llama3.2:3b",
+      "sizeOnDisk": "2.0 GB",
+      "parameterCount": "3B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "Generalist language model; benchmark coding scores (HumanEval/MBPP) substantially lower than Qwen2.5-Coder:3B",
+      "recommendation": "REJECT_INFERIOR"
+    },
+    {
+      "modelName": "qwen3:4b",
+      "sizeOnDisk": "2.5 GB",
+      "parameterCount": "4B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "MARGINAL_SWAP_RISK",
+      "comparativeAssessment": "General conversational model; lacks code repair instruction tuning; memory pressure exceeds free physical RAM",
+      "recommendation": "REJECT_UNSUITABLE"
+    },
+    {
+      "modelName": "qwen2.5:3b",
+      "sizeOnDisk": "1.9 GB",
+      "parameterCount": "3B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "General language variant of Qwen2.5; strictly inferior to qwen2.5-coder:3b on code synthesis and repair",
+      "recommendation": "REJECT_INFERIOR"
+    },
+    {
+      "modelName": "qwen2.5:1.5b",
+      "sizeOnDisk": "986 MB",
+      "parameterCount": "1.5B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "FEASIBLE",
+      "comparativeAssessment": "General language 1.5B variant; inferior to both 3B general and 1.5B coder models",
+      "recommendation": "REJECT_INFERIOR"
+    },
+    {
+      "modelName": "deepseek-r1:8b",
+      "sizeOnDisk": "5.2 GB",
+      "parameterCount": "8B",
+      "codingSpecialized": false,
+      "memoryFeasibility": "INFEASIBLE_OOM",
+      "comparativeAssessment": "5.2 GB disk size requires >6.5 GB RAM during inference; host has only 1.30 GB free RAM out of 7.63 GB total; loading triggers severe paging or OS OOM crash",
+      "recommendation": "REJECT_INFEASIBLE"
+    }
+  ],
+  "decision": "FAILURE_ATTRIBUTION_ESTABLISHED",
+  "secondaryDecision": "NO_JUSTIFIED_CODE_CHANGE",
+  "decisionReason": "Earliest failure attribution is definitively established as Category 4 (missing/inaccurate edit anchor). Structured proposal decoding (V1.8) eliminated parse failures, but qwen2.5-coder:3b cannot reliably emit verbatim character matches for searchAnchor. No installed model provides superior coding capability within host memory constraints (7.63 GB total, 1.30 GB free). Weakening anchor invariants is forbidden by capability fencing and security policy. Therefore, no code change is causally justified."
+}

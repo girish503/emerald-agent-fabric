@@ -1,0 +1,129 @@
+{
+  "phase": "Phase 48H",
+  "task": "EAF-BM-01",
+  "taskTitle": "Core Arithmetic Off-by-One Fix",
+  "classification": "REPAIR_FAILED",
+  "model": {
+    "name": "qwen2.5-coder:3b",
+    "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+    "parameters": "3.1B",
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "endpoint": "http://127.0.0.1:11434"
+  },
+  "timing": {
+    "startedAt": "2026-10-26T16:55:48.021Z",
+    "completedAt": "2026-10-26T16:57:48.552Z",
+    "wallClockDurationMs": 120527
+  },
+  "configuration": {
+    "governedBenchmarkRepairMode": true,
+    "allowWholeFileReplacement": false,
+    "maxSteps": 8,
+    "maxWallClockMs": 720000,
+    "maxProposalRejections": 3,
+    "maxConsecutiveIneffectiveEdits": 3,
+    "dynamicToolFiltering": true,
+    "intermediateTestFeedback": true,
+    "sourceGroundedVerificationContext": true,
+    "failedAnchorGuard": true,
+    "zeroMatchSearchRecovery": true,
+    "wholeFileNoOpGuidance": true,
+    "duplicateProposalGuard": true,
+    "toolsEnabled": [
+      "read_file",
+      "write_file",
+      "edit_file",
+      "run_command",
+      "search_code",
+      "git_status",
+      "git_diff"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 1,
+    "modelFailures": 1,
+    "promptTokens": null,
+    "evalTokens": null,
+    "totalTokens": null
+  },
+  "execution": {
+    "verified": false,
+    "terminalStatus": "FAILED",
+    "terminalReason": "BRAIN_FAILURE",
+    "totalSteps": 1,
+    "totalActions": 0,
+    "totalProposalRejections": 0,
+    "readActionsCount": 0,
+    "writeActionsCount": 0,
+    "editActionsCount": 0
+  },
+  "governedEditingTelemetry": {
+    "editFileAttemptsCount": 0,
+    "editFileAcceptedCount": 0,
+    "editFileRejectedCount": 0,
+    "noopEditRejectionsCount": 0,
+    "duplicateProposalRejectionsCount": 0,
+    "repeatedFailedAnchorRejectionsCount": 0,
+    "repeatedProposalSubmitted": false,
+    "duplicateBlockedBeforeAdapter": true,
+    "writeFileAttemptsCount": 0,
+    "writeFileExistingDenialsCount": 0,
+    "writeFileNewAllowedCount": 0,
+    "disallowedFileOverwriteDenials": [],
+    "noopEditDenials": [],
+    "duplicateProposalDenials": [],
+    "repeatedFailedAnchorDenials": [],
+    "anchorFailuresCount": 0,
+    "ambiguousAnchorsCount": 0,
+    "anchorDetails": []
+  },
+  "stageProgression": {
+    "stageA_proposal": {
+      "proposedEditFile": false,
+      "editProposalsCount": 0
+    },
+    "stageB_mutation": {
+      "appliedSuccessfully": false,
+      "targetFile": "src/calc.js",
+      "initialHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "finalHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "goldHash": "4da0696dcd9f68c3a4157dd7ba7cdfbd85f19efb878b4e380af81b13ee65f2d4",
+      "candidateMatchesGold": false,
+      "targetFileModified": false,
+      "unrelatedFilesPreserved": false,
+      "finalTargetFileContent": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+    },
+    "stageC_verification": {
+      "cleanRoomStatus": "NONE",
+      "cleanRoomVerified": false,
+      "f2pPass": false,
+      "p2pPass": false
+    },
+    "stageD_evidence": {
+      "bundleId": "579c39ca9b0c06dd8f277aced44b291804996111218ee06d6673cc4e7febd3f1",
+      "provenanceRoot": "b9f6fdf95516dc11defdc1eab85218dc8ced57830f922e07e09e3d35c647e63d",
+      "signaturesCount": 2,
+      "eventsCount": 5,
+      "offlineAuditStatus": "VERIFIED",
+      "thresholdSatisfied": true,
+      "fourfoldSatisfied": false,
+      "auditFailures": [],
+      "replayDerivedOutcome": "FAILED",
+      "fourfoldPredicates": {
+        "taskSatisfied": false,
+        "policySatisfied": true,
+        "verificationPassed": false,
+        "evidenceComplete": false
+      }
+    }
+  },
+  "stepTranscript": [
+    {
+      "stepNumber": 1,
+      "timestamp": "2026-10-26T16:55:48.247Z",
+      "durationMs": 120156,
+      "proposalValid": false
+    }
+  ]
+}

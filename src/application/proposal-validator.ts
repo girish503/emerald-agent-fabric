@@ -17,6 +17,8 @@
 
 import { Buffer } from "node:buffer";
 import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
 import {
   ActionProposalSchema,
   ALLOWED_PROPOSAL_KEYS,
@@ -40,6 +42,7 @@ import { MissionContractStorePort } from "../ports/mission-contract-store.port.j
 import { StateStorePort } from "../ports/state-store.port.js";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
 import { RunCoordinator } from "./run-coordinator.js";
+import { isOversizedWholeFileAnchor } from "./duplicate-proposal-detector.js";
 
 export interface ProposalValidatorOptions {
   readonly toolRegistry?: ToolRegistryPort;
@@ -57,6 +60,23 @@ export interface ProposalValidationContext {
   readonly leaseId?: string;
   readonly run?: RunSnapshot;
   readonly contract?: MissionContract;
+  readonly workspaceHostPath?: string;
+  readonly fileExistsChecker?: (relPath: string) => boolean;
+  readonly fileContentReader?: (relPath: string) => string | null;
+  readonly failedAnchorChecker?: (relPath: string, searchAnchor: string) => boolean;
+  readonly duplicateProposalChecker?: (
+    toolName: string,
+    inputPayload: unknown
+  ) => { isDuplicate: boolean; priorStep?: number; priorReason?: string } | boolean;
+  readonly ineffectiveMutationChecker?: (
+    toolName: string,
+    inputPayload: unknown,
+    targetPath?: string
+  ) => { isIneffective: boolean; priorStep?: number; reason?: string } | boolean;
+  readonly postPassMutationChecker?: (
+    toolName: string,
+    targetPath?: string
+  ) => { prohibited: boolean; reason?: string } | boolean;
 }
 
 export interface CreateActionFromProposalOptions {
@@ -339,7 +359,232 @@ export class ProposalValidator {
     const validatedInput = inputParseResult.data as Record<string, unknown>;
 
     // ------------------------------------------------------------------------
-    // Stage 10: Resource Ceiling Bounds Check
+    // Stage 10: Path Traversal & Workspace Containment Checks
+    // ------------------------------------------------------------------------
+    const targetFilePath = typeof (validatedInput as any).path === "string"
+      ? ((validatedInput as any).path as string).trim()
+      : undefined;
+
+    if (targetFilePath !== undefined && context.workspaceHostPath) {
+      const normalizedHost = path.resolve(context.workspaceHostPath);
+      const resolvedTarget = path.resolve(normalizedHost, targetFilePath);
+      const rel = path.relative(normalizedHost, resolvedTarget);
+      if (
+        rel.startsWith("..") ||
+        (path.isAbsolute(targetFilePath) && !resolvedTarget.startsWith(normalizedHost))
+      ) {
+        return {
+          valid: false,
+          reason: "INVALID_TOOL_INPUT",
+          message: `Target path '${targetFilePath}' attempts to escape workspace boundary.`,
+        };
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Stage 10b: Governed Duplicate Rejected Proposal Prevention
+    // ------------------------------------------------------------------------
+    if (context.duplicateProposalChecker) {
+      const dupCheck = context.duplicateProposalChecker(
+        actionProposal.toolName,
+        actionProposal.inputPayload ?? validatedInput
+      );
+      const isDup = typeof dupCheck === "boolean" ? dupCheck : dupCheck?.isDuplicate;
+      if (isDup) {
+        const priorInfo =
+          typeof dupCheck === "object" && dupCheck.priorStep
+            ? ` at step ${dupCheck.priorStep}${dupCheck.priorReason ? ` (${dupCheck.priorReason})` : ""}`
+            : "";
+        return {
+          valid: false,
+          reason: "DUPLICATE_PROPOSAL_DISALLOWED",
+          message: `Proposal for tool '${actionProposal.toolName}' rejected: An identical proposal was already rejected${priorInfo} without any intervening successful actions or state changes. Propose a different action or modify input parameters.`,
+        };
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Stage 11: Governed Benchmark Repair Policy Check (File Overwrite Prevention)
+    // ------------------------------------------------------------------------
+    if (
+      actionProposal.toolName === "write_file" &&
+      targetFilePath !== undefined &&
+      contract.spec.policy.governedBenchmarkRepairMode &&
+      !contract.spec.policy.allowWholeFileReplacement
+    ) {
+      const editFileDef = this.toolRegistry.getTool("edit_file");
+      const editFileDecision = editFileDef
+        ? this.policyEvaluator.evaluateCapability(editFileDef.requiredCapability, contract.spec.policy)
+        : { allowed: false };
+      const isEditFileAvailableAndAuthorized = Boolean(editFileDef && editFileDecision.allowed);
+
+      if (isEditFileAvailableAndAuthorized) {
+        let fileExists = false;
+        if (context.fileExistsChecker) {
+          fileExists = context.fileExistsChecker(targetFilePath);
+        } else if (context.workspaceHostPath) {
+          try {
+            const normalizedHost = path.resolve(context.workspaceHostPath);
+            const resolvedTarget = path.resolve(normalizedHost, targetFilePath);
+            fileExists = fs.existsSync(resolvedTarget) && !fs.lstatSync(resolvedTarget).isDirectory();
+          } catch {
+            fileExists = false;
+          }
+        }
+
+        const fileOpDecision = PolicyEvaluator.evaluateFileOperation(
+          {
+            toolName: "write_file",
+            path: targetFilePath,
+            fileExists,
+            isEditFileAvailableAndAuthorized,
+          },
+          contract.spec.policy
+        );
+
+        if (!fileOpDecision.allowed) {
+          return {
+            valid: false,
+            reason: "DISALLOWED_FILE_OVERWRITE",
+            message: fileOpDecision.message,
+          };
+        }
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Stage 11b: Governed Localized Editing Check (No-Op Edit Prevention)
+    // ------------------------------------------------------------------------
+    if (actionProposal.toolName === "edit_file") {
+      const searchAnchor =
+        typeof (validatedInput as any).searchAnchor === "string"
+          ? ((validatedInput as any).searchAnchor as string)
+          : undefined;
+      const replacementText =
+        typeof (validatedInput as any).replacementText === "string"
+          ? ((validatedInput as any).replacementText as string)
+          : undefined;
+
+      if (
+        searchAnchor !== undefined &&
+        replacementText !== undefined &&
+        searchAnchor === replacementText
+      ) {
+        const isOversized = isOversizedWholeFileAnchor(searchAnchor);
+        return {
+          valid: false,
+          reason: "NOOP_EDIT_DISALLOWED",
+          message: isOversized
+            ? "edit_file proposal rejected: Entire file or oversized multi-declaration block was submitted as both 'searchAnchor' and 'replacementText'. A localized edit requires a small (1-3 line) searchAnchor around the bug and a distinct replacementText."
+            : "edit_file proposal rejected: 'searchAnchor' and 'replacementText' are identical. A localized edit must specify a different 'replacementText' that modifies the target file.",
+        };
+      }
+
+      // Stage 11c: Governed Localized Editing Check (Repeated Failed Anchor Prevention)
+      const targetPath =
+        typeof (validatedInput as any).path === "string"
+          ? ((validatedInput as any).path as string)
+          : undefined;
+
+      if (
+        targetPath !== undefined &&
+        searchAnchor !== undefined &&
+        context.failedAnchorChecker?.(targetPath, searchAnchor)
+      ) {
+        return {
+          valid: false,
+          reason: "REPEATED_FAILED_ANCHOR_DISALLOWED",
+          message: `edit_file proposal rejected: The searchAnchor has already failed in '${targetPath}' (missing or ambiguous) and no fresh successful read of the file has occurred since the failure. Re-read the file using 'read_file' to obtain current literal source text before proposing edits.`,
+        };
+      }
+
+      // Stage 11e: Governed Localized Editing Check (Whole-File Search Anchor Prevention)
+      if (targetPath !== undefined && searchAnchor !== undefined) {
+        let currentFileContent: string | null = null;
+        if (context.fileContentReader) {
+          currentFileContent = context.fileContentReader(targetPath);
+        } else if (context.workspaceHostPath) {
+          try {
+            const normalizedHost = path.resolve(context.workspaceHostPath);
+            const resolvedTarget = path.resolve(normalizedHost, targetPath);
+            if (fs.existsSync(resolvedTarget) && !fs.lstatSync(resolvedTarget).isDirectory()) {
+              currentFileContent = fs.readFileSync(resolvedTarget, "utf8");
+            }
+          } catch {
+            currentFileContent = null;
+          }
+        }
+
+        if (typeof currentFileContent === "string") {
+          const trimmedAnchor = searchAnchor.trim();
+          const trimmedFile = currentFileContent.trim();
+
+          if (trimmedAnchor.length > 0 && trimmedAnchor === trimmedFile) {
+            // Narrow, explicit small-file exception:
+            // Files with <= 2 non-empty lines cannot be edited without matching the whole file content.
+            const fileNonEmptyLines = trimmedFile.split(/\r?\n/).filter((l) => l.trim().length > 0);
+            const isSmallFileException = fileNonEmptyLines.length <= 2;
+
+            if (!isSmallFileException) {
+              return {
+                valid: false,
+                reason: "WHOLE_FILE_ANCHOR_DISALLOWED",
+                message: `edit_file proposal rejected: The searchAnchor spans the entire file content (${fileNonEmptyLines.length} lines) of '${targetPath}'. Governed benchmark repair requires localized edits (1-3 lines around the defect). Choose an exact snippet from the file containing only the specific lines needing modification.`,
+              };
+            }
+          }
+        }
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Stage 11d: Post-Pass Verification Target Protection Check
+    // ------------------------------------------------------------------------
+    if (context.postPassMutationChecker) {
+      const checkResult = context.postPassMutationChecker(actionProposal.toolName, targetFilePath);
+      const isProhibited =
+        typeof checkResult === "boolean" ? checkResult : checkResult?.prohibited;
+      if (isProhibited) {
+        const msg =
+          typeof checkResult === "object" && checkResult?.reason
+            ? checkResult.reason
+            : `Proposal for tool '${actionProposal.toolName}' rejected: Target file '${targetFilePath ?? "unknown"}' has already passed verification tests and is protected by the post-pass verification latch. Further mutations to this verified file are disallowed to prevent regression. Propose verification tests or conclude the task with isGoalReached: true.`;
+        return {
+          valid: false,
+          reason: "POST_VERIFICATION_MUTATION_DISALLOWED",
+          message: msg,
+        };
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Stage 11e: Governed Ineffective Repeated File Mutation Prevention
+    // ------------------------------------------------------------------------
+    if (
+      (actionProposal.toolName === "edit_file" || actionProposal.toolName === "write_file") &&
+      context.ineffectiveMutationChecker
+    ) {
+      const ineffCheck = context.ineffectiveMutationChecker(
+        actionProposal.toolName,
+        actionProposal.inputPayload ?? validatedInput,
+        targetFilePath
+      );
+      const isIneff = typeof ineffCheck === "boolean" ? ineffCheck : ineffCheck?.isIneffective;
+      if (isIneff) {
+        const priorInfo =
+          typeof ineffCheck === "object" && ineffCheck.priorStep
+            ? ` at step ${ineffCheck.priorStep}`
+            : "";
+        return {
+          valid: false,
+          reason: "INEFFECTIVE_MUTATION_DISALLOWED",
+          message: `Proposal for tool '${actionProposal.toolName}' rejected: An identical mutation against '${targetFilePath ?? "target file"}' was already executed${priorInfo} and failed intermediate verification, and the target file state has not changed. Re-read the file with 'read_file', inspect the verification failure output, and propose a materially different localized edit.`,
+        };
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Stage 12: Resource Ceiling Bounds Check
     // ------------------------------------------------------------------------
     const resourceLimits = contract.spec.resourceLimits;
 

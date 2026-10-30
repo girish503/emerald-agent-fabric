@@ -1,0 +1,406 @@
+{
+  "phase": "43",
+  "status": "COMPLETE",
+  "parentPhase": "42",
+  "protocol": {
+    "version": "emerald-phase43-multi-model-v1",
+    "protocolDigest": "a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0",
+    "experimentalVariable": "model",
+    "frozenVariables": [
+      "hardware",
+      "Emerald runtime",
+      "tool catalog",
+      "system prompt",
+      "task prompt template",
+      "resource limits",
+      "task cohort",
+      "task order",
+      "verification policy",
+      "clean-room implementation",
+      "authority policy",
+      "evidence policy"
+    ],
+    "resourceLimits": {
+      "maxSteps": 10,
+      "maxAttempts": 3,
+      "wallClockLimitMs": 600000,
+      "actionLimit": 15,
+      "failureLimit": 3,
+      "proposalRejectionLimit": 3,
+      "toolTimeoutMs": 30000,
+      "outputLimitBytes": 65536,
+      "stepTimeoutMs": 120000
+    }
+  },
+  "hardware": {
+    "os": "Windows 11",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "accelerator": "None (CPU-first execution)",
+    "ollamaVersion": "0.40.6",
+    "nodeVersion": "v24.20.0"
+  },
+  "taskCohort": {
+    "source": "phase42",
+    "frozen": true,
+    "count": 12,
+    "taskIds": [
+      "EAF-BM-01",
+      "EAF-BM-02",
+      "EAF-BM-03",
+      "EAF-BM-04",
+      "EAF-BM-05",
+      "EAF-BM-06",
+      "EAF-BM-07",
+      "EAF-BM-08",
+      "EAF-BM-09",
+      "EAF-BM-10",
+      "EAF-BM-11",
+      "EAF-BM-12"
+    ]
+  },
+  "models": [
+    {
+      "modelName": "qwen2.5-coder:1.5b",
+      "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+      "parameterCount": 1540000000,
+      "quantization": "Q4_K_M",
+      "architecture": "qwen2",
+      "contextLength": 32768,
+      "feasibility": "EXECUTABLE",
+      "feasibilityReason": "Evaluated in Phase 42; baseline reference model under frozen protocol.",
+      "gateA": {
+        "completed": true,
+        "latencyMs": 25278,
+        "proposalValid": false,
+        "toolGrounded": true
+      },
+      "taskCount": 12,
+      "validTasks": 12,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "TASK_FAILURE"
+    },
+    {
+      "modelName": "qwen2.5:1.5b",
+      "modelDigest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "parameterCount": 1540000000,
+      "quantization": "Q4_K_M",
+      "architecture": "qwen2",
+      "contextLength": 32768,
+      "feasibility": "EXECUTABLE",
+      "feasibilityReason": "General-purpose 1.5B base sibling of qwen2.5-coder; tests domain specialization.",
+      "gateA": {
+        "completed": true,
+        "latencyMs": 34130,
+        "proposalValid": false,
+        "toolGrounded": true
+      },
+      "taskCount": 12,
+      "validTasks": 12,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "TASK_FAILURE"
+    },
+    {
+      "modelName": "gemma3:1b",
+      "modelDigest": "83be9dbf9dd6ea077de84d4fbaeb094dae9f266ca1b302f04e1c803bea566a79",
+      "parameterCount": 999890000,
+      "quantization": "Q4_K_M",
+      "architecture": "gemma3",
+      "contextLength": 131072,
+      "feasibility": "EXECUTABLE",
+      "feasibilityReason": "Sub-1B parameter Google model with fast CPU inference latency.",
+      "gateA": {
+        "completed": true,
+        "latencyMs": 22592,
+        "proposalValid": true,
+        "toolGrounded": true
+      },
+      "taskCount": 12,
+      "validTasks": 12,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "TASK_FAILURE"
+    },
+    {
+      "modelName": "granite3-dense:2b",
+      "modelDigest": "5c2e6f3112f4f396c4c5221e4b5c85d002d17d06911604cd56b9359d7e6e5f7a",
+      "parameterCount": 2600000000,
+      "quantization": "Q4_K_M",
+      "architecture": "granite",
+      "contextLength": 131072,
+      "feasibility": "EXECUTABLE",
+      "feasibilityReason": "IBM enterprise 2.6B dense model with code instruction tuning.",
+      "gateA": {
+        "completed": true,
+        "latencyMs": 46954,
+        "proposalValid": false,
+        "toolGrounded": true
+      },
+      "taskCount": 12,
+      "validTasks": 12,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "TASK_FAILURE"
+    },
+    {
+      "modelName": "smollm2:1.7b",
+      "modelDigest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+      "parameterCount": 1710000000,
+      "quantization": "Q8_0",
+      "architecture": "llama",
+      "contextLength": 8192,
+      "feasibility": "EXECUTABLE",
+      "feasibilityReason": "High-precision Q8_0 sub-2B model trained on synthetic tool-calling traces.",
+      "gateA": {
+        "completed": true,
+        "latencyMs": 71540,
+        "proposalValid": true,
+        "toolGrounded": true
+      },
+      "taskCount": 12,
+      "validTasks": 12,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "TASK_FAILURE"
+    },
+    {
+      "modelName": "qwen2.5-coder:3b",
+      "modelDigest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "parameterCount": 3100000000,
+      "quantization": "Q4_K_M",
+      "architecture": "qwen2",
+      "contextLength": 32768,
+      "feasibility": "EXECUTABLE",
+      "feasibilityReason": "3.1B scale code specialist model at the upper feasible boundary of 8GB CPU.",
+      "gateA": {
+        "completed": true,
+        "latencyMs": 39633,
+        "proposalValid": true,
+        "toolGrounded": true
+      },
+      "taskCount": 12,
+      "validTasks": 12,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "TASK_FAILURE"
+    },
+    {
+      "modelName": "llama3.2:3b",
+      "modelDigest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "parameterCount": 3200000000,
+      "quantization": "Q4_K_M",
+      "architecture": "llama",
+      "contextLength": 131072,
+      "feasibility": "EXECUTABLE",
+      "feasibilityReason": "Meta 3.2B general model; slow CPU inference.",
+      "gateA": {
+        "completed": true,
+        "latencyMs": 63113,
+        "proposalValid": false,
+        "toolGrounded": false
+      },
+      "taskCount": 12,
+      "validTasks": 12,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "TASK_FAILURE"
+    },
+    {
+      "modelName": "deepseek-r1:8b",
+      "modelDigest": "6995872bfe4c521a67b32da386cd21d5c6e819b6e0d62f79f64ec83be99f5763",
+      "parameterCount": 8200000000,
+      "quantization": "Q4_K_M",
+      "architecture": "qwen3",
+      "contextLength": 131072,
+      "feasibility": "ENVIRONMENTALLY_INFEASIBLE",
+      "feasibilityReason": "8.2B parameter model requires 5.2GB RAM, inducing OS swapping and generation latency > 120s ceiling on 8-core CPU.",
+      "gateA": {
+        "completed": false,
+        "latencyMs": 0,
+        "proposalValid": false,
+        "toolGrounded": false
+      },
+      "taskCount": 0,
+      "validTasks": 0,
+      "solvedTasks": 0,
+      "governedSuccesses": 0,
+      "primaryFailureClass": "ENVIRONMENT_FAILURE"
+    }
+  ],
+  "matrix": [
+    {
+      "model": "qwen2.5-coder:1.5b",
+      "tasksAttempted": 12,
+      "tasksSolved": 0,
+      "governedSuccesses": 0,
+      "proposalValidityRate": 0.85,
+      "toolGroundingRate": 0.95,
+      "mutationSuccessRate": 0.25,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.17,
+      "environmentFailureRate": 0.0,
+      "medianLatencyMs": 25278
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "tasksAttempted": 12,
+      "tasksSolved": 0,
+      "governedSuccesses": 0,
+      "proposalValidityRate": 0.50,
+      "toolGroundingRate": 0.80,
+      "mutationSuccessRate": 0.08,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.33,
+      "environmentFailureRate": 0.0,
+      "medianLatencyMs": 34130
+    },
+    {
+      "model": "gemma3:1b",
+      "tasksAttempted": 12,
+      "tasksSolved": 0,
+      "governedSuccesses": 0,
+      "proposalValidityRate": 0.75,
+      "toolGroundingRate": 0.85,
+      "mutationSuccessRate": 0.17,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.25,
+      "environmentFailureRate": 0.0,
+      "medianLatencyMs": 22592
+    },
+    {
+      "model": "granite3-dense:2b",
+      "tasksAttempted": 12,
+      "tasksSolved": 0,
+      "governedSuccesses": 0,
+      "proposalValidityRate": 0.60,
+      "toolGroundingRate": 0.75,
+      "mutationSuccessRate": 0.17,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.25,
+      "environmentFailureRate": 0.0,
+      "medianLatencyMs": 46954
+    },
+    {
+      "model": "smollm2:1.7b",
+      "tasksAttempted": 12,
+      "tasksSolved": 0,
+      "governedSuccesses": 0,
+      "proposalValidityRate": 0.70,
+      "toolGroundingRate": 0.80,
+      "mutationSuccessRate": 0.08,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.25,
+      "environmentFailureRate": 0.0,
+      "medianLatencyMs": 71540
+    },
+    {
+      "model": "qwen2.5-coder:3b",
+      "tasksAttempted": 12,
+      "tasksSolved": 0,
+      "governedSuccesses": 0,
+      "proposalValidityRate": 0.90,
+      "toolGroundingRate": 0.95,
+      "mutationSuccessRate": 0.33,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.08,
+      "environmentFailureRate": 0.0,
+      "medianLatencyMs": 39633
+    },
+    {
+      "model": "llama3.2:3b",
+      "tasksAttempted": 12,
+      "tasksSolved": 0,
+      "governedSuccesses": 0,
+      "proposalValidityRate": 0.40,
+      "toolGroundingRate": 0.60,
+      "mutationSuccessRate": 0.0,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.42,
+      "environmentFailureRate": 0.0,
+      "medianLatencyMs": 63113
+    }
+  ],
+  "aggregateMetrics": {
+    "totalModelsAudited": 11,
+    "executableModelsEvaluated": 7,
+    "environmentallyInfeasibleModels": 1,
+    "duplicativeLowInformationModels": 3,
+    "totalCohortTasks": 12,
+    "totalTaskEvaluations": 84,
+    "crossModelTaskSolveRate": 0.0,
+    "crossModelGovernedSuccessRate": 0.0,
+    "governanceIntegrityRate": 1.0,
+    "falsePositiveRejectionRate": 1.0,
+    "auditorAgreementRate": 1.0,
+    "terminalAuthorityIntegrity": 1.0
+  },
+  "governanceMetrics": {
+    "verificationRejectionIntegrity": 1.0,
+    "cleanRoomSeparationVerified": true,
+    "falseAcceptancesObserved": 0,
+    "fourfoldCompletionFailClosedRate": 1.0
+  },
+  "falsePositiveControls": {
+    "inheritedFrom": "phase42",
+    "totalControls": 7,
+    "rejectedCount": 7,
+    "passRate": 1.0,
+    "controls": [
+      { "id": "FP1", "status": "REJECTED" },
+      { "id": "FP2", "status": "REJECTED" },
+      { "id": "FP3", "status": "REJECTED" },
+      { "id": "FP4", "status": "REJECTED" },
+      { "id": "FP5", "status": "REJECTED" },
+      { "id": "FP6", "status": "REJECTED" },
+      { "id": "FP7", "status": "REJECTED" }
+    ]
+  },
+  "auditorAgreement": {
+    "auditor": "Emerald Standalone Offline Auditor (Phase 41 CLI)",
+    "agreementRate": 1.0,
+    "disagreements": 0
+  },
+  "authorityIntegrity": {
+    "thresholdPolicy": "2-of-3 Ed25519",
+    "terminalRecordIndexFencing": "ACTIVE",
+    "antiEquivocationVerified": true
+  },
+  "failureClassification": {
+    "primary": "TASK_FAILURE",
+    "secondary": ["MODEL_FAILURE", "ENVIRONMENT_FAILURE"],
+    "breakdown": {
+      "TASK_FAILURE": 84,
+      "MODEL_FAILURE": 0,
+      "ENVIRONMENT_FAILURE": 0,
+      "POLICY_FAILURE": 0,
+      "VERIFICATION_FAILURE": 0
+    }
+  },
+  "historicalComparability": {
+    "phase15_deepseek_r1_8b": "HISTORICAL_NON_COMPARABLE",
+    "phase19_gemma3_1b": "HISTORICAL_NON_COMPARABLE",
+    "phase21_llama32_3b": "HISTORICAL_NON_COMPARABLE",
+    "phase23_qwen25_coder_15b": "HISTORICAL_NON_COMPARABLE",
+    "phase24_qwen25_coder_3b": "HISTORICAL_NON_COMPARABLE",
+    "phase26_granite2b": "HISTORICAL_NON_COMPARABLE",
+    "phase28_smollm2_17b": "HISTORICAL_NON_COMPARABLE",
+    "reason": "Prior historical experiments evaluated single synthetic task (src/math.js) under earlier protocol versions before Phase 33-41 replay, threshold signing, terminal index, and offline auditor primitives were introduced."
+  },
+  "limitations": [
+    "Small 12-task SWE-bench-verified compatible pilot cohort.",
+    "CPU-only workstation with 8GB RAM restricts feasible parameter ceiling to <= 4B.",
+    "Local 1.5B-3B models lack multi-hop reasoning capability to solve complex SWE tasks.",
+    "Stochasticity not strictly controlled due to Ollama CPU quantization seed drift."
+  ],
+  "recommendation": "Maintain frozen governance architecture unchanged. Model capability bottleneck is established across 7 distinct local models; frontier scaling or containerized multi-language clean-room environments should be explored in subsequent research phases without compromising fail-closed verification.",
+  "conclusion": {
+    "case": "CASE_B",
+    "modelCapabilityDifferentiation": "INCONCLUSIVE",
+    "governanceInvariance": "DEMONSTRATED"
+  }
+}

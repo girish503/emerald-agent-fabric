@@ -36,3 +36,4 @@ export * from "./fault-injection.js";
 export * from "./governed-agreement.js";
 export * from "./capability-fence.js";
 export * from "./cross-harness-request.js";
+export * from "./mutation-intent.js";

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase19-gemma3-1b-report.json",
+  "experimentId": "exp-phase19-1792308298199",
+  "timestamp": "2026-10-18T07:24:58.199Z",
+  "baselineCommitSha": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "identifier": "gemma3:1b",
+    "digest": "83be9dbf9dd6",
+    "size": "~1B",
+    "parameters": "999.89M",
+    "quantization": "Q4_K_M",
+    "architecture": "gemma3",
+    "contextLength": 32768,
+    "provider": "ollama",
+    "hardware": "CPU"
+  },
+  "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "contextBytes": 3297,
+  "promptBytes": 6975,
+  "gateA": {
+    "inferenceTimeMs": 57100,
+    "response": "RECEIVED",
+    "validProposal": false,
+    "classification": "MODEL_SCHEMA_FAILURE",
+    "rawModelResponse": "{\"isGoalReached\": true, \"proposalId\": \"action-12345678-9012-3456-7890-123456789012\",\"contextSnapshotHash\": \"60086905e911784d8de0588e5cd675b2ab959f77cd061c52ea4b3543f89a4f86\"}",
+    "proposal": null,
+    "validationReason": "NO_PROPOSAL_PARSED"
+  },
+  "gateB": {
+    "status": "NOT_RUN"
+  },
+  "finalRunStatus": "NOT_RUN",
+  "primaryClassification": "MODEL_SCHEMA_FAILURE"
+}

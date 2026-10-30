@@ -1,0 +1,161 @@
+{
+  "phase": "44A",
+  "status": "ACCELERATOR_UNAVAILABLE",
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalProcessors": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "gpu": "Intel(R) UHD Graphics (Alder Lake-N GT1)",
+    "gpuVendor": "Intel Corporation",
+    "vramBytes": 2147479552,
+    "vramType": "Dynamic Shared System RAM",
+    "npuPresent": false,
+    "driverVersion": "32.0.101.7076",
+    "ollamaVersion": "0.40.6",
+    "nodeVersion": "v24.20.0",
+    "dockerVersion": "Docker version 29.8.0, build 88096ef",
+    "diskCapacityGB": 475.29,
+    "diskFreeGB": 191.95,
+    "hardwareConfigurationUnchanged": true
+  },
+  "backends": [
+    {
+      "backend": "CPU (ggml-cpu-alderlake.dll)",
+      "hardware": "Intel Core i3-N305 (AVX2, AVX_VNNI)",
+      "driver": "Windows NT kernel",
+      "runtimeSupport": "Ollama native AVX2 runner",
+      "actuallyAvailable": true,
+      "installationRequired": false,
+      "zeroCost": true,
+      "networkRequired": false,
+      "repositoryDataLeavesHost": false,
+      "expectedInformationGain": "Baseline CPU inference performance (Phases 15-43).",
+      "decision": "SUPPORTED"
+    },
+    {
+      "backend": "NVIDIA CUDA",
+      "hardware": "None",
+      "driver": "None",
+      "runtimeSupport": "Ollama CUDA runner",
+      "actuallyAvailable": false,
+      "installationRequired": false,
+      "zeroCost": true,
+      "networkRequired": false,
+      "repositoryDataLeavesHost": false,
+      "expectedInformationGain": "N/A - discrete hardware absent",
+      "decision": "HARDWARE_ABSENT"
+    },
+    {
+      "backend": "AMD ROCm",
+      "hardware": "None",
+      "driver": "None",
+      "runtimeSupport": "Ollama ROCm runner",
+      "actuallyAvailable": false,
+      "installationRequired": false,
+      "zeroCost": true,
+      "networkRequired": false,
+      "repositoryDataLeavesHost": false,
+      "expectedInformationGain": "N/A - discrete hardware absent",
+      "decision": "HARDWARE_ABSENT"
+    },
+    {
+      "backend": "Apple Metal",
+      "hardware": "None (x86_64 host)",
+      "driver": "None",
+      "runtimeSupport": "Ollama Metal runner",
+      "actuallyAvailable": false,
+      "installationRequired": false,
+      "zeroCost": true,
+      "networkRequired": false,
+      "repositoryDataLeavesHost": false,
+      "expectedInformationGain": "N/A - hardware absent",
+      "decision": "HARDWARE_ABSENT"
+    },
+    {
+      "backend": "Intel oneAPI / OpenVINO",
+      "hardware": "Intel UHD Graphics (Alder Lake-N)",
+      "driver": "Intel 32.0.101.7076",
+      "runtimeSupport": "Not bundled in Ollama Windows binary distribution",
+      "actuallyAvailable": false,
+      "installationRequired": true,
+      "zeroCost": true,
+      "networkRequired": false,
+      "repositoryDataLeavesHost": false,
+      "expectedInformationGain": "Low; integrated GPU compute lacks dedicated VRAM bandwidth.",
+      "decision": "UNSUPPORTED"
+    },
+    {
+      "backend": "DirectML",
+      "hardware": "Intel UHD Graphics",
+      "driver": "Intel 32.0.101.7076",
+      "runtimeSupport": "Not supported natively by Ollama llama.cpp server",
+      "actuallyAvailable": false,
+      "installationRequired": false,
+      "zeroCost": true,
+      "networkRequired": false,
+      "repositoryDataLeavesHost": false,
+      "expectedInformationGain": "None",
+      "decision": "UNSUPPORTED"
+    },
+    {
+      "backend": "Vulkan (Intel UHD Graphics)",
+      "hardware": "Intel UHD Graphics (Vulkan 1.3)",
+      "driver": "Intel 32.0.101.7076",
+      "runtimeSupport": "Detected by Ollama but dropped by default ('dropping integrated GPU; to enable, set OLLAMA_IGPU_ENABLE=1'); shared VRAM < 800 MiB insufficient for model tensor buffers",
+      "actuallyAvailable": false,
+      "installationRequired": false,
+      "zeroCost": true,
+      "networkRequired": false,
+      "repositoryDataLeavesHost": false,
+      "expectedInformationGain": "Low; testing indicates memory starvation and slower throughput than AVX2 CPU.",
+      "decision": "NOT_SCIENTIFICALLY_JUSTIFIED"
+    }
+  ],
+  "modelCandidates": [
+    "qwen2.5-coder:1.5b",
+    "qwen2.5:1.5b",
+    "gemma3:1b",
+    "granite3-dense:2b",
+    "smollm2:1.7b",
+    "qwen2.5-coder:3b",
+    "llama3.2:3b",
+    "deepseek-r1:8b"
+  ],
+  "quantizationFindings": [
+    {
+      "finding": "Q8_0 vs Q4_K_M Latency Disparity",
+      "observation": "SmolLM2-1.7B (Q8_0) requires 71.5s per turn vs Qwen2.5-Coder-1.5B (Q4_K_M) at 25.3s (~2.8x latency multiplier) due to CPU memory bandwidth limits on single-channel DDR5.",
+      "provenanceRule": "Lossy-on-lossy re-quantization (Q8_0 -> Q4) prohibited to maintain source integrity (Phase 29 invariant)."
+    },
+    {
+      "finding": "8B Scale Infeasibility",
+      "observation": "DeepSeek-R1-8B (5.2GB Q4_K_M) exceeds available RAM (7.6GB total, ~1.4GB free), causing OS swapping and generation latency > 120s ceiling.",
+      "classification": "ENVIRONMENT_FAILURE"
+    }
+  ],
+  "decisions": [
+    {
+      "category": "HARDWARE_ACCELERATION",
+      "status": "ACCELERATOR_UNAVAILABLE",
+      "rationale": "Host workstation possesses only integrated Intel UHD Graphics without dedicated accelerator or discrete VRAM. Ollama executes exclusively via CPU backend."
+    },
+    {
+      "category": "MODEL_ACQUISITION",
+      "status": "NO_NEW_MODEL_ACQUISITION",
+      "rationale": "Larger models (>4B) are demonstrably environmentally infeasible on current CPU/RAM. Acquiring new 7B-14B models would produce 100% ENVIRONMENT_FAILURE without scientific information gain."
+    },
+    {
+      "category": "CAPABILITY_PROBE",
+      "status": "NOT_EXECUTED",
+      "rationale": "Step 6 mandates capability probe only if an actual local accelerator is available. Since ACCELERATOR_UNAVAILABLE, probe is not executed to avoid manufacturing invalid accelerated claims."
+    }
+  ],
+  "limitations": [
+    "No discrete NVIDIA or AMD GPU available on host workstation.",
+    "Integrated Intel UHD graphics is explicitly disabled by Ollama for LLM compute.",
+    "CPU single-channel memory bandwidth establishes an empirical parameter ceiling at <= 4B."
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "phase": "Phase 48J",
+  "task": "EAF-BM-01",
+  "taskTitle": "Core Arithmetic Off-by-One Fix",
+  "classification": "TIMED_OUT",
+  "model": {
+    "name": "qwen2.5-coder:3b",
+    "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+    "parameters": "3.1B",
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "endpoint": "http://127.0.0.1:11434"
+  },
+  "timing": {
+    "startedAt": "2026-10-26T17:15:32.413Z",
+    "completedAt": "2026-10-26T17:34:37.635Z",
+    "wallClockDurationMs": 1145190,
+    "preWarmDurationMs": 14789
+  },
+  "configuration": {
+    "governedBenchmarkRepairMode": true,
+    "allowWholeFileReplacement": false,
+    "maxSteps": 8,
+    "stepTimeoutMs": 300000,
+    "maxWallClockMs": 2400000,
+    "maxProposalRejections": 3,
+    "maxConsecutiveIneffectiveEdits": 3,
+    "dynamicToolFiltering": true,
+    "intermediateTestFeedback": true,
+    "sourceGroundedVerificationContext": true,
+    "failedAnchorGuard": true,
+    "zeroMatchSearchRecovery": true,
+    "wholeFileNoOpGuidance": true,
+    "duplicateProposalGuard": true,
+    "toolsEnabled": [
+      "read_file",
+      "write_file",
+      "edit_file",
+      "run_command",
+      "search_code",
+      "git_status",
+      "git_diff"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 8,
+    "modelFailures": 0,
+    "promptTokens": 17704,
+    "evalTokens": 1361,
+    "totalTokens": 19065
+  },
+  "execution": {
+    "verified": false,
+    "terminalStatus": "TIMED_OUT",
+    "terminalReason": "MAX_STEPS",
+    "totalSteps": 8,
+    "totalActions": 7,
+    "totalProposalRejections": 1,
+    "readActionsCount": 1,
+    "writeActionsCount": 0,
+    "editActionsCount": 4
+  },
+  "governedEditingTelemetry": {
+    "editFileAttemptsCount": 4,
+    "editFileAcceptedCount": 3,
+    "editFileRejectedCount": 1,
+    "noopEditRejectionsCount": 0,
+    "duplicateProposalRejectionsCount": 0,
+    "repeatedFailedAnchorRejectionsCount": 0,
+    "repeatedProposalSubmitted": false,
+    "duplicateBlockedBeforeAdapter": true,
+    "writeFileAttemptsCount": 0,
+    "writeFileExistingDenialsCount": 0,
+    "writeFileNewAllowedCount": 0,
+    "disallowedFileOverwriteDenials": [],
+    "noopEditDenials": [],
+    "duplicateProposalDenials": [],
+    "repeatedFailedAnchorDenials": [],
+    "anchorFailuresCount": 0,
+    "ambiguousAnchorsCount": 0,
+    "anchorDetails": [
+      {
+        "step": 1,
+        "proposalValid": false,
+        "rejectionReason": null,
+        "anchor": "return a + b + 1;",
+        "replacement": "return a + b;",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "executionStatus": null,
+        "executionError": null
+      },
+      {
+        "step": 3,
+        "proposalValid": true,
+        "rejectionReason": null,
+        "anchor": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "replacement": "function add(a, b) {\n  return a + b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": true,
+        "executionStatus": "SUCCEEDED",
+        "executionError": null
+      },
+      {
+        "step": 4,
+        "proposalValid": true,
+        "rejectionReason": null,
+        "anchor": "function add(a, b) {",
+        "replacement": "function add(a, b) { return a + b; }",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "executionStatus": "SUCCEEDED",
+        "executionError": null
+      },
+      {
+        "step": 5,
+        "proposalValid": true,
+        "rejectionReason": null,
+        "anchor": "function add(a, b) {",
+        "replacement": "function add(a, b) { return a + b; }",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "executionStatus": "SUCCEEDED",
+        "executionError": null
+      }
+    ]
+  },
+  "stageProgression": {
+    "stageA_proposal": {
+      "proposedEditFile": true,
+      "editProposalsCount": 4
+    },
+    "stageB_mutation": {
+      "appliedSuccessfully": true,
+      "targetFile": "src/calc.js",
+      "initialHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "finalHash": "31d2d0d1fe3603f49f5924c9d8e0f90c183d79eb75adc230f4bede31c80dac93",
+      "goldHash": "4da0696dcd9f68c3a4157dd7ba7cdfbd85f19efb878b4e380af81b13ee65f2d4",
+      "candidateMatchesGold": false,
+      "targetFileModified": true,
+      "unrelatedFilesPreserved": false,
+      "finalTargetFileContent": "function add(a, b) { return a + b; } return a + b; }\n  return a + b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+    },
+    "stageC_verification": {
+      "cleanRoomStatus": "NONE",
+      "cleanRoomVerified": false,
+      "f2pPass": false,
+      "p2pPass": false
+    },
+    "stageD_evidence": {
+      "bundleId": "0b6223189488aef7055f95c01e481ac77dc6ad8c3362e518e9ffb393132eeca1",
+      "provenanceRoot": "e45cf206b1bda5860b47f8b18648b7a81b46915b5bed142720b4ecfc35e41349",
+      "signaturesCount": 2,
+      "eventsCount": 62,
+      "offlineAuditStatus": "VERIFIED",
+      "thresholdSatisfied": true,
+      "fourfoldSatisfied": false,
+      "auditFailures": [],
+      "replayDerivedOutcome": "FAILED",
+      "fourfoldPredicates": {
+        "taskSatisfied": false,
+        "policySatisfied": true,
+        "verificationPassed": false,
+        "evidenceComplete": false
+      }
+    }
+  },
+  "stepTranscript": [
+    {
+      "stepNumber": 1,
+      "timestamp": "2026-10-26T17:15:32.868Z",
+      "durationMs": 171498,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": false,
+      "proposalId": "proposal-1",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "searchAnchor": "return a + b + 1;",
+        "replacementText": "return a + b;",
+        "expectedDigest": "expected-digest-value"
+      },
+      "rejectionReason": "INVALID_TOOL_INPUT",
+      "rejectionMessage": "Input payload for tool 'edit_file' failed schema validation: expectedDigest: expectedDigest must be a 64-character SHA-256 hash",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"proposal-1\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"613b03e00614ee730abefc9a3c9c2fa378466db84185bf8bc74faa530d6ed019\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"return a + b + 1;\",\n    \"replacementText\": \"return a + b;\",\n    \"expectedDigest\": \"expected-digest-value\"\n  }\n}"
+    },
+    {
+      "stepNumber": 2,
+      "timestamp": "2026-10-26T17:18:24.370Z",
+      "durationMs": 152114,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "proposal-2",
+      "toolName": "read_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "offsetLine": 1,
+        "limitLines": 500
+      },
+      "actionId": "7397b497-09ff-4fac-a5eb-d206e04bff98",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"proposal-2\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"abb91e4dbd867d98f74dc1bf10ceee78a6ef17376da73ebaa40249f4c1bb37cf\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
+    },
+    {
+      "stepNumber": 3,
+      "timestamp": "2026-10-26T17:20:56.485Z",
+      "durationMs": 138256,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "proposal-2",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "searchAnchor": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "replacementText": "function add(a, b) {\n  return a + b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
+        "allowMultipleMatches": false
+      },
+      "actionId": "587ab56a-7564-49a4-9f60-8fe2365b9b64",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [
+        "read_file"
+      ],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"proposal-2\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"36d09c1aff4c012caa15532e88c304a40f6dea4c0c7d9303da18bfe08a705a3c\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\",\n    \"replacementText\": \"function add(a, b) {\\n  return a + b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
+    },
+    {
+      "stepNumber": 4,
+      "timestamp": "2026-10-26T17:23:14.742Z",
+      "durationMs": 130182,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "f5dbf8ca6b44e849b01d6fba701996dde5cb904ce7809dcc4633228517029bd0",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "searchAnchor": "function add(a, b) {",
+        "replacementText": "function add(a, b) { return a + b; }",
+        "allowMultipleMatches": false
+      },
+      "actionId": "680f6989-d0ca-4666-ae78-7efa7e493deb",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"f5dbf8ca6b44e849b01d6fba701996dde5cb904ce7809dcc4633228517029bd0\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"f5dbf8ca6b44e849b01d6fba701996dde5cb904ce7809dcc4633228517029bd0\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"function add(a, b) {\",\n    \"replacementText\": \"function add(a, b) { return a + b; }\"\n  }\n}"
+    },
+    {
+      "stepNumber": 5,
+      "timestamp": "2026-10-26T17:25:24.926Z",
+      "durationMs": 135893,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "c51c5e1d-f1e9-4c60-b5f1-e1f917a353e7",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "searchAnchor": "function add(a, b) {",
+        "replacementText": "function add(a, b) { return a + b; }",
+        "allowMultipleMatches": false
+      },
+      "actionId": "cc5674df-b208-4d70-ae17-23c539b07b50",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"c51c5e1d-f1e9-4c60-b5f1-e1f917a353e7\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"046a25cfe0f231da9e7fcd979d293a52769715036e47e9c2417b06668b78026e\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"function add(a, b) {\",\n    \"replacementText\": \"function add(a, b) { return a + b; }\"\n  }\n}"
+    },
+    {
+      "stepNumber": 6,
+      "timestamp": "2026-10-26T17:27:40.822Z",
+      "durationMs": 136429,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "551ff714541fae8b4388402fe945264e17372751c6439e46b06151c62976e930",
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "calculate the sum of two numbers",
+        "isRegex": false,
+        "path": ".",
+        "filePattern": "src/calc.js",
+        "maxResults": 50
+      },
+      "actionId": "d7928c32-833b-4cfb-a74e-9ba44f80ea1a",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"551ff714541fae8b4388402fe945264e17372751c6439e46b06151c62976e930\",\n  \"toolName\": \"search_code\",\n  \"contextSnapshotHash\": \"551ff714541fae8b4388402fe945264e17372751c6439e46b06151c62976e930\",\n  \"inputPayload\": {\n    \"query\": \"calculate the sum of two numbers\",\n    \"filePattern\": \"src/calc.js\"\n  }\n}"
+    },
+    {
+      "stepNumber": 7,
+      "timestamp": "2026-10-26T17:29:57.253Z",
+      "durationMs": 138258,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "38314b28-b456-4f09-b746-cc8755cc3896",
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "calculate the sum of two numbers",
+        "isRegex": false,
+        "path": "src/calc.js",
+        "filePattern": "*",
+        "maxResults": 50
+      },
+      "actionId": "08cc5f37-0b17-4f32-9587-6dafa5cb973c",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"38314b28-b456-4f09-b746-cc8755cc3896\",\n  \"toolName\": \"search_code\",\n  \"contextSnapshotHash\": \"36988a724915c84864fa51574656ab93a9981320b3487deb88755ceb17b30e99\",\n  \"inputPayload\": {\n    \"query\": \"calculate the sum of two numbers\",\n    \"path\": \"src/calc.js\"\n  }\n}"
+    },
+    {
+      "stepNumber": 8,
+      "timestamp": "2026-10-26T17:32:15.514Z",
+      "durationMs": 141971,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "c51c5e1d-f1e9-4c60-b5f1-e1f917a353e7",
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "calculate the sum of two numbers",
+        "isRegex": false,
+        "path": ".",
+        "filePattern": "*",
+        "maxResults": 10
+      },
+      "actionId": "6e269a67-d9b3-4f71-b6e1-656264358483",
+      "actionStatus": "SUCCEEDED",
+      "eligibleTools": [
+        "read_file",
+        "write_file",
+        "search_code",
+        "git_status",
+        "git_diff",
+        "run_command",
+        "edit_file"
+      ],
+      "filteredTools": [],
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"c51c5e1d-f1e9-4c60-b5f1-e1f917a353e7\",\n  \"toolName\": \"search_code\",\n  \"contextSnapshotHash\": \"5be76ca5f86d323d2dfbe999e0f5b417fde68b5a98117e589d7873efea06f554\",\n  \"inputPayload\": {\n    \"query\": \"calculate the sum of two numbers\",\n    \"maxResults\": 10\n  }\n}"
+    }
+  ]
+}

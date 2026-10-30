@@ -1,0 +1,276 @@
+{
+  "phase": "36",
+  "title": "Multi-Authority Quorum Security Evaluation",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "status": "COMPLETE",
+  "attacks": [
+    {
+      "id": "A1",
+      "name": "Compromised Producer Private Key",
+      "setup": "Attacker possesses producerKey.privateKey and fabricates an internally consistent synthetic execution trajectory with fake tool output.",
+      "attackerCapability": "Possession of valid producer Ed25519 signing key; knowledge of canonical schema and hash chaining rules; cannot compromise verifier keyring.",
+      "expectedSecurityProperty": "Authenticity vs Independent Verification: Single authority accepts synthetic evidence; multi-authority requiring independent supervisor endorsement rejects.",
+      "observedResult": {
+        "phase35Status": "ACCEPTED",
+        "phase35Signature": "VALID",
+        "phase35Authority": "TRUSTED",
+        "hypotheticalQuorum2of2": "REJECTED (MISSING_REQUIRED_AUTHORITY: supervisor-key)"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Single-authority Phase 35 cannot distinguish genuine physical execution from a compromised producer's internally consistent synthetic bundle. Multi-authority quorum requiring supervisor co-signing materially closes this vulnerability."
+    },
+    {
+      "id": "A2",
+      "name": "Malicious but Validly Signed Bundle",
+      "setup": "Bundle contains failed attempt (exitCode: 1, status: FAILED) but falsely claims run status: COMPLETED in terminalState.",
+      "attackerCapability": "Valid producer key; ability to sign arbitrary JSON payloads.",
+      "expectedSecurityProperty": "Replay validity vs Cryptographic Authenticity: Replay verifier must catch false completion claim despite valid signature.",
+      "observedResult": {
+        "status": "QUARANTINED",
+        "replayValid": false,
+        "reasonCodes": ["REPLAY_VERIFICATION_FAILURE"]
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Signatures prove producer identity, not execution truthfulness. The deterministic replay verifier independently catches the false completion claim and quarantines the bundle."
+    },
+    {
+      "id": "A3",
+      "name": "Valid Signature + False Operational Outcome",
+      "setup": "Bundle contains non-zero exit code (exitCode: 1) on required verification action while claiming run completion.",
+      "attackerCapability": "Valid producer key; internally consistent hash roots.",
+      "expectedSecurityProperty": "Fourfold completion rule must independently derive terminal outcome FAILED and quarantine false COMPLETED claims.",
+      "observedResult": {
+        "status": "QUARANTINED",
+        "replayValid": false,
+        "reasonCodes": ["REPLAY_VERIFICATION_FAILURE"]
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Phase 35 fourfold completion rule derives operational outcome independently of producer claims. Valid signature provides no bypass for unverified or failed operations."
+    },
+    {
+      "id": "A4",
+      "name": "Replay-Valid but Policy-Invalid Evidence",
+      "setup": "Bundle is replay-valid and signed by trusted producer, but contains unredacted secret credentials in tool input payload.",
+      "attackerCapability": "Valid producer key; structurally valid and replay-valid execution trajectory.",
+      "expectedSecurityProperty": "Policy Conjunction: Valid signature and passing replay do not bypass secret scanning policy.",
+      "observedResult": {
+        "status": "QUARANTINED",
+        "replayValid": true,
+        "signatureStatus": "VALID",
+        "authorityStatus": "TRUSTED",
+        "reasonCodes": ["SECURITY_POLICY_FAILURE"]
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Ingestion enforces conjunction: Status = Accepted iff ValidSignature AND ValidReplay AND ValidPolicy. Quorum adds no additional protection here."
+    },
+    {
+      "id": "A5",
+      "name": "Revoked Producer Authority",
+      "setup": "Bundle signed while key is trusted; key subsequently revoked in TrustedKeyring; new bundle submitted with revoked key; historical bundle re-verified.",
+      "attackerCapability": "Possession of revoked signing key.",
+      "expectedSecurityProperty": "Fail-closed rejection for new submissions; historical auditability preserved.",
+      "observedResult": {
+        "newSubmission": "QUARANTINED (REVOKED_SIGNING_KEY)",
+        "historicalReverification": "VERIFIED (signatureValid: true, authorityStatus: REVOKED)"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Phase 35 cleanly separates current submission authority from historical audit integrity without retroactive destruction of past evidence."
+    },
+    {
+      "id": "A6",
+      "name": "Supervisor Disagreement",
+      "setup": "Producer signs bundle as VERIFIED; independent supervisor disagrees and refuses to sign (or provides invalid signature).",
+      "attackerCapability": "Unilateral producer signature without supervisor endorsement.",
+      "expectedSecurityProperty": "2-of-2 quorum halts ingestion (deadlock); 2-of-3 threshold allows progress if third independent witness signs.",
+      "observedResult": {
+        "quorum2of2": "REJECTED (MISSING_REQUIRED_AUTHORITY: supervisor-key)",
+        "quorum2of3": "ACCEPTED (2 distinct valid signatures: producer + witness)"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Strict 2-of-2 consensus trades availability for safety when authorities disagree. A 2-of-3 threshold provides fault tolerance against a single recalcitrant authority."
+    },
+    {
+      "id": "A7",
+      "name": "Conflicting Valid Evidence for Same RunId",
+      "setup": "Two distinct valid bundles (exported at T1 and T2) ingested for the same runId under different content-addressed bundleIds.",
+      "attackerCapability": "Valid producer key generating divergent exports or trajectories for the same logical runId.",
+      "expectedSecurityProperty": "Single authority content-addressing accepts both; quorum enforces canonical consensus on bundleId.",
+      "observedResult": {
+        "phase35StatusBundleA": "ACCEPTED",
+        "phase35StatusBundleB": "ACCEPTED",
+        "distinctBundleIds": true,
+        "identicalRunId": true,
+        "quorumConsensusRequired": "Quorum rejects unendorsed divergent bundle"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Phase 35 content-addressing indexes strictly by bundle content hash, allowing divergent valid bundles for the same runId to coexist in archive. Quorum signing over canonical bundleId enforces terminal consensus."
+    },
+    {
+      "id": "A8",
+      "name": "Signature Stripping",
+      "setup": "Signature field removed from a valid signed bundle; submitted under allowUnsignedLegacy=false and allowUnsignedLegacy=true.",
+      "attackerCapability": "Attacker strips signature to evade identity attribution or exploit legacy fallback.",
+      "expectedSecurityProperty": "Strict mode rejects with UNSIGNED_BUNDLE_REJECTED; legacy mode accepts with UNSIGNED_LEGACY.",
+      "observedResult": {
+        "strictMode": "QUARANTINED (UNSIGNED_BUNDLE_REJECTED)",
+        "legacyMode": "ACCEPTED (signatureStatus: UNSIGNED_LEGACY, authorityStatus: NOT_ESTABLISHED)"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Phase 35 prevents signature stripping from masquerading as verified authority."
+    },
+    {
+      "id": "A9",
+      "name": "Signature Substitution",
+      "setup": "Signature swapped with unknown key, invalid bytes, or wrong keyId.",
+      "attackerCapability": "Attacker attempts to forge authority by substituting signatures.",
+      "expectedSecurityProperty": "Fail-closed rejection: UNKNOWN_SIGNING_KEY and INVALID_SIGNATURE.",
+      "observedResult": {
+        "unknownKey": "QUARANTINED (UNKNOWN_SIGNING_KEY)",
+        "invalidSignatureBytes": "QUARANTINED (INVALID_SIGNATURE)"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Ed25519 signature verification strictly binds payload digest, public key fingerprint, and signature bytes."
+    },
+    {
+      "id": "A10",
+      "name": "Keyring Compromise",
+      "setup": "Attacker compromises local TrustedKeyring registry and registers arbitrary rogue keys as TRUSTED.",
+      "attackerCapability": "Full control over verifier's TrustedKeyring trust root.",
+      "expectedSecurityProperty": "Trust Boundary Limit: Neither single authority nor multi-authority quorum can protect against trust-root compromise.",
+      "observedResult": {
+        "singleAuthorityResult": "ACCEPTED",
+        "multiAuthorityQuorumResult": "ACCEPTED (both rogue keys verified as TRUSTED)"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Quorum does NOT protect against trust-root compromise. If the verifier's local keyring is subverted, the attacker can register N keys and satisfy any N-of-M quorum threshold."
+    },
+    {
+      "id": "A11",
+      "name": "One Malicious Authority in 2-of-3 Model",
+      "setup": "Authorities A and B are honest; Authority C is malicious and issues an invalid signature.",
+      "attackerCapability": "One corrupt authority in a 3-authority committee.",
+      "expectedSecurityProperty": "2-of-3 threshold establishes quorum with 2 honest signatures; corrupt signature is isolated.",
+      "observedResult": {
+        "quorumMet": true,
+        "distinctValidSignatures": 2,
+        "rejectedKeyIds": ["witness-key"]
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "A threshold 2-of-3 quorum model maintains ingestion availability in the presence of one faulty or malicious authority."
+    },
+    {
+      "id": "A12",
+      "name": "Two Conflicting Honest Authorities",
+      "setup": "Authority A evaluates and signs; Authority B experiences a timeout or independent verification failure and refuses to sign.",
+      "attackerCapability": "Environmental non-determinism causing honest authority disagreement.",
+      "expectedSecurityProperty": "2-of-2 model deadlocks (liveness failure); quorum threshold is not reached.",
+      "observedResult": {
+        "valid": false,
+        "reason": "QUORUM_NOT_MET: required 2, got 1"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Strict multi-authority consensus trades availability for safety in non-deterministic environments, resulting in liveness failure when honest nodes disagree."
+    },
+    {
+      "id": "A13",
+      "name": "Duplicate Authority Signatures",
+      "setup": "Attacker submits duplicate signatures from the same authority (Authority A) to satisfy a threshold of 2.",
+      "attackerCapability": "Replay of genuine signature from single authority.",
+      "expectedSecurityProperty": "Quorum verifier counts distinct keyIds only; duplicate keyId rejected as 1 signature.",
+      "observedResult": {
+        "valid": false,
+        "distinctValidSignatures": 1,
+        "reason": "QUORUM_NOT_MET: required 2, got 1"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Quorum verification must enforce distinct authority identities; replaying duplicate signatures from one authority cannot satisfy threshold."
+    },
+    {
+      "id": "A14",
+      "name": "Historical Revocation",
+      "setup": "Ingest valid bundle while key is TRUSTED; revoke key in keyring; verify archived bundle.",
+      "attackerCapability": "Historical audit under revoked key state.",
+      "expectedSecurityProperty": "Historical bundle remains VERIFIED with authorityStatus: REVOKED.",
+      "observedResult": {
+        "ingestStatus": "ACCEPTED",
+        "archiveReverification": "VERIFIED",
+        "signatureStatus": "VALID",
+        "authorityStatus": "REVOKED"
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Phase 35 architecture guarantees historical auditability without rewriting past evidence."
+    },
+    {
+      "id": "A15",
+      "name": "Deterministic Attack Replay",
+      "setup": "Execute identical attack evaluation across 5 independent trials with fresh gateways and archives.",
+      "attackerCapability": "Evaluating repeatability and determinism of security decisions.",
+      "expectedSecurityProperty": "100% deterministic decision across all repeated trials.",
+      "observedResult": {
+        "trialResults": [
+          "ACCEPTED:VALID:TRUSTED",
+          "ACCEPTED:VALID:TRUSTED",
+          "ACCEPTED:VALID:TRUSTED",
+          "ACCEPTED:VALID:TRUSTED",
+          "ACCEPTED:VALID:TRUSTED"
+        ],
+        "allIdentical": true
+      },
+      "classification": "DEMONSTRATED",
+      "conclusion": "Evidence verification, signature validation, and policy checks are 100% deterministic."
+    }
+  ],
+  "demonstratedGaps": [
+    {
+      "gapId": "GAP-1",
+      "title": "Unilateral Producer Synthetic Evidence Fabrication",
+      "description": "A compromised producer private key allows an adversary to synthesize execution trajectories with fake observations that pass single-authority Ed25519 verification and clean-room replay verification.",
+      "materiality": "HIGH",
+      "closedByQuorum": true
+    },
+    {
+      "gapId": "GAP-2",
+      "title": "Multi-Bundle RunId Conflict Blindness",
+      "description": "Content-addressed ingestion accepts multiple valid bundles for the same logical runId without enforcing terminal outcome uniqueness or canonical sequencing.",
+      "materiality": "MEDIUM",
+      "closedByQuorum": true
+    }
+  ],
+  "demonstratedBenefits": [
+    {
+      "benefitId": "BENEFIT-1",
+      "title": "Defense-in-Depth Against Producer Key Compromise",
+      "description": "Requiring an independent supervisor endorsement (2-of-2) ensures that compromise of a worker process or worker key alone cannot introduce synthetic accepted evidence."
+    },
+    {
+      "benefitId": "BENEFIT-2",
+      "title": "Fault-Tolerant Availability Under 2-of-3",
+      "description": "A 2-of-3 threshold allows admission even if one authority goes offline, while preventing unilateral falsification."
+    }
+  ],
+  "unresolvedQuestions": [
+    {
+      "questionId": "Q-1",
+      "title": "Cross-Host Supervisor Observation Protocol",
+      "description": "How the supervisor independently observes and validates worker execution before signing without duplicating full execution cost."
+    },
+    {
+      "questionId": "Q-2",
+      "title": "Canonical RunId Unique Constraint",
+      "description": "Whether the archive should enforce a unique constraint on (runId, canonicalBundleId) at the persistence layer."
+    }
+  ],
+  "recommendation": "IMPLEMENT_PHASE37",
+  "regression": {
+    "tsc": "PASS",
+    "phase36": "PASS",
+    "phase35": "PASS",
+    "phase34": "PASS",
+    "phase33": "PASS",
+    "phase32": "PASS",
+    "phase31": "PASS",
+    "phase14": "PASS",
+    "phase10H": "PASS",
+    "integrationSuite": "PASS"
+  }
+}

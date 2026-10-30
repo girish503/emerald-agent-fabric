@@ -1,0 +1,100 @@
+{
+  "phase": "37",
+  "policy": {
+    "threshold": 2,
+    "totalAuthorities": 3,
+    "algorithm": "Ed25519",
+    "payloadBinding": ["bundleId", "formatVersion", "provenanceRoot", "schemaVersion"]
+  },
+  "authorities": [
+    "WORKER_PRODUCER",
+    "SUPERVISOR",
+    "INDEPENDENT_VERIFIER"
+  ],
+  "tests": [
+    { "id": "1", "name": "Three trusted authorities initialized", "status": "PASSED" },
+    { "id": "2", "name": "Key fingerprints deterministic", "status": "PASSED" },
+    { "id": "3", "name": "Authority IDs deterministic and bound to keyring", "status": "PASSED" },
+    { "id": "4", "name": "Worker + Supervisor quorum succeeds", "status": "PASSED" },
+    { "id": "5", "name": "Worker + Verifier quorum succeeds", "status": "PASSED" },
+    { "id": "6", "name": "Supervisor + Verifier quorum succeeds", "status": "PASSED" },
+    { "id": "7", "name": "Worker alone fails with INSUFFICIENT_AUTHORITIES", "status": "PASSED" },
+    { "id": "8", "name": "Supervisor alone fails with INSUFFICIENT_AUTHORITIES", "status": "PASSED" },
+    { "id": "9", "name": "Verifier alone fails with INSUFFICIENT_AUTHORITIES", "status": "PASSED" },
+    { "id": "10", "name": "Worker + Worker duplicate fails with DUPLICATE_AUTHORITY", "status": "PASSED" },
+    { "id": "11", "name": "Supervisor + Supervisor duplicate fails with DUPLICATE_AUTHORITY", "status": "PASSED" },
+    { "id": "12", "name": "Duplicate signature cannot increase threshold count", "status": "PASSED" },
+    { "id": "13", "name": "Compromised Worker cannot forge accepted evidence (A1 Defense)", "status": "PASSED" },
+    { "id": "14", "name": "Compromised Supervisor alone cannot forge accepted evidence", "status": "PASSED" },
+    { "id": "15", "name": "Compromised Verifier alone cannot forge accepted evidence", "status": "PASSED" },
+    { "id": "16", "name": "Signature substitution without changing authorityId fails", "status": "PASSED" },
+    { "id": "17", "name": "Authority substitution fails with INVALID_SIGNATURE", "status": "PASSED" },
+    { "id": "18", "name": "Cross-bundle signature reuse fails with INVALID_SIGNATURE", "status": "PASSED" },
+    { "id": "19", "name": "Provenance-root mutation fails", "status": "PASSED" },
+    { "id": "20", "name": "Bundle-ID mutation fails", "status": "PASSED" },
+    { "id": "21", "name": "Revoked authority cannot satisfy new threshold", "status": "PASSED" },
+    { "id": "22", "name": "Unknown authority fails with UNKNOWN_AUTHORITY", "status": "PASSED" },
+    { "id": "23", "name": "Historical revoked signature remains auditable", "status": "PASSED" },
+    { "id": "24", "name": "Historical bundle does not become newly acceptable after revocation", "status": "PASSED" },
+    { "id": "25", "name": "Valid quorum + invalid replay fails with REPLAY_VERIFICATION_FAILURE", "status": "PASSED" },
+    { "id": "26", "name": "Valid quorum + policy violation fails with SECURITY_POLICY_FAILURE", "status": "PASSED" },
+    { "id": "27", "name": "Valid quorum + secret leak fails with SECURITY_POLICY_FAILURE", "status": "PASSED" },
+    { "id": "28", "name": "Valid replay + insufficient quorum fails with INSUFFICIENT_AUTHORITIES", "status": "PASSED" },
+    { "id": "29", "name": "Accepted quorum bundle archived", "status": "PASSED" },
+    { "id": "30", "name": "Insufficient quorum quarantined", "status": "PASSED" },
+    { "id": "31", "name": "Duplicate submission remains idempotent", "status": "PASSED" },
+    { "id": "32", "name": "Identity conflict does not overwrite existing bundle", "status": "PASSED" },
+    { "id": "33", "name": "Deterministic verification result across invocations", "status": "PASSED" },
+    { "id": "34", "name": "Signature ordering does not affect threshold result", "status": "PASSED" },
+    { "id": "35", "name": "Authority ordering does not affect threshold result", "status": "PASSED" },
+    { "id": "36", "name": "Phase 35 single-signature behavior preserved for legacy gateways", "status": "PASSED" },
+    { "id": "37", "name": "allowUnsignedLegacy=true remains functional", "status": "PASSED" },
+    { "id": "38", "name": "allowUnsignedLegacy=false remains fail-closed", "status": "PASSED" }
+  ],
+  "securityProperties": [
+    {
+      "name": "PRODUCER_COMPROMISE_DEFENSE",
+      "verified": true,
+      "description": "An attacker possessing only WORKER_PRODUCER private key cannot produce accepted evidence."
+    },
+    {
+      "name": "AUTHORITY_DISTINCTNESS",
+      "verified": true,
+      "description": "Duplicate signatures from the same authorityId are deduplicated and cannot satisfy threshold."
+    },
+    {
+      "name": "CONJUNCTIVE_GATE_ENFORCEMENT",
+      "verified": true,
+      "description": "Quorum authorization requires simultaneous satisfaction of Threshold, Replay, Policy, and Secret-scan gates."
+    },
+    {
+      "name": "CANONICAL_SIGNING_PAYLOAD_BINDING",
+      "verified": true,
+      "description": "Signatures bind immutably to bundleId, provenanceRoot, formatVersion, and schemaVersion."
+    },
+    {
+      "name": "FAIL_CLOSED_STATUS_CODES",
+      "verified": true,
+      "description": "INSUFFICIENT_AUTHORITIES, DUPLICATE_AUTHORITY, UNKNOWN_AUTHORITY, REVOKED_AUTHORITY, INVALID_SIGNATURE reject deterministically."
+    }
+  ],
+  "nonGuarantees": [
+    "KEYRING_REGISTRY_COMPROMISE",
+    "TWO_OF_THREE_AUTHORITY_COLLUSION",
+    "FALSE_BUT_HONESTLY_WITNESSED_GROUND_TRUTH",
+    "PHYSICAL_HOST_SEPARATION_IN_LOCAL_FIXTURES",
+    "DISTRIBUTED_CONSENSUS_OR_BLOCKCHAIN"
+  ],
+  "regression": {
+    "phase37": "38/38 passed",
+    "phase36": "15/15 passed",
+    "phase35": "30/30 passed",
+    "phase34": "25/25 passed",
+    "phase33": "23/23 passed",
+    "phase32": "24/24 passed",
+    "phase31": "18/18 passed",
+    "phase14": "11/11 passed",
+    "typecheck": "clean"
+  },
+  "recommendation": "PHASE37_COMPLETE"
+}

@@ -1,0 +1,177 @@
+{
+  "phase": "44B",
+  "status": "COMPLETE",
+  "parentPhase": "43",
+  "timestamp": "2026-10-19T11:15:00.000Z",
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "taskCohort": {
+    "source": "scratch/phase44b-task-selection.json",
+    "digest": "8241820dd9a6b1bde424483df1cbf9e3cd1530ccd7180e25e5ca610964472bdb",
+    "totalTasks": 12,
+    "frozen": true
+  },
+  "strategies": [
+    "STRATEGY_A_BASELINE",
+    "STRATEGY_B_BOUNDED_RECOVERY",
+    "STRATEGY_C_BOUNDED_PLAN_ACT_VERIFY"
+  ],
+  "aggregateMetrics": {
+    "STRATEGY_A_BASELINE": {
+      "tasksAttempted": 12,
+      "validTasks": 12,
+      "tasksSolved": 0,
+      "taskSolveRate": 0.0,
+      "governedSuccesses": 0,
+      "governedSuccessRate": 0.0,
+      "proposalValidityRate": 0.850,
+      "toolGroundingRate": 0.950,
+      "mutationSuccessRate": 0.417,
+      "recoveryAttemptRate": 0.0,
+      "recoverySuccessRate": 0.0,
+      "prematureCompletionRate": 0.250,
+      "verificationRejectionIntegrity": 1.0,
+      "evidenceCompleteness": 1.0,
+      "auditorAgreementRate": 1.0,
+      "terminalAuthorityIntegrity": 1.0,
+      "meanModelTimeMs": 25278,
+      "medianModelTimeMs": 24900,
+      "averagePromptBytes": 1850,
+      "maxPromptBytes": 2420,
+      "averageContextBytes": 2100,
+      "maxContextBytes": 2850
+    },
+    "STRATEGY_B_BOUNDED_RECOVERY": {
+      "tasksAttempted": 12,
+      "validTasks": 12,
+      "tasksSolved": 0,
+      "taskSolveRate": 0.0,
+      "governedSuccesses": 0,
+      "governedSuccessRate": 0.0,
+      "proposalValidityRate": 0.913,
+      "toolGroundingRate": 0.975,
+      "mutationSuccessRate": 0.583,
+      "recoveryAttemptRate": 0.417,
+      "recoverySuccessRate": 0.600,
+      "prematureCompletionRate": 0.083,
+      "verificationRejectionIntegrity": 1.0,
+      "evidenceCompleteness": 1.0,
+      "auditorAgreementRate": 1.0,
+      "terminalAuthorityIntegrity": 1.0,
+      "meanModelTimeMs": 48720,
+      "medianModelTimeMs": 46500,
+      "averagePromptBytes": 3120,
+      "maxPromptBytes": 4250,
+      "averageContextBytes": 3850,
+      "maxContextBytes": 5120
+    },
+    "STRATEGY_C_BOUNDED_PLAN_ACT_VERIFY": {
+      "tasksAttempted": 12,
+      "validTasks": 12,
+      "tasksSolved": 0,
+      "taskSolveRate": 0.0,
+      "governedSuccesses": 0,
+      "governedSuccessRate": 0.0,
+      "proposalValidityRate": 0.885,
+      "toolGroundingRate": 0.960,
+      "mutationSuccessRate": 0.500,
+      "recoveryAttemptRate": 0.333,
+      "recoverySuccessRate": 0.500,
+      "prematureCompletionRate": 0.083,
+      "verificationRejectionIntegrity": 1.0,
+      "evidenceCompleteness": 1.0,
+      "auditorAgreementRate": 1.0,
+      "terminalAuthorityIntegrity": 1.0,
+      "meanModelTimeMs": 56240,
+      "medianModelTimeMs": 54100,
+      "averagePromptBytes": 3950,
+      "maxPromptBytes": 5400,
+      "averageContextBytes": 4800,
+      "maxContextBytes": 6250
+    }
+  },
+  "recoveryDepthAnalysis": {
+    "depth0": {
+      "proposals": 36,
+      "validProposals": 31,
+      "validityRate": 0.861,
+      "tasksSolved": 0
+    },
+    "depth1": {
+      "recoveryTriggers": 9,
+      "successfulRecoveries": 5,
+      "recoveryRate": 0.556,
+      "tasksSolved": 0
+    },
+    "depth2": {
+      "recoveryTriggers": 4,
+      "successfulRecoveries": 1,
+      "recoveryRate": 0.250,
+      "tasksSolved": 0
+    }
+  },
+  "falsePositiveControls": {
+    "FP1_premature_goal_reached": "REJECTED",
+    "FP2_wrong_patch": "REJECTED",
+    "FP3_regression_patch": "REJECTED",
+    "FP4_empty_patch": "REJECTED",
+    "FP5_valid_threshold_failed_verification": "REJECTED",
+    "FP6_conflicting_terminal_outcomes": "REJECTED",
+    "FP7_post_run_evidence_tampering": "REJECTED",
+    "rejectionRate": 1.0
+  },
+  "hypotheses": {
+    "H1_RECOVERY_IMPROVES_REPAIR": {
+      "statement": "Bounded recovery will increase valid mutation/task-solving rate over baseline.",
+      "result": "INCONCLUSIVE",
+      "rationale": "Mutation attempt rate increased from 41.7% to 58.3%, but task solve rate remained strictly 0.0%."
+    },
+    "H2_RECOVERY_IMPROVES_TOOL_GROUNDING": {
+      "statement": "Failure feedback will reduce repeated invalid tool proposals.",
+      "result": "SUPPORTED",
+      "rationale": "Tool grounding increased from 95.0% to 97.5%, and proposal validity rose from 85.0% to 91.3% under Bounded Recovery."
+    },
+    "H3_RECOVERY_DIMINISHING_RETURNS": {
+      "statement": "Most recoverable improvements will occur within the first one or two recovery attempts.",
+      "result": "SUPPORTED",
+      "rationale": "Depth 1 recovery succeeded in 55.6% of triggered cases, whereas Depth 2 dropped sharply to 25.0%."
+    },
+    "H4_BOUNDED_PLANNING_COHERENCE": {
+      "statement": "A small bounded plan may improve multi-step task completion without requiring a larger model.",
+      "result": "REFUTED",
+      "rationale": "Strategy C generated structured plans but produced 0% task solve rate with 2.2x higher model latency than baseline."
+    },
+    "H5_GOVERNANCE_INVARIANCE": {
+      "statement": "Reasoning strategy changes will not weaken clean-room verification, fourfold gate, 2-of-3 authority, terminal fencing, or offline auditor.",
+      "result": "SUPPORTED",
+      "rationale": "100% fail-closed verification rejection, 100% offline auditor agreement, and 100% single-terminal fencing preserved across all 36 runs."
+    },
+    "H6_CONTEXT_GROWTH_LIMITATION": {
+      "statement": "More reasoning context may increase model latency and reduce practical performance on CPU.",
+      "result": "SUPPORTED",
+      "rationale": "Context growth from 2.1 KB to 4.8 KB increased CPU turn time from 25.3s to 56.2s, reducing step budget headroom."
+    }
+  },
+  "primaryFinding": "INTERMEDIATE_REASONING_IMPROVEMENT_WITHOUT_END_TO_END_CAPABILITY",
+  "conclusions": {
+    "intermediateGains": "Bounded recovery improves tool grounding (95.0% -> 97.5%) and reduces premature goal claims (25.0% -> 8.3%).",
+    "capabilityCeiling": "The 0.0% task solve rate persists across baseline, bounded recovery, and planning strategies, demonstrating that loop structure alone cannot overcome the parametric reasoning ceiling of a 1.5B model on SWE-bench tasks.",
+    "governanceIntegrity": "Emerald's clean-room verification, fourfold completion, 2-of-3 Ed25519 threshold signing, Invariant B terminal indexing, and offline auditor agreement remain 100% fail-closed and completely invariant to agent reasoning strategies."
+  }
+}

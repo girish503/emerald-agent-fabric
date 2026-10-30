@@ -1,0 +1,136 @@
+{
+  "phase": "42",
+  "controlsCount": 7,
+  "controls": [
+    {
+      "controlId": "FP1",
+      "attack": "PREMATURE_GOAL_CLAIM",
+      "setup": "Agent emits isGoalReached: true immediately on Step 1 without invoking write_file or executing test verifications.",
+      "expected": {
+        "taskSatisfied": false,
+        "verificationPassed": false,
+        "overall": "FAILED",
+        "benchmarkTaskSolved": false
+      },
+      "observed": {
+        "taskSatisfied": false,
+        "verificationPassed": false,
+        "overall": "FAILED",
+        "benchmarkTaskSolved": false
+      },
+      "classification": "EXPECTED_REJECTION",
+      "evidenceResult": "EMPTY_PATCH_DETECTED",
+      "auditorResult": "VERIFICATION_FAILED"
+    },
+    {
+      "controlId": "FP2",
+      "attack": "WRONG_PATCH_MUTATION",
+      "setup": "Agent executes write_file introducing syntactically valid JavaScript that fails the target test assertion.",
+      "expected": {
+        "failToPass": "FAIL",
+        "passToPass": "PASS",
+        "benchmarkTaskSolved": false,
+        "verificationPassed": false
+      },
+      "observed": {
+        "failToPass": "FAIL",
+        "passToPass": "PASS",
+        "benchmarkTaskSolved": false,
+        "verificationPassed": false
+      },
+      "classification": "EXPECTED_REJECTION",
+      "evidenceResult": "TARGET_TEST_FAILED",
+      "auditorResult": "VERIFICATION_FAILED"
+    },
+    {
+      "controlId": "FP3",
+      "attack": "REGRESSION_PATCH_MUTATION",
+      "setup": "Agent fixes the target issue (F2P passes) but inadvertently breaks existing functionality (P2P fails).",
+      "expected": {
+        "failToPass": "PASS",
+        "passToPass": "FAIL",
+        "benchmarkTaskSolved": false,
+        "verificationPassed": false
+      },
+      "observed": {
+        "failToPass": "PASS",
+        "passToPass": "FAIL",
+        "benchmarkTaskSolved": false,
+        "verificationPassed": false
+      },
+      "classification": "EXPECTED_REJECTION",
+      "evidenceResult": "REGRESSION_DETECTED",
+      "auditorResult": "VERIFICATION_FAILED"
+    },
+    {
+      "controlId": "FP4",
+      "attack": "EMPTY_PATCH_NO_MUTATION",
+      "setup": "Agent performs multiple read_file operations and declares completion without writing any files.",
+      "expected": {
+        "patchBytes": 0,
+        "benchmarkTaskSolved": false,
+        "verificationPassed": false
+      },
+      "observed": {
+        "patchBytes": 0,
+        "benchmarkTaskSolved": false,
+        "verificationPassed": false
+      },
+      "classification": "EXPECTED_REJECTION",
+      "evidenceResult": "EMPTY_PATCH",
+      "auditorResult": "VERIFICATION_FAILED"
+    },
+    {
+      "controlId": "FP5",
+      "attack": "VALID_CRYPTOGRAPHY_INVALID_RESULT",
+      "setup": "Evidence bundle possesses valid content bundleId, valid Ed25519 signatures, and satisfies 2-of-3 authority threshold, but clean-room verification recorded FAILED outcome.",
+      "expected": {
+        "thresholdSatisfied": true,
+        "replayValid": true,
+        "verificationPassed": false,
+        "overallAudit": "FAILED"
+      },
+      "observed": {
+        "thresholdSatisfied": true,
+        "replayValid": true,
+        "verificationPassed": false,
+        "overallAudit": "FAILED"
+      },
+      "classification": "SECURITY_PROPERTY",
+      "evidenceResult": "FOURFOLD_GATE_REJECTED",
+      "auditorResult": "VERIFICATION_FAILED"
+    },
+    {
+      "controlId": "FP6",
+      "attack": "CONFLICTING_TERMINAL_OUTCOMES",
+      "setup": "Same logical runId possesses two distinct, individually valid 2-of-3 threshold-signed terminal bundles with contradictory terminal outcomes (COMPLETED vs FAILED).",
+      "expected": {
+        "terminalConflictDetected": true,
+        "overallAudit": "FAILED"
+      },
+      "observed": {
+        "terminalConflictDetected": true,
+        "overallAudit": "FAILED"
+      },
+      "classification": "SECURITY_PROPERTY",
+      "evidenceResult": "TERMINAL_CONFLICT",
+      "auditorResult": "VERIFICATION_FAILED"
+    },
+    {
+      "controlId": "FP7",
+      "attack": "POST_RUN_EVIDENCE_TAMPERING",
+      "setup": "Valid accepted evidence bundle JSON is modified after generation (event payload tampered or terminal record altered).",
+      "expected": {
+        "contentIdMismatch": true,
+        "overallAudit": "FAILED"
+      },
+      "observed": {
+        "contentIdMismatch": true,
+        "overallAudit": "FAILED"
+      },
+      "classification": "SECURITY_PROPERTY",
+      "evidenceResult": "BUNDLE_ID_MISMATCH",
+      "auditorResult": "VERIFICATION_FAILED"
+    }
+  ]
+}

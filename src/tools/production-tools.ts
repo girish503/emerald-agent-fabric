@@ -22,7 +22,9 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { ProductionGovernanceFacade } from "../governance/production-governance-facade.js";
 import { HarnessType } from "../domain/cross-harness-request.js";
-import { LineAnchoredEditor, LineAnchoredEditResult } from "../production/repair/line-anchored-editor.js";
+import { LineAnchoredEditor, LineAnchoredEditResult, LineAnchoredMutationOptions } from "../production/repair/line-anchored-editor.js";
+import { MutationIntentStorePort } from "../ports/mutation-intent-store.port.js";
+import { GovernedWamiRequiredError } from "../domain/errors.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -35,6 +37,8 @@ export interface ToolExecutionContext {
   readonly missionContractHash: string;
   readonly maxOutputBytes?: number;
   readonly timeoutMs?: number;
+  readonly governedBenchmarkRepairMode?: boolean;
+  readonly snapshotBasePath?: string;
 }
 
 export interface ToolExecutionResponse {
@@ -46,7 +50,11 @@ export interface ToolExecutionResponse {
 }
 
 export class ProductionToolGateway {
-  constructor(private readonly governance: ProductionGovernanceFacade) {}
+  constructor(
+    private readonly governance: ProductionGovernanceFacade,
+    private readonly mutationStore?: MutationIntentStorePort,
+    private readonly snapshotBasePath?: string
+  ) {}
 
   /**
    * Execute a tool under strict governance checks.
@@ -400,7 +408,82 @@ export class ProductionToolGateway {
     context: ToolExecutionContext,
   ): Promise<LineAnchoredEditResult> {
     const editor = new LineAnchoredEditor();
-    return editor.applyEdit(input, context.workspacePath);
+    const rawPath = String(input["path"] || input["filePath"] || "");
+    const safePath = this.resolveSafePath(rawPath, context.workspacePath);
+    const relPath = path.relative(context.workspacePath, safePath).replace(/\\/g, "/");
+
+    let mutationOptions: LineAnchoredMutationOptions | undefined;
+
+    if (context.governedBenchmarkRepairMode) {
+      if (!this.mutationStore) {
+        throw new GovernedWamiRequiredError(
+          context.runId ?? "unknown",
+          relPath,
+          "Governed repair execution requires MutationIntentStorePort for WAMI persistence"
+        );
+      }
+      if (!context.runId || typeof context.runId !== "string" || context.runId.trim().length === 0) {
+        throw new GovernedWamiRequiredError(
+          context.runId ?? "unknown",
+          relPath,
+          "Governed repair execution requires non-empty valid runId"
+        );
+      }
+      if (!context.subjectId || typeof context.subjectId !== "string" || context.subjectId.trim().length === 0) {
+        throw new GovernedWamiRequiredError(
+          context.runId,
+          relPath,
+          "Governed repair execution requires non-empty valid worker/subjectId"
+        );
+      }
+      if (!context.fenceId || typeof context.fenceId !== "string" || context.fenceId.trim().length === 0) {
+        throw new GovernedWamiRequiredError(
+          context.runId,
+          relPath,
+          "Governed repair execution requires non-empty valid lease/fenceId"
+        );
+      }
+      if (!context.workspacePath || typeof context.workspacePath !== "string" || context.workspacePath.trim().length === 0) {
+        throw new GovernedWamiRequiredError(
+          context.runId,
+          relPath,
+          "Governed repair execution requires valid workspacePath"
+        );
+      }
+      const snapshotDir =
+        context.snapshotBasePath ??
+        this.snapshotBasePath ??
+        path.resolve(context.workspacePath, ".emerald", "snapshots", context.runId);
+
+      mutationOptions = {
+        runId: context.runId,
+        workerId: context.subjectId,
+        workerLeaseId: context.fenceId,
+        store: this.mutationStore,
+        snapshotDir,
+      };
+    } else if (
+      this.mutationStore &&
+      context.runId &&
+      context.fenceId &&
+      context.subjectId &&
+      context.subjectId.trim().length > 0
+    ) {
+      const snapshotDir =
+        context.snapshotBasePath ??
+        this.snapshotBasePath ??
+        path.resolve(context.workspacePath, ".emerald", "snapshots", context.runId);
+
+      mutationOptions = {
+        runId: context.runId,
+        workerId: context.subjectId,
+        workerLeaseId: context.fenceId,
+        store: this.mutationStore,
+        snapshotDir,
+      };
+    }
+
+    return editor.applyEdit(input, context.workspacePath, mutationOptions);
   }
 
   // --- Tool 6: run_command ---

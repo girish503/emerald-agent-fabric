@@ -17,6 +17,7 @@
  * - emerald evidence <runId>
  * - emerald replay <runId>
  * - emerald doctor
+ * - emerald recovery sweep|watch
  */
 
 import * as fs from "node:fs";
@@ -31,6 +32,13 @@ import { CrossHarnessGateway } from "../application/cross-harness-gateway.js";
 import { ProductionRuntimeEngine, ModelAdapter, AgentProposal } from "../runtime/production-runtime-engine.js";
 import { ProductionReplayEngine } from "../evidence/production-replay-engine.js";
 import { ProductionDoctor } from "./doctor.js";
+import {
+  RecoveryHostConfigError,
+  runRecoveryHost,
+  runRecoverySweepOnce,
+  summarizeSweep,
+  sweepNeedsOperator,
+} from "../recovery/recovery-host.js";
 import {
   BenchmarkDoctor,
   BenchmarkManifestLoader,
@@ -142,6 +150,9 @@ export class EmeraldCli {
             return this.handleRunInspect(runId);
           }
           return { exitCode: 1, output: "Usage: emerald run [start|list|status|cancel|resume|recover|inspect]" };
+
+        case "recovery":
+          return await this.handleRecovery(args.slice(1));
 
         case "repair":
           if (subCmd === "start") {
@@ -303,6 +314,76 @@ export class EmeraldCli {
     if (!runId) return { exitCode: 1, output: "runId required" };
     const run = this.runControl.resumeRun(runId);
     return { exitCode: 0, output: `Run ${run.runId} resumed. Status: ${run.status}` };
+  }
+
+  /**
+   * emerald recovery sweep|watch — the host entry point for crash recovery against the SQLite store.
+   * Exit codes: 0 ok, 1 error (including a watch that hit sweep errors), 2 sweep finished but runs need
+   * an operator (held, failed closed, or workspace cleanup failed).
+   */
+  private async handleRecovery(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
+    const usage =
+      "Usage: emerald recovery <sweep|watch> --db <file> --workers-stopped [--workspace-root <dir>] [--interval-ms <n>]";
+    const sub = args[0];
+    if (sub !== "sweep" && sub !== "watch") return { exitCode: 1, output: usage };
+
+    const valueFlags = new Set(["--db", "--workspace-root", "--interval-ms"]);
+    const booleanFlags = new Set(["--workers-stopped"]);
+    const flags = new Map<string, string>();
+    const switches = new Set<string>();
+    for (let i = 1; i < args.length; i++) {
+      const a = args[i]!;
+      if (booleanFlags.has(a)) {
+        if (switches.has(a)) return { exitCode: 1, output: `Error: ${a} given more than once. ${usage}` };
+        switches.add(a);
+        continue;
+      }
+      if (!a.startsWith("--")) return { exitCode: 1, output: `Error: unexpected argument '${a}'. ${usage}` };
+      if (!valueFlags.has(a)) return { exitCode: 1, output: `Error: unknown option '${a}'. ${usage}` };
+      if (flags.has(a)) return { exitCode: 1, output: `Error: ${a} given more than once. ${usage}` };
+      const value = args[i + 1];
+      if (value === undefined || value.startsWith("--")) return { exitCode: 1, output: `Error: ${a} requires a value. ${usage}` };
+      flags.set(a, value);
+      i++;
+    }
+
+    // No default database: the interactive `emerald run` commands use the in-memory control plane,
+    // so a default path would silently act on (or report success for) the wrong file.
+    const dbPath = flags.get("--db");
+    if (!dbPath) return { exitCode: 1, output: `Error: --db is required. ${usage}` };
+    const options = {
+      dbPath,
+      workspaceRoot: flags.get("--workspace-root"),
+      acknowledgeNoActiveWorkers: switches.has("--workers-stopped"),
+    };
+
+    try {
+      if (sub === "sweep") {
+        const result = await runRecoverySweepOnce(options);
+        return { exitCode: sweepNeedsOperator(result) ? 2 : 0, output: JSON.stringify(summarizeSweep(result), null, 2) };
+      }
+
+      const rawInterval = flags.get("--interval-ms") ?? "5000";
+      const intervalMs = /^\d+$/.test(rawInterval) ? Number(rawInterval) : Number.NaN;
+      if (!Number.isInteger(intervalMs) || intervalMs < 100 || intervalMs > 86_400_000) {
+        return { exitCode: 1, output: "Error: --interval-ms must be a plain integer between 100 and 86400000" };
+      }
+      const controller = new AbortController();
+      const stop = (): void => controller.abort();
+      process.once("SIGINT", stop);
+      process.once("SIGTERM", stop);
+      let sweepErrors = 0;
+      try {
+        ({ sweepErrors } = await runRecoveryHost({ ...options, intervalMs, signal: controller.signal }));
+      } finally {
+        process.off("SIGINT", stop);
+        process.off("SIGTERM", stop);
+      }
+      return { exitCode: sweepErrors > 0 ? 1 : 0, output: sweepErrors > 0 ? `Stopped after ${sweepErrors} sweep error(s); see recovery.error log records` : "" };
+    } catch (err: unknown) {
+      if (err instanceof RecoveryHostConfigError) return { exitCode: 1, output: `Error: ${err.message}` };
+      return { exitCode: 1, output: `Error: recovery failed: ${err instanceof Error ? err.message : String(err)}` };
+    }
   }
 
   private handleRunRecover(runId?: string): { exitCode: number; output: string } {
@@ -736,6 +817,14 @@ Commands:
   emerald verify <runId>                 Show sovereign verification proof
   emerald evidence <runId>               Export full cryptographic evidence bundle
   emerald replay <runId>                 Reconstruct run history deterministically
+  emerald recovery sweep --db <file> --workers-stopped [--workspace-root <dir>]
+                                         Run one crash-recovery sweep (exit 0 clean, 2 needs operator)
+  emerald recovery watch --db <file> --workers-stopped [--workspace-root <dir>] [--interval-ms <n>]
+                                         Run crash recovery continuously until Ctrl+C
+                                         Only for SQLite databases written by the RunCoordinator (not the
+                                         in-memory 'emerald run' state). Stop all workers first: worker
+                                         leases are not renewed, so a live long-running worker would be
+                                         treated as crashed. The database and --workspace-root must exist.
 
 Benchmark Commands:
   emerald benchmark list                 List all 15 SWE-bench compatible pilot tasks

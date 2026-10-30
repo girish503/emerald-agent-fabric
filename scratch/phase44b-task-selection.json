@@ -1,0 +1,259 @@
+{
+  "phase": "44B",
+  "parentPhase": "43",
+  "taskCohortFrozen": true,
+  "cohortCreationTimestamp": "2026-10-19T11:10:00.000Z",
+  "datasetStatus": "SWE-BENCH-VERIFIED-COMPATIBLE-PILOT",
+  "selectionProtocol": "EAF-OSS-004-CURATED-12-MIX",
+  "parentCohortFile": "scratch/phase43-task-selection.json",
+  "totalTasks": 12,
+  "diversityCategoriesCovered": [
+    "CODE_NAVIGATION",
+    "LOCALIZED_BUG_FIX",
+    "INPUT_VALIDATION",
+    "BOUNDARY_CONDITIONS",
+    "REGRESSION_FIX",
+    "SECURITY_DEFECT",
+    "SMALL_REFACTOR",
+    "TEST_REPAIR",
+    "FAILURE_RECOVERY",
+    "MULTI_FILE_FEATURE",
+    "CONFIG_RECOVERY"
+  ],
+  "missingCategories": [
+    "DISTRIBUTED_NETWORKING",
+    "GPU_CUDA_KERNEL"
+  ],
+  "tasks": [
+    {
+      "taskId": "EAF-BM-01",
+      "repository": "emerald/calc",
+      "baseCommit": "eaf010000000000000000000000000000000001",
+      "taskCategory": "CODE_NAVIGATION",
+      "difficulty": "EASY",
+      "selectionReason": "Evaluates off-by-one arithmetic bug location and fix in core arithmetic module.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-01",
+      "targetFile": "src/calc.js",
+      "failToPassTests": [
+        "add(2, 3) must equal 5",
+        "add(-1, 1) must equal 0"
+      ],
+      "passToPassTests": [
+        "multiply(4, 5) must equal 20",
+        "subtract(10, 4) must equal 6"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-02",
+      "repository": "chalk/hex-color",
+      "baseCommit": "eaf020000000000000000000000000000000002",
+      "taskCategory": "LOCALIZED_BUG_FIX",
+      "difficulty": "EASY",
+      "selectionReason": "Fix hex shorthand parsing edge case (#fff expansion to #ffffff).",
+      "source": "PUBLIC_OSS_COMPATIBLE",
+      "fixturePath": "fixtures/eaf-bm-02",
+      "targetFile": "src/hex.js",
+      "failToPassTests": [
+        "parseHex('#fff') must return [255, 255, 255]",
+        "parseHex('#000') must return [0, 0, 0]"
+      ],
+      "passToPassTests": [
+        "parseHex('#ff0000') must return [255, 0, 0]",
+        "parseHex('#00ff00') must return [0, 255, 0]"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-03",
+      "repository": "express/cors-validator",
+      "baseCommit": "eaf030000000000000000000000000000000003",
+      "taskCategory": "INPUT_VALIDATION",
+      "difficulty": "MEDIUM",
+      "selectionReason": "Prevent HTTP header injection by rejecting origins containing CRLF characters.",
+      "source": "PUBLIC_OSS_COMPATIBLE",
+      "fixturePath": "fixtures/eaf-bm-03",
+      "targetFile": "src/cors.js",
+      "failToPassTests": [
+        "validateOrigin('https://example.com\\r\\nInjected: Header') must throw error",
+        "validateOrigin('https://example.com\\nInjected: Header') must throw error"
+      ],
+      "passToPassTests": [
+        "validateOrigin('https://valid.example.com') must return true",
+        "validateOrigin('http://localhost:3000') must return true"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-04",
+      "repository": "emerald/semver-lite",
+      "baseCommit": "eaf040000000000000000000000000000000004",
+      "taskCategory": "BOUNDARY_CONDITIONS",
+      "difficulty": "MEDIUM",
+      "selectionReason": "Handle complex pre-release tags containing hyphenated identifiers according to SemVer 2.0.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-04",
+      "targetFile": "src/semver.js",
+      "failToPassTests": [
+        "parsePrerelease('1.0.0-alpha-1') must return 'alpha-1'",
+        "parsePrerelease('2.0.0-rc.1-build-42') must return 'rc.1-build-42'"
+      ],
+      "passToPassTests": [
+        "parseVersion('1.2.3').major must equal 1",
+        "parseVersion('1.2.3').minor must equal 2",
+        "parseVersion('1.2.3').patch must equal 3"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-05",
+      "repository": "sindresorhus/is-ipv6",
+      "baseCommit": "eaf050000000000000000000000000000000005",
+      "taskCategory": "BOUNDARY_CONDITIONS",
+      "difficulty": "MEDIUM",
+      "selectionReason": "Validate compressed double-colon IPv6 address representations.",
+      "source": "PUBLIC_OSS_COMPATIBLE",
+      "fixturePath": "fixtures/eaf-bm-05",
+      "targetFile": "src/ipv6.js",
+      "failToPassTests": [
+        "isIPv6('::1') must return true",
+        "isIPv6('2001:db8::1') must return true"
+      ],
+      "passToPassTests": [
+        "isIPv6('2001:0db8:85a3:0000:0000:8a2e:0370:7334') must return true",
+        "isIPv6('invalid::ip:::1') must return false"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-06",
+      "repository": "emerald/kv-store",
+      "baseCommit": "eaf060000000000000000000000000000000006",
+      "taskCategory": "REGRESSION_FIX",
+      "difficulty": "MEDIUM",
+      "selectionReason": "Fix race/timing defect where deleted key returns obsolete value before buffer flush.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-06",
+      "targetFile": "src/kv-store.js",
+      "failToPassTests": [
+        "store.delete('k1') followed immediately by store.get('k1') must return undefined",
+        "store.has('k1') must return false after delete"
+      ],
+      "passToPassTests": [
+        "store.set('k2', 'val2'); store.get('k2') must return 'val2'",
+        "store.size() must reflect correct count"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-07",
+      "repository": "lodash/deep-set",
+      "baseCommit": "eaf070000000000000000000000000000000007",
+      "taskCategory": "SECURITY_DEFECT",
+      "difficulty": "HARD",
+      "selectionReason": "Prevent prototype pollution exploit through __proto__ and constructor.prototype property paths.",
+      "source": "PUBLIC_OSS_COMPATIBLE",
+      "fixturePath": "fixtures/eaf-bm-07",
+      "targetFile": "src/deep-set.js",
+      "failToPassTests": [
+        "deepSet({}, '__proto__.polluted', true) must not modify Object.prototype",
+        "deepSet({}, 'constructor.prototype.polluted', true) must not modify Object.prototype"
+      ],
+      "passToPassTests": [
+        "deepSet({}, 'a.b.c', 123) must return { a: { b: { c: 123 } } }",
+        "deepSet({}, 'x', 'hello') must return { x: 'hello' }"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-08",
+      "repository": "emerald/logger",
+      "baseCommit": "eaf080000000000000000000000000000000008",
+      "taskCategory": "SMALL_REFACTOR",
+      "difficulty": "EASY",
+      "selectionReason": "Extract pure JSON formatter function formatJsonEntry without modifying logger contract.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-08",
+      "targetFile": "src/logger.js",
+      "failToPassTests": [
+        "formatJsonEntry('INFO', 'msg', { id: 1 }) must return valid JSON string with level, message, meta",
+        "formatJsonEntry must be a pure export"
+      ],
+      "passToPassTests": [
+        "logger.info('test') must log without throwing",
+        "logger.setLevel('DEBUG') must update level"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-09",
+      "repository": "emerald/event-emitter",
+      "baseCommit": "eaf090000000000000000000000000000000009",
+      "taskCategory": "TEST_REPAIR",
+      "difficulty": "MEDIUM",
+      "selectionReason": "Repair argument spreading bug in emit method where listeners receive array instead of spread arguments.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-09",
+      "targetFile": "src/emitter.js",
+      "failToPassTests": [
+        "emitter.emit('data', 1, 2) must invoke listener with (1, 2)",
+        "emitter.emit('event', 'a', 'b', 'c') must invoke listener with 3 discrete arguments"
+      ],
+      "passToPassTests": [
+        "emitter.on('event', fn) registers listener",
+        "emitter.removeListener('event', fn) deregisters listener"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-10",
+      "repository": "emerald/fs-scanner",
+      "baseCommit": "eaf100000000000000000000000000000000010",
+      "taskCategory": "FAILURE_RECOVERY",
+      "difficulty": "MEDIUM",
+      "selectionReason": "Handle filesystem EACCES/permission denied errors gracefully without aborting entire directory traversal.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-10",
+      "targetFile": "src/scanner.js",
+      "failToPassTests": [
+        "scanDirectory on restricted path returns { files: [...], warnings: ['EACCES: permission denied'] } without throwing",
+        "scanner continues scanning siblings after encountering permission error"
+      ],
+      "passToPassTests": [
+        "scanDirectory on standard directory returns all regular files",
+        "scanDirectory ignores hidden dotfiles by default"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-11",
+      "repository": "emerald/user-service",
+      "baseCommit": "eaf110000000000000000000000000000000011",
+      "taskCategory": "MULTI_FILE_FEATURE",
+      "difficulty": "HARD",
+      "selectionReason": "Implement hasRole method on User model and wire authorization checking into UserService.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-11",
+      "targetFile": "src/models/user.js, src/services/user-service.js",
+      "failToPassTests": [
+        "adminUser.hasRole('admin') must return true",
+        "userService.canAccess(adminUser, 'admin') must return true",
+        "userService.canAccess(guestUser, 'admin') must return false"
+      ],
+      "passToPassTests": [
+        "userService.createUser('1', 'Alice') returns User instance",
+        "User constructor preserves id and name"
+      ]
+    },
+    {
+      "taskId": "EAF-BM-12",
+      "repository": "emerald/config-loader",
+      "baseCommit": "eaf120000000000000000000000000000000012",
+      "taskCategory": "CONFIG_RECOVERY",
+      "difficulty": "EASY",
+      "selectionReason": "Recover from missing optional configuration file by falling back to immutable default settings.",
+      "source": "INTERNAL_SYNTHETIC",
+      "fixturePath": "fixtures/eaf-bm-12",
+      "targetFile": "src/config.js",
+      "failToPassTests": [
+        "loadConfig() with missing file returns default { env: 'production', port: 8080 }",
+        "loadConfig() does not crash with ENOENT"
+      ],
+      "passToPassTests": [
+        "validateConfig({ env: 'production', port: 8080 }) returns true",
+        "validateConfig({ port: -1 }) throws error"
+      ]
+    }
+  ]
+}

@@ -107,6 +107,37 @@ export const WriteFileOutputSchema = z
 export type WriteFileOutput = z.infer<typeof WriteFileOutputSchema>;
 
 // ============================================================================
+// 2b. edit_file (Constrained Line-Anchored Search-and-Replace)
+// ============================================================================
+
+export const EditFileInputSchema = z
+  .object({
+    path: WorkspaceRelativePathSchema.describe("Relative path to file within workspace sandbox"),
+    searchAnchor: z.string().min(1, "searchAnchor cannot be empty").describe("Exact text segment to locate and replace"),
+    replacementText: z.string().describe("Exact replacement text to substitute for searchAnchor"),
+    expectedDigest: z.string().length(64, "expectedDigest must be a 64-character SHA-256 hash").optional().describe("Expected SHA-256 digest of original file for optimistic concurrency"),
+    allowMultipleMatches: z.boolean().optional().default(false).describe("Whether to allow replacing multiple matches (default false)"),
+    maxBytes: z.number().int().positive("maxBytes must be positive").optional().describe("Requested maximum bytes to write"),
+  })
+  .strict();
+
+export type EditFileInput = z.infer<typeof EditFileInputSchema>;
+
+export const EditFileOutputSchema = z
+  .object({
+    path: z.string(),
+    originalDigest: z.string(),
+    resultingDigest: z.string(),
+    occurrences: z.number().int().nonnegative(),
+    replacedCount: z.number().int().nonnegative(),
+    bytesModified: z.number().int().nonnegative(),
+    applied: z.boolean(),
+  })
+  .strict();
+
+export type EditFileOutput = z.infer<typeof EditFileOutputSchema>;
+
+// ============================================================================
 // 3. search_code
 // ============================================================================
 
@@ -242,6 +273,7 @@ export type RunCommandOutput = z.infer<typeof RunCommandOutputSchema>;
 export interface ToolInputMap {
   readonly read_file: ReadFileInput;
   readonly write_file: WriteFileInput;
+  readonly edit_file: EditFileInput;
   readonly search_code: SearchCodeInput;
   readonly git_status: GitStatusInput;
   readonly git_diff: GitDiffInput;
@@ -251,6 +283,7 @@ export interface ToolInputMap {
 export interface ToolOutputMap {
   readonly read_file: ReadFileOutput;
   readonly write_file: WriteFileOutput;
+  readonly edit_file: EditFileOutput;
   readonly search_code: SearchCodeOutput;
   readonly git_status: GitStatusOutput;
   readonly git_diff: GitDiffOutput;

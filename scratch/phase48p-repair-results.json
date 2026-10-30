@@ -1,0 +1,193 @@
+{
+  "phase": "Phase 48P",
+  "task": "EAF-BM-01",
+  "taskTitle": "Core Arithmetic Off-by-One Fix",
+  "classification": "REPAIR_ATTEMPT_FAILED",
+  "model": {
+    "name": "qwen2.5-coder:3b",
+    "digest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+    "parameters": "3.1B",
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "endpoint": "http://127.0.0.1:11434"
+  },
+  "timing": {
+    "startedAt": "2026-10-26T19:55:21.718Z",
+    "completedAt": "2026-10-26T19:59:13.655Z",
+    "wallClockDurationMs": 231881,
+    "preWarmDurationMs": 25919
+  },
+  "configuration": {
+    "governedBenchmarkRepairMode": true,
+    "allowWholeFileReplacement": false,
+    "maxSteps": 8,
+    "stepTimeoutMs": 300000,
+    "maxWallClockMs": 2400000,
+    "maxProposalRejections": 3,
+    "maxConsecutiveIneffectiveEdits": 3,
+    "dynamicToolFiltering": true,
+    "intermediateTestFeedback": true,
+    "postPassVerificationLatch": true,
+    "sourceGroundedVerificationContext": true,
+    "failedAnchorGuard": true,
+    "zeroMatchSearchRecovery": true,
+    "wholeFileNoOpGuidance": true,
+    "duplicateProposalGuard": true,
+    "ineffectiveMutationGuard": true,
+    "stalePreconditionRecovery": true,
+    "toolsEnabled": [
+      "read_file",
+      "write_file",
+      "edit_file",
+      "run_command",
+      "search_code",
+      "git_status",
+      "git_diff"
+    ]
+  },
+  "telemetry": {
+    "modelCalls": 1,
+    "modelFailures": 0,
+    "promptTokens": 2581,
+    "evalTokens": 145,
+    "totalTokens": 2726
+  },
+  "execution": {
+    "verified": true,
+    "terminalStatus": "COMPLETED",
+    "terminalReason": "COMPLETED",
+    "totalSteps": 1,
+    "totalActions": 1,
+    "totalProposalRejections": 0,
+    "readActionsCount": 0,
+    "writeActionsCount": 0,
+    "editActionsCount": 1,
+    "postPassLatchSnapshot": {
+      "isLatched": true,
+      "activationEvent": {
+        "stepNumber": 1,
+        "timestamp": "2026-10-26T19:59:12.509Z",
+        "protectedPath": "src/calc.js",
+        "f2pExitCode": 0,
+        "p2pExitCode": 0,
+        "targetHash": "4da0696dcd9f68c3a4157dd7ba7cdfbd85f19efb878b4e380af81b13ee65f2d4",
+        "cleanRoomSpecId": "spec-cleanroom-EAF-BM-01",
+        "taskId": "task-EAF-BM-01-1793044522073"
+      },
+      "protectedPaths": [
+        "src/calc.js"
+      ],
+      "cleanRoomVerified": true,
+      "cleanRoomStatus": "VERIFIED",
+      "cleanRoomMessage": "Independent clean-room proof verified: F2P=1.0, P2P=1.0, SUITE_RAN verified, zero regressions."
+    }
+  },
+  "postPassLatchTelemetry": {
+    "isLatched": true,
+    "latchedAtStep": null,
+    "latchedTimestamp": null,
+    "protectedPaths": [
+      "src/calc.js"
+    ],
+    "cleanRoomVerified": true,
+    "postPassMutationProposalsCount": 0,
+    "postPassMutationRejectionsCount": 0,
+    "postPassRejectionDenials": []
+  },
+  "governedEditingTelemetry": {
+    "editFileAttemptsCount": 1,
+    "editFileAcceptedCount": 1,
+    "editFileRejectedCount": 0,
+    "noopEditRejectionsCount": 0,
+    "duplicateProposalRejectionsCount": 0,
+    "repeatedFailedAnchorRejectionsCount": 0,
+    "ineffectiveMutationRejectionsCount": 0,
+    "repeatedProposalSubmitted": false,
+    "duplicateBlockedBeforeAdapter": true,
+    "writeFileAttemptsCount": 0,
+    "writeFileExistingDenialsCount": 0,
+    "writeFileNewAllowedCount": 0,
+    "disallowedFileOverwriteDenials": [],
+    "noopEditDenials": [],
+    "duplicateProposalDenials": [],
+    "ineffectiveMutationDenials": [],
+    "repeatedFailedAnchorDenials": [],
+    "anchorFailuresCount": 0,
+    "ambiguousAnchorsCount": 0,
+    "anchorDetails": [
+      {
+        "step": 1,
+        "proposalValid": true,
+        "rejectionReason": null,
+        "anchor": "return a + b + 1;",
+        "replacement": "return a + b;",
+        "isLineSelector": false,
+        "isLiteralCode": true,
+        "isOversized": false,
+        "hadExpectedDigest": false,
+        "executionStatus": "SUCCEEDED",
+        "executionError": null
+      }
+    ]
+  },
+  "stageProgression": {
+    "stageA_proposal": {
+      "proposedEditFile": true,
+      "editProposalsCount": 1
+    },
+    "stageB_mutation": {
+      "appliedSuccessfully": true,
+      "targetFile": "src/calc.js",
+      "initialHash": "5594898f27a8f06e58c6c9b19fcc55ec58e708ac0f1823a2f3d3abfb82a72f17",
+      "finalHash": "4da0696dcd9f68c3a4157dd7ba7cdfbd85f19efb878b4e380af81b13ee65f2d4",
+      "goldHash": "4da0696dcd9f68c3a4157dd7ba7cdfbd85f19efb878b4e380af81b13ee65f2d4",
+      "candidateMatchesGold": true,
+      "targetFileModified": true,
+      "unrelatedFilesPreserved": false,
+      "finalTargetFileContent": "function add(a, b) {\n  return a + b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+    },
+    "stageC_verification": {
+      "cleanRoomStatus": "VERIFIED",
+      "cleanRoomVerified": true,
+      "f2pPass": false,
+      "p2pPass": false
+    },
+    "stageD_evidence": {
+      "bundleId": "264f79defa08e4dd08797ba088d82cf2c13ebc62c7d155f8d69046c7e64445b2",
+      "provenanceRoot": "82a45bb0ec8248add9f3e545f664798e99f2cdc36ee2161aca0965033c28e966",
+      "signaturesCount": 2,
+      "eventsCount": 48,
+      "offlineAuditStatus": "VERIFIED",
+      "thresholdSatisfied": true,
+      "fourfoldSatisfied": true,
+      "auditFailures": [],
+      "replayDerivedOutcome": "COMPLETED",
+      "fourfoldPredicates": {
+        "taskSatisfied": true,
+        "policySatisfied": true,
+        "verificationPassed": true,
+        "evidenceComplete": true
+      }
+    }
+  },
+  "stepTranscript": [
+    {
+      "stepNumber": 1,
+      "timestamp": "2026-10-26T19:55:22.419Z",
+      "durationMs": 231167,
+      "finishReason": "ACTION_PROPOSED",
+      "proposalValid": true,
+      "proposalId": "proposal-1",
+      "toolName": "edit_file",
+      "inputPayload": {
+        "path": "src/calc.js",
+        "searchAnchor": "return a + b + 1;",
+        "replacementText": "return a + b;",
+        "allowMultipleMatches": false
+      },
+      "actionId": "04639238-77eb-4a93-9bb0-7d924a77e6d9",
+      "actionStatus": "SUCCEEDED",
+      "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"proposal-1\",\n  \"toolName\": \"edit_file\",\n  \"contextSnapshotHash\": \"f4cbe8f323ad0f1de67ccd5903b69d80c007089585b5c80d53b8f23bddd0edf3\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"searchAnchor\": \"return a + b + 1;\",\n    \"replacementText\": \"return a + b;\",\n    \"allowMultipleMatches\": false\n  }\n}"
+    }
+  ]
+}

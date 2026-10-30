@@ -50,6 +50,7 @@ export interface CreateMissionParams {
     readonly maxAttempts?: number;
     readonly maxOutputBytes?: number;
   };
+  readonly governedBenchmarkRepairMode?: boolean;
 }
 
 export class MissionControl {
@@ -101,6 +102,7 @@ export class MissionControl {
       policy: createExecutionPolicy({
         allowedCapabilities: allowedTools,
         isolationRequirement: "ISOLATED",
+        governedBenchmarkRepairMode: params.governedBenchmarkRepairMode ?? false,
       }),
       verificationSpecs: [
         createVerificationSpec({

@@ -27,11 +27,19 @@
  * 8. Zero Persistence Mutation: Never bypasses domain or state store boundaries; introduces zero new database tables.
  */
 
-import { ContextBudget } from "../domain/context.js";
-import { ContextSnapshot } from "../domain/context.js";
+import {
+  ContextBudget,
+  ContextSnapshot,
+  Observation,
+  computeObservationContentHash,
+  estimateBytes,
+  estimateTokens,
+  validateObservation,
+} from "../domain/context.js";
+import { redactSensitiveData } from "../domain/canonical-hash.js";
 import { ContextBudgetExceededError } from "../domain/errors.js";
 import { ProposalRejectionReason } from "../domain/action-proposal.js";
-import { staticToolRegistry, ToolName } from "../domain/tool.js";
+import { defaultGovernedToolRegistry, ExtendedToolName, ToolName, type ToolDefinition } from "../domain/tool.js";
 import {
   createOutputPayloadEvidence,
   createProcessExitEvidence,
@@ -44,6 +52,7 @@ import {
 } from "../domain/verification.js";
 import type { CleanRoomVerifier } from "./clean-room-verifier.js";
 import type { MissionContract } from "../domain/mission-contract.js";
+import type { RunCommandOutput } from "../domain/tool-schemas.js";
 import {
   computeReflexContextHash,
   validateReflexDecision,
@@ -72,6 +81,20 @@ import { WorkerActionStatus, WorkerRuntime } from "./worker-runtime.js";
 import { ProposalValidator } from "./proposal-validator.js";
 import { ContextSource } from "./context/context-source.js";
 import { ContextEngine } from "./context/context-engine.js";
+import { ContextResidencyTracker } from "./context-residency-tracker.js";
+import * as fsSync from "node:fs";
+import * as path from "node:path";
+import crypto from "node:crypto";
+import { LineAnchoredEditor } from "../production/repair/line-anchored-editor.js";
+import { FailedAnchorTracker } from "./failed-anchor-tracker.js";
+import {
+  DuplicateProposalDetector,
+  isOversizedWholeFileAnchor,
+} from "./duplicate-proposal-detector.js";
+import {
+  PostPassVerificationLatch,
+  type PostPassLatchSnapshot,
+} from "./post-pass-verification-latch.js";
 
 // ============================================================================
 // 1. Budgets & Defaults
@@ -88,7 +111,18 @@ export interface StepControllerBudget {
   readonly maxConsecutiveFailures: number;
   /** Maximum cumulative proposal validation rejections before halting */
   readonly maxProposalRejections: number;
+  /** Maximum consecutive identical successful read actions producing no state change before halting */
+  readonly maxConsecutiveIdenticalReads?: number;
+  /** Maximum consecutive ineffective edits failing to pass tests before halting */
+  readonly maxConsecutiveIneffectiveEdits?: number;
+  /** Whether intermediate test feedback after mutations is enabled */
+  readonly enableIntermediateTestFeedback?: boolean;
+  /** Whether the post-pass verification latch is enabled */
+  readonly enablePostPassVerificationLatch?: boolean;
 }
+
+export const DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS = 3;
+export const DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS = 3;
 
 export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freeze({
   maxSteps: 10,
@@ -96,7 +130,539 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
   maxActions: 10,
   maxConsecutiveFailures: 3,
   maxProposalRejections: 3,
+  maxConsecutiveIdenticalReads: DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS,
+  maxConsecutiveIneffectiveEdits: DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS,
+  enableIntermediateTestFeedback: true,
+  enablePostPassVerificationLatch: true,
 });
+
+export const MAX_REJECTION_FEEDBACK_CHARS = 512;
+export const REPEATED_IDENTICAL_READ_ADVISORY_THRESHOLD = 2;
+
+/**
+ * Deterministic mapping of known model hallucination aliases to authoritative schema parameter names.
+ * Scoped strictly to registered tool schemas (ADR-0029 / src/domain/tool-schemas.ts).
+ */
+export const DETERMINISTIC_TOOL_PARAMETER_MAPPINGS: Readonly<
+  Record<string, Readonly<Record<string, string>>>
+> = Object.freeze({
+  read_file: Object.freeze({
+    filePath: "path",
+    file_path: "path",
+    filepath: "path",
+    filename: "path",
+    file: "path",
+  }),
+  write_file: Object.freeze({
+    filePath: "path",
+    file_path: "path",
+    filepath: "path",
+    filename: "path",
+    file: "path",
+    text: "content",
+    data: "content",
+  }),
+  edit_file: Object.freeze({
+    filePath: "path",
+    file_path: "path",
+    filepath: "path",
+    filename: "path",
+    file: "path",
+    oldText: "searchAnchor",
+    old_text: "searchAnchor",
+    target: "searchAnchor",
+    anchor: "searchAnchor",
+    search_anchor: "searchAnchor",
+    newText: "replacementText",
+    new_text: "replacementText",
+    replacement: "replacementText",
+    replacement_text: "replacementText",
+    content: "replacementText",
+  }),
+  search_code: Object.freeze({
+    pattern: "query",
+    search_term: "query",
+    searchTerm: "query",
+    filePaths: "path",
+    files: "path",
+  }),
+});
+
+/**
+ * Derives actionable validation guidance for supported schema validation failures.
+ * Returns null if the failure cannot be safely converted into actionable guidance,
+ * ensuring unknown or unrelated errors retain sanitized fallback feedback without fabrication.
+ */
+export function deriveActionableValidationGuidance(options: {
+  readonly toolName?: string;
+  readonly rejectionReason?: ProposalRejectionReason | string;
+  readonly inputPayload?: unknown;
+  readonly validatorMessage?: string;
+}): string | null {
+  if (options.rejectionReason === "DISALLOWED_FILE_OVERWRITE") {
+    return "Direct overwrite of existing files via 'write_file' is disallowed under governed benchmark repair policy. Use 'edit_file' with exact searchAnchor targeting (using exact literal code text, NOT line numbers like 'line:10') to make localized modifications, or set allowWholeFileReplacement=true if full replacement is authorized.";
+  }
+  if (options.rejectionReason === "NOOP_EDIT_DISALLOWED") {
+    const payload = options.inputPayload as Record<string, unknown> | null;
+    const searchAnchor =
+      typeof payload?.searchAnchor === "string" ? payload.searchAnchor : undefined;
+    if (searchAnchor !== undefined && isOversizedWholeFileAnchor(searchAnchor)) {
+      return (
+        "edit_file proposal rejected: The entire source file (or an oversized multi-declaration block) was submitted as both 'searchAnchor' and 'replacementText'. " +
+        "Do NOT submit the whole file. 'searchAnchor' must contain ONLY a small, exact literal source fragment (1-3 lines) around the intended change. " +
+        "'replacementText' must be different and provide ONLY the corrected fragment. The rest of the file remains untouched automatically. " +
+        "Generic example: searchAnchor: \"const discount = rate * 0.1;\", replacementText: \"const discount = rate * 0.15;\"."
+      );
+    }
+    return "edit_file proposal rejected: 'searchAnchor' and 'replacementText' are identical. A localized edit must specify a different 'replacementText' that modifies the target file. Choose a small, unique literal code anchor around the bug and provide the corrected replacement.";
+  }
+  if (options.rejectionReason === "REPEATED_FAILED_ANCHOR_DISALLOWED") {
+    return "edit_file proposal rejected: The searchAnchor has already failed for this file and no fresh read has occurred. Re-read the target file with 'read_file' to inspect the actual source code and choose a verified literal anchor.";
+  }
+  if (options.rejectionReason === "WHOLE_FILE_ANCHOR_DISALLOWED") {
+    return (
+      "edit_file proposal rejected: The searchAnchor spans the entire file content. " +
+      "Governed benchmark repair requires localized edits (1-3 lines around the defect). " +
+      "Choose an exact snippet from the file containing only the specific lines needing modification. " +
+      "Do NOT submit the whole file as the searchAnchor."
+    );
+  }
+  if (options.rejectionReason === "DUPLICATE_PROPOSAL_DISALLOWED") {
+    return "Proposal rejected: An identical tool proposal was already rejected in the immediately preceding turn without any intervening actions or state changes. Repeating the identical proposal is disallowed. You must propose a meaningfully different action (e.g. read the file, search code, or use a distinct localized anchor and replacement).";
+  }
+  if (options.rejectionReason === "POST_VERIFICATION_MUTATION_DISALLOWED") {
+    return "Proposal rejected: Target file has already passed verification tests and is locked by the post-pass verification latch. Do NOT modify already-passing code. Propose verification tests or conclude the task with isGoalReached: true.";
+  }
+  if (options.rejectionReason === "INEFFECTIVE_MUTATION_DISALLOWED") {
+    return "edit_file proposal rejected: An identical mutation was already executed and failed intermediate verification, and the target file state has not changed. Do not repeat failed edits. Re-read the file with 'read_file' to inspect the actual source code and verification failure output, and propose a materially different localized edit.";
+  }
+  if (options.rejectionReason !== "INVALID_TOOL_INPUT") {
+    return null;
+  }
+  const toolName = options.toolName;
+  if (!toolName || !(toolName in DETERMINISTIC_TOOL_PARAMETER_MAPPINGS)) {
+    return null;
+  }
+  const toolMappings = DETERMINISTIC_TOOL_PARAMETER_MAPPINGS[toolName];
+  if (!toolMappings) {
+    return null;
+  }
+
+  // 1. Inspect inputPayload keys if provided as a record
+  if (
+    options.inputPayload &&
+    typeof options.inputPayload === "object" &&
+    !Array.isArray(options.inputPayload)
+  ) {
+    const payloadKeys = Object.keys(options.inputPayload as Record<string, unknown>);
+    for (const key of payloadKeys) {
+      if (key in toolMappings) {
+        const expectedField = toolMappings[key];
+        return `Invalid ${toolName} input: unrecognized key "${key}"; expected field "${expectedField}". Retry using "${expectedField}" and the documented ${toolName} schema.`;
+      }
+    }
+  }
+
+  // 2. Inspect validatorMessage for referenced unrecognized keys matching known aliases
+  if (options.validatorMessage && typeof options.validatorMessage === "string") {
+    for (const [aliasKey, expectedField] of Object.entries(toolMappings)) {
+      if (
+        options.validatorMessage.includes(`'${aliasKey}'`) ||
+        options.validatorMessage.includes(`"${aliasKey}"`)
+      ) {
+        return `Invalid ${toolName} input: unrecognized key "${aliasKey}"; expected field "${expectedField}". Retry using "${expectedField}" and the documented ${toolName} schema.`;
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Sanitizes proposal rejection feedback strings against credentials and private keys:
+ * - PEM private key blocks
+ * - Authorization Bearer tokens
+ * - Common key/secret/token patterns
+ */
+export function sanitizeRejectionMessage(text: string): string {
+  if (typeof text !== "string") {
+    return "";
+  }
+  let result = text.replace(
+    /-----BEGIN[A-Z\s]+PRIVATE KEY-----[\s\S]*?-----END[A-Z\s]+PRIVATE KEY-----/g,
+    "[REDACTED_PRIVATE_KEY]"
+  );
+  result = result.replace(/Bearer\s+[A-Za-z0-9\-_.]+/gi, "Bearer [REDACTED]");
+  result = result.replace(
+    /(?:api[_-]?key|secret|token|password)\s*[:=]\s*["']?[A-Za-z0-9\-_./+=]{8,}["']?/gi,
+    (match) => {
+      const parts = match.split(/[:=]/);
+      return `${parts[0]}: "[REDACTED]"`;
+    }
+  );
+  return result;
+}
+
+// ============================================================================
+// 1b. Verification Recovery Guidance & Assertion Parsing
+// ============================================================================
+
+export interface ParsedAssertionEvidence {
+  readonly assertionKind: string;
+  readonly actualValue?: string;
+  readonly expectedValue?: string;
+  readonly testFile?: string;
+  readonly testLine?: number;
+  readonly failingExpression?: string;
+  readonly matchedSourceStatement?: string;
+}
+
+export interface VerificationRecoveryAnalysis {
+  readonly assertionKind: string;
+  readonly actualValue?: string;
+  readonly expectedValue?: string;
+  readonly testFile?: string;
+  readonly testLine?: number;
+  readonly failingExpression?: string;
+  readonly targetRelPath?: string;
+  readonly matchedSourceStatement?: string;
+  readonly recoveryAdvisory: string;
+}
+
+/**
+ * Safely parses assertion failure evidence from test stderr/stdout.
+ * Extracts actual vs expected values, test file location, invocation expression,
+ * and matches relevant statements in the target source without hardcoding benchmark tasks.
+ * Returns null if the failure cannot be safely parsed as an assertion failure.
+ */
+export function parseAssertionEvidence(params: {
+  readonly stderr?: string;
+  readonly stdout?: string;
+  readonly workspaceHostPath?: string;
+  readonly targetRelPath?: string;
+  readonly currentSourceContext?: string;
+}): ParsedAssertionEvidence | null {
+  const stderr = params.stderr || "";
+  const stdout = params.stdout || "";
+  const combined = `${stderr}\n${stdout}`;
+
+  if (!combined.trim()) {
+    return null;
+  }
+
+  // 1. Determine assertion kind and extract actual/expected values
+  let assertionKind: string | undefined;
+  let actualValue: string | undefined;
+  let expectedValue: string | undefined;
+
+  // Pattern 1: Node assert diff (e.g. "undefined !== [ 255, 255, 255 ]" or "6 !== 5")
+  const nodeDiffMatch = combined.match(
+    /(?:Expected values to be strictly (?:deep-)?equal:\s*)?([^\r\n]+?)\s*!==\s*([^\r\n]+)/
+  );
+  if (nodeDiffMatch) {
+    actualValue = nodeDiffMatch[1].trim().slice(0, 120);
+    expectedValue = nodeDiffMatch[2].trim().slice(0, 120);
+    if (combined.includes("strictly deep-equal")) {
+      assertionKind = "DEEP_EQUAL";
+    } else if (combined.includes("strictly equal")) {
+      assertionKind = "STRICT_EQUAL";
+    } else {
+      assertionKind = "DIFF_EQUAL";
+    }
+  }
+
+  // Pattern 2: Jest/Vitest diff format
+  if (!assertionKind) {
+    const vitestExpectedMatch = combined.match(/- Expected\s*:\s*([^\r\n]+)/i);
+    const vitestReceivedMatch = combined.match(/\+ Received\s*:\s*([^\r\n]+)/i);
+    if (vitestExpectedMatch && vitestReceivedMatch) {
+      expectedValue = vitestExpectedMatch[1].trim().slice(0, 120);
+      actualValue = vitestReceivedMatch[1].trim().slice(0, 120);
+      assertionKind = "DIFF_EQUAL";
+    } else {
+      const toBeMatch = combined.match(/expected\s+([^\r\n]+?)\s+to (?:be|equal)\s+([^\r\n]+)/i);
+      if (toBeMatch) {
+        actualValue = toBeMatch[1].trim().slice(0, 120);
+        expectedValue = toBeMatch[2].trim().slice(0, 120);
+        assertionKind = "STRICT_EQUAL";
+      }
+    }
+  }
+
+  // Pattern 3: Node assert.throws missing exception
+  if (!assertionKind && (combined.includes("Missing expected exception") || combined.includes("Expected function to throw"))) {
+    assertionKind = "THROWS";
+  }
+
+  // Pattern 4: Generic unhandled error or exception
+  if (!assertionKind) {
+    if (combined.includes("Error:") || combined.includes("AssertionError") || combined.includes("throw ")) {
+      assertionKind = "ERROR";
+    } else {
+      return null;
+    }
+  }
+
+  // 2. Extract test file and line from stack frames
+  let testFile: string | undefined;
+  let testLine: number | undefined;
+
+  const stackRegex =
+    /(?:at\s+(?:.+?\s+\()?|❯\s*)([a-zA-Z]:[\\\/][^\r\n:()]+|[\\\/][^\r\n:()]+|[a-zA-Z0-9_\-./\\]+\.(?:[cm]?[jt]sx?)):(\d+)(?::(\d+))?\)?/g;
+  let stackMatch: RegExpExecArray | null;
+  while ((stackMatch = stackRegex.exec(combined)) !== null) {
+    const rawPath = stackMatch[1];
+    const rawLine = parseInt(stackMatch[2], 10);
+
+    // Skip node internals, node_modules, and tooling
+    if (
+      rawPath.includes("node:internal") ||
+      rawPath.includes("node_modules") ||
+      rawPath.includes("vitest/dist") ||
+      rawPath.includes("jest-circus")
+    ) {
+      continue;
+    }
+
+    let relCandidate = rawPath;
+    if (params.workspaceHostPath && path.isAbsolute(rawPath)) {
+      try {
+        const rel = path.relative(params.workspaceHostPath, rawPath);
+        if (!rel.startsWith("..") && !path.isAbsolute(rel)) {
+          relCandidate = rel;
+        }
+      } catch {
+        // Fall back to rawPath
+      }
+    }
+
+    relCandidate = relCandidate.replace(/\\/g, "/");
+    testFile = relCandidate;
+    testLine = Number.isFinite(rawLine) ? rawLine : undefined;
+    break;
+  }
+
+  // 3. Extract failing invocation expression from test file if accessible
+  let failingExpression: string | undefined;
+  if (testFile && testLine && params.workspaceHostPath) {
+    try {
+      const editor = new LineAnchoredEditor();
+      const safeTestPath = editor.resolveSafePath(testFile, params.workspaceHostPath);
+      if (fsSync.existsSync(safeTestPath)) {
+        const testContent = fsSync.readFileSync(safeTestPath, "utf-8");
+        const lines = testContent.split(/\r?\n/);
+        if (testLine >= 1 && testLine <= lines.length) {
+          const testCodeLine = lines[testLine - 1].trim();
+
+          // Pattern A: assert.throws
+          const throwsMatch = testCodeLine.match(
+            /assert\.throws\(\s*(?:\(\)\s*=>\s*|\bfunction\s*\(\)\s*\{\s*(?:return\s*)?)?([\s\S]+?)\s*(?:\}\s*)?\);?$/
+          );
+          if (throwsMatch) {
+            let expr = throwsMatch[1].trim();
+            if (expr.endsWith(")") && (expr.match(/\(/g) || []).length < (expr.match(/\)/g) || []).length) {
+              expr = expr.slice(0, -1).trim();
+            }
+            failingExpression = expr.slice(0, 120);
+          }
+
+          // Pattern B: expect(expr).to...
+          if (!failingExpression) {
+            const expectMatch = testCodeLine.match(/expect\(\s*([\s\S]+?)\s*\)\./);
+            if (expectMatch) {
+              failingExpression = expectMatch[1].trim().slice(0, 120);
+            }
+          }
+
+          // Pattern C: assert.equal/strictEqual/deepStrictEqual(arg1, arg2...)
+          if (!failingExpression) {
+            const assertMatch = testCodeLine.match(
+              /assert\.(?:deepStrictEqual|strictEqual|equal|deepEqual|notStrictEqual|notDeepEqual)\(\s*/
+            );
+            if (assertMatch && assertMatch.index !== undefined) {
+              const startIdx = assertMatch.index + assertMatch[0].length;
+              let depthParen = 0;
+              let depthBracket = 0;
+              let depthBrace = 0;
+              let inQuote: string | null = null;
+              let arg1End = -1;
+
+              for (let i = startIdx; i < testCodeLine.length; i++) {
+                const char = testCodeLine[i];
+                if (inQuote) {
+                  if (char === inQuote && testCodeLine[i - 1] !== "\\") {
+                    inQuote = null;
+                  }
+                  continue;
+                }
+                if (char === '"' || char === "'" || char === "`") {
+                  inQuote = char;
+                  continue;
+                }
+                if (char === "(") depthParen++;
+                else if (char === ")") {
+                  if (depthParen === 0 && depthBracket === 0 && depthBrace === 0) {
+                    arg1End = i;
+                    break;
+                  }
+                  depthParen--;
+                } else if (char === "[") depthBracket++;
+                else if (char === "]") depthBracket--;
+                else if (char === "{") depthBrace++;
+                else if (char === "}") depthBrace--;
+                else if (char === "," && depthParen === 0 && depthBracket === 0 && depthBrace === 0) {
+                  arg1End = i;
+                  break;
+                }
+              }
+
+              if (arg1End > startIdx) {
+                failingExpression = testCodeLine.slice(startIdx, arg1End).trim().slice(0, 120);
+              }
+            }
+          }
+
+          if (!failingExpression && testCodeLine.length > 0 && testCodeLine.length <= 120) {
+            failingExpression = testCodeLine;
+          }
+        }
+      }
+    } catch {
+      // Safe fallback: leave failingExpression undefined
+    }
+  }
+
+  // 4. Grounded statement matching in currentSourceContext
+  let matchedSourceStatement: string | undefined;
+  if (params.currentSourceContext) {
+    const sourceLines = params.currentSourceContext
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter((l) => l.length > 0 && !l.startsWith("//") && !l.startsWith("/*") && !l.startsWith("*"));
+
+    // Strategy A: Direct return value match (e.g. "return undefined" or "return 6")
+    if (actualValue) {
+      const returnTarget = actualValue === "undefined" ? "return undefined" : `return ${actualValue}`;
+      const foundReturn = sourceLines.find((l) => l.includes(returnTarget));
+      if (foundReturn) {
+        matchedSourceStatement = foundReturn.slice(0, 160);
+      }
+    }
+
+    // Strategy B: If no return match, look for function definition corresponding to failingExpression
+    if (!matchedSourceStatement && failingExpression) {
+      const funcMatch = failingExpression.match(/([a-zA-Z0-9_$]+)\s*\(/);
+      if (funcMatch) {
+        const funcName = funcMatch[1];
+        const foundFunc = sourceLines.find(
+          (l) =>
+            l.includes(`function ${funcName}`) ||
+            l.includes(`${funcName} =`) ||
+            l.includes(`${funcName}(`)
+        );
+        if (foundFunc) {
+          matchedSourceStatement = foundFunc.slice(0, 160);
+        }
+      }
+    }
+
+    // Strategy C: Literal inclusion of actualValue in non-empty line
+    if (!matchedSourceStatement && actualValue && actualValue.length > 1) {
+      const foundLiteral = sourceLines.find((l) => l.includes(actualValue!));
+      if (foundLiteral) {
+        matchedSourceStatement = foundLiteral.slice(0, 160);
+      }
+    }
+  }
+
+  return {
+    assertionKind,
+    ...(actualValue !== undefined ? { actualValue } : {}),
+    ...(expectedValue !== undefined ? { expectedValue } : {}),
+    ...(testFile !== undefined ? { testFile } : {}),
+    ...(testLine !== undefined ? { testLine } : {}),
+    ...(failingExpression !== undefined ? { failingExpression } : {}),
+    ...(matchedSourceStatement !== undefined ? { matchedSourceStatement } : {}),
+  };
+}
+
+/**
+ * Synthesizes structured verification analysis and actionable recovery guidance
+ * for failed or regressed intermediate verification runs.
+ */
+export function deriveVerificationRecoveryGuidance(params: {
+  readonly classification: string;
+  readonly exitCode: number;
+  readonly stderr?: string;
+  readonly stdout?: string;
+  readonly testDurationMs?: number;
+  readonly targetRelPath?: string;
+  readonly currentSourceContext?: string;
+  readonly workspaceHostPath?: string;
+  readonly cleanSpec?: CleanRoomVerificationSpec;
+}): {
+  readonly verificationAnalysis: VerificationRecoveryAnalysis;
+  readonly recoveryAdvisory: string;
+} | null {
+  if (params.classification === "PASS") {
+    return null;
+  }
+
+  const parsed = parseAssertionEvidence({
+    stderr: params.stderr,
+    stdout: params.stdout,
+    workspaceHostPath: params.workspaceHostPath,
+    targetRelPath: params.targetRelPath,
+    currentSourceContext: params.currentSourceContext,
+  });
+
+  const assertionKind = parsed?.assertionKind || (params.classification === "TIMEOUT" ? "TIMEOUT" : "ERROR");
+  const actualValue = parsed?.actualValue;
+  const expectedValue = parsed?.expectedValue;
+  const testFile = parsed?.testFile;
+  const testLine = parsed?.testLine;
+  const failingExpression = parsed?.failingExpression;
+  const matchedSourceStatement = parsed?.matchedSourceStatement;
+  const targetRelPath = params.targetRelPath;
+
+  let advisory = "";
+  if (params.classification === "TIMEOUT") {
+    advisory = `Intermediate test TIMED OUT after ${params.testDurationMs ?? 0}ms. Ensure that changes do not introduce infinite loops or unresolved promises.`;
+  } else if (failingExpression && actualValue !== undefined && expectedValue !== undefined) {
+    advisory = `Intermediate test failed: '${failingExpression}' produced actual value ${actualValue} (expected ${expectedValue}).`;
+  } else if (failingExpression) {
+    advisory = `Intermediate test failed on '${failingExpression}'.`;
+  } else if (actualValue !== undefined && expectedValue !== undefined) {
+    advisory = `Intermediate test failed: actual value ${actualValue} (expected ${expectedValue}).`;
+  } else {
+    advisory = `Intermediate test failed with exit code ${params.exitCode}.`;
+  }
+
+  if (matchedSourceStatement && targetRelPath) {
+    advisory += ` Grounded target statement in '${targetRelPath}': '${matchedSourceStatement}'.`;
+  } else if (targetRelPath) {
+    advisory += ` Responsible target file: '${targetRelPath}'.`;
+  }
+
+  advisory += ` To resolve this defect, use 'edit_file' with a small, exact literal searchAnchor targeting the defective statement. Do NOT append unrelated comments or declarations to exports. Do NOT invent new helper functions not present in the source.`;
+
+  const verificationAnalysis: VerificationRecoveryAnalysis = {
+    assertionKind,
+    ...(actualValue !== undefined ? { actualValue } : {}),
+    ...(expectedValue !== undefined ? { expectedValue } : {}),
+    ...(testFile !== undefined ? { testFile } : {}),
+    ...(testLine !== undefined ? { testLine } : {}),
+    ...(failingExpression !== undefined ? { failingExpression } : {}),
+    ...(targetRelPath !== undefined ? { targetRelPath } : {}),
+    ...(matchedSourceStatement !== undefined ? { matchedSourceStatement } : {}),
+    recoveryAdvisory: advisory,
+  };
+
+  return {
+    verificationAnalysis,
+    recoveryAdvisory: advisory,
+  };
+}
 
 // ============================================================================
 // 2. Terminal Reasons & Transcript
@@ -116,7 +682,9 @@ export type StepControllerTerminalReason =
   | "UNKNOWN_EXECUTION"
   | "CONTEXT_BUDGET_EXCEEDED"
   | "BRAIN_FAILURE"
-  | "DEFERRED";
+  | "DEFERRED"
+  | "STAGNATION"
+  | "POLICY_DENIED";
 
 export interface StepTranscriptEntry {
   readonly stepNumber: number;
@@ -126,7 +694,7 @@ export interface StepTranscriptEntry {
   readonly contextBytes: number;
   readonly contextObservationsCount: number;
   readonly proposalId?: string;
-  readonly toolName?: ToolName;
+  readonly toolName?: ExtendedToolName;
   readonly inputHash?: string;
   readonly inputPayload?: unknown;
   readonly rationale?: string;
@@ -144,6 +712,9 @@ export interface StepTranscriptEntry {
   readonly actionStatus?: WorkerActionStatus;
   readonly actionOutput?: unknown;
   readonly actionError?: unknown;
+  readonly progressAdvisory?: string;
+  readonly eligibleTools?: readonly string[];
+  readonly filteredTools?: readonly string[];
   readonly durationMs: number;
   readonly timestamp: string;
 }
@@ -160,6 +731,7 @@ export interface StepControllerResult {
   readonly totalWallClockMs: number;
   readonly transcript: readonly StepTranscriptEntry[];
   readonly lastContextSnapshot?: ContextSnapshot;
+  readonly postPassLatchSnapshot?: PostPassLatchSnapshot;
 }
 
 // ============================================================================
@@ -181,6 +753,14 @@ export interface AgentStepControllerOptions {
   readonly cleanRoomVerifier?: CleanRoomVerifier;
   readonly speculativePromotionGate?: import("./speculative-promotion-gate.js").SpeculativePromotionGate;
   readonly speculativePolicy?: import("./runtime-speculative-execution-policy.js").RuntimeSpeculativeExecutionPolicy;
+  /**
+   * Whether dynamic context-aware tool filtering is enabled.
+   * Default: false (preserves static schema behavior).
+   */
+  readonly enableDynamicToolFiltering?: boolean;
+  readonly contextResidencyTracker?: ContextResidencyTracker;
+  readonly failedAnchorTracker?: FailedAnchorTracker;
+  readonly duplicateProposalDetector?: DuplicateProposalDetector;
 }
 
 
@@ -197,6 +777,11 @@ export interface RunStepLoopParams {
   readonly contextBudget?: ContextBudget;
   readonly abortSignal?: AbortSignal;
   readonly enableGovernedVerificationStage?: boolean;
+  /**
+   * Override for dynamic context-aware tool filtering for this run.
+   * Default: falls back to controller option (default: false).
+   */
+  readonly enableDynamicToolFiltering?: boolean;
 }
 
 // ============================================================================
@@ -218,13 +803,18 @@ export class AgentStepController {
   private readonly cleanRoomVerifier?: CleanRoomVerifier;
   private readonly speculativePromotionGate?: import("./speculative-promotion-gate.js").SpeculativePromotionGate;
   private readonly speculativePolicy?: import("./runtime-speculative-execution-policy.js").RuntimeSpeculativeExecutionPolicy;
+  private readonly enableDynamicToolFiltering: boolean;
+  private readonly contextResidencyTracker: ContextResidencyTracker;
+  private readonly failedAnchorTracker: FailedAnchorTracker;
+  private readonly duplicateProposalDetector: DuplicateProposalDetector;
+  private readonly postPassLatch: PostPassVerificationLatch;
 
   constructor(options: AgentStepControllerOptions) {
     this.coordinator = options.coordinator;
     this.stateStore = options.stateStore;
     this.workerRuntime = options.workerRuntime;
     this.agentBrain = options.agentBrain;
-    this.toolRegistry = options.toolRegistry ?? staticToolRegistry;
+    this.toolRegistry = options.toolRegistry ?? defaultGovernedToolRegistry;
     this.clock = options.clock ?? new SystemClock();
     this.reflex = options.reflex ?? new NoopReflex();
     this.enableGovernedVerificationStage =
@@ -232,6 +822,17 @@ export class AgentStepController {
     this.cleanRoomVerifier = options.cleanRoomVerifier;
     this.speculativePromotionGate = options.speculativePromotionGate;
     this.speculativePolicy = options.speculativePolicy;
+    this.enableDynamicToolFiltering = options.enableDynamicToolFiltering ?? false;
+    this.failedAnchorTracker =
+      options.failedAnchorTracker ?? new FailedAnchorTracker();
+    this.duplicateProposalDetector =
+      options.duplicateProposalDetector ?? new DuplicateProposalDetector();
+    this.postPassLatch = new PostPassVerificationLatch();
+    this.contextResidencyTracker =
+      options.contextResidencyTracker ??
+      new ContextResidencyTracker({
+        enableDynamicToolFiltering: this.enableDynamicToolFiltering,
+      });
 
     this.proposalValidator =
       options.proposalValidator ??
@@ -249,6 +850,22 @@ export class AgentStepController {
       ...DEFAULT_STEP_CONTROLLER_BUDGET,
       ...options.defaultBudget,
     });
+  }
+
+  getContextResidencyTracker(): ContextResidencyTracker {
+    return this.contextResidencyTracker;
+  }
+
+  getFailedAnchorTracker(): FailedAnchorTracker {
+    return this.failedAnchorTracker;
+  }
+
+  getDuplicateProposalDetector(): DuplicateProposalDetector {
+    return this.duplicateProposalDetector;
+  }
+
+  getPostPassVerificationLatch(): PostPassVerificationLatch {
+    return this.postPassLatch;
   }
 
   get promotionGate(): import("./speculative-promotion-gate.js").SpeculativePromotionGate | undefined {
@@ -280,14 +897,34 @@ export class AgentStepController {
       ...this.defaultBudget,
       ...params.budget,
     });
+    const effectiveDynamicToolFiltering =
+      params.enableDynamicToolFiltering ?? this.enableDynamicToolFiltering;
 
     const startTime = this.clock.now().getTime();
+    this.failedAnchorTracker.clearAll();
+    this.duplicateProposalDetector.clearAll();
+    this.postPassLatch.clear();
     const transcript: StepTranscriptEntry[] = [];
     let stepCount = 0;
     let actionCount = 0;
     let consecutiveFailures = 0;
     let proposalRejections = 0;
     let lastContextSnapshot: ContextSnapshot | undefined;
+    let pendingProposalRejectionObservation: Observation | null = null;
+    let pendingProgressAdvisoryObservation: Observation | null = null;
+    let pendingTestFeedbackObservation: Observation | null = null;
+    let pendingActionRecoveryObservation: Observation | null = null;
+    let consecutiveIdenticalReads = 0;
+    let consecutiveIneffectiveEdits = 0;
+    let lastSuccessfulRead:
+      | {
+          readonly path: string;
+          readonly inputHash: string;
+          readonly outputHash: string;
+          consecutiveCount: number;
+          advisoryIssued: boolean;
+        }
+      | undefined;
 
     // Helper to assemble final StepControllerResult
     const assembleResult = (
@@ -308,6 +945,7 @@ export class AgentStepController {
         totalWallClockMs,
         transcript: Object.freeze([...transcript]),
         ...(lastContextSnapshot ? { lastContextSnapshot } : {}),
+        postPassLatchSnapshot: this.postPassLatch.getSnapshot(),
       });
     };
 
@@ -375,7 +1013,31 @@ export class AgentStepController {
         );
       }
 
-      // 7. Verify Authoritative Run & Lease Ownership
+      // 7. Check Stagnation (Consecutive Identical Reads) Budget
+      const maxConsecutiveIdenticalReads =
+        effectiveBudget.maxConsecutiveIdenticalReads ??
+        DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS;
+      if (consecutiveIdenticalReads >= maxConsecutiveIdenticalReads) {
+        return assembleResult(
+          "STAGNATION",
+          `Execution loop halted due to stagnation: ${consecutiveIdenticalReads} consecutive identical successful reads of '${lastSuccessfulRead?.path ?? "unknown"}' without progress`,
+          taskId
+        );
+      }
+
+      // 7b. Check Stagnation (Consecutive Ineffective Edits) Budget
+      const maxConsecutiveIneffectiveEdits =
+        effectiveBudget.maxConsecutiveIneffectiveEdits ??
+        DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS;
+      if (consecutiveIneffectiveEdits >= maxConsecutiveIneffectiveEdits) {
+        return assembleResult(
+          "STAGNATION",
+          `Execution loop halted due to stagnation: ${consecutiveIneffectiveEdits} consecutive ineffective edit attempts failed to produce passing test results`,
+          taskId
+        );
+      }
+
+      // 8. Verify Authoritative Run & Lease Ownership
       const currentRun = this.stateStore.getRun(runId);
       if (!currentRun) {
         return assembleResult("LEASE_LOST", `Run '${runId}' not found during loop step`, taskId);
@@ -406,7 +1068,7 @@ export class AgentStepController {
         );
       }
 
-      // 8. Verify Mission Contract Lifecycle
+      // 9. Verify Mission Contract Lifecycle
       if (!currentRun.contractBinding) {
         return assembleResult(
           "CONTRACT_REVOKED",
@@ -433,15 +1095,29 @@ export class AgentStepController {
       stepCount++;
       const stepStartTime = this.clock.now().getTime();
       const stepTimestamp = this.clock.nowIso();
+      let availableTools: readonly ToolDefinition[] = this.toolRegistry.listTools();
+      let filteredToolNames: readonly string[] = [];
 
       // Step A: Build Authoritative ContextSnapshot
       let contextSnapshot: ContextSnapshot;
       try {
         const candidates = await this.contextSource.gatherCandidateObservations(runId);
+        const effectiveCandidates = [
+          ...candidates,
+          ...(pendingProposalRejectionObservation ? [pendingProposalRejectionObservation] : []),
+          ...(pendingProgressAdvisoryObservation ? [pendingProgressAdvisoryObservation] : []),
+          ...(pendingTestFeedbackObservation ? [pendingTestFeedbackObservation] : []),
+          ...(pendingActionRecoveryObservation ? [pendingActionRecoveryObservation] : []),
+        ];
+        pendingProposalRejectionObservation = null;
+        pendingProgressAdvisoryObservation = null;
+        pendingTestFeedbackObservation = null;
+        pendingActionRecoveryObservation = null;
+
         contextSnapshot = ContextEngine.build({
           runId,
           taskId,
-          candidates,
+          candidates: effectiveCandidates,
           budget: params.contextBudget,
           createdAt: stepTimestamp,
         });
@@ -456,10 +1132,26 @@ export class AgentStepController {
       // Step B: Query Agent Brain (Untrusted Model Output)
       let brainResult: AgentBrainResult;
       try {
+        if (effectiveDynamicToolFiltering) {
+          const targetPath = this.resolveTargetFilePath(contextSnapshot);
+          if (targetPath) {
+            availableTools = this.contextResidencyTracker.filterEligibleTools(
+              availableTools,
+              targetPath,
+              contextSnapshot
+            );
+            const eligibleSet = new Set(availableTools.map((t) => t.name));
+            filteredToolNames = this.toolRegistry
+              .listTools()
+              .map((t) => t.name)
+              .filter((n) => !eligibleSet.has(n));
+          }
+        }
+
         const brainRequest: AgentBrainRequest = {
           runId,
           contextSnapshot,
-          availableTools: this.toolRegistry.listTools(),
+          availableTools,
           sequenceNumber: stepCount,
           abortSignal: params.abortSignal,
         };
@@ -727,7 +1419,7 @@ export class AgentStepController {
         );
       }
 
-      // Step D: Validate ActionProposal (11-Stage Pipeline)
+      // Step D: Validate ActionProposal (Pipeline)
       const validationResult = this.proposalValidator.validate(brainResult.proposal, {
         runId,
         contextSnapshot,
@@ -735,10 +1427,177 @@ export class AgentStepController {
         leaseId,
         run: currentRun,
         contract: activeContract,
+        workspaceHostPath: params.workspace?.hostPath,
+        fileContentReader: (relPath: string) => {
+          if (!params.workspace?.hostPath) return null;
+          try {
+            const editor = new LineAnchoredEditor();
+            const safePath = editor.resolveSafePath(relPath, params.workspace.hostPath);
+            if (fsSync.existsSync(safePath) && !fsSync.lstatSync(safePath).isDirectory()) {
+              return fsSync.readFileSync(safePath, "utf8");
+            }
+          } catch {
+            return null;
+          }
+          return null;
+        },
+        failedAnchorChecker: (relPath: string, searchAnchor: string) =>
+          this.failedAnchorTracker.isFailedAnchor(relPath, searchAnchor),
+        duplicateProposalChecker: (toolName: string, inputPayload: unknown) => {
+          const record = this.duplicateProposalDetector.getDuplicateRecord(toolName, inputPayload);
+          if (record) {
+            return {
+              isDuplicate: true,
+              priorStep: record.stepNumber,
+              priorReason: record.rejectionReason,
+            };
+          }
+          return false;
+        },
+        ineffectiveMutationChecker: (toolName: string, inputPayload: unknown, targetPath?: string) => {
+          if (toolName !== "edit_file" && toolName !== "write_file") {
+            return false;
+          }
+          if (!targetPath || !params.workspace?.hostPath) {
+            return false;
+          }
+          let currentSourceHash: string | undefined;
+          try {
+            const editor = new LineAnchoredEditor();
+            const safePath = editor.resolveSafePath(targetPath, params.workspace.hostPath);
+            if (fsSync.existsSync(safePath)) {
+              const raw = fsSync.readFileSync(safePath, "utf-8");
+              currentSourceHash = crypto.createHash("sha256").update(raw, "utf-8").digest("hex");
+            }
+          } catch {
+            return false;
+          }
+
+          const record = this.duplicateProposalDetector.getIneffectiveMutationRecord(
+            toolName,
+            inputPayload,
+            currentSourceHash,
+            this.duplicateProposalDetector.getWorkspaceMutationVersion()
+          );
+          if (record) {
+            return {
+              isIneffective: true,
+              priorStep: record.stepNumber,
+              reason: `Identical mutation was executed at step ${record.stepNumber} and failed intermediate verification (${record.verificationClassification})`,
+            };
+          }
+          return false;
+        },
+        postPassMutationChecker: (toolName: string, targetPath?: string) =>
+          effectiveBudget.enablePostPassVerificationLatch !== false
+            ? this.postPassLatch.isMutationProhibited(toolName, targetPath)
+            : false,
       });
 
       if (!validationResult.valid) {
         proposalRejections++;
+        const rejectionTimestamp = this.clock.nowIso();
+
+        const proposalToolName = (brainResult.proposal as any)?.toolName;
+        const proposalInputPayload = (brainResult.proposal as any)?.inputPayload;
+
+        this.duplicateProposalDetector.recordRejection(
+          proposalToolName ?? "unknown",
+          proposalInputPayload,
+          validationResult.reason,
+          stepCount,
+          rejectionTimestamp
+        );
+
+        // Phase 43: Construct typed, bounded rejection feedback observation for the immediately next model step
+        try {
+          const rawMessage = validationResult.message ?? "";
+          let boundedMessage: string | undefined = undefined;
+          if (rawMessage.length > 0) {
+            boundedMessage =
+              rawMessage.length > MAX_REJECTION_FEEDBACK_CHARS
+                ? rawMessage.slice(0, MAX_REJECTION_FEEDBACK_CHARS) + " [TRUNCATED]"
+                : rawMessage;
+            boundedMessage = sanitizeRejectionMessage(boundedMessage);
+          }
+
+          const actionableGuidance = deriveActionableValidationGuidance({
+            toolName: proposalToolName,
+            rejectionReason: validationResult.reason,
+            inputPayload: proposalInputPayload,
+            validatorMessage: rawMessage,
+          });
+
+          const sanitizedGuidance = actionableGuidance
+            ? sanitizeRejectionMessage(actionableGuidance)
+            : undefined;
+
+          const feedbackExplanation = sanitizedGuidance ?? boundedMessage;
+
+          const feedbackContent: Record<string, unknown> = {
+            feedbackKind: "PROPOSAL_VALIDATION_FAILED",
+            stepNumber: stepCount,
+            rejectionReason: validationResult.reason,
+            ...(feedbackExplanation !== undefined ? { explanation: feedbackExplanation } : {}),
+            ...((brainResult.proposal as any)?.proposalId
+              ? { rejectedProposalId: (brainResult.proposal as any).proposalId }
+              : {}),
+            ...(proposalToolName ? { rejectedToolName: proposalToolName } : {}),
+          };
+
+          const redactedContent = redactSensitiveData(feedbackContent) as Record<string, unknown>;
+          const feedbackBytes = estimateBytes(redactedContent);
+
+          const feedbackObs: Observation = {
+            observationId: `obs-rejection-step-${stepCount}`,
+            category: "TOOL_ERROR",
+            provenance: {
+              entityKind: "Action",
+              entityId: (brainResult.proposal as any)?.proposalId ?? `step-${stepCount}`,
+              runId,
+              sequenceNumber: stepCount,
+              timestamp: rejectionTimestamp,
+              isAuthoritativeRuntimeFact: true,
+            },
+            freshness: "CURRENT",
+            priority: 85,
+            content: redactedContent,
+            contentHash: computeObservationContentHash(redactedContent),
+            estimatedBytes: feedbackBytes,
+            estimatedTokens: estimateTokens(feedbackBytes),
+            isMandatory: true,
+          };
+          validateObservation(feedbackObs);
+          pendingProposalRejectionObservation = feedbackObs;
+        } catch {
+          // Failure to construct feedback must fail safely without authorizing invalid proposal
+          pendingProposalRejectionObservation = null;
+        }
+
+        // Persist durable rejection event to stateStore if available
+        try {
+          this.stateStore.transaction((tx) => {
+            tx.appendEvent({
+              eventId: crypto.randomUUID(),
+              runId,
+              timestamp: rejectionTimestamp,
+              eventType: "proposal.rejected",
+              schemaVersion: 1,
+              producer: "application.agent_step_controller",
+              payload: {
+                proposalId: (brainResult.proposal as any)?.proposalId,
+                toolName: (brainResult.proposal as any)?.toolName,
+                rejectionReason: validationResult.reason,
+                explanation: validationResult.message,
+                stepNumber: stepCount,
+                rejectedAt: rejectionTimestamp,
+              },
+            });
+          });
+        } catch {
+          // Failure to persist must fail safely
+        }
+
         transcript.push(
           Object.freeze({
             stepNumber: stepCount,
@@ -755,6 +1614,12 @@ export class AgentStepController {
             proposalValid: false,
             proposalRejectionReason: validationResult.reason,
             proposalRejectionMessage: validationResult.message,
+            ...(effectiveDynamicToolFiltering
+              ? {
+                  eligibleTools: availableTools.map((t) => t.name),
+                  filteredTools: filteredToolNames,
+                }
+              : {}),
             durationMs: this.clock.now().getTime() - stepStartTime,
             timestamp: stepTimestamp,
           })
@@ -838,6 +1703,54 @@ export class AgentStepController {
 
         const elapsedReflexMs = Math.max(0, Math.round(performance.now() - reflexStartMonotonic));
         proposalRejections++;
+
+        // Construct bounded structured rejection feedback observation for subsequent turn
+        const rawErrExplanation = err instanceof Error ? err.message : String(err);
+        let boundedErrMsg: string | undefined = undefined;
+        if (rawErrExplanation) {
+          const sanitized = sanitizeRejectionMessage(rawErrExplanation);
+          boundedErrMsg =
+            sanitized.length > MAX_REJECTION_FEEDBACK_CHARS
+              ? sanitized.slice(0, MAX_REJECTION_FEEDBACK_CHARS - 14) + " ...[TRUNCATED]"
+              : sanitized;
+        }
+        try {
+          const feedbackContent: Record<string, unknown> = {
+            rejectionCategory: "REFLEX_ERROR",
+            rejectionReason: "UNSUPPORTED_ACTION",
+            ...(boundedErrMsg !== undefined ? { explanation: boundedErrMsg } : {}),
+            rejectedProposalId: validationResult.proposal.proposalId,
+            rejectedToolName: validationResult.proposal.toolName,
+          };
+
+          const redactedContent = redactSensitiveData(feedbackContent) as Record<string, unknown>;
+          const feedbackBytes = estimateBytes(redactedContent);
+
+          const feedbackObs: Observation = {
+            observationId: `obs-reflex-error-step-${stepCount}`,
+            category: "TOOL_ERROR",
+            provenance: {
+              entityKind: "Action",
+              entityId: validationResult.proposal.proposalId ?? `step-${stepCount}`,
+              runId,
+              sequenceNumber: stepCount,
+              timestamp: this.clock.now().toISOString(),
+              isAuthoritativeRuntimeFact: true,
+            },
+            freshness: "CURRENT",
+            priority: 85,
+            content: redactedContent,
+            contentHash: computeObservationContentHash(redactedContent),
+            estimatedBytes: feedbackBytes,
+            estimatedTokens: estimateTokens(feedbackBytes),
+            isMandatory: true,
+          };
+          validateObservation(feedbackObs);
+          pendingProposalRejectionObservation = feedbackObs;
+        } catch {
+          pendingProposalRejectionObservation = null;
+        }
+
         transcript.push(
           Object.freeze({
             stepNumber: stepCount,
@@ -863,7 +1776,64 @@ export class AgentStepController {
       }
 
       if (reflexDecisionResult.decision === "REJECT") {
+        console.log("REFLEX REJECTED PROPOSAL:", validationResult.proposal.toolName, reflexDecisionResult.reasonCode, reflexDecisionResult.rationale);
         proposalRejections++;
+
+        this.duplicateProposalDetector.recordRejection(
+          validationResult.proposal.toolName,
+          validationResult.proposal.inputPayload,
+          reflexDecisionResult.reasonCode,
+          stepCount,
+          stepTimestamp
+        );
+
+        // Construct bounded structured rejection feedback observation for subsequent turn
+        const rawExplanation = reflexDecisionResult.rationale ?? reflexDecisionResult.reasonCode;
+        let boundedMessage: string | undefined = undefined;
+        if (rawExplanation) {
+          const sanitized = sanitizeRejectionMessage(rawExplanation);
+          boundedMessage =
+            sanitized.length > MAX_REJECTION_FEEDBACK_CHARS
+              ? sanitized.slice(0, MAX_REJECTION_FEEDBACK_CHARS - 14) + " ...[TRUNCATED]"
+              : sanitized;
+        }
+        try {
+          const feedbackContent: Record<string, unknown> = {
+            rejectionCategory: "REFLEX_REJECTION",
+            rejectionReason: reflexDecisionResult.reasonCode,
+            ...(boundedMessage !== undefined ? { explanation: boundedMessage } : {}),
+            rejectedProposalId: validationResult.proposal.proposalId,
+            rejectedToolName: validationResult.proposal.toolName,
+          };
+
+          const redactedContent = redactSensitiveData(feedbackContent) as Record<string, unknown>;
+          const feedbackBytes = estimateBytes(redactedContent);
+
+          const feedbackObs: Observation = {
+            observationId: `obs-reflex-rejection-step-${stepCount}`,
+            category: "TOOL_ERROR",
+            provenance: {
+              entityKind: "Action",
+              entityId: validationResult.proposal.proposalId ?? `step-${stepCount}`,
+              runId,
+              sequenceNumber: stepCount,
+              timestamp: this.clock.now().toISOString(),
+              isAuthoritativeRuntimeFact: true,
+            },
+            freshness: "CURRENT",
+            priority: 85,
+            content: redactedContent,
+            contentHash: computeObservationContentHash(redactedContent),
+            estimatedBytes: feedbackBytes,
+            estimatedTokens: estimateTokens(feedbackBytes),
+            isMandatory: true,
+          };
+          validateObservation(feedbackObs);
+          pendingProposalRejectionObservation = feedbackObs;
+        } catch {
+          pendingProposalRejectionObservation = null;
+        }
+
         transcript.push(
           Object.freeze({
             stepNumber: stepCount,
@@ -988,6 +1958,25 @@ export class AgentStepController {
         );
       }
 
+      // Pre-Execution Post-Pass Latch Protection Check (Defense-in-Depth)
+      if (effectiveBudget.enablePostPassVerificationLatch !== false) {
+        const actionTargetPath =
+          typeof (action.inputPayload as any)?.path === "string"
+            ? ((action.inputPayload as any).path as string)
+            : undefined;
+        const preExecLatchCheck = this.postPassLatch.isMutationProhibited(
+          action.toolName,
+          actionTargetPath
+        );
+        if (preExecLatchCheck.prohibited) {
+          return assembleResult(
+            "POLICY_DENIED",
+            preExecLatchCheck.reason ?? "Target file is protected by the post-pass verification latch",
+            taskId
+          );
+        }
+      }
+
       // Step F: Execute Action via WorkerRuntime (Serial Execution)
       actionCount++;
       const actionResult = await this.workerRuntime.executeAction({
@@ -1002,6 +1991,563 @@ export class AgentStepController {
         maxOutputBytes: contract.spec.resourceLimits.maxOutputBytes,
         abortSignal: params.abortSignal,
       });
+
+      let progressAdvisory: string | undefined;
+      const inputPayloadRecord = action.inputPayload as Record<string, unknown> | null;
+      if (
+        actionResult.status === "SUCCEEDED" &&
+        validationResult.proposal.toolName === "read_file" &&
+        typeof inputPayloadRecord?.path === "string"
+      ) {
+        try {
+          const readPath = inputPayloadRecord.path;
+          const outputHash = computeObservationContentHash({
+            output: actionResult.output ?? null,
+          });
+          const isIdenticalCompletedRead =
+            lastSuccessfulRead !== undefined &&
+            lastSuccessfulRead.path === readPath &&
+            lastSuccessfulRead.inputHash === action.inputHash &&
+            lastSuccessfulRead.outputHash === outputHash;
+
+          if (isIdenticalCompletedRead && lastSuccessfulRead) {
+            lastSuccessfulRead.consecutiveCount++;
+            consecutiveIdenticalReads = lastSuccessfulRead.consecutiveCount;
+
+            if (
+              lastSuccessfulRead.consecutiveCount >=
+                REPEATED_IDENTICAL_READ_ADVISORY_THRESHOLD &&
+              !lastSuccessfulRead.advisoryIssued
+            ) {
+              progressAdvisory =
+                `The same read_file request for '${readPath}' returned identical content in consecutive successful actions. ` +
+                "The information is already available in context; choose a justified next action or read a meaningfully different range/file.";
+              const advisoryContent: Record<string, unknown> = {
+                feedbackKind: "REPEATED_IDENTICAL_READ",
+                repeatCount: lastSuccessfulRead.consecutiveCount,
+                path: readPath,
+                inputHash: action.inputHash,
+                outputHash,
+                message: progressAdvisory,
+              };
+              const advisoryBytes = estimateBytes(advisoryContent);
+              const advisoryObservation: Observation = {
+                observationId: `obs-progress-repeated-read-step-${stepCount}`,
+                category: "SYSTEM_EVENT",
+                provenance: {
+                  entityKind: "Action",
+                  entityId: action.actionId,
+                  runId,
+                  sequenceNumber: action.sequenceNumber,
+                  timestamp: this.clock.nowIso(),
+                  isAuthoritativeRuntimeFact: true,
+                },
+                freshness: "CURRENT",
+                priority: 85,
+                content: advisoryContent,
+                contentHash: computeObservationContentHash(advisoryContent),
+                estimatedBytes: advisoryBytes,
+                estimatedTokens: estimateTokens(advisoryBytes),
+                isMandatory: true,
+              };
+              validateObservation(advisoryObservation);
+              pendingProgressAdvisoryObservation = advisoryObservation;
+              lastSuccessfulRead.advisoryIssued = true;
+            }
+          } else {
+            lastSuccessfulRead = {
+              path: readPath,
+              inputHash: action.inputHash,
+              outputHash,
+              consecutiveCount: 1,
+              advisoryIssued: false,
+            };
+            consecutiveIdenticalReads = 1;
+          }
+        } catch {
+          lastSuccessfulRead = undefined;
+          consecutiveIdenticalReads = 0;
+        }
+      } else {
+        lastSuccessfulRead = undefined;
+        consecutiveIdenticalReads = 0;
+      }
+
+      // Invalidate duplicate proposal detector on action execution
+      this.duplicateProposalDetector.onActionExecuted({
+        toolName: action.toolName,
+        status: actionResult.status,
+        inputPayload: action.inputPayload,
+      });
+
+      // Option C: Invalidate failed-anchor tracker on fresh successful read or mutation
+      if (action.toolName === "read_file" && actionResult.status === "SUCCEEDED") {
+        const readPath =
+          typeof (action.inputPayload as any)?.path === "string"
+            ? ((action.inputPayload as any).path as string)
+            : undefined;
+        if (readPath) {
+          this.failedAnchorTracker.clearForFile(readPath);
+          this.duplicateProposalDetector.clearForTarget(readPath);
+        }
+      } else if (
+        (action.toolName === "write_file" || action.toolName === "edit_file") &&
+        actionResult.status === "SUCCEEDED"
+      ) {
+        const mutatedPath =
+          typeof (action.inputPayload as any)?.path === "string"
+            ? ((action.inputPayload as any).path as string)
+            : undefined;
+        if (mutatedPath) {
+          this.failedAnchorTracker.clearForFile(mutatedPath);
+          this.duplicateProposalDetector.clearForTarget(mutatedPath);
+        }
+      }
+
+      // Minimal Option D: Search zero-match recovery for failed anchors
+      if (action.toolName === "search_code" && actionResult.status === "SUCCEEDED") {
+        const searchPayload = action.inputPayload as Record<string, unknown> | null;
+        const searchOutput = actionResult.output as Record<string, unknown> | null;
+        const query = typeof searchPayload?.query === "string" ? searchPayload.query : undefined;
+        const totalMatches =
+          typeof searchOutput?.totalMatches === "number"
+            ? searchOutput.totalMatches
+            : Array.isArray(searchOutput?.matches)
+            ? searchOutput.matches.length
+            : undefined;
+
+        if (query && totalMatches === 0) {
+          const filePattern = typeof searchPayload?.path === "string" ? searchPayload.path : undefined;
+          const matchingFailedAnchor = this.failedAnchorTracker.findMatchingFailedAnchor(query, filePattern);
+          if (matchingFailedAnchor) {
+            const advisoryContent: Record<string, unknown> = {
+              advisoryKind: "ZERO_MATCH_FAILED_ANCHOR_SEARCH",
+              stepNumber: stepCount,
+              query,
+              targetPath: matchingFailedAnchor.path,
+              guidance:
+                `search_code returned 0 matches for '${query}', which also previously failed as an edit_file searchAnchor in '${matchingFailedAnchor.path}'. ` +
+                `Stop retrying this anchor. Re-read '${matchingFailedAnchor.path}' using read_file to inspect the actual current file contents and select an exact literal anchor.`,
+            };
+            const redactedAdvisory = redactSensitiveData(advisoryContent) as Record<string, unknown>;
+            const advBytes = estimateBytes(redactedAdvisory);
+            const zeroMatchObs: Observation = {
+              observationId: `obs-zero-match-failed-anchor-step-${stepCount}`,
+              category: "SYSTEM_EVENT",
+              provenance: {
+                entityKind: "Action",
+                entityId: action.actionId,
+                runId,
+                sequenceNumber: action.sequenceNumber,
+                timestamp: this.clock.nowIso(),
+                isAuthoritativeRuntimeFact: true,
+              },
+              freshness: "CURRENT",
+              priority: 90,
+              content: redactedAdvisory,
+              contentHash: computeObservationContentHash(redactedAdvisory),
+              estimatedBytes: advBytes,
+              estimatedTokens: estimateTokens(advBytes),
+              isMandatory: true,
+            };
+            try {
+              validateObservation(zeroMatchObs);
+              pendingProgressAdvisoryObservation = zeroMatchObs;
+            } catch {
+              // Ignore observation validation failures safely
+            }
+          }
+        }
+      }
+
+      // Update ContextResidencyTracker
+      if (effectiveDynamicToolFiltering) {
+        if (
+          action.toolName === "read_file" &&
+          actionResult.status === "SUCCEEDED" &&
+          actionResult.output
+        ) {
+          try {
+            this.contextResidencyTracker.recordRead(
+              action.inputPayload as any,
+              actionResult.output as any,
+              action.sequenceNumber
+            );
+          } catch {
+            // Defense in depth: tracker failure must not crash loop
+          }
+        } else if (
+          (action.toolName === "write_file" || action.toolName === "edit_file") &&
+          actionResult.status === "SUCCEEDED"
+        ) {
+          try {
+            this.contextResidencyTracker.recordWorkspaceMutation(
+              (action.inputPayload as any)?.path,
+              action.sequenceNumber
+            );
+          } catch {
+            // Defense in depth
+          }
+        } else if (
+          actionResult.status === "FAILED" ||
+          actionResult.status === "TIMED_OUT" ||
+          actionResult.status === "UNKNOWN"
+        ) {
+          this.contextResidencyTracker.recordExecutionFailure();
+        }
+      }
+
+      if (
+        (action.toolName === "write_file" || action.toolName === "edit_file") &&
+        actionResult.status === "SUCCEEDED"
+      ) {
+        try {
+          this.duplicateProposalDetector.recordWorkspaceMutation(
+            (action.inputPayload as any)?.path
+          );
+        } catch {
+          // Defense in depth
+        }
+      }
+
+      // Intermediate Test-Guided Feedback & Stagnation Tracking for Mutations
+      if (
+        (action.toolName === "edit_file" || action.toolName === "write_file") &&
+        effectiveBudget.enableIntermediateTestFeedback !== false
+      ) {
+        if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
+          consecutiveIneffectiveEdits++;
+        } else if (actionResult.status === "SUCCEEDED") {
+          const cleanRoomSpecObj = activeContract.spec.verificationSpecs?.find(
+            (s) => s.ruleKind === "CLEAN_ROOM_DUAL_GATE"
+          );
+          const cleanSpec = cleanRoomSpecObj?.expectedValue as CleanRoomVerificationSpec | undefined;
+
+          if (cleanSpec && params.workspace && this.workerRuntime.provider) {
+            let testOutput: RunCommandOutput | undefined;
+            let isTimedOut = false;
+            let testFailed = false;
+            let errorMsg = "";
+            const testStart = this.clock.now().getTime();
+
+            try {
+              const execResult = await this.workerRuntime.provider.execute({
+                runId,
+                taskId,
+                operationName: "run_command",
+                inputPayload: {
+                  argv: cleanSpec.failToPass.testCommand,
+                  cwd: ".",
+                  maxOutputBytes: 256 * 1024,
+                },
+                idempotencyToken: `test-f2p-step-${stepCount}`,
+                attemptNumber: 1,
+                workspace: params.workspace,
+                timeoutMs: Math.min(30000, cleanSpec.timeoutMs ?? 30000),
+              });
+
+              if (execResult.status === "TIMED_OUT") {
+                isTimedOut = true;
+                errorMsg = execResult.error?.message ?? "Test execution timed out";
+              } else if (execResult.status === "FAILED") {
+                testFailed = true;
+                errorMsg = execResult.error?.message ?? "Test process failed to execute";
+              } else if (execResult.output) {
+                testOutput = execResult.output as RunCommandOutput;
+              }
+            } catch (err: unknown) {
+              testFailed = true;
+              errorMsg = err instanceof Error ? err.message : String(err);
+            }
+
+            const testDurationMs = this.clock.now().getTime() - testStart;
+            const exitCode = isTimedOut ? -1 : (testOutput?.exitCode ?? (testFailed ? 1 : 0));
+            const stdout = testOutput?.stdout ?? "";
+            const stderr = testOutput?.stderr ?? (errorMsg ? errorMsg : "");
+
+            let classification: "PASS" | "FAIL" | "TIMEOUT" | "REGRESSION" = "FAIL";
+            if (isTimedOut) {
+              classification = "TIMEOUT";
+            } else if (exitCode === cleanSpec.failToPass.expectedPatchedExitCode) {
+              let p2pOutput: RunCommandOutput | undefined;
+              let p2pTimedOut = false;
+              let p2pFailed = false;
+              try {
+                const p2pExec = await this.workerRuntime.provider.execute({
+                  runId,
+                  taskId,
+                  operationName: "run_command",
+                  inputPayload: {
+                    argv: cleanSpec.passToPass.testCommand,
+                    cwd: ".",
+                    maxOutputBytes: 256 * 1024,
+                  },
+                  idempotencyToken: `test-p2p-step-${stepCount}`,
+                  attemptNumber: 1,
+                  workspace: params.workspace,
+                  timeoutMs: Math.min(30000, cleanSpec.timeoutMs ?? 30000),
+                });
+                if (p2pExec.status === "TIMED_OUT") p2pTimedOut = true;
+                else if (p2pExec.status === "FAILED") p2pFailed = true;
+                else if (p2pExec.output) p2pOutput = p2pExec.output as RunCommandOutput;
+              } catch {
+                p2pFailed = true;
+              }
+
+              const p2pExitCode = p2pTimedOut ? -1 : (p2pOutput?.exitCode ?? (p2pFailed ? 1 : 0));
+              if (p2pTimedOut || p2pExitCode !== cleanSpec.passToPass.expectedPatchedExitCode) {
+                classification = "REGRESSION";
+              } else {
+                classification = "PASS";
+              }
+            } else {
+              classification = "FAIL";
+            }
+
+            if (classification === "PASS") {
+              consecutiveIneffectiveEdits = 0;
+              const targetRelPath =
+                typeof (action.inputPayload as any)?.path === "string"
+                  ? ((action.inputPayload as any).path as string)
+                  : undefined;
+              if (targetRelPath) {
+                this.duplicateProposalDetector.clearIneffectiveForTarget(targetRelPath);
+              }
+
+              if (effectiveBudget.enablePostPassVerificationLatch !== false) {
+
+                if (targetRelPath) {
+                  let currentTargetHash: string | undefined;
+                  if (params.workspace?.hostPath) {
+                    try {
+                      const editor = new LineAnchoredEditor();
+                      const safePath = editor.resolveSafePath(targetRelPath, params.workspace.hostPath);
+                      const raw = fsSync.readFileSync(safePath, "utf-8");
+                      currentTargetHash = crypto.createHash("sha256").update(raw, "utf-8").digest("hex");
+                    } catch {
+                      // Best-effort hash calculation
+                    }
+                  }
+
+                  this.postPassLatch.activate({
+                    stepNumber: stepCount,
+                    timestamp: this.clock.nowIso(),
+                    protectedPath: targetRelPath,
+                    f2pExitCode: exitCode,
+                    p2pExitCode: 0,
+                    targetHash: currentTargetHash,
+                    cleanRoomSpecId: cleanSpec.specId,
+                    taskId,
+                  });
+
+                  // Persist durable verification.latched event
+                  try {
+                    this.stateStore.transaction((tx) => {
+                      tx.appendEvent({
+                        eventId: crypto.randomUUID(),
+                        runId,
+                        timestamp: this.clock.nowIso(),
+                        eventType: "verification.latched",
+                        schemaVersion: 1,
+                        producer: "application.agent_step_controller",
+                        payload: {
+                          stepNumber: stepCount,
+                          protectedPath: targetRelPath,
+                          targetHash: currentTargetHash,
+                          f2pExitCode: exitCode,
+                          p2pExitCode: 0,
+                          actionId: action.actionId,
+                        },
+                      });
+                    });
+                  } catch {
+                    // Safe ignore
+                  }
+
+                  // Authoritative Clean-Room Completion Verification Gate
+                  if (this.cleanRoomVerifier && params.workspace) {
+                    try {
+                      const cleanRoomOutcome = await this.cleanRoomVerifier.verifyCandidatePatch({
+                        runId,
+                        taskId,
+                        workerId,
+                        leaseId,
+                        contract: activeContract,
+                        spec: cleanSpec,
+                        agentWorkspace: params.workspace,
+                        abortSignal: params.abortSignal,
+                      });
+                      this.postPassLatch.recordCleanRoomResult(cleanRoomOutcome);
+
+                      if (cleanRoomOutcome.status === "VERIFIED") {
+                        const verificationEvaluation = this.evaluateCompletionVerification(
+                          runId,
+                          activeContract
+                        );
+                        if (verificationEvaluation.verified) {
+                          transcript.push(
+                            Object.freeze({
+                              stepNumber: stepCount,
+                              contextSnapshotId: contextSnapshot.snapshotId,
+                              contextHash: contextSnapshot.contextHash,
+                              contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+                              contextBytes: contextSnapshot.totalBytes,
+                              contextObservationsCount: contextSnapshot.observations.length,
+                              proposalId: validationResult.proposal.proposalId,
+                              toolName: validationResult.proposal.toolName,
+                              inputHash: action.inputHash,
+                              inputPayload: action.inputPayload,
+                              rationale: validationResult.proposal.rationale,
+                              finishReason: brainResult.finishReason,
+                              proposalValid: true,
+                              reflexDecision: reflexDecisionResult.decision,
+                              reflexReasonCode: reflexDecisionResult.reasonCode,
+                              reflexRationale: reflexDecisionResult.rationale,
+                              reflexEvidence,
+                              reflexDurationMs,
+                              actionId: action.actionId,
+                              actionStatus: actionResult.status,
+                              actionOutput: actionResult.output,
+                              actionError: actionResult.error,
+                              durationMs: this.clock.now().getTime() - stepStartTime,
+                              timestamp: stepTimestamp,
+                            })
+                          );
+
+                          return assembleResult(
+                            "COMPLETED",
+                            "Authoritative clean-room verification succeeded after post-pass verification latch activation",
+                            taskId
+                          );
+                        }
+                      }
+                    } catch {
+                      // Clean-room failure or exception does not complete run; loop continues with protected target
+                    }
+                  }
+                }
+              }
+            } else {
+              consecutiveIneffectiveEdits++;
+            }
+
+            const boundStdout = stdout.length > 512 ? stdout.slice(0, 500) + " [TRUNCATED]" : stdout;
+            const boundStderr = stderr.length > 512 ? stderr.slice(0, 500) + " [TRUNCATED]" : stderr;
+
+            // Option B: Source-grounded verification context snapshot for failed/regressed mutations
+            let currentSourceContext: string | undefined;
+            let sourceReadError: string | undefined;
+            const targetRelPath =
+              typeof (action.inputPayload as any)?.path === "string"
+                ? ((action.inputPayload as any).path as string)
+                : undefined;
+
+            if (classification === "FAIL" || classification === "REGRESSION") {
+              if (targetRelPath && params.workspace?.hostPath) {
+                try {
+                  const editor = new LineAnchoredEditor();
+                  const safePath = editor.resolveSafePath(targetRelPath, params.workspace.hostPath);
+                  const rawSource = fsSync.readFileSync(safePath, "utf-8");
+                  const currentSourceHash = crypto.createHash("sha256").update(rawSource, "utf-8").digest("hex");
+                  this.duplicateProposalDetector.recordIneffectiveMutation({
+                    toolName: action.toolName,
+                    inputPayload: action.inputPayload,
+                    targetPath: targetRelPath,
+                    stepNumber: stepCount,
+                    verificationClassification: classification,
+                    sourceHash: currentSourceHash,
+                    workspaceMutationVersion: this.duplicateProposalDetector.getWorkspaceMutationVersion(),
+                    timestamp: this.clock.nowIso(),
+                  });
+                  const MAX_SOURCE_BYTES = 2048;
+                  const TRUNCATION_SUFFIX = "\n... [TRUNCATED]";
+                  const suffixBytes = Buffer.byteLength(TRUNCATION_SUFFIX, "utf-8");
+                  if (Buffer.byteLength(rawSource, "utf-8") > MAX_SOURCE_BYTES) {
+                    const sliceLen = Math.max(0, MAX_SOURCE_BYTES - suffixBytes);
+                    const buf = Buffer.from(rawSource, "utf-8").subarray(0, sliceLen);
+                    currentSourceContext = buf.toString("utf-8") + TRUNCATION_SUFFIX;
+                  } else {
+                    currentSourceContext = rawSource;
+                  }
+                } catch (sourceErr: unknown) {
+                  sourceReadError =
+                    sourceErr instanceof Error ? sourceErr.message : String(sourceErr);
+                }
+              }
+            }
+
+            const recoveryGuidance =
+              classification === "FAIL" || classification === "REGRESSION"
+                ? deriveVerificationRecoveryGuidance({
+                    classification,
+                    exitCode,
+                    stderr: boundStderr,
+                    stdout: boundStdout,
+                    testDurationMs,
+                    targetRelPath,
+                    currentSourceContext,
+                    workspaceHostPath: params.workspace?.hostPath,
+                    cleanSpec,
+                  })
+                : null;
+
+            const testFeedbackContent: Record<string, unknown> = {
+              testType: classification === "REGRESSION" ? "PASS_TO_PASS" : "FAIL_TO_PASS",
+              testCommand: classification === "REGRESSION" ? cleanSpec.passToPass.testCommand : cleanSpec.failToPass.testCommand,
+              exitCode,
+              classification,
+              isTimedOut,
+              durationMs: testDurationMs,
+              ...(boundStdout ? { stdout: boundStdout } : {}),
+              ...(boundStderr ? { stderr: boundStderr } : {}),
+              ...(currentSourceContext !== undefined ? { currentSourceContext } : {}),
+              ...(sourceReadError !== undefined ? { sourceReadError } : {}),
+              ...(recoveryGuidance?.verificationAnalysis !== undefined
+                ? { verificationAnalysis: recoveryGuidance.verificationAnalysis }
+                : {}),
+              ...(recoveryGuidance?.recoveryAdvisory !== undefined
+                ? { recoveryAdvisory: recoveryGuidance.recoveryAdvisory }
+                : {}),
+              summary: classification === "PASS"
+                ? `Verification tests PASSED (exit code ${exitCode}). The defect appears repaired.`
+                : classification === "REGRESSION"
+                ? `Regression detected: failToPass passed but regression test (passToPass) FAILED with exit code ${exitCode}.${recoveryGuidance?.recoveryAdvisory ? ` Recovery advisory: ${recoveryGuidance.recoveryAdvisory}` : ""}`
+                : classification === "TIMEOUT"
+                ? `Verification test TIMED OUT after ${testDurationMs}ms.`
+                : `Verification test FAILED with exit code ${exitCode} (expected ${cleanSpec.failToPass.expectedPatchedExitCode}). ${boundStderr ? `Error: ${boundStderr}` : ""}${recoveryGuidance?.recoveryAdvisory ? ` Recovery advisory: ${recoveryGuidance.recoveryAdvisory}` : ""}`,
+            };
+
+            const redactedContent = redactSensitiveData(testFeedbackContent) as Record<string, unknown>;
+            const estBytes = estimateBytes(redactedContent);
+
+            const testObs: Observation = {
+              observationId: `obs-test-feedback-step-${stepCount}`,
+              category: "VERIFICATION",
+              provenance: {
+                entityKind: "VerificationSpec",
+                entityId: cleanSpec.specId,
+                runId,
+                sequenceNumber: stepCount,
+                timestamp: this.clock.now().toISOString(),
+                isAuthoritativeRuntimeFact: true,
+              },
+              freshness: "CURRENT",
+              priority: 95,
+              content: redactedContent,
+              contentHash: computeObservationContentHash(redactedContent),
+              estimatedBytes: estBytes,
+              estimatedTokens: estimateTokens(estBytes),
+              isMandatory: true,
+            };
+            try {
+              validateObservation(testObs);
+              pendingTestFeedbackObservation = testObs;
+            } catch {
+              pendingTestFeedbackObservation = null;
+            }
+          }
+        }
+      }
 
       // Record Completed Step Transcript
       transcript.push(
@@ -1028,6 +2574,13 @@ export class AgentStepController {
           actionStatus: actionResult.status,
           actionOutput: actionResult.output,
           actionError: actionResult.error,
+          ...(progressAdvisory ? { progressAdvisory } : {}),
+          ...(effectiveDynamicToolFiltering
+            ? {
+                eligibleTools: availableTools.map((t) => t.name),
+                filteredTools: filteredToolNames,
+              }
+            : {}),
           durationMs: this.clock.now().getTime() - stepStartTime,
           timestamp: stepTimestamp,
         })
@@ -1062,6 +2615,110 @@ export class AgentStepController {
 
       if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
         consecutiveFailures++;
+
+        // Phase 48A & 48D: Add bounded recovery feedback and track failed edit_file search anchors
+        if (action.toolName === "edit_file" && actionResult.status === "FAILED") {
+          const rawError =
+            actionResult.error instanceof Error
+              ? actionResult.error.message
+              : typeof (actionResult.error as any)?.message === "string"
+              ? (actionResult.error as any).message
+              : String(actionResult.error ?? "");
+
+          const errorSubcode = (actionResult.error as any)?.subcode;
+          const isStalePrecondition =
+            errorSubcode === "STALE_PRECONDITION" ||
+            rawError.includes("Stale edit precondition failed");
+
+          const isMissing =
+            !isStalePrecondition &&
+            (rawError.includes("Search anchor not found") ||
+              rawError.includes("0 occurrences matched"));
+          const isAmbiguous =
+            !isStalePrecondition &&
+            (rawError.includes("Ambiguous anchor") ||
+              rawError.includes("occurred multiple times"));
+
+          if (isStalePrecondition || isMissing || isAmbiguous) {
+            const editPayload = action.inputPayload as Record<string, unknown> | null;
+            const targetPath = typeof editPayload?.path === "string" ? editPayload.path : "target file";
+            const searchAnchor = typeof editPayload?.searchAnchor === "string" ? editPayload.searchAnchor : undefined;
+
+            // Option C: Record failed anchor in tracker (only for missing or ambiguous anchors)
+            if ((isMissing || isAmbiguous) && targetPath && searchAnchor) {
+              this.failedAnchorTracker.recordFailure(
+                targetPath,
+                searchAnchor,
+                isMissing ? "MISSING" : "AMBIGUOUS",
+                stepCount
+              );
+            }
+
+            const recoveryGuidance = isStalePrecondition
+              ? `Edit precondition failed for '${targetPath}': the target file state did not match the expected precondition. ` +
+                `To recover: 1) Re-read the current target file using 'read_file'. ` +
+                `2) Re-ground your literal searchAnchor and replacementText in the actual current source code. ` +
+                `3) Propose a localized edit without supplying any invented or external digest. ` +
+                `4) Do not copy hash strings from mission context or other observations.`
+              : isMissing
+              ? `Search anchor not found in '${targetPath}'. To recover: ` +
+                `1) Re-read the file or inspect the most recent actual source output. ` +
+                `2) Copy an exact literal text fragment from that source. Do not invent function declarations, helper names, or code structures not present in the target file. ` +
+                `3) Choose a smaller, unique anchor around the intended change. ` +
+                `4) Avoid pseudo-selectors such as line:10. ` +
+                `5) Use edit_file with the verified literal anchor rather than retrying a prohibited whole-file overwrite.`
+              : `Search anchor occurred multiple times in '${targetPath}'. To recover: ` +
+                `1) Include more surrounding context lines in the searchAnchor to make it unique. ` +
+                `2) Re-read the file using read_file to inspect the actual source. ` +
+                `3) Propose edit_file with the expanded unique anchor.`;
+
+            const recoveryContent: Record<string, unknown> = {
+              feedbackKind: "ACTION_RECOVERY_GUIDANCE",
+              stepNumber: stepCount,
+              toolName: "edit_file",
+              targetPath,
+              failureReason: isStalePrecondition
+                ? "STALE_EDIT_PRECONDITION"
+                : isMissing
+                ? "SEARCH_ANCHOR_NOT_FOUND"
+                : "AMBIGUOUS_ANCHOR",
+              guidance: recoveryGuidance,
+              rawError: isStalePrecondition
+                ? "Stale edit precondition failed: file content hash did not match expected precondition."
+                : sanitizeRejectionMessage(rawError),
+            };
+
+            const redactedContent = redactSensitiveData(recoveryContent) as Record<string, unknown>;
+            const estBytes = estimateBytes(redactedContent);
+
+            const recoveryObs: Observation = {
+              observationId: `obs-edit-recovery-step-${stepCount}`,
+              category: "TOOL_ERROR",
+              provenance: {
+                entityKind: "Action",
+                entityId: action.actionId,
+                runId,
+                sequenceNumber: stepCount,
+                timestamp: this.clock.now().toISOString(),
+                isAuthoritativeRuntimeFact: true,
+              },
+              freshness: "CURRENT",
+              priority: 90,
+              content: redactedContent,
+              contentHash: computeObservationContentHash(redactedContent),
+              estimatedBytes: estBytes,
+              estimatedTokens: estimateTokens(estBytes),
+              isMandatory: true,
+            };
+
+            try {
+              validateObservation(recoveryObs);
+              pendingActionRecoveryObservation = recoveryObs;
+            } catch {
+              pendingActionRecoveryObservation = null;
+            }
+          }
+        }
       } else if (actionResult.status === "SUCCEEDED") {
         consecutiveFailures = 0;
       }
@@ -1126,7 +2783,7 @@ export class AgentStepController {
 
     let lastWriteActionIndex = -1;
     for (let i = actions.length - 1; i >= 0; i--) {
-      if (actions[i]!.toolName === "write_file") {
+      if (actions[i]!.toolName === "write_file" || actions[i]!.toolName === "edit_file") {
         const attempts = this.stateStore.getAttemptsForAction(actions[i]!.actionId);
         if (attempts.some((att) => att.status === "SUCCEEDED")) {
           lastWriteActionIndex = i;
@@ -1733,5 +3390,28 @@ export class AgentStepController {
     }
 
     return { verified: true, specResults, requirementsSummary, outstandingRequirements };
+  }
+
+  /**
+   * Resolves the primary target file path for the current step from mission context
+   * or current residency state.
+   */
+  private resolveTargetFilePath(contextSnapshot: ContextSnapshot): string | undefined {
+    const missionObs = contextSnapshot.observations.find((o) => o.category === "MISSION_CONTEXT");
+    const taskDetails = missionObs?.content?.taskDetails as any;
+    if (typeof taskDetails?.targetFile === "string" && taskDetails.targetFile.length > 0) {
+      return taskDetails.targetFile;
+    }
+    if (typeof taskDetails?.description === "string") {
+      const match = taskDetails.description.match(/Target File:\s*([^\s\r\n,]+)/);
+      if (match?.[1]) {
+        return match[1];
+      }
+    }
+    const records = this.contextResidencyTracker.listResidencyRecords();
+    if (records.length === 1 && records[0] && records[0].isComplete && !records[0].isStale) {
+      return records[0].path;
+    }
+    return undefined;
   }
 }

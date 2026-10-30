@@ -1,0 +1,87 @@
+{
+  "phase": "44B",
+  "protocolVersion": "emerald-phase44b-reasoning-recovery-v1",
+  "parentProtocol": "emerald-phase43-multi-model-v1",
+  "protocolFrozen": true,
+  "reasoningVariable": "bounded_strategy",
+  "model": {
+    "modelName": "qwen2.5-coder:1.5b",
+    "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "parameterCount": 1540000000,
+    "quantization": "Q4_K_M",
+    "contextLength": 32768,
+    "family": "qwen2"
+  },
+  "hardware": {
+    "os": "Windows 11 Pro 64-bit",
+    "cpu": "Intel(R) Core(TM) i3-N305",
+    "logicalCores": 8,
+    "physicalCores": 8,
+    "ramBytes": 8192663552,
+    "ramReadable": "7.63 GiB",
+    "acceleratorStatus": "ACCELERATOR_UNAVAILABLE",
+    "backend": "CPU (ggml-cpu-alderlake.dll)"
+  },
+  "taskCohortDigest": "8241820dd9a6b1bde424483df1cbf9e3cd1530ccd7180e25e5ca610964472bdb",
+  "strategies": [
+    {
+      "id": "STRATEGY_A_BASELINE",
+      "name": "Baseline (Single-Pass)",
+      "description": "Standard Emerald single-pass proposal per step without failure recovery prompts.",
+      "maxRecoveryReplies": 0,
+      "explicitPlanning": false
+    },
+    {
+      "id": "STRATEGY_B_BOUNDED_RECOVERY",
+      "name": "Bounded Recovery",
+      "description": "Deterministic failure feedback up to 2 recovery proposals above existing tool gateway layer.",
+      "maxRecoveryReplies": 2,
+      "explicitPlanning": false
+    },
+    {
+      "id": "STRATEGY_C_BOUNDED_PLAN_ACT_VERIFY",
+      "name": "Bounded Plan / Act / Verify",
+      "description": "Bounded untrusted plan object (max 3 steps) with deterministic execution and recovery feedback.",
+      "maxRecoveryReplies": 2,
+      "explicitPlanning": true,
+      "maxPlanSteps": 3
+    }
+  ],
+  "resourceLimits": {
+    "maxSteps": 10,
+    "maxAttempts": 3,
+    "wallClockLimitMs": 600000,
+    "actionLimit": 15,
+    "failureLimit": 3,
+    "proposalRejectionLimit": 3,
+    "toolTimeoutMs": 30000,
+    "outputLimitBytes": 65536,
+    "stepTimeoutMs": 120000,
+    "maxRecoveryReplies": 2,
+    "maxPlanSteps": 3
+  },
+  "verificationPolicyDigest": "8f8b89e7019c0deea13c1c73ecfa929cf3ec9b009e45c478a29b4bb4c5e317c2",
+  "authorityPolicyDigest": "e7c1f83c189b25a38a7c2e399c2ea5b0b1820d8847c5d01249b6b66861298d02",
+  "systemPromptDigest": "a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0",
+  "taskPromptTemplateDigest": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "toolCatalogDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "frozenVariables": [
+    "model",
+    "modelDigest",
+    "quantization",
+    "hardware",
+    "system prompt",
+    "task prompt template",
+    "tool catalog",
+    "tool schemas",
+    "task cohort",
+    "task order",
+    "resource ceiling",
+    "verification policy",
+    "clean-room implementation",
+    "authority policy",
+    "terminal policy",
+    "evidence policy",
+    "offline auditor"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "phase": 40,
+  "title": "Authoritative Terminal Record Index Implementation",
+  "timestamp": "2026-10-18T00:01:30.000Z",
+  "commitHash": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "selectedArchitecture": {
+    "option": "OPTION_D_AUTHORITATIVE_TERMINAL_RECORD_INDEX",
+    "invariant": "Invariant B: A run may have multiple immutable evidence snapshots, but at most one authoritative terminal record.",
+    "identityDecoupling": {
+      "logicalExecutionIdentity": "runId",
+      "immutableContentIdentity": "bundleId = SHA-256(canonical JSON of bundle content)",
+      "contentAddressedStore": "archive/accepted/<bundleId>.json",
+      "authoritativeIndex": "archive/runs/<runId>/terminal.json"
+    },
+    "orderingInvariant": "storeAccepted writes immutable content-addressed bundle FIRST; establishAuthoritativeTerminal writes authoritative terminal pointer SECOND. Crash recovery heals missing terminal records idempotently."
+  },
+  "implementationBoundary": {
+    "domainTypes": [
+      "AuthoritativeTerminalRecord",
+      "TerminalOutcomeStatus",
+      "TerminalVerificationResult",
+      "createTerminalRecord",
+      "computeTerminalRecordHash",
+      "isTerminalStatus"
+    ],
+    "portMethods": [
+      "hasTerminalRecord(runId)",
+      "getTerminalRecord(runId)",
+      "establishAuthoritativeTerminal(record)",
+      "verifyTerminalRecord(runId)"
+    ],
+    "adapter": "FileSystemEvidenceArchive (atomic writes via tempfile + renameSync, archive/runs/<runId>/terminal.json)",
+    "gateway": "EvidenceIngestionGateway (Step 7 Terminal Authority Index Fencing, Step 10 healing on duplicate re-ingestion, Step 11 terminal record establishment)"
+  },
+  "testMatrix": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "scenarios": [
+      { "id": "T1", "name": "First terminal bundle accepted and establishes terminal record", "result": "PASSED" },
+      { "id": "T2", "name": "Exact duplicate submission idempotent without altering terminal record", "result": "PASSED" },
+      { "id": "T3", "name": "Different terminal bundle with same outcome quarantined with TERMINAL_CONFLICT", "result": "PASSED" },
+      { "id": "T4", "name": "Contradictory terminal bundle (FAILED vs COMPLETED) quarantined with TERMINAL_CONFLICT", "result": "PASSED" },
+      { "id": "T5", "name": "Multiple non-terminal snapshots for same run accepted into content archive", "result": "PASSED" },
+      { "id": "T6", "name": "Non-terminal snapshot ingested after terminal record accepted without conflict", "result": "PASSED" },
+      { "id": "T7", "name": "Crash recovery before terminal record reconciled on re-ingestion", "result": "PASSED" },
+      { "id": "T8", "name": "Missing bundle referenced by terminal record verified as BUNDLE_MISSING", "result": "PASSED" },
+      { "id": "T9", "name": "Terminal record mismatch with referenced bundle verified as RECORD_MISMATCH", "result": "PASSED" },
+      { "id": "T10", "name": "Tampered terminal record hash verified as INVALID_RECORD", "result": "PASSED" },
+      { "id": "T11", "name": "Direct establishAuthoritativeTerminal replacement throws conflict error", "result": "PASSED" },
+      { "id": "T12", "name": "Recovered run protected against competing worker alternative terminal states", "result": "PASSED" },
+      { "id": "T13", "name": "Metadata-divergent exports of same run terminally fenced", "result": "PASSED" },
+      { "id": "T14", "name": "Conflicting terminal bundle claiming different contract hash terminally fenced", "result": "PASSED" },
+      { "id": "T15", "name": "Conflicting terminal bundle with altered action sequence terminally fenced", "result": "PASSED" },
+      { "id": "T16", "name": "Valid 2-of-3 threshold quorum on conflicting terminal quarantined with TERMINAL_CONFLICT", "result": "PASSED" }
+    ]
+  },
+  "regressionVerification": {
+    "phase40Integration": "16 passed / 16 total",
+    "phase39LogicalIdentity": "24 passed / 24 total",
+    "phase38AuthorityComposition": "30 passed / 30 total",
+    "phase37ThresholdSigning": "38 passed / 38 total",
+    "phase36SecurityEvaluation": "15 passed / 15 total",
+    "phase35SignatureAuthority": "30 passed / 30 total",
+    "phase34EvidenceIngestion": "25 passed / 25 total",
+    "phase33EvidenceReplay": "23 passed / 23 total",
+    "phase32CheckpointSupervisor": "24 passed / 24 total",
+    "phase31RecoveryFencing": "18 passed / 18 total",
+    "phase14IndependentVerification": "11 passed / 11 total",
+    "fullIntegrationSuite": "284 passed, 1 skipped / 285 total",
+    "phase10hAudit": "36/36 trial records intact, SHA-256 byte-for-byte matched",
+    "typeScript": "0 errors (npx tsc --noEmit clean)"
+  },
+  "threatMitigation": {
+    "f22LogicalIdentityGap": "RESOLVED — Conflicting terminal bundles with differing bundleId for the same runId can no longer enter accepted archive.",
+    "forgeryRejection": "Even valid 2-of-3 threshold quorum signatures cannot overwrite an established terminal record.",
+    "availabilitySafetyTradeoff": "Non-terminal intermediate snapshots remain fully ingestible for debugging/audit without violating terminal uniqueness."
+  },
+  "status": "COMPLETE"
+}

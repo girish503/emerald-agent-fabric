@@ -1,0 +1,620 @@
+{
+  "taskId": "2be37154-5f60-4b2d-9596-de16eda3ec46",
+  "contractId": "contract-2be37154-5f60-4b2d-9596-de16eda3ec46",
+  "contractVersion": 1,
+  "verificationSpecs": [
+    {
+      "specId": "verify-math-tests",
+      "ruleKind": "EXIT_CODE_ZERO",
+      "expectedValue": {
+        "argv": [
+          "node",
+          "test/math.test.js"
+        ],
+        "requireDiff": true,
+        "requireMutation": true,
+        "toolName": "run_command"
+      }
+    }
+  ],
+  "modelCalls": 3,
+  "orderedActions": [
+    {
+      "actionId": "826b23de-5a02-4aa6-907d-2383b3e1f634",
+      "sequenceNumber": 1,
+      "toolName": "read_file",
+      "status": "SUCCEEDED",
+      "inputPayload": {
+        "path": "src/math.js",
+        "offsetLine": 1,
+        "limitLines": 50
+      }
+    },
+    {
+      "actionId": "b5275322-0531-4afd-b178-06143ece69bc",
+      "sequenceNumber": 2,
+      "toolName": "write_file",
+      "status": "SUCCEEDED",
+      "inputPayload": {
+        "path": "src/math.js",
+        "content": "function add(a, b) {\n  return a + b;\n}\n\nmodule.exports = { add };",
+        "overwrite": true,
+        "maxBytes": 1048576
+      }
+    },
+    {
+      "actionId": "299cc989-a92b-4b5b-8821-bc075e393513",
+      "sequenceNumber": 3,
+      "toolName": "git_diff",
+      "status": "SUCCEEDED",
+      "inputPayload": {
+        "path": "."
+      }
+    },
+    {
+      "actionId": "2f06c23f-f2c8-47ab-be85-3c85dba7c878",
+      "sequenceNumber": 4,
+      "toolName": "run_command",
+      "status": "SUCCEEDED",
+      "inputPayload": {
+        "argv": [
+          "node",
+          "test/math.test.js"
+        ],
+        "timeoutMs": 60000
+      }
+    }
+  ],
+  "orderedAttempts": [
+    {
+      "attemptId": "4cf9fd6e-54d1-4fb4-879d-d56283f99483",
+      "actionId": "826b23de-5a02-4aa6-907d-2383b3e1f634",
+      "status": "SUCCEEDED",
+      "exitCode": 0,
+      "outputPayload": {
+        "path": "src/math.js",
+        "content": "/**\n * Math utilities.\n */\n\n// Computes the sum of two numbers\nfunction add(a, b) {\n  // Defect: subtracts instead of adds\n  return a - b;\n}\n\nmodule.exports = { add };\n",
+        "bytesRead": 168,
+        "totalLines": 12,
+        "isTruncated": false,
+        "contentHash": "c2320273f996c45a1768a5f99e830516f7fbff2d6113aa8d3f292c60d438074b"
+      }
+    },
+    {
+      "attemptId": "d3bde28c-373b-427c-8907-099477fde834",
+      "actionId": "b5275322-0531-4afd-b178-06143ece69bc",
+      "status": "SUCCEEDED",
+      "exitCode": 0,
+      "outputPayload": {
+        "path": "src/math.js",
+        "bytesWritten": 65,
+        "created": false,
+        "contentHash": "a3d3148b90e361d410c1b55bdda0be2efbd6373b32aacebfedf1075c13c06b44"
+      }
+    },
+    {
+      "attemptId": "2d2b216e-0e2c-4767-8bc8-926d4712d015",
+      "actionId": "299cc989-a92b-4b5b-8821-bc075e393513",
+      "status": "SUCCEEDED",
+      "exitCode": 0,
+      "outputPayload": {
+        "diff": "diff --git a/src/math.js b/src/math.js\n--- a/src/math.js\n+++ b/src/math.js\n@@ -1,11 +1,5 @@\n-/**\n- * Math utilities.\n- */\n-\n-// Computes the sum of two numbers\n function add(a, b) {\n-  // Defect: subtracts instead of adds\n-  return a - b;\n+  return a + b;\n }\n \n module.exports = { add };",
+        "filesChanged": 1,
+        "insertions": 1,
+        "deletions": 7,
+        "diffHash": "961a7d41c8e7838b6b7445d590b1bae0b63491e86ce954d079900fce720e5dee",
+        "isTruncated": false
+      }
+    },
+    {
+      "attemptId": "e2012184-3f27-48c6-8c51-a3581b99b442",
+      "actionId": "2f06c23f-f2c8-47ab-be85-3c85dba7c878",
+      "status": "SUCCEEDED",
+      "exitCode": 0,
+      "outputPayload": {
+        "exitCode": 0,
+        "stdout": "PASS: All math tests passed successfully.\n",
+        "stderr": "",
+        "durationMs": 25094,
+        "outputTruncated": false,
+        "commandHash": "3ee0c2116e14e72862096aa8e7aec1ef7ef03f89db375a0fbda7d633a9fe9bf5"
+      }
+    }
+  ],
+  "verificationActions": [
+    {
+      "toolName": "git_diff",
+      "actionId": "299cc989-a92b-4b5b-8821-bc075e393513",
+      "status": "SUCCEEDED",
+      "output": {
+        "diff": "diff --git a/src/math.js b/src/math.js\n--- a/src/math.js\n+++ b/src/math.js\n@@ -1,11 +1,5 @@\n-/**\n- * Math utilities.\n- */\n-\n-// Computes the sum of two numbers\n function add(a, b) {\n-  // Defect: subtracts instead of adds\n-  return a - b;\n+  return a + b;\n }\n \n module.exports = { add };",
+        "filesChanged": 1,
+        "insertions": 1,
+        "deletions": 7,
+        "diffHash": "961a7d41c8e7838b6b7445d590b1bae0b63491e86ce954d079900fce720e5dee",
+        "isTruncated": false
+      }
+    },
+    {
+      "toolName": "run_command",
+      "actionId": "2f06c23f-f2c8-47ab-be85-3c85dba7c878",
+      "status": "SUCCEEDED",
+      "output": {
+        "exitCode": 0,
+        "stdout": "PASS: All math tests passed successfully.\n",
+        "stderr": "",
+        "durationMs": 25094,
+        "outputTruncated": false,
+        "commandHash": "3ee0c2116e14e72862096aa8e7aec1ef7ef03f89db375a0fbda7d633a9fe9bf5"
+      }
+    }
+  ],
+  "verificationResults": [
+    {
+      "runId": "3fc0b794-af8c-4447-a43f-154336e35f88",
+      "verifierId": "deterministic-verifier-v1",
+      "specId": "verify-math-tests",
+      "status": "FAILED",
+      "evidenceIds": [],
+      "reasonCode": "MISSING_EVIDENCE",
+      "message": "Prerequisite diff inspection was not performed (no successful 'git_diff' found).",
+      "verifiedAt": "2026-10-17T09:06:42.293Z"
+    },
+    {
+      "evidenceId": "evi-02716eb5-4c8",
+      "runId": "3fc0b794-af8c-4447-a43f-154336e35f88",
+      "source": "PROVIDER_REPORTED",
+      "kind": "PROCESS_EXIT",
+      "contentHash": "b6731da35e2a325ac42fbac1253438d7ddba89d04c0d791f22b6ab874bee4d4b",
+      "summary": {
+        "exitCode": 0,
+        "signal": null
+      },
+      "observedAt": "2026-10-17T09:07:09.155Z"
+    },
+    {
+      "evidenceId": "evi-8b986c96-155",
+      "runId": "3fc0b794-af8c-4447-a43f-154336e35f88",
+      "source": "PROVIDER_REPORTED",
+      "kind": "OUTPUT_PAYLOAD",
+      "contentHash": "b8a8d2ed9f5fc87549bd4c3e0a868426d365e964d2f9da1b62780310403072d1",
+      "summary": {
+        "exitCode": 0,
+        "stdout": "PASS: All math tests passed successfully.\n",
+        "stderr": "",
+        "durationMs": 25094,
+        "outputTruncated": false,
+        "commandHash": "3ee0c2116e14e72862096aa8e7aec1ef7ef03f89db375a0fbda7d633a9fe9bf5"
+      },
+      "observedAt": "2026-10-17T09:07:09.163Z"
+    },
+    {
+      "runId": "3fc0b794-af8c-4447-a43f-154336e35f88",
+      "verifierId": "deterministic-verifier-v1",
+      "specId": "verify-math-tests",
+      "status": "VERIFIED",
+      "evidenceIds": [
+        "evi-02716eb5-4c8",
+        "evi-8b986c96-155"
+      ],
+      "message": "Process exit code is 0 (evidence 'evi-02716eb5-4c8').",
+      "verifiedAt": "2026-10-17T09:07:09.164Z"
+    }
+  ],
+  "observations": [
+    {
+      "observationId": "obs-run-3fc0b794-af8c-4447-a43f-154336e35f88",
+      "category": "RUN_STATE",
+      "freshness": "CURRENT",
+      "contentHash": "d7d9eec82f39e2d1140460bc3d78e18031c2cea1dfd64ae876ee20255bea0a9f"
+    },
+    {
+      "observationId": "obs-contract-contract-2be37154-5f60-4b2d-9596-de16eda3ec46-v1",
+      "category": "MISSION_CONTEXT",
+      "freshness": "CURRENT",
+      "contentHash": "f42eecf1ad574ebb7d41807a1c4eede130fd1180604fcecb942eca077aacdbec"
+    },
+    {
+      "observationId": "obs-action-826b23de-5a02-4aa6-907d-2383b3e1f634",
+      "category": "ACTION_HISTORY",
+      "freshness": "RECENT",
+      "contentHash": "cd10056c0d619729d4c928a6dec61c06451741971c5f88c7d6059c19f099627c"
+    },
+    {
+      "observationId": "obs-attempt-4cf9fd6e-54d1-4fb4-879d-d56283f99483",
+      "category": "ATTEMPT_HISTORY",
+      "freshness": "RECENT",
+      "contentHash": "05ed25972a5f577ce0b5d2e721d94b27612591da8f527ce7693111c3de6650a3"
+    },
+    {
+      "observationId": "obs-result-4cf9fd6e-54d1-4fb4-879d-d56283f99483",
+      "category": "TOOL_RESULT",
+      "freshness": "RECENT",
+      "contentHash": "facae5191ff79ac197d0fcedbd31a2a880faef306ffc1b417ca9946e97445d77"
+    },
+    {
+      "observationId": "obs-action-b5275322-0531-4afd-b178-06143ece69bc",
+      "category": "ACTION_HISTORY",
+      "freshness": "RECENT",
+      "contentHash": "7389984964ac2757119e5c68865043b70d01c44c61239c06dcc3a4748bab5303"
+    },
+    {
+      "observationId": "obs-attempt-d3bde28c-373b-427c-8907-099477fde834",
+      "category": "ATTEMPT_HISTORY",
+      "freshness": "RECENT",
+      "contentHash": "1e819ffd4612bc463e500c6438662a14050b555ad69290ee2df45ba00185fd5d"
+    },
+    {
+      "observationId": "obs-result-d3bde28c-373b-427c-8907-099477fde834",
+      "category": "TOOL_RESULT",
+      "freshness": "RECENT",
+      "contentHash": "76d329ce768b2cf8ea504d7fbdbbba946138f1bc81c9095359445304d736cfda"
+    },
+    {
+      "observationId": "obs-action-299cc989-a92b-4b5b-8821-bc075e393513",
+      "category": "ACTION_HISTORY",
+      "freshness": "RECENT",
+      "contentHash": "3569d0dae3861fc72f03a24232fc816343023384b4c182242bad0f8aab04d45e"
+    },
+    {
+      "observationId": "obs-attempt-2d2b216e-0e2c-4767-8bc8-926d4712d015",
+      "category": "ATTEMPT_HISTORY",
+      "freshness": "RECENT",
+      "contentHash": "66961ec9eb808e3c1fa0082319b0e65205721333330c87f5f134daa4146be7aa"
+    },
+    {
+      "observationId": "obs-result-2d2b216e-0e2c-4767-8bc8-926d4712d015",
+      "category": "TOOL_RESULT",
+      "freshness": "RECENT",
+      "contentHash": "8f30272e509335dda945d65c8074ed0274d9125f1d8f0919026b6566c31f73d7"
+    },
+    {
+      "observationId": "obs-action-2f06c23f-f2c8-47ab-be85-3c85dba7c878",
+      "category": "ACTION_HISTORY",
+      "freshness": "CURRENT",
+      "contentHash": "e408c0ccea1f61756f07ebcd1853bd28771395458d1d2fdbda918f77c85dfac6"
+    },
+    {
+      "observationId": "obs-attempt-e2012184-3f27-48c6-8c51-a3581b99b442",
+      "category": "ATTEMPT_HISTORY",
+      "freshness": "RECENT",
+      "contentHash": "e682a3bf12cf6c00f3d713c6cf3c68f982dda51b606359d473c628a04e3838f2"
+    },
+    {
+      "observationId": "obs-result-e2012184-3f27-48c6-8c51-a3581b99b442",
+      "category": "TOOL_RESULT",
+      "freshness": "RECENT",
+      "contentHash": "d51068d247284e3cc13fbdbf197b7c9cff98c9e8b4d39b63b438f17b28190d81"
+    },
+    {
+      "observationId": "obs-event-a4b9fd73-3bab-4c0d-8c97-803aef2c15bf",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "023a79f26a857255f65b7d19959b0a7c5d8a5a69789d08545a6a2fa3048f0437"
+    },
+    {
+      "observationId": "obs-event-747fde5e-72db-4827-bf69-4ae7f6c9c8d4",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "7a68fd816b7ce3043554468b9370f6b01d640d98f5496c7388e65df3a32ef7f8"
+    },
+    {
+      "observationId": "obs-event-b01c2af4-64e0-4ba3-92bc-e77d1c6644cd",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "c70ef1e78d9d4f39ebb4bf4971ce1208a629bbb64aa253ba9246de10bd501e2f"
+    },
+    {
+      "observationId": "obs-event-6faf58d0-8f7c-41d3-be75-a3d1768036b6",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "fe34331510c80255d324f083bb418d39029a4abe524b019456194a7792d98433"
+    },
+    {
+      "observationId": "obs-event-6967df71-ec9a-4061-8174-d4af0c7ca2f5",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "ae1b4df1c7e0a0229fa52bf4e471891c7b2e5e83ca2b0a72ee8f7328c09c192a"
+    },
+    {
+      "observationId": "obs-event-ac575584-912b-4ef1-9b3f-93e32dea4641",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "411a76738007dd4bca807ad9d92b584b3166ac37f4ebcdb1a916b6d4a05f9d88"
+    },
+    {
+      "observationId": "obs-event-36f4252c-33a5-43c5-8178-20fbe8cbf36e",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "446c9f1286879ccc94b774c2f9f042ae77207a7863c682359bae47ff6cf31519"
+    },
+    {
+      "observationId": "obs-event-1fa5ef5b-09dd-4107-b599-2f2ada87b0b1",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "71c0fe7901eabd8390070ca1db83e8905901057e2b1709d99eb34d8cfa0572cf"
+    },
+    {
+      "observationId": "obs-event-02278318-de10-4f69-9798-1bb6b1a324d4",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "ecda9a2e9a4762428e3db4df267e20f27aec1dbe01c12820772e1a75f8099afb"
+    },
+    {
+      "observationId": "obs-event-e84b3022-0b30-49e6-864c-d25c0bb8dccf",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "3c4cb0e0b516d6c4814755d6bef73c49a011f9ed109cd6259815300fc8e09ad8"
+    },
+    {
+      "observationId": "obs-event-0ae0bb72-5c1d-4af9-ba5f-49ea0a54bcb1",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "502fd13751ecebfcd3dd4e85d1c719474ce14b6f1f9644d81afefab787f4fa64"
+    },
+    {
+      "observationId": "obs-event-ab0fb8e8-f3b1-490c-ad6a-a4eac66f4e21",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "559df5806d187f557026d2b2719f50376a6e06752eb69e817f9e9d4d188b7676"
+    },
+    {
+      "observationId": "obs-event-009c32b0-b6de-4ffa-a20e-1238fad758d1",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "e4ee390cc9892d61e17a9222e975ce22c7664581ab09d30a2630caa12df180f4"
+    },
+    {
+      "observationId": "obs-event-8456f9ea-d833-4abe-aafd-f72701963868",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "aa9ce64262b35a95b659293664f9cfd55f85b422ac5ba9289763cef7be5e8fb4"
+    },
+    {
+      "observationId": "obs-event-bb03c7db-802f-44f0-83e0-dd22d91fc96d",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "d541d5aa59d576ccd2ce1027711fb7479f99b54072a00fa927cbc21f85a748c3"
+    },
+    {
+      "observationId": "obs-event-3549eb97-a2ed-429b-b850-5675a605cd11",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "482b8e2181832d9cf096981eb00bc5c2f4e7810a90ac791cda64897c412401f1"
+    },
+    {
+      "observationId": "obs-event-3b7e0769-31fb-4fdf-8d4a-0225ec3ada64",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "db0e1c039a9bb36a6c192b8eaad66345ca5e88fe2e5fa6376185139fc3758463"
+    },
+    {
+      "observationId": "obs-event-f6ba6a25-da0f-401b-b728-364632e76cea",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "f2ab0c6dc8d2ef335c67844e1fcfd87388fcd3edc45c7c8757053d0ddf8deed3"
+    },
+    {
+      "observationId": "obs-event-12fb789c-8c0a-4052-a342-b6c088ec25eb",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "2766b67a61531dadd77967700a180a623f39c1245180155f2422f15aac75f76e"
+    },
+    {
+      "observationId": "obs-event-9d1646d4-4961-473c-9b66-7a77d36f0be8",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "155f0ad78191703694b5ebd884860e26c16ee8b91dcf45255cb170848a0b0fa7"
+    },
+    {
+      "observationId": "obs-ver-745766f9-5644-41fd-b747-4917b60eddf4",
+      "category": "VERIFICATION",
+      "freshness": "STALE",
+      "contentHash": "1a05a8a9375d1e307edf62056606f893daf86fc1180dc975eb2c34edda6f56ac"
+    },
+    {
+      "observationId": "obs-event-b803337a-1fe7-4eca-aeba-aa0a4712018d",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "eaaec55f2328d5439bb6d157dfb6834b89eaaf577ff5629f31e2b750b2c6ce61"
+    },
+    {
+      "observationId": "obs-event-ca993a35-fdce-4733-8ed4-6c811d077bae",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "e0ecc1da4664a96cb648cc6e2b33a625c0b159296e2d3205a6a4397dde58b811"
+    },
+    {
+      "observationId": "obs-event-02aff2ee-441b-4cf0-8e88-e0b09552f3d0",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "6fa815a9fe0204a0061434d7a348731b786e56835ddfdfdd8437cfbeaff83cae"
+    },
+    {
+      "observationId": "obs-event-7aac6ba8-5b62-48f4-9bf1-1d1e201230f3",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "ae5af348c8f3f7907f9fc9a70f65c6d79dbc9dd114e25cb08f96fdcdec74062b"
+    },
+    {
+      "observationId": "obs-event-d1d65229-9c1e-48fe-b25a-2e66012d5f9f",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "63b1ba7344b5ff67b151ad0305fcf99765fe74d0fd59cb132a5ae78d524ee771"
+    },
+    {
+      "observationId": "obs-event-e7ad3dde-cef7-40cf-9f64-8a07dcc161f6",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "20ccdf317d797c08e7f15a4c4f0d248c6d493013e613300eeae5bd9623133472"
+    },
+    {
+      "observationId": "obs-event-c318451e-033c-4d40-ae98-4d945ccd9912",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "dfd53b7f7d5a6d0d7a28e9993de8cd76e684c67a0847ec18a9ef892aa9a3ba96"
+    },
+    {
+      "observationId": "obs-event-bfa386d3-72d4-497e-9dfa-219b724858dd",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "cd54539f9c98db1320645fcef933019c121f306a2494324dd6e0fe1c5d8547fb"
+    },
+    {
+      "observationId": "obs-event-00aeb95a-982d-4565-9ef3-a904399e8738",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "5f039e7158e9da17cdc892da461a4aa5182df2ad1d6fabe37142985a4cd87955"
+    },
+    {
+      "observationId": "obs-event-24982c55-7181-41f1-a664-dd4576064f4e",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "f58afcaa2132cee6365a74498929ba33f678d96cdfb87d509b16b2ae61bd92a7"
+    },
+    {
+      "observationId": "obs-event-86e9cf1d-9194-41de-92a3-ffeba62a963b",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "259480eec5add1e6cab8571aee34c8ee97dbaa229b724586cac3d01afd3e5492"
+    },
+    {
+      "observationId": "obs-event-79615720-0e41-402d-9686-cd74c7d30676",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "f7ff64503d1025ede94f65d09ffd1f070ad9480240965b28803b601e3e3a1cbd"
+    },
+    {
+      "observationId": "obs-event-6f7e548c-4ebe-4550-ba7e-18c429e92832",
+      "category": "SYSTEM_EVENT",
+      "freshness": "STALE",
+      "contentHash": "84442eeca472cfdd5cfc14ab414efb51041c09c0a47922fd857b9128be369cd2"
+    },
+    {
+      "observationId": "obs-event-dd9011be-f675-44bf-8d6a-3dab4f15b35e",
+      "category": "SYSTEM_EVENT",
+      "freshness": "RECENT",
+      "contentHash": "fe514df5d1324e76f873aa77ee56c997e98102230d23dff29d6a46301c4f359f"
+    },
+    {
+      "observationId": "obs-event-538cb69b-2492-4133-8b97-19b18e9e610b",
+      "category": "SYSTEM_EVENT",
+      "freshness": "RECENT",
+      "contentHash": "e4c44b8b2429055cbbfc4d91f569e64e0fc0b7dd86810c1da84ef65b85b6b896"
+    },
+    {
+      "observationId": "obs-event-b2331183-d8a1-45ea-b2b4-b13986b944ea",
+      "category": "SYSTEM_EVENT",
+      "freshness": "RECENT",
+      "contentHash": "509eeef151d9e09541af81e0b66f397354faf738178a5ea25837dc71deb17c04"
+    },
+    {
+      "observationId": "obs-evidence-e91f1923-e8bb-49e9-aaee-edc58f581202",
+      "category": "EVIDENCE",
+      "freshness": "RECENT",
+      "contentHash": "c04d6204aa89826b87d4a00dce1b45b5caa85b539dfede8c542de86a9c8ffb35"
+    },
+    {
+      "observationId": "obs-evidence-b02bb0fb-f975-4a54-bf84-0cc3c45d65c9",
+      "category": "EVIDENCE",
+      "freshness": "RECENT",
+      "contentHash": "aea0557509009d23a856a0daa8e4d53176f069b024aa7edf79e7caa2945894a4"
+    },
+    {
+      "observationId": "obs-ver-e5b3a0eb-0f38-434f-98ab-69223aef7208",
+      "category": "VERIFICATION",
+      "freshness": "CURRENT",
+      "contentHash": "1cffa40854a0bb8da1febefc197547820458010321f65da683cbc033a2af85c1"
+    }
+  ],
+  "completionClaims": 3,
+  "completionDecisions": [
+    {
+      "step": 3,
+      "accepted": true,
+      "reason": "VERIFIED_COMPLETION"
+    }
+  ],
+  "finalRunState": {
+    "runId": "3fc0b794-af8c-4447-a43f-154336e35f88",
+    "status": "COMPLETED",
+    "totalSteps": 3,
+    "totalActions": 4
+  },
+  "latencies": {
+    "totalWallClockMs": 532129,
+    "modelCallsMs": 532106,
+    "verificationMs": 26489,
+    "perStepMs": [
+      {
+        "step": 1,
+        "tool": "read_file",
+        "durationMs": 109708
+      },
+      {
+        "step": 2,
+        "tool": "write_file",
+        "durationMs": 237956
+      },
+      {
+        "step": 3,
+        "tool": "git_diff",
+        "durationMs": 422
+      },
+      {
+        "step": 3,
+        "tool": "run_command",
+        "durationMs": 26067
+      },
+      {
+        "step": 3,
+        "tool": "none",
+        "durationMs": 184442
+      }
+    ]
+  },
+  "contextSizes": [
+    {
+      "step": 1,
+      "bytes": 2790,
+      "tokens": 699,
+      "observationsCount": 6
+    },
+    {
+      "step": 2,
+      "bytes": 7198,
+      "tokens": 1804,
+      "observationsCount": 17
+    },
+    {
+      "step": 3,
+      "bytes": 11290,
+      "tokens": 2833,
+      "observationsCount": 28
+    },
+    {
+      "step": 3,
+      "bytes": 11290,
+      "tokens": 2833,
+      "observationsCount": 28
+    },
+    {
+      "step": 3,
+      "bytes": 11290,
+      "tokens": 2833,
+      "observationsCount": 28
+    }
+  ],
+  "repairCount": 0,
+  "evidenceIntegrity": {
+    "historicalArtifactsPreserved": true,
+    "allArtifactsSha256Matches": true
+  },
+  "modelClaimedCompletion": true,
+  "verificationRequired": true,
+  "verificationExecuted": true,
+  "verificationPassed": true,
+  "emeraldAcceptedCompletion": true,
+  "sourceModified": true,
+  "fixApplied": true
+}

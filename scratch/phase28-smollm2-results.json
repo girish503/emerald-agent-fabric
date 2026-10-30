@@ -1,0 +1,145 @@
+{
+  "phase": "28",
+  "timestamp": "2026-10-18T10:30:48.077Z",
+  "baseline": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "taskHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "model": {
+    "name": "smollm2:1.7b",
+    "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+    "parameters": "1.7B",
+    "quantization": "Q8_0",
+    "size": "1.82 GB (1,820,428,533 bytes)",
+    "architecture": "llama",
+    "contextLength": 8192,
+    "license": "Apache License 2.0 (Permissive open-source, ₹0 cost)",
+    "category": "Synthetic multi-turn tool-calling open-weight model",
+    "provider": "ollama (local)"
+  },
+  "hardware": {
+    "cpu": "Intel Core i3-N305 (8 physical/logical E-cores, AVX2)",
+    "ramTotalMb": 7813,
+    "ramFreeMb": 1441,
+    "gpu": "Intel UHD Graphics (integrated, CPU-only execution)",
+    "ollamaVersion": "0.40.6",
+    "freeDiskGb": 191.87
+  },
+  "capabilityLevel": {
+    "level": "LEVEL 0",
+    "description": "No valid initial proposal within latency boundary."
+  },
+  "gateA": {
+    "inferenceDurationMs": 120065,
+    "responseStatus": "TIMEOUT",
+    "responseBytes": 0,
+    "promptBytes": 6973,
+    "contextBytes": 3295,
+    "proposalValid": false,
+    "selectedTool": null,
+    "rejectionReason": "CPU_INFERENCE_LATENCY_BOUNDARY",
+    "classification": "ENVIRONMENT_FAILURE",
+    "rawModelResponse": null,
+    "proposal": null
+  },
+  "gateB": {
+    "status": "NOT_RUN"
+  },
+  "toolGrounding": {
+    "inspectedBeforeEdit": false,
+    "usedPathNotFilePath": false,
+    "preservedArgumentNames": false,
+    "respectedIntegerBounds": false,
+    "groundingNotes": "Gate A failed."
+  },
+  "recovery": {
+    "totalRejections": 0,
+    "recoveryAttempts": 0,
+    "successfulRecoveryEvents": 0,
+    "repeatedProposalCount": 0,
+    "distinctCorrectiveProposalCount": 0,
+    "notes": "Gate B was not executed because Gate A failed."
+  },
+  "stateTracking": {
+    "treatedMetadataAsInput": false,
+    "observationNotes": "No observation generated."
+  },
+  "coding": {
+    "physicalMutationOccurred": false,
+    "correctMathRepair": false,
+    "preservedMultiply": false,
+    "patchSnippet": null
+  },
+  "verification": {
+    "cleanRoomReached": false,
+    "cleanRoomVerified": false,
+    "failToPass": null,
+    "passToPass": null,
+    "fourfoldPassed": false
+  },
+  "hypotheses": {
+    "H1": "NOT_SUPPORTED",
+    "H2": "NOT_TESTABLE",
+    "H3": "NOT_TESTABLE",
+    "H4": "NOT_TESTABLE",
+    "H5": "NOT_TESTABLE",
+    "H6": "NOT_SUPPORTED"
+  },
+  "failureClassification": {
+    "primary": "ENVIRONMENT_FAILURE",
+    "primaryDescription": "SmolLM2-1.7B inference exceeded the 120,000ms CPU feasibility boundary on the Intel i3-N305.",
+    "secondary": []
+  },
+  "comparison": [
+    {
+      "model": "gemma3:1b",
+      "params": "~1B",
+      "gateALatency": "57.4s",
+      "initialProposal": "Premature GOAL_REACHED",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Failed",
+      "finalStatus": "MODEL_SCHEMA_FAILURE"
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "params": "~1.5B",
+      "gateALatency": "69.4s",
+      "initialProposal": "write_file",
+      "mutation": "Yes",
+      "recovery": "No (6 rejections)",
+      "verification": "Not reached",
+      "finalStatus": "MODEL_RECOVERY_FAILURE"
+    },
+    {
+      "model": "qwen2.5-coder:1.5b",
+      "params": "~1.5B",
+      "gateALatency": "64.4s",
+      "initialProposal": "read_file",
+      "mutation": "No",
+      "recovery": "No (6 rejections)",
+      "verification": "Not reached",
+      "finalStatus": "MODEL_RECOVERY_FAILURE"
+    },
+    {
+      "model": "granite3-dense:2b",
+      "params": "~2.6B",
+      "gateALatency": "120.1s (timeout)",
+      "initialProposal": "None (timeout)",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Not reached",
+      "finalStatus": "ENVIRONMENT_FAILURE"
+    },
+    {
+      "model": "SmolLM2 1.7B",
+      "params": "1.7B",
+      "gateALatency": "120.1s",
+      "initialProposal": "None",
+      "mutation": "No",
+      "recovery": "No",
+      "verification": "Not reached",
+      "finalStatus": "ENVIRONMENT_FAILURE"
+    }
+  ],
+  "scientificConclusion": "SmolLM2-1.7B evaluated at 1.7B parameters failed Gate A feasibility with classification ENVIRONMENT_FAILURE (120.1s). The model could not produce a valid initial action proposal within the 120s feasibility ceiling on the Intel Core i3-N305.",
+  "nextRecommendation": "Reassess whether Q8_0 quantization level is responsible for CPU latency or evaluate an alternative sub-2B candidate."
+}

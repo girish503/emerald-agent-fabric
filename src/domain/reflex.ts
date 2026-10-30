@@ -32,7 +32,7 @@ import {
   findForbiddenAuthorityKeys,
   type ActionProposal,
 } from "./action-proposal.js";
-import { TOOL_NAMES, type ToolName } from "./tool.js";
+import { EXTENDED_TOOL_NAMES, TOOL_NAMES, type ExtendedToolName, type ToolName } from "./tool.js";
 import {
   InvalidReflexDecisionError,
   InvalidReflexContextError,
@@ -159,7 +159,7 @@ export const ReflexDecisionSchema = z
 // ============================================================================
 
 export interface ReflexActionHistoryItem {
-  readonly toolName: ToolName;
+  readonly toolName: ExtendedToolName;
   readonly status: string;
   readonly sequenceNumber?: number;
   readonly inputHash?: string;
@@ -189,7 +189,7 @@ export interface ReflexContext {
 
 export const ReflexActionHistoryItemSchema = z
   .object({
-    toolName: z.enum(TOOL_NAMES),
+    toolName: z.enum(EXTENDED_TOOL_NAMES),
     status: z.string().max(64),
     sequenceNumber: z.number().int().positive().optional(),
     inputHash: z.string().regex(/^[a-f0-9]{64}$/i, "inputHash must be a 64-character hexadecimal SHA-256 hash").optional(),

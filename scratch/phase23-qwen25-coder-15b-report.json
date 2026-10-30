@@ -1,0 +1,301 @@
+{
+  "$schema": "https://emerald.agentfabric.dev/schemas/v1/phase23-qwen25-coder-15b-report.json",
+  "experimentId": "exp-phase23-1792314482176",
+  "timestamp": "2026-10-18T09:08:02.176Z",
+  "projectConstraint": "₹0-cost, open-source/open-weight-model-only (Proprietary cloud models strictly rejected)",
+  "baselineCommitSha": "70979cf4bcbf4a237b79af3a23449a4b932104d5",
+  "model": {
+    "identifier": "qwen2.5-coder:1.5b",
+    "digest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "size": "986 MB (986,062,089 bytes)",
+    "parameters": "1.54B",
+    "quantization": "Q4_K_M",
+    "architecture": "qwen2",
+    "contextLength": 32768,
+    "license": "Apache License 2.0 (Open-source, ₹0 cost)",
+    "category": "Coding-specialized open-weight model",
+    "provider": "ollama (local)",
+    "hardware": "CPU (Intel Core i3-N305, 8 E-cores, 8 GB RAM)"
+  },
+  "selectionRationale": "Open-source coding-specialized model evaluated to test whether domain pre-training improves tool adherence and task progression over general-purpose qwen2.5:1.5b.",
+  "taskDirectiveHash": "649544ffe153f3ec8ecb2d40c8c35788d03398b08ed525417f9507a6e41c9c58",
+  "gateA": {
+    "inferenceTimeMs": 64378,
+    "responseStatus": "RECEIVED",
+    "responseBytes": 228,
+    "validProposal": true,
+    "prematureGoalReached": false,
+    "classification": "INFERENCE_VALIDATED",
+    "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"read_file\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"abbc952da335cc0d6fa10dc48b9658a465e6b27593710bad394d664f1efe7641\"\n}",
+    "proposal": {
+      "proposalId": "read_file",
+      "toolName": "read_file",
+      "inputPayload": {
+        "path": "src/math.js"
+      },
+      "contextSnapshotHash": "abbc952da335cc0d6fa10dc48b9658a465e6b27593710bad394d664f1efe7641"
+    },
+    "validationReason": null,
+    "selectedTool": "read_file",
+    "inputPayload": {
+      "path": "src/math.js"
+    }
+  },
+  "gateB": {
+    "status": "EXECUTED",
+    "totalWallClockMs": 223406,
+    "loopDurationMs": 223321,
+    "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+    "terminalMessage": "Maximum proposal rejections ceiling reached (6 >= 6)",
+    "totalProposals": 7,
+    "validProposals": 1,
+    "invalidProposals": 6,
+    "validityRatePct": 14.3,
+    "physicalActionCount": 1,
+    "physicalMutationOccurred": false,
+    "hallucinatedContentHash": false,
+    "cleanRoomReached": false,
+    "cleanRoomOutcome": null,
+    "capabilityDepth": {
+      "depth": 2,
+      "description": "First physical tool execution succeeded",
+      "step0_modelResponded": true,
+      "step1_validProposal": true,
+      "step2_firstToolExecuted": true,
+      "step3_obsIncorporated": false,
+      "step4_secondToolProposal": false,
+      "step5_physicalMutation": false,
+      "step6_correctGoalClaim": false,
+      "step7_independentVerification": false,
+      "step8_verifiedCompleted": false
+    },
+    "codingAnalysis": {
+      "inspectedMathJs": true,
+      "choseReadFile": true,
+      "skippedInspection": false,
+      "producedJavascript": false,
+      "usedPlaceholders": false,
+      "hallucinatedToolParams": false,
+      "claimedCompletionPrematurely": false,
+      "preservedMultiply": false,
+      "correctAddFix": false
+    },
+    "stepLatencies": [
+      {
+        "sequenceNumber": 1,
+        "durationMs": 59453,
+        "durationS": 59.5
+      },
+      {
+        "sequenceNumber": 2,
+        "durationMs": 64037,
+        "durationS": 64
+      },
+      {
+        "sequenceNumber": 3,
+        "durationMs": 22515,
+        "durationS": 22.5
+      },
+      {
+        "sequenceNumber": 4,
+        "durationMs": 18454,
+        "durationS": 18.5
+      },
+      {
+        "sequenceNumber": 5,
+        "durationMs": 19720,
+        "durationS": 19.7
+      },
+      {
+        "sequenceNumber": 6,
+        "durationMs": 20852,
+        "durationS": 20.9
+      },
+      {
+        "sequenceNumber": 7,
+        "durationMs": 18207,
+        "durationS": 18.2
+      }
+    ],
+    "avgLatencyMs": 31891,
+    "candidatePatchContent": "",
+    "finalRunStatus": "RUNNING",
+    "records": [
+      {
+        "sequenceNumber": 1,
+        "timestamp": "2026-10-18T09:05:18.313Z",
+        "model": "qwen2.5-coder:1.5b",
+        "contextBytes": 3882,
+        "promptBytes": 7632,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"read_file\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"path\": \"src/math.js\"\n  },\n  \"contextSnapshotHash\": \"c40a02dcdeda190d9dcbf433dcc64ced34deace75ece2019c9d09190e8c24a0f\"\n}",
+        "proposal": {
+          "proposalId": "read_file",
+          "toolName": "read_file",
+          "inputPayload": {
+            "path": "src/math.js"
+          },
+          "contextSnapshotHash": "c40a02dcdeda190d9dcbf433dcc64ced34deace75ece2019c9d09190e8c24a0f"
+        },
+        "durationMs": 59453,
+        "hasContentHashInput": false,
+        "proposalValid": true,
+        "rejectionReason": null,
+        "rejectionMessage": null
+      },
+      {
+        "sequenceNumber": 2,
+        "timestamp": "2026-10-18T09:06:22.395Z",
+        "model": "qwen2.5-coder:1.5b",
+        "contextBytes": 8333,
+        "promptBytes": 12993,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"filePath\": \"/path/to/output/file.js\",\n    \"content\": \"/*\\n * Math utilities.\\n */\\n\\nfunction add(a, b) {\\n  // Defect: subtracts instead of adds\\n  return a - b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"contextSnapshotHash\": \"d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f\"\n}",
+        "proposal": {
+          "proposalId": "action-12345",
+          "toolName": "write_file",
+          "inputPayload": {
+            "filePath": "/path/to/output/file.js",
+            "content": "/*\n * Math utilities.\n */\n\nfunction add(a, b) {\n  // Defect: subtracts instead of adds\n  return a - b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+          },
+          "contextSnapshotHash": "d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f"
+        },
+        "durationMs": 64037,
+        "hasContentHashInput": false,
+        "proposalValid": false,
+        "rejectionReason": "INVALID_TOOL_INPUT",
+        "rejectionMessage": "Input payload for tool 'write_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'"
+      },
+      {
+        "sequenceNumber": 3,
+        "timestamp": "2026-10-18T09:06:44.919Z",
+        "model": "qwen2.5-coder:1.5b",
+        "contextBytes": 8333,
+        "promptBytes": 12993,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"filePath\": \"/path/to/output/file.js\",\n    \"content\": \"/*\\n * Math utilities.\\n */\\n\\nfunction add(a, b) {\\n  // Defect: subtracts instead of adds\\n  return a - b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"contextSnapshotHash\": \"d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f\"\n}",
+        "proposal": {
+          "proposalId": "action-12345",
+          "toolName": "write_file",
+          "inputPayload": {
+            "filePath": "/path/to/output/file.js",
+            "content": "/*\n * Math utilities.\n */\n\nfunction add(a, b) {\n  // Defect: subtracts instead of adds\n  return a - b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+          },
+          "contextSnapshotHash": "d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f"
+        },
+        "durationMs": 22515,
+        "hasContentHashInput": false,
+        "proposalValid": false,
+        "rejectionReason": "INVALID_TOOL_INPUT",
+        "rejectionMessage": "Input payload for tool 'write_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'"
+      },
+      {
+        "sequenceNumber": 4,
+        "timestamp": "2026-10-18T09:07:03.378Z",
+        "model": "qwen2.5-coder:1.5b",
+        "contextBytes": 8333,
+        "promptBytes": 12993,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"filePath\": \"/path/to/output/file.js\",\n    \"content\": \"/*\\n * Math utilities.\\n */\\n\\nfunction add(a, b) {\\n  // Defect: subtracts instead of adds\\n  return a - b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"contextSnapshotHash\": \"d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f\"\n}",
+        "proposal": {
+          "proposalId": "action-12345",
+          "toolName": "write_file",
+          "inputPayload": {
+            "filePath": "/path/to/output/file.js",
+            "content": "/*\n * Math utilities.\n */\n\nfunction add(a, b) {\n  // Defect: subtracts instead of adds\n  return a - b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+          },
+          "contextSnapshotHash": "d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f"
+        },
+        "durationMs": 18454,
+        "hasContentHashInput": false,
+        "proposalValid": false,
+        "rejectionReason": "INVALID_TOOL_INPUT",
+        "rejectionMessage": "Input payload for tool 'write_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'"
+      },
+      {
+        "sequenceNumber": 5,
+        "timestamp": "2026-10-18T09:07:23.103Z",
+        "model": "qwen2.5-coder:1.5b",
+        "contextBytes": 8333,
+        "promptBytes": 12993,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"filePath\": \"/path/to/output/file.js\",\n    \"content\": \"/*\\n * Math utilities.\\n */\\n\\nfunction add(a, b) {\\n  // Defect: subtracts instead of adds\\n  return a - b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"contextSnapshotHash\": \"d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f\"\n}",
+        "proposal": {
+          "proposalId": "action-12345",
+          "toolName": "write_file",
+          "inputPayload": {
+            "filePath": "/path/to/output/file.js",
+            "content": "/*\n * Math utilities.\n */\n\nfunction add(a, b) {\n  // Defect: subtracts instead of adds\n  return a - b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+          },
+          "contextSnapshotHash": "d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f"
+        },
+        "durationMs": 19720,
+        "hasContentHashInput": false,
+        "proposalValid": false,
+        "rejectionReason": "INVALID_TOOL_INPUT",
+        "rejectionMessage": "Input payload for tool 'write_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'"
+      },
+      {
+        "sequenceNumber": 6,
+        "timestamp": "2026-10-18T09:07:43.960Z",
+        "model": "qwen2.5-coder:1.5b",
+        "contextBytes": 8333,
+        "promptBytes": 12993,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"filePath\": \"/path/to/output/file.js\",\n    \"content\": \"/*\\n * Math utilities.\\n */\\n\\nfunction add(a, b) {\\n  // Defect: subtracts instead of adds\\n  return a - b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"contextSnapshotHash\": \"d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f\"\n}",
+        "proposal": {
+          "proposalId": "action-12345",
+          "toolName": "write_file",
+          "inputPayload": {
+            "filePath": "/path/to/output/file.js",
+            "content": "/*\n * Math utilities.\n */\n\nfunction add(a, b) {\n  // Defect: subtracts instead of adds\n  return a - b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+          },
+          "contextSnapshotHash": "d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f"
+        },
+        "durationMs": 20852,
+        "hasContentHashInput": false,
+        "proposalValid": false,
+        "rejectionReason": "INVALID_TOOL_INPUT",
+        "rejectionMessage": "Input payload for tool 'write_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'"
+      },
+      {
+        "sequenceNumber": 7,
+        "timestamp": "2026-10-18T09:08:02.173Z",
+        "model": "qwen2.5-coder:1.5b",
+        "contextBytes": 8333,
+        "promptBytes": 12993,
+        "modelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"filePath\": \"/path/to/output/file.js\",\n    \"content\": \"/*\\n * Math utilities.\\n */\\n\\nfunction add(a, b) {\\n  // Defect: subtracts instead of adds\\n  return a - b;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"contextSnapshotHash\": \"d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f\"\n}",
+        "proposal": {
+          "proposalId": "action-12345",
+          "toolName": "write_file",
+          "inputPayload": {
+            "filePath": "/path/to/output/file.js",
+            "content": "/*\n * Math utilities.\n */\n\nfunction add(a, b) {\n  // Defect: subtracts instead of adds\n  return a - b;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
+          },
+          "contextSnapshotHash": "d92d3da32332114dcc310a6d1671c5657ae29c2f13282438c216ed9b2d084d8f"
+        },
+        "durationMs": 18207,
+        "hasContentHashInput": false,
+        "proposalValid": false,
+        "rejectionReason": "INVALID_TOOL_INPUT",
+        "rejectionMessage": "Input payload for tool 'write_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'"
+      }
+    ]
+  },
+  "gateC": {
+    "status": "NOT_RUN",
+    "outcome": null
+  },
+  "gateD": {
+    "status": "FAILED",
+    "fourfoldPredicate": {
+      "taskSatisfied": false,
+      "verificationPassed": false,
+      "policySatisfied": true,
+      "evidenceComplete": true
+    }
+  },
+  "primaryClassification": "MODEL_RECOVERY_FAILURE",
+  "hypothesisTest": {
+    "h1Result": "NOT_SUPPORTED",
+    "scientificClassification": "CODING_SPECIALIZATION_NOT_SUPPORTED",
+    "summary": "qwen2.5-coder:1.5b exhibited similar structural limitations (terminalReason: MAX_PROPOSAL_REJECTIONS, depth: 2) without reaching independent clean-room verification. Coding specialization alone at ~1.5B scale was insufficient to cross the governed completion threshold."
+  },
+  "systemMetrics": {
+    "memoryMb": 55
+  }
+}

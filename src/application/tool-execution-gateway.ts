@@ -45,6 +45,7 @@ import { MissionContract } from "../domain/mission-contract.js";
 import { PolicyEvaluator } from "../domain/policy.js";
 import { RunSnapshot } from "../domain/invariants.js";
 import {
+  defaultGovernedToolRegistry,
   isValidToolName,
   staticToolRegistry,
   ToolDefinition,
@@ -117,13 +118,17 @@ export class ToolExecutionGateway {
   private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
 
   constructor(options: ToolExecutionGatewayOptions = {}) {
-    this.toolRegistry = options.toolRegistry ?? staticToolRegistry;
+    this.toolRegistry = options.toolRegistry ?? defaultGovernedToolRegistry;
     this.adapterRegistry = options.adapterRegistry;
     this.coordinator = options.coordinator;
     this.stateStore = options.stateStore;
     this.policyEvaluator = options.policyEvaluator ?? new PolicyEvaluator();
     this.clock = options.clock ?? new SystemClock();
     this.isIsolationAvailableProbe = options.isIsolationAvailable;
+  }
+
+  get adapters(): ToolAdapterRegistryPort | undefined {
+    return this.adapterRegistry;
   }
 
   /**
@@ -669,6 +674,8 @@ export class ToolExecutionGateway {
         maxOutputBytes: effectiveMaxOutputBytes,
       },
       abortSignal: context.abortSignal,
+      governedBenchmarkRepairMode: contract.spec.policy.governedBenchmarkRepairMode,
+      allowWholeFileReplacement: contract.spec.policy.allowWholeFileReplacement,
     };
 
     return {
