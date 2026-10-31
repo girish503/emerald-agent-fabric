@@ -1,3 +1,4 @@
+import { LeaseRenewalLoop, LeaseRenewalOptions, validateLeaseRenewalConfig } from "./lease-renewal.js";
 import { DockerExecutionProvider } from "../adapters/execution/docker-execution-provider.js";
 import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
 import { createWorkspaceToolAdapterRegistry } from "../adapters/tools/tool-adapter-registry.factory.js";
@@ -23,6 +24,7 @@ import {
   MissingBoundContractError,
   ResourceLimitExceededError,
   TerminalStateError,
+  WorkspaceOwnershipError,
 } from "../domain/errors.js";
 import {
   createOutputPayloadEvidence,
@@ -122,6 +124,8 @@ export interface WorkerRuntimeOptions {
   readonly coordinator: RunCoordinator;
   readonly clock?: ClockPort;
   readonly leaseTtlMs?: number;
+  /** Tuning for the lease-renewal heartbeat that runs while a claimed run executes. */
+  readonly leaseRenewal?: LeaseRenewalOptions;
   readonly executionProvider?: ExecutionProvider;
   readonly operations?: readonly DeterministicOperation[] | DeterministicOperation;
   readonly workspacePort?: WorkspacePort;
@@ -162,6 +166,7 @@ export class WorkerRuntime {
   private readonly coordinator: RunCoordinator;
   private readonly clock: ClockPort;
   private readonly leaseTtlMs: number;
+  private readonly leaseRenewalOptions?: LeaseRenewalOptions;
   private readonly executionProvider: ExecutionProvider;
   private readonly workspacePort?: WorkspacePort;
   private readonly ephemeralPolicy?: ExecutionPolicy;
@@ -183,6 +188,9 @@ export class WorkerRuntime {
     this.coordinator = options.coordinator;
     this.clock = options.clock ?? new SystemClock();
     this.leaseTtlMs = options.leaseTtlMs ?? 10000;
+    this.leaseRenewalOptions = options.leaseRenewal;
+    // Fail at construction, not after a run has been claimed.
+    validateLeaseRenewalConfig(this.leaseTtlMs, this.leaseRenewalOptions);
     this.policyEvaluator = options.policyEvaluator ?? new PolicyEvaluator();
     this.isIsolationAvailableProbe = options.isIsolationAvailable;
     this.workspacePort = options.workspacePort;
@@ -344,6 +352,20 @@ export class WorkerRuntime {
       throw err;
     }
 
+    // Heartbeat: keeps the lease alive for as long as this run executes (stopped in the finally below,
+    // before any terminal transition releases the lease). The block is intentionally not re-indented.
+    const renewal = new LeaseRenewalLoop({
+      coordinator: this.coordinator,
+      clock: this.clock,
+      runId: run.runId,
+      leaseId: lease.leaseId,
+      ttlMs: this.leaseTtlMs,
+      expiresAt: lease.expiresAt,
+      timeoutMs: run.timeoutMs,
+      options: this.leaseRenewalOptions,
+    });
+    renewal.start();
+    try {
     const failRunSafely = (errorPayload: {
       code: string;
       message: string;
@@ -614,7 +636,10 @@ export class WorkerRuntime {
 
       // 9c. Provision isolated filesystem directory in adapter
       try {
-        workspaceHandle = await this.workspacePort.provisionWorkspace(workspace.spec);
+        workspaceHandle = await this.workspacePort.provisionWorkspace(workspace.spec, {
+          runId: run.runId,
+          leaseId: lease.leaseId,
+        });
       } catch (err: unknown) {
         const failedEvent = workspace.markFailed({
           errorMessage: err instanceof Error ? err.message : String(err),
@@ -642,7 +667,7 @@ export class WorkerRuntime {
           now: this.clock.nowIso(),
         });
         this.coordinator.recordWorkspaceEvent(failedEvent);
-        await this.workspacePort.disposeWorkspace(workspaceId).catch(() => {});
+        await this.workspacePort.disposeWorkspace(workspaceId, { runId: run.runId, leaseId: lease.leaseId }).catch(() => {});
         return failRunSafely({
           code: "WORKSPACE_BOUNDARY_FAILURE",
           message: "Workspace handle returned by adapter failed containment or identity check",
@@ -665,7 +690,7 @@ export class WorkerRuntime {
           now: this.clock.nowIso(),
         });
         this.coordinator.recordWorkspaceEvent(failedEvent);
-        await this.workspacePort.disposeWorkspace(workspaceId).catch(() => {});
+        await this.workspacePort.disposeWorkspace(workspaceId, { runId: run.runId, leaseId: lease.leaseId }).catch(() => {});
         return failRunSafely({
           code: "WORKSPACE_BOUNDARY_FAILURE",
           message: "Run workspace ownership binding failed or conflicts with the run's bound workspace",
@@ -707,20 +732,27 @@ export class WorkerRuntime {
 
       const fencing = { workerId: this.workerId, leaseId: lease.leaseId };
 
-      // Lease fencing check: if this worker lost the lease, do NOT delete or mutate!
+      // Fail closed: never delete unless ownership was positively verified. If this worker lost the
+      // lease (run reclaimed, run gone, other worker/lease) it must NOT delete or mutate; if ownership
+      // cannot be read at all, the error is surfaced and nothing is deleted.
+      let currentRun: ReturnType<RunCoordinator["getRun"]>;
       try {
-        const currentRun = this.coordinator.getRun(run.runId);
-        if (
-          currentRun &&
-          (currentRun.leaseId !== lease.leaseId || currentRun.currentWorkerId !== this.workerId)
-        ) {
-          // Stale worker is fenced!
-          return;
-        }
-      } catch {
-        // Continue
+        currentRun = this.coordinator.getRun(run.runId);
+      } catch (readErr: unknown) {
+        throw new Error(
+          `Workspace ownership could not be verified; workspace '${workspace.workspaceId}' was not deleted: ${
+            readErr instanceof Error ? readErr.message : String(readErr)
+          }`
+        );
+      }
+      if (!currentRun || currentRun.leaseId !== lease.leaseId || currentRun.currentWorkerId !== this.workerId) {
+        // Stale worker is fenced!
+        return;
       }
 
+      // The cleaning event is recorded WITH lease fencing inside a database transaction, so it is the
+      // atomic ownership assertion made immediately before deletion. Only LeaseLost means "fenced, stop
+      // quietly"; any other failure is unexpected and must not be treated as permission to delete.
       try {
         const cleaningEvent = workspace.startCleaning({
           reason,
@@ -733,23 +765,29 @@ export class WorkerRuntime {
         if (fencingErr instanceof LeaseLostError) {
           return;
         }
-        // State machine guard: continue to attempt physical disposal if not fenced
+        throw fencingErr;
       }
 
       try {
-        await this.workspacePort.disposeWorkspace(workspace.workspaceId);
+        await this.workspacePort.disposeWorkspace(workspace.workspaceId, { runId: run.runId, leaseId: lease.leaseId });
         workspaceDisposed = true;
         const disposedEvent = workspace.markDisposed({ now: this.clock.nowIso() });
         this.coordinator.recordWorkspaceEvent(disposedEvent, fencing);
       } catch (err: unknown) {
-        if (err instanceof LeaseLostError) {
+        // A stale attempt: the directory belongs to a newer lease (or ownership is unprovable) and was not deleted.
+        if (err instanceof LeaseLostError || err instanceof WorkspaceOwnershipError) {
           return;
         }
         const failedEvent = workspace.markFailed({
           errorMessage: `Workspace disposal failed: ${err instanceof Error ? err.message : String(err)}`,
           now: this.clock.nowIso(),
         });
-        this.coordinator.recordWorkspaceEvent(failedEvent);
+        try {
+          this.coordinator.recordWorkspaceEvent(failedEvent, fencing);
+        } catch (recordErr: unknown) {
+          // A fenced (stale) worker must not write into the newer attempt's workspace event stream.
+          if (!(recordErr instanceof LeaseLostError)) throw recordErr;
+        }
         throw err;
       }
     };
@@ -761,6 +799,22 @@ export class WorkerRuntime {
     } catch (providerError: unknown) {
       await disposeWorkspaceSafely("Execution provider threw unexpected exception").catch(() => {});
       throw providerError;
+    }
+
+    // Ownership check after the provider returns: if the run was reclaimed (lease/worker ids changed)
+    // or already left RUNNING (e.g. cancelled by an operator),
+    // this worker no longer has authority, so it must not write a terminal state or dispose the
+    // workspace (recovery owns both now). Deliberately ownership-only: a lease that merely expired
+    // by time without being reclaimed does not discard the work (the terminal write is still fenced
+    // by the same ids inside its transaction). This does not depend on the heartbeat timer having run.
+    const current = this.coordinator.getRun(run.runId);
+    if (
+      !current ||
+      current.status !== "RUNNING" ||
+      current.leaseId !== lease.leaseId ||
+      current.currentWorkerId !== this.workerId
+    ) {
+      return { status: "FENCED", runId: run.runId, error: new LeaseLostError(run.runId, lease.leaseId, current?.leaseId ?? null) };
     }
 
     // 11. Post-execution Revocation Check (Section 11)
@@ -881,7 +935,7 @@ export class WorkerRuntime {
           await disposeWorkspaceSafely("Run timed out").catch(() => {});
           const reason =
             executionResult.error?.message ?? `Operation exceeded timeout of ${run.timeoutMs}ms`;
-          this.coordinator.timeoutRun(run.runId, reason);
+          this.coordinator.timeoutRun(run.runId, reason, { workerId: this.workerId, leaseId: lease.leaseId });
           return {
             status: "TIMED_OUT",
             runId: run.runId,
@@ -892,7 +946,7 @@ export class WorkerRuntime {
         case "CANCELLED": {
           await disposeWorkspaceSafely("Run cancelled").catch(() => {});
           const reason = executionResult.error?.message ?? "Operation cancelled by provider";
-          this.coordinator.cancelRun(run.runId, reason);
+          this.coordinator.cancelRun(run.runId, reason, { workerId: this.workerId, leaseId: lease.leaseId });
           return {
             status: "CANCELLED",
             runId: run.runId,
@@ -920,6 +974,9 @@ export class WorkerRuntime {
         return { status: "FENCED", runId: run.runId, error: err };
       }
       throw err;
+    }
+    } finally {
+      renewal.stop();
     }
   }
 
@@ -1158,13 +1215,16 @@ export class WorkerRuntime {
     let effectiveWorkspace = params.workspace ?? this.runWorkspaces.get(runId);
     if (!effectiveWorkspace && this.workspacePort) {
       const wsId = `ws-${run.runId.slice(0, 8)}-${crypto.randomUUID().slice(0, 8)}`;
-      const handle = await this.workspacePort.provisionWorkspace({
-        workspaceId: wsId,
-        runId: run.runId,
-        taskId: run.taskId,
-        maxWorkspaceBytes: 500 * 1024 * 1024,
-        maxFileSizeBytes: 10 * 1024 * 1024,
-      });
+      const handle = await this.workspacePort.provisionWorkspace(
+        {
+          workspaceId: wsId,
+          runId: run.runId,
+          taskId: run.taskId,
+          maxWorkspaceBytes: 500 * 1024 * 1024,
+          maxFileSizeBytes: 10 * 1024 * 1024,
+        },
+        { runId: run.runId, leaseId }
+      );
       effectiveWorkspace = {
         workspaceId: handle.workspaceId,
         hostPath: handle.hostPath,

@@ -121,6 +121,17 @@ function setupContractRun(
   `).run(supLeaseId, runId, supervisorId, "2026-10-28T12:00:00.000Z", "2099-01-01T00:00:00.000Z");
 }
 
+/**
+ * ID SCHEME NOTE (owner decision: the ADR ids are authoritative).
+ * The ids in this file are LEGACY "RS-" ids. They are NOT the scenario ids of ADR-0036 section 7.2 (the same letters/numbers
+ * name different scenarios there). Each skipped test below is tagged with the ADR row it corresponds to, or marked
+ * LEGACY when it describes a requirement that has no ADR-0036 row (no implementation exists in src/ for those).
+ * See ADR-0036 section 7.3/7.4 for the evidence and the full mapping. Do not read "RS-A6" as ADR A6.
+ *
+ * RETIRED by owner decision (2026-10-30), skipped placeholders removed: RS-A2, RS-A5, RS-A6, RS-B6, RS-B7, RS-C2, RS-C3, RS-C5, RS-E6.
+ * They described legacy requirements with no ADR-0036 section 7.2 row (RS-A2/RS-E6 duplicate invariants already covered by
+ * editor-mutation-intent Scenarios 2 and 27). See ADR-0036 section 7.4 for what each retirement means.
+ */
 describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
   let tempDir: string;
   let workspaceRoot: string;
@@ -145,7 +156,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
   // GROUP A: Mutation Intent & Crash Boundaries (CP1 - CP7)
   // ==========================================================================
   describe("Group A: Mutation Intent & Crash Boundaries", () => {
-    it.skip("A1: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenario 1] Snapshot and mutation intent persist before filesystem write", () => {
+    it.skip("RS-A1 [ADR A1, C1]: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenario 1] Snapshot and mutation intent persist before filesystem write", () => {
       /**
        * CONTRACT REQUIREMENT:
        * Before `fs.renameSync` modifies the host filesystem, a durable MutationIntentRecord
@@ -158,18 +169,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it.skip("A2: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenario 2] Snapshot persistence failure prevents mutation", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * If persisting the MutationIntentRecord to SQLite fails (disk full, lock busy),
-       * the target file on disk must remain byte-for-byte unchanged.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - Pre-mutation transaction boundary is not integrated with LineAnchoredEditor.
-       */
-    });
-
-    it.skip("A3: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP2] Crash after intent persistence but before mutation (CP2)", () => {
+    it.skip("RS-A3 [ADR C2]: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP2] Crash after intent persistence but before mutation (CP2)", () => {
       /**
        * CONTRACT REQUIREMENT:
        * If process crashes after intent persistence (status: INTENT_RECORDED) but before
@@ -181,7 +181,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it.skip("A4: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP3] Crash after filesystem replacement but before completion persistence (CP3)", () => {
+    it.skip("RS-A4 [ADR C3]: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP3] Crash after filesystem replacement but before completion persistence (CP3)", () => {
       /**
        * CONTRACT REQUIREMENT:
        * If process crashes after fs.renameSync but before DB marks attempt complete,
@@ -193,31 +193,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it.skip("A5: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP4 (rollback path only; re-enqueue of verification is not implemented)] Crash after completion persistence but before verification (CP4)", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * If process crashes after DB records mutation completion but before test verification starts,
-       * recovery detects unverified mutation state. Under governed repair, it must safely rollback
-       * or re-enqueue verification without leaving untracked mutations.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - RunCoordinator.recoverExpiredRuns does not track unverified file mutations.
-       */
-    });
-
-    it.skip("A6: [BLOCKED BY MISSING INTERFACE] Crash during verification (CP5)", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * If verifier process crashes or terminates ungracefully during test execution,
-       * the candidate patch must be rolled back to original digest and emit file.mutation_rolled_back
-       * with reason: "VERIFICATION_CRASHED" and exitCode: null.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - AgentStepController does not have a crash-recovery verification hook or rollback seam.
-       */
-    });
-
-    it.skip("A7: [SUPERSEDED - interface now exists; covered by tests/recovery/durable-rollback-engine.test.ts Test 11 and tests/recovery/durable-rollback-hardening.test.ts F7] Crash during restoration (CP6)", () => {
+    it.skip("RS-A7 [ADR E5]: [SUPERSEDED - interface now exists; covered by tests/recovery/durable-rollback-engine.test.ts Test 11 and tests/recovery/durable-rollback-hardening.test.ts F7] Crash during restoration (CP6)", () => {
       /**
        * CONTRACT REQUIREMENT:
        * If crash occurs while writing temporary restore file or during rename,
@@ -228,7 +204,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it.skip("A8: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP7] Crash after restoration but before rollback-event persistence (CP7)", () => {
+    it.skip("RS-A8 [ADR C8]: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP7] Crash after restoration but before rollback-event persistence (CP7)", () => {
       /**
        * CONTRACT REQUIREMENT:
        * If disk is restored (sha256(file) === originalDigest) but process crashes before DB
@@ -244,7 +220,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
   // GROUP B: Ownership & Concurrency Conflicts
   // ==========================================================================
   describe("Group B: Ownership & Concurrency Conflicts", () => {
-    it("B1: [PASS] Pre-restore verification confirms current digest matches expected mutation result", async () => {
+    it("RS-B1: [PASS] Pre-restore verification confirms current digest matches expected mutation result", async () => {
       const store = new SqliteStateStore();
       const engine = new DurableRollbackEngine(store);
       const runId = "run-contract-b1";
@@ -303,7 +279,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       store.close();
     });
 
-    it("B2: [PASS] Pre-restore aborts with rollback conflict when external writer modified file", async () => {
+    it("RS-B2: [PASS] Pre-restore aborts with rollback conflict when external writer modified file", async () => {
       const store = new SqliteStateStore();
       const engine = new DurableRollbackEngine(store);
       const runId = "run-contract-b2";
@@ -371,7 +347,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       store.close();
     });
 
-    it("B3: [PASS] Adversarial ABA writer replacement exposes that content digest cannot prove absence of intervening external writes", async () => {
+    it("RS-B3: [PASS] Adversarial ABA writer replacement exposes that content digest cannot prove absence of intervening external writes", async () => {
       // Setup file with initial content A
       const targetPath = path.join(workspaceRoot, "src", "math.ts");
       fs.mkdirSync(path.dirname(targetPath), { recursive: true });
@@ -401,7 +377,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       // Therefore, the runtime CANNOT rely solely on digest checks to guarantee exclusive ownership.
     });
 
-    it("B4: [PASS] External writer writing identical content exposes that content digest establishes content equality, not writer identity", async () => {
+    it("RS-B4: [PASS] External writer writing identical content exposes that content digest establishes content equality, not writer identity", async () => {
       const targetPath = path.join(workspaceRoot, "token.ts");
       const originalContent = "const TOKEN = 'INIT';\n";
       fs.writeFileSync(targetPath, originalContent, "utf8");
@@ -425,7 +401,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       // was written by the current runtime lease. Exclusive workspace leases are required.
     });
 
-    it("B5: [PASS] Worker lease expiration blocks state store transaction and fencing check", async () => {
+    it("RS-B5: [PASS] Worker lease expiration blocks state store transaction and fencing check", async () => {
       // In-memory SqliteStateStore
       const store = new SqliteStateStore();
 
@@ -541,30 +517,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       store.close();
     });
 
-    it.skip("B6: [BLOCKED BY MISSING INTERFACE] Stale lock file remains after process termination", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * When a worker process terminates abruptly, its lock file (.emerald/locks/<hash>.lock)
-       * must be safely reclaimed by subsequent workers only if the recorded PID is dead
-       * and lease has expired.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - FileSystemLockManager with stale lock reclamation does not exist.
-       */
-    });
-
-    it.skip("B7: [BLOCKED BY MISSING INTERFACE] Two cooperating workers attempt to mutate the same path", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * An in-process path serializer (Map<string, Promise<void>>) must queue or reject
-       * concurrent mutations to the same canonical path within the same runtime.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - In-process path serializer is not implemented in LineAnchoredEditor or WorkerRuntime.
-       */
-    });
-
-    it("B8: [PASS] Recovery supervisor restoration is fenced while an active worker lease owns the run", async () => {
+    it("RS-B8: [PASS] Recovery supervisor restoration is fenced while an active worker lease owns the run", async () => {
       const store = new SqliteStateStore();
       const runId = "run-active-lease-b8";
       const workerId = "worker-b8";
@@ -659,7 +612,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
   // GROUP C: Multi-Step Repair Semantics
   // ==========================================================================
   describe("Group C: Multi-Step Repair Semantics", () => {
-    it("C1: [PASS] Multi-step repair preserves intermediate helper edits on disk across steps without immediate rollback", async () => {
+    it("RS-C1: [PASS] Multi-step repair preserves intermediate helper edits on disk across steps without immediate rollback", async () => {
       // Set up base source file
       const targetRelPath = "src/utils.ts";
       const targetAbsPath = path.join(workspaceRoot, targetRelPath);
@@ -695,29 +648,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       // Proves that unconditionally rolling back on F2P failure would destroy multi-step repair.
     });
 
-    it.skip("C2: [BLOCKED BY MISSING INTERFACE] Syntax error introduced by edit triggers immediate rollback to original digest", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * When an edit introduces an unparseable syntax error or compiler diagnostic failure,
-       * the runtime must immediately restore the original file and increment consecutiveIneffectiveEdits.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - Syntax validation gate and automatic rollback in AgentStepController do not exist.
-       */
-    });
-
-    it.skip("C3: [BLOCKED BY MISSING INTERFACE] PASS_TO_PASS regression triggers immediate rollback to original digest", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * When an edit passes or fails F2P but causes a PASS_TO_PASS regression,
-       * the runtime must immediately roll back the mutation to the pre-edit snapshot.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - Regression rollback trigger in AgentStepController does not exist.
-       */
-    });
-
-    it("C4: [PASS] Passing fix activates post-pass verification latch and locks target hash against subsequent modifications", async () => {
+    it("RS-C4: [PASS] Passing fix activates post-pass verification latch and locks target hash against subsequent modifications", async () => {
       const latch = new PostPassVerificationLatch();
       expect(latch.isLatched).toBe(false);
 
@@ -742,18 +673,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       expect(latch.isTargetProtected("src/unrelated.ts")).toBe(false);
     });
 
-    it.skip("C5: [BLOCKED BY MISSING INTERFACE] Stagnation limit reverts accumulated workspace mutations to clean baseline checkpoint", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * When consecutiveIneffectiveEdits reaches maxConsecutiveIneffectiveEdits (3),
-       * the runtime must restore all accumulated unlatched mutations to the run baseline checkpoint.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - Baseline workspace checkpoint restoration upon stagnation is not implemented.
-       */
-    });
-
-    it("C6: [PASS] Governed rejection of duplicate or invalid proposal leaves target file byte-for-byte unchanged", async () => {
+    it("RS-C6: [PASS] Governed rejection of duplicate or invalid proposal leaves target file byte-for-byte unchanged", async () => {
       const targetRel = "src/protected.ts";
       const targetAbs = path.join(workspaceRoot, targetRel);
       fs.mkdirSync(path.dirname(targetAbs), { recursive: true });
@@ -782,7 +702,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       expect(sha256(postText)).toBe(originalHash);
     });
 
-    it.skip("C7: [SUPERSEDED - interface now exists; covered by tests/recovery/durable-rollback-engine.test.ts Test 3 (restores direct to baseline, not reverse order)] Multiple sequential edits to the same file are recovered in reverse chronological order", () => {
+    it.skip("RS-C7 [ADR D3]: [SUPERSEDED - interface now exists; covered by tests/recovery/durable-rollback-engine.test.ts Test 3 (restores direct to baseline, not reverse order)] Multiple sequential edits to the same file are recovered in reverse chronological order", () => {
       /**
        * CONTRACT REQUIREMENT:
        * When multiple edits occur on the same file, the undo log must allow unwinding
@@ -793,7 +713,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it.skip("C8: [SUPERSEDED - interface now exists; covered by tests/recovery/durable-rollback-engine.test.ts Tests 4 and 5] Multi-file recovery preserves unaffected files and fails closed on single-file conflict", () => {
+    it.skip("RS-C8 [ADR D4, E6]: [SUPERSEDED - interface now exists; covered by tests/recovery/durable-rollback-engine.test.ts Tests 4 and 5] Multi-file recovery preserves unaffected files and fails closed on single-file conflict", () => {
       /**
        * CONTRACT REQUIREMENT:
        * When rolling back multi-file mutations, an external conflict on File B must not
@@ -809,7 +729,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
   // GROUP D: Restoration & Evidence Failures
   // ==========================================================================
   describe("Group D: Restoration & Evidence Failures", () => {
-    it("D1: [PASS] Restoration fails closed if file on disk does not match expected post-mutation digest", async () => {
+    it("RS-D1: [PASS] Restoration fails closed if file on disk does not match expected post-mutation digest", async () => {
       const store = new SqliteStateStore();
       const engine = new DurableRollbackEngine(store);
       const runId = "run-contract-d1";
@@ -870,7 +790,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       store.close();
     });
 
-    it.skip("D2: [SUPERSEDED - interface now exists; covered by tests/recovery/restore-rename-failure.test.ts] Restoration cleans temp file and reports failure if rename fails without corrupting file", () => {
+    it.skip("RS-D2 [ADR B7, E5]: [SUPERSEDED - interface now exists; covered by tests/recovery/restore-rename-failure.test.ts] Restoration cleans temp file and reports failure if rename fails without corrupting file", () => {
       /**
        * CONTRACT REQUIREMENT:
        * If fs.renameSync fails during restore (e.g. EPERM on Windows), the temporary file
@@ -881,7 +801,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it.skip("D3: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP7] Restoration crash recovery handles post-restore event persistence failure idempotently", () => {
+    it.skip("RS-D3 [ADR C8]: [SUPERSEDED - interface now exists; covered by tests/recovery/crash-point-recovery.test.ts CP7] Restoration crash recovery handles post-restore event persistence failure idempotently", () => {
       /**
        * CONTRACT REQUIREMENT:
        * If disk is restored but DB append of file.mutation_rolled_back fails,
@@ -892,7 +812,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it("D4: [PASS] Recovery detects target already at original digest and acts as idempotent no-op", async () => {
+    it("RS-D4: [PASS] Recovery detects target already at original digest and acts as idempotent no-op", async () => {
       const store = new SqliteStateStore();
       const engine = new DurableRollbackEngine(store);
       const runId = "run-contract-d4";
@@ -952,7 +872,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       store.close();
     });
 
-    it("D5: [PASS] Rollback conflict commits durable file.rollback_conflict event with expected and actual digests", async () => {
+    it("RS-D5: [PASS] Rollback conflict commits durable file.rollback_conflict event with expected and actual digests", async () => {
       const store = new SqliteStateStore();
       const engine = new DurableRollbackEngine(store);
       const runId = "run-contract-d5";
@@ -1015,7 +935,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       store.close();
     });
 
-    it("D6: [PASS] Missing exit codes from timeouts or crashes are represented as null/negative rather than zero", () => {
+    it("RS-D6: [PASS] Missing exit codes from timeouts or crashes are represented as null/negative rather than zero", () => {
       // In AgentStepController line 2264:
       // const exitCode = isTimedOut ? -1 : (testOutput?.exitCode ?? (testFailed ? 1 : 0));
       // Missing exit codes must never be represented as 0 (which indicates test success).
@@ -1034,7 +954,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       expect(simulateExitCodeMapping(false, false, undefined)).toBe(null);
     });
 
-    it("D7: [PASS] Replay and audit verification distinguishes rollback evidence from clean-room task completion", () => {
+    it("RS-D7: [PASS] Replay and audit verification distinguishes rollback evidence from clean-room task completion", () => {
       // Replay and evidence bundle verification must not classify a run as successful
       // merely because rollback events were validly formatted.
 
@@ -1058,7 +978,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
   // GROUP E: Snapshot Eligibility
   // ==========================================================================
   describe("Group E: Snapshot Eligibility", () => {
-    it.skip("E1: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenario 9] Files exceeding snapshot byte limit ceiling (1 MB) are rejected before disk modification", () => {
+    it.skip("RS-E1 [ADR A5]: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenario 9] Files exceeding snapshot byte limit ceiling (1 MB) are rejected before disk modification", () => {
       /**
        * CONTRACT REQUIREMENT:
        * Files larger than 1 MB (1,048,576 bytes) must be rejected for line-anchored editing
@@ -1069,7 +989,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it.skip("E2: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenarios 10 and 11] Binary content containing null bytes is rejected before snapshotting or line-anchored editing", () => {
+    it.skip("RS-E2 [ADR A6, A7]: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenarios 10 and 11] Binary content containing null bytes is rejected before snapshotting or line-anchored editing", () => {
       /**
        * CONTRACT REQUIREMENT:
        * Files containing null bytes (0x00) or non-UTF8 sequences must be rejected with
@@ -1080,7 +1000,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
        */
     });
 
-    it("E3: [PASS] LineAnchoredEditor rejects path traversal and drive-relative escapes before modifying disk", async () => {
+    it("RS-E3: [PASS] LineAnchoredEditor rejects path traversal and drive-relative escapes before modifying disk", async () => {
       const editor = new LineAnchoredEditor();
 
       // Parent directory traversal escape
@@ -1094,7 +1014,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       }).toThrow(/Path traversal denied outside workspace/);
     });
 
-    it("E4: [PASS] LineAnchoredEditor rejects symlinks that escape workspace root via canonical realpath checks", async () => {
+    it("RS-E4: [PASS] LineAnchoredEditor rejects symlinks that escape workspace root via canonical realpath checks", async () => {
       const outsideDir = path.join(tempDir, "outside");
       fs.mkdirSync(outsideDir, { recursive: true });
       const secretFile = path.join(outsideDir, "secret.txt");
@@ -1116,7 +1036,7 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       }).toThrow(/Path traversal denied outside workspace/);
     });
 
-    it("E5: [PASS] Safe removal of newly created files requires matching expected resulting digest before unlink", async () => {
+    it("RS-E5: [PASS] Safe removal of newly created files requires matching expected resulting digest before unlink", async () => {
       const store = new SqliteStateStore();
       const engine = new DurableRollbackEngine(store);
       const runId = "run-contract-e5";
@@ -1171,14 +1091,5 @@ describe("Phase 48AD.1B: Rollback Safety Contract Tests", () => {
       store.close();
     });
 
-    it.skip("E6: [SUPERSEDED - interface now exists; covered by tests/integration/editor-mutation-intent.test.ts Scenario 27] Inability to persist snapshot in durable store aborts mutation leaving target untouched", () => {
-      /**
-       * CONTRACT REQUIREMENT:
-       * If snapshot storage fails, the target file must remain byte-for-byte untouched.
-       *
-       * MISSING PRODUCTION INTERFACE:
-       * - Snapshot storage integration is not implemented.
-       */
-    });
   });
 });

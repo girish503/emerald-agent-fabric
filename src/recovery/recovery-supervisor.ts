@@ -521,9 +521,10 @@ export class RecoverySupervisor {
   /**
    * Performs an end-to-end scan and recovery of all eligible runs.
    */
-  public async scanAndRecover(options?: { nowIso?: string }): Promise<ScanAndRecoverResult> {
+  public async scanAndRecover(options?: { nowIso?: string; excludeRunIds?: ReadonlySet<string> }): Promise<ScanAndRecoverResult> {
     const effectiveNow = options?.nowIso ?? this.clock.nowIso();
-    const eligibleRuns = this.findEligibleRuns(effectiveNow);
+    // Runs the caller holds back (e.g. tenant processes not proven gone, ADR-0037) are not touched at all: no state, no files.
+    const eligibleRuns = this.findEligibleRuns(effectiveNow).filter((r) => !options?.excludeRunIds?.has(r.runId));
 
     let recoveredCount = 0;
     let unverifiedCount = 0;

@@ -443,7 +443,7 @@ describe("NodeFsWorkspaceAdapter — Local Filesystem Workspace & Security Bound
       // Active set contains only ws-active-99
       const activeIds = new Set(["ws-active-99"]);
 
-      const reclaimed = await adapter.cleanupOrphanedWorkspaces(activeIds);
+      const reclaimed = await adapter.cleanupOrphanedWorkspaces(activeIds, { reclaimUnowned: true });
 
       expect(reclaimed).toContain("ws-orphan-crash-1");
       expect(reclaimed).not.toContain("ws-active-99");

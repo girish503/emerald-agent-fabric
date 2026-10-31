@@ -23,11 +23,48 @@ export interface WorkspaceHandle {
  * Port interface for managing isolated workspace directory lifecycles.
  * Implemented by infrastructure adapters (e.g. NodeFsWorkspaceAdapter).
  */
+/**
+ * Identity of the attempt that owns a workspace directory. The workspace id is stable per run (`ws-<runId>`),
+ * so only the lease id distinguishes one attempt's directory from the next attempt's.
+ */
+export interface WorkspaceOwner {
+  readonly runId: string;
+  readonly leaseId: string;
+  /**
+   * Only for callers that may legitimately clean up a workspace provisioned WITHOUT an owner marker (older or
+   * non-worker workspaces): a missing marker then falls back to the unowned delete. A marker that is present
+   * and names a different lease is ALWAYS refused.
+   */
+  readonly tolerateMissingMarker?: boolean;
+  /**
+   * The caller does not know which lease owns the workspace (`leaseId` is then ignored). Nothing carrying an ownership
+   * marker may be deleted for such a caller; a genuinely marker-less directory is still subject to tolerateMissingMarker.
+   */
+  readonly unknownLease?: boolean;
+}
+
+/** Activity predicate for the orphan sweep. The second argument is present on the re-check made after the ownership marker was read. */
+export type WorkspaceActiveFilter =
+  | ReadonlySet<string>
+  | ((workspaceId: string, owner?: { readonly runId: string; readonly leaseId: string }) => boolean | Promise<boolean>);
+
+export interface OrphanSweepOptions {
+  /**
+   * Also delete directories that carry NO ownership marker (legacy or non-worker workspaces). Default false: without a marker
+   * a live workspace cannot be told from an orphan, and the check-then-delete window cannot be closed.
+   */
+  readonly reclaimUnowned?: boolean;
+  /** Called for `.disposing-*` / `.provisioning-*` crash leftovers, which are never deleted automatically. */
+  readonly onUnverifiedLeftover?: (name: string) => void;
+  /** Called for each directory the sweep deliberately did not delete because ownership could not be proven. */
+  readonly onSkipped?: (name: string, reason: string) => void;
+}
+
 export interface WorkspacePort {
   /**
    * Provisions a dedicated isolated directory for a workspace and returns its handle.
    */
-  provisionWorkspace(spec: WorkspaceSpec): Promise<WorkspaceHandle>;
+  provisionWorkspace(spec: WorkspaceSpec, owner?: WorkspaceOwner): Promise<WorkspaceHandle>;
 
   /**
    * Resolves a relative path within a workspace to its canonical, symlink-verified host path.
@@ -38,20 +75,18 @@ export interface WorkspacePort {
   /**
    * Disposes of a workspace, recursively deleting host files and freeing storage.
    */
-  disposeWorkspace(workspaceId: string): Promise<void>;
+  disposeWorkspace(workspaceId: string, expectedOwner?: WorkspaceOwner): Promise<void>;
 
   /**
    * Optional synchronous workspace disposal for synchronous transactional recovery paths.
    */
-  disposeWorkspaceSync?(workspaceId: string): void;
+  disposeWorkspaceSync?(workspaceId: string, expectedOwner?: WorkspaceOwner): void;
 
   /**
    * Scans the workspace root and cleans up orphaned workspace directories
    * whose leases are no longer active in persistence.
    */
-  cleanupOrphanedWorkspaces(
-    activeFilter: ReadonlySet<string> | ((workspaceId: string) => boolean | Promise<boolean>)
-  ): Promise<readonly string[]>;
+  cleanupOrphanedWorkspaces(activeFilter: WorkspaceActiveFilter, options?: OrphanSweepOptions): Promise<readonly string[]>;
 
   /**
    * Optional helper to retrieve stored workspace metadata.

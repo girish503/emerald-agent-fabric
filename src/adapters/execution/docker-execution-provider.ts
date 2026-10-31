@@ -136,6 +136,11 @@ const SUPPORTED_OPERATIONS = new Set([
  */
 export class DockerExecutionProvider implements ExecutionProvider {
   readonly name = "docker";
+  /**
+   * Containers outlive a dead worker. Descriptor only: no TenantQuiescencePort is implemented yet (ADR-0037 rollout step 3), so
+   * recovery holds isolated runs instead of disposing their workspaces.
+   */
+  readonly tenantModel = "ISOLATED_PROCESSES" as const;
   readonly config: Required<DockerExecutionConfig>;
 
   constructor(config: DockerExecutionConfig = {}) {

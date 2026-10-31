@@ -15,10 +15,11 @@
 
 import type { RecoverExpiredResult } from "../application/run-coordinator.js";
 import type { RecoverySupervisor, ScanAndRecoverResult } from "./recovery-supervisor.js";
+import { runTenantQuiescencePrePass, type TenantQuiescenceConfig } from "./tenant-quiescence-gate.js";
 
 /** The retry half of recovery (satisfied by RunCoordinator). */
 export interface RetryCoordinator {
-  recoverExpiredRuns(): RecoverExpiredResult;
+  recoverExpiredRuns(options?: { excludeRunIds?: ReadonlySet<string> }): RecoverExpiredResult;
 }
 
 export interface RecoverySweepResult {
@@ -27,6 +28,8 @@ export interface RecoverySweepResult {
   readonly retry: RecoverExpiredResult;
   /** Runs still waiting on a workspace rollback after this sweep (need operator attention if they persist). */
   readonly heldForRollbackRunIds: readonly string[];
+  /** Runs held back because their tenant processes were not proven gone (ADR-0037); retried on the next sweep. */
+  readonly heldForTenantsRunIds: readonly string[];
   /** Supervisor outcomes that failed closed and need attention (unresolved workspace, conflicts, errors). */
   readonly needsAttention: ReadonlyArray<{ readonly runId: string; readonly status: string; readonly details: string }>;
 }
@@ -34,6 +37,11 @@ export interface RecoverySweepResult {
 export interface RecoverySweeperConfig {
   readonly supervisor: RecoverySupervisor;
   readonly coordinator: RetryCoordinator;
+  /**
+   * ADR-0037 tenant-quiescence pre-pass. When set, every run recovery is about to touch must first be proven free of live
+   * tenant processes, otherwise it is held (fail closed). When omitted the sweep behaves as before; production hosts set it.
+   */
+  readonly tenantQuiescence?: TenantQuiescenceConfig;
   /** Called after every completed sweep started by start(). */
   readonly onSweep?: (result: RecoverySweepResult) => void;
   /** Called when a sweep throws (the loop keeps running). */
@@ -43,6 +51,7 @@ export interface RecoverySweeperConfig {
 export class RecoverySweeper {
   private readonly supervisor: RecoverySupervisor;
   private readonly coordinator: RetryCoordinator;
+  private readonly tenantQuiescence?: TenantQuiescenceConfig;
   private readonly onSweep?: (result: RecoverySweepResult) => void;
   private readonly onError?: (error: unknown) => void;
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -53,6 +62,7 @@ export class RecoverySweeper {
   constructor(config: RecoverySweeperConfig) {
     this.supervisor = config.supervisor;
     this.coordinator = config.coordinator;
+    this.tenantQuiescence = config.tenantQuiescence;
     this.onSweep = config.onSweep;
     this.onError = config.onError;
   }
@@ -65,9 +75,14 @@ export class RecoverySweeper {
     this.running = true;
     try {
       const startedAtIso = this.supervisor.getClock().nowIso();
+      // Tenant pre-pass: nothing may roll back, requeue or dispose a workspace that a surviving tenant could still write.
+      const gate = this.tenantQuiescence
+        ? await runTenantQuiescencePrePass(this.supervisor.findEligibleRuns(startedAtIso), this.tenantQuiescence)
+        : null;
+      const excludeRunIds = gate && gate.heldRunIds.size > 0 ? gate.heldRunIds : undefined;
       // Supervisor first: it reconciles workspaces so the coordinator's retry gate can admit the runs.
-      const scan = await this.supervisor.scanAndRecover();
-      const retry = this.coordinator.recoverExpiredRuns();
+      const scan = await this.supervisor.scanAndRecover(excludeRunIds ? { excludeRunIds } : undefined);
+      const retry = this.coordinator.recoverExpiredRuns(excludeRunIds ? { excludeRunIds } : undefined);
       // A supervisor outcome that failed closed is only an attention item if the coordinator did not
       // go on to retry the run (e.g. a crashed run that never had a workspace or any mutation).
       const retried = new Set(retry.runs.map((r) => r.runId));
@@ -81,7 +96,9 @@ export class RecoverySweeper {
         scan,
         retry,
         heldForRollbackRunIds: retry.heldForRollbackRunIds ?? [],
+        heldForTenantsRunIds: gate ? gate.held.map((h) => h.runId) : [],
         needsAttention: [
+          ...(gate?.held ?? []).map((h) => ({ runId: h.runId, status: "TENANTS_NOT_QUIESCED", details: h.reason })),
           ...scan.outcomes
             .filter((o) => (o.status === "FAILED" || o.status === "ROLLBACK_CONFLICT") && !retried.has(o.runId))
             .map((o) => ({ runId: o.runId, status: o.status as string, details: o.details })),

@@ -359,6 +359,27 @@ export class WorkspaceStateError extends DomainError {
   }
 }
 
+/**
+ * The workspace directory is not (or no longer) owned by the expected run/lease. Thrown by ownership-aware
+ * disposal instead of deleting: the caller is a stale attempt, or ownership could not be established.
+ */
+export class WorkspaceOwnershipError extends DomainError {
+  readonly code = "WORKSPACE_OWNERSHIP_MISMATCH";
+
+  constructor(
+    readonly workspaceId: string,
+    readonly expectedLeaseId: string,
+    readonly actualLeaseId: string | null,
+    readonly preservedAt?: string
+  ) {
+    super(
+      `Workspace '${workspaceId}' is not owned by lease '${expectedLeaseId}' (found ${
+        actualLeaseId === null ? "no ownership marker" : `lease '${actualLeaseId}'`
+      }); it was not deleted${preservedAt ? ` and was preserved at '${preservedAt}'` : ""}`
+    );
+  }
+}
+
 export class WorkspaceLeaseError extends DomainError {
   readonly code = "WORKSPACE_LEASE_ERROR";
 
@@ -440,6 +461,8 @@ export interface ToolErrorPayload {
   readonly category: ToolErrorCategory;
   readonly message: string;
   readonly details?: unknown;
+  /** Optional refinement of `code` (e.g. STALE_PRECONDITION) that consumers may branch on. */
+  readonly subcode?: string;
 }
 
 export abstract class ToolDomainError extends DomainError {
@@ -557,6 +580,19 @@ export class ToolExecutionFailedError extends ToolDomainError {
     details?: unknown
   ) {
     super(`Tool '${toolName}' execution failed: ${message}`, details);
+  }
+}
+
+/**
+ * An edit's expected digest no longer matches the file on disk (stale precondition). Same code/category as
+ * ToolExecutionFailedError (it is an execution failure), refined by `subcode` so the step controller can issue a
+ * targeted re-read recovery instead of treating it as a generic failure.
+ */
+export class ToolPreconditionFailedError extends ToolExecutionFailedError {
+  readonly subcode = "STALE_PRECONDITION";
+
+  override toPayload(): ToolErrorPayload {
+    return { ...super.toPayload(), subcode: this.subcode };
   }
 }
 

@@ -13,13 +13,36 @@ import * as path from "node:path";
 import { createHash } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
 
-const control = vi.hoisted(() => ({ failRename: false, renameAttempts: 0 }));
+const control = vi.hoisted(() => ({
+  failRename: false,
+  renameAttempts: 0,
+  /** Fail this many rename calls with EBUSY, then let renames succeed (retry-then-success). */
+  failNextRenames: 0,
+  /** Runs once, right after the restore temp file has been read back and verified (before the pre-rename check). */
+  onTempRead: null as null | (() => void),
+}));
 
 vi.mock("node:fs", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:fs")>();
   return {
     ...actual,
+    readFileSync: (...args: Parameters<typeof actual.readFileSync>) => {
+      const result = actual.readFileSync(...args);
+      if (control.onTempRead && String(args[0]).includes(".emerald.tmp.restore.")) {
+        const cb = control.onTempRead;
+        control.onTempRead = null;
+        cb();
+      }
+      return result;
+    },
     renameSync: (...args: Parameters<typeof actual.renameSync>) => {
+      if (control.failNextRenames > 0) {
+        control.failNextRenames--;
+        control.renameAttempts++;
+        const err = new Error("EBUSY: resource busy or locked, rename") as NodeJS.ErrnoException;
+        err.code = "EBUSY";
+        throw err;
+      }
       if (control.failRename) {
         control.renameAttempts++;
         const err = new Error("EPERM: operation not permitted, rename") as NodeJS.ErrnoException;
@@ -55,6 +78,8 @@ describe("Restore rename failure (D2)", () => {
   beforeEach(() => {
     control.failRename = false;
     control.renameAttempts = 0;
+    control.failNextRenames = 0;
+    control.onTempRead = null;
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "eaf-rename-"));
     ws = path.join(tempDir, "workspace");
     fs.mkdirSync(path.join(ws, ".emerald", "snapshots", RUN), { recursive: true });
@@ -111,6 +136,60 @@ describe("Restore rename failure (D2)", () => {
     expect(fs.readdirSync(path.dirname(target)).filter((f) => f.startsWith(".emerald.tmp"))).toEqual([]);
     expect(store.getPathRollbackProgress(RUN, "src/x.ts")?.status).toBe("RESTORE_FAILED");
     expect(store.getIntent("m1")?.lifecycleStatus).toBe("COMMITTED");
+  });
+
+  /** A COMMITTED mutation on disk (MUT) whose baseline snapshot (BASE) can restore it. */
+  function seedCommitted(mutationId: string) {
+    const target = path.join(ws, "src", "x.ts");
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.writeFileSync(target, "MUT");
+    const snap = path.join(ws, ".emerald", "snapshots", RUN, `${mutationId}.snap`);
+    fs.writeFileSync(snap, "BASE");
+    store.recordIntent({
+      mutationId, runId: RUN, workerLeaseId: "l", relativePath: "src/x.ts", canonicalPath: target,
+      parentMutationId: null, pathMutationVersion: 1, baseDigest: sha256("BASE"), expectedResultingDigest: sha256("MUT"),
+      snapshotRef: snap, recoveryDedupToken: computeRecoveryDedupToken(RUN, mutationId, "COMMITTED"),
+      lifecycleStatus: "COMMITTED", createdAt: 1, updatedAt: 1,
+    });
+    return target;
+  }
+
+  it("ADR-0036 B7: transient EBUSY renames are retried with backoff and the restore then succeeds", async () => {
+    const target = seedCommitted("m-b7");
+    control.failNextRenames = 2; // attempts 1 and 2 fail with EBUSY, attempt 3 succeeds (max 3)
+
+    const result = await new DurableRollbackEngine(store).executeRollback({ runId: RUN, workspaceRoot: ws, authorityContext: authority });
+
+    expect(control.renameAttempts).toBe(2);
+    expect(result.status).toBe("COMPLETED");
+    expect(fs.readFileSync(target, "utf8")).toBe("BASE");
+    expect(fs.readdirSync(path.dirname(target)).filter((f) => f.startsWith(".emerald.tmp"))).toEqual([]);
+    expect(store.getIntent("m-b7")?.lifecycleStatus).toBe("ROLLED_BACK");
+  });
+
+  it("ADR-0036 B7: when EBUSY persists past the retry budget the target is untouched and the failure is recorded (non-destructive)", async () => {
+    const target = seedCommitted("m-b7b");
+    control.failNextRenames = 50;
+
+    const result = await new DurableRollbackEngine(store).executeRollback({ runId: RUN, workspaceRoot: ws, authorityContext: authority });
+    control.failNextRenames = 0;
+
+    expect(control.renameAttempts).toBe(3); // exactly the retry budget
+    expect(result.status).toBe("PARTIALLY_ROLLED_BACK_CONFLICT");
+    expect(fs.readFileSync(target, "utf8")).toBe("MUT");
+    expect(store.getPathRollbackProgress(RUN, "src/x.ts")?.status).toBe("RESTORE_FAILED");
+  });
+
+  it("ADR-0036 B6: a target changed AFTER the temp file was verified but BEFORE the rename is detected, preserved, and never overwritten", async () => {
+    const target = seedCommitted("m-b6");
+    control.onTempRead = () => fs.writeFileSync(target, "FOREIGN-EDIT"); // an external writer lands in the window
+
+    const result = await new DurableRollbackEngine(store).executeRollback({ runId: RUN, workspaceRoot: ws, authorityContext: authority });
+
+    expect(result.status).toBe("PARTIALLY_ROLLED_BACK_CONFLICT");
+    expect(fs.readFileSync(target, "utf8")).toBe("FOREIGN-EDIT"); // the foreign content survives
+    expect(fs.readdirSync(path.dirname(target)).filter((f) => f.startsWith(".emerald.tmp"))).toEqual([]);
+    expect(store.getIntent("m-b6")?.lifecycleStatus).toBe("COMMITTED"); // not marked rolled back
   });
 
   it("D2: when authority is lost while handling the rename failure, the temp file is preserved (no unauthorized delete)", async () => {

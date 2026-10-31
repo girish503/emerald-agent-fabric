@@ -737,7 +737,7 @@ describe("Task 3.3 — Workspace Runtime Integration & Docker Mount Confinement"
       await fs.mkdir(orphanDir, { mode: 0o700 });
 
       // Run authoritative orphan cleanup
-      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely();
+      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely({ reclaimUnowned: true });
 
       expect(reclaimed).toContain("ws-unlinked-orphan");
       expect(reclaimed).not.toContain(wsSpec.workspaceId);

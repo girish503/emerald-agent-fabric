@@ -403,7 +403,9 @@ When an uncooperative external process or user modifies a target file during an 
 
 ## 7. Contract-Test Traceability
 
-The 37 rollback safety contract scenarios specified in `tests/contract/rollback-safety.test.ts` are categorized into four distinct technical classifications.
+The 37 rollback safety contract scenarios (as originally counted; the test file now contains 28 after nine legacy placeholders were retired, see 7.4) are categorized into four distinct technical classifications.
+
+> **Status note (2026-10-30):** the ids and classifications in 7.2 are a historical snapshot from the persistence-only phase, and the ids in `tests/contract/rollback-safety.test.ts` are a different catalogue (now prefixed `RS-`). Sections 7.3 and 7.4 record what has been re-verified since and how the test file maps to these rows. 7.2 itself was left as originally recorded.
 
 ### 7.1 Classification Legend
 - **V-EXISTING** (10 scenarios): Verified against existing runtime implementation. Exercises real, currently active production classes.
@@ -452,6 +454,48 @@ The 37 rollback safety contract scenarios specified in `tests/contract/rollback-
 | **E5** | Orphan temp file correlated or preserved | B-INTERFACE | Tests safe temp file cleanup heuristic. | Ambiguous files remain on disk. | Missing temp file cleanup utility. |
 | **E6** | Unrelated files unmodified | V-EXISTING | Proves scoped editing does not modify adjacent files. | Does not test multi-process file access. | None. |
 | **E7** | Event dedup token stable across retries | B-INTERFACE | Tests deterministic hash for transition events. | Does not prove distributed message deduplication. | Missing dedup token generator. |
+
+### 7.3 Re-verified status (2026-10-30; implementing session, NOT independently audited)
+
+The owner designated the ids in 7.2 as authoritative. The rows below were re-checked against the current code and tests; every other row keeps its 7.2 classification and was NOT re-verified.
+
+| Row | Current evidence | Verification level |
+| :--- | :--- | :--- |
+| A5 | `tests/integration/editor-mutation-intent.test.ts` Scenario 9 (1 MiB pre-read size guard) | test title read |
+| A6 | Same file, Scenario 11: invalid UTF-8 (`0xC3 0x28`) rejected with `/Invalid UTF-8 encoding in target file/`, no intent recorded | body read |
+| A7 | Same file, Scenario 10: null byte rejected before mutation | body read |
+| B6 | `assertTargetStillExpected` + supervisor fence before rename (`src/recovery/durable-rollback-engine.ts`); `tests/recovery/restore-rename-failure.test.ts` "ADR-0036 B6" (a foreign write between temp-file verification and rename is detected, preserved, never overwritten). Narrows, does not eliminate, the TOCTOU window (section 9 risk 1). | code + test run |
+| B7 | `atomicRenameWithRetry` (3 attempts, 50/100 ms backoff); same test file, two "ADR-0036 B7" tests (EBUSY then success; persistent EBUSY leaves the target untouched with `RESTORE_FAILED`). Does not prevent external locking. | code + test run |
+| C2 | `tests/recovery/crash-point-recovery.test.ts` "CP2: intent RECORDED, no snapshot, file untouched -> ABORTED_UNMUTATED" (the test file's CP numbers differ from section 4) | test title read |
+| C3 | Same file, "CP3: APPLYING_MUTATION with file already replaced -> original restored via snapshot, intent ROLLED_BACK" and the rename-never-happened variant | test title read |
+| C5 | `tests/recovery/durable-rollback-engine.test.ts` Test 13 (repeat rollback is a no-op: same status, restored paths, content) and `crash-point-recovery.test.ts` CP7. The dedup token is exercised through these flows, not asserted directly. | body read (Test 13) |
+| C8 | `crash-point-recovery.test.ts` "CP7: disk already restored but DB not updated -> recovery commits the event idempotently without rewriting" | test title read |
+
+### 7.4 Mapping of `tests/contract/rollback-safety.test.ts` (legacy `RS-` ids) to the rows above
+
+The file's own catalogue is not the 7.2 catalogue (the same letters named different scenarios). All remaining titles carry an `RS-` prefix; skipped tests are tagged with the 7.2 row they correspond to. Nine legacy-only skipped placeholders were RETIRED (removed) by owner decision on 2026-10-30; the table below records each retirement. The 11 remaining skipped tests are comment-only markers whose invariants are covered by the tests named; no skipped test body or assertion was otherwise changed.
+
+| Legacy id | 7.2 row | Disposition |
+| :--- | :--- | :--- |
+| RS-A1 | A1, C1 | superseded by `editor-mutation-intent` Scenario 1 (persist-before-write ordering not re-verified) |
+| RS-A3 | C2 | superseded by crash-point CP2 tests |
+| RS-A4 | C3 | superseded by crash-point CP3 tests |
+| RS-A7 | E5 | superseded by `durable-rollback-engine` Test 11 / `durable-rollback-hardening` F7 (not re-read) |
+| RS-A8 | C8 | superseded by crash-point CP7 |
+| RS-C7 | D3 | covered for direct-to-baseline restoration (`durable-rollback-engine` Test 3 matches ADR D3 "multi-file direct-to-baseline rollback"); it does NOT assert reverse-chronological unwinding, and ADR D5 (per-path digest chain validation) is NOT shown by this evidence (corrected 2026-10-30: this row previously said D5) |
+| RS-C8 | D4 (and E6) | superseded by `durable-rollback-engine` Tests 4 and 5 |
+| RS-D2 | B7, E5 | superseded by `restore-rename-failure` D2 (EPERM) plus the B7 tests above |
+| RS-D3 | C8 | superseded by crash-point CP7 (the DB-append-failure trigger is not modelled exactly) |
+| RS-E1 | A5 | superseded by Scenario 9 |
+| RS-E2 | A6, A7 | superseded by Scenarios 10 and 11 (error-code string not re-verified) |
+| RS-A2, RS-E6 | none | **RETIRED** (duplicates): "failure to persist the snapshot aborts the mutation with the target untouched" is covered by `editor-mutation-intent` Scenarios 2 and 27 |
+| RS-A5 | none (section 4 CP5) | **RETIRED**: "resume/re-enqueue verification after a crash" is not a requirement of this ADR and is not implemented. Consequence: a crash after COMMITTED but before verification is handled by supervisor rollback (crash-point CP4), never by resuming verification |
+| RS-A6 | none (section 4 CP5) | **RETIRED**: the `VERIFICATION_CRASHED` event reason / `exitCode: null` is not part of this ADR. Consequence: a verifier crash leaves the CP4/CP5 state; the rollback event is `file.mutation_rolled_back` with reason `RUN_ROLLBACK` and carries no crash cause |
+| RS-B6 | none | **RETIRED**: no filesystem lock files exist; mutual exclusion between cooperative workers is the SQLite lease model (section 5.7). Consequence: no PID-liveness check on takeover; the recovery host's `--workers-stopped` flag is an operator assertion, not a fence |
+| RS-B7 | none | **RETIRED**: no in-process per-path serializer. Consequence: concurrent same-path edits inside one run rely on one workspace per run, a sequential step loop, per-path digest preconditions and lease fencing; that equivalence was never proven (the former `phase48o` B.1/B.2 failures were caused by `ToolPreconditionFailedError` being undefined; fixed in Round 4) |
+| RS-C2, RS-C3, RS-C5 | none | **RETIRED**: no automatic rollback on a syntax error, a PASS_TO_PASS regression or stagnation. Consequence: such edits stay on disk, tracked by their mutation intents, until the run completes, fails or is recovered (the supervisor rolls back only crashed/recovering runs); stagnation halts the run (`STAGNATION`) without restoring the workspace. Reintroducing any of these is a new feature and needs a new 7.2 row with acceptance criteria |
+
+Retirement means these requirements are dropped from this ADR's contract, not that they are satisfied: the consequences above are accepted limitations.
 
 ---
 

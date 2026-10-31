@@ -156,7 +156,7 @@ describe("Task 3.4 — Workspace Crash Recovery, Orphan Reclamation & Sandbox Se
       expect(coordinator.isWorkspaceAuthoritativelyActive(wsId)).toBe(false);
 
       // Safe orphan reclamation must reclaim this terminal run's leftover workspace
-      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely();
+      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely({ reclaimUnowned: true });
       expect(reclaimed).toContain(wsId);
       expect(syncFs.existsSync(leftoverDir)).toBe(false);
     });
@@ -218,7 +218,7 @@ describe("Task 3.4 — Workspace Crash Recovery, Orphan Reclamation & Sandbox Se
       expect(coordinator.isWorkspaceAuthoritativelyActive("ws-expired-lease")).toBe(false);
 
       // Safe orphan reclamation reclaims the workspace whose lease expired
-      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely();
+      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely({ reclaimUnowned: true });
       expect(reclaimed).toContain("ws-expired-lease");
     });
 
@@ -286,7 +286,7 @@ describe("Task 3.4 — Workspace Crash Recovery, Orphan Reclamation & Sandbox Se
       expect(coordinator.isWorkspaceAuthoritativelyActive("ws-true-orphan")).toBe(false);
 
       // Run orphan cleanup
-      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely();
+      const reclaimed = await coordinator.cleanupOrphanedWorkspacesSafely({ reclaimUnowned: true });
 
       // Invariant: Active running and leased workspaces are NEVER deleted!
       expect(reclaimed).not.toContain("ws-old-running");

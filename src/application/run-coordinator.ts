@@ -51,7 +51,7 @@ import {
   TaskRecord,
   WorkerRecord,
 } from "../ports/state-store.port.js";
-import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
+import { OrphanSweepOptions, WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { isRollbackPendingStatus } from "../domain/mutation-intent.js";
 import { LeaseManager } from "./lease-manager.js";
 
@@ -269,7 +269,11 @@ export class RunCoordinator {
       }
       if (this.workspacePort) {
         if (this.workspacePort.disposeWorkspaceSync) {
-          this.workspacePort.disposeWorkspaceSync(params.workspaceId);
+          this.workspacePort.disposeWorkspaceSync(params.workspaceId, {
+            runId: params.runId,
+            leaseId: params.leaseId,
+            tolerateMissingMarker: true,
+          });
         }
       }
       const disposedEvent: DomainEvent = {
@@ -575,18 +579,24 @@ export class RunCoordinator {
 
   /**
    * Transitions an active or queued run to terminal CANCELLED state.
+   * When `fencing` is given (a worker reporting its own provider's cancellation) the caller must
+   * still hold the run's lease; otherwise LeaseLostError is thrown and nothing is written, so a
+   * stale worker can never cancel a newer attempt or release its lease.
    */
-  cancelRun(runId: string, reason?: string): TransitionResult {
+  cancelRun(runId: string, reason?: string, fencing?: LeaseFencingCheck): TransitionResult {
     return this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
       }
+      if (fencing && (snapshot.leaseId !== fencing.leaseId || snapshot.currentWorkerId !== fencing.workerId)) {
+        throw new LeaseLostError(runId, fencing.leaseId, snapshot.leaseId ?? null);
+      }
 
       const now = this.clock.nowIso();
       const run = Run.reconstitute(snapshot);
       const event = run.cancel(reason, now);
-      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event, fencing);
 
       if (snapshot.leaseId) {
         this.leaseManager.release(tx, snapshot.leaseId, now);
@@ -598,12 +608,18 @@ export class RunCoordinator {
 
   /**
    * Transitions an active run to terminal TIMED_OUT state.
+   * When `fencing` is given (a worker reporting its own provider's timeout) the caller must still
+   * hold the run's lease; otherwise LeaseLostError is thrown and nothing is written. Without it the
+   * transition is authorised by the run's current holder (operator/sweeper use).
    */
-  timeoutRun(runId: string, reason?: string): TransitionResult {
+  timeoutRun(runId: string, reason?: string, fencing?: LeaseFencingCheck): TransitionResult {
     return this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
+      }
+      if (fencing && (snapshot.leaseId !== fencing.leaseId || snapshot.currentWorkerId !== fencing.workerId)) {
+        throw new LeaseLostError(runId, fencing.leaseId, snapshot.leaseId ?? null);
       }
 
       const now = this.clock.nowIso();
@@ -614,7 +630,7 @@ export class RunCoordinator {
         snapshot.leaseId ?? undefined,
         now
       );
-      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event, fencing);
 
       if (snapshot.leaseId) {
         this.leaseManager.release(tx, snapshot.leaseId, now);
@@ -737,13 +753,15 @@ export class RunCoordinator {
    * If retry attempts remain, the run is re-queued.
    * If retry attempts are exhausted, the run is transitioned to FAILED.
    */
-  recoverExpiredRuns(): RecoverExpiredResult {
+  recoverExpiredRuns(options?: { excludeRunIds?: ReadonlySet<string> }): RecoverExpiredResult {
     const nowIso = this.clock.nowIso();
     const expiredCandidates = this.stateStore.findExpiredRuns(nowIso);
     // Runs the supervisor has rolled back and handed over (left RECOVERING) are retried here too.
     const recoveringCandidates = this.stateStore.findRecoveringRuns ? this.stateStore.findRecoveringRuns() : [];
     const seenCandidateIds = new Set<string>();
     const candidates = [...expiredCandidates, ...recoveringCandidates].filter((c) => {
+      // Held back by the caller (e.g. tenant processes not proven gone, ADR-0037): untouched, no event, no cleanup.
+      if (options?.excludeRunIds?.has(c.runId)) return false;
       if (seenCandidateIds.has(c.runId)) return false;
       seenCandidateIds.add(c.runId);
       return true;
@@ -833,7 +851,15 @@ export class RunCoordinator {
 
             if (wsId && this.workspacePort.disposeWorkspaceSync) {
                 try {
-                  this.workspacePort.disposeWorkspaceSync(wsId);
+                  // The crashed attempt's lease: a marker naming ANOTHER lease (a newer attempt) is refused. If the lease
+                  // is unknown, `unknownLease` makes every marker-bearing directory refused (cleanup is then reported
+                  // as failed) instead of being deleted by an unowned fallback; only a marker-less directory is cleaned.
+                  this.workspacePort.disposeWorkspaceSync(wsId, {
+                    runId: snapshot.runId,
+                    leaseId: snapshot.leaseId ?? "",
+                    unknownLease: !snapshot.leaseId,
+                    tolerateMissingMarker: true,
+                  });
                   const disposedEvent: DomainEvent = {
                     eventId: crypto.randomUUID(),
                     runId: snapshot.runId,
@@ -1392,8 +1418,18 @@ export class RunCoordinator {
    * 1. A valid owning Run exists in durable state.
    * 2. The owning Run is in an active (non-terminal) state.
    * 3. If in LEASED or RUNNING state, the Run holds an unexpired, ACTIVE lease.
+   * 4. A non-terminal run in RECOVERING, or holding unreconciled workspace mutations (rollback pending), is always active.
+   *    Must not be called from inside a state-store transaction.
    */
-  isWorkspaceAuthoritativelyActive(workspaceId: string): boolean {
+  isWorkspaceAuthoritativelyActive(workspaceId: string, owner?: { readonly runId: string; readonly leaseId: string }): boolean {
+    // Tied to the ownership marker's own lease: a workspace whose recorded lease is still ACTIVE and unexpired is live
+    // regardless of how (or whether) the workspace id resolves to a run.
+    if (owner) {
+      const markerLease = this.stateStore.getLease(owner.leaseId);
+      if (markerLease && markerLease.runId === owner.runId && markerLease.state === "ACTIVE" && markerLease.expiresAt > this.clock.nowIso()) {
+        return true;
+      }
+    }
     const owningRun = this.resolveOwningRunForWorkspace(workspaceId);
     if (!owningRun) {
       // Unknown workspace or unlinked
@@ -1410,6 +1446,15 @@ export class RunCoordinator {
     ]);
     if (terminalStatuses.has(owningRun.status)) {
       return false;
+    }
+
+    // A run whose workspace mutations are not yet reconciled (held by the retry gate, or being recovered) still owns its
+    // workspace even though its lease expired: the supervisor's rollback needs it, so it must never be treated as an orphan.
+    if (
+      owningRun.status === "RECOVERING" ||
+      this.stateStore.transaction((tx) => this.requiresRollbackBeforeRetry(tx, owningRun.runId))
+    ) {
+      return true;
     }
 
     // Queued or Created runs have valid pending ownership
@@ -1438,13 +1483,13 @@ export class RunCoordinator {
    * Safely cleans up orphaned workspaces using authoritative state store ownership.
    * Evaluates each discovered workspace on disk against current durable run and lease state.
    */
-  async cleanupOrphanedWorkspacesSafely(): Promise<readonly string[]> {
+  async cleanupOrphanedWorkspacesSafely(options?: OrphanSweepOptions): Promise<readonly string[]> {
     if (!this.workspacePort) {
       return [];
     }
-    return this.workspacePort.cleanupOrphanedWorkspaces((wsId) => {
-      return this.isWorkspaceAuthoritativelyActive(wsId);
-    });
+    return this.workspacePort.cleanupOrphanedWorkspaces((wsId, owner) => {
+      return this.isWorkspaceAuthoritativelyActive(wsId, owner);
+    }, options);
   }
 
   /**

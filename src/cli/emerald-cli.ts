@@ -18,6 +18,9 @@
  * - emerald replay <runId>
  * - emerald doctor
  * - emerald recovery sweep|watch
+ * - emerald submit --db <file> --operation <name> [--input <json>]
+ * - emerald inspect --db <file> --run-id <id>
+ * - emerald worker --db <file> [--once] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]
  */
 
 import * as fs from "node:fs";
@@ -32,6 +35,11 @@ import { CrossHarnessGateway } from "../application/cross-harness-gateway.js";
 import { ProductionRuntimeEngine, ModelAdapter, AgentProposal } from "../runtime/production-runtime-engine.js";
 import { ProductionReplayEngine } from "../evidence/production-replay-engine.js";
 import { ProductionDoctor } from "./doctor.js";
+import { SqliteStateStore } from "../adapters/persistence/sqlite-state-store.js";
+import { RunCoordinator } from "../application/run-coordinator.js";
+import { submitDurableTask } from "../application/durable-submission.js";
+import { WorkerHostConfigError, runWorkerHost } from "../application/worker-host.js";
+import { SystemClock } from "../ports/clock.port.js";
 import {
   RecoveryHostConfigError,
   runRecoveryHost,
@@ -153,6 +161,15 @@ export class EmeraldCli {
 
         case "recovery":
           return await this.handleRecovery(args.slice(1));
+
+        case "submit":
+          return this.handleSubmit(args.slice(1));
+
+        case "inspect":
+          return this.handleInspect(args.slice(1));
+
+        case "worker":
+          return await this.handleWorker(args.slice(1));
 
         case "repair":
           if (subCmd === "start") {
@@ -383,6 +400,178 @@ export class EmeraldCli {
     } catch (err: unknown) {
       if (err instanceof RecoveryHostConfigError) return { exitCode: 1, output: `Error: ${err.message}` };
       return { exitCode: 1, output: `Error: recovery failed: ${err instanceof Error ? err.message : String(err)}` };
+    }
+  }
+
+  /** Strict `--flag value` parser shared by the durable-store commands (no positional arguments). */
+  private parseValueFlags(
+    args: readonly string[],
+    allowed: readonly string[],
+    usage: string
+  ): { flags: Map<string, string> } | { error: { exitCode: number; output: string } } {
+    const flags = new Map<string, string>();
+    for (let i = 0; i < args.length; i++) {
+      const a = args[i]!;
+      if (!a.startsWith("--")) return { error: { exitCode: 1, output: `Error: unexpected argument '${a}'. ${usage}` } };
+      if (!allowed.includes(a)) return { error: { exitCode: 1, output: `Error: unknown option '${a}'. ${usage}` } };
+      if (flags.has(a)) return { error: { exitCode: 1, output: `Error: ${a} given more than once. ${usage}` } };
+      const value = args[i + 1];
+      if (value === undefined || value.startsWith("--")) return { error: { exitCode: 1, output: `Error: ${a} requires a value. ${usage}` } };
+      flags.set(a, value);
+      i++;
+    }
+    return { flags };
+  }
+
+  /**
+   * emerald submit — durably submit a deterministic task to a FILE-BACKED SQLite database (created and migrated
+   * if absent; this is the only command that may create it). Prints {taskId, runId, status} as JSON. Unlike the
+   * interactive `emerald run` commands this never uses the in-memory control plane.
+   */
+  private handleSubmit(args: readonly string[]): { exitCode: number; output: string } {
+    const usage =
+      "Usage: emerald submit --db <file> --operation <name> [--input <json>] [--max-attempts <n>] [--timeout-ms <n>] [--idempotency-key <key>]";
+    const parsed = this.parseValueFlags(args, ["--db", "--operation", "--input", "--max-attempts", "--timeout-ms", "--idempotency-key"], usage);
+    if ("error" in parsed) return parsed.error;
+    const { flags } = parsed;
+    const dbPath = flags.get("--db");
+    const operation = flags.get("--operation");
+    if (!dbPath || dbPath === ":memory:") return { exitCode: 1, output: `Error: --db <file> is required (not :memory:). ${usage}` };
+    if (!operation) return { exitCode: 1, output: `Error: --operation is required. ${usage}` };
+    let input: unknown = null;
+    if (flags.has("--input")) {
+      try {
+        input = JSON.parse(flags.get("--input")!);
+      } catch {
+        return { exitCode: 1, output: "Error: --input must be valid JSON" };
+      }
+    }
+    const intFlag = (name: string): number | undefined | "bad" => {
+      const raw = flags.get(name);
+      if (raw === undefined) return undefined;
+      return /^\d+$/.test(raw) && Number(raw) >= 1 ? Number(raw) : "bad";
+    };
+    const maxAttempts = intFlag("--max-attempts");
+    const timeoutMs = intFlag("--timeout-ms");
+    if (maxAttempts === "bad" || timeoutMs === "bad") return { exitCode: 1, output: "Error: --max-attempts and --timeout-ms must be positive integers" };
+
+    const store = new SqliteStateStore({ location: dbPath });
+    try {
+      const coordinator = new RunCoordinator(store, new SystemClock());
+      const submitted = submitDurableTask(store, coordinator, {
+        operation,
+        input,
+        maxAttempts,
+        timeoutMs,
+        idempotencyKey: flags.get("--idempotency-key"),
+      });
+      return { exitCode: 0, output: JSON.stringify(submitted) };
+    } finally {
+      store.close();
+    }
+  }
+
+  /**
+   * emerald worker — the production worker process: claims QUEUED runs from an EXISTING database and executes them through
+   * WorkerRuntime (lease renewal, fencing, terminal transitions). Runs until SIGINT/SIGTERM (finishing the in-flight run)
+   * unless --once (exit when nothing is queued) or --max-runs. It never creates the database and never performs recovery.
+   * Exit codes: 0 clean stop, 1 configuration error or (with --once) a runtime error.
+   */
+  private async handleWorker(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
+    const usage =
+      "Usage: emerald worker --db <file> [--once] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]";
+    const valueFlags = ["--db", "--workspace-root", "--worker-id", "--lease-ttl-ms", "--poll-interval-ms", "--max-runs"];
+    let once = false;
+    const rest: string[] = [];
+    for (const a of args) {
+      if (a === "--once") {
+        if (once) return { exitCode: 1, output: `Error: --once given more than once. ${usage}` };
+        once = true;
+      } else rest.push(a);
+    }
+    const parsed = this.parseValueFlags(rest, valueFlags, usage);
+    if ("error" in parsed) return parsed.error;
+    const { flags } = parsed;
+    const dbPath = flags.get("--db");
+    if (!dbPath) return { exitCode: 1, output: `Error: --db is required (a worker has no default database). ${usage}` };
+    const intFlag = (name: string): number | undefined | "bad" => {
+      const raw = flags.get(name);
+      if (raw === undefined) return undefined;
+      return /^\d+$/.test(raw) && Number(raw) >= 1 ? Number(raw) : "bad";
+    };
+    const leaseTtlMs = intFlag("--lease-ttl-ms");
+    const pollIntervalMs = intFlag("--poll-interval-ms");
+    const maxRuns = intFlag("--max-runs");
+    if (leaseTtlMs === "bad" || pollIntervalMs === "bad" || maxRuns === "bad") {
+      return { exitCode: 1, output: "Error: --lease-ttl-ms, --poll-interval-ms and --max-runs must be positive integers" };
+    }
+
+    const controller = new AbortController();
+    const stop = (): void => {
+      if (controller.signal.aborted) process.exit(130); // second signal: stop now; the lease expires and recovery takes over
+      controller.abort();
+    };
+    process.on("SIGINT", stop);
+    process.on("SIGTERM", stop);
+    try {
+      const result = await runWorkerHost({
+        dbPath,
+        workerId: flags.get("--worker-id"),
+        workspaceRoot: flags.get("--workspace-root"),
+        leaseTtlMs,
+        pollIntervalMs,
+        maxRuns,
+        once,
+        signal: controller.signal,
+      });
+      return { exitCode: once && result.errors > 0 ? 1 : 0, output: "" };
+    } catch (err: unknown) {
+      if (err instanceof WorkerHostConfigError) return { exitCode: 1, output: `Error: ${err.message}` };
+      return { exitCode: 1, output: `Error: worker failed: ${err instanceof Error ? err.message : String(err)}` };
+    } finally {
+      process.off("SIGINT", stop);
+      process.off("SIGTERM", stop);
+    }
+  }
+
+  /** emerald inspect — read-only view of a run and its persisted event history from an EXISTING database file. */
+  private handleInspect(args: readonly string[]): { exitCode: number; output: string } {
+    const usage = "Usage: emerald inspect --db <file> --run-id <id>";
+    const parsed = this.parseValueFlags(args, ["--db", "--run-id"], usage);
+    if ("error" in parsed) return parsed.error;
+    const dbPath = parsed.flags.get("--db");
+    const runId = parsed.flags.get("--run-id");
+    if (!dbPath || !runId) return { exitCode: 1, output: `Error: --db and --run-id are required. ${usage}` };
+    if (dbPath === ":memory:" || !fs.existsSync(dbPath)) return { exitCode: 1, output: `Error: database not found (inspect never creates one): ${dbPath}` };
+
+    const store = new SqliteStateStore({ location: dbPath });
+    try {
+      const coordinator = new RunCoordinator(store, new SystemClock());
+      const run = coordinator.getRun(runId);
+      if (!run) return { exitCode: 1, output: `Run not found: ${runId}` };
+      const events = coordinator.getEventsForRun(runId).map((e) => ({
+        sequence: e.sequence,
+        timestamp: e.timestamp,
+        eventType: e.eventType,
+        payload: e.payload,
+      }));
+      return {
+        exitCode: 0,
+        output: JSON.stringify({
+          runId: run.runId,
+          taskId: run.taskId,
+          status: run.status,
+          attemptCount: run.attemptCount,
+          workerId: run.currentWorkerId,
+          leaseId: run.leaseId,
+          leaseExpiresAt: run.leaseExpiresAt,
+          result: run.resultPayload,
+          error: run.errorPayload,
+          events,
+        }),
+      };
+    } finally {
+      store.close();
     }
   }
 
@@ -817,6 +1006,13 @@ Commands:
   emerald verify <runId>                 Show sovereign verification proof
   emerald evidence <runId>               Export full cryptographic evidence bundle
   emerald replay <runId>                 Reconstruct run history deterministically
+  emerald submit --db <file> --operation <name> [--input <json>]
+                                         Durably submit a deterministic task (creates the SQLite file)
+  emerald inspect --db <file> --run-id <id>
+                                         Show a durable run and its event history (read-only)
+  emerald worker --db <file> [--once] [--workspace-root <dir>] [--lease-ttl-ms <n>]
+                                         Claim and execute queued runs from an existing database
+                                         (built-in operations: echo, sum, slow; Ctrl+C finishes the in-flight run)
   emerald recovery sweep --db <file> --workers-stopped [--workspace-root <dir>]
                                          Run one crash-recovery sweep (exit 0 clean, 2 needs operator)
   emerald recovery watch --db <file> --workers-stopped [--workspace-root <dir>] [--interval-ms <n>]

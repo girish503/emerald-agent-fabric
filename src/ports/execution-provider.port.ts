@@ -1,3 +1,5 @@
+import type { TenantModel, TenantQuiescencePort } from "./tenant-quiescence.port.js";
+
 /**
  * Execution Provider Port.
  * Establishes the boundary between "what Emerald wants executed" (the operation)
@@ -87,6 +89,13 @@ export interface ExecutionResult<TOutput = unknown> {
  */
 export interface ExecutionProvider {
   readonly name: string;
+  /**
+   * What this provider can leave running if its worker dies (ADR-0037). Omitted means ISOLATED_PROCESSES: an undeclared
+   * provider is never assumed harmless.
+   */
+  readonly tenantModel?: TenantModel;
+  /** How recovery proves an ISOLATED_PROCESSES provider's tenants are gone. */
+  readonly quiescence?: TenantQuiescencePort;
   execute<TInput = unknown, TOutput = unknown>(
     request: ExecutionRequest<TInput>
   ): Promise<ExecutionResult<TOutput>>;

@@ -22,6 +22,8 @@ import {
  */
 export class InProcessExecutionProvider implements ExecutionProvider {
   readonly name = "in-process";
+  /** Operations run inside the worker process: a dead worker leaves no tenant (ADR-0037). */
+  readonly tenantModel = "NONE" as const;
   private readonly operationMap: Map<string, DeterministicOperation> = new Map();
   private defaultOperation?: DeterministicOperation;
 
