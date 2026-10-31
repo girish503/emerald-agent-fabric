@@ -1,0 +1,43 @@
+name: POSIX Integrity CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  posix-gate:
+    name: POSIX Integrity & Baseline Quality Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies (clean install)
+        run: npm ci
+
+      - name: Verify TypeScript diagnostic baseline
+        run: node scripts/ci/check-tsc-baseline.js
+
+      - name: Execute approved Option A unit test suite
+        run: >-
+          npx vitest run
+          tests/recovery/recovery-watch-process.test.ts
+          tests/recovery/recovery-host.test.ts
+          tests/application/worker-lease-renewal.test.ts
+          tests/persistence/phase31-recovery-fencing.test.ts
+          tests/adapters/node-fs-workspace-owned-disposal.test.ts

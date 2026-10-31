@@ -1,0 +1,1448 @@
+{
+  "baseCommit": "98aa41163cb1c41f62580bbb646ca2a35b75a3e3",
+  "toolchain": {
+    "nodeVersion": "v24.20.0",
+    "typescriptVersion": "5.9.3",
+    "platform": "win32",
+    "tsconfig": "tsconfig.json"
+  },
+  "generatedAt": "2026-10-31T12:12:00.322Z",
+  "totalDiagnostics": 287,
+  "diagnostics": [
+    {
+      "file": "src/application/agent-step-controller.ts",
+      "code": "TS18048",
+      "message": "'rawPath' is possibly 'undefined'."
+    },
+    {
+      "file": "src/application/agent-step-controller.ts",
+      "code": "TS18048",
+      "message": "'relCandidate' is possibly 'undefined'."
+    },
+    {
+      "file": "src/application/agent-step-controller.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "src/application/agent-step-controller.ts",
+      "code": "TS2532",
+      "message": "Object is possibly 'undefined'."
+    },
+    {
+      "file": "src/application/deadlock-detector.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "src/application/deadlock-detector.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string[] | undefined' is not assignable to parameter of type 'readonly string[]'."
+    },
+    {
+      "file": "src/application/deadlock-detector.ts",
+      "code": "TS2488",
+      "message": "Type 'string[] | undefined' must have a '[Symbol.iterator]()' method that returns an iterator."
+    },
+    {
+      "file": "src/application/deadlock-resolver.ts",
+      "code": "TS2322",
+      "message": "Type 'string | undefined' is not assignable to type 'string'."
+    },
+    {
+      "file": "src/application/deadlock-resolver.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "src/application/duplicate-proposal-detector.ts",
+      "code": "TS6133",
+      "message": "'targetPath' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/evaluation/local-eval-harness.ts",
+      "code": "TS2322",
+      "message": "Type '{ runId: string; taskId: string; stepNumber: number; contextSnapshotHash: string; modelProvider: string; model: string; actionId: string | undefined; toolName: \"run_command\" | \"write_file\" | ... 5 more ... | undefined; durationMs: number; result: \"EXECUTION_FAILED\" | ... 4 more ... | \"EXECUTED\"; error: string | unde...' is not assignable to type 'LocalEvalEvidenceRecord[]'."
+    },
+    {
+      "file": "src/application/goal-preemption-manager.ts",
+      "code": "TS6133",
+      "message": "'GoalPriorityStatus' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/goal-preemption-manager.ts",
+      "code": "TS6133",
+      "message": "'PreemptionStatus' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/goal-preemption-policy.ts",
+      "code": "TS6133",
+      "message": "'GoalPriorityClass' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/goal-preemption-policy.ts",
+      "code": "TS6133",
+      "message": "'PRIORITY_CLASS_WEIGHTS' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/live-agent-brain.ts",
+      "code": "TS2345",
+      "message": "Argument of type '\"edit_file\"' is not assignable to parameter of type '\"run_command\" | \"write_file\" | \"read_file\" | \"search_code\" | \"git_status\" | \"git_diff\"'."
+    },
+    {
+      "file": "src/application/live-agent-brain.ts",
+      "code": "TS6133",
+      "message": "'TOOL_NAMES' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/live-agent-brain.ts",
+      "code": "TS6133",
+      "message": "'ToolProjectionOptions' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/preempted-goal-resumer.ts",
+      "code": "TS6133",
+      "message": "'PreemptionCheckpoint' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/tool-execution-gateway.ts",
+      "code": "TS6133",
+      "message": "'staticToolRegistry' is declared but its value is never read."
+    },
+    {
+      "file": "src/application/worker-runtime.ts",
+      "code": "TS2322",
+      "message": "Type '\"run_command\" | \"write_file\" | \"read_file\" | \"search_code\" | \"git_status\" | \"git_diff\" | \"edit_file\"' is not assignable to type '\"run_command\" | \"write_file\" | \"read_file\" | \"search_code\" | \"git_status\" | \"git_diff\"'."
+    },
+    {
+      "file": "src/application/worker-runtime.ts",
+      "code": "TS6133",
+      "message": "'ToolName' is declared but its value is never read."
+    },
+    {
+      "file": "src/domain/action-proposal.ts",
+      "code": "TS6133",
+      "message": "'ToolName' is declared but its value is never read."
+    },
+    {
+      "file": "src/domain/action.ts",
+      "code": "TS2322",
+      "message": "Type 'Readonly<{ eventId: string; runId: string; timestamp: string; eventType: \"action.authorized\"; schemaVersion: number; producer: string; payload: Readonly<{ actionId: string; runId: string; sequenceNumber: number; toolName: \"run_command\" | ... 5 more ... | \"edit_file\"; }>; }>' is not assignable to type 'ActionAuthorizedEvent'."
+    },
+    {
+      "file": "src/domain/action.ts",
+      "code": "TS2322",
+      "message": "Type 'Readonly<{ eventId: string; runId: string; timestamp: string; eventType: \"action.created\"; schemaVersion: number; producer: string; payload: Readonly<{ actionId: string; runId: string; sequenceNumber: number; ... 4 more ...; maxAttempts: number; }>; }>' is not assignable to type 'ActionCreatedEvent'."
+    },
+    {
+      "file": "src/domain/action.ts",
+      "code": "TS6133",
+      "message": "'ToolName' is declared but its value is never read."
+    },
+    {
+      "file": "src/domain/counterfactual-replay.ts",
+      "code": "TS2322",
+      "message": "Type '\"run_command\" | \"write_file\" | \"read_file\" | \"search_code\" | \"git_status\" | \"git_diff\" | \"edit_file\"' is not assignable to type '\"run_command\" | \"write_file\" | \"read_file\" | \"search_code\" | \"git_status\" | \"git_diff\"'."
+    },
+    {
+      "file": "src/domain/reflex.ts",
+      "code": "TS6133",
+      "message": "'TOOL_NAMES' is declared but its value is never read."
+    },
+    {
+      "file": "src/domain/reflex.ts",
+      "code": "TS6133",
+      "message": "'ToolName' is declared but its value is never read."
+    },
+    {
+      "file": "src/domain/tool-projection.ts",
+      "code": "TS6133",
+      "message": "'ToolName' is declared but its value is never read."
+    },
+    {
+      "file": "src/production/benchmark/phase43-benchmark-runner.ts",
+      "code": "TS2322",
+      "message": "Type '{ rawCompletion?: string | undefined; filteredTools?: readonly string[] | undefined; eligibleTools?: readonly string[] | undefined; progressAdvisory?: string | undefined; executionError?: {} | null | undefined; ... 12 more ...; durationMs: number; }[]' is not assignable to type 'Phase43StepDiagnostic[]'."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS18048",
+      "message": "'latestIntent' is possibly 'undefined'."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS18048",
+      "message": "'rootIntent' is possibly 'undefined'."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS2322",
+      "message": "Type 'MutationIntent | undefined' is not assignable to type 'MutationIntent'."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS2532",
+      "message": "Object is possibly 'undefined'."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS6133",
+      "message": "'PathRollbackStatus' is declared but its value is never read."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS6133",
+      "message": "'restoredPaths' is declared but its value is never read."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS6133",
+      "message": "'RollbackConflictDetectedError' is declared but its value is never read."
+    },
+    {
+      "file": "src/recovery/durable-rollback-engine.ts",
+      "code": "TS6133",
+      "message": "'RollbackSnapshotMissingError' is declared but its value is never read."
+    },
+    {
+      "file": "src/recovery/recovery-supervisor.ts",
+      "code": "TS6133",
+      "message": "'SupervisorLeaseExpiredError' is declared but its value is never read."
+    },
+    {
+      "file": "src/recovery/recovery-supervisor.ts",
+      "code": "TS6133",
+      "message": "'TerminalStateError' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS2322",
+      "message": "Type '\"STOP\"' is not assignable to type 'BrainFinishReason'."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS2322",
+      "message": "Type 'Promise<{ workspaceId: string; hostPath: string; containerMountPath: string; }>' is not assignable to type 'Promise<WorkspaceHandle>'."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS6133",
+      "message": "'createVerificationSpec' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS6133",
+      "message": "'DEFAULT_STEP_CONTROLLER_BUDGET' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS6133",
+      "message": "'EditFileToolAdapter' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS6133",
+      "message": "'inspectToolProjection' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS6133",
+      "message": "'MissionContract' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/edit-contract-hardening.test.ts",
+      "code": "TS6133",
+      "message": "'ToolExecutionContext' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2304",
+      "message": "Cannot find name 'ExecutionPolicy'."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2322",
+      "message": "Type '\"ISOLATED\"' is not assignable to type 'ToolIsolationRequirement'."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type '{ path: string; content: string; }' is not assignable to parameter of type '{ path: string; content: string; overwrite: boolean; maxBytes?: number | undefined; }'."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type '{ path: string; searchAnchor: string; replacementText: string; }' is not assignable to parameter of type '{ path: string; searchAnchor: string; replacementText: string; allowMultipleMatches: boolean; maxBytes?: number | undefined; expectedDigest?: string | undefined; }'."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'MockWorkspacePort' is not assignable to parameter of type 'WorkspacePort'."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2352",
+      "message": "Conversion of type '{ runId: string; taskId: string; status: \"RUNNING\"; currentWorkerId: string; currentLeaseId: string; contractBinding: { contractId: string; version: number; contentHash: string; }; actionCount: number; attemptCount: number; timeoutMs: number; maxOutputBytes: number; }' to type 'RunSnapshot' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2352",
+      "message": "Conversion of type '{ snapshotId: string; runId: string; sequenceNumber: number; timestamp: string; observations: never[]; budget: ContextBudget; estimatedTokens: number; totalBytes: number; isEvicted: boolean; contentHash: string; contextHash: string; totalEstimatedTokens: number; }' to type 'ContextSnapshot' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2420",
+      "message": "Class 'MockWorkspacePort' incorrectly implements interface 'WorkspacePort'."
+    },
+    {
+      "file": "tests/application/governed-editing-policy.test.ts",
+      "code": "TS2554",
+      "message": "Expected 1-2 arguments, but got 3."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2339",
+      "message": "Property 'message' does not exist on type 'ProposalValidationResult'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2339",
+      "message": "Property 'reason' does not exist on type 'ProposalValidationResult'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'isGoalReached' does not exist in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'stateStore' does not exist in type 'WorkerRuntimeOptions'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2739",
+      "message": "Type '{ snapshotId: string; runId: string; taskId: string; createdAt: string; observations: never[]; totalEstimatedTokens: number; totalBytes: number; contextHash: string; }' is missing the following properties from type 'ContextSnapshot': policyVersion, budget, omittedObservationsCount, omittedObservationsSummary"
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2741",
+      "message": "Property 'finishReason' is missing in type '{ proposal: { proposalId: string; toolName: string; contextSnapshotHash: string; inputPayload: { path: string; }; rationale: string; }; }' but required in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2741",
+      "message": "Property 'finishReason' is missing in type '{ proposal: { proposalId: string; toolName: string; contextSnapshotHash: string; inputPayload: { path: string; content: string; }; rationale: string; }; }' but required in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2741",
+      "message": "Property 'finishReason' is missing in type '{ proposal: { proposalId: string; toolName: string; contextSnapshotHash: string; inputPayload: { path: string; searchAnchor: string; replacementText: string; }; rationale: string; }; }' but required in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS2741",
+      "message": "Property 'finishReason' is missing in type '{ proposal: { proposalId: string; toolName: string; contextSnapshotHash: string; inputPayload: { query: string; path: string; }; rationale: string; }; }' but required in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS6133",
+      "message": "'contract' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/grounded-verification-and-anchor-guard.test.ts",
+      "code": "TS6133",
+      "message": "'request' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type '{ path: string; searchAnchor: string; replacementText: string; }' is not assignable to parameter of type '{ path: string; searchAnchor: string; replacementText: string; allowMultipleMatches: boolean; maxBytes?: number | undefined; expectedDigest?: string | undefined; }'."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS2552",
+      "message": "Cannot find name 'ProposalValidationFailure'. Did you mean 'ProposalValidator'?"
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'capturedVerificationObs' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'computeContextHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'createVerificationSpec' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'EDIT_FILE_SCHEMA_BRANCH' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'MissionContract' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'staticToolRegistry' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/localized-editing-and-test-feedback.test.ts",
+      "code": "TS6192",
+      "message": "All imports in import declaration are unused."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2322",
+      "message": "Type '\"STOP\"' is not assignable to type 'BrainFinishReason'."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2322",
+      "message": "Type 'Promise<{ workspaceId: string; hostPath: string; containerMountPath: string; }>' is not assignable to type 'Promise<WorkspaceHandle>'."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2339",
+      "message": "Property 'message' does not exist on type 'ProposalValidationResult'."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2339",
+      "message": "Property 'reason' does not exist on type 'ProposalValidationResult'."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type '{ path: string; searchAnchor: string; replacementText: string; expectedDigest: string; }' is not assignable to parameter of type '{ path: string; searchAnchor: string; replacementText: string; allowMultipleMatches: boolean; maxBytes?: number | undefined; expectedDigest?: string | undefined; }'."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'boundAt' does not exist in type 'ContractBinding'."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'maxAttempts' does not exist in type '{ readonly timeoutMs: number; readonly maxOutputBytes: number; }'."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS2561",
+      "message": "Object literal may only specify known properties, but 'maxRawBytes' does not exist in type 'ContextBudget'. Did you mean to write 'maxBytes'?"
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'DEFAULT_STEP_CONTROLLER_BUDGET' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'MissionContract' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'targetPath' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48o-contract-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'TOOL_SEMANTIC_METADATA' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48s-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'LineAnchoredEditor' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48v-verification-feedback.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'isGoalReached' does not exist in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/phase48v-verification-feedback.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'stateStore' does not exist in type 'WorkerRuntimeOptions'."
+    },
+    {
+      "file": "tests/application/phase48v-verification-feedback.test.ts",
+      "code": "TS2741",
+      "message": "Property 'finishReason' is missing in type '{ proposal: { proposalId: string; toolName: any; contextSnapshotHash: string; inputPayload: {}; }; }' but required in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/phase48v-verification-feedback.test.ts",
+      "code": "TS2741",
+      "message": "Property 'finishReason' is missing in type '{ proposal: { proposalId: string; toolName: string; contextSnapshotHash: string; inputPayload: { path: string; searchAnchor: string; replacementText: string; }; rationale: string; }; }' but required in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/phase48v-verification-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'contract' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48v-verification-feedback.test.ts",
+      "code": "TS6133",
+      "message": "'request' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS2339",
+      "message": "Property 'message' does not exist on type 'ProposalValidationResult'."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS2339",
+      "message": "Property 'reason' does not exist on type 'ProposalValidationResult'."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS2739",
+      "message": "Type '{ runId: string; taskId: string; status: \"RUNNING\"; version: number; attemptCount: number; maxAttempts: number; timeoutMs: number; idempotencyKey: null; currentWorkerId: string; leaseId: string; contractBinding: { ...; }; createdAt: string; updatedAt: string; }' is missing the following properties from type 'RunSnapshot': leaseExpiresAt, resultPayload, errorPayload"
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'computeContextHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'coordinator' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'createAndActivateContract' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'GOVERNED_REPAIR_OBSERVATION_DISPLAY_ORDER' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'inspectToolProjection' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'INTERNAL_DIGEST_FIELDS' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'projectToolDefinition' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'READ_FILE_TOOL' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'staticToolRegistry' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'workspaceAdapter' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/phase48y-offline-remediation.test.ts",
+      "code": "TS6133",
+      "message": "'WRITE_FILE_TOOL' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/post-pass-verification-latch.test.ts",
+      "code": "TS6133",
+      "message": "'DEFAULT_STEP_CONTROLLER_BUDGET' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/post-pass-verification-latch.test.ts",
+      "code": "TS6192",
+      "message": "All imports in import declaration are unused."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2339",
+      "message": "Property 'id' does not exist on type 'MissionContract'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2339",
+      "message": "Property 'version' does not exist on type 'MissionContract'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'allowedTools' does not exist in type 'CreateExecutionPolicyOptions'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'boundAt' does not exist in type 'ContractBinding'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'stateStore' does not exist in type 'WorkerRuntimeOptions'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'status' does not exist in type 'TaskRecord'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'telemetry' does not exist in type 'AgentBrainResult'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2532",
+      "message": "Object is possibly 'undefined'."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS2739",
+      "message": "Type '{ snapshotId: string; contextHash: string; taskId: string; createdAt: string; observations: never[]; totalBytes: number; totalEstimatedTokens: number; omittedObservationsCount: number; budget: ContextBudget; }' is missing the following properties from type 'ContextSnapshot': runId, policyVersion, omittedObservationsSummary"
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS6133",
+      "message": "'ActionProposal' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS6133",
+      "message": "'INITIAL_TOOL_DEFINITIONS' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS6133",
+      "message": "'MissionContract' is declared but its value is never read."
+    },
+    {
+      "file": "tests/application/whole-file-guidance-and-duplicate-guard.test.ts",
+      "code": "TS6133",
+      "message": "'PolicyEvaluator' is declared but its value is never read."
+    },
+    {
+      "file": "tests/contract/action-proposal-schema-parity.test.ts",
+      "code": "TS6133",
+      "message": "'computeContextHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'allowedOperations' does not exist in type 'CreateExecutionPolicyOptions'."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'title' does not exist in type 'CreateMissionContractParams'."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS6133",
+      "message": "'digestA' is declared but its value is never read."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS6133",
+      "message": "'LeaseLostError' is declared but its value is never read."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS6133",
+      "message": "'MutationAuthorityContext' is declared but its value is never read."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS6133",
+      "message": "'MutationIntent' is declared but its value is never read."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS6133",
+      "message": "'ProposalValidator' is declared but its value is never read."
+    },
+    {
+      "file": "tests/contract/rollback-safety.test.ts",
+      "code": "TS6133",
+      "message": "'randomUUID' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/editor-mutation-intent.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type '{ path: string; searchAnchor: string; replacementText: string; }' is not assignable to parameter of type '{ path: string; searchAnchor: string; replacementText: string; allowMultipleMatches: boolean; maxBytes?: number | undefined; expectedDigest?: string | undefined; }'."
+    },
+    {
+      "file": "tests/integration/editor-mutation-intent.test.ts",
+      "code": "TS2353",
+      "message": "Object literal may only specify known properties, and 'createWorkspace' does not exist in type 'WorkspacePort'."
+    },
+    {
+      "file": "tests/integration/editor-mutation-intent.test.ts",
+      "code": "TS2532",
+      "message": "Object is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/editor-mutation-intent.test.ts",
+      "code": "TS6133",
+      "message": "'ToolOutputLimitExceededError' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/editor-mutation-intent.test.ts",
+      "code": "TS6133",
+      "message": "'ToolPreconditionFailedError' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/editor-mutation-intent.test.ts",
+      "code": "TS6133",
+      "message": "'ToolWorkspaceBoundaryViolationError' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/mutation-intent-persistence.test.ts",
+      "code": "TS2532",
+      "message": "Object is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase44c-preflight-live.test.ts",
+      "code": "TS18046",
+      "message": "'ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA.jsonSchema.anyOf' is of type 'unknown'."
+    },
+    {
+      "file": "tests/integration/phase44d-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'initialTargetContent' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase45c-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase46c-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase47b-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase47b-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase47b-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase47b-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'actionEvents' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase47b-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'candidatePatchBytes' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase47b-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'candidatePatchHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase47b-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'testFeedbackDelivered' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'failToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'passToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'proposalRejectionReason' does not exist on type 'Phase43StepDiagnostic'."
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS2551",
+      "message": "Property 'proposalRejectionMessage' does not exist on type 'Phase43StepDiagnostic'. Did you mean 'rejectionMessage'?"
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase47d-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'failToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'passToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'proposalRejectionReason' does not exist on type 'Phase43StepDiagnostic'."
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS2551",
+      "message": "Property 'proposalRejectionMessage' does not exist on type 'Phase43StepDiagnostic'. Did you mean 'rejectionMessage'?"
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48b-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'failToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'passToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'proposalRejectionReason' does not exist on type 'Phase43StepDiagnostic'."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'terminalMessage' does not exist on type 'Phase43TrialResult'."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS2551",
+      "message": "Property 'proposalRejectionMessage' does not exist on type 'Phase43StepDiagnostic'. Did you mean 'rejectionMessage'?"
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48e-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'sourceSnapshotObservations' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'failToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'passToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'proposalRejectionReason' does not exist on type 'Phase43StepDiagnostic'."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'terminalMessage' does not exist on type 'Phase43TrialResult'."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS2551",
+      "message": "Property 'proposalRejectionMessage' does not exist on type 'Phase43StepDiagnostic'. Did you mean 'rejectionMessage'?"
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48h-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'failToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'passToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'proposalRejectionReason' does not exist on type 'Phase43StepDiagnostic'."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'terminalMessage' does not exist on type 'Phase43TrialResult'."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS2551",
+      "message": "Property 'proposalRejectionMessage' does not exist on type 'Phase43StepDiagnostic'. Did you mean 'rejectionMessage'?"
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48j-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS2322",
+      "message": "Type '\"REPAIR_FAILED\"' is not assignable to type '\"VERIFIED_REPAIR\" | \"SAFE_TERMINATION_WITHOUT_REPAIR\" | \"REPAIR_ATTEMPT_FAILED\" | \"EXPERIMENT_INVALID_INCONCLUSIVE\"'."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'activationStep' does not exist on type 'PostPassLatchSnapshot'."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'activationTimestamp' does not exist on type 'PostPassLatchSnapshot'."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'failToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'passToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'fsSync' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48m-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'activationStep' does not exist on type 'PostPassLatchSnapshot'."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'activationTimestamp' does not exist on type 'PostPassLatchSnapshot'."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'failToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'passToPass' does not exist on type 'CleanRoomVerificationOutcome'."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'fsSync' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'projectToolDefinition' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48p-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48q-repair-live.test.ts",
+      "code": "TS18048",
+      "message": "'result.evidenceBundle.signatures' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase48q-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'activationStep' does not exist on type 'PostPassLatchSnapshot'."
+    },
+    {
+      "file": "tests/integration/phase48q-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'activationTimestamp' does not exist on type 'PostPassLatchSnapshot'."
+    },
+    {
+      "file": "tests/integration/phase48q-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48q-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48q-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'fsSync' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48q-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'rejectionSteps' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48t-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'derivedOutcome' does not exist on type 'ReplayVerificationResult'."
+    },
+    {
+      "file": "tests/integration/phase48t-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48t-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48t-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'isLatchActivated' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48w-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'derivedOutcome' does not exist on type 'ReplayVerificationResult'."
+    },
+    {
+      "file": "tests/integration/phase48w-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48w-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS2339",
+      "message": "Property 'derivedOutcome' does not exist on type 'ReplayVerificationResult'."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS2769",
+      "message": "No overload matches this call."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'EDIT_FILE_SCHEMA_BRANCH' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'EDIT_FILE_TOOL' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'inspectToolProjection' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'LiveAgentBrain' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS6133",
+      "message": "'WRITE_FILE_TOOL' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase48z-repair-live.test.ts",
+      "code": "TS6192",
+      "message": "All imports in import declaration are unused."
+    },
+    {
+      "file": "tests/integration/phase91-resource-negotiation.test.ts",
+      "code": "TS6133",
+      "message": "'addAllocations' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase91-resource-negotiation.test.ts",
+      "code": "TS6133",
+      "message": "'appendProvenanceEntry' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase91-resource-negotiation.test.ts",
+      "code": "TS6133",
+      "message": "'applyContractAllocationUpdate' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase91-resource-negotiation.test.ts",
+      "code": "TS6133",
+      "message": "'SharedResourcePool' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase91-resource-negotiation.test.ts",
+      "code": "TS6133",
+      "message": "'subtractAllocations' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase91-resource-negotiation.test.ts",
+      "code": "TS6133",
+      "message": "'ZERO_ALLOCATION' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase94-speculative-runtime-integration.test.ts",
+      "code": "TS2367",
+      "message": "This comparison appears to be unintentional because the types '\"foreign-repo-002\"' and '\"repo-emerald\"' have no overlap."
+    },
+    {
+      "file": "tests/integration/phase94-speculative-runtime-integration.test.ts",
+      "code": "TS2554",
+      "message": "Expected 0 arguments, but got 1."
+    },
+    {
+      "file": "tests/integration/phase94-speculative-runtime-integration.test.ts",
+      "code": "TS6133",
+      "message": "'canonicalJsonStringify' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase94-speculative-runtime-integration.test.ts",
+      "code": "TS6133",
+      "message": "'PromotionDecision' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase94-speculative-runtime-integration.test.ts",
+      "code": "TS6133",
+      "message": "'reconciler' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase94-speculative-runtime-integration.test.ts",
+      "code": "TS6133",
+      "message": "'RUNTIME_AUTHORITY_INVARIANTS' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase96-governed-goal-preemption.test.ts",
+      "code": "TS6133",
+      "message": "'GOAL_PRIORITY_INVARIANTS' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase96-governed-goal-preemption.test.ts",
+      "code": "TS6133",
+      "message": "'GoalDependencyDeclaration' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase96-governed-goal-preemption.test.ts",
+      "code": "TS6133",
+      "message": "'PreemptionCheckpoint' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase96-governed-goal-preemption.test.ts",
+      "code": "TS6133",
+      "message": "'PreemptionRequest' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase96-governed-goal-preemption.test.ts",
+      "code": "TS6133",
+      "message": "'PRIORITY_CLASS_WEIGHTS' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase96-governed-goal-preemption.test.ts",
+      "code": "TS6133",
+      "message": "'SECURITY_CONTROLS_PHASE96' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS2322",
+      "message": "Type 'string | undefined' is not assignable to type 'string'."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS2339",
+      "message": "Property 'sort' does not exist on type 'readonly string[]'."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'CycleWitness | undefined' is not assignable to parameter of type 'CycleWitness'."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'MockClock' is not assignable to parameter of type 'ClockPort'."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS2420",
+      "message": "Class 'MockClock' incorrectly implements interface 'ClockPort'."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS2532",
+      "message": "Object is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS2538",
+      "message": "Type 'undefined' cannot be used as an index type."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS6133",
+      "message": "'computeCycleWitnessHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS6133",
+      "message": "'computeDeadlockEdgeHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS6133",
+      "message": "'computeDeadlockNodeHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS6133",
+      "message": "'DeadlockClassification' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS6133",
+      "message": "'DeadlockEdge' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase97-governed-deadlock-detection.test.ts",
+      "code": "TS6133",
+      "message": "'DeadlockNode' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS18048",
+      "message": "'rec' is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'GovernedMessage | undefined' is not assignable to parameter of type 'GovernedMessage'."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS2532",
+      "message": "Object is possibly 'undefined'."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS6133",
+      "message": "'computePartitionSnapshotHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS6133",
+      "message": "'computeQuorumDecisionHash' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS6133",
+      "message": "'emptyAgr' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS6133",
+      "message": "'PartitionTopologyType' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase98-governed-fault-byzantine-agreement.test.ts",
+      "code": "TS6133",
+      "message": "'target' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase99-governed-capability-fencing.test.ts",
+      "code": "TS2345",
+      "message": "Argument of type 'string[]' is not assignable to parameter of type 'readonly PositiveCapability[]'."
+    },
+    {
+      "file": "tests/integration/phase99-governed-capability-fencing.test.ts",
+      "code": "TS6133",
+      "message": "'CAPABILITY_FENCING_INVARIANTS' is declared but its value is never read."
+    },
+    {
+      "file": "tests/integration/phase99-governed-capability-fencing.test.ts",
+      "code": "TS6133",
+      "message": "'ForbiddenCapability' is declared but its value is never read."
+    },
+    {
+      "file": "tests/recovery/recovery-supervisor.test.ts",
+      "code": "TS2420",
+      "message": "Class 'SettableClock' incorrectly implements interface 'ClockPort'."
+    },
+    {
+      "file": "tests/recovery/recovery-supervisor.test.ts",
+      "code": "TS2741",
+      "message": "Property 'now' is missing in type 'SettableClock' but required in type 'ClockPort'."
+    },
+    {
+      "file": "tests/recovery/recovery-supervisor.test.ts",
+      "code": "TS6133",
+      "message": "'supervisor1' is declared but its value is never read."
+    },
+    {
+      "file": "tests/recovery/recovery-supervisor.test.ts",
+      "code": "TS6133",
+      "message": "'SupervisorLeaseLostError' is declared but its value is never read."
+    },
+    {
+      "file": "tests/recovery/tenant-quiescence.test.ts",
+      "code": "TS2339",
+      "message": "Property 'quiescence' does not exist on type 'DockerExecutionProvider'."
+    }
+  ]
+}
