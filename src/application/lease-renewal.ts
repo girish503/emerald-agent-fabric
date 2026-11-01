@@ -28,6 +28,8 @@ export interface LeaseRenewalOptions {
   /** Delay before retrying after a transient renewal error (only while the lease has not expired). Default: 1000ms, at most the interval. */
   readonly retryDelayMs?: number;
   readonly scheduler?: RenewalScheduler;
+  /** Optional callback invoked immediately when a lease is authoritatively lost or expired. */
+  readonly onLeaseLost?: (error: LeaseLostError | LeaseExpiredError) => void;
 }
 
 /** setTimeout delays above this are clamped to 1ms by Node, which would turn the loop into a spin. */
@@ -92,6 +94,7 @@ export class LeaseRenewalLoop {
   private timer: RenewalTimer | null = null;
   private stopped = true;
   private lost: LeaseLostError | LeaseExpiredError | null = null;
+  private lossNotified = false;
 
   constructor(private readonly deps: LeaseRenewalDeps) {
     validateLeaseRenewalConfig(deps.ttlMs, deps.options);
@@ -144,14 +147,27 @@ export class LeaseRenewalLoop {
       if (err instanceof LeaseLostError || err instanceof LeaseExpiredError) {
         this.lost = err;
         this.stopped = true;
+        this.notifyLoss(err);
         return;
       }
       if (nowMs >= new Date(this.expiresAt).getTime()) {
-        this.lost = new LeaseExpiredError(this.deps.leaseId, this.expiresAt, this.deps.clock.nowIso());
+        const expiredErr = new LeaseExpiredError(this.deps.leaseId, this.expiresAt, this.deps.clock.nowIso());
+        this.lost = expiredErr;
         this.stopped = true;
+        this.notifyLoss(expiredErr);
         return;
       }
       this.arm(this.retryDelayMs);
+    }
+  }
+
+  private notifyLoss(err: LeaseLostError | LeaseExpiredError): void {
+    if (this.lossNotified) return;
+    this.lossNotified = true;
+    try {
+      this.deps.options?.onLeaseLost?.(err);
+    } catch {
+      // Swallowed: callback failures must not corrupt loop state or mask the lease-loss error
     }
   }
 }

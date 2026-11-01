@@ -54,7 +54,9 @@ import {
   UnauthorizedMutationTransitionError,
   MissingMutationAuthorityError,
   WorkspaceBindingConflictError,
+  TenantLaunchGateConflictError,
 } from "../../domain/errors.js";
+import type { TenantLaunchGate } from "../../ports/tenant-launch-coordinator.port.js";
 import { AnyActionEvent, AnyAttemptEvent, DomainEvent } from "../../domain/events.js";
 import {
   MutationIntent,
@@ -593,8 +595,37 @@ function mapRowToMissionContract(row: DbMissionContractRow): MissionContract {
   );
 }
 
+export function defaultIsProcessAlive(pid: number): boolean {
+  if (!Number.isInteger(pid) || pid <= 0) {
+    return false;
+  }
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (err: unknown) {
+    const code = (err as { code?: string })?.code;
+    if (code === "ESRCH") {
+      return false;
+    }
+    if (code === "EPERM") {
+      return true;
+    }
+    // Fail-closed: assume alive on unexpected error to prevent unsafe lock stealing
+    return true;
+  }
+}
+
 export class SqliteStorageTransaction implements StorageTransaction, MutationIntentStorePort {
-  constructor(private readonly db: DatabaseSync) {}
+  private readonly db: DatabaseSync;
+  private readonly isProcessAlive: (pid: number) => boolean;
+
+  constructor(
+    db: DatabaseSync,
+    isProcessAlive: (pid: number) => boolean = defaultIsProcessAlive
+  ) {
+    this.db = db;
+    this.isProcessAlive = isProcessAlive;
+  }
 
   insertTask(task: TaskRecord): void {
     const stmt = this.db.prepare(
@@ -2429,23 +2460,223 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
     `);
     stmt.run(status, errorMessage ?? null, nowMs ?? Date.now(), runId, relativePath);
   }
+
+  acquireTenantLaunchGate(params: {
+    runId: string;
+    holderType: "WORKER" | "RECOVERY";
+    holderId: string;
+    leaseId: string;
+    nowIso: string;
+    ttlMs?: number;
+    ownerPid?: number;
+  }): TenantLaunchGate {
+    const row = this.db
+      .prepare(`SELECT * FROM tenant_launch_gates WHERE run_id = ?`)
+      .get(params.runId) as
+      | {
+          run_id: string;
+          holder_type: "WORKER" | "RECOVERY";
+          holder_id: string;
+          lease_id: string;
+          token: string;
+          acquired_at: string;
+          expires_at: string;
+          released_at: string | null;
+          state: "ACQUIRED" | "RELEASED";
+          owner_pid: number | null;
+        }
+      | undefined;
+
+    const ttlMs = params.ttlMs ?? 30_000;
+    const expiresAt = new Date(new Date(params.nowIso).getTime() + ttlMs).toISOString();
+    const token = crypto.randomUUID();
+
+    if (row && row.state === "ACQUIRED") {
+      const nowMs = new Date(params.nowIso).getTime();
+      const expiresMs = new Date(row.expires_at).getTime();
+
+      // If the gate has not reached its nominal TTL, reject acquisition immediately.
+      if (nowMs < expiresMs) {
+        throw new TenantLaunchGateConflictError(
+          params.runId,
+          row.holder_type,
+          row.holder_id,
+          row.expires_at
+        );
+      }
+
+      // Gate has reached or exceeded its nominal TTL.
+      // Under ADR-0038 Remediation (F-01/F-02/F-05), time-based lock stealing is eliminated.
+      // A gate can NEVER be stolen from a live owner process (Worker or Recovery).
+      if (row.holder_id !== params.holderId || row.holder_type !== params.holderType) {
+        if (row.holder_type === "WORKER") {
+          const pid = row.owner_pid ?? this.getWorker(row.holder_id)?.pid;
+          if (!pid) {
+            // Missing owner process identity: fail closed per Requirement 8
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Worker '${row.holder_id}' process identity is unknown or unrecorded; tenant launch gate stealing refused fail-closed.`
+            );
+          }
+          let isAlive = true;
+          try {
+            isAlive = this.isProcessAlive(pid);
+          } catch {
+            isAlive = true; // indeterminate: fail closed
+          }
+          if (isAlive) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Worker '${row.holder_id}' (PID ${pid}) is still alive; tenant launch gate stealing refused.`
+            );
+          }
+        } else if (row.holder_type === "RECOVERY") {
+          const pid = row.owner_pid;
+          if (!pid) {
+            // Missing owner process identity: fail closed per Requirement 8
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Recovery supervisor '${row.holder_id}' process identity is unknown or unrecorded; tenant launch gate stealing refused fail-closed.`
+            );
+          }
+          let isAlive = true;
+          try {
+            isAlive = this.isProcessAlive(pid);
+          } catch {
+            isAlive = true; // indeterminate: fail closed
+          }
+          if (isAlive) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Recovery supervisor '${row.holder_id}' (PID ${pid}) is still alive; tenant launch gate stealing refused.`
+            );
+          }
+
+          // In addition to process liveness, check supervisor lease fencing per Requirement 5
+          const activeSupervisorLease = this.findActiveSupervisorLease(params.runId, params.nowIso);
+          if (activeSupervisorLease && activeSupervisorLease.supervisorId === row.holder_id) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Recovery supervisor '${row.holder_id}' lease is still active; tenant launch gate stealing refused.`
+            );
+          }
+        }
+      }
+    }
+
+    const ownerPid =
+      params.ownerPid ??
+      (params.holderType === "WORKER"
+        ? this.getWorker(params.holderId)?.pid ?? null
+        : typeof process !== "undefined" && process.pid
+          ? process.pid
+          : null);
+
+    this.db
+      .prepare(`
+        INSERT INTO tenant_launch_gates (run_id, holder_type, holder_id, lease_id, token, acquired_at, expires_at, state, owner_pid)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'ACQUIRED', ?)
+        ON CONFLICT(run_id) DO UPDATE SET
+          holder_type = excluded.holder_type,
+          holder_id = excluded.holder_id,
+          lease_id = excluded.lease_id,
+          token = excluded.token,
+          acquired_at = excluded.acquired_at,
+          expires_at = excluded.expires_at,
+          released_at = NULL,
+          state = 'ACQUIRED',
+          owner_pid = excluded.owner_pid
+      `)
+      .run(params.runId, params.holderType, params.holderId, params.leaseId, token, params.nowIso, expiresAt, ownerPid);
+
+    return {
+      runId: params.runId,
+      holderType: params.holderType,
+      holderId: params.holderId,
+      leaseId: params.leaseId,
+      token,
+      acquiredAt: params.nowIso,
+      expiresAt,
+      state: "ACQUIRED",
+      ownerPid: ownerPid ?? undefined,
+    };
+  }
+
+  releaseTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void {
+    this.db
+      .prepare(`
+        UPDATE tenant_launch_gates
+        SET state = 'RELEASED', released_at = ?
+        WHERE run_id = ? AND token = ? AND state = 'ACQUIRED'
+      `)
+      .run(params.nowIso, params.runId, params.token);
+  }
+
+  getTenantLaunchGate(runId: string): TenantLaunchGate | null {
+    const row = this.db
+      .prepare(`SELECT * FROM tenant_launch_gates WHERE run_id = ?`)
+      .get(runId) as any;
+    if (!row) return null;
+    return {
+      runId: row.run_id,
+      holderType: row.holder_type,
+      holderId: row.holder_id,
+      leaseId: row.lease_id,
+      token: row.token,
+      acquiredAt: row.acquired_at,
+      expiresAt: row.expires_at,
+      releasedAt: row.released_at ?? undefined,
+      state: row.state,
+      ownerPid: row.owner_pid ?? undefined,
+    };
+  }
+}
+
+export interface SqliteStateStoreOptions {
+  readonly isProcessAlive?: (pid: number) => boolean;
 }
 
 export class SqliteStateStore implements StateStorePort, MutationIntentStorePort {
   private readonly db: DatabaseSync;
+  private readonly isProcessAlive: (pid: number) => boolean;
 
-  constructor(dbOrConfig?: DatabaseSync | SqliteClientConfig) {
+  constructor(
+    dbOrConfig?: DatabaseSync | (SqliteClientConfig & SqliteStateStoreOptions),
+    options?: SqliteStateStoreOptions
+  ) {
     if (dbOrConfig && typeof (dbOrConfig as DatabaseSync).exec === "function") {
       this.db = dbOrConfig as DatabaseSync;
+      this.isProcessAlive = options?.isProcessAlive ?? defaultIsProcessAlive;
     } else {
-      this.db = createSqliteClient(dbOrConfig as SqliteClientConfig | undefined);
+      const config = dbOrConfig as (SqliteClientConfig & SqliteStateStoreOptions) | undefined;
+      this.db = createSqliteClient(config);
+      this.isProcessAlive = config?.isProcessAlive ?? options?.isProcessAlive ?? defaultIsProcessAlive;
     }
   }
 
   transaction<T>(operation: (tx: StorageTransaction) => T): T {
     this.db.exec("BEGIN IMMEDIATE;");
     try {
-      const tx = new SqliteStorageTransaction(this.db);
+      const tx = new SqliteStorageTransaction(this.db, this.isProcessAlive);
       const result = operation(tx);
       this.db.exec("COMMIT;");
       return result;
@@ -2769,6 +3000,31 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
       .prepare(`SELECT workspace_root FROM run_workspace_bindings WHERE run_id = ?`)
       .get(runId) as { workspace_root: string } | undefined;
     return row ? row.workspace_root : null;
+  }
+
+  acquireTenantLaunchGate(params: {
+    runId: string;
+    holderType: "WORKER" | "RECOVERY";
+    holderId: string;
+    leaseId: string;
+    nowIso: string;
+    ttlMs?: number;
+    ownerPid?: number;
+  }): TenantLaunchGate {
+    return this.transaction((tx) => tx.acquireTenantLaunchGate(params));
+  }
+
+  releaseTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void {
+    this.transaction((tx) => tx.releaseTenantLaunchGate(params));
+  }
+
+  getTenantLaunchGate(runId: string): TenantLaunchGate | null {
+    const tx = new SqliteStorageTransaction(this.db, this.isProcessAlive);
+    return tx.getTenantLaunchGate(runId);
   }
 
   close(): void {

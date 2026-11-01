@@ -48,6 +48,9 @@ import { DeterministicVerifier, VerificationSpec } from "../domain/verification.
 import { Workspace } from "../domain/workspace.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../ports/execution-provider.port.js";
+import { resolveProviderTenantModel } from "../ports/tenant-quiescence.port.js";
+import type { TenantLaunchCoordinatorPort, TenantLaunchGate } from "../ports/tenant-launch-coordinator.port.js";
+import { SqliteTenantLaunchCoordinator, InMemoryTenantLaunchCoordinator } from "../adapters/coordination/sqlite-tenant-launch-coordinator.js";
 import { LeaseFencingCheck, WorkerRecord } from "../ports/state-store.port.js";
 import { ToolAdapterRegistryPort } from "../ports/tool-adapter.port.js";
 import { MutationIntentStorePort } from "../ports/mutation-intent-store.port.js";
@@ -70,6 +73,12 @@ export type WorkerRunResult =
   | { readonly status: "FAILED"; readonly runId: string; readonly error: unknown }
   | { readonly status: "TIMED_OUT"; readonly runId: string; readonly error: unknown }
   | { readonly status: "CANCELLED"; readonly runId: string; readonly error: unknown }
+  /**
+   * The provider could not prove its tenant processes are gone after a timeout/cancel/limit stop. No terminal
+   * transition is written and the workspace is untouched: heartbeats stop, the lease lapses, and the recovery
+   * sweeper's quiescence pre-pass (ADR-0037/0038) owns the run from there.
+   */
+  | { readonly status: "TERMINATION_UNVERIFIED"; readonly runId: string; readonly error: unknown }
   | { readonly status: "FENCED"; readonly runId: string; readonly error: LeaseLostError };
 
 export type WorkerActionStatus =
@@ -147,6 +156,9 @@ export interface WorkerRuntimeOptions {
   readonly toolAdapterRegistry?: ToolAdapterRegistryPort;
   readonly toolRegistry?: ToolRegistryPort;
   readonly mutationStore?: MutationIntentStorePort;
+  /** ADR-0038: Optional launch coordinator for closing the late-start tenant race. */
+  readonly launchCoordinator?: TenantLaunchCoordinatorPort;
+  readonly launchGateTimeoutMs?: number;
 }
 
 /**
@@ -176,6 +188,8 @@ export class WorkerRuntime {
   private readonly policyEvaluator: PolicyEvaluator;
   private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
   private readonly toolGateway: ToolExecutionGateway;
+  private readonly launchCoordinator: TenantLaunchCoordinatorPort;
+  private readonly launchGateTimeoutMs?: number;
   private readonly runWorkspaces = new Map<
     string,
     { workspaceId: string; hostPath: string; containerMountPath?: string }
@@ -187,6 +201,12 @@ export class WorkerRuntime {
     this.pid = options.pid ?? (typeof process !== "undefined" && process.pid ? process.pid : 1);
     this.coordinator = options.coordinator;
     this.clock = options.clock ?? new SystemClock();
+    this.launchGateTimeoutMs = options.launchGateTimeoutMs;
+    this.launchCoordinator =
+      options.launchCoordinator ??
+      (this.coordinator.store
+        ? new SqliteTenantLaunchCoordinator(this.coordinator.store, this.clock)
+        : new InMemoryTenantLaunchCoordinator(this.clock));
     this.leaseTtlMs = options.leaseTtlMs ?? 10000;
     this.leaseRenewalOptions = options.leaseRenewal;
     // Fail at construction, not after a run has been claimed.
@@ -202,6 +222,38 @@ export class WorkerRuntime {
     } else {
       this.executionProvider = new InProcessExecutionProvider(
         options.operations ?? [new EchoOperation()]
+      );
+    }
+
+    // ADR-0037 Step 4: fail at construction if a workspace-bearing worker is given an isolated-process
+    // provider that has no TenantQuiescencePort.  Without the port the worker cannot safely auto-dispose
+    // workspaces, so it is better to reject the configuration immediately than to silently preserve
+    // workspaces at runtime.
+    if (
+      this.workspacePort &&
+      resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES" &&
+      !this.executionProvider.quiescence
+    ) {
+      throw new Error(
+        `WorkerRuntime: execution provider '${this.executionProvider.name}' declares ISOLATED_PROCESSES tenant ` +
+          `semantics (or does not declare tenantModel, which defaults to ISOLATED_PROCESSES) but provides no ` +
+          `TenantQuiescencePort.  Automatic workspace disposal would be unsafe.  Either supply a ` +
+          `TenantQuiescencePort on the provider or use a provider that declares tenantModel = "NONE".`
+      );
+    }
+
+    // ADR-0038 Remediation (F-03): An isolated-process provider requires durable launch coordination
+    // across processes. Silent fallback to in-memory coordination would defeat mutual exclusion
+    // between worker tenant container creation and recovery quiescence/sweeping.
+    if (
+      resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES" &&
+      !options.launchCoordinator &&
+      !this.coordinator.store
+    ) {
+      throw new Error(
+        `WorkerRuntime: execution provider '${this.executionProvider.name}' declares ISOLATED_PROCESSES ` +
+          `tenant semantics, but neither options.launchCoordinator nor an authoritative coordinator store ` +
+          `was provided. Silent fallback to in-memory coordination is prohibited for isolated execution.`
       );
     }
 
@@ -276,7 +328,10 @@ export class WorkerRuntime {
    * If runId is provided, claims that specific run.
    * Otherwise, claims the next QUEUED run.
    */
-  async runOnce(targetRunId?: string): Promise<WorkerRunResult> {
+  async runOnce(
+    targetRunId?: string,
+    options?: { readonly signal?: AbortSignal }
+  ): Promise<WorkerRunResult> {
     this.ensureRegistered();
 
     let claimResult: ClaimRunResult;
@@ -352,6 +407,32 @@ export class WorkerRuntime {
       throw err;
     }
 
+    // Cooperative cancellation and timeout management
+    const abortController = new AbortController();
+    let timedOut = false;
+    let timeoutTimer: NodeJS.Timeout | undefined;
+
+    if (options?.signal) {
+      if (options.signal.aborted) {
+        abortController.abort(options.signal.reason);
+      } else {
+        options.signal.addEventListener(
+          "abort",
+          () => {
+            abortController.abort(options?.signal?.reason);
+          },
+          { once: true }
+        );
+      }
+    }
+
+    if (run.timeoutMs && run.timeoutMs > 0) {
+      timeoutTimer = setTimeout(() => {
+        timedOut = true;
+        abortController.abort(new Error(`Operation exceeded timeout of ${run.timeoutMs}ms`));
+      }, run.timeoutMs);
+    }
+
     // Heartbeat: keeps the lease alive for as long as this run executes (stopped in the finally below,
     // before any terminal transition releases the lease). The block is intentionally not re-indented.
     const renewal = new LeaseRenewalLoop({
@@ -362,7 +443,25 @@ export class WorkerRuntime {
       ttlMs: this.leaseTtlMs,
       expiresAt: lease.expiresAt,
       timeoutMs: run.timeoutMs,
-      options: this.leaseRenewalOptions,
+      options: {
+        ...this.leaseRenewalOptions,
+        onLeaseLost: (err) => {
+          this.leaseRenewalOptions?.onLeaseLost?.(err);
+          try {
+            const current = this.coordinator.getRun(run.runId);
+            if (
+              !current ||
+              current.status !== "RUNNING" ||
+              current.leaseId !== lease.leaseId ||
+              current.currentWorkerId !== this.workerId
+            ) {
+              abortController.abort(err);
+            }
+          } catch {
+            abortController.abort(err);
+          }
+        },
+      },
     });
     renewal.start();
     try {
@@ -537,6 +636,9 @@ export class WorkerRuntime {
       idempotencyToken: run.idempotencyKey ?? run.runId,
       attemptNumber: run.attemptCount,
       timeoutMs: run.timeoutMs,
+      leaseId: lease.leaseId,
+      workerId: this.workerId,
+      signal: abortController.signal,
     };
 
     // 7. Evaluate Policy from MissionContract (Sections 8, 10)
@@ -750,6 +852,41 @@ export class WorkerRuntime {
         return;
       }
 
+      // ADR-0037 Step 4: an isolated-process provider must prove all tenant processes for this run are
+      // gone before we delete the workspace.  Unknown provider semantics (tenantModel omitted) default to
+      // ISOLATED_PROCESSES — fail closed.  On any failure we preserve the workspace and record a
+      // workspace.failed event (fenced, so a stale worker will not pollute the newer attempt's stream).
+      const tenantModel = resolveProviderTenantModel(this.executionProvider);
+      if (tenantModel === "ISOLATED_PROCESSES") {
+        const port = this.executionProvider.quiescence;
+        let quiescenceReason: string | undefined;
+        if (!port) {
+          quiescenceReason = "no TenantQuiescencePort is configured for this isolated-process provider";
+        } else {
+          try {
+            const qResult = await port.quiesceRun(run.runId);
+            if (qResult.status !== "QUIESCENT") {
+              quiescenceReason = `tenant processes not verified gone: ${qResult.reason}`;
+            }
+          } catch (qErr: unknown) {
+            quiescenceReason = `quiescence check failed: ${qErr instanceof Error ? qErr.message : String(qErr)}`;
+          }
+        }
+        if (quiescenceReason) {
+          // Fail closed: record workspace.failed (with lease fencing) then preserve the directory.
+          const failedEvent = workspace.markFailed({
+            errorMessage: `Workspace disposal withheld — tenant quiescence not established: ${quiescenceReason}`,
+            now: this.clock.nowIso(),
+          });
+          try {
+            this.coordinator.recordWorkspaceEvent(failedEvent, fencing);
+          } catch (recordErr: unknown) {
+            if (!(recordErr instanceof LeaseLostError)) throw recordErr;
+          }
+          return; // workspace preserved
+        }
+      }
+
       // The cleaning event is recorded WITH lease fencing inside a database transaction, so it is the
       // atomic ownership assertion made immediately before deletion. Only LeaseLost means "fenced, stop
       // quietly"; any other failure is unexpected and must not be treated as permission to delete.
@@ -792,44 +929,151 @@ export class WorkerRuntime {
       }
     };
 
-    // 10. Delegate to ExecutionProvider ONLY NOW
+    // 10. Delegate to ExecutionProvider ONLY NOW (ADR-0038: Gated Tenant Launch)
     let executionResult: ExecutionResult;
+    let launchGate: TenantLaunchGate | undefined;
+    const isIsolated = resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES";
+
+    if (isIsolated) {
+      try {
+        launchGate = await this.launchCoordinator.acquire({
+          runId: run.runId,
+          holderType: "WORKER",
+          holderId: this.workerId,
+          leaseId: lease.leaseId,
+          ownerPid: this.pid,
+          ttlMs: Math.max(this.leaseTtlMs, 30_000),
+          timeoutMs: this.launchGateTimeoutMs ?? 5_000,
+        });
+      } catch (gateErr: unknown) {
+        await disposeWorkspaceSafely("Failed to acquire tenant launch gate").catch(() => {});
+        return failRunSafely({
+          code: "TENANT_LAUNCH_GATE_ERROR",
+          message: gateErr instanceof Error ? gateErr.message : String(gateErr),
+          details: { runId: run.runId, error: String(gateErr) },
+        });
+      }
+
+      // Re-validate lease inside coordination gate before launching tenant container
+      const currentBeforeLaunch = this.coordinator.getRun(run.runId);
+      if (
+        !currentBeforeLaunch ||
+        currentBeforeLaunch.status !== "RUNNING" ||
+        currentBeforeLaunch.leaseId !== lease.leaseId ||
+        currentBeforeLaunch.currentWorkerId !== this.workerId
+      ) {
+        await this.launchCoordinator.release(launchGate).catch(() => {});
+        launchGate = undefined;
+        return {
+          status: "FENCED",
+          runId: run.runId,
+          error: new LeaseLostError(run.runId, lease.leaseId, currentBeforeLaunch?.leaseId ?? null),
+        };
+      }
+    }
+
     try {
-      executionResult = await this.executionProvider.execute(request);
-    } catch (providerError: unknown) {
-      await disposeWorkspaceSafely("Execution provider threw unexpected exception").catch(() => {});
-      throw providerError;
-    }
+      try {
+        executionResult = await this.executionProvider.execute(request);
+      } catch (providerError: unknown) {
+        if (abortController.signal.aborted) {
+          const current = this.coordinator.getRun(run.runId);
+          if (
+            !current ||
+            current.status !== "RUNNING" ||
+            current.leaseId !== lease.leaseId ||
+            current.currentWorkerId !== this.workerId
+          ) {
+            return {
+              status: "FENCED",
+              runId: run.runId,
+              error: new LeaseLostError(run.runId, lease.leaseId, current?.leaseId ?? null),
+            };
+          }
+          if (timedOut) {
+            executionResult = {
+              status: "TIMED_OUT",
+              durationMs: 0,
+              error: {
+                code: "EXECUTION_TIMEOUT",
+                message: `Operation exceeded timeout of ${run.timeoutMs}ms`,
+              },
+            };
+          } else {
+            executionResult = {
+              status: "CANCELLED",
+              durationMs: 0,
+              error: {
+                code: "EXECUTION_CANCELLED",
+                message: providerError instanceof Error ? providerError.message : "Operation cancelled by signal",
+              },
+            };
+          }
+        } else {
+          await disposeWorkspaceSafely("Execution provider threw unexpected exception").catch(() => {});
+          throw providerError;
+        }
+      }
 
-    // Ownership check after the provider returns: if the run was reclaimed (lease/worker ids changed)
-    // or already left RUNNING (e.g. cancelled by an operator),
-    // this worker no longer has authority, so it must not write a terminal state or dispose the
-    // workspace (recovery owns both now). Deliberately ownership-only: a lease that merely expired
-    // by time without being reclaimed does not discard the work (the terminal write is still fenced
-    // by the same ids inside its transaction). This does not depend on the heartbeat timer having run.
-    const current = this.coordinator.getRun(run.runId);
-    if (
-      !current ||
-      current.status !== "RUNNING" ||
-      current.leaseId !== lease.leaseId ||
-      current.currentWorkerId !== this.workerId
-    ) {
-      return { status: "FENCED", runId: run.runId, error: new LeaseLostError(run.runId, lease.leaseId, current?.leaseId ?? null) };
-    }
+      // Ownership check after the provider returns: if the run was reclaimed (lease/worker ids changed)
+      // or already left RUNNING (e.g. cancelled by an operator),
+      // this worker no longer has authority, so it must not write a terminal state or dispose the
+      // workspace (recovery owns both now). Deliberately ownership-only: a lease that merely expired
+      // by time without being reclaimed does not discard the work (the terminal write is still fenced
+      // by the same ids inside its transaction). This does not depend on the heartbeat timer having run.
+      const current = this.coordinator.getRun(run.runId);
+      if (
+        !current ||
+        current.status !== "RUNNING" ||
+        current.leaseId !== lease.leaseId ||
+        current.currentWorkerId !== this.workerId
+      ) {
+        return { status: "FENCED", runId: run.runId, error: new LeaseLostError(run.runId, lease.leaseId, current?.leaseId ?? null) };
+      }
 
-    // 11. Post-execution Revocation Check (Section 11)
-    const postExecutionContract = this.coordinator.getContract(contractId, version);
-    if (postExecutionContract?.lifecycle.status === "REVOKED") {
-      await disposeWorkspaceSafely("MissionContract was REVOKED during execution").catch(() => {});
-      return failRunSafely({
-        code: "CONTRACT_REVOKED",
-        message: `Bound MissionContract '${contractId}' v${version} was REVOKED during execution`,
-        details: { contractId, version },
-      });
-    }
+      // Fencing has priority (above). An unverified termination is never rewritten into TIMED_OUT/CANCELLED
+      // by the precedence rules below, and never reaches a terminal write or workspace disposal: a tenant may
+      // still be running, so the run is left RUNNING for lease-expiry recovery to quiesce.
+      if (executionResult.status === "FAILED" && executionResult.error?.code === "TERMINATION_UNVERIFIED") {
+        return { status: "TERMINATION_UNVERIFIED", runId: run.runId, error: executionResult.error };
+      }
 
-    // 12. Process ExecutionResult and apply governed verification
-    try {
+      // Deterministic precedence: timeout/cancellation takes precedence over late success
+      if (timedOut) {
+        executionResult = {
+          status: "TIMED_OUT",
+          durationMs: executionResult.durationMs,
+          error: {
+            code: "EXECUTION_TIMEOUT",
+            message:
+              executionResult.status === "TIMED_OUT" && executionResult.error?.message
+                ? executionResult.error.message
+                : `Operation '${request.operationName}' exceeded logical timeout limit of ${run.timeoutMs}ms`,
+          },
+        };
+      } else if (abortController.signal.aborted && executionResult.status !== "CANCELLED" && executionResult.status !== "TIMED_OUT") {
+        executionResult = {
+          status: "CANCELLED",
+          durationMs: executionResult.durationMs,
+          error: executionResult.error ?? {
+            code: "EXECUTION_CANCELLED",
+            message: "Operation cancelled by signal",
+          },
+        };
+      }
+
+      // 11. Post-execution Revocation Check (Section 11)
+      const postExecutionContract = this.coordinator.getContract(contractId, version);
+      if (postExecutionContract?.lifecycle.status === "REVOKED") {
+        await disposeWorkspaceSafely("MissionContract was REVOKED during execution").catch(() => {});
+        return failRunSafely({
+          code: "CONTRACT_REVOKED",
+          message: `Bound MissionContract '${contractId}' v${version} was REVOKED during execution`,
+          details: { contractId, version },
+        });
+      }
+
+      // 12. Process ExecutionResult and apply governed verification
       switch (executionResult.status) {
         case "SUCCESS": {
           // Output limit enforcement (Section 11)
@@ -974,8 +1218,16 @@ export class WorkerRuntime {
         return { status: "FENCED", runId: run.runId, error: err };
       }
       throw err;
+    } finally {
+      if (launchGate) {
+        await this.launchCoordinator.release(launchGate).catch(() => {});
+        launchGate = undefined;
+      }
     }
     } finally {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer);
+      }
       renewal.stop();
     }
   }

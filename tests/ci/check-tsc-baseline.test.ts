@@ -17,8 +17,7 @@ import * as path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
-  loadBaselineManifest,
-  normalizePath,
+  normalizeDiagnosticMessage,
   parseDiagnosticLine,
   runBaselineCheck
 } from '../../scripts/ci/check-tsc-baseline.js';
@@ -471,6 +470,220 @@ describe('scripts/ci/check-tsc-baseline.js (Milestone 2.1 Hardening)', () => {
       expect(parseDiagnosticLine('Starting compilation...', tempDir)).toBeNull();
       expect(parseDiagnosticLine('Fatal error: Out of memory', tempDir)).toBeNull();
       expect(parseDiagnosticLine('', tempDir)).toBeNull();
+    });
+  });
+
+  // T10 — Deterministic string-literal union normalization (Milestone 2.2)
+  describe('T10 — Deterministic string-literal union normalization', () => {
+    describe('pure normalizeDiagnosticMessage helper', () => {
+      it('permuted union equivalence: normalizes runs of string literals into deterministic sorted order', () => {
+        const msgA = 'Type \'"run_command" | "write_file" | "read_file"\' is not assignable.';
+        const msgB = 'Type \'"read_file" | "run_command" | "write_file"\' is not assignable.';
+        const msgC = 'Type \'"write_file" | "read_file" | "run_command"\' is not assignable.';
+
+        const normA = normalizeDiagnosticMessage(msgA);
+        const normB = normalizeDiagnosticMessage(msgB);
+        const normC = normalizeDiagnosticMessage(msgC);
+
+        expect(normA).toBe('Type \'"read_file" | "run_command" | "write_file"\' is not assignable.');
+        expect(normB).toBe(normA);
+        expect(normC).toBe(normA);
+      });
+
+      it('different member rejection: different union members remain distinct', () => {
+        const baseline = 'Type \'"read_file" | "write_file"\'';
+        const mutated = 'Type \'"read_file" | "unknown_tool"\'';
+
+        expect(normalizeDiagnosticMessage(baseline)).not.toBe(normalizeDiagnosticMessage(mutated));
+      });
+
+      it('subset / superset rejection: unions of different lengths do not match', () => {
+        const smaller = 'Type \'"a" | "b"\'';
+        const larger = 'Type \'"a" | "b" | "c"\'';
+
+        expect(normalizeDiagnosticMessage(smaller)).not.toBe(normalizeDiagnosticMessage(larger));
+      });
+
+      it('duplicate preservation: unions with duplicate members preserve multiplicity', () => {
+        const withDupes = 'Type \'"a" | "a" | "b"\'';
+        const withoutDupes = 'Type \'"a" | "b"\'';
+
+        const normDupes = normalizeDiagnosticMessage(withDupes);
+        const normWithout = normalizeDiagnosticMessage(withoutDupes);
+
+        expect(normDupes).toBe('Type \'"a" | "a" | "b"\'');
+        expect(normWithout).toBe('Type \'"a" | "b"\'');
+        expect(normDupes).not.toBe(normWithout);
+      });
+
+      it('non-union preservation: ordinary diagnostics and single literals are not modified', () => {
+        const standardError = 'Cannot find name \'undeclaredVariable\'.';
+        const propertyError = 'Property \'quiescence\' does not exist on type \'DockerExecutionProvider\'.';
+        const singleLiteral = 'Argument of type \'"edit_file"\' is not assignable to parameter.';
+
+        expect(normalizeDiagnosticMessage(standardError)).toBe(standardError);
+        expect(normalizeDiagnosticMessage(propertyError)).toBe(propertyError);
+        expect(normalizeDiagnosticMessage(singleLiteral)).toBe(singleLiteral);
+      });
+
+      it('multiple unions: normalizes multiple distinct union runs in a single message', () => {
+        const multiUnion = 'Type \'"run_command" | "read_file"\' is not assignable to type \'"gamma" | "alpha"\'.';
+        const expected = 'Type \'"read_file" | "run_command"\' is not assignable to type \'"alpha" | "gamma"\'.';
+
+        expect(normalizeDiagnosticMessage(multiUnion)).toBe(expected);
+      });
+
+      it('exact casing and character preservation: does not alter casing or punctuation inside literals', () => {
+        const mixedCase = 'Type \'"Beta" | "alpha" | "Gamma"\'';
+        // Deterministic binary sort: "Beta" (B=66), "Gamma" (G=71), "alpha" (a=97)
+        expect(normalizeDiagnosticMessage(mixedCase)).toBe('Type \'"Beta" | "Gamma" | "alpha"\'');
+      });
+
+      it('non-string input safeguard: returns non-string inputs unchanged', () => {
+        expect(normalizeDiagnosticMessage(null as unknown as string)).toBeNull();
+        expect(normalizeDiagnosticMessage(undefined as unknown as string)).toBeUndefined();
+        expect(normalizeDiagnosticMessage(12345 as unknown as string)).toBe(12345);
+      });
+    });
+
+    describe('integration with runBaselineCheck', () => {
+      let unionBaselinePath: string;
+
+      beforeEach(() => {
+        unionBaselinePath = path.join(tempDir, 'union-baseline.json');
+        const manifest = {
+          baseCommit: '98aa41163cb1c41f62580bbb646ca2a35b75a3e3',
+          toolchain: {
+            nodeVersion: 'v24.20.0',
+            typescriptVersion: '5.9.3',
+            platform: 'win32',
+            tsconfig: 'tsconfig.json'
+          },
+          generatedAt: new Date().toISOString(),
+          totalDiagnostics: 1,
+          diagnostics: [
+            {
+              file: 'src/app/runner.ts',
+              code: 'TS2322',
+              message: 'Type \'"run_command" | "write_file" | "read_file"\' is not assignable to type \'"run_command" | "write_file" | "read_file"\'.'
+            }
+          ]
+        };
+        fs.writeFileSync(unionBaselinePath, JSON.stringify(manifest, null, 2), 'utf8');
+      });
+
+      it('passes when compiler emits identical string-literal union in permuted order', () => {
+        const compilerOutput = 'src/app/runner.ts(10,5): error TS2322: Type \'"read_file" | "run_command" | "write_file"\' is not assignable to type \'"read_file" | "write_file" | "run_command"\'.\n';
+
+        const result = runBaselineCheck({
+          rootDir: tempDir,
+          baselinePath: unionBaselinePath,
+          tscBin: dummyTscBin,
+          exitOnError: false,
+          spawnRunner: () => ({
+            status: 1,
+            signal: null,
+            stdout: compilerOutput,
+            stderr: ''
+          })
+        });
+
+        expect(result.success).toBe(true);
+        expect(result.exitCode).toBe(0);
+        expect(result.newDiagnostics).toHaveLength(0);
+        expect(result.resolvedDiagnostics).toHaveLength(0);
+      });
+
+      it('fails closed when compiler introduces an unbaselined union member', () => {
+        const compilerOutput = 'src/app/runner.ts(10,5): error TS2322: Type \'"read_file" | "unknown_tool" | "write_file"\' is not assignable to type \'"read_file" | "write_file" | "run_command"\'.\n';
+
+        const result = runBaselineCheck({
+          rootDir: tempDir,
+          baselinePath: unionBaselinePath,
+          tscBin: dummyTscBin,
+          exitOnError: false,
+          spawnRunner: () => ({
+            status: 1,
+            signal: null,
+            stdout: compilerOutput,
+            stderr: ''
+          })
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.exitCode).toBe(1);
+        expect(result.reason).toBe('NEW_DIAGNOSTICS');
+        expect(result.newDiagnostics).toHaveLength(1);
+      });
+
+      it('fails closed when compiler introduces a superset union', () => {
+        const compilerOutput = 'src/app/runner.ts(10,5): error TS2322: Type \'"run_command" | "write_file" | "read_file" | "extra"\' is not assignable to type \'"run_command" | "write_file" | "read_file"\'.\n';
+
+        const result = runBaselineCheck({
+          rootDir: tempDir,
+          baselinePath: unionBaselinePath,
+          tscBin: dummyTscBin,
+          exitOnError: false,
+          spawnRunner: () => ({
+            status: 1,
+            signal: null,
+            stdout: compilerOutput,
+            stderr: ''
+          })
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.exitCode).toBe(1);
+        expect(result.reason).toBe('NEW_DIAGNOSTICS');
+      });
+
+      it('fails closed when compiler introduces different multiplicity in union', () => {
+        const compilerOutput = 'src/app/runner.ts(10,5): error TS2322: Type \'"run_command" | "run_command" | "write_file" | "read_file"\' is not assignable to type \'"run_command" | "write_file" | "read_file"\'.\n';
+
+        const result = runBaselineCheck({
+          rootDir: tempDir,
+          baselinePath: unionBaselinePath,
+          tscBin: dummyTscBin,
+          exitOnError: false,
+          spawnRunner: () => ({
+            status: 1,
+            signal: null,
+            stdout: compilerOutput,
+            stderr: ''
+          })
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.exitCode).toBe(1);
+        expect(result.reason).toBe('NEW_DIAGNOSTICS');
+      });
+
+      it('fails closed when an unbaselined diagnostic code/file is introduced alongside permuted union', () => {
+        const compilerOutput = [
+          'src/app/runner.ts(10,5): error TS2322: Type \'"read_file" | "run_command" | "write_file"\' is not assignable to type \'"read_file" | "write_file" | "run_command"\'.',
+          'src/other.ts(1,1): error TS2304: Cannot find name \'foo\'.'
+        ].join('\n') + '\n';
+
+        const result = runBaselineCheck({
+          rootDir: tempDir,
+          baselinePath: unionBaselinePath,
+          tscBin: dummyTscBin,
+          exitOnError: false,
+          spawnRunner: () => ({
+            status: 1,
+            signal: null,
+            stdout: compilerOutput,
+            stderr: ''
+          })
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.exitCode).toBe(1);
+        expect(result.reason).toBe('NEW_DIAGNOSTICS');
+        expect(result.newDiagnostics).toHaveLength(1);
+        expect(result.newDiagnostics?.[0]?.file).toBe('src/other.ts');
+        expect(result.newDiagnostics?.[0]?.code).toBe('TS2304');
+      });
     });
   });
 });

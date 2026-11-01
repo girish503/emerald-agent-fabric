@@ -9,12 +9,17 @@
 import type { RunSnapshot } from "../domain/invariants.js";
 import type { MissionContract } from "../domain/mission-contract.js";
 import type { TenantModel, TenantQuiescencePort } from "../ports/tenant-quiescence.port.js";
+import type { TenantLaunchCoordinatorPort, TenantLaunchGate } from "../ports/tenant-launch-coordinator.port.js";
 
 export interface TenantQuiescenceConfig {
   /** Decides, from durable state only, whether a run can have left tenant processes. Must not trust the crashed worker. */
   readonly tenantModelOf: (run: RunSnapshot) => TenantModel;
   /** Required for runs whose model is ISOLATED_PROCESSES; without it those runs are held. */
   readonly port?: TenantQuiescencePort;
+  /** Optional launch coordinator to acquire mutual exclusion before quiescence verification (ADR-0038). */
+  readonly launchCoordinator?: TenantLaunchCoordinatorPort;
+  readonly supervisorId?: string;
+  readonly supervisorPid?: number;
 }
 
 export interface HeldForTenants {
@@ -27,6 +32,8 @@ export interface TenantPrePassResult {
   readonly heldRunIds: ReadonlySet<string>;
   /** Runs for which the port actually answered QUIESCENT. */
   readonly quiescedRunIds: readonly string[];
+  /** Releases any coordination gates acquired during the pre-pass. */
+  readonly releaseGates?: () => Promise<void>;
 }
 
 export async function runTenantQuiescencePrePass(
@@ -35,6 +42,8 @@ export async function runTenantQuiescencePrePass(
 ): Promise<TenantPrePassResult> {
   const held: HeldForTenants[] = [];
   const quiesced: string[] = [];
+  const acquiredGates = new Map<string, TenantLaunchGate>();
+
   for (const run of runs) {
     let model: TenantModel;
     try {
@@ -48,15 +57,60 @@ export async function runTenantQuiescencePrePass(
       held.push({ runId: run.runId, reason: "run may have isolated tenant processes and no TenantQuiescencePort is configured" });
       continue;
     }
+
+    let gate: TenantLaunchGate | undefined;
+    if (config.launchCoordinator) {
+      try {
+        gate = await config.launchCoordinator.acquire({
+          runId: run.runId,
+          holderType: "RECOVERY",
+          holderId: config.supervisorId ?? "recovery-supervisor",
+          leaseId: run.leaseId ?? "recovery",
+          ttlMs: 30_000,
+          timeoutMs: 5_000,
+          ownerPid: config.supervisorPid ?? (typeof process !== "undefined" && process.pid ? process.pid : undefined),
+        });
+      } catch (err: unknown) {
+        held.push({
+          runId: run.runId,
+          reason: `tenant launch gate acquisition failed: ${err instanceof Error ? err.message : String(err)}`,
+        });
+        continue;
+      }
+    }
+
     try {
       const result = await config.port.quiesceRun(run.runId);
-      if (result.status === "QUIESCENT") quiesced.push(run.runId);
-      else held.push({ runId: run.runId, reason: `tenants not verified gone: ${result.reason}` });
+      if (result.status === "QUIESCENT") {
+        quiesced.push(run.runId);
+        if (gate) acquiredGates.set(run.runId, gate);
+      } else {
+        held.push({ runId: run.runId, reason: `tenants not verified gone: ${result.reason}` });
+        if (gate && config.launchCoordinator) {
+          await config.launchCoordinator.release(gate).catch(() => {});
+        }
+      }
     } catch (err: unknown) {
       held.push({ runId: run.runId, reason: `quiescence check failed: ${err instanceof Error ? err.message : String(err)}` });
+      if (gate && config.launchCoordinator) {
+        await config.launchCoordinator.release(gate).catch(() => {});
+      }
     }
   }
-  return { held, heldRunIds: new Set(held.map((h) => h.runId)), quiescedRunIds: quiesced };
+
+  const releaseGates = async () => {
+    if (!config.launchCoordinator || acquiredGates.size === 0) return;
+    for (const [_, gate] of acquiredGates) {
+      try {
+        await config.launchCoordinator.release(gate);
+      } catch {
+        // ignore
+      }
+    }
+    acquiredGates.clear();
+  };
+
+  return { held, heldRunIds: new Set(held.map((h) => h.runId)), quiescedRunIds: quiesced, releaseGates };
 }
 
 /**

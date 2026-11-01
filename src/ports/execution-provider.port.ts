@@ -55,6 +55,33 @@ export interface ExecutionRequest<TInput = unknown> {
   readonly attemptNumber: number;
   readonly timeoutMs: number;
   readonly workspace?: ExecutionWorkspaceMount;
+  readonly leaseId?: string;
+  readonly workerId?: string;
+  /**
+   * Optional cancellation signal delivered by the runtime.
+   * NOTE: Receipt of an abort signal represents a cancellation request;
+   * it does NOT guarantee immediate physical execution termination.
+   */
+  readonly signal?: AbortSignal;
+}
+
+/**
+ * Cancellation capability model declared by an ExecutionProvider.
+ *
+ * - "PHYSICAL": The provider guarantees physical termination of managed child processes/containers.
+ * - "COOPERATIVE": The provider checks the signal cooperatively between discrete execution boundaries.
+ * - "NONE": The provider does not support cancellation; execution continues un-interrupted in flight.
+ */
+export type ProviderCancellationModel = "PHYSICAL" | "COOPERATIVE" | "NONE";
+
+/**
+ * Resolves the cancellation capability of an ExecutionProvider.
+ * Fail-closed default: an undeclared provider is treated as "NONE".
+ */
+export function resolveProviderCancellationModel(
+  provider: ExecutionProvider
+): ProviderCancellationModel {
+  return provider.cancellationModel ?? "NONE";
 }
 
 export type ExecutionStatus = "SUCCESS" | "FAILED" | "TIMED_OUT" | "CANCELLED";
@@ -64,7 +91,13 @@ export type ExecutionErrorCode =
   | "EXECUTION_TIMEOUT"
   | "EXECUTION_CANCELLED"
   | "PROVIDER_UNAVAILABLE"
-  | "OPERATION_NOT_FOUND";
+  | "OPERATION_NOT_FOUND"
+  /**
+   * A timeout, cancellation or output-limit stop was requested but the provider could NOT prove the
+   * execution is gone. Always reported with status "FAILED" (never TIMED_OUT/CANCELLED): the workload may
+   * still be running, so the runtime must leave the run to lease-expiry recovery (ADR-0037).
+   */
+  | "TERMINATION_UNVERIFIED";
 
 export interface ExecutionErrorPayload {
   readonly code: ExecutionErrorCode;
@@ -96,6 +129,8 @@ export interface ExecutionProvider {
   readonly tenantModel?: TenantModel;
   /** How recovery proves an ISOLATED_PROCESSES provider's tenants are gone. */
   readonly quiescence?: TenantQuiescencePort;
+  /** Explicit cancellation capability declared by the provider. Default: "NONE" */
+  readonly cancellationModel?: ProviderCancellationModel;
   execute<TInput = unknown, TOutput = unknown>(
     request: ExecutionRequest<TInput>
   ): Promise<ExecutionResult<TOutput>>;

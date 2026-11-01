@@ -24,6 +24,8 @@ export class InProcessExecutionProvider implements ExecutionProvider {
   readonly name = "in-process";
   /** Operations run inside the worker process: a dead worker leaves no tenant (ADR-0037). */
   readonly tenantModel = "NONE" as const;
+  /** In-process cooperative cancellation: checks signal before execution and at async boundaries. */
+  readonly cancellationModel = "COOPERATIVE" as const;
   private readonly operationMap: Map<string, DeterministicOperation> = new Map();
   private defaultOperation?: DeterministicOperation;
 
@@ -68,7 +70,24 @@ export class InProcessExecutionProvider implements ExecutionProvider {
   ): Promise<ExecutionResult<TOutput>> {
     const startTime = performance.now();
 
-    // 1. Resolve operation by requested name or default operation
+    // 1. Immediate pre-execution cancellation check
+    if (request.signal?.aborted) {
+      return {
+        status: "CANCELLED",
+        error: {
+          code: "EXECUTION_CANCELLED",
+          message: "Operation was cancelled before execution started",
+        },
+        durationMs: 0,
+        providerMetadata: {
+          provider: this.name,
+          operation: request.operationName,
+          preAborted: true,
+        },
+      };
+    }
+
+    // 2. Resolve operation by requested name or default operation
     let operation = this.operationMap.get(request.operationName);
     if (!operation && !request.operationName) {
       operation = this.defaultOperation;
@@ -93,7 +112,7 @@ export class InProcessExecutionProvider implements ExecutionProvider {
       timestamp: new Date().toISOString(),
     };
 
-    // 2. Set up logical timeout if requested
+    // 3. Set up logical timeout if requested
     let timeoutTimer: NodeJS.Timeout | undefined;
     let didTimeout = false;
 
@@ -116,6 +135,50 @@ export class InProcessExecutionProvider implements ExecutionProvider {
             },
           });
         }, request.timeoutMs);
+        timeoutTimer.unref?.();
+      }
+    });
+
+    // 4. Set up cooperative cancellation listener if signal is provided
+    let abortListener: (() => void) | undefined;
+    const cancelPromise = new Promise<ExecutionResult<TOutput>>((resolve) => {
+      if (request.signal) {
+        abortListener = () => {
+          const durationMs = Math.round(performance.now() - startTime);
+          const isTimeout =
+            request.signal?.reason instanceof Error &&
+            request.signal.reason.message.toLowerCase().includes("timeout");
+          if (isTimeout) {
+            resolve({
+              status: "TIMED_OUT",
+              error: {
+                code: "EXECUTION_TIMEOUT",
+                message: `Operation '${operation.name}' exceeded logical timeout limit of ${request.timeoutMs}ms`,
+              },
+              durationMs,
+              providerMetadata: {
+                provider: this.name,
+                operation: operation.name,
+                timeoutMs: request.timeoutMs,
+              },
+            });
+            return;
+          }
+          resolve({
+            status: "CANCELLED",
+            error: {
+              code: "EXECUTION_CANCELLED",
+              message: `Operation '${operation.name}' was cancelled during execution`,
+            },
+            durationMs,
+            providerMetadata: {
+              provider: this.name,
+              operation: operation.name,
+              cancelled: true,
+            },
+          });
+        };
+        request.signal.addEventListener("abort", abortListener, { once: true });
       }
     });
 
@@ -126,12 +189,61 @@ export class InProcessExecutionProvider implements ExecutionProvider {
           clearTimeout(timeoutTimer);
         }
 
-        // If logical timeout already fired, drop late output
-        if (didTimeout) {
-          return new Promise<never>(() => {}); // Never resolve; timeout already resolved
+        const durationMs = Math.round(performance.now() - startTime);
+
+        // If cancellation signal fired while operation was executing, return CANCELLED (or TIMED_OUT if timeout reason)
+        if (request.signal?.aborted) {
+          const isTimeout =
+            request.signal.reason instanceof Error &&
+            request.signal.reason.message.toLowerCase().includes("timeout");
+          if (isTimeout) {
+            return {
+              status: "TIMED_OUT",
+              error: {
+                code: "EXECUTION_TIMEOUT",
+                message: `Operation '${operation.name}' exceeded logical timeout limit of ${request.timeoutMs}ms`,
+              },
+              durationMs,
+              providerMetadata: {
+                provider: this.name,
+                operation: operation.name,
+                timeoutMs: request.timeoutMs,
+                lateCompletion: true,
+              },
+            };
+          }
+          return {
+            status: "CANCELLED",
+            error: {
+              code: "EXECUTION_CANCELLED",
+              message: `Operation '${operation.name}' completed after cancellation was requested`,
+            },
+            durationMs,
+            providerMetadata: {
+              provider: this.name,
+              operation: operation.name,
+              cancelledLate: true,
+            },
+          };
         }
 
-        const durationMs = Math.round(performance.now() - startTime);
+        if (didTimeout) {
+          return {
+            status: "TIMED_OUT",
+            error: {
+              code: "EXECUTION_TIMEOUT",
+              message: `Operation '${operation.name}' exceeded logical timeout limit of ${request.timeoutMs}ms`,
+            },
+            durationMs,
+            providerMetadata: {
+              provider: this.name,
+              operation: operation.name,
+              timeoutMs: request.timeoutMs,
+              lateCompletion: true,
+            },
+          };
+        }
+
         return {
           status: "SUCCESS",
           output: result.output as TOutput,
@@ -148,11 +260,19 @@ export class InProcessExecutionProvider implements ExecutionProvider {
           clearTimeout(timeoutTimer);
         }
 
-        if (didTimeout) {
-          return new Promise<never>(() => {});
+        const durationMs = Math.round(performance.now() - startTime);
+        if (request.signal?.aborted) {
+          return {
+            status: "CANCELLED",
+            error: {
+              code: "EXECUTION_CANCELLED",
+              message: `Operation '${operation.name}' failed during cancellation: ${err instanceof Error ? err.message : String(err)}`,
+            },
+            durationMs,
+            providerMetadata: { provider: this.name, operation: operation.name, cancelled: true },
+          };
         }
 
-        const durationMs = Math.round(performance.now() - startTime);
         const message = err instanceof Error ? err.message : String(err);
         const details = err instanceof Error ? err.stack : undefined;
 
@@ -166,11 +286,23 @@ export class InProcessExecutionProvider implements ExecutionProvider {
           durationMs,
           providerMetadata: { provider: this.name, operation: operation.name },
         };
+      } finally {
+        if (abortListener && request.signal) {
+          request.signal.removeEventListener("abort", abortListener);
+        }
       }
     })();
 
+    const races: Promise<ExecutionResult<TOutput>>[] = [executionPromise];
     if (request.timeoutMs > 0 && Number.isFinite(request.timeoutMs)) {
-      return Promise.race([executionPromise, timeoutPromise]);
+      races.push(timeoutPromise);
+    }
+    if (request.signal) {
+      races.push(cancelPromise);
+    }
+
+    if (races.length > 1) {
+      return Promise.race(races);
     }
 
     return executionPromise;

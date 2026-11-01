@@ -10,6 +10,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { InProcessExecutionProvider } from "../../src/adapters/execution/in-process-execution-provider.js";
 import { DockerExecutionProvider } from "../../src/adapters/execution/docker-execution-provider.js";
+import { DockerTenantQuiescenceAdapter } from "../../src/adapters/execution/docker-tenant-quiescence-adapter.js";
 import { NodeFsWorkspaceAdapter } from "../../src/adapters/workspace/node-fs-workspace-adapter.js";
 import { RunCoordinator } from "../../src/application/index.js";
 import { createExecutionPolicy } from "../../src/domain/policy.js";
@@ -30,11 +31,11 @@ describe("provider tenant model (step 1)", () => {
     expect(resolveProviderTenantModel({})).toBe("ISOLATED_PROCESSES");
     expect(resolveProviderTenantModel({ tenantModel: "NONE" })).toBe("NONE");
   });
-  it("the in-process provider declares NONE and the docker provider declares ISOLATED_PROCESSES (without a port yet)", () => {
+  it("the in-process provider declares NONE and the docker provider declares ISOLATED_PROCESSES with a DockerTenantQuiescenceAdapter", () => {
     expect(resolveProviderTenantModel(new InProcessExecutionProvider())).toBe("NONE");
     const docker = new DockerExecutionProvider();
     expect(resolveProviderTenantModel(docker)).toBe("ISOLATED_PROCESSES");
-    expect(docker.quiescence).toBeUndefined();
+    expect(docker.quiescence).toBeInstanceOf(DockerTenantQuiescenceAdapter);
   });
 });
 

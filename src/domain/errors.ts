@@ -69,6 +69,37 @@ export class LeaseLostError extends DomainError {
   }
 }
 
+export class TenantLaunchGateConflictError extends DomainError {
+  readonly code = "TENANT_LAUNCH_GATE_CONFLICT";
+
+  constructor(
+    readonly runId: string,
+    readonly holderType: string,
+    readonly holderId: string,
+    readonly expiresAt: string,
+    readonly reason?: string
+  ) {
+    super(
+      reason ??
+        `Tenant launch gate for run '${runId}' is currently held by ${holderType} '${holderId}' until ${expiresAt}`
+    );
+  }
+}
+
+export class TenantLaunchGateTimeoutError extends DomainError {
+  readonly code = "TENANT_LAUNCH_GATE_TIMEOUT";
+
+  constructor(
+    readonly runId: string,
+    readonly timeoutMs: number,
+    readonly reason?: string
+  ) {
+    super(
+      `Timed out after ${timeoutMs}ms waiting to acquire tenant launch gate for run '${runId}'${reason ? `: ${reason}` : ""}`
+    );
+  }
+}
+
 export class LeaseExpiredError extends DomainError {
   readonly code = "LEASE_EXPIRED";
 

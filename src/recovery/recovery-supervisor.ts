@@ -49,6 +49,7 @@ export interface RecoverySupervisorConfig {
   readonly rollbackEngine: DurableRollbackEngine;
   readonly clock?: ClockPort;
   readonly supervisorId?: string;
+  readonly supervisorPid?: number;
   readonly leaseTtlMs?: number;
   readonly workspaceResolver?: (runId: string) => string | undefined | Promise<string | undefined>;
 }
@@ -95,6 +96,7 @@ export class RecoverySupervisor {
   private readonly rollbackEngine: DurableRollbackEngine;
   private readonly clock: ClockPort;
   private readonly supervisorId: string;
+  private readonly supervisorPid: number;
   private readonly leaseTtlMs: number;
   private readonly workspaceResolver?: (runId: string) => string | undefined | Promise<string | undefined>;
 
@@ -112,6 +114,7 @@ export class RecoverySupervisor {
     this.supervisorId = config.supervisorId && config.supervisorId.trim().length > 0
       ? config.supervisorId.trim()
       : `recovery-supervisor-${randomUUID()}`;
+    this.supervisorPid = config.supervisorPid ?? (typeof process !== "undefined" && process.pid ? process.pid : 1);
     this.leaseTtlMs = config.leaseTtlMs && config.leaseTtlMs > 0 ? config.leaseTtlMs : 30000;
     this.workspaceResolver = config.workspaceResolver;
   }
@@ -180,8 +183,16 @@ export class RecoverySupervisor {
     return this.supervisorId;
   }
 
+  public getSupervisorPid(): number {
+    return this.supervisorPid;
+  }
+
   public getClock(): ClockPort {
     return this.clock;
+  }
+
+  public getStateStore(): StateStorePort {
+    return this.stateStore;
   }
 
   /**

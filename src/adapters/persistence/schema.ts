@@ -254,6 +254,21 @@ CREATE TABLE IF NOT EXISTS run_workspace_bindings (
     bound_at TEXT NOT NULL,
     FOREIGN KEY (run_id) REFERENCES runs(run_id) ON DELETE RESTRICT
 );
+
+CREATE TABLE IF NOT EXISTS tenant_launch_gates (
+    run_id TEXT PRIMARY KEY REFERENCES runs(run_id),
+    holder_type TEXT NOT NULL,
+    holder_id TEXT NOT NULL,
+    lease_id TEXT NOT NULL,
+    token TEXT NOT NULL,
+    acquired_at TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    released_at TEXT,
+    state TEXT NOT NULL,
+    owner_pid INTEGER
+);
+
+CREATE INDEX IF NOT EXISTS idx_launch_gates_run_state ON tenant_launch_gates(run_id, state);
 `;
 
 /**
@@ -510,5 +525,27 @@ export function migrateDatabase(db: DatabaseSync): void {
       ) WHERE rn = 1
     );
     CREATE UNIQUE INDEX IF NOT EXISTS idx_sup_leases_one_active ON supervisor_leases(run_id) WHERE state = 'ACTIVE';
+
+    -- Step 9: Tenant launch gates table (ADR-0038)
+    CREATE TABLE IF NOT EXISTS tenant_launch_gates (
+        run_id TEXT PRIMARY KEY REFERENCES runs(run_id),
+        holder_type TEXT NOT NULL,
+        holder_id TEXT NOT NULL,
+        lease_id TEXT NOT NULL,
+        token TEXT NOT NULL,
+        acquired_at TEXT NOT NULL,
+        expires_at TEXT NOT NULL,
+        released_at TEXT,
+        state TEXT NOT NULL,
+        owner_pid INTEGER
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_launch_gates_run_state ON tenant_launch_gates(run_id, state);
   `);
+
+  // Ensure owner_pid column exists on pre-existing tenant_launch_gates tables
+  const gateCols = (db.prepare("PRAGMA table_info(tenant_launch_gates)").all() as Array<{ name: string }>).map((c) => c.name);
+  if (!gateCols.includes("owner_pid")) {
+    db.exec("ALTER TABLE tenant_launch_gates ADD COLUMN owner_pid INTEGER;");
+  }
 }

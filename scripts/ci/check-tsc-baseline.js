@@ -32,6 +32,30 @@ export function normalizePath(p) {
 }
 
 /**
+ * Normalizes only clearly identifiable runs of string-literal union members
+ * in TypeScript diagnostic messages (e.g. `"b" | "a"` -> `"a" | "b"`)
+ * to prevent compiler AST discovery order permutations from causing false CI gate failures.
+ *
+ * Safety Invariants:
+ * 1. Only runs of 2+ double-quoted string literals separated by `|` are affected.
+ * 2. Deterministic, locale-independent comparison (< and >).
+ * 3. Multiplicity is strictly preserved (duplicates are not collapsed).
+ * 4. Casing and characters are strictly preserved.
+ * 5. Single literals, non-union prose, property names, and file paths are never altered.
+ */
+export function normalizeDiagnosticMessage(message) {
+  if (typeof message !== 'string') return message;
+  const UNION_REGEX = /"(?:[^"\\]|\\.)*"(?:\s*\|\s*"(?:[^"\\]|\\.)*")+/g;
+  return message.replace(UNION_REGEX, (unionRun) => {
+    const MEMBER_REGEX = /"(?:[^"\\]|\\.)*"/g;
+    const members = unionRun.match(MEMBER_REGEX);
+    if (!members || members.length <= 1) return unionRun;
+    members.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+    return members.join(' | ');
+  });
+}
+
+/**
  * Parses a single diagnostic line emitted by `tsc --pretty false`.
  * Returns null if the line cannot be safely parsed as a valid diagnostic.
  */
@@ -120,7 +144,8 @@ export function runBaselineCheck(options = {}) {
   // Build baseline signature map
   const baselineMap = new Map();
   for (const diag of baselineData.diagnostics) {
-    const sigKey = `${diag.file}::${diag.code}::${diag.message}`;
+    const normMsg = normalizeDiagnosticMessage(diag.message);
+    const sigKey = `${diag.file}::${diag.code}::${normMsg}`;
     baselineMap.set(sigKey, diag);
   }
   console.log(`[check-tsc-baseline] Approved Baseline Commit: ${baselineData.baseCommit}`);
@@ -207,7 +232,8 @@ export function runBaselineCheck(options = {}) {
     if (!line.trim()) continue;
     const parsed = parseDiagnosticLine(line, rootDir);
     if (parsed) {
-      const sigKey = `${parsed.file}::${parsed.code}::${parsed.message}`;
+      const normMsg = normalizeDiagnosticMessage(parsed.message);
+      const sigKey = `${parsed.file}::${parsed.code}::${normMsg}`;
       if (!currentMap.has(sigKey)) {
         currentMap.set(sigKey, parsed);
       }

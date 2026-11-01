@@ -4,6 +4,7 @@ import { ActionCommand, ActionSnapshot } from "../domain/action.js";
 import { AttemptCommand, AttemptSnapshot } from "../domain/attempt.js";
 import { MissionContractStorePort } from "./mission-contract-store.port.js";
 import { MutationIntentStorePort } from "./mutation-intent-store.port.js";
+import type { TenantLaunchGate } from "./tenant-launch-coordinator.port.js";
 
 export interface TaskRecord {
   readonly taskId: string;
@@ -186,6 +187,23 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
   insertCheckpoint(checkpoint: MissionCheckpoint): void;
   getLatestCheckpoint(runId: string): MissionCheckpoint | null;
   getCheckpoints(runId: string): readonly MissionCheckpoint[];
+
+  // Tenant Launch Gate Operations (ADR-0038)
+  acquireTenantLaunchGate(params: {
+    runId: string;
+    holderType: "WORKER" | "RECOVERY";
+    holderId: string;
+    leaseId: string;
+    nowIso: string;
+    ttlMs?: number;
+    ownerPid?: number;
+  }): TenantLaunchGate;
+  releaseTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void;
+  getTenantLaunchGate(runId: string): TenantLaunchGate | null;
 }
 
 /**
@@ -245,6 +263,23 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
   expireSupervisorLease(leaseId: string, nowIso?: string): void;
   getLatestCheckpoint(runId: string): MissionCheckpoint | null;
   getCheckpoints(runId: string): readonly MissionCheckpoint[];
+
+  // Tenant Launch Gate Operations (ADR-0038)
+  acquireTenantLaunchGate(params: {
+    runId: string;
+    holderType: "WORKER" | "RECOVERY";
+    holderId: string;
+    leaseId: string;
+    nowIso: string;
+    ttlMs?: number;
+    ownerPid?: number;
+  }): TenantLaunchGate;
+  releaseTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void;
+  getTenantLaunchGate(runId: string): TenantLaunchGate | null;
 
   /**
    * Binds a run to the canonical workspace root it owns. First bind wins; rebinding

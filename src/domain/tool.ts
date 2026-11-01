@@ -39,12 +39,12 @@ import { ToolErrorPayload } from "./errors.js";
 // ============================================================================
 
 export const TOOL_NAMES = [
-  "read_file",
+  "run_command",
   "write_file",
+  "read_file",
   "search_code",
   "git_status",
   "git_diff",
-  "run_command",
 ] as const;
 
 export type ToolName = (typeof TOOL_NAMES)[number];

@@ -55,12 +55,12 @@ describe("Phase 4 / Task 4.1: Typed Tool Domain Contracts, Schemas & Error Taxon
       expect(TOOL_NAMES).toHaveLength(6);
       expect(INITIAL_TOOL_DEFINITIONS).toHaveLength(6);
       expect(TOOL_NAMES).toEqual([
-        "read_file",
+        "run_command",
         "write_file",
+        "read_file",
         "search_code",
         "git_status",
         "git_diff",
-        "run_command",
       ]);
     });
 

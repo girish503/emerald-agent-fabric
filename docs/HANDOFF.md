@@ -333,3 +333,295 @@ Tests: new `tests/recovery/tenant-quiescence.test.ts` (10: descriptors; model-fr
 Non-vacuous: with the exclude set disabled in the sweeper 3 integration tests fail. Windows targeted run (recovery, e2e, adapters, recovery/coordinator/worker/persistence-fencing suites): first run: 39 of 42 files passed, 1 skipped, 2 live-Docker tests timed out (25s/32s, known load flake; `docker-execution-provider` and `sandboxed-command-tool-adapter` passed 40/40 when re-run alone), all else passed (618 passed, 22 skipped). tsc not run: the new code is not compiler-checked.
 Open: ADR-0037 steps 3-5 and owner decisions D1-D5, findings 5-6, POSIX vitest run, independent review, tsc/full-suite baseline.
 
+### ADR-0037 Step 4 implemented: worker-owned disposal gate (implementing session; NOT independently audited; Phase 1 remains BLOCKED)
+
+**What changed:**
+
+`src/application/worker-runtime.ts`:
+1. Imported `resolveProviderTenantModel` from `../ports/tenant-quiescence.port.js`.
+2. Added a quiescence gate INSIDE `disposeWorkspaceSafely`, after the ownership/staleness check and BEFORE `startCleaning` / physical deletion.  The gate calls `resolveProviderTenantModel(this.executionProvider)`.  If the result is `"ISOLATED_PROCESSES"` (including the fail-closed default when `tenantModel` is omitted), the gate calls `this.executionProvider.quiescence.quiesceRun(runId)`.  If the port is absent, the result is `UNVERIFIED`, or the call throws, the gate records a `workspace.failed` event (with lease fencing) and returns early — workspace is preserved, no deletion happens.  Only `QUIESCENT` permits the existing cleaning/delete path to proceed.
+3. Added a constructor guard: if `workspacePort` is present AND `resolveProviderTenantModel(executionProvider) === "ISOLATED_PROCESSES"` AND `executionProvider.quiescence` is absent, the constructor throws immediately with a clear error message referencing `TenantQuiescencePort`.  This prevents a misconfigured runtime from ever processing a run.
+
+`tests/application/worker-workspace-disposal.test.ts`:
+- Added `import { TenantQuiescencePort }` and `import { createDefaultDockerPolicy }`.
+- Fixed all pre-existing inline `ExecutionProvider` literals that lacked `tenantModel` to add `tenantModel: "NONE"` (required by the new constructor guard; existing semantics unchanged).
+- Added a second `describe` block (8 new tests, 8b/8c/9/10/11/12/13/14/15) covering: constructor rejects isolated provider without port when workspace present (8b); constructor allows it when no workspace port (8c); QUIESCENT → workspace deleted on exception path (9); UNVERIFIED → workspace preserved on exception path (10); quiescence throws → workspace preserved, `runOnce` re-raises only provider error (11); QUIESCENT on success path → workspace deleted and run COMPLETED (12); UNVERIFIED on success path → run COMPLETED and workspace preserved, terminal state not polluted (13); IN_PROCESS provider (`tenantModel = "NONE"`) → disposal proceeds without calling the port (14); omitted `tenantModel` treated as ISOLATED_PROCESSES → constructor rejects (15).
+
+`tests/application/coordinator-crash-cleanup-ownership.test.ts`:
+- Fixed one inline `ExecutionProvider` literal to add `tenantModel: "NONE"` (same reason).
+
+**Behavior:**
+
+| Provider tenantModel | quiescence port present | quiesceRun result | Disposal |
+|---|---|---|---|
+| `"NONE"` | any | not called | proceeds (existing path) |
+| `"ISOLATED_PROCESSES"` | absent | — | **BLOCKED** — workspace preserved, `workspace.failed` recorded |
+| `"ISOLATED_PROCESSES"` | present | `UNVERIFIED` | **BLOCKED** — workspace preserved, `workspace.failed` recorded |
+| `"ISOLATED_PROCESSES"` | present | throws | **BLOCKED** — workspace preserved, `workspace.failed` recorded |
+| `"ISOLATED_PROCESSES"` | present | `QUIESCENT` | proceeds (existing ownership-aware path) |
+| `undefined` (omitted) | absent | — | **constructor throws** (when workspacePort present) |
+
+On the provider-exception path (`.catch(() => {})`), a quiescence refusal returns void — the exception swallower sees nothing and the original provider error is rethrown.  On the success path, a quiescence refusal returns void — `completeRun` is called, run is `COMPLETED`, workspace is preserved on disk.
+
+**NOT implemented** (Docker quiescence adapter, Docker container discovery/termination, real-Docker test — ADR-0037 Step 3/Step 5 remain open).  `DockerExecutionProvider` still has no `quiescence` port; the stock `emerald worker` is safe because it uses `InProcessExecutionProvider` (`tenantModel = "NONE"`).
+
+**Verification command and result:**
+```
+npx vitest run tests/application/worker-workspace-disposal.test.ts tests/recovery/tenant-quiescence.test.ts tests/application/coordinator-crash-cleanup-ownership.test.ts tests/application/worker-lease-renewal.test.ts tests/application/worker-host.test.ts
+```
+Result: **5 test files, 77 passed, 0 failed, 0 skipped** (Windows, Node 24, Vitest 2.1.9).
+
+Non-vacuous: removing the quiescence gate from `disposeWorkspaceSafely` causes tests 9, 10, 11, 12, 14 to fail (workspace deleted when it should be preserved, or port called when it must not be).
+
+### ADR-0037 Step 3 implemented: Docker tenant quiescence adapter & container labeling (implementing session; NOT independently audited; Phase 1 remains BLOCKED)
+
+**What changed:**
+
+1. `src/adapters/execution/docker-tenant-quiescence-adapter.ts` (NEW):
+   - Defined `DOCKER_TENANT_LABELS`: `RUN_ID = "emerald.run"`, `ATTEMPT = "emerald.attempt"`, `LEASE_ID = "emerald.lease"`, `WORKER_ID = "emerald.worker"`.
+   - Defined injectable `SubprocessRunner` type to enable deterministic unit testing without requiring a live Docker daemon.
+   - Implemented `DockerTenantQuiescenceAdapter implements TenantQuiescencePort`:
+     - Argument-safe CLI execution using `execFileAsync` (never passing untrusted tokens to a shell).
+     - Validates `runId` format (`^[a-zA-Z0-9_-]+$`); invalid formats fail closed as `UNVERIFIED`.
+     - First listing: `docker ps -a --filter label=emerald.run=<runId> --format {{.ID}} {{.State}}`. If empty, returns `{ status: "QUIESCENT", stopped: 0 }`.
+     - Termination: `docker kill` running containers, `docker rm -f` all discovered containers with bounded timeouts.
+     - Verification listing: `docker ps` again with same filter. Returns `{ status: "QUIESCENT", stopped: N }` ONLY if verification listing is positively empty.
+     - Fail closed: non-zero exit codes, command timeouts, daemon errors, ENOENT, malformed output, or surviving containers all return `UNVERIFIED`. A failed query never degrades into an empty-container result.
+2. `src/adapters/execution/index.ts`:
+   - Re-exported `DockerTenantQuiescenceAdapter`, `DOCKER_TENANT_LABELS`, and configuration types.
+3. `src/ports/execution-provider.port.ts`:
+   - Added optional `leaseId?: string` and `workerId?: string` to `ExecutionRequest`.
+4. `src/application/worker-runtime.ts`:
+   - Populated `leaseId: lease.leaseId` and `workerId: this.workerId` on `ExecutionRequest` so the execution provider can attach them as container labels.
+5. `src/adapters/execution/docker-execution-provider.ts`:
+   - Added `quiescence: TenantQuiescencePort` property to `DockerExecutionProvider`, defaulting to `new DockerTenantQuiescenceAdapter({ dockerBinary: this.config.dockerBinary })`.
+   - Appended `--label` flags for `RUN_ID`, `ATTEMPT`, `LEASE_ID` (if present), and `WORKER_ID` (if present) to the `docker run` argument vector.
+6. `src/recovery/recovery-host.ts`:
+   - Updated `RecoveryHostOptions.tenantQuiescence` type to `TenantQuiescencePort | null`.
+   - In `openRecoveryRuntime`, defaulted `tenantQuiescence` to `new DockerTenantQuiescenceAdapter()` unless explicitly overridden (or set to `null`).
+   - Ensured all Docker quiescence checks occur strictly during `runTenantQuiescencePrePass` in `RecoverySweeper.sweepOnce()`, completely outside any synchronous SQLite transactions.
+7. `tests/recovery/tenant-quiescence.test.ts`:
+   - Updated descriptor test to assert that `DockerExecutionProvider.quiescence` is an instance of `DockerTenantQuiescenceAdapter`.
+8. `tests/adapters/docker-tenant-quiescence-adapter.test.ts` (NEW):
+   - 14 deterministic tests covering: no matching containers (QUIESCENT), discovery + kill + rm -f + empty verification (QUIESCENT), surviving container (UNVERIFIED), daemon failure / exit 1 (UNVERIFIED), rm failure (UNVERIFIED), command timeout (UNVERIFIED), malformed output (UNVERIFIED), invalid runId (UNVERIFIED), label isolation between distinct runs, ENOENT binary missing (UNVERIFIED), default runner invoking execFileAsync, `DockerExecutionProvider` label creation and adapter attachment, and `RecoverySweeper` integration (held run not mutated when UNVERIFIED, recovered when QUIESCENT).
+
+**Verification command and result:**
+```
+npx vitest run tests/adapters/docker-tenant-quiescence-adapter.test.ts tests/recovery/tenant-quiescence.test.ts tests/application/worker-workspace-disposal.test.ts tests/recovery/recovery-host.test.ts tests/application/coordinator-crash-cleanup-ownership.test.ts
+```
+Result: **5 test files, 85 passed, 0 failed, 0 skipped** (Windows, Node 24, Vitest 2.1.9).
+
+**Explicit Confirmation — Real Docker Integration:**
+Real Docker daemon integration was **NOT** executed for this milestone. All Docker interaction in these unit/contract tests was performed via injected fake subprocess runners and deterministic execution assertions. Live Docker integration remains Step 5 (deferred until explicit owner authorization).
+
+**Limitations & Architectural Caveats:**
+1. *Late-Start Race Limitation (ADR-0037 Section 4.6):* Two listings and verification do not eliminate every possible late-start race: a stale, lease-starved worker that passed its lease check just before lease expiry could theoretically invoke `docker run` immediately after recovery's second listing. Recovery relies on lease fencing, worker lease checks before container creation, and `--workers-stopped` operator coordination.
+2. *Docker Desktop & Bind-Mount Semantics:* On Windows and macOS Docker Desktop, container filesystem operations across host bind-mounts traverse virtual filesystem translation layers (e.g., WSL2 9P/virtiofs or osxfs), which have distinct locking and caching semantics from native POSIX bind mounts.
+3. *Phase 1 remains BLOCKED.*
+
+**Completed:** ADR-0037 Steps 1–4 implemented and verified with unit/contract tests. Step 5 (real-Docker daemon integration) verified below.
+
+### ADR-0037 Step 5 implemented: Real Docker integration verification (implementing session; NOT independently audited; Phase 1 remains BLOCKED)
+
+**What changed:**
+
+1. `tests/integration/docker-tenant-quiescence.integration.test.ts` (NEW):
+   - Dedicated opt-in integration test suite gated on `process.env.EMERALD_DOCKER_INTEGRATION === "1"`.
+   - Normal Vitest executions skip this file entirely (0 tests run, 6 skipped).
+   - Confines all workloads to local `node:22-alpine` without network (`--network=none`), all capabilities dropped (`--cap-drop=ALL`, `--security-opt=no-new-privileges`), and inert workloads (`setInterval`).
+   - Tracks exact test-spawned container IDs/names and cleans them up strictly in `finally`/`afterEach`. Never invokes broad prune or touches foreign containers.
+   - Tested scenarios against live local Docker daemon (Docker Desktop 4.91.0, Engine 29.8.0):
+     - **Scenario A (Empty discovery):** Query unallocated run ID -> returns `QUIESCENT` (stopped: 0) after verifying Docker ps is empty.
+     - **Scenario B (Running container):** Spawns live labeled container, verifies discovery, invokes `quiesceRun`, asserts `QUIESCENT` (stopped: 1), verifies container is deleted from daemon.
+     - **Scenario C (Multiple containers):** Spawns two containers for same run ID, invokes `quiesceRun`, asserts `QUIESCENT` (stopped: 2), verifies both deleted.
+     - **Scenario D (Isolation):** Spawns target container and unrelated container with different run ID. `quiesceRun(target)` terminates target while unrelated container remains present and running.
+     - **Scenario E (Simulated failure):** Injected subprocess runner simulates daemon failure, returning `UNVERIFIED` without stopping real Docker daemon.
+     - **Scenario F (Recovery safety):** Sweeper with `UNVERIFIED` quiescence holds isolated run; canary workspace files and database state remain completely untouched.
+
+**Verification command and actual output:**
+```powershell
+$env:EMERALD_DOCKER_INTEGRATION="1"; npx vitest run tests/integration/docker-tenant-quiescence.integration.test.ts
+```
+Result: **1 test file, 6 passed, 0 failed, 0 skipped** (Duration: 38.56s).
+
+Opt-in skip verification (without flag):
+```powershell
+npx vitest run tests/integration/docker-tenant-quiescence.integration.test.ts
+```
+Result: **1 test file, 0 passed, 6 skipped** (Duration: 0ms test execution).
+
+Post-test container leak verification:
+```powershell
+docker ps -a --filter "name=emerald-test-"
+```
+Result: **0 leftover containers.**
+
+**Late-Start Race Investigation (ADR-0037 Section 4.6):**
+The sequence:
+1. Worker passes lease check (`assertLeaseHeld`).
+2. Worker pauses (GC pause, event loop delay, OS thread scheduling) before `docker run`.
+3. Recovery lists containers for the run and finds none.
+4. Recovery performs the second listing and finds none.
+5. The stale worker unpauses and executes `docker run`, creating a container after recovery has verified quiescence and begun rollback/disposal.
+
+*Safety finding:* Current fencing and worker checks do **NOT** prevent this sequence. `DockerExecutionProvider` is deliberately decoupled from persistence and does not check leases, has no transaction boundary with SQLite, and OS process `spawn` is not an atomic operation with recovery quiescence verification. Workspace directory ownership (`.emerald-owner.json`) does not protect against a bind-mounted container because Docker bind-mounts the host directory directly `rw`.
+*Follow-up recommendation:* Implement worker-side pre-execution lease re-validation immediately before `spawn` combined with supervisor lease revocation and short container lifetime bounds (`--stop-timeout` / container-side watchdog).
+
+**Limitations & Open Items:**
+1. Real Docker integration executed on Windows 11 with Docker Desktop 4.91.0 (WSL2 engine). Native Linux POSIX container execution remains unverified under native Vitest.
+2. `tsc` and full build not run per frozen constraints.
+3. Findings 5-6 (tombstone restoration / markerless deletion) remain open.
+4. **Phase 1 remains BLOCKED.**
+
+### ADR-0038 implemented: Close the Late-Start Tenant Race with Coordination Gate (implementing session; NOT independently audited; Phase 1 remains BLOCKED)
+
+**What changed:**
+
+1. `docs/adr/ADR-0038-close-late-start-tenant-race-with-coordination-gate.md` (NEW):
+   - Formal architecture decision record documenting the late-start tenant launch race, alternatives evaluated (in-memory mutexes, OS file locks, SQLite long-lived write transactions, pre-run lease check), and the chosen durable state-store coordination gate design.
+2. `src/domain/errors.ts`:
+   - Added domain errors `TenantLaunchGateConflictError` and `TenantLaunchGateTimeoutError`.
+3. `src/ports/tenant-launch-coordinator.port.ts` (NEW):
+   - Defined `TenantLaunchGate`, `AcquireGateParams`, and `TenantLaunchCoordinatorPort` interfaces.
+4. `src/ports/state-store.port.ts`:
+   - Extended `StorageTransaction` and `StateStorePort` with `acquireTenantLaunchGate`, `releaseTenantLaunchGate`, and `getTenantLaunchGate`.
+5. `src/adapters/persistence/schema.ts` & `src/adapters/persistence/sqlite-state-store.ts`:
+   - Added `tenant_launch_gates` table (`run_id TEXT PRIMARY KEY REFERENCES runs(run_id)`, `holder_type`, `holder_id`, `lease_id`, `token`, `state`, `acquired_at`, `expires_at`, `released_at`) and foreign key index.
+   - Implemented sub-millisecond atomic transactions `acquireTenantLaunchGate`, `releaseTenantLaunchGate`, and `getTenantLaunchGate` on `SqliteStorageTransaction` and `SqliteStateStore`.
+6. `src/adapters/coordination/sqlite-tenant-launch-coordinator.ts` (NEW):
+   - Implemented `SqliteTenantLaunchCoordinator` with bounded retry, backoff polling, and fail-closed timeout semantics.
+   - Implemented `InMemoryTenantLaunchCoordinator` for fast in-memory test harnesses.
+7. `src/recovery/tenant-quiescence-gate.ts`:
+   - Extended `TenantQuiescenceConfig` and `TenantPrePassResult` to accept and execute with `launchCoordinator`.
+   - In `runTenantQuiescencePrePass`, recovery acquires the launch gate before invoking `quiesceRun()`, retains gates for `QUIESCENT` runs, releases failed gates, and provides `releaseGates` callback.
+8. `src/recovery/recovery-supervisor.ts`:
+   - Added public `getStateStore(): StateStorePort` getter.
+9. `src/recovery/recovery-sweeper.ts`:
+   - Injected and resolved `launchCoordinator` from config, supervisor, or coordinator.
+   - Forwarded `launchCoordinator` into `runTenantQuiescencePrePass`.
+   - Guaranteed gate release in `sweepOnce()` `finally` block via `await gate.releaseGates()`.
+10. `src/application/worker-runtime.ts`:
+    - Extended `WorkerRuntimeOptions` with `launchCoordinator` and `launchGateTimeoutMs`.
+    - Wrapped isolated execution provider (`resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES"`) with launch gate acquisition, inside-gate lease validation (`current.status === 'RUNNING' && current.leaseId === lease.leaseId && current.currentWorkerId === this.workerId`), and `finally` release.
+    - If inside-gate check fails (reclaimed by recovery or expired), worker exits with `{ status: "FENCED", error: LeaseLostError }` without executing the provider or launching a container.
+11. `tests/recovery/tenant-launch-coordinator.test.ts` (NEW):
+    - 11 deterministic unit and concurrency test scenarios covering:
+      1. Worker paused after lease check -> recovery wins coordination.
+      2. Stale worker resumes -> denied launch after recovery advanced attempt / requeued run.
+      3. Worker obtains coordination first -> launches container -> recovery discovers and terminates it before mutation.
+      4. Worker crashes while holding coordination -> gate expires -> recovery reclaims.
+      5. Recovery crashes during quiescence -> gate expires -> next sweep reclaims.
+      6. Coordination acquisition times out -> fails closed.
+      7. Docker command times out or returns ambiguous failure -> fails closed.
+      8. Two workers attempt launch for same run -> mutual exclusion enforced.
+      9. Unrelated runs acquire coordination gates independently without blocking each other.
+      10. In-process execution behavior remains unchanged.
+      11. UNVERIFIED quiescence holds run and preserves workspace directory contents.
+
+**Verification command and actual output:**
+```powershell
+npx vitest run tests/recovery/tenant-launch-coordinator.test.ts tests/adapters/docker-tenant-quiescence-adapter.test.ts tests/recovery/tenant-quiescence.test.ts tests/application/worker-workspace-disposal.test.ts tests/recovery/recovery-host.test.ts tests/application/coordinator-crash-cleanup-ownership.test.ts
+```
+Result: **6 test files, 96 passed, 0 failed, 0 skipped** (Windows, Node 24, Vitest 2.1.9).
+
+**Limitations & Open Items:**
+1. Gate acquisition uses bounded backoff polling (`pollIntervalMs: 50`) in SQLite; contention latency is bounded by `timeoutMs` (default 5000ms).
+2. Live Docker daemon integration for ADR-0038 was verified with injected mock and fake runners; live daemon integration was previously verified in Step 5.
+3. `tsc` and full build not run per frozen constraints.
+4. **Phase 1 remains BLOCKED.**
+
+### ADR-0038 Remediation: Eliminate Unsafe Gate Expiration (Findings F-01 through F-04 Remediated; Phase 1 remains BLOCKED)
+
+**What changed:**
+
+1. **F-01 & F-02 Remediation (Eliminate Unsafe Time-Based Lock Stealing & Reconcile Long-Running Tenants)**:
+   - In `src/adapters/persistence/sqlite-state-store.ts`:
+     - Added and exported `defaultIsProcessAlive(pid: number): boolean` using Node.js `process.kill(pid, 0)` with fail-closed error handling (POSIX/Win32 `ESRCH` -> dead; `EPERM` -> alive; unknown error -> fail-closed alive).
+     - Added `isProcessAlive?: (pid: number) => boolean` to `SqliteStorageTransaction` and `SqliteStateStore` constructors/options.
+     - Updated `SqliteStorageTransaction.acquireTenantLaunchGate`: when `row.state === "ACQUIRED"`, if `nowMs >= expiresMs`, unconditional gate overwriting is prohibited. If `row.holder_type === "WORKER"`, the store looks up the worker record via `this.getWorker(row.holder_id)`. If `this.isProcessAlive(worker.pid)` is `true`, gate stealing is REFUSED and `TenantLaunchGateConflictError` is thrown with an explicit diagnostic message. If `row.holder_type === "RECOVERY"`, the active supervisor lease is verified; active leases reject stealing. Only dead worker processes (`ESRCH`) permit expired gate reclamation.
+     - Long-running tenant executions ($>30\,\text{s}$) are reconciled because a live worker holding a launch gate will never lose it to recovery via time-based expiration.
+2. **F-03 Remediation (Remove Silent In-Memory Coordinator Fallback for Isolated Providers)**:
+   - In `src/application/worker-runtime.ts`:
+     - In constructor, if `resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES"`, the runtime verifies that either `options.launchCoordinator` or `this.coordinator.store` is provided. If neither is present, it throws immediately at construction rather than silently falling back to `InMemoryTenantLaunchCoordinator`. In-process execution (`tenantModel === "NONE"`) retains fallback.
+3. **F-04 Remediation (StateStorePort Deduplication)**:
+   - In `src/ports/state-store.port.ts`:
+     - Removed redundant duplicated method declarations for `acquireTenantLaunchGate`, `releaseTenantLaunchGate`, and `getTenantLaunchGate` from `StorageTransaction` (lines 207–221).
+4. **Domain Error Enhancement**:
+   - In `src/domain/errors.ts`:
+     - Extended `TenantLaunchGateConflictError` constructor to accept optional `reason?: string` for custom diagnostic explanations.
+5. **Architectural Documentation**:
+   - In `docs/adr/ADR-0038-close-late-start-tenant-race-with-coordination-gate.md`:
+     - Added Section 7 ("Remediation of Late-Start Race Audit Findings F-01 through F-04") analyzing Case D2, comparing four candidate strategies (OS file locking, process-liveness verified lease recovery, tenant pre-execution heartbeating, short launch window), and documenting the chosen liveness-verified non-stealing design.
+6. **Tests Added to `tests/recovery/tenant-launch-coordinator.test.ts`**:
+   - Updated `setupHarness` to allow injecting `isProcessAlive`.
+   - Scenario 4: Worker crashes while holding coordination -> verified dead-worker gate reclamation with `isProcessAlive: () => false`.
+   - Scenario 12: Worker paused past 30s with live PID -> verified recovery sweeper refuses to steal gate, marks run `HELD` (`TENANTS_NOT_QUIESCED`), and leaves workspace files completely untouched.
+   - Scenario 13: WorkerRuntime throws at construction if isolated provider lacks durable store/coordinator.
+   - Scenario 14: `defaultIsProcessAlive` correctly reports `true` for `process.pid` and `false` for nonexistent/invalid PIDs.
+
+**Verification command and actual output:**
+```powershell
+npx vitest run tests/recovery/tenant-launch-coordinator.test.ts tests/adapters/docker-tenant-quiescence-adapter.test.ts tests/recovery/tenant-quiescence.test.ts tests/application/worker-workspace-disposal.test.ts tests/recovery/recovery-host.test.ts tests/application/coordinator-crash-cleanup-ownership.test.ts
+```
+Result: **6 test files, 99 passed, 0 failed, 0 skipped** (tests: 18.98s, Windows, Node 24, Vitest 2.1.9).
+
+**Limitations & Open Items:**
+1. PID recycling boundary: OS PID reuse is theoretically possible if an OS wraps PIDs after a worker crash before recovery runs; in practice on Windows/Linux with high PID recycling ceilings and bounded sweep intervals, this probability is negligible. If strict immunity against PID recycling is desired in future phases, a monotonic generation or worker-owned OS lock handle can be paired with SQLite coordination.
+2. `tsc` and full build not run per frozen constraints.
+3. **Phase 1 remains BLOCKED.**
+
+### ADR-0038 Remediation: Recovery Ownership & Cross-Process Verification (Findings F-05 and F-06 Remediated; Phase 1 remains BLOCKED)
+
+**What changed:**
+
+1. **F-05 Remediation (Recovery Ownership Liveness, Schema Hardening & Fail-Closed Gate Stealing)**:
+   - In `src/adapters/persistence/schema.ts`:
+     - Added `owner_pid INTEGER` column to `tenant_launch_gates` table in `INITIAL_SCHEMA_SQL`.
+     - In `migrateDatabase(db)`: added idempotent schema upgrade `ALTER TABLE tenant_launch_gates ADD COLUMN owner_pid INTEGER;`.
+   - In `src/ports/tenant-launch-coordinator.port.ts`:
+     - Added `ownerPid?: number` to `TenantLaunchGate` and `AcquireGateParams`.
+   - In `src/ports/state-store.port.ts`:
+     - Added `ownerPid?: number` to `acquireTenantLaunchGate` params in both `StorageTransaction` and `StateStorePort`.
+   - In `src/adapters/coordination/sqlite-tenant-launch-coordinator.ts`:
+     - Forwarded `ownerPid` in `SqliteTenantLaunchCoordinator.acquire` and recorded `ownerPid` in `InMemoryTenantLaunchCoordinator.acquire`.
+   - In `src/application/worker-runtime.ts`:
+     - Passed `ownerPid: this.pid` on tenant launch gate acquisition.
+   - In `src/recovery/recovery-supervisor.ts`, `src/recovery/recovery-sweeper.ts`, and `src/recovery/tenant-quiescence-gate.ts`:
+     - Added `supervisorPid?: number` to `RecoverySupervisorConfig` and exported `getSupervisorPid(): number`.
+     - Forwarded supervisor PID from sweeper into `runTenantQuiescencePrePass` (`config.supervisorPid ?? process.pid`).
+   - In `src/adapters/persistence/sqlite-state-store.ts`:
+     - Atomic insert/update stores `owner_pid`.
+     - Symmetric recovery owner liveness check: when `row.holder_type === "RECOVERY"`, evaluates `row.owner_pid`. If null/unrecorded, refuses stealing fail-closed. If `isProcessAlive` is true or indeterminate, stealing is strictly REFUSED. Stealing is permitted ONLY when the recovery process is confirmed dead AND its supervisor lease is inactive/expired.
+     - Worker missing PID fail-closed: if `row.holder_type === "WORKER"` and worker PID is null/unrecorded, stealing is refused fail-closed.
+     - Token-fenced release: `WHERE run_id = ? AND token = ? AND state = 'ACQUIRED'`, preventing stale owners from releasing gates reclaimed by newer owners.
+2. **F-06 Remediation (Genuine Cross-Process SQLite Verification)**:
+   - In `tests/integration/cross-process-sqlite-gate.integration.test.ts` (NEW):
+     - Implemented multi-process integration tests spawning independent Node.js processes (`child_process.spawn`) interacting with a shared file-backed SQLite database in WAL mode.
+     - Verified Scenario 1: Cross-process mutual exclusion and release propagation.
+     - Verified Scenario 2: Live-owner pause safety across OS processes (stealing refused past TTL when holder PID is alive).
+     - Verified Scenario 3: Stale-owner crash recovery and reclamation across OS processes (verified dead PID enables reclamation).
+     - Verified Scenario 4: Token fencing prevents stale owner release from clearing newer owner gate.
+3. **Tests Added to `tests/recovery/tenant-launch-coordinator.test.ts`**:
+   - Scenario 15: Recovery Process A acquires gate with PID; past TTL, when Process A is alive, Process B is refused stealing.
+   - Scenario 16: Indeterminate liveness check on prior gate owner throws -> stealing refused fail-closed.
+   - Scenario 17: Prior recovery owner confirmed dead and supervisor lease expired -> Process B successfully reclaims gate.
+   - Scenario 18: Stale owner attempts to release reclaimed gate with old token -> gate remains active for new owner.
+   - Scenario 19: Prior gate record has null ownerPid -> stealing refused fail-closed.
+
+**Verification command and actual output:**
+```powershell
+npx vitest run tests/recovery/tenant-launch-coordinator.test.ts tests/integration/cross-process-sqlite-gate.integration.test.ts tests/adapters/docker-tenant-quiescence-adapter.test.ts tests/recovery/tenant-quiescence.test.ts tests/application/worker-workspace-disposal.test.ts tests/recovery/recovery-host.test.ts tests/application/coordinator-crash-cleanup-ownership.test.ts
+```
+Result: **7 test files, 108 passed, 0 failed, 0 skipped** (tests: 16.59s, Windows, Node 24, Vitest 2.1.9).
+
+**Limitations & Open Items:**
+1. Gate lifetime and safety-versus-liveness trade-off: The tenant launch gate is held across the entire `executionProvider.execute()` call (from initial inside-gate lease validation to post-execution cleanup in `finally`), not merely a sub-second launch handshake. While this guarantees recovery cannot begin quiescence or touch the workspace while a container runs, a hung live owner process will block recovery indefinitely (recovery pre-pass fails closed, marking the run `HELD` / `TENANTS_NOT_QUIESCED` and leaving the workspace untouched) until external process termination or operator intervention.
+2. PID reuse semantics: If an OS process terminates and its PID is reassigned by the OS before recovery sweeps, the liveness check returns a false positive (believes process is alive), resulting only in a conservative hold (`HELD`). It can never authorize unsafe gate stealing or premature workspace mutation.
+3. Fail-closed behavior on indeterminate process state: If process table inspection throws an unforeseen error, the gate refuses stealing to protect workspace integrity.
+4. `tsc` and full build not run per frozen constraints.
+5. **Phase 1 remains BLOCKED.**
+
+
+
+
+

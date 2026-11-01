@@ -44,6 +44,7 @@ describe("Coordinator crash cleanup honours workspace ownership", { timeout: 300
     const startedP = new Promise<void>((r) => (started = r));
     const provider: ExecutionProvider = {
       name: "in-process",
+      tenantModel: "NONE", // explicitly no separate tenant processes — no quiescence port needed (ADR-0037)
       async execute() {
         started();
         await gate; // the "crash": the worker is stuck and never renews

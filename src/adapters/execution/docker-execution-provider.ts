@@ -9,6 +9,12 @@ import {
   ExecutionRequest,
   ExecutionResult,
 } from "../../ports/execution-provider.port.js";
+import type { TenantQuiescencePort } from "../../ports/tenant-quiescence.port.js";
+import {
+  DockerTenantQuiescenceAdapter,
+  DOCKER_TENANT_LABELS,
+  type SubprocessRunner,
+} from "./docker-tenant-quiescence-adapter.js";
 
 export interface RunCommandExecutionPayload {
   readonly argv: readonly string[];
@@ -28,6 +34,55 @@ export interface DockerExecutionConfig {
   readonly networkDisabled?: boolean; // Default: true (--network=none)
   readonly readOnlyRootfs?: boolean; // Default: true (--read-only)
   readonly dockerBinary?: string; // Default: "docker"
+  readonly quiescence?: TenantQuiescencePort;
+  /** Graceful `docker stop -t` window in seconds before escalating to `docker kill`. Default: 2 */
+  readonly stopGraceSeconds?: number;
+  /** Upper bound for each termination subprocess and for the local CLI to exit. Default: 10_000 */
+  readonly terminationTimeoutMs?: number;
+  /** Test seam: spawns the long-running `docker run` CLI. Default: node:child_process spawn. */
+  readonly spawnProcess?: DockerSpawn;
+  /** Test seam: runs short bounded docker commands (stop/kill/rm). Default: node:child_process execFile. */
+  readonly commandRunner?: SubprocessRunner;
+}
+
+/** Minimal child-process surface the provider relies on (satisfied by node:child_process ChildProcess). */
+export interface DockerChildProcess {
+  readonly stdin: { write(chunk: string): unknown; end(): unknown; on(event: "error", l: (e: Error) => void): unknown };
+  readonly stdout: { on(event: "data", l: (chunk: Buffer) => void): unknown };
+  readonly stderr: { on(event: "data", l: (chunk: Buffer) => void): unknown };
+  on(event: "error", l: (e: Error) => void): unknown;
+  on(event: "close", l: (code: number | null, signal: string | null) => void): unknown;
+  kill(signal?: NodeJS.Signals): unknown;
+}
+
+export type DockerSpawn = (file: string, args: readonly string[]) => DockerChildProcess;
+
+const defaultSpawn: DockerSpawn = (file, args) =>
+  spawn(file, args as string[], { stdio: ["pipe", "pipe", "pipe"] }) as unknown as DockerChildProcess;
+
+/** Bounded command runner: non-zero exits resolve; spawn failures and timeouts reject. */
+function createDefaultCommandRunner(): SubprocessRunner {
+  return async (file, args, options) => {
+    const timeout = options?.timeoutMs ?? 10_000;
+    try {
+      const { stdout, stderr } = await execFileAsync(file, args as string[], { timeout, maxBuffer: 10 * 1024 * 1024 });
+      return { exitCode: 0, stdout: stdout ?? "", stderr: stderr ?? "" };
+    } catch (err: unknown) {
+      const e = err as { code?: number | string; killed?: boolean; signal?: string; stdout?: string; stderr?: string } | null;
+      if (e && (e.killed || e.signal === "SIGTERM")) throw new Error(`Subprocess timed out after ${timeout}ms`);
+      if (e && typeof e.code === "number") {
+        return { exitCode: e.code, stdout: String(e.stdout ?? ""), stderr: String(e.stderr ?? "") };
+      }
+      throw err;
+    }
+  };
+}
+
+/** Outcome of the single-flight stop/escalate/verify sequence. */
+interface TerminationOutcome {
+  readonly verified: boolean;
+  readonly reason: string;
+  readonly stages: readonly string[];
 }
 
 /**
@@ -137,11 +192,21 @@ const SUPPORTED_OPERATIONS = new Set([
 export class DockerExecutionProvider implements ExecutionProvider {
   readonly name = "docker";
   /**
-   * Containers outlive a dead worker. Descriptor only: no TenantQuiescencePort is implemented yet (ADR-0037 rollout step 3), so
-   * recovery holds isolated runs instead of disposing their workspaces.
+   * Containers outlive a dead worker (ADR-0037). Quiescence verification is provided by DockerTenantQuiescenceAdapter.
    */
   readonly tenantModel = "ISOLATED_PROCESSES" as const;
-  readonly config: Required<DockerExecutionConfig>;
+  readonly quiescence: TenantQuiescencePort;
+  /**
+   * Cancellation/timeout are honoured through a bounded stop -> kill -> verify lifecycle and are reported as
+   * CANCELLED/TIMED_OUT only after the quiescence port returns QUIESCENT; otherwise FAILED/TERMINATION_UNVERIFIED.
+   * Kept at COOPERATIVE (not PHYSICAL) until that guarantee is proven by an authorized live Docker rehearsal.
+   */
+  readonly cancellationModel = "COOPERATIVE" as const;
+  private readonly spawnProcess: DockerSpawn;
+  private readonly commandRunner: SubprocessRunner;
+  readonly config: Required<
+    Omit<DockerExecutionConfig, "quiescence" | "spawnProcess" | "commandRunner">
+  >;
 
   constructor(config: DockerExecutionConfig = {}) {
     if (config.networkDisabled === false) {
@@ -160,7 +225,17 @@ export class DockerExecutionProvider implements ExecutionProvider {
       networkDisabled: true,
       readOnlyRootfs: config.readOnlyRootfs ?? true,
       dockerBinary: config.dockerBinary ?? "docker",
+      stopGraceSeconds: config.stopGraceSeconds ?? 2,
+      terminationTimeoutMs: config.terminationTimeoutMs ?? 10_000,
     };
+    this.spawnProcess = config.spawnProcess ?? defaultSpawn;
+    this.commandRunner = config.commandRunner ?? createDefaultCommandRunner();
+
+    this.quiescence =
+      config.quiescence ??
+      new DockerTenantQuiescenceAdapter({
+        dockerBinary: this.config.dockerBinary,
+      });
   }
 
   /**
@@ -315,6 +390,10 @@ export class DockerExecutionProvider implements ExecutionProvider {
       `--pids-limit=${this.config.pidsLimit}`,
       "--cap-drop=ALL",
       "--security-opt=no-new-privileges",
+      "--label", `${DOCKER_TENANT_LABELS.RUN_ID}=${request.runId}`,
+      "--label", `${DOCKER_TENANT_LABELS.ATTEMPT}=${request.attemptNumber}`,
+      ...(request.leaseId ? ["--label", `${DOCKER_TENANT_LABELS.LEASE_ID}=${request.leaseId}`] : []),
+      ...(request.workerId ? ["--label", `${DOCKER_TENANT_LABELS.WORKER_ID}=${request.workerId}`] : []),
       ...(request.workspace
         ? [
             "-v",
@@ -340,110 +419,258 @@ export class DockerExecutionProvider implements ExecutionProvider {
           ]),
     ];
 
-    let timedOut = false;
-    let outputLimitExceeded = false;
+    const elapsed = (): number => Math.round(performance.now() - startTime);
+    const baseMeta = { provider: this.name, operation: request.operationName, containerName };
+
+    // Pre-spawn cancellation: an already-aborted signal must never create a container.
+    if (request.signal?.aborted) {
+      return {
+        status: "CANCELLED",
+        error: { code: "EXECUTION_CANCELLED", message: "Operation was cancelled before container start" },
+        durationMs: elapsed(),
+        providerMetadata: { ...baseMeta, preAborted: true, containerCreated: false },
+      };
+    }
+
+    // The first event wins; every later event (late output, second timer, duplicate abort) is ignored so
+    // exactly one outcome is delivered and exactly one termination sequence can start.
+    type Decision =
+      | { kind: "EXIT"; exitCode: number | null; signal: string | null }
+      | { kind: "TIMEOUT" }
+      | { kind: "CANCEL" }
+      | { kind: "OUTPUT_LIMIT" }
+      | { kind: "SPAWN_ERROR"; error: Error };
+    let decision: Decision | undefined;
+    let resolveDecision!: (d: Decision) => void;
+    const decisionPromise = new Promise<Decision>((resolve) => {
+      resolveDecision = resolve;
+    });
+    const decide = (d: Decision): void => {
+      if (decision) return;
+      decision = d;
+      resolveDecision(d);
+    };
+
     let stdoutBuffer = "";
     let stderrBuffer = "";
     let totalBytesReceived = 0;
     let timeoutTimer: NodeJS.Timeout | undefined;
+    let abortListener: (() => void) | undefined;
+    let child: DockerChildProcess | undefined;
+    let childClosed: Promise<void> = Promise.resolve();
+    let terminationPromise: Promise<TerminationOutcome> | undefined;
 
-    try {
-      const child = spawn(this.config.dockerBinary, args, {
-        stdio: ["pipe", "pipe", "pipe"],
-      });
-
-      const executionPromise = new Promise<{ exitCode: number | null; signal: string | null }>(
-        (resolve, reject) => {
-          child.on("error", (err) => {
-            reject(err);
-          });
-
-          child.stdout.on("data", (chunk: Buffer) => {
-            totalBytesReceived += chunk.length;
-            if (totalBytesReceived > effectiveMaxOutputBytes) {
-              outputLimitExceeded = true;
-              this.killContainer(containerName).catch(() => {});
-              child.kill("SIGKILL");
-              return;
-            }
-            stdoutBuffer += chunk.toString("utf8");
-          });
-
-          child.stderr.on("data", (chunk: Buffer) => {
-            totalBytesReceived += chunk.length;
-            if (totalBytesReceived > effectiveMaxOutputBytes) {
-              outputLimitExceeded = true;
-              this.killContainer(containerName).catch(() => {});
-              child.kill("SIGKILL");
-              return;
-            }
-            stderrBuffer += chunk.toString("utf8");
-          });
-
-          child.on("close", (exitCode, signal) => {
-            resolve({ exitCode, signal });
-          });
-        }
-      );
-
-      // Write payload to container stdin and close stream
-      if (isRunCommand) {
-        child.stdin.end();
-      } else {
-        child.stdin.write(inputJson);
-        child.stdin.end();
-      }
-
-      // Configure timeout and physical termination
-      let timeoutPromise: Promise<never> | undefined;
-      if (request.timeoutMs > 0 && Number.isFinite(request.timeoutMs)) {
-        timeoutPromise = new Promise<never>((_, reject) => {
-          timeoutTimer = setTimeout(() => {
-            timedOut = true;
-            // Attempt physical termination of the container process
-            this.killContainer(containerName).catch(() => {});
-            child.kill("SIGKILL");
-            reject(new Error(`Operation exceeded timeout limit of ${request.timeoutMs}ms`));
-          }, request.timeoutMs);
-        });
-      }
-
-      const { exitCode, signal } = timeoutPromise
-        ? await Promise.race([executionPromise, timeoutPromise])
-        : await executionPromise;
-
+    const detach = (): void => {
       if (timeoutTimer) {
         clearTimeout(timeoutTimer);
+        timeoutTimer = undefined;
+      }
+      if (abortListener) {
+        request.signal?.removeEventListener("abort", abortListener);
+        abortListener = undefined;
+      }
+    };
+    // Single-flight: concurrent/repeated callers share one stop -> kill -> verify sequence.
+    const terminate = (): Promise<TerminationOutcome> => {
+      terminationPromise ??= this.terminateContainer(containerName, request.runId, child, childClosed);
+      return terminationPromise;
+    };
+    const unverified = (cause: string, term: TerminationOutcome): ExecutionResult<TOutput> => ({
+      status: "FAILED",
+      error: {
+        code: "TERMINATION_UNVERIFIED",
+        message: `Container termination after ${cause} could not be verified: ${term.reason}`,
+        details: { cause, stages: term.stages },
+      },
+      durationMs: elapsed(),
+      providerMetadata: {
+        ...baseMeta,
+        terminationVerified: false,
+        terminationCause: cause,
+        physicalTerminationAttempted: true,
+      },
+    });
+    const accumulate = (target: "out" | "err") => (chunk: Buffer): void => {
+      if (decision) return; // late output after a decision never accumulates
+      totalBytesReceived += chunk.length;
+      if (totalBytesReceived > effectiveMaxOutputBytes) {
+        decide({ kind: "OUTPUT_LIMIT" });
+        return;
+      }
+      if (target === "out") stdoutBuffer += chunk.toString("utf8");
+      else stderrBuffer += chunk.toString("utf8");
+    };
+
+    try {
+      child = this.spawnProcess(this.config.dockerBinary, args);
+      const proc = child;
+      childClosed = new Promise<void>((resolve) => {
+        proc.on("close", () => resolve());
+        proc.on("error", () => resolve());
+      });
+      proc.on("error", (err) => decide({ kind: "SPAWN_ERROR", error: err }));
+      proc.on("close", (exitCode, signal) => decide({ kind: "EXIT", exitCode, signal }));
+      proc.stdout.on("data", accumulate("out"));
+      proc.stderr.on("data", accumulate("err"));
+      proc.stdin.on("error", () => {}); // EPIPE if the CLI dies early; the close/error event decides the outcome
+
+      if (request.timeoutMs > 0 && Number.isFinite(request.timeoutMs)) {
+        timeoutTimer = setTimeout(() => decide({ kind: "TIMEOUT" }), request.timeoutMs);
+      }
+      if (request.signal) {
+        abortListener = () => decide({ kind: "CANCEL" });
+        request.signal.addEventListener("abort", abortListener, { once: true });
+        if (request.signal.aborted) decide({ kind: "CANCEL" }); // aborted between the pre-check and registration
       }
 
-      const durationMs = Math.round(performance.now() - startTime);
+      try {
+        if (!isRunCommand) proc.stdin.write(inputJson);
+        proc.stdin.end();
+      } catch {
+        // stdin failure surfaces through the close/error event
+      }
 
-      if (outputLimitExceeded) {
+      const d = await decisionPromise;
+      detach();
+
+      if (d.kind === "TIMEOUT") {
+        const term = await terminate();
+        if (!term.verified) return unverified("timeout", term);
+        return {
+          status: "TIMED_OUT",
+          error: {
+            code: "EXECUTION_TIMEOUT",
+            message: `Operation '${request.operationName}' exceeded timeout of ${request.timeoutMs}ms; container termination verified`,
+          },
+          durationMs: elapsed(),
+          providerMetadata: {
+            ...baseMeta,
+            timeoutMs: request.timeoutMs,
+            physicalTerminationAttempted: true,
+            terminationVerified: true,
+            terminationStages: term.stages,
+          },
+        };
+      }
+      if (d.kind === "CANCEL") {
+        const term = await terminate();
+        if (!term.verified) return unverified("cancellation", term);
+        return {
+          status: "CANCELLED",
+          error: {
+            code: "EXECUTION_CANCELLED",
+            message: "Operation cancelled; container termination verified",
+          },
+          durationMs: elapsed(),
+          providerMetadata: {
+            ...baseMeta,
+            physicalTerminationAttempted: true,
+            terminationVerified: true,
+            terminationStages: term.stages,
+          },
+        };
+      }
+      if (d.kind === "OUTPUT_LIMIT") {
+        const term = await terminate();
+        if (!term.verified) return unverified("output-limit", term);
         return {
           status: "FAILED",
           error: {
             code: "EXECUTION_FAILED",
             message: `Output limit of ${effectiveMaxOutputBytes} bytes exceeded by container`,
           },
-          durationMs,
+          durationMs: elapsed(),
+          providerMetadata: { ...baseMeta, outputLimitExceeded: true, terminationVerified: true },
+        };
+      }
+      if (d.kind === "SPAWN_ERROR") {
+        const code = (d.error as NodeJS.ErrnoException).code;
+        if (code !== "ENOENT" && code !== "EACCES") {
+          // The CLI started: a container may exist even though the CLI errored.
+          const term = await terminate();
+          if (!term.verified) return unverified("docker-cli-error", term);
+        }
+        throw d.error;
+      }
+
+      // d.kind === "EXIT": the local CLI is gone. That alone is not proof the container is.
+      const { exitCode, signal } = d;
+
+      // Platforms differ: Unix reports a killed CLI as a signal, Windows as a plain non-zero exit code that looks like
+      // a failing command. A non-zero exit therefore needs container-state evidence BEFORE the container is removed.
+      // Exit 0 cannot come from a killed CLI, 125 is Docker's own launch error, and a daemon-error stderr means no
+      // container state can be read; those keep their existing handling.
+      const daemonErrorText =
+        stderrBuffer.includes("Cannot connect to the Docker daemon") ||
+        stderrBuffer.includes("daemon is not running") ||
+        stderrBuffer.includes("dockerDesktopLinuxEngine") ||
+        stderrBuffer.includes("error during connect") ||
+        stderrBuffer.includes("Is the docker daemon running");
+      let ambiguousExit: string | undefined;
+      if (signal === null && exitCode !== 0 && exitCode !== 125 && !daemonErrorText) {
+        const ev = await this.inspectContainerExit(containerName);
+        if (ev.kind === "exited" && ev.exitCode === exitCode) {
+          // Container finished and its exit status equals the CLI's: a genuine command exit (kept as-is).
+        } else if (ev.kind === "exited") {
+          ambiguousExit = `container exit code ${ev.exitCode} differs from the CLI exit code ${String(exitCode)}`;
+        } else if (ev.kind === "alive") {
+          ambiguousExit = `local CLI exited with ${String(exitCode)} while the container is still '${ev.status}'`;
+        } else {
+          ambiguousExit = `container state unavailable after CLI exit ${String(exitCode)}: ${ev.reason}`;
+        }
+      }
+
+      const cleanupOk = await this.cleanupContainer(containerName);
+      if (ambiguousExit !== undefined) {
+        // We cannot tell an ordinary command failure from an externally killed CLI: use the safest supported result.
+        const term = await terminate();
+        if (!term.verified) return unverified("docker-cli-exit-ambiguous", term);
+        return {
+          status: "FAILED",
+          error: {
+            code: "EXECUTION_FAILED",
+            message: `Docker CLI exit could not be confirmed as the command's own exit (${ambiguousExit}); container termination verified`,
+            details: { exitCode, ambiguity: ambiguousExit },
+          },
+          durationMs: elapsed(),
           providerMetadata: {
-            provider: this.name,
-            operation: request.operationName,
-            containerName,
-            outputLimitExceeded: true,
+            ...baseMeta,
+            cliExitCode: exitCode,
+            exitClassification: "AMBIGUOUS",
+            ambiguity: ambiguousExit,
+            terminationVerified: true,
+            terminationStages: term.stages,
           },
         };
       }
+      if (signal !== null) {
+        // CLI killed by a signal: the daemon-managed container may still be running.
+        const term = await terminate();
+        if (!term.verified) return unverified("docker-cli-signal", term);
+        // The local CLI was killed, so the command's own outcome is unknown: never report it as a completed
+        // command (a null exit code must not become `exitCode: 128` + SUCCESS). Termination itself is verified.
+        return {
+          status: "FAILED",
+          error: {
+            code: "EXECUTION_FAILED",
+            message: `Local docker CLI was terminated by ${signal}; the command outcome is unknown (container termination verified)`,
+            details: { signal },
+          },
+          durationMs: elapsed(),
+          providerMetadata: { ...baseMeta, cliSignal: signal, terminationVerified: true, terminationStages: term.stages },
+        };
+      } else if (!cleanupOk) {
+        // Container should have exited with the CLI, but cleanup failed: require a quiescence verdict.
+        const q = await this.verifyQuiescent(request.runId);
+        if (!q.verified) {
+          return unverified("cleanup-failure", { verified: false, reason: q.reason, stages: ["rm:failed"] });
+        }
+      }
+
+      const durationMs = elapsed();
 
       if (isRunCommand) {
-        const isDockerDaemonError =
-          stderrBuffer.includes("Cannot connect to the Docker daemon") ||
-          stderrBuffer.includes("daemon is not running") ||
-          stderrBuffer.includes("dockerDesktopLinuxEngine") ||
-          stderrBuffer.includes("error during connect") ||
-          stderrBuffer.includes("Is the docker daemon running");
-
-        if (isDockerDaemonError) {
+        if (daemonErrorText) {
           return {
             status: "FAILED",
             error: {
@@ -577,31 +804,15 @@ export class DockerExecutionProvider implements ExecutionProvider {
         },
       };
     } catch (err: unknown) {
-      if (timeoutTimer) {
-        clearTimeout(timeoutTimer);
-      }
-
-      const durationMs = Math.round(performance.now() - startTime);
-
-      if (timedOut) {
-        return {
-          status: "TIMED_OUT",
-          error: {
-            code: "EXECUTION_TIMEOUT",
-            message: `Operation '${request.operationName}' exceeded logical timeout of ${request.timeoutMs}ms; physical container termination attempted`,
-          },
-          durationMs,
-          providerMetadata: {
-            provider: this.name,
-            operation: request.operationName,
-            containerName,
-            timeoutMs: request.timeoutMs,
-            physicalTerminationAttempted: true,
-          },
-        };
-      }
-
+      detach();
+      const durationMs = elapsed();
       const msg = err instanceof Error ? err.message : String(err);
+      const code = (err as NodeJS.ErrnoException | undefined)?.code;
+      const neverStarted = child === undefined || code === "ENOENT" || code === "EACCES";
+      if (!neverStarted) {
+        const term = await terminate();
+        if (!term.verified) return unverified("unexpected-error", term);
+      }
       const isUnavailable =
         msg.includes("ENOENT") ||
         msg.includes("docker API") ||
@@ -620,15 +831,12 @@ export class DockerExecutionProvider implements ExecutionProvider {
         },
         durationMs,
         providerMetadata: {
-          provider: this.name,
-          operation: request.operationName,
-          containerName,
+          ...baseMeta,
           errorType: isUnavailable ? "DOCKER_UNAVAILABLE" : "EXECUTION_ERROR",
         },
       };
     } finally {
-      // Unconditional container cleanup: ensure no ephemeral containers are left running or stopped
-      await this.cleanupContainer(containerName);
+      detach();
     }
   }
 
@@ -674,24 +882,118 @@ export class DockerExecutionProvider implements ExecutionProvider {
   }
 
   /**
-   * Attempts physical termination of a running container.
+   * Single stop -> kill -> verify sequence for one container. Every step is bounded and failure-tolerant:
+   * a failed stop/kill never short-circuits, because only the quiescence verdict decides the outcome.
+   * The local CLI is SIGKILLed first so it cannot create the container after verification; killing it does
+   * NOT stop a daemon-managed container, which is why stop/kill are issued separately.
    */
-  private async killContainer(containerName: string): Promise<void> {
+  private async terminateContainer(
+    containerName: string,
+    runId: string,
+    child: DockerChildProcess | undefined,
+    childClosed: Promise<void>
+  ): Promise<TerminationOutcome> {
+    const stages: string[] = [];
+    const bound = this.config.terminationTimeoutMs;
+    const bin = this.config.dockerBinary;
+    const run = async (label: string, cmdArgs: string[]): Promise<boolean> => {
+      try {
+        const r = await this.commandRunner(bin, cmdArgs, { timeoutMs: bound });
+        stages.push(`${label}:exit=${r.exitCode}`);
+        return r.exitCode === 0;
+      } catch (err: unknown) {
+        stages.push(`${label}:error=${err instanceof Error ? err.message : String(err)}`);
+        return false;
+      }
+    };
+
     try {
-      await execFileAsync(this.config.dockerBinary, ["kill", containerName]);
-    } catch {
-      // Container may have already exited
+      child?.kill("SIGKILL");
+      stages.push("cli-sigkill");
+    } catch (err: unknown) {
+      stages.push(`cli-sigkill:error=${err instanceof Error ? err.message : String(err)}`);
+    }
+
+    // Stage A: graceful stop; Stage B: forced kill only if A did not succeed.
+    const stopped = await run("stop", ["stop", "-t", String(this.config.stopGraceSeconds), containerName]);
+    if (!stopped) await run("kill", ["kill", containerName]);
+
+    const cliExited = await waitBounded(childClosed, bound);
+    stages.push(cliExited ? "cli-closed" : "cli-close-timeout");
+
+    // Stage C: physical quiescence is established by the quiescence port alone.
+    const q = await this.verifyQuiescent(runId);
+    stages.push(q.verified ? "quiescent" : "unverified");
+    if (!cliExited) {
+      return { verified: false, reason: "local docker CLI did not exit within the termination bound", stages };
+    }
+    return { verified: q.verified, reason: q.reason, stages };
+  }
+
+  /**
+   * Reads the container's own state (before it is removed) so a CLI exit code can be matched to a real container exit.
+   * Never throws: any failure or unparsable output is reported as "unknown" and treated as ambiguous by the caller.
+   */
+  private async inspectContainerExit(
+    containerName: string
+  ): Promise<
+    | { kind: "exited"; exitCode: number }
+    | { kind: "alive"; status: string }
+    | { kind: "unknown"; reason: string }
+  > {
+    try {
+      const r = await this.commandRunner(
+        this.config.dockerBinary,
+        ["inspect", "--format", "{{.State.Status}} {{.State.ExitCode}}", containerName],
+        { timeoutMs: this.config.terminationTimeoutMs }
+      );
+      if (r.exitCode !== 0) {
+        return { kind: "unknown", reason: `docker inspect exited ${r.exitCode}: ${r.stderr.trim() || r.stdout.trim() || "no output"}` };
+      }
+      const m = /^(\w+) (-?\d+)$/.exec(r.stdout.trim());
+      if (!m) return { kind: "unknown", reason: `malformed docker inspect output: '${r.stdout.trim().slice(0, 80)}'` };
+      const status = m[1]!;
+      if (status === "exited" || status === "dead") return { kind: "exited", exitCode: Number(m[2]) };
+      return { kind: "alive", status };
+    } catch (err: unknown) {
+      return { kind: "unknown", reason: err instanceof Error ? err.message : String(err) };
+    }
+  }
+
+  private async verifyQuiescent(runId: string): Promise<{ verified: boolean; reason: string }> {
+    try {
+      const r = await this.quiescence.quiesceRun(runId);
+      return r.status === "QUIESCENT"
+        ? { verified: true, reason: "quiescent" }
+        : { verified: false, reason: r.reason };
+    } catch (err: unknown) {
+      return { verified: false, reason: `quiescence check threw: ${err instanceof Error ? err.message : String(err)}` };
     }
   }
 
   /**
-   * Unconditionally removes the ephemeral container.
+   * Removes the ephemeral container after the CLI exited. Returns false on failure; the caller then
+   * requires a quiescence verdict instead of assuming the container is gone.
    */
-  private async cleanupContainer(containerName: string): Promise<void> {
+  private async cleanupContainer(containerName: string): Promise<boolean> {
     try {
-      await execFileAsync(this.config.dockerBinary, ["rm", "-f", containerName]);
+      const r = await this.commandRunner(this.config.dockerBinary, ["rm", "-f", containerName], {
+        timeoutMs: this.config.terminationTimeoutMs,
+      });
+      return r.exitCode === 0;
     } catch {
-      // Ignore cleanup error if already removed
+      return false;
     }
   }
+}
+
+/** Resolves true when p settles within ms, false on bound expiry. The timer is always cleared. */
+function waitBounded(p: Promise<void>, ms: number): Promise<boolean> {
+  return new Promise<boolean>((resolve) => {
+    const t = setTimeout(() => resolve(false), ms);
+    void p.then(() => {
+      clearTimeout(t);
+      resolve(true);
+    });
+  });
 }

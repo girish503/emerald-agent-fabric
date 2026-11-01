@@ -15,7 +15,9 @@
 
 import type { RecoverExpiredResult } from "../application/run-coordinator.js";
 import type { RecoverySupervisor, ScanAndRecoverResult } from "./recovery-supervisor.js";
-import { runTenantQuiescencePrePass, type TenantQuiescenceConfig } from "./tenant-quiescence-gate.js";
+import { runTenantQuiescencePrePass, type TenantPrePassResult, type TenantQuiescenceConfig } from "./tenant-quiescence-gate.js";
+import type { TenantLaunchCoordinatorPort } from "../ports/tenant-launch-coordinator.port.js";
+import { SqliteTenantLaunchCoordinator } from "../adapters/coordination/sqlite-tenant-launch-coordinator.js";
 
 /** The retry half of recovery (satisfied by RunCoordinator). */
 export interface RetryCoordinator {
@@ -42,6 +44,8 @@ export interface RecoverySweeperConfig {
    * tenant processes, otherwise it is held (fail closed). When omitted the sweep behaves as before; production hosts set it.
    */
   readonly tenantQuiescence?: TenantQuiescenceConfig;
+  /** ADR-0038 launch coordination gate. */
+  readonly launchCoordinator?: TenantLaunchCoordinatorPort;
   /** Called after every completed sweep started by start(). */
   readonly onSweep?: (result: RecoverySweepResult) => void;
   /** Called when a sweep throws (the loop keeps running). */
@@ -52,6 +56,7 @@ export class RecoverySweeper {
   private readonly supervisor: RecoverySupervisor;
   private readonly coordinator: RetryCoordinator;
   private readonly tenantQuiescence?: TenantQuiescenceConfig;
+  private readonly launchCoordinator?: TenantLaunchCoordinatorPort;
   private readonly onSweep?: (result: RecoverySweepResult) => void;
   private readonly onError?: (error: unknown) => void;
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -63,6 +68,15 @@ export class RecoverySweeper {
     this.supervisor = config.supervisor;
     this.coordinator = config.coordinator;
     this.tenantQuiescence = config.tenantQuiescence;
+    const store =
+      (this.supervisor as any).getStateStore?.() ??
+      (this.coordinator as any).store ??
+      (this.coordinator as any).getStateStore?.();
+    this.launchCoordinator =
+      config.launchCoordinator ??
+      (store
+        ? new SqliteTenantLaunchCoordinator(store, this.supervisor.getClock())
+        : undefined);
     this.onSweep = config.onSweep;
     this.onError = config.onError;
   }
@@ -73,12 +87,18 @@ export class RecoverySweeper {
       throw new Error("RecoverySweeper: a sweep is already in progress");
     }
     this.running = true;
+    let gate: TenantPrePassResult | null = null;
     try {
       const startedAtIso = this.supervisor.getClock().nowIso();
       // Tenant pre-pass: nothing may roll back, requeue or dispose a workspace that a surviving tenant could still write.
-      const gate = this.tenantQuiescence
-        ? await runTenantQuiescencePrePass(this.supervisor.findEligibleRuns(startedAtIso), this.tenantQuiescence)
-        : null;
+      if (this.tenantQuiescence) {
+        gate = await runTenantQuiescencePrePass(this.supervisor.findEligibleRuns(startedAtIso), {
+          ...this.tenantQuiescence,
+          launchCoordinator: this.tenantQuiescence.launchCoordinator ?? this.launchCoordinator,
+          supervisorId: this.tenantQuiescence.supervisorId ?? this.supervisor.getSupervisorId(),
+          supervisorPid: this.tenantQuiescence.supervisorPid ?? (this.supervisor as any).getSupervisorPid?.(),
+        });
+      }
       const excludeRunIds = gate && gate.heldRunIds.size > 0 ? gate.heldRunIds : undefined;
       // Supervisor first: it reconciles workspaces so the coordinator's retry gate can admit the runs.
       const scan = await this.supervisor.scanAndRecover(excludeRunIds ? { excludeRunIds } : undefined);
@@ -106,6 +126,9 @@ export class RecoverySweeper {
         ],
       };
     } finally {
+      if (gate?.releaseGates) {
+        await gate.releaseGates().catch(() => {});
+      }
       this.running = false;
     }
   }

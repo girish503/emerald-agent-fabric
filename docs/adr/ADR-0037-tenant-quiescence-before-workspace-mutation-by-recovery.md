@@ -1,7 +1,7 @@
 # ADR-0037: Tenant Quiescence Before Recovery Mutates or Disposes a Workspace
 
 ## 1. Status
-- **Status**: PROPOSED. Rollout steps 1-2 are implemented (see section 9); steps 3-5 are not.
+- **Status**: PROPOSED. Rollout steps 1–5 are implemented (see section 9). Phase 1 remains BLOCKED.
 - **Date**: 2026-10-31
 - **Relates to**: ADR-0036 (crash recovery and workspace ownership), ADR-0006 (crash recovery and retry safety), `docs/HANDOFF.md` review finding 3
 - **Not a claim**: this design does not provide exactly-once execution and does not remove the need for lease fencing.
@@ -106,7 +106,7 @@ Native (non-container) tenant processes (no provider creates them today; a futur
 
 ## 9. Rollout (smallest first)
 1. **DONE** Port (`src/ports/tenant-quiescence.port.ts`), provider descriptors (in-process `NONE`, docker `ISOLATED_PROCESSES` with no port), fail-closed rule: undeclared provider = isolated; a run's model is derived from its BOUND contract's `isolationRequirement` (`tenantModelFromContract`), missing binding/contract = isolated. Tests: `tests/recovery/tenant-quiescence.test.ts`.
-2. **DONE** Sweeper pre-pass (`src/recovery/tenant-quiescence-gate.ts`, `RecoverySweeper` option `tenantQuiescence`) and the `excludeRunIds` filters on `scanAndRecover` / `recoverExpiredRuns`. The recovery host ALWAYS enables the pre-pass; the stock CLI supplies no port, so **runs whose contract requires isolation are now HELD (sweep exit code 2, status `TENANTS_NOT_QUIESCED`)** instead of rolled back/requeued/disposed. A bare `RecoverySweeper` without the option behaves as before. Only runs recovery would touch (expired lease or RECOVERING) are checked; a live worker's run is never queried. The worker-side disposal check (step 4) is NOT done: a worker still disposes its own isolated run without calling the port.
-3. Docker labels and adapter with the fake-binary tests (test 3).
-4. Worker-side disposal check (4.5).
-5. Real-docker integration (test 4) after authorization, then update HANDOFF and ADR-0036 section on `--workers-stopped`.
+2. **DONE** Sweeper pre-pass (`src/recovery/tenant-quiescence-gate.ts`, `RecoverySweeper` option `tenantQuiescence`) and the `excludeRunIds` filters on `scanAndRecover` / `recoverExpiredRuns`. The recovery host ALWAYS enables the pre-pass; the stock CLI supplies no port, so **runs whose contract requires isolation are now HELD (sweep exit code 2, status `TENANTS_NOT_QUIESCED`)** instead of rolled back/requeued/disposed. A bare `RecoverySweeper` without the option behaves as before. Only runs recovery would touch (expired lease or RECOVERING) are checked; a live worker's run is never queried. (Note: Worker-side disposal checking was incomplete at the earlier Step 2 checkpoint; it was subsequently implemented at Step 4 below and is supported only by the cited test evidence.)
+3. **DONE** Docker labels and adapter with the fake-binary tests (test 3): `DOCKER_TENANT_LABELS`, `DockerTenantQuiescenceAdapter` implementing `TenantQuiescencePort` with bounded discovery, kill, rm -f, and verification listing; labels attached to `docker run`; `DockerExecutionProvider.quiescence` wired; recovery host defaults to `DockerTenantQuiescenceAdapter`. Tests: `tests/adapters/docker-tenant-quiescence-adapter.test.ts` (14 tests).
+4. **DONE** Worker-side disposal check (4.5): `WorkerRuntime.disposeWorkspaceSafely` gated — isolated provider without `QUIESCENT` result cannot auto-dispose; constructor rejects isolated provider without quiescence port when `workspacePort` present. Tests: `tests/application/worker-workspace-disposal.test.ts` (19 tests, 77 total across 5 files).
+5. **DONE** Real-docker integration (test 4): opt-in integration test suite (`tests/integration/docker-tenant-quiescence.integration.test.ts`, 6 tests) passing against live Docker daemon 29.8.0 / Docker Desktop 4.91.0 with zero container leakage. Verified empty discovery, single container kill + rm -f, multi-container cleanup, cross-run label isolation, simulated failure, and recovery safety holding unverified runs. Late-start race limitation recorded in HANDOFF. Phase 1 remains BLOCKED.

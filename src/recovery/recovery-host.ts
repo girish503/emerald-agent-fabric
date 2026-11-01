@@ -46,6 +46,7 @@ import { RecoverySupervisor } from "./recovery-supervisor.js";
 import { RecoverySweeper, RecoverySweepResult } from "./recovery-sweeper.js";
 import { tenantModelFromContract } from "./tenant-quiescence-gate.js";
 import type { TenantQuiescencePort } from "../ports/tenant-quiescence.port.js";
+import { DockerTenantQuiescenceAdapter } from "../adapters/execution/docker-tenant-quiescence-adapter.js";
 
 export interface RecoveryLogRecord {
   readonly ts: string;
@@ -63,10 +64,10 @@ export interface RecoveryHostOptions {
   readonly supervisorId?: string;
   readonly leaseTtlMs?: number;
   /**
-   * Proves isolated tenant processes (e.g. containers) are gone (ADR-0037). The stock CLI supplies none, so recovery HOLDS
-   * runs whose contract requires isolation instead of rolling back or disposing their workspaces.
+   * Proves isolated tenant processes (e.g. containers) are gone (ADR-0037). Defaults to DockerTenantQuiescenceAdapter().
+   * Pass null to explicitly disable quiescence checking (holding all isolated runs).
    */
-  readonly tenantQuiescence?: TenantQuiescencePort;
+  readonly tenantQuiescence?: TenantQuiescencePort | null;
   readonly log?: (record: RecoveryLogRecord) => void;
 }
 
@@ -329,12 +330,17 @@ export function openRecoveryRuntime(
       supervisorId: options.supervisorId,
       leaseTtlMs: options.leaseTtlMs,
     });
+    const tenantQuiescencePort =
+      options.tenantQuiescence !== undefined
+        ? (options.tenantQuiescence ?? undefined)
+        : new DockerTenantQuiescenceAdapter();
+
     const sweeper = new RecoverySweeper({
       supervisor,
       coordinator,
       tenantQuiescence: {
         tenantModelOf: tenantModelFromContract((contractId, version) => coordinator.getContract(contractId, version)),
-        port: options.tenantQuiescence,
+        port: tenantQuiescencePort,
       },
       onSweep: hooks?.onSweep,
       onError: hooks?.onError,
