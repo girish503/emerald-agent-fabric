@@ -53,18 +53,25 @@ function harness(opts?: {
   command?: (args: readonly string[]) => { exitCode: number; stdout?: string; stderr?: string } | Error;
   terminationTimeoutMs?: number;
   quiescencePort?: TenantQuiescencePort;
+  createContainerId?: string;
 }) {
   const children: FakeChild[] = [];
   const spawned: Cmd[] = [];
   const commands: Cmd[] = [];
   const events: string[] = [];
   const quiescenceCalls: string[] = [];
+  const defaultContainerId = opts?.createContainerId ?? "c".repeat(64);
   const commandRunner: SubprocessRunner = async (_file, args) => {
     commands.push({ args });
     events.push(`cmd:${args[0]}`);
     const r = opts?.command?.(args) ?? { exitCode: 0 };
     if (r instanceof Error) throw r;
-    return { exitCode: r.exitCode, stdout: r.stdout ?? "", stderr: r.stderr ?? "" };
+    const defaultStdout = args[0] === "create" ? defaultContainerId : "";
+    return {
+      exitCode: r.exitCode,
+      stdout: r.stdout !== undefined ? r.stdout : defaultStdout,
+      stderr: r.stderr ?? "",
+    };
   };
   const quiescence: TenantQuiescencePort =
     opts?.quiescencePort ?? {
@@ -134,8 +141,10 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
     expect(h.events.indexOf("quiesce")).toBeGreaterThan(h.events.indexOf("cmd:stop"));
     expect(h.quiescenceCalls).toEqual(["run-1"]);
     // Graceful stop uses the configured grace window (default 2s) against the named container.
-    expect(h.commands[0]!.args.slice(0, 3)).toEqual(["stop", "-t", "2"]);
-    expect(h.commands[0]!.args[3]).toMatch(/^emerald-run-/);
+    const stopCmd = h.commands.find((c) => c.args[0] === "stop");
+    expect(stopCmd).toBeDefined();
+    expect(stopCmd!.args.slice(0, 3)).toEqual(["stop", "-t", "2"]);
+    expect(stopCmd!.args[3]).toMatch(/^emerald-run-/);
   });
 
   it("3. timeout triggers graceful termination and reports TIMED_OUT only after verification", async () => {
@@ -143,13 +152,13 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
     const res = await h.provider.execute(baseRequest({ timeoutMs: 15 }));
     expect(res.status).toBe("TIMED_OUT");
     expect(res.providerMetadata).toMatchObject({ terminationVerified: true, physicalTerminationAttempted: true });
-    expect(h.commands.map((c) => c.args[0])).toEqual(["stop"]); // no escalation needed
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "stop"]); // create, then stop
   });
 
   it("4. graceful stop failure escalates to forced kill", async () => {
     const h = harness({ command: (a) => (a[0] === "stop" ? { exitCode: 1, stderr: "stop failed" } : { exitCode: 0 }) });
     const res = await h.provider.execute(baseRequest({ timeoutMs: 15 }));
-    expect(h.commands.map((c) => c.args[0])).toEqual(["stop", "kill"]);
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "stop", "kill"]);
     expect(res.status).toBe("TIMED_OUT");
   });
 
@@ -185,7 +194,10 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
 
   it("7. container survives stop+kill -> FAILED/TERMINATION_UNVERIFIED, never TIMED_OUT", async () => {
     const h = harness({
-      command: (a) => ({ exitCode: a[0] === "rm" ? 0 : 1, stderr: "nope" }),
+      command: (a) =>
+        a[0] === "create"
+          ? { exitCode: 0, stdout: "c".repeat(64), stderr: "" }
+          : { exitCode: a[0] === "rm" ? 0 : 1, stderr: "nope" },
       quiescence: () => ({ status: "UNVERIFIED", reason: "Containers remain after cleanup: abc123" }),
     });
     const res = await h.provider.execute(baseRequest({ timeoutMs: 15 }));
@@ -193,12 +205,12 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
     expect(res.error?.code).toBe("TERMINATION_UNVERIFIED");
     expect(res.error?.message).toContain("Containers remain");
     expect(res.providerMetadata).toMatchObject({ terminationVerified: false, terminationCause: "timeout" });
-    expect(h.commands.map((c) => c.args[0])).toEqual(["stop", "kill"]);
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "stop", "kill"]);
   });
 
   it("8. Docker daemon unavailable during termination -> unverified (13: never verified cancellation)", async () => {
     const h = harness({
-      command: () => new Error("Cannot connect to the Docker daemon"),
+      command: (a) => (a[0] === "create" ? { exitCode: 0 } : new Error("Cannot connect to the Docker daemon")),
       quiescence: () => ({ status: "UNVERIFIED", reason: "Docker execution error during listing: daemon down" }),
     });
     const ac = new AbortController();
@@ -269,7 +281,7 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
     expect(res.status).toBe("SUCCESS");
     expect(res.output).toBe(7);
     expect(h.quiescenceCalls).toHaveLength(0);
-    expect(h.commands.map((c) => c.args[0])).toEqual(["rm"]);
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "rm"]);
   });
 
   it("11. concurrent timeout + abort start exactly one termination sequence", async () => {
@@ -319,7 +331,7 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
     expect(res.status).toBe("FAILED");
     expect(res.error?.code).toBe("EXECUTION_FAILED");
     expect(res.providerMetadata).toMatchObject({ outputLimitExceeded: true, terminationVerified: true });
-    expect(h.commands[0]!.args[0]).toBe("stop");
+    expect(h.commands.map((c) => c.args[0])).toContain("stop");
 
     const h2 = harness({ quiescence: () => ({ status: "UNVERIFIED", reason: "x" }) });
     const p2 = h2.provider.execute(baseRequest({ operationName: "echo", inputPayload: 1 }));
@@ -346,13 +358,17 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
   });
 
   it("missing docker binary is still PROVIDER_UNAVAILABLE with no termination attempt", async () => {
-    const h = harness();
-    const p = h.provider.execute(baseRequest({ operationName: "echo", inputPayload: 1 }));
-    const child = await untilSpawned(h);
-    child.emit("error", Object.assign(new Error("spawn docker ENOENT"), { code: "ENOENT" }));
-    const res = await p;
+    const h = harness({
+      command: (a) => {
+        if (a[0] === "create") {
+          throw Object.assign(new Error("spawn docker ENOENT"), { code: "ENOENT" });
+        }
+        return { exitCode: 0 };
+      },
+    });
+    const res = await h.provider.execute(baseRequest({ operationName: "echo", inputPayload: 1 }));
     expect(res.error?.code).toBe("PROVIDER_UNAVAILABLE");
-    expect(h.commands).toHaveLength(0);
+    expect(h.spawned).toHaveLength(0);
     expect(h.quiescenceCalls).toHaveLength(0);
   });
 
@@ -363,7 +379,9 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
     await untilSpawned(h);
     ac.abort();
     await p;
-    const a = h.spawned[0]!.args;
+    const createCmd = h.commands.find((c) => c.args[0] === "create");
+    expect(createCmd).toBeDefined();
+    const a = createCmd!.args;
     expect(a).toEqual(expect.arrayContaining(["--network=none", "--read-only", "--cap-drop=ALL", "--security-opt=no-new-privileges"]));
   });
 
@@ -398,7 +416,7 @@ describe("CLI exit classification (no provider-requested termination)", () => {
     expect(res.status).toBe("SUCCESS");
     expect((res.output as { exitCode: number }).exitCode).toBe(3);
     expect(h.quiescenceCalls).toHaveLength(0);
-    expect(verbs(h)).toEqual(["inspect", "rm"]); // evidence is read BEFORE the container is removed
+    expect(verbs(h)).toEqual(["create", "inspect", "rm"]); // evidence is read BEFORE the container is removed
   });
 
   it("Windows-style external kill: CLI exit 1 with no signal while the container is still running -> FAILED, terminated and verified", async () => {
@@ -460,7 +478,7 @@ describe("CLI exit classification (no provider-requested termination)", () => {
     const p = ok.provider.execute(baseRequest({ operationName: "echo", inputPayload: 1 }));
     (await untilSpawned(ok)).exit(0, "1");
     expect((await p).status).toBe("SUCCESS");
-    expect(verbs(ok)).toEqual(["rm"]);
+    expect(verbs(ok)).toEqual(["create", "rm"]);
 
     const launch = harness();
     const p2 = runCmd(launch);
@@ -529,5 +547,114 @@ describe("14. WorkerRuntime never terminalises or disposes on unverified termina
     expect(result.status, JSON.stringify((result as { error?: unknown }).error)).toBe("TERMINATION_UNVERIFIED");
     expect(coordinator.getRun(run.runId)!.status).toBe("RUNNING"); // not TIMED_OUT / FAILED / CANCELLED
     store.close();
+  });
+});
+
+describe("Docker create/start split lifecycle (Milestone 2.4A.5 / ADR-0040)", () => {
+  it("successful create followed by successful start attaches streams and passes validated container ID", async () => {
+    const testCid = "d".repeat(64);
+    const h = harness({ createContainerId: testCid });
+    const p = h.provider.execute(baseRequest({ operationName: "echo", inputPayload: { test: 123 } }));
+    const child = await untilSpawned(h);
+    expect(h.commands[0]!.args[0]).toBe("create");
+    expect(h.commands[0]!.args).toContain("--name");
+    expect(h.spawned[0]!.args).toEqual(["start", "-a", "-i", testCid]);
+    child.exit(0, '{"test":123}');
+    const res = await p;
+    expect(res.status).toBe("SUCCESS");
+    expect(res.output).toEqual({ test: 123 });
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "rm"]);
+  });
+
+  it("run_command attaches with -a but without -i during docker start", async () => {
+    const testCid = "e".repeat(64);
+    const h = harness({ createContainerId: testCid });
+    const p = h.provider.execute(
+      baseRequest({
+        operationName: "run_command",
+        inputPayload: { argv: ["echo", "hello"] },
+      })
+    );
+    const child = await untilSpawned(h);
+    expect(h.commands[0]!.args[0]).toBe("create");
+    expect(h.commands[0]!.args).not.toContain("-i");
+    expect(h.spawned[0]!.args).toEqual(["start", "-a", testCid]);
+    child.exit(0, "hello\n");
+    const res = await p;
+    expect(res.status).toBe("SUCCESS");
+  });
+
+  it("abort during create skips docker start and invokes termination cleanup", async () => {
+    const h = harness({
+      command: (a) => {
+        if (a[0] === "create") {
+          throw new Error("Subprocess timed out after 10000ms");
+        }
+        return { exitCode: 0 };
+      },
+    });
+    const res = await h.provider.execute(baseRequest());
+    expect(res.status).toBe("FAILED");
+    expect(h.spawned).toHaveLength(0); // docker start was never invoked
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "stop"]); // termination was invoked
+    expect(h.quiescenceCalls).toEqual(["run-1"]);
+  });
+
+  it("abort between create and start prevents start and removes created container", async () => {
+    const testCid = "f".repeat(64);
+    const ac = new AbortController();
+    const h = harness({
+      createContainerId: testCid,
+      command: (a) => {
+        if (a[0] === "create") {
+          // Signal aborts right as create completes, before start is spawned
+          ac.abort();
+          return { exitCode: 0, stdout: testCid, stderr: "" };
+        }
+        return { exitCode: 0 };
+      },
+    });
+    const res = await h.provider.execute(baseRequest({ signal: ac.signal }));
+    expect(res.status).toBe("CANCELLED");
+    expect(res.providerMetadata).toMatchObject({
+      containerCreated: true,
+      terminationVerified: true,
+    });
+    expect(h.spawned).toHaveLength(0); // docker start was NEVER spawned!
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "stop"]);
+    expect(h.quiescenceCalls).toEqual(["run-1"]);
+  });
+
+  it("invalid or malformed container ID from docker create fails closed and purges container", async () => {
+    const h = harness({
+      command: (a) => {
+        if (a[0] === "create") {
+          return { exitCode: 0, stdout: "not-a-valid-hex-id\n", stderr: "" };
+        }
+        return { exitCode: 0 };
+      },
+    });
+    const res = await h.provider.execute(baseRequest());
+    expect(res.status).toBe("FAILED");
+    expect(res.error?.code).toBe("EXECUTION_FAILED");
+    expect(res.error?.message).toContain("Invalid or malformed container ID");
+    expect(h.spawned).toHaveLength(0); // start was never spawned
+    expect(h.commands.map((c) => c.args[0])).toEqual(["create", "stop"]);
+    expect(h.quiescenceCalls).toEqual(["run-1"]);
+  });
+
+  it("docker create returning non-zero with daemon error reports PROVIDER_UNAVAILABLE", async () => {
+    const h = harness({
+      command: (a) => {
+        if (a[0] === "create") {
+          return { exitCode: 1, stdout: "", stderr: "Cannot connect to the Docker daemon at unix:///var/run/docker.sock" };
+        }
+        return { exitCode: 0 };
+      },
+    });
+    const res = await h.provider.execute(baseRequest());
+    expect(res.status).toBe("FAILED");
+    expect(res.error?.code).toBe("PROVIDER_UNAVAILABLE");
+    expect(h.spawned).toHaveLength(0);
   });
 });

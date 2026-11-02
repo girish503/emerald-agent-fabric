@@ -85,6 +85,17 @@ interface TerminationOutcome {
   readonly stages: readonly string[];
 }
 
+function isDaemonErrorText(text: string): boolean {
+  return (
+    text.includes("Cannot connect to the Docker daemon") ||
+    text.includes("daemon is not running") ||
+    text.includes("dockerDesktopLinuxEngine") ||
+    text.includes("error during connect") ||
+    text.includes("Is the docker daemon running") ||
+    text.includes("docker API")
+  );
+}
+
 /**
  * Deterministic in-container runner script.
  * Fixed implementation authored by the provider. Reads input strictly from stdin.
@@ -378,9 +389,9 @@ export class DockerExecutionProvider implements ExecutionProvider {
         ? Math.min(runCommandPayload.maxOutputBytes, this.config.maxOutputBytes)
         : this.config.maxOutputBytes;
 
-    // 4. Construct container run arguments
-    const args: string[] = [
-      "run",
+    // 4. Construct container create arguments (ADR-0040)
+    const createArgs: string[] = [
+      "create",
       "--name", containerName,
       "--network=none",
       ...(this.config.readOnlyRootfs ? ["--read-only"] : []),
@@ -410,7 +421,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
             ...runCommandPayload!.argv,
           ]
         : [
-            "-i", // Connect container stdin
+            "-i", // Keep stdin open in container configuration so docker start -i can write to it
             this.config.image,
             "node",
             "-e",
@@ -501,8 +512,142 @@ export class DockerExecutionProvider implements ExecutionProvider {
       else stderrBuffer += chunk.toString("utf8");
     };
 
+    // 5. Early listener/timer registration & docker create via bounded command runner (ADR-0040)
+    if (request.timeoutMs > 0 && Number.isFinite(request.timeoutMs)) {
+      timeoutTimer = setTimeout(() => decide({ kind: "TIMEOUT" }), request.timeoutMs);
+    }
+    if (request.signal) {
+      abortListener = () => decide({ kind: "CANCEL" });
+      request.signal.addEventListener("abort", abortListener, { once: true });
+      if (request.signal.aborted) decide({ kind: "CANCEL" });
+    }
+
+    let validatedContainerId: string | undefined;
     try {
-      child = this.spawnProcess(this.config.dockerBinary, args);
+      const createRes = await this.commandRunner(this.config.dockerBinary, createArgs, {
+        timeoutMs: this.config.terminationTimeoutMs,
+      });
+
+      if (createRes.exitCode !== 0) {
+        detach();
+        const daemonError = isDaemonErrorText(createRes.stderr);
+        if (!daemonError) {
+          await this.cleanupContainer(containerName);
+        }
+        return {
+          status: "FAILED",
+          error: {
+            code: daemonError ? "PROVIDER_UNAVAILABLE" : "EXECUTION_FAILED",
+            message: createRes.stderr.trim() || `docker create failed with exit code ${createRes.exitCode}`,
+            details: { exitCode: createRes.exitCode, stderr: createRes.stderr },
+          },
+          durationMs: elapsed(),
+          providerMetadata: {
+            ...baseMeta,
+            exitCode: createRes.exitCode,
+            containerCreated: false,
+            ...(daemonError ? { errorType: "DOCKER_UNAVAILABLE" } : {}),
+          },
+        };
+      }
+
+      const rawId = createRes.stdout.trim();
+      if (!/^[a-fA-F0-9]{12,64}$/.test(rawId)) {
+        detach();
+        // Malformed container ID: purge by containerName and verify quiescence
+        const term = await this.terminateContainer(containerName, request.runId, undefined, Promise.resolve());
+        if (!term.verified) return unverified("malformed-container-id", term);
+        return {
+          status: "FAILED",
+          error: {
+            code: "EXECUTION_FAILED",
+            message: `Invalid or malformed container ID returned by docker create: '${rawId.slice(0, 100)}'`,
+            details: { stdout: rawId, stderr: createRes.stderr },
+          },
+          durationMs: elapsed(),
+          providerMetadata: {
+            ...baseMeta,
+            malformedContainerId: true,
+            rawOutput: rawId.slice(0, 100),
+            terminationVerified: true,
+            terminationStages: term.stages,
+          },
+        };
+      }
+      validatedContainerId = rawId;
+    } catch (err: unknown) {
+      detach();
+      const msg = err instanceof Error ? err.message : String(err);
+      const code = (err as NodeJS.ErrnoException | undefined)?.code;
+      const isSpawnFailure = code === "ENOENT" || code === "EACCES";
+      if (!isSpawnFailure) {
+        // Create was attempted: daemon may have accepted it. Terminate and verify quiescence.
+        const term = await this.terminateContainer(containerName, request.runId, undefined, Promise.resolve());
+        if (!term.verified) return unverified("create-error", term);
+      }
+      const isUnavailable = isSpawnFailure || isDaemonErrorText(msg);
+      return {
+        status: "FAILED",
+        error: {
+          code: isUnavailable ? "PROVIDER_UNAVAILABLE" : "EXECUTION_FAILED",
+          message: msg,
+          details: err instanceof Error ? err.stack : undefined,
+        },
+        durationMs: elapsed(),
+        providerMetadata: {
+          ...baseMeta,
+          errorType: isUnavailable ? "DOCKER_UNAVAILABLE" : "EXECUTION_ERROR",
+        },
+      };
+    }
+
+    // Post-creation cancellation / timeout check: if decided between create and start, do not start!
+    if (decision || request.signal?.aborted) {
+      detach();
+      const term = await terminate();
+      if (!term.verified) return unverified(decision?.kind === "TIMEOUT" ? "timeout" : "cancellation", term);
+      if (decision?.kind === "TIMEOUT") {
+        return {
+          status: "TIMED_OUT",
+          error: {
+            code: "EXECUTION_TIMEOUT",
+            message: `Operation '${request.operationName}' exceeded timeout of ${request.timeoutMs}ms; physical container termination attempted; container termination verified`,
+          },
+          durationMs: elapsed(),
+          providerMetadata: {
+            ...baseMeta,
+            timeoutMs: request.timeoutMs,
+            physicalTerminationAttempted: true,
+            terminationVerified: true,
+            terminationStages: term.stages,
+            containerCreated: true,
+          },
+        };
+      }
+      return {
+        status: "CANCELLED",
+        error: { code: "EXECUTION_CANCELLED", message: "Operation cancelled; container termination verified" },
+        durationMs: elapsed(),
+        providerMetadata: {
+          ...baseMeta,
+          physicalTerminationAttempted: true,
+          terminationVerified: true,
+          terminationStages: term.stages,
+          containerCreated: true,
+        },
+      };
+    }
+
+    // 6. Start only the validated container via docker start -a (ADR-0040)
+    const startArgs: string[] = [
+      "start",
+      "-a",
+      ...(isRunCommand ? [] : ["-i"]),
+      validatedContainerId,
+    ];
+
+    try {
+      child = this.spawnProcess(this.config.dockerBinary, startArgs);
       const proc = child;
       childClosed = new Promise<void>((resolve) => {
         proc.on("close", () => resolve());
@@ -513,15 +658,6 @@ export class DockerExecutionProvider implements ExecutionProvider {
       proc.stdout.on("data", accumulate("out"));
       proc.stderr.on("data", accumulate("err"));
       proc.stdin.on("error", () => {}); // EPIPE if the CLI dies early; the close/error event decides the outcome
-
-      if (request.timeoutMs > 0 && Number.isFinite(request.timeoutMs)) {
-        timeoutTimer = setTimeout(() => decide({ kind: "TIMEOUT" }), request.timeoutMs);
-      }
-      if (request.signal) {
-        abortListener = () => decide({ kind: "CANCEL" });
-        request.signal.addEventListener("abort", abortListener, { once: true });
-        if (request.signal.aborted) decide({ kind: "CANCEL" }); // aborted between the pre-check and registration
-      }
 
       try {
         if (!isRunCommand) proc.stdin.write(inputJson);
@@ -540,7 +676,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
           status: "TIMED_OUT",
           error: {
             code: "EXECUTION_TIMEOUT",
-            message: `Operation '${request.operationName}' exceeded timeout of ${request.timeoutMs}ms; container termination verified`,
+            message: `Operation '${request.operationName}' exceeded timeout of ${request.timeoutMs}ms; physical container termination attempted; container termination verified`,
           },
           durationMs: elapsed(),
           providerMetadata: {
@@ -600,12 +736,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
       // a failing command. A non-zero exit therefore needs container-state evidence BEFORE the container is removed.
       // Exit 0 cannot come from a killed CLI, 125 is Docker's own launch error, and a daemon-error stderr means no
       // container state can be read; those keep their existing handling.
-      const daemonErrorText =
-        stderrBuffer.includes("Cannot connect to the Docker daemon") ||
-        stderrBuffer.includes("daemon is not running") ||
-        stderrBuffer.includes("dockerDesktopLinuxEngine") ||
-        stderrBuffer.includes("error during connect") ||
-        stderrBuffer.includes("Is the docker daemon running");
+      const daemonErrorText = isDaemonErrorText(stderrBuffer);
       let ambiguousExit: string | undefined;
       if (signal === null && exitCode !== 0 && exitCode !== 125 && !daemonErrorText) {
         const ev = await this.inspectContainerExit(containerName);
@@ -808,19 +939,14 @@ export class DockerExecutionProvider implements ExecutionProvider {
       const durationMs = elapsed();
       const msg = err instanceof Error ? err.message : String(err);
       const code = (err as NodeJS.ErrnoException | undefined)?.code;
-      const neverStarted = child === undefined || code === "ENOENT" || code === "EACCES";
+      const neverStarted = (child === undefined && validatedContainerId === undefined) || code === "ENOENT" || code === "EACCES";
       if (!neverStarted) {
         const term = await terminate();
         if (!term.verified) return unverified("unexpected-error", term);
       }
       const isUnavailable =
-        msg.includes("ENOENT") ||
-        msg.includes("docker API") ||
-        msg.includes("dockerDesktopLinuxEngine") ||
-        msg.includes("daemon is not running") ||
-        msg.includes("Cannot connect to the Docker daemon") ||
-        msg.includes("error during connect") ||
-        msg.includes("Is the docker daemon running");
+        code === "ENOENT" ||
+        isDaemonErrorText(msg);
 
       return {
         status: "FAILED",

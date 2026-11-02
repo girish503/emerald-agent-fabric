@@ -702,14 +702,26 @@ describe.skipIf(!runLiveDocker)(
       const result = await runPromise;
       expect(result.status, JSON.stringify((result as { error?: unknown }).error)).toBe("TERMINATION_UNVERIFIED");
 
-      // Not finalised, workspace not disposed, launch gate released for recovery to take.
+      // Not finalised, workspace not disposed, launch gate durably quarantined (ADR-0041).
       expect(coordinator.getRun(runId)!.status).toBe("RUNNING");
       expect(fs.existsSync(canary)).toBe(true);
       expect(fs.readFileSync(canary, "utf8")).toBe("scenario-8-work-must-survive");
-      expect(store.getTenantLaunchGate(runId)?.state).toBe("RELEASED");
+      expect(store.getTenantLaunchGate(runId)?.state).toBe("QUARANTINED");
       expect((await listOwned(runId)).some((r) => r.state === "running")).toBe(true); // tenant really survived
 
-      // Lease lapses (heartbeat stopped); recovery with a failing verifier must HOLD the run.
+      // Invariants C & D: worker acquisition is rejected while quarantine remains active
+      await expect(
+        launchCoordinator.acquire({
+          runId,
+          holderType: "WORKER",
+          holderId: "w-adversarial",
+          leaseId: "lease-adv",
+          ttlMs: 30_000,
+          timeoutMs: 100,
+        })
+      ).rejects.toThrow(/QUARANTINED/);
+
+      // Lease lapses (heartbeat stopped); recovery with a failing verifier must HOLD the run and keep gate QUARANTINED.
       clock.advanceMs(31_000);
       const held = await runTenantQuiescencePrePass([coordinator.getRun(runId)!], {
         launchCoordinator,
@@ -719,8 +731,10 @@ describe.skipIf(!runLiveDocker)(
         tenantModelOf: () => "ISOLATED_PROCESSES",
       });
       expect(held.heldRunIds.has(runId)).toBe(true);
+      expect(held.quiescedRunIds).toEqual([]);
       expect(fs.readFileSync(canary, "utf8")).toBe("scenario-8-work-must-survive");
       expect((await listOwned(runId)).some((r) => r.state === "running")).toBe(true);
+      expect(store.getTenantLaunchGate(runId)?.state).toBe("QUARANTINED");
 
       // With a working verifier recovery reaps the survivor and only then releases the run.
       const reaped = await runTenantQuiescencePrePass([coordinator.getRun(runId)!], {
