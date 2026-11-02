@@ -100,6 +100,17 @@ export class TenantLaunchGateTimeoutError extends DomainError {
   }
 }
 
+export class TenantQuiescenceRequiredError extends DomainError {
+  readonly code = "TENANT_QUIESCENCE_REQUIRED";
+
+  constructor(readonly runId: string, message?: string) {
+    super(
+      message ??
+        `Recovery of run '${runId}' requires verified tenant quiescence; current gate state is not QUIESCED under recovery authority.`
+    );
+  }
+}
+
 export class LeaseExpiredError extends DomainError {
   readonly code = "LEASE_EXPIRED";
 

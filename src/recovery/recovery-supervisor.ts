@@ -16,7 +16,7 @@
  * 8. Resume interrupted recoveries cleanly across supervisor process restarts.
  */
 
-import { ClockPort, SystemClock } from "../ports/clock.port.js";
+import { ClockPort, SystemClock, resolveAuthorityNowIso } from "../ports/clock.port.js";
 import {
   MutationAuthorityContext,
   StateStorePort,
@@ -62,6 +62,7 @@ export type RecoveryRunOutcomeStatus =
   | "SKIPPED_TERMINAL"
   | "SKIPPED_ACTIVE_WORKER_LEASE"
   | "SKIPPED_LOCKED_BY_ANOTHER_SUPERVISOR"
+  | "SKIPPED_TENANTS_NOT_QUIESCED"
   | "ROLLBACK_CONFLICT"
   | "FAILED";
 
@@ -145,9 +146,8 @@ export class RecoverySupervisor {
    */
   private async resolveAuthorizedWorkspace(
     runId: string,
-    explicitRoot: string | undefined,
-    nowIso: string
-  ): Promise<string> {
+    explicitRoot: string | undefined
+  ): Promise<{ readonly root: string; readonly needsBind: boolean }> {
     const bound = this.stateStore.getRunWorkspaceBinding(runId);
 
     let supplied = explicitRoot;
@@ -173,10 +173,12 @@ export class RecoverySupervisor {
       if (canonicalSupplied && !sameWorkspacePath(canonicalBound, canonicalSupplied)) {
         throw new WorkspaceBindingConflictError(runId, canonicalBound, canonicalSupplied);
       }
-      return canonicalBound;
+      return { root: canonicalBound, needsBind: false };
     }
 
-    return this.stateStore.bindRunWorkspace(runId, canonicalSupplied as string, nowIso);
+    // Unbound run: the root is validated here but NOT persisted. The binding is authoritative (first bind wins), so it
+    // is written by recoverRun only after this supervisor holds the run's supervisor lease.
+    return { root: canonicalSupplied as string, needsBind: true };
   }
 
   public getSupervisorId(): string {
@@ -201,7 +203,7 @@ export class RecoverySupervisor {
    * 2. Runs already in RECOVERING status (interrupted recovery resumption).
    */
   public findEligibleRuns(nowIso?: string): readonly RunSnapshot[] {
-    const effectiveNow = nowIso ?? this.clock.nowIso();
+    const effectiveNow = resolveAuthorityNowIso(this.clock, nowIso, "findEligibleRuns");
     const expiredRuns = this.stateStore.findExpiredRuns(effectiveNow);
     const recoveringRuns = this.stateStore.findRecoveringRuns
       ? this.stateStore.findRecoveringRuns()
@@ -221,19 +223,47 @@ export class RecoverySupervisor {
   }
 
   /**
+   * Returns true if the run may have isolated tenant processes (fail closed)
+   * requiring verified tenant quiescence before workspace mutation/rollback.
+   */
+  public runRequiresTenantQuiescence(runSnapshot: RunSnapshot): boolean {
+    const binding = runSnapshot.contractBinding;
+    if (!binding) return true;
+    let contract: ReturnType<StateStorePort["getContract"]>;
+    try {
+      contract = this.stateStore.getContract(binding.contractId, binding.version);
+    } catch {
+      // A corrupt or tampered contract cannot prove IN_PROCESS isolation; fail closed.
+      return true;
+    }
+    if (!contract) return true;
+    return contract.spec.policy.isolationRequirement !== "IN_PROCESS";
+  }
+
+  /**
    * Recovers a single run following crash or worker lease expiration.
    * Enforces supervisor lease acquisition, active worker lease fencing,
    * durable rollback execution, and terminal run state persistence.
    */
   public async recoverRun(
     runId: string,
-    options?: { workspaceRoot?: string; nowIso?: string }
+    options?: {
+      workspaceRoot?: string;
+      nowIso?: string;
+      quiescedRunIds?: ReadonlySet<string>;
+      /**
+       * Gate generation (token) from the acquisition that established quiescence. Required for isolated runs: recovery
+       * is authorized only while the durable gate still carries exactly this token.
+       */
+      gateToken?: string;
+    }
   ): Promise<RecoveryRunOutcome> {
     if (!runId || typeof runId !== "string" || runId.trim().length === 0) {
       throw new Error("RecoverySupervisor.recoverRun requires a valid runId");
     }
 
-    const effectiveNow = options?.nowIso ?? this.clock.nowIso();
+    // Authority time is the injected clock; options.nowIso is validated but cannot backdate or advance it.
+    const effectiveNow = resolveAuthorityNowIso(this.clock, options?.nowIso, runId);
 
     // Step 1: Pre-acquisition candidate inspection
     const candidate = this.stateStore.getRun(runId);
@@ -287,12 +317,60 @@ export class RecoverySupervisor {
       }
     }
 
+    // Tenant Quiescence Guard (Invariant A / F-03 Remediation): Runs with isolated processes cannot be rolled back
+    // unless tenant quiescence has been affirmatively established in durable state (state === 'QUIESCED' under RECOVERY).
+    if (this.runRequiresTenantQuiescence(candidate)) {
+      const gate =
+        typeof this.stateStore.getTenantLaunchGate === "function"
+          ? this.stateStore.getTenantLaunchGate(runId)
+          : null;
+      const isQuiesced =
+        (options?.quiescedRunIds === undefined || options.quiescedRunIds.has(runId)) &&
+        gate !== null &&
+        gate.state === "QUIESCED" &&
+        gate.holderType === "RECOVERY" &&
+        gate.holderId === this.supervisorId &&
+        isGateUnexpired(gate.expiresAt, effectiveNow) &&
+        options?.gateToken !== undefined &&
+        gate.token === options.gateToken;
+      if (!isQuiesced) {
+        const details =
+          gate && gate.state === "QUIESCED" && gate.holderType === "RECOVERY" && gate.holderId !== this.supervisorId
+            ? `Run '${runId}' tenant execution is QUIESCED under supervisor '${gate.holderId}'; recovery refused for supervisor '${this.supervisorId}'.`
+            : gate && gate.state === "QUIESCED" && gate.holderType === "RECOVERY" && !isGateUnexpired(gate.expiresAt, effectiveNow)
+              ? `Run '${runId}' QUIESCED gate expired at '${gate.expiresAt}'; quiescence must be re-verified before recovery.`
+              : gate && gate.state === "QUIESCED" && gate.holderType === "RECOVERY" && gate.holderId === this.supervisorId
+                ? `Run '${runId}' recovery requires the token of the gate acquisition that established quiescence (${options?.gateToken === undefined ? "none supplied" : "stale or mismatched gate generation"}).`
+                : `Run '${runId}' requires tenant isolation and affirmative quiescence was not verified in durable state (gate must be QUIESCED under RECOVERY authority '${this.supervisorId}').`;
+        return {
+          runId,
+          status: "SKIPPED_TENANTS_NOT_QUIESCED",
+          statusBefore,
+          statusAfter: statusBefore,
+          details,
+        };
+      }
+    }
+
+    if (typeof this.stateStore.getTenantLaunchGate === "function") {
+      const gate = this.stateStore.getTenantLaunchGate(runId);
+      if (gate && gate.state === "QUARANTINED") {
+        return {
+          runId,
+          status: "SKIPPED_TENANTS_NOT_QUIESCED",
+          statusBefore,
+          statusAfter: statusBefore,
+          details: `Run '${runId}' tenant execution is quarantined (prior container termination unverified).`,
+        };
+      }
+    }
+
     // Step 1b: Resolve the authorized workspace BEFORE any state is touched.
-    // Fails closed (throws) when identity is unresolved or conflicting; never guesses.
-    const resolvedWorkspaceRoot = await this.resolveAuthorizedWorkspace(
+    // Fails closed (throws) when identity is unresolved or conflicting; never guesses. Resolution is read-only;
+    // a first-time binding is persisted below, only after the supervisor lease is held.
+    const { root: resolvedWorkspaceRoot, needsBind } = await this.resolveAuthorizedWorkspace(
       runId,
-      options?.workspaceRoot,
-      effectiveNow
+      options?.workspaceRoot
     );
 
     // Step 2: Acquire supervisor lease
@@ -319,6 +397,12 @@ export class RecoverySupervisor {
     }
 
     try {
+      // Step 2b: Persist the first-time workspace binding now that this supervisor owns the lease. A conflicting
+      // concurrent bind throws; the catch below releases the lease and rethrows (fail closed, no recovery work done).
+      if (needsBind) {
+        this.stateStore.bindRunWorkspace(runId, resolvedWorkspaceRoot, effectiveNow);
+      }
+
       // Step 3: Transition run to RECOVERING inside transaction (if not already RECOVERING)
       this.stateStore.transaction((tx: StorageTransaction) => {
         const freshSnapshot = tx.getRun(runId);
@@ -374,7 +458,8 @@ export class RecoverySupervisor {
           authorityContext,
           initiatedBy: "SUPERVISOR_RECOVERY",
           // Live fencing re-check immediately before every destructive filesystem write.
-          // Fails closed when the store cannot validate supervisor authority.
+          // Fails closed when the store cannot validate supervisor authority, or if the tenant launch gate
+          // authority has been invalidated, replaced, or expired during in-flight recovery (F-5.3).
           assertAuthorityActive: () => {
             if (typeof this.stateStore.validateSupervisorFencing !== "function") {
               throw new MissingMutationAuthorityError(
@@ -386,6 +471,32 @@ export class RecoverySupervisor {
               supervisorId: this.supervisorId,
               leaseId: supervisorLease.leaseId,
             });
+
+            const requiresQuiescence = this.runRequiresTenantQuiescence(candidate);
+            if (requiresQuiescence || options?.gateToken) {
+              if (typeof this.stateStore.getTenantLaunchGate !== "function") {
+                throw new MissingMutationAuthorityError(
+                  runId,
+                  "State store cannot validate tenant launch gate authority; refusing destructive filesystem mutation"
+                );
+              }
+              const currentGate = this.stateStore.getTenantLaunchGate(runId);
+              const nowIso = this.clock.nowIso();
+              if (
+                !currentGate ||
+                !options?.gateToken ||
+                currentGate.token !== options.gateToken ||
+                currentGate.state !== "QUIESCED" ||
+                currentGate.holderType !== "RECOVERY" ||
+                currentGate.holderId !== this.supervisorId ||
+                !isGateUnexpired(currentGate.expiresAt, nowIso)
+              ) {
+                throw new MissingMutationAuthorityError(
+                  runId,
+                  `Tenant launch gate authority invalidated (expected QUIESCED token '${options?.gateToken}' held by '${this.supervisorId}', found '${currentGate?.state}'/'${currentGate?.token}' held by '${currentGate?.holderId}'); refusing destructive filesystem mutation`
+                );
+              }
+            }
           },
         });
       } catch (rollbackErr: unknown) {
@@ -532,8 +643,13 @@ export class RecoverySupervisor {
   /**
    * Performs an end-to-end scan and recovery of all eligible runs.
    */
-  public async scanAndRecover(options?: { nowIso?: string; excludeRunIds?: ReadonlySet<string> }): Promise<ScanAndRecoverResult> {
-    const effectiveNow = options?.nowIso ?? this.clock.nowIso();
+  public async scanAndRecover(options?: {
+    nowIso?: string;
+    excludeRunIds?: ReadonlySet<string>;
+    quiescedRunIds?: ReadonlySet<string>;
+    quiescedGateTokens?: ReadonlyMap<string, string>;
+  }): Promise<ScanAndRecoverResult> {
+    const effectiveNow = resolveAuthorityNowIso(this.clock, options?.nowIso, "scanAndRecover");
     // Runs the caller holds back (e.g. tenant processes not proven gone, ADR-0037) are not touched at all: no state, no files.
     const eligibleRuns = this.findEligibleRuns(effectiveNow).filter((r) => !options?.excludeRunIds?.has(r.runId));
 
@@ -545,7 +661,11 @@ export class RecoverySupervisor {
 
     for (const run of eligibleRuns) {
       try {
-        const outcome = await this.recoverRun(run.runId, { nowIso: effectiveNow });
+        const outcome = await this.recoverRun(run.runId, {
+          nowIso: effectiveNow,
+          quiescedRunIds: options?.quiescedRunIds,
+          gateToken: options?.quiescedGateTokens?.get(run.runId),
+        });
         outcomes.push(outcome);
 
         if (outcome.status === "RECOVERED") {
@@ -556,7 +676,8 @@ export class RecoverySupervisor {
           outcome.status === "SKIPPED_INELIGIBLE" ||
           outcome.status === "SKIPPED_TERMINAL" ||
           outcome.status === "SKIPPED_ACTIVE_WORKER_LEASE" ||
-          outcome.status === "SKIPPED_LOCKED_BY_ANOTHER_SUPERVISOR"
+          outcome.status === "SKIPPED_LOCKED_BY_ANOTHER_SUPERVISOR" ||
+          outcome.status === "SKIPPED_TENANTS_NOT_QUIESCED"
         ) {
           skippedCount++;
         } else {
@@ -621,6 +742,13 @@ export class RecoverySupervisor {
     const effectiveNow = nowIso ?? this.clock.nowIso();
     this.stateStore.releaseSupervisorLease(leaseId, effectiveNow);
   }
+}
+
+/** A gate is current authority only before its expiry; an unparseable expiry is never fresh (fail closed). */
+function isGateUnexpired(expiresAt: string, nowIso: string): boolean {
+  const expiresMs = Date.parse(expiresAt);
+  const nowMs = Date.parse(nowIso);
+  return Number.isFinite(expiresMs) && Number.isFinite(nowMs) && nowMs < expiresMs;
 }
 
 function sameWorkspacePath(a: string, b: string): boolean {

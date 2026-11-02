@@ -41,6 +41,18 @@ class CountingExecutionProvider implements ExecutionProvider {
   }
 }
 
+/**
+ * Runs whose bound contract is missing or that have no binding are treated as possibly isolated, so recovery holds them
+ * until a durable QUIESCED gate exists under the recovering supervisor. These tests target the governance failure that follows
+ * quiescence, so they establish that gate first and name the supervisor on the retry sweep.
+ */
+function recoverUnderQuiescence(coordinator: RunCoordinator, store: SqliteStateStore, clock: SettableClock, runId: string) {
+  const supervisorId = "sup-governance-test";
+  const gate = store.acquireTenantLaunchGate({ runId, holderType: "RECOVERY", holderId: supervisorId, leaseId: "lease-gov", nowIso: clock.nowIso(), ttlMs: 30_000, ownerPid: process.pid });
+  store.markQuiescentTenantLaunchGate({ runId, token: gate.token, nowIso: clock.nowIso() });
+  return coordinator.recoverExpiredRuns({ supervisorId, quiescedGateTokens: new Map([[runId, gate.token]]) });
+}
+
 function registerWorker(coordinator: RunCoordinator, workerId: string, clock: SettableClock): void {
   coordinator.registerWorker({
     workerId,
@@ -418,7 +430,7 @@ describe("RunCoordinator — MissionContract-Aware Sweeper & Recovery (Task 1.8C
         .run(contract.spec.contractId, contract.spec.version);
       (store as any).db.exec("PRAGMA foreign_keys = ON;");
 
-      const recovery = coordinator.recoverExpiredRuns();
+      const recovery = recoverUnderQuiescence(coordinator, store, clock, run.runId);
       expect(recovery.recoveredCount).toBe(1);
 
       const failedRun = coordinator.getRunRaw(run.runId);
@@ -456,7 +468,7 @@ describe("RunCoordinator — MissionContract-Aware Sweeper & Recovery (Task 1.8C
       const contractV2 = createAndActivateContract(store, task.taskId, { version: 2 });
       expect(contractV2.lifecycle.status).toBe("ACTIVE");
 
-      coordinator.recoverExpiredRuns();
+      recoverUnderQuiescence(coordinator, store, clock, run.runId);
 
       const failedRun = coordinator.getRunRaw(run.runId);
       expect(failedRun!.status).toBe("FAILED");
@@ -534,12 +546,44 @@ describe("RunCoordinator — MissionContract-Aware Sweeper & Recovery (Task 1.8C
       (store as any).db.prepare("UPDATE mission_contracts SET canonical_spec = ? WHERE contract_id = ? AND version = ?")
         .run(tamperedSpec, contract.spec.contractId, contract.spec.version);
 
-      coordinator.recoverExpiredRuns();
+      recoverUnderQuiescence(coordinator, store, clock, run.runId);
 
       const failedRun = coordinator.getRunRaw(run.runId);
       expect(failedRun!.status).toBe("FAILED");
       const err = failedRun!.errorPayload as { code: string };
       expect(err.code).toBe("CONTRACT_INTEGRITY_MISMATCH");
+
+      store.close();
+    });
+
+    it("12b. Tampered contract holds only its own run (no abort) and later runs still recover", () => {
+      const clock = new SettableClock("2026-03-30T10:00:00.000Z");
+      const store = new SqliteStateStore();
+      const coordinator = new RunCoordinator(store, clock);
+      registerWorker(coordinator, "w-1", clock);
+      registerWorker(coordinator, "w-2", clock);
+
+      const startRun = (workerId: string) => {
+        const task = coordinator.createTask({ title: "echo", inputPayload: null });
+        const contract = createAndActivateContract(store, task.taskId);
+        const { run } = coordinator.createRun({ taskId: task.taskId });
+        coordinator.queueRun(run.runId);
+        const claim = coordinator.claimRun(run.runId, workerId, 5000);
+        coordinator.startRun(run.runId, workerId, claim.lease.leaseId);
+        return { run, contract };
+      };
+      const bad = startRun("w-1");
+      const good = startRun("w-2");
+      clock.advanceMs(6000);
+
+      const tamperedSpec = JSON.stringify({ ...bad.contract.spec, taskId: "tampered-task-id" });
+      (store as any).db.prepare("UPDATE mission_contracts SET canonical_spec = ? WHERE contract_id = ? AND version = ?")
+        .run(tamperedSpec, bad.contract.spec.contractId, bad.contract.spec.version);
+
+      const result = coordinator.recoverExpiredRuns();
+      expect(result.heldForQuiescenceRunIds).toContain(bad.run.runId);
+      expect(coordinator.getRunRaw(bad.run.runId)!.status).toBe("RUNNING");
+      expect(coordinator.getRun(good.run.runId)!.status).not.toBe("RUNNING");
 
       store.close();
     });
@@ -811,7 +855,7 @@ describe("RunCoordinator — MissionContract-Aware Sweeper & Recovery (Task 1.8C
       clock.advanceMs(10000);
 
       // Sweeper discovers expired legacy run
-      const recovery = coordinator.recoverExpiredRuns();
+      const recovery = recoverUnderQuiescence(coordinator, store, clock, legacyRunId);
       expect(recovery.recoveredCount).toBe(1);
 
       const failedRun = coordinator.getRun(legacyRunId);
@@ -852,7 +896,7 @@ describe("RunCoordinator — MissionContract-Aware Sweeper & Recovery (Task 1.8C
 
       clock.advanceMs(10000);
 
-      coordinator.recoverExpiredRuns();
+      recoverUnderQuiescence(coordinator, store, clock, legacyRunId);
 
       const failedRun = coordinator.getRun(legacyRunId);
       expect(failedRun!.status).toBe("FAILED");

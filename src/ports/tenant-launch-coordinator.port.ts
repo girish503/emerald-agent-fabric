@@ -1,3 +1,5 @@
+import type { StateStorePort } from "./state-store.port.js";
+
 /**
  * Tenant Launch & Recovery Coordination Port (ADR-0038).
  *
@@ -8,14 +10,14 @@
 
 export interface TenantLaunchGate {
   readonly runId: string;
-  readonly holderType: "WORKER" | "RECOVERY";
+  readonly holderType: "WORKER" | "RECOVERY" | "QUARANTINE";
   readonly holderId: string;
   readonly leaseId: string;
   readonly token: string;
   readonly acquiredAt: string;
   readonly expiresAt: string;
   readonly releasedAt?: string;
-  readonly state: "ACQUIRED" | "RELEASED";
+  readonly state: "ACQUIRED" | "RELEASED" | "QUARANTINED" | "QUIESCED";
   readonly ownerPid?: number;
 }
 
@@ -33,6 +35,9 @@ export interface AcquireGateParams {
 }
 
 export interface TenantLaunchCoordinatorPort {
+  /** Optional reference to the backing durable state store (if store-backed). */
+  readonly store?: StateStorePort;
+
   /**
    * Acquires the coordination gate for runId.
    * If held by another active holder, waits up to timeoutMs before throwing TenantLaunchGateTimeoutError.
@@ -44,4 +49,16 @@ export interface TenantLaunchCoordinatorPort {
    * Releases the coordination gate. Only the current token holder can release.
    */
   release(gate: TenantLaunchGate): Promise<void>;
+
+  /**
+   * Places the coordination gate into QUARANTINED state, preventing worker launch
+   * until tenant quiescence is affirmatively re-established by recovery.
+   */
+  quarantine?(gate: TenantLaunchGate, reason?: string): Promise<void>;
+
+  /**
+   * Marks the coordination gate as QUIESCED after physical tenant quiescence has been
+   * affirmatively verified by an authorized recovery supervisor.
+   */
+  markQuiescent?(gate: TenantLaunchGate): Promise<void>;
 }

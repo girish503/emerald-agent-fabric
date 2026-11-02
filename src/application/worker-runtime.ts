@@ -51,7 +51,7 @@ import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../ports/e
 import { resolveProviderTenantModel } from "../ports/tenant-quiescence.port.js";
 import type { TenantLaunchCoordinatorPort, TenantLaunchGate } from "../ports/tenant-launch-coordinator.port.js";
 import { SqliteTenantLaunchCoordinator, InMemoryTenantLaunchCoordinator } from "../adapters/coordination/sqlite-tenant-launch-coordinator.js";
-import { LeaseFencingCheck, WorkerRecord } from "../ports/state-store.port.js";
+import { LeaseFencingCheck, StateStorePort, WorkerRecord } from "../ports/state-store.port.js";
 import { ToolAdapterRegistryPort } from "../ports/tool-adapter.port.js";
 import { MutationIntentStorePort } from "../ports/mutation-intent-store.port.js";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
@@ -66,6 +66,34 @@ import {
   ToolExecutionGateway,
   TrustedToolInvocationContext,
 } from "./tool-execution-gateway.js";
+
+/**
+ * Structural check establishing whether an object is a state store capable of durable launch gate operations.
+ * Fails closed if the store does not structurally provide the required gate and transaction methods.
+ */
+export function isDurableLaunchGateStore(store: unknown): store is StateStorePort {
+  return (
+    typeof store === "object" &&
+    store !== null &&
+    typeof (store as any).acquireTenantLaunchGate === "function" &&
+    typeof (store as any).releaseTenantLaunchGate === "function" &&
+    typeof (store as any).getTenantLaunchGate === "function" &&
+    typeof (store as any).transaction === "function"
+  );
+}
+
+/**
+ * Structural check extracting the backing state store from a tenant launch coordinator.
+ */
+export function getLaunchCoordinatorStore(
+  coordinator: TenantLaunchCoordinatorPort
+): StateStorePort | undefined {
+  const store =
+    (coordinator as any).store ??
+    (coordinator as any).getStore?.() ??
+    (coordinator as any).getStateStore?.();
+  return typeof store === "object" && store !== null ? store : undefined;
+}
 
 export type WorkerRunResult =
   | { readonly status: "IDLE" }
@@ -242,19 +270,46 @@ export class WorkerRuntime {
       );
     }
 
-    // ADR-0038 Remediation (F-03): An isolated-process provider requires durable launch coordination
-    // across processes. Silent fallback to in-memory coordination would defeat mutual exclusion
-    // between worker tenant container creation and recovery quiescence/sweeping.
-    if (
-      resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES" &&
-      !options.launchCoordinator &&
-      !this.coordinator.store
-    ) {
-      throw new Error(
-        `WorkerRuntime: execution provider '${this.executionProvider.name}' declares ISOLATED_PROCESSES ` +
-          `tenant semantics, but neither options.launchCoordinator nor an authoritative coordinator store ` +
-          `was provided. Silent fallback to in-memory coordination is prohibited for isolated execution.`
-      );
+    // ADR-0038 Remediation (F-03 / F-4.4): An isolated-process provider requires durable launch coordination
+    // across processes. Neither silent fallback nor explicit injection of an in-memory coordinator is permitted.
+    // The launch coordinator must be backed by an authoritative durable state store matching the worker's coordinator store.
+    if (resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES") {
+      const coordinatorStore = this.coordinator?.store;
+      const hasDurableCoordinatorStore = isDurableLaunchGateStore(coordinatorStore);
+
+      if (!options.launchCoordinator) {
+        if (!hasDurableCoordinatorStore) {
+          throw new Error(
+            `WorkerRuntime: execution provider '${this.executionProvider.name}' declares ISOLATED_PROCESSES ` +
+              `tenant semantics, but neither options.launchCoordinator nor an authoritative coordinator store ` +
+              `was provided. Silent fallback to in-memory coordination is prohibited for isolated execution.`
+          );
+        }
+      } else {
+        const launchStore = getLaunchCoordinatorStore(options.launchCoordinator);
+        if (!isDurableLaunchGateStore(launchStore)) {
+          throw new Error(
+            `WorkerRuntime: execution provider '${this.executionProvider.name}' declares ISOLATED_PROCESSES ` +
+              `tenant semantics, but the provided launch coordinator is not backed by an authoritative durable state store ` +
+              `(explicit injection of an in-memory coordinator is prohibited for isolated execution). An authoritative coordinator store supporting ` +
+              `tenant launch gates is required.`
+          );
+        }
+        if (!hasDurableCoordinatorStore) {
+          throw new Error(
+            `WorkerRuntime: execution provider '${this.executionProvider.name}' declares ISOLATED_PROCESSES ` +
+              `tenant semantics, but the worker coordinator has no authoritative durable state store. ` +
+              `An authoritative coordinator store supporting tenant launch gates is required for isolated execution.`
+          );
+        }
+        if (launchStore !== coordinatorStore) {
+          throw new Error(
+            `WorkerRuntime: execution provider '${this.executionProvider.name}' declares ISOLATED_PROCESSES ` +
+              `tenant semantics, but the launch coordinator is backed by a different state store than the worker coordinator. ` +
+              `Cross-store coordination is prohibited for isolated execution.`
+          );
+        }
+      }
     }
 
     if (options.toolGateway) {
@@ -1035,6 +1090,14 @@ export class WorkerRuntime {
       // by the precedence rules below, and never reaches a terminal write or workspace disposal: a tenant may
       // still be running, so the run is left RUNNING for lease-expiry recovery to quiesce.
       if (executionResult.status === "FAILED" && executionResult.error?.code === "TERMINATION_UNVERIFIED") {
+        if (launchGate && typeof this.launchCoordinator.quarantine === "function") {
+          try {
+            await this.launchCoordinator.quarantine(launchGate, "Worker termination unverified");
+          } catch {
+            // fail-closed best effort
+          }
+          launchGate = undefined;
+        }
         return { status: "TERMINATION_UNVERIFIED", runId: run.runId, error: executionResult.error };
       }
 

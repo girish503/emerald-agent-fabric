@@ -42,6 +42,7 @@ import {
   SupervisorLeaseLostError,
 } from "../../src/domain/errors.js";
 import { MutationIntent, computeRecoveryDedupToken } from "../../src/domain/mutation-intent.js";
+import { inProcessBinding } from "./in-process-binding.js";
 
 function sha256(content: string | Buffer): string {
   return createHash("sha256").update(content).digest("hex");
@@ -144,8 +145,8 @@ describe("RecoverySupervisor Unit & Integration Tests", () => {
           errorPayload: null,
           createdAt: clock.nowIso(),
           updatedAt: clock.nowIso(),
-          contractBinding: null,
-          maxOutputBytes: null,
+          contractBinding: inProcessBinding(tx, "task-" + params.runId),
+          maxOutputBytes: 1048576,
         },
         {
           eventId: "evt-init-" + params.runId,

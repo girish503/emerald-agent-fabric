@@ -5,6 +5,7 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { inProcessBinding } from "./in-process-binding.js";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -49,7 +50,7 @@ describe("Re-audit medium findings", () => {
         {
           runId: RUN, taskId: "t", status, version: 1, attemptCount: 1, maxAttempts: 3, timeoutMs: 30000,
           idempotencyKey: null, currentWorkerId: "w", leaseId: "l", leaseExpiresAt: FUTURE,
-          resultPayload: null, errorPayload: null, createdAt: NOW, updatedAt: NOW, contractBinding: null, maxOutputBytes: null,
+          resultPayload: null, errorPayload: null, createdAt: NOW, updatedAt: NOW, contractBinding: inProcessBinding(tx, "t"), maxOutputBytes: 1048576,
         },
         { eventId: "e1", runId: RUN, timestamp: NOW, eventType: "run.created", schemaVersion: 1, producer: "test", payload: {} }
       );

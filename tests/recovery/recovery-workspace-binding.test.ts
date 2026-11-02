@@ -6,6 +6,7 @@
  */
 
 import * as fs from "node:fs";
+import { inProcessBinding } from "./in-process-binding.js";
 import * as os from "node:os";
 import * as path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -77,8 +78,8 @@ describe("RecoverySupervisor workspace binding (fail closed)", () => {
           errorPayload: null,
           createdAt: nowIso,
           updatedAt: nowIso,
-          contractBinding: null,
-          maxOutputBytes: null,
+          contractBinding: inProcessBinding(tx, "task-" + runId),
+          maxOutputBytes: 1048576,
         },
         {
           eventId: "evt-" + runId,

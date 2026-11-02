@@ -10,6 +10,7 @@ import {
   ResourceLimitExceededError,
   MissingBoundContractError,
   SupervisorLeaseExpiredError,
+  TenantQuiescenceRequiredError,
 } from "../domain/errors.js";
 import {
   DomainEvent,
@@ -38,7 +39,7 @@ import {
   RunSnapshot,
 } from "../domain/invariants.js";
 import { MissionContract } from "../domain/mission-contract.js";
-import { ClockPort, SystemClock } from "../ports/clock.port.js";
+import { ClockPort, SystemClock, resolveAuthorityNowIso } from "../ports/clock.port.js";
 import {
   LeaseFencingCheck,
   LeaseRecord,
@@ -92,6 +93,11 @@ export interface RecoverExpiredResult {
   readonly heldForRollbackRunIds?: readonly string[];
   /** Runs requeued/failed although discarding their crashed workspace failed (operator attention). */
   readonly workspaceCleanupFailedRunIds?: readonly string[];
+  /**
+   * Runs left untouched because they require isolated tenant execution and tenant quiescence
+   * has not been affirmatively established (ADR-0037 / ADR-0038 / Milestone 2.4A.9).
+   */
+  readonly heldForQuiescenceRunIds?: readonly string[];
 }
 
 export interface RecoverMissionParams {
@@ -101,6 +107,8 @@ export interface RecoverMissionParams {
   readonly newWorkerId?: string;
   readonly newWorkerLeaseId?: string;
   readonly nowIso?: string;
+  /** Gate generation (token) from the acquisition that established quiescence; required for isolated runs. */
+  readonly gateToken?: string;
 }
 
 export interface RecoverMissionResult {
@@ -749,11 +757,42 @@ export class RunCoordinator {
   }
 
   /**
+   * Returns true if the run may have isolated tenant processes (fail closed)
+   * requiring verified tenant quiescence before workspace disposal or retry requeue.
+   */
+  public runRequiresTenantQuiescence(runSnapshot: RunSnapshot): boolean {
+    const binding = runSnapshot.contractBinding;
+    if (!binding) return true;
+    let contract: MissionContract | null;
+    try {
+      contract = this.getContract(binding.contractId, binding.version);
+    } catch {
+      // A corrupt or tampered contract cannot prove IN_PROCESS isolation; fail closed without aborting the sweep.
+      return true;
+    }
+    if (!contract) return true;
+    return contract.spec.policy.isolationRequirement !== "IN_PROCESS";
+  }
+
+  /**
    * Recovers runs whose leases have expired while in LEASED or RUNNING status.
    * If retry attempts remain, the run is re-queued.
    * If retry attempts are exhausted, the run is transitioned to FAILED.
    */
-  recoverExpiredRuns(options?: { excludeRunIds?: ReadonlySet<string> }): RecoverExpiredResult {
+  recoverExpiredRuns(options?: {
+    excludeRunIds?: ReadonlySet<string>;
+    quiescedRunIds?: ReadonlySet<string>;
+    /**
+     * Gate generation (token) per run from the acquisition that established quiescence. An isolated run is retried only
+     * while its durable gate still carries exactly this token; a missing or different token holds the run.
+     */
+    quiescedGateTokens?: ReadonlyMap<string, string>;
+    /**
+     * Recovery supervisor on whose authority this sweep runs. Isolated runs are retried only when their durable
+     * gate is QUIESCED under this exact supervisor; omitting it holds every isolated run (fail closed).
+     */
+    supervisorId?: string;
+  }): RecoverExpiredResult {
     const nowIso = this.clock.nowIso();
     const expiredCandidates = this.stateStore.findExpiredRuns(nowIso);
     // Runs the supervisor has rolled back and handed over (left RECOVERING) are retried here too.
@@ -768,6 +807,7 @@ export class RunCoordinator {
     });
     const recoveredRuns: RunSnapshot[] = [];
     const heldForRollback: string[] = [];
+    const heldForQuiescence: string[] = [];
     const cleanupFailed = new Set<string>();
 
     for (const candidate of candidates) {
@@ -796,6 +836,41 @@ export class RunCoordinator {
         if (!snapshot || !(workerLeaseExpired || snapshot.status === "RECOVERING")) {
           // Changed concurrently or lease renewed
           return;
+        }
+
+        // Tenant Quiescence Gate (Invariant A / F-03 Remediation): An isolated run must NOT have its workspace discarded
+        // or attempt advanced without verified affirmative tenant quiescence in durable state (state === 'QUIESCED' under RECOVERY).
+        if (this.runRequiresTenantQuiescence(snapshot)) {
+          const gate =
+            typeof (tx as any).getTenantLaunchGate === "function"
+              ? (tx as any).getTenantLaunchGate(snapshot.runId)
+              : typeof this.stateStore.getTenantLaunchGate === "function"
+                ? this.stateStore.getTenantLaunchGate(snapshot.runId)
+                : null;
+          const isQuiesced =
+            (options?.quiescedRunIds === undefined || options.quiescedRunIds.has(snapshot.runId)) &&
+            gate !== null &&
+            gate.state === "QUIESCED" &&
+            gate.holderType === "RECOVERY" &&
+            options?.supervisorId !== undefined &&
+            gate.holderId === options.supervisorId &&
+            // An expired gate is not current authority to dispose a workspace or requeue; quiescence must be re-verified.
+            Number.isFinite(Date.parse(gate.expiresAt)) &&
+            Date.parse(nowIso) < Date.parse(gate.expiresAt) &&
+            options?.quiescedGateTokens?.get(snapshot.runId) !== undefined &&
+            gate.token === options.quiescedGateTokens.get(snapshot.runId);
+          if (!isQuiesced) {
+            heldForQuiescence.push(snapshot.runId);
+            return;
+          }
+        }
+
+        if (typeof this.stateStore.getTenantLaunchGate === "function") {
+          const gate = this.stateStore.getTenantLaunchGate(snapshot.runId);
+          if (gate && gate.state === "QUARANTINED") {
+            heldForQuiescence.push(snapshot.runId);
+            return;
+          }
         }
 
         // Retry gate: a run holding unreconciled workspace mutations must not be requeued (and its
@@ -1071,6 +1146,7 @@ export class RunCoordinator {
       recoveredCount: recoveredRuns.length,
       runs: recoveredRuns,
       ...(heldForRollback.length > 0 ? { heldForRollbackRunIds: heldForRollback } : {}),
+      ...(heldForQuiescence.length > 0 ? { heldForQuiescenceRunIds: heldForQuiescence } : {}),
       ...(cleanupFailed.size > 0 ? { workspaceCleanupFailedRunIds: Array.from(cleanupFailed) } : {}),
     };
   }
@@ -1712,7 +1788,8 @@ export class RunCoordinator {
   }
 
   recoverMission(params: RecoverMissionParams): RecoverMissionResult {
-    const nowIso = params.nowIso ?? this.clock.nowIso();
+    // Authority time is the injected clock; params.nowIso is validated but cannot backdate or advance it.
+    const nowIso = resolveAuthorityNowIso(this.clock, params.nowIso, params.runId);
 
     return this.stateStore.transaction((tx) => {
       // 1. Validate supervisor lease and fencing
@@ -1791,6 +1868,25 @@ export class RunCoordinator {
         throw new InvalidMissionContractError(
           `Bound MissionContract '${contract.spec.contractId}' v${contract.spec.version} is not ACTIVE (status: '${contract.lifecycle.status}')`
         );
+      }
+
+      // 5.5 Validate Tenant Quiescence (F-02 Remediation)
+      // An isolated run must NOT undergo mission recovery without affirmative durable tenant quiescence proof.
+      if (this.runRequiresTenantQuiescence(runSnapshot)) {
+        const gate =
+          typeof (tx as any).getTenantLaunchGate === "function"
+            ? (tx as any).getTenantLaunchGate(params.runId)
+            : typeof this.stateStore.getTenantLaunchGate === "function"
+              ? this.stateStore.getTenantLaunchGate(params.runId)
+              : null;
+        const gateExpiresMs = gate ? Date.parse(gate.expiresAt) : Number.NaN;
+        const gateFresh = Number.isFinite(gateExpiresMs) && Date.parse(nowIso) < gateExpiresMs;
+        if (!gate || gate.state !== "QUIESCED" || gate.holderType !== "RECOVERY" || gate.holderId !== params.supervisorId || !gateFresh || params.gateToken === undefined || gate.token !== params.gateToken) {
+          throw new TenantQuiescenceRequiredError(
+            params.runId,
+            `Mission recovery for run '${params.runId}' requires affirmative, unexpired tenant quiescence verification under supervisor '${params.supervisorId}' for the exact gate generation supplied in gateToken (${params.gateToken === undefined ? "none supplied" : "stale or mismatched"}); gate is '${gate?.state ?? "NONE"}' held by '${gate?.holderId ?? "NONE"}' expiring '${gate?.expiresAt ?? "n/a"}' (expected QUIESCED under '${params.supervisorId}', not expired at '${nowIso}').`
+          );
+        }
       }
 
       // 6. Inspect current checkpoint

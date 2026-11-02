@@ -595,9 +595,18 @@ function mapRowToMissionContract(row: DbMissionContractRow): MissionContract {
   );
 }
 
+/**
+ * Returns false ONLY when the process is positively known to be absent (ESRCH). An invalid PID (non-integer, NaN,
+ * zero or negative) establishes nothing about the owner, so it is reported as alive/unknown and never permits takeover.
+ */
+/** A recorded owner PID is usable evidence only when it is a positive integer. */
+function isValidOwnerPid(pid: unknown): pid is number {
+  return typeof pid === "number" && Number.isInteger(pid) && pid > 0;
+}
+
 export function defaultIsProcessAlive(pid: number): boolean {
   if (!Number.isInteger(pid) || pid <= 0) {
-    return false;
+    return true;
   }
   try {
     process.kill(pid, 0);
@@ -2475,14 +2484,14 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
       .get(params.runId) as
       | {
           run_id: string;
-          holder_type: "WORKER" | "RECOVERY";
+          holder_type: "WORKER" | "RECOVERY" | "QUARANTINE";
           holder_id: string;
           lease_id: string;
           token: string;
           acquired_at: string;
           expires_at: string;
           released_at: string | null;
-          state: "ACQUIRED" | "RELEASED";
+          state: "ACQUIRED" | "RELEASED" | "QUARANTINED" | "QUIESCED";
           owner_pid: number | null;
         }
       | undefined;
@@ -2491,94 +2500,9 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
     const expiresAt = new Date(new Date(params.nowIso).getTime() + ttlMs).toISOString();
     const token = crypto.randomUUID();
 
-    if (row && row.state === "ACQUIRED") {
-      const nowMs = new Date(params.nowIso).getTime();
-      const expiresMs = new Date(row.expires_at).getTime();
-
-      // If the gate has not reached its nominal TTL, reject acquisition immediately.
-      if (nowMs < expiresMs) {
-        throw new TenantLaunchGateConflictError(
-          params.runId,
-          row.holder_type,
-          row.holder_id,
-          row.expires_at
-        );
-      }
-
-      // Gate has reached or exceeded its nominal TTL.
-      // Under ADR-0038 Remediation (F-01/F-02/F-05), time-based lock stealing is eliminated.
-      // A gate can NEVER be stolen from a live owner process (Worker or Recovery).
-      if (row.holder_id !== params.holderId || row.holder_type !== params.holderType) {
-        if (row.holder_type === "WORKER") {
-          const pid = row.owner_pid ?? this.getWorker(row.holder_id)?.pid;
-          if (!pid) {
-            // Missing owner process identity: fail closed per Requirement 8
-            throw new TenantLaunchGateConflictError(
-              params.runId,
-              row.holder_type,
-              row.holder_id,
-              row.expires_at,
-              `Worker '${row.holder_id}' process identity is unknown or unrecorded; tenant launch gate stealing refused fail-closed.`
-            );
-          }
-          let isAlive = true;
-          try {
-            isAlive = this.isProcessAlive(pid);
-          } catch {
-            isAlive = true; // indeterminate: fail closed
-          }
-          if (isAlive) {
-            throw new TenantLaunchGateConflictError(
-              params.runId,
-              row.holder_type,
-              row.holder_id,
-              row.expires_at,
-              `Worker '${row.holder_id}' (PID ${pid}) is still alive; tenant launch gate stealing refused.`
-            );
-          }
-        } else if (row.holder_type === "RECOVERY") {
-          const pid = row.owner_pid;
-          if (!pid) {
-            // Missing owner process identity: fail closed per Requirement 8
-            throw new TenantLaunchGateConflictError(
-              params.runId,
-              row.holder_type,
-              row.holder_id,
-              row.expires_at,
-              `Recovery supervisor '${row.holder_id}' process identity is unknown or unrecorded; tenant launch gate stealing refused fail-closed.`
-            );
-          }
-          let isAlive = true;
-          try {
-            isAlive = this.isProcessAlive(pid);
-          } catch {
-            isAlive = true; // indeterminate: fail closed
-          }
-          if (isAlive) {
-            throw new TenantLaunchGateConflictError(
-              params.runId,
-              row.holder_type,
-              row.holder_id,
-              row.expires_at,
-              `Recovery supervisor '${row.holder_id}' (PID ${pid}) is still alive; tenant launch gate stealing refused.`
-            );
-          }
-
-          // In addition to process liveness, check supervisor lease fencing per Requirement 5
-          const activeSupervisorLease = this.findActiveSupervisorLease(params.runId, params.nowIso);
-          if (activeSupervisorLease && activeSupervisorLease.supervisorId === row.holder_id) {
-            throw new TenantLaunchGateConflictError(
-              params.runId,
-              row.holder_type,
-              row.holder_id,
-              row.expires_at,
-              `Recovery supervisor '${row.holder_id}' lease is still active; tenant launch gate stealing refused.`
-            );
-          }
-        }
-      }
-    }
-
+    // Owner identity is (holderId, ownerPid), not the name alone: a different process claiming the same holderId is a
+    // takeover and must pass the same liveness proof as any other contender. Only the recorded process re-entering its own
+    // gate (valid recorded PID equal to the acquirer's PID) is exempt.
     const ownerPid =
       params.ownerPid ??
       (params.holderType === "WORKER"
@@ -2586,6 +2510,230 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
         : typeof process !== "undefined" && process.pid
           ? process.pid
           : null);
+    const isSameOwner =
+      !!row &&
+      row.holder_id === params.holderId &&
+      row.holder_type === params.holderType &&
+      isValidOwnerPid(row.owner_pid) &&
+      row.owner_pid === ownerPid;
+
+    // An active supervisor lease indicates that crash recovery is actively executing for this run.
+    // Tenant launch gate acquisition, replacement, or re-entry must be refused fail-closed to protect
+    // the in-flight recovery epoch and prevent gate-token replacement races (F-5.3).
+    // An active supervisor is permitted only an initial acquisition for its own lease if no gate is currently held.
+    const activeSupervisorLease = this.findActiveSupervisorLease(params.runId, params.nowIso);
+    if (activeSupervisorLease) {
+      const isCurrentSupervisorInitialAcquisition =
+        params.holderType === "RECOVERY" &&
+        params.holderId === activeSupervisorLease.supervisorId &&
+        params.leaseId === activeSupervisorLease.leaseId &&
+        (!row || row.state === "RELEASED");
+
+      if (!isCurrentSupervisorInitialAcquisition) {
+        throw new TenantLaunchGateConflictError(
+          params.runId,
+          row?.holder_type ?? "RECOVERY",
+          activeSupervisorLease.supervisorId,
+          activeSupervisorLease.expiresAt,
+          `Tenant launch gate for run '${params.runId}' cannot be acquired; recovery supervisor '${activeSupervisorLease.supervisorId}' holds an active recovery lease until '${activeSupervisorLease.expiresAt}'.`
+        );
+      }
+    }
+
+    if (row && (row.state === "ACQUIRED" || row.state === "QUARANTINED" || row.state === "QUIESCED")) {
+      if (row.state === "QUARANTINED") {
+        if (params.holderType === "WORKER") {
+          throw new TenantLaunchGateConflictError(
+            params.runId,
+            row.holder_type,
+            row.holder_id,
+            row.expires_at,
+            `Tenant execution for run '${params.runId}' is QUARANTINED (prior container termination unverified); worker launch refused.`
+          );
+        }
+        // holderType === "RECOVERY" is permitted to acquire a quarantined gate in order to verify quiescence
+      } else if (row.state === "QUIESCED") {
+        if (params.holderType === "WORKER") {
+          throw new TenantLaunchGateConflictError(
+            params.runId,
+            row.holder_type,
+            row.holder_id,
+            row.expires_at,
+            `Tenant execution for run '${params.runId}' is QUIESCED under recovery; worker launch refused.`
+          );
+        }
+        // holderType === "RECOVERY": re-entry by the recorded owner process, or a takeover that needs liveness proof
+        if (!isSameOwner) {
+          const nowMs = new Date(params.nowIso).getTime();
+          const expiresMs = new Date(row.expires_at).getTime();
+          if (!Number.isFinite(nowMs) || !Number.isFinite(expiresMs)) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Tenant launch gate for run '${params.runId}' has an unparseable expiry or acquisition time; QUIESCED gate takeover refused fail-closed.`
+            );
+          }
+          if (nowMs < expiresMs) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Tenant launch gate for run '${params.runId}' is held in QUIESCED state by recovery supervisor '${row.holder_id}' until '${row.expires_at}'.`
+            );
+          }
+
+          // Gate has reached or exceeded its nominal TTL in QUIESCED state.
+          // Process-liveness and supervisor-lease checks must be enforced before allowing takeover.
+          const pid = row.owner_pid;
+          if (!pid || !Number.isInteger(pid) || pid <= 0) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Recovery supervisor '${row.holder_id}' process identity is unknown or unrecorded; QUIESCED gate takeover refused fail-closed.`
+            );
+          }
+          let isAlive = true;
+          try {
+            isAlive = this.isProcessAlive(pid);
+          } catch {
+            isAlive = true; // indeterminate: fail closed
+          }
+          if (isAlive) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Recovery supervisor '${row.holder_id}' (PID ${pid}) is still alive; QUIESCED gate takeover refused.`
+            );
+          }
+
+          const activeSupervisorLease = this.findActiveSupervisorLease(params.runId, params.nowIso);
+          if (activeSupervisorLease && activeSupervisorLease.supervisorId === row.holder_id) {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Recovery supervisor '${row.holder_id}' lease is still active; QUIESCED gate takeover refused.`
+            );
+          }
+        }
+      } else {
+        const nowMs = new Date(params.nowIso).getTime();
+        const expiresMs = new Date(row.expires_at).getTime();
+
+        // An unparseable expiry or clock is never evidence that the gate has expired.
+        if (!Number.isFinite(nowMs) || !Number.isFinite(expiresMs)) {
+          throw new TenantLaunchGateConflictError(
+            params.runId,
+            row.holder_type,
+            row.holder_id,
+            row.expires_at,
+            `Tenant launch gate for run '${params.runId}' has an unparseable expiry or acquisition time; takeover refused fail-closed.`
+          );
+        }
+
+        // If the gate has not reached its nominal TTL, reject acquisition immediately.
+        if (nowMs < expiresMs) {
+          throw new TenantLaunchGateConflictError(
+            params.runId,
+            row.holder_type,
+            row.holder_id,
+            row.expires_at
+          );
+        }
+
+        // Gate has reached or exceeded its nominal TTL.
+        // Under ADR-0038 Remediation (F-01/F-02/F-05), time-based lock stealing is eliminated.
+        // A gate can NEVER be stolen from a live owner process (Worker or Recovery).
+        // Under Milestone 2.4A.13 (F-01), a WORKER can NEVER steal a gate held by RECOVERY even if crashed.
+        if (!isSameOwner) {
+          if (row.holder_type === "RECOVERY" && params.holderType === "WORKER") {
+            throw new TenantLaunchGateConflictError(
+              params.runId,
+              row.holder_type,
+              row.holder_id,
+              row.expires_at,
+              `Tenant launch gate for run '${params.runId}' was held by recovery supervisor '${row.holder_id}'; worker acquisition refused fail-closed.`
+            );
+          }
+
+          if (row.holder_type === "WORKER") {
+            const pid = row.owner_pid ?? this.getWorker(row.holder_id)?.pid;
+            if (!pid || !Number.isInteger(pid) || pid <= 0) {
+              // Missing owner process identity: fail closed per Requirement 8
+              throw new TenantLaunchGateConflictError(
+                params.runId,
+                row.holder_type,
+                row.holder_id,
+                row.expires_at,
+                `Worker '${row.holder_id}' process identity is unknown or unrecorded; tenant launch gate stealing refused fail-closed.`
+              );
+            }
+            let isAlive = true;
+            try {
+              isAlive = this.isProcessAlive(pid);
+            } catch {
+              isAlive = true; // indeterminate: fail closed
+            }
+            if (isAlive) {
+              throw new TenantLaunchGateConflictError(
+                params.runId,
+                row.holder_type,
+                row.holder_id,
+                row.expires_at,
+                `Worker '${row.holder_id}' (PID ${pid}) is still alive; tenant launch gate stealing refused.`
+              );
+            }
+          } else if (row.holder_type === "RECOVERY") {
+            const pid = row.owner_pid;
+            if (!pid || !Number.isInteger(pid) || pid <= 0) {
+              // Missing owner process identity: fail closed per Requirement 8
+              throw new TenantLaunchGateConflictError(
+                params.runId,
+                row.holder_type,
+                row.holder_id,
+                row.expires_at,
+                `Recovery supervisor '${row.holder_id}' process identity is unknown or unrecorded; tenant launch gate stealing refused fail-closed.`
+              );
+            }
+            let isAlive = true;
+            try {
+              isAlive = this.isProcessAlive(pid);
+            } catch {
+              isAlive = true; // indeterminate: fail closed
+            }
+            if (isAlive) {
+              throw new TenantLaunchGateConflictError(
+                params.runId,
+                row.holder_type,
+                row.holder_id,
+                row.expires_at,
+                `Recovery supervisor '${row.holder_id}' (PID ${pid}) is still alive; tenant launch gate stealing refused.`
+              );
+            }
+
+            // In addition to process liveness, check supervisor lease fencing per Requirement 5
+            const activeSupervisorLease = this.findActiveSupervisorLease(params.runId, params.nowIso);
+            if (activeSupervisorLease && activeSupervisorLease.supervisorId === row.holder_id) {
+              throw new TenantLaunchGateConflictError(
+                params.runId,
+                row.holder_type,
+                row.holder_id,
+                row.expires_at,
+                `Recovery supervisor '${row.holder_id}' lease is still active; tenant launch gate stealing refused.`
+              );
+            }
+          }
+        }
+      }
+    }
 
     this.db
       .prepare(`
@@ -2626,9 +2774,74 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
       .prepare(`
         UPDATE tenant_launch_gates
         SET state = 'RELEASED', released_at = ?
-        WHERE run_id = ? AND token = ? AND state = 'ACQUIRED'
+        WHERE run_id = ? AND token = ? AND (state = 'ACQUIRED' OR state = 'QUIESCED')
       `)
       .run(params.nowIso, params.runId, params.token);
+  }
+
+  markQuiescentTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void {
+    const res = this.db
+      .prepare(`
+        UPDATE tenant_launch_gates
+        SET state = 'QUIESCED', released_at = NULL
+        WHERE run_id = ? AND token = ? AND holder_type = 'RECOVERY' AND state = 'ACQUIRED'
+      `)
+      .run(params.runId, params.token);
+
+    if (res.changes === 0) {
+      const row = this.db
+        .prepare(`SELECT * FROM tenant_launch_gates WHERE run_id = ?`)
+        .get(params.runId) as { token: string; holder_type: string; state: string } | undefined;
+      if (!row || row.token !== params.token || row.holder_type !== "RECOVERY" || row.state !== "QUIESCED") {
+        throw new TenantLaunchGateConflictError(
+          params.runId,
+          row?.holder_type ?? "UNKNOWN",
+          row ? (row as any).holder_id ?? "unknown" : "unknown",
+          params.nowIso,
+          `Cannot mark tenant launch gate as QUIESCED: invalid token, holderType, incompatible state ('${row?.state ?? "MISSING"}'), or missing gate for run '${params.runId}'.`
+        );
+      }
+    }
+  }
+
+  quarantineTenantLaunchGate(params: {
+    runId: string;
+    token?: string;
+    nowIso: string;
+    reason?: string;
+  }): void {
+    const existing = this.db.prepare(`SELECT * FROM tenant_launch_gates WHERE run_id = ?`).get(params.runId) as any;
+    if (existing) {
+      if (params.token) {
+        this.db
+          .prepare(`
+            UPDATE tenant_launch_gates
+            SET state = 'QUARANTINED', released_at = ?
+            WHERE run_id = ? AND token = ?
+          `)
+          .run(params.nowIso, params.runId, params.token);
+      } else {
+        this.db
+          .prepare(`
+            UPDATE tenant_launch_gates
+            SET state = 'QUARANTINED', released_at = ?
+            WHERE run_id = ?
+          `)
+          .run(params.nowIso, params.runId);
+      }
+    } else {
+      const token = crypto.randomUUID();
+      this.db
+        .prepare(`
+          INSERT INTO tenant_launch_gates (run_id, holder_type, holder_id, lease_id, token, acquired_at, expires_at, state, released_at)
+          VALUES (?, 'QUARANTINE', 'quarantine', 'quarantine', ?, ?, ?, 'QUARANTINED', ?)
+        `)
+        .run(params.runId, token, params.nowIso, params.nowIso, params.nowIso);
+    }
   }
 
   getTenantLaunchGate(runId: string): TenantLaunchGate | null {
@@ -3020,6 +3233,27 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     nowIso: string;
   }): void {
     this.transaction((tx) => tx.releaseTenantLaunchGate(params));
+  }
+
+  markQuiescentTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void {
+    this.transaction((tx) => {
+      if (typeof (tx as any).markQuiescentTenantLaunchGate === "function") {
+        (tx as any).markQuiescentTenantLaunchGate(params);
+      }
+    });
+  }
+
+  quarantineTenantLaunchGate(params: {
+    runId: string;
+    token?: string;
+    nowIso: string;
+    reason?: string;
+  }): void {
+    this.transaction((tx) => (tx as any).quarantineTenantLaunchGate(params));
   }
 
   getTenantLaunchGate(runId: string): TenantLaunchGate | null {

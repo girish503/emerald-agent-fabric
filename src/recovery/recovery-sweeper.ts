@@ -21,7 +21,12 @@ import { SqliteTenantLaunchCoordinator } from "../adapters/coordination/sqlite-t
 
 /** The retry half of recovery (satisfied by RunCoordinator). */
 export interface RetryCoordinator {
-  recoverExpiredRuns(options?: { excludeRunIds?: ReadonlySet<string> }): RecoverExpiredResult;
+  recoverExpiredRuns(options?: {
+    excludeRunIds?: ReadonlySet<string>;
+    quiescedRunIds?: ReadonlySet<string>;
+    quiescedGateTokens?: ReadonlyMap<string, string>;
+    supervisorId?: string;
+  }): RecoverExpiredResult;
 }
 
 export interface RecoverySweepResult {
@@ -100,9 +105,16 @@ export class RecoverySweeper {
         });
       }
       const excludeRunIds = gate && gate.heldRunIds.size > 0 ? gate.heldRunIds : undefined;
+      const quiescedRunIds = gate && gate.quiescedRunIds.length > 0 ? new Set(gate.quiescedRunIds) : undefined;
       // Supervisor first: it reconciles workspaces so the coordinator's retry gate can admit the runs.
-      const scan = await this.supervisor.scanAndRecover(excludeRunIds ? { excludeRunIds } : undefined);
-      const retry = this.coordinator.recoverExpiredRuns(excludeRunIds ? { excludeRunIds } : undefined);
+      const quiescedGateTokens = gate && gate.quiescedGateTokens.size > 0 ? gate.quiescedGateTokens : undefined;
+      const scan = await this.supervisor.scanAndRecover({ excludeRunIds, quiescedRunIds, quiescedGateTokens });
+      const retry = this.coordinator.recoverExpiredRuns({
+        excludeRunIds,
+        quiescedRunIds,
+        quiescedGateTokens,
+        supervisorId: this.supervisor.getSupervisorId(),
+      });
       // A supervisor outcome that failed closed is only an attention item if the coordinator did not
       // go on to retry the run (e.g. a crashed run that never had a workspace or any mutation).
       const retried = new Set(retry.runs.map((r) => r.runId));
@@ -111,14 +123,31 @@ export class RecoverySweeper {
         status: "WORKSPACE_CLEANUP_FAILED",
         details: "Crashed workspace could not be discarded; the retry may fail provisioning until it is removed",
       }));
+      const combinedHeldForTenants = Array.from(
+        new Set([
+          ...(gate ? gate.held.map((h) => h.runId) : []),
+          ...(retry.heldForQuiescenceRunIds ?? []),
+          ...scan.outcomes
+            .filter((o) => o.status === "SKIPPED_TENANTS_NOT_QUIESCED")
+            .map((o) => o.runId),
+        ])
+      );
       return {
         startedAtIso,
         scan,
         retry,
         heldForRollbackRunIds: retry.heldForRollbackRunIds ?? [],
-        heldForTenantsRunIds: gate ? gate.held.map((h) => h.runId) : [],
+        heldForTenantsRunIds: combinedHeldForTenants,
         needsAttention: [
           ...(gate?.held ?? []).map((h) => ({ runId: h.runId, status: "TENANTS_NOT_QUIESCED", details: h.reason })),
+          ...(retry.heldForQuiescenceRunIds ?? []).map((runId) => ({
+            runId,
+            status: "TENANTS_NOT_QUIESCED",
+            details: "Run requires tenant isolation and quiescence was not established",
+          })),
+          ...scan.outcomes
+            .filter((o) => o.status === "SKIPPED_TENANTS_NOT_QUIESCED")
+            .map((o) => ({ runId: o.runId, status: "TENANTS_NOT_QUIESCED", details: o.details })),
           ...scan.outcomes
             .filter((o) => (o.status === "FAILED" || o.status === "ROLLBACK_CONFLICT") && !retried.has(o.runId))
             .map((o) => ({ runId: o.runId, status: o.status as string, details: o.details })),

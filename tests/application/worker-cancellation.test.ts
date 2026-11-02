@@ -3,6 +3,7 @@ import * as os from "node:os";
 import * as path from "node:path";
 import { describe, expect, it } from "vitest";
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
+import { SqliteTenantLaunchCoordinator } from "../../src/adapters/coordination/sqlite-tenant-launch-coordinator.js";
 import { InProcessExecutionProvider } from "../../src/adapters/execution/in-process-execution-provider.js";
 import { NodeFsWorkspaceAdapter } from "../../src/adapters/workspace/node-fs-workspace-adapter.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
@@ -347,23 +348,19 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
   // Scenario 7: Operation ignoring cancellation settles safely without premature gate release
   it("Scenario 7: Operation ignoring cancellation settles safely without premature gate release", async () => {
     const events: string[] = [];
+    const clock = new SettableClock();
+    const store = new SqliteStateStore();
+    const durableCoordinator = new SqliteTenantLaunchCoordinator(store, clock);
 
     const mockLaunchCoordinator: TenantLaunchCoordinatorPort = {
+      store,
       async acquire(params: AcquireGateParams): Promise<TenantLaunchGate> {
         events.push("gate_acquired");
-        return {
-          runId: params.runId,
-          holderType: params.holderType,
-          holderId: params.holderId,
-          leaseId: params.leaseId,
-          token: "token-1",
-          acquiredAt: new Date().toISOString(),
-          expiresAt: new Date(Date.now() + 60000).toISOString(),
-          state: "ACQUIRED",
-        };
+        return durableCoordinator.acquire(params);
       },
-      async release(_gate: TenantLaunchGate): Promise<void> {
+      async release(gate: TenantLaunchGate): Promise<void> {
         events.push("gate_released");
+        return durableCoordinator.release(gate);
       },
     };
 
@@ -393,8 +390,6 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
       },
     };
 
-    const clock = new SettableClock();
-    const store = new SqliteStateStore();
     const coordinator = new RunCoordinator(store, clock);
     const worker = new WorkerRuntime({
       workerId: "worker-stubborn",
@@ -486,23 +481,19 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
   // Scenario 9: Launch gate remains held through workspace disposal
   it("Scenario 9: Launch gate remains held through workspace disposal", async () => {
     const ordering: string[] = [];
+    const clock = new SettableClock();
+    const store = new SqliteStateStore();
+    const durableCoordinator = new SqliteTenantLaunchCoordinator(store, clock);
 
     const mockLaunchCoordinator: TenantLaunchCoordinatorPort = {
+      store,
       async acquire(params: AcquireGateParams): Promise<TenantLaunchGate> {
         ordering.push("gate_acquired");
-        return {
-          runId: params.runId,
-          holderType: params.holderType,
-          holderId: params.holderId,
-          leaseId: params.leaseId,
-          token: "token-g9",
-          acquiredAt: new Date().toISOString(),
-          expiresAt: new Date(Date.now() + 60000).toISOString(),
-          state: "ACQUIRED",
-        };
+        return durableCoordinator.acquire(params);
       },
-      async release(_gate: TenantLaunchGate): Promise<void> {
+      async release(gate: TenantLaunchGate): Promise<void> {
         ordering.push("gate_released");
+        return durableCoordinator.release(gate);
       },
     };
 
@@ -535,8 +526,6 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
       },
     };
 
-    const clock = new SettableClock();
-    const store = new SqliteStateStore();
     const coordinator = new RunCoordinator(store, clock);
     const worker = new WorkerRuntime({
       workerId: "worker-g9",

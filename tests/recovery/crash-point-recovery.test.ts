@@ -25,6 +25,7 @@ import {
   computeRecoveryDedupToken,
 } from "../../src/domain/mutation-intent.js";
 import { MutationAuthorityContext } from "../../src/ports/mutation-intent-store.port.js";
+import { inProcessBinding } from "./in-process-binding.js";
 
 function sha256(content: string | Buffer): string {
   return createHash("sha256").update(content).digest("hex");
@@ -69,8 +70,8 @@ describe("Crash-point recovery (CP2–CP7)", () => {
           errorPayload: null,
           createdAt: NOW,
           updatedAt: NOW,
-          contractBinding: null,
-          maxOutputBytes: null,
+          contractBinding: inProcessBinding(tx, "t"),
+          maxOutputBytes: 1048576,
         },
         { eventId: "e1", runId: RUN, timestamp: NOW, eventType: "run.created", schemaVersion: 1, producer: "test", payload: {} }
       );

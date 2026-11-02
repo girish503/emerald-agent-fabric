@@ -191,7 +191,7 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
   // Tenant Launch Gate Operations (ADR-0038)
   acquireTenantLaunchGate(params: {
     runId: string;
-    holderType: "WORKER" | "RECOVERY";
+    holderType: "WORKER" | "RECOVERY" | "QUARANTINE";
     holderId: string;
     leaseId: string;
     nowIso: string;
@@ -199,6 +199,17 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
     ownerPid?: number;
   }): TenantLaunchGate;
   releaseTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void;
+  quarantineTenantLaunchGate?(params: {
+    runId: string;
+    token?: string;
+    nowIso: string;
+    reason?: string;
+  }): void;
+  markQuiescentTenantLaunchGate?(params: {
     runId: string;
     token: string;
     nowIso: string;
@@ -267,7 +278,7 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
   // Tenant Launch Gate Operations (ADR-0038)
   acquireTenantLaunchGate(params: {
     runId: string;
-    holderType: "WORKER" | "RECOVERY";
+    holderType: "WORKER" | "RECOVERY" | "QUARANTINE";
     holderId: string;
     leaseId: string;
     nowIso: string;
@@ -275,6 +286,17 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
     ownerPid?: number;
   }): TenantLaunchGate;
   releaseTenantLaunchGate(params: {
+    runId: string;
+    token: string;
+    nowIso: string;
+  }): void;
+  quarantineTenantLaunchGate?(params: {
+    runId: string;
+    token?: string;
+    nowIso: string;
+    reason?: string;
+  }): void;
+  markQuiescentTenantLaunchGate?(params: {
     runId: string;
     token: string;
     nowIso: string;

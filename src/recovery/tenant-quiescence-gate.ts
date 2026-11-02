@@ -32,6 +32,11 @@ export interface TenantPrePassResult {
   readonly heldRunIds: ReadonlySet<string>;
   /** Runs for which the port actually answered QUIESCENT. */
   readonly quiescedRunIds: readonly string[];
+  /**
+   * Gate generation (acquisition token) under which each run's quiescence was established. Recovery authorizes an isolated
+   * run only against this exact generation; the token is never re-read from the database on the caller's behalf.
+   */
+  readonly quiescedGateTokens: ReadonlyMap<string, string>;
   /** Releases any coordination gates acquired during the pre-pass. */
   readonly releaseGates?: () => Promise<void>;
 }
@@ -43,6 +48,7 @@ export async function runTenantQuiescencePrePass(
   const held: HeldForTenants[] = [];
   const quiesced: string[] = [];
   const acquiredGates = new Map<string, TenantLaunchGate>();
+  const gateTokens = new Map<string, string>();
 
   for (const run of runs) {
     let model: TenantModel;
@@ -83,17 +89,27 @@ export async function runTenantQuiescencePrePass(
       const result = await config.port.quiesceRun(run.runId);
       if (result.status === "QUIESCENT") {
         quiesced.push(run.runId);
-        if (gate) acquiredGates.set(run.runId, gate);
+        if (gate) {
+          if (config.launchCoordinator && typeof config.launchCoordinator.markQuiescent === "function") {
+            await config.launchCoordinator.markQuiescent(gate);
+          }
+          acquiredGates.set(run.runId, gate);
+          gateTokens.set(run.runId, gate.token);
+        }
       } else {
         held.push({ runId: run.runId, reason: `tenants not verified gone: ${result.reason}` });
         if (gate && config.launchCoordinator) {
-          await config.launchCoordinator.release(gate).catch(() => {});
+          if (typeof config.launchCoordinator.quarantine === "function") {
+            await config.launchCoordinator.quarantine(gate, result.reason).catch(() => {});
+          }
         }
       }
     } catch (err: unknown) {
       held.push({ runId: run.runId, reason: `quiescence check failed: ${err instanceof Error ? err.message : String(err)}` });
       if (gate && config.launchCoordinator) {
-        await config.launchCoordinator.release(gate).catch(() => {});
+        if (typeof config.launchCoordinator.quarantine === "function") {
+          await config.launchCoordinator.quarantine(gate, err instanceof Error ? err.message : String(err)).catch(() => {});
+        }
       }
     }
   }
@@ -110,7 +126,15 @@ export async function runTenantQuiescencePrePass(
     acquiredGates.clear();
   };
 
-  return { held, heldRunIds: new Set(held.map((h) => h.runId)), quiescedRunIds: quiesced, releaseGates };
+  // A run later held (e.g. markQuiescent failed) never carries a token, whatever the quiesced list says.
+  for (const h of held) gateTokens.delete(h.runId);
+  return {
+    held,
+    heldRunIds: new Set(held.map((h) => h.runId)),
+    quiescedRunIds: quiesced,
+    quiescedGateTokens: gateTokens,
+    releaseGates,
+  };
 }
 
 /**

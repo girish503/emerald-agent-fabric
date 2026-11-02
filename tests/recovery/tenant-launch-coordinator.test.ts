@@ -17,9 +17,9 @@
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SqliteStateStore, defaultIsProcessAlive } from "../../src/adapters/persistence/sqlite-state-store.js";
-import { SqliteTenantLaunchCoordinator } from "../../src/adapters/coordination/sqlite-tenant-launch-coordinator.js";
+import { SqliteTenantLaunchCoordinator, InMemoryTenantLaunchCoordinator } from "../../src/adapters/coordination/sqlite-tenant-launch-coordinator.js";
 import { DockerTenantQuiescenceAdapter, SubprocessRunner } from "../../src/adapters/execution/docker-tenant-quiescence-adapter.js";
 import { NodeFsWorkspaceAdapter } from "../../src/adapters/workspace/node-fs-workspace-adapter.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
@@ -578,11 +578,157 @@ describe("ADR-0038: Tenant Launch Coordination Gate", () => {
     }).toThrow(/Silent fallback to in-memory coordination is prohibited for isolated execution/);
   });
 
+  // 13b. F-4.4: Isolated provider + coordinator store lacking durable gate operations is rejected
+  it("Scenario 13b (F-4.4): Isolated provider + coordinator store lacking durable gate operations is rejected fail-closed", () => {
+    const clock = new SettableClock();
+    const fakeStoreLackingGates: any = {
+      getRun: () => null,
+      transaction: (op: any) => op({}),
+    };
+    const fakeCoordinator: any = {
+      registerWorker: () => {},
+      store: fakeStoreLackingGates,
+    };
+    const fakeIsolatedProvider: ExecutionProvider = {
+      name: "docker",
+      tenantModel: "ISOLATED_PROCESSES",
+      quiescence: { async quiesceRun() { return { status: "QUIESCENT", stopped: 0 }; } },
+      async execute() { return { status: "SUCCESS", durationMs: 0 }; },
+    };
+
+    expect(() => {
+      new WorkerRuntime({
+        workerId: "test-isolated-worker",
+        coordinator: fakeCoordinator,
+        clock,
+        executionProvider: fakeIsolatedProvider,
+      });
+    }).toThrow(/Silent fallback to in-memory coordination is prohibited for isolated execution/);
+  });
+
+  // 13c. F-4.4: Isolated provider + explicitly injected InMemoryTenantLaunchCoordinator is rejected
+  it("Scenario 13c (F-4.4): Isolated provider + explicitly injected in-memory coordinator is rejected", () => {
+    const clock = new SettableClock();
+    const store = new SqliteStateStore({ location: ":memory:" });
+    const coordinator = new RunCoordinator(store, clock);
+    const inMemoryCoordinator = new InMemoryTenantLaunchCoordinator(clock);
+    const fakeIsolatedProvider: ExecutionProvider = {
+      name: "docker",
+      tenantModel: "ISOLATED_PROCESSES",
+      quiescence: { async quiesceRun() { return { status: "QUIESCENT", stopped: 0 }; } },
+      async execute() { return { status: "SUCCESS", durationMs: 0 }; },
+    };
+
+    expect(() => {
+      new WorkerRuntime({
+        workerId: "test-isolated-worker",
+        coordinator,
+        clock,
+        executionProvider: fakeIsolatedProvider,
+        launchCoordinator: inMemoryCoordinator,
+      });
+    }).toThrow(/explicit injection of an in-memory coordinator is prohibited for isolated execution/);
+  });
+
+  // 13d. F-4.4: Isolated provider + correctly wired durable coordinator and store is accepted
+  it("Scenario 13d (F-4.4): Isolated provider + correctly wired durable coordinator/store is accepted", () => {
+    const clock = new SettableClock();
+    const store = new SqliteStateStore({ location: ":memory:" });
+    const coordinator = new RunCoordinator(store, clock);
+    const fakeIsolatedProvider: ExecutionProvider = {
+      name: "docker",
+      tenantModel: "ISOLATED_PROCESSES",
+      quiescence: { async quiesceRun() { return { status: "QUIESCENT", stopped: 0 }; } },
+      async execute() { return { status: "SUCCESS", durationMs: 0 }; },
+    };
+
+    // Case 1: Defaulted launch coordinator (backed by coordinator.store)
+    const runtimeDefault = new WorkerRuntime({
+      workerId: "test-isolated-worker-default",
+      coordinator,
+      clock,
+      executionProvider: fakeIsolatedProvider,
+    });
+    expect(runtimeDefault).toBeInstanceOf(WorkerRuntime);
+
+    // Case 2: Explicitly injected SqliteTenantLaunchCoordinator backed by the same store
+    const durableCoordinator = new SqliteTenantLaunchCoordinator(store, clock);
+    const runtimeExplicit = new WorkerRuntime({
+      workerId: "test-isolated-worker-explicit",
+      coordinator,
+      clock,
+      executionProvider: fakeIsolatedProvider,
+      launchCoordinator: durableCoordinator,
+    });
+    expect(runtimeExplicit).toBeInstanceOf(WorkerRuntime);
+  });
+
+  // 13e. F-4.4: In-process provider with existing supported test configuration remains unchanged
+  it("Scenario 13e (F-4.4): In-process provider with in-memory coordinator or no store remains supported and unchanged", () => {
+    const clock = new SettableClock();
+    const fakeCoordinator: any = {
+      registerWorker: () => {},
+      store: undefined,
+    };
+    const fakeInProcessProvider: ExecutionProvider = {
+      name: "in-process",
+      tenantModel: "NONE",
+      async execute() { return { status: "SUCCESS", durationMs: 0 }; },
+    };
+
+    // Case 1: In-process with undefined store and defaulted launch coordinator
+    const runtimeNoStore = new WorkerRuntime({
+      workerId: "test-inprocess-worker-nostore",
+      coordinator: fakeCoordinator,
+      clock,
+      executionProvider: fakeInProcessProvider,
+    });
+    expect(runtimeNoStore).toBeInstanceOf(WorkerRuntime);
+
+    // Case 2: In-process with explicitly injected in-memory coordinator
+    const inMemoryCoordinator = new InMemoryTenantLaunchCoordinator(clock);
+    const runtimeInMemory = new WorkerRuntime({
+      workerId: "test-inprocess-worker-inmemory",
+      coordinator: fakeCoordinator,
+      clock,
+      executionProvider: fakeInProcessProvider,
+      launchCoordinator: inMemoryCoordinator,
+    });
+    expect(runtimeInMemory).toBeInstanceOf(WorkerRuntime);
+  });
+
+  // 13f. F-4.4: Worker and launch coordinator using different stores is rejected
+  it("Scenario 13f (F-4.4): Worker runtime rejects launch coordinator backed by a different store than worker coordinator", () => {
+    const clock = new SettableClock();
+    const storeA = new SqliteStateStore({ location: ":memory:" });
+    const storeB = new SqliteStateStore({ location: ":memory:" });
+    const coordinatorA = new RunCoordinator(storeA, clock);
+    const launchCoordinatorB = new SqliteTenantLaunchCoordinator(storeB, clock);
+    const fakeIsolatedProvider: ExecutionProvider = {
+      name: "docker",
+      tenantModel: "ISOLATED_PROCESSES",
+      quiescence: { async quiesceRun() { return { status: "QUIESCENT", stopped: 0 }; } },
+      async execute() { return { status: "SUCCESS", durationMs: 0 }; },
+    };
+
+    expect(() => {
+      new WorkerRuntime({
+        workerId: "test-mismatched-stores-worker",
+        coordinator: coordinatorA,
+        clock,
+        executionProvider: fakeIsolatedProvider,
+        launchCoordinator: launchCoordinatorB,
+      });
+    }).toThrow(/launch coordinator is backed by a different state store than the worker coordinator/);
+  });
+
   // 14. defaultIsProcessAlive accurately reports liveness
-  it("Scenario 14: defaultIsProcessAlive reports true for current process and false for nonexistent PID", () => {
+  it("Scenario 14: defaultIsProcessAlive reports true for current process, true (unknown) for invalid PIDs, false only for an absent PID", () => {
     expect(defaultIsProcessAlive(process.pid)).toBe(true);
-    expect(defaultIsProcessAlive(0)).toBe(false);
-    expect(defaultIsProcessAlive(-5)).toBe(false);
+    // Invalid PIDs establish nothing about the owner: never reported as dead.
+    for (const invalid of [0, -5, 1.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(defaultIsProcessAlive(invalid)).toBe(true);
+    }
     expect(defaultIsProcessAlive(2_147_483_647)).toBe(false);
   });
 
@@ -806,5 +952,313 @@ describe("ADR-0038: Tenant Launch Coordination Gate", () => {
         /process identity is unknown or unrecorded; tenant launch gate stealing refused fail-closed/
       );
     }
+  });
+
+  // 20. M1.1: expired ACQUIRED takeover requires the owner to be positively established as dead
+  describe("Scenario 20: expired ACQUIRED takeover fail-closed on owner liveness (injectable boundary)", () => {
+    const OLD_PID = 5001;
+    type Probe = (pid: number) => boolean;
+
+    function seedExpired(holderType: "WORKER" | "RECOVERY", probe: Probe) {
+      const calls: number[] = [];
+      const harness = setupHarness({
+        isProcessAlive: (pid) => {
+          calls.push(pid);
+          return probe(pid);
+        },
+      });
+      const original = harness.store.acquireTenantLaunchGate({
+        runId: harness.runId,
+        holderType,
+        holderId: "old-owner",
+        leaseId: "old-lease",
+        nowIso: harness.clock.nowIso(),
+        ttlMs: 30_000,
+        ownerPid: OLD_PID,
+      });
+      harness.clock.advanceMs(40_000);
+      return { harness, original, calls };
+    }
+
+    function contend(harness: ReturnType<typeof setupHarness>) {
+      return harness.store.acquireTenantLaunchGate({
+        runId: harness.runId,
+        holderType: "RECOVERY",
+        holderId: "new-owner",
+        leaseId: "new-lease",
+        nowIso: harness.clock.nowIso(),
+        ttlMs: 30_000,
+        ownerPid: 7001,
+      });
+    }
+
+    function expectGateUnchanged(harness: ReturnType<typeof setupHarness>, original: { token: string; holderId: string; holderType: string }) {
+      const gate = harness.store.getTenantLaunchGate(harness.runId)!;
+      expect(gate.state).toBe("ACQUIRED");
+      expect(gate.holderId).toBe(original.holderId);
+      expect(gate.holderType).toBe(original.holderType);
+      expect(gate.token).toBe(original.token);
+    }
+
+    for (const holderType of ["WORKER", "RECOVERY"] as const) {
+      it(`${holderType} owner with missing/invalid PID is treated as unknown; takeover refused without consulting liveness`, () => {
+        for (const bad of [null, 0, -7, 1.5, Number.NaN]) {
+          const { harness, original, calls } = seedExpired(holderType, () => false /* would say "dead" if consulted */);
+          (harness.store as any).db
+            .prepare(`UPDATE tenant_launch_gates SET owner_pid = ? WHERE run_id = ?`)
+            .run(bad, harness.runId);
+
+          expect(() => contend(harness), `owner_pid=${String(bad)}`).toThrow(TenantLaunchGateConflictError);
+          expect(calls).toEqual([]);
+          expectGateUnchanged(harness, original);
+        }
+      });
+
+      it(`${holderType} owner: live PID, EPERM and unexpected liveness errors all refuse takeover and preserve the gate`, () => {
+        const probes: Array<[string, Probe]> = [
+          ["live", () => true],
+          ["EPERM", () => { throw Object.assign(new Error("EPERM: operation not permitted"), { code: "EPERM" }); }],
+          ["unexpected", () => { throw new Error("liveness backend exploded"); }],
+        ];
+        for (const [label, probe] of probes) {
+          const { harness, original, calls } = seedExpired(holderType, probe);
+          expect(() => contend(harness), label).toThrow(TenantLaunchGateConflictError);
+          expect(calls).toEqual([OLD_PID]);
+          expectGateUnchanged(harness, original);
+        }
+      });
+
+      it(`${holderType} owner confirmed absent (ESRCH) permits takeover with a new owner and token`, () => {
+        const { harness, original, calls } = seedExpired(holderType, () => false);
+        const taken = contend(harness);
+        expect(calls).toEqual([OLD_PID]);
+        expect(taken.state).toBe("ACQUIRED");
+        expect(taken.holderId).toBe("new-owner");
+        expect(taken.ownerPid).toBe(7001);
+        expect(taken.token).not.toBe(original.token);
+        const stored = harness.store.getTenantLaunchGate(harness.runId)!;
+        expect(stored.holderId).toBe("new-owner");
+        expect(stored.token).toBe(taken.token);
+        expect(stored.state).toBe("ACQUIRED");
+      });
+    }
+
+    it("QUIESCED gate with missing/invalid owner PID refuses takeover before an injected probe can say 'dead'", () => {
+      for (const bad of [null, 0, -7, 1.5, Number.NaN]) {
+        const calls: number[] = [];
+        const harness = setupHarness({ isProcessAlive: (pid) => { calls.push(pid); return false; } });
+        const original = harness.store.acquireTenantLaunchGate({
+          runId: harness.runId,
+          holderType: "RECOVERY",
+          holderId: "old-owner",
+          leaseId: "old-lease",
+          nowIso: harness.clock.nowIso(),
+          ttlMs: 30_000,
+          ownerPid: OLD_PID,
+        });
+        harness.store.markQuiescentTenantLaunchGate({ runId: harness.runId, token: original.token, nowIso: harness.clock.nowIso() });
+        (harness.store as any).db
+          .prepare(`UPDATE tenant_launch_gates SET owner_pid = ? WHERE run_id = ?`)
+          .run(bad, harness.runId);
+        harness.clock.advanceMs(40_000);
+
+        expect(() => contend(harness), `owner_pid=${String(bad)}`).toThrow(TenantLaunchGateConflictError);
+        expect(calls).toEqual([]);
+        const gate = harness.store.getTenantLaunchGate(harness.runId)!;
+        expect(gate.state).toBe("QUIESCED");
+        expect(gate.holderId).toBe("old-owner");
+        expect(gate.token).toBe(original.token);
+      }
+    });
+
+    it("defaultIsProcessAlive maps ESRCH to dead and EPERM or any other error to alive", () => {
+      const withKillError = (code: string | undefined, fn: () => void) => {
+        const spy = vi.spyOn(process, "kill").mockImplementation(() => {
+          throw Object.assign(new Error(code ?? "boom"), code ? { code } : {});
+        });
+        try {
+          fn();
+        } finally {
+          spy.mockRestore();
+        }
+      };
+      withKillError("ESRCH", () => expect(defaultIsProcessAlive(4242)).toBe(false));
+      withKillError("EPERM", () => expect(defaultIsProcessAlive(4242)).toBe(true));
+      withKillError("EINVAL", () => expect(defaultIsProcessAlive(4242)).toBe(true));
+      withKillError(undefined, () => expect(defaultIsProcessAlive(4242)).toBe(true));
+    });
+  });
+
+  // 21. F-4.1: owner identity is (holderId, ownerPid). The same holderId from a different process is a takeover.
+  describe("Scenario 21: same-ID gate ownership requires the recorded process or a liveness-proven takeover (SQLite)", () => {
+    const OLD_PID = 6001;
+    const NEW_PID = 6002;
+    type GateState = "QUIESCED" | "ACQUIRED";
+
+    function seed(state: GateState, probe: (pid: number) => boolean, holderType: "WORKER" | "RECOVERY" = "RECOVERY") {
+      const calls: number[] = [];
+      const harness = setupHarness({
+        isProcessAlive: (pid) => {
+          calls.push(pid);
+          return probe(pid);
+        },
+      });
+      const gate = harness.store.acquireTenantLaunchGate({
+        runId: harness.runId,
+        holderType,
+        holderId: "sup-A",
+        leaseId: "lease-A",
+        nowIso: harness.clock.nowIso(),
+        ttlMs: 30_000,
+        ownerPid: OLD_PID,
+      });
+      if (state === "QUIESCED") {
+        harness.store.markQuiescentTenantLaunchGate({ runId: harness.runId, token: gate.token, nowIso: harness.clock.nowIso() });
+      }
+      return { harness, gate, calls };
+    }
+
+    type Harness = ReturnType<typeof setupHarness>;
+    const contend = (h: Harness, pid: number = NEW_PID, holderType: "WORKER" | "RECOVERY" = "RECOVERY", holderId = "sup-A") =>
+      h.store.acquireTenantLaunchGate({
+        runId: h.runId,
+        holderType,
+        holderId,
+        leaseId: "lease-B",
+        nowIso: h.clock.nowIso(),
+        ttlMs: 30_000,
+        ownerPid: pid,
+      });
+    const snapshot = (h: Harness) => {
+      const g = h.store.getTenantLaunchGate(h.runId)!;
+      return { state: g.state, holderId: g.holderId, holderType: g.holderType, token: g.token, ownerPid: g.ownerPid, expiresAt: g.expiresAt };
+    };
+    const setColumn = (h: Harness, column: "owner_pid" | "expires_at", value: unknown) =>
+      (h.store as any).db.prepare(`UPDATE tenant_launch_gates SET ${column} = ? WHERE run_id = ?`).run(value, h.runId);
+
+    for (const state of ["QUIESCED", "ACQUIRED"] as const) {
+      it(`${state}: same ID from a different PID is refused while the recorded owner is alive (unexpired and expired)`, () => {
+        const { harness, calls } = seed(state, () => true);
+        const before = snapshot(harness);
+
+        expect(() => contend(harness)).toThrow(TenantLaunchGateConflictError); // unexpired: refused before any liveness probe
+        expect(snapshot(harness)).toEqual(before);
+
+        harness.clock.advanceMs(40_000);
+        expect(() => contend(harness)).toThrow(TenantLaunchGateConflictError); // expired, but the owner is alive
+        expect(calls).toEqual([OLD_PID]);
+        expect(snapshot(harness)).toEqual(before);
+      });
+
+      it(`${state}: same ID from a different PID succeeds only after the recorded owner is confirmed dead; the token changes`, () => {
+        const { harness, gate, calls } = seed(state, () => false);
+        harness.clock.advanceMs(40_000);
+
+        const taken = contend(harness);
+
+        expect(calls).toEqual([OLD_PID]);
+        expect(taken.state).toBe("ACQUIRED");
+        expect(taken.holderId).toBe("sup-A");
+        expect(taken.ownerPid).toBe(NEW_PID);
+        expect(taken.token).not.toBe(gate.token);
+        expect(snapshot(harness).token).toBe(taken.token);
+      });
+
+      it(`${state}: an active supervisor lease for the holder blocks a same-ID takeover even when the PID is dead`, () => {
+        const { harness } = seed(state, () => false);
+        harness.store.acquireSupervisorLease({ runId: harness.runId, supervisorId: "sup-A", ttlMs: 60_000, nowIso: harness.clock.nowIso() });
+        const before = snapshot(harness);
+        harness.clock.advanceMs(40_000); // gate expired, supervisor lease (60s) still active
+
+        expect(() => contend(harness)).toThrow(TenantLaunchGateConflictError);
+        expect(snapshot(harness)).toEqual(before);
+      });
+
+      it(`${state}: an active supervisor lease blocks same-owner, same-PID re-entry as well (F-5.3)`, () => {
+        const { harness } = seed(state, () => true);
+        harness.store.acquireSupervisorLease({ runId: harness.runId, supervisorId: "sup-A", ttlMs: 60_000, nowIso: harness.clock.nowIso() });
+        const before = snapshot(harness);
+
+        // Attempt re-entry with OLD_PID (same owner, same PID) while supervisor lease is active
+        expect(() => contend(harness, OLD_PID)).toThrow(TenantLaunchGateConflictError);
+        expect(snapshot(harness)).toEqual(before);
+      });
+
+      it(`${state}: missing or invalid recorded owner PID is never proof of death (probe not consulted, gate unchanged)`, () => {
+        for (const bad of [null, 0, -7, 1.5, Number.NaN]) {
+          for (const contenderPid of [NEW_PID, OLD_PID]) {
+            const { harness, calls } = seed(state, () => false);
+            setColumn(harness, "owner_pid", bad);
+            const before = snapshot(harness);
+            harness.clock.advanceMs(40_000);
+
+            expect(() => contend(harness, contenderPid), `owner_pid=${String(bad)} contender=${contenderPid}`).toThrow(TenantLaunchGateConflictError);
+            expect(calls).toEqual([]);
+            expect(snapshot(harness)).toEqual(before);
+          }
+        }
+      });
+
+      it(`${state}: malformed expires_at with the same ID never authorizes takeover from a different PID`, () => {
+        const { harness, calls } = seed(state, () => false);
+        setColumn(harness, "expires_at", "not-a-date");
+        const before = snapshot(harness);
+        harness.clock.advanceMs(40_000);
+
+        expect(() => contend(harness)).toThrow(TenantLaunchGateConflictError);
+        expect(calls).toEqual([]);
+        expect(snapshot(harness)).toEqual(before);
+      });
+    }
+
+    it("ACQUIRED: the recorded process cannot re-enter a gate whose expiry is malformed (expiry cannot be proven)", () => {
+      const { harness } = seed("ACQUIRED", () => true);
+      setColumn(harness, "expires_at", "not-a-date");
+      const before = snapshot(harness);
+      expect(() => contend(harness, OLD_PID)).toThrow(TenantLaunchGateConflictError);
+      expect(snapshot(harness)).toEqual(before);
+    });
+
+    it("same-process re-entry: the recorded PID may reacquire its own QUIESCED gate (any time) and its own expired ACQUIRED gate, without a liveness probe", () => {
+      const quiesced = seed("QUIESCED", () => true);
+      const reentered = contend(quiesced.harness, OLD_PID); // unexpired QUIESCED, same ID, same PID
+      expect(reentered.state).toBe("ACQUIRED");
+      expect(reentered.token).not.toBe(quiesced.gate.token);
+      expect(reentered.ownerPid).toBe(OLD_PID);
+      expect(quiesced.calls).toEqual([]);
+
+      const acquired = seed("ACQUIRED", () => true);
+      expect(() => contend(acquired.harness, OLD_PID)).toThrow(TenantLaunchGateConflictError); // still unexpired: existing refusal
+      acquired.harness.clock.advanceMs(40_000);
+      const again = contend(acquired.harness, OLD_PID);
+      expect(again.ownerPid).toBe(OLD_PID);
+      expect(again.token).not.toBe(acquired.gate.token);
+      expect(acquired.calls).toEqual([]);
+    });
+
+    it("QUIESCED: malformed expires_at does not block the recorded process re-entering its own gate (re-entry is not a takeover)", () => {
+      const { harness, calls } = seed("QUIESCED", () => true);
+      setColumn(harness, "expires_at", "not-a-date");
+      const again = contend(harness, OLD_PID);
+      expect(again.ownerPid).toBe(OLD_PID);
+      expect(calls).toEqual([]);
+    });
+
+    it("different-holder takeover is unchanged: refused while the owner is alive, allowed once confirmed dead", () => {
+      for (const state of ["QUIESCED", "ACQUIRED"] as const) {
+        const alive = seed(state, () => true);
+        const before = snapshot(alive.harness);
+        alive.harness.clock.advanceMs(40_000);
+        expect(() => contend(alive.harness, NEW_PID, "RECOVERY", "sup-B"), `${state} alive`).toThrow(TenantLaunchGateConflictError);
+        expect(snapshot(alive.harness)).toEqual(before);
+
+        const dead = seed(state, () => false);
+        dead.harness.clock.advanceMs(40_000);
+        const taken = contend(dead.harness, NEW_PID, "RECOVERY", "sup-B");
+        expect(taken.holderId).toBe("sup-B");
+        expect(taken.ownerPid).toBe(NEW_PID);
+        expect(taken.token).not.toBe(dead.gate.token);
+      }
+    });
   });
 });
