@@ -270,12 +270,18 @@ describe("GovernedAgentExecutionProvider", () => {
     // Verify Action and Attempt records in SQLite
     const actions = store.getActionsForRun(run.runId);
     expect(actions.length).toBe(1);
-    expect(actions[0].status).toBe("SUCCEEDED");
-    expect(actions[0].toolName).toBe("write_file");
+    const action = actions[0];
+    expect(action).toBeDefined();
+    if (!action) throw new Error("Expected action to be defined");
+    expect(action.status).toBe("SUCCEEDED");
+    expect(action.toolName).toBe("write_file");
 
-    const attempts = store.getAttemptsForAction(actions[0].actionId);
+    const attempts = store.getAttemptsForAction(action.actionId);
     expect(attempts.length).toBe(1);
-    expect(attempts[0].status).toBe("SUCCEEDED");
+    const attempt = attempts[0];
+    expect(attempt).toBeDefined();
+    if (!attempt) throw new Error("Expected attempt to be defined");
+    expect(attempt.status).toBe("SUCCEEDED");
   });
 
   it("2. correctly maps StepControllerResult outcomes to ExecutionResult contract", async () => {

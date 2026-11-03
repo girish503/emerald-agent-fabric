@@ -24,7 +24,6 @@ import {
   ModelProviderResponse,
 } from "../ports/model-provider.port.js";
 import { AgentBrainPort } from "../ports/agent-brain.port.js";
-import { ExecutionProvider } from "../ports/execution-provider.port.js";
 import { SystemClock } from "../ports/clock.port.js";
 import { AgentStepController } from "./agent-step-controller.js";
 import { LiveAgentBrain } from "./live-agent-brain.js";
@@ -146,7 +145,7 @@ export class DeterministicFixtureModelProvider implements ModelProviderPort {
 
     // Identify target file from task objective if specified
     const objectiveMatch = userContent.match(/### Task Objective & Criteria\s*\n([^\n]+)/);
-    const taskObjective = objectiveMatch ? objectiveMatch[1] : userContent;
+    const taskObjective = objectiveMatch?.[1] ?? userContent;
 
     // Check if read_file observation is already present in context observations
     const hasReadObservation =

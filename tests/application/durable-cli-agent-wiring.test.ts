@@ -19,9 +19,8 @@ import * as path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
-import { submitDurableTask } from "../../src/application/durable-submission.js";
 import { RunCoordinator } from "../../src/application/run-coordinator.js";
-import { runWorkerHost, WorkerLogRecord } from "../../src/application/worker-host.js";
+import { runWorkerHost } from "../../src/application/worker-host.js";
 import { EmeraldCli } from "../../src/cli/emerald-cli.js";
 import { SystemClock } from "../../src/ports/clock.port.js";
 
@@ -149,12 +148,18 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
     try {
       const actions = store.getActionsForRun(runId);
       expect(actions.length).toBe(1);
-      expect(actions[0].toolName).toBe("search_code");
-      expect(actions[0].status).toBe("SUCCEEDED");
+      const action = actions[0];
+      expect(action).toBeDefined();
+      if (!action) throw new Error("Expected action to be defined");
+      expect(action.toolName).toBe("search_code");
+      expect(action.status).toBe("SUCCEEDED");
 
-      const attempts = store.getAttemptsForAction(actions[0].actionId);
+      const attempts = store.getAttemptsForAction(action.actionId);
       expect(attempts.length).toBe(1);
-      expect(attempts[0].status).toBe("SUCCEEDED");
+      const attempt = attempts[0];
+      expect(attempt).toBeDefined();
+      if (!attempt) throw new Error("Expected attempt to be defined");
+      expect(attempt.status).toBe("SUCCEEDED");
     } finally {
       store.close();
     }
@@ -333,7 +338,7 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
     const { runId } = JSON.parse(s.output);
 
     // Specify ollama with unreachable port
-    const w = await cli.run([
+    await cli.run([
       "worker",
       "--db",
       dbPath,
