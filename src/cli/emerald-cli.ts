@@ -18,9 +18,9 @@
  * - emerald replay <runId>
  * - emerald doctor
  * - emerald recovery sweep|watch
- * - emerald submit --db <file> --operation <name> [--input <json>]
+ * - emerald submit --db <file> (--task <text> | --operation <name>) [--input <json>] [--capabilities <csv>]
  * - emerald inspect --db <file> --run-id <id>
- * - emerald worker --db <file> [--once] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]
+ * - emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--ollama-base-url <url>] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]
  */
 
 import * as fs from "node:fs";
@@ -479,14 +479,19 @@ export class EmeraldCli {
    */
   private handleSubmit(args: readonly string[]): { exitCode: number; output: string } {
     const usage =
-      "Usage: emerald submit --db <file> --operation <name> [--input <json>] [--max-attempts <n>] [--timeout-ms <n>] [--idempotency-key <key>]";
-    const parsed = this.parseValueFlags(args, ["--db", "--operation", "--input", "--max-attempts", "--timeout-ms", "--idempotency-key"], usage);
+      "Usage: emerald submit --db <file> (--task <text> | --operation <name>) [--input <json>] [--capabilities <csv>] [--max-attempts <n>] [--timeout-ms <n>] [--idempotency-key <key>]";
+    const parsed = this.parseValueFlags(
+      args,
+      ["--db", "--operation", "--task", "--input", "--capabilities", "--max-attempts", "--timeout-ms", "--idempotency-key"],
+      usage
+    );
     if ("error" in parsed) return parsed.error;
     const { flags } = parsed;
     const dbPath = flags.get("--db");
     const operation = flags.get("--operation");
+    const task = flags.get("--task");
     if (!dbPath || dbPath === ":memory:") return { exitCode: 1, output: `Error: --db <file> is required (not :memory:). ${usage}` };
-    if (!operation) return { exitCode: 1, output: `Error: --operation is required. ${usage}` };
+    if (!operation && !task) return { exitCode: 1, output: `Error: either --task or --operation is required. ${usage}` };
     let input: unknown = null;
     if (flags.has("--input")) {
       try {
@@ -504,15 +509,25 @@ export class EmeraldCli {
     const timeoutMs = intFlag("--timeout-ms");
     if (maxAttempts === "bad" || timeoutMs === "bad") return { exitCode: 1, output: "Error: --max-attempts and --timeout-ms must be positive integers" };
 
+    const capabilities = flags.has("--capabilities")
+      ? flags
+          .get("--capabilities")!
+          .split(",")
+          .map((c) => c.trim())
+          .filter(Boolean)
+      : undefined;
+
     const store = new SqliteStateStore({ location: dbPath });
     try {
       const coordinator = new RunCoordinator(store, new SystemClock());
       const submitted = submitDurableTask(store, coordinator, {
         operation,
+        task,
         input,
         maxAttempts,
         timeoutMs,
         idempotencyKey: flags.get("--idempotency-key"),
+        capabilities,
       });
       return { exitCode: 0, output: JSON.stringify(submitted) };
     } finally {
@@ -528,8 +543,19 @@ export class EmeraldCli {
    */
   private async handleWorker(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
     const usage =
-      "Usage: emerald worker --db <file> [--once] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]";
-    const valueFlags = ["--db", "--workspace-root", "--worker-id", "--lease-ttl-ms", "--poll-interval-ms", "--max-runs"];
+      "Usage: emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--model-timeout-ms <n>] [--ollama-base-url <url>] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]";
+    const valueFlags = [
+      "--db",
+      "--workspace-root",
+      "--worker-id",
+      "--lease-ttl-ms",
+      "--poll-interval-ms",
+      "--max-runs",
+      "--model-provider",
+      "--model",
+      "--model-timeout-ms",
+      "--ollama-base-url",
+    ];
     let once = false;
     const rest: string[] = [];
     for (const a of args) {
@@ -543,6 +569,19 @@ export class EmeraldCli {
     const { flags } = parsed;
     const dbPath = flags.get("--db");
     if (!dbPath) return { exitCode: 1, output: `Error: --db is required (a worker has no default database). ${usage}` };
+
+    const modelProviderRaw = flags.get("--model-provider");
+    if (
+      modelProviderRaw !== undefined &&
+      !["in-process", "fixture", "ollama"].includes(modelProviderRaw)
+    ) {
+      return {
+        exitCode: 1,
+        output: `Error: unsupported --model-provider '${modelProviderRaw}'. Supported: fixture, ollama, in-process`,
+      };
+    }
+    const modelProvider = modelProviderRaw as "in-process" | "fixture" | "ollama" | undefined;
+
     const intFlag = (name: string): number | undefined | "bad" => {
       const raw = flags.get(name);
       if (raw === undefined) return undefined;
@@ -551,8 +590,9 @@ export class EmeraldCli {
     const leaseTtlMs = intFlag("--lease-ttl-ms");
     const pollIntervalMs = intFlag("--poll-interval-ms");
     const maxRuns = intFlag("--max-runs");
-    if (leaseTtlMs === "bad" || pollIntervalMs === "bad" || maxRuns === "bad") {
-      return { exitCode: 1, output: "Error: --lease-ttl-ms, --poll-interval-ms and --max-runs must be positive integers" };
+    const modelTimeoutMs = intFlag("--model-timeout-ms");
+    if (leaseTtlMs === "bad" || pollIntervalMs === "bad" || maxRuns === "bad" || modelTimeoutMs === "bad") {
+      return { exitCode: 1, output: "Error: --lease-ttl-ms, --poll-interval-ms, --max-runs and --model-timeout-ms must be positive integers" };
     }
 
     const controller = new AbortController();
@@ -572,6 +612,10 @@ export class EmeraldCli {
         maxRuns,
         once,
         signal: controller.signal,
+        modelProvider,
+        model: flags.get("--model"),
+        modelTimeoutMs,
+        ollamaBaseUrl: flags.get("--ollama-base-url"),
       });
       return { exitCode: once && result.errors > 0 ? 1 : 0, output: "" };
     } catch (err: unknown) {
@@ -1055,13 +1099,13 @@ Commands:
   emerald verify <runId>                 Show sovereign verification proof
   emerald evidence <runId>               Export full cryptographic evidence bundle
   emerald replay <runId>                 Reconstruct run history deterministically
-  emerald submit --db <file> --operation <name> [--input <json>]
-                                         Durably submit a deterministic task (creates the SQLite file)
+  emerald submit --db <file> (--task <text> | --operation <name>) [--input <json>] [--capabilities <csv>]
+                                         Durably submit a task or operation (creates the SQLite file)
   emerald inspect --db <file> --run-id <id>
                                          Show a durable run and its event history (read-only)
-  emerald worker --db <file> [--once] [--workspace-root <dir>] [--lease-ttl-ms <n>]
+  emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--ollama-base-url <url>] [--workspace-root <dir>] [--lease-ttl-ms <n>]
                                          Claim and execute queued runs from an existing database
-                                         (built-in operations: echo, sum, slow; Ctrl+C finishes the in-flight run)
+                                         (modes: in-process, fixture, ollama; Ctrl+C finishes the in-flight run)
   emerald recovery status --db <file> [--run-id <id>] [--json]
                                          Show read-only tenant launch-gate diagnostic status (8 fields only)
   emerald recovery sweep --db <file> --workers-stopped [--workspace-root <dir>]

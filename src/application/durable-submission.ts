@@ -2,7 +2,7 @@
  * Durable task submission.
  *
  * Creates, in the supplied (file-backed) state store, everything a worker needs to claim and execute a deterministic
- * operation: a task, an ACTIVE governing MissionContract (default in-process policy, bounded resource limits) and a QUEUED
+ * operation or governed agent task: a task, an ACTIVE governing MissionContract (policy and bounded resource limits) and a QUEUED
  * run. It reuses RunCoordinator and the domain factories - no run/contract logic is duplicated here.
  *
  * Delivery semantics are unchanged: submission only makes the run durable and claimable. Execution is at-least-once
@@ -14,17 +14,22 @@ import {
   createMissionContract,
   createResourceLimits,
 } from "../domain/index.js";
+import { createExecutionPolicy } from "../domain/policy.js";
 import type { StateStorePort } from "../ports/state-store.port.js";
 import type { RunCoordinator } from "./run-coordinator.js";
 
 export interface SubmitDurableTaskParams {
   /** Name of the deterministic operation the execution provider routes to (the task title is the operation name). */
-  readonly operation: string;
-  readonly input: unknown;
+  readonly operation?: string;
+  /** Natural-language task description for governed agent execution. */
+  readonly task?: string;
+  readonly input?: unknown;
   readonly maxAttempts?: number;
   readonly timeoutMs?: number;
   /** A repeated submission with the same key returns the existing run and creates nothing. */
   readonly idempotencyKey?: string;
+  /** Explicit allowed tool capabilities for governed agent tasks. */
+  readonly capabilities?: readonly string[];
 }
 
 export interface SubmittedTask {
@@ -40,9 +45,16 @@ export function submitDurableTask(
   coordinator: RunCoordinator,
   params: SubmitDurableTaskParams
 ): SubmittedTask {
-  if (!params.operation || typeof params.operation !== "string") {
+  if (!params.operation && !params.task) {
+    throw new Error("submitDurableTask: either operation or task must be provided");
+  }
+  if (params.operation !== undefined && (typeof params.operation !== "string" || params.operation.trim().length === 0)) {
     throw new Error("submitDurableTask: operation must be a non-empty string");
   }
+  if (params.task !== undefined && (typeof params.task !== "string" || params.task.trim().length === 0)) {
+    throw new Error("submitDurableTask: task must be a non-empty string");
+  }
+
   if (params.idempotencyKey) {
     const existing = coordinator.getRunByIdempotencyKey(params.idempotencyKey);
     if (existing) {
@@ -51,29 +63,66 @@ export function submitDurableTask(
   }
 
   const maxAttempts = params.maxAttempts ?? 3;
-  const task = coordinator.createTask({ title: params.operation, inputPayload: params.input });
+  const operationName = params.operation ?? "echo";
+  const taskDescription = params.task ?? params.operation ?? "";
+  const inputPayload =
+    params.input !== undefined && params.input !== null
+      ? params.input
+      : params.task
+      ? { instruction: params.task }
+      : null;
+
+  const task = coordinator.createTask({
+    title: operationName,
+    description: taskDescription,
+    inputPayload,
+  });
+
   const contractId = `contract-${task.taskId}`;
   const version = 1;
+
+  let policy;
+  if (params.capabilities && params.capabilities.length > 0) {
+    const allowed = Array.from(new Set(["execution.echo", ...params.capabilities]));
+    policy = createExecutionPolicy({
+      policyId: `policy-${task.taskId}`,
+      allowedCapabilities: allowed,
+      isolationRequirement: "ISOLATED",
+    });
+  } else if (params.task) {
+    // Default minimal capabilities for natural-language inspection/governed agent tasks
+    policy = createExecutionPolicy({
+      policyId: `policy-${task.taskId}`,
+      allowedCapabilities: ["execution.echo", "workspace.file.read", "workspace.code.search", "git.read"],
+      isolationRequirement: "ISOLATED",
+    });
+  } else {
+    // Default in-process policy for standard deterministic operations
+    policy = createDefaultInProcessPolicy(`policy-${task.taskId}`);
+  }
+
+  const timeoutMs = params.timeoutMs ?? (params.task ? 60_000 : 30_000);
   const contract = createMissionContract({
     contractId,
     version,
     taskId: task.taskId,
-    policy: createDefaultInProcessPolicy(`policy-${task.taskId}`),
+    policy,
     verificationSpecs: [],
     resourceLimits: createResourceLimits({
-      timeoutMs: params.timeoutMs ?? 30_000,
+      timeoutMs,
       maxAttempts,
       maxOutputBytes: 1_048_576,
     }),
     credentialScopes: [],
   });
+
   store.insertContract(contract);
   store.activateContract(contractId, version);
 
   const { run } = coordinator.createRun({
     taskId: task.taskId,
     maxAttempts,
-    timeoutMs: params.timeoutMs,
+    timeoutMs,
     idempotencyKey: params.idempotencyKey ?? null,
   });
   const queued = coordinator.queueRun(run.runId);
