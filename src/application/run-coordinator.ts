@@ -1959,9 +1959,29 @@ export class RunCoordinator {
           }
         }
 
+        // A NON_IDEMPOTENT Action whose Attempt is UNKNOWN has an unresolved physical outcome. It is
+        // failed closed (as recoverStaleExecutions does) and never given a new Attempt: lease expiry is not
+        // proof that the earlier process stopped or that the side effect did not occur.
+        const uncertainNonIdempotent =
+          targetAction.idempotency === "NON_IDEMPOTENT" && previousAttempt?.status === "UNKNOWN";
+
         // Action transition
         if (!isTerminalActionStatus(targetAction.status)) {
-          if (targetAction.status !== "RETRYING") {
+          if (uncertainNonIdempotent) {
+            tx.transitionAction(
+              targetAction.actionId,
+              {
+                type: "FAIL",
+                errorPayload: {
+                  code: "EXECUTION_UNCERTAIN",
+                  reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+                  message: "Physical execution uncertain: worker crashed or lease expired during execution",
+                },
+                now: nowIso,
+              },
+              () => crypto.randomUUID()
+            );
+          } else if (targetAction.status !== "RETRYING") {
             tx.transitionAction(
               targetAction.actionId,
               {
@@ -1976,7 +1996,7 @@ export class RunCoordinator {
 
         // Check if Action can retry
         const currentTotalAttempts = targetAction.totalAttempts;
-        if (currentTotalAttempts < targetAction.maxAttempts) {
+        if (!uncertainNonIdempotent && currentTotalAttempts < targetAction.maxAttempts) {
           const nextAttemptNumber = (previousAttempt?.attemptNumber ?? currentTotalAttempts) + 1;
           const newAttemptId = crypto.randomUUID();
           const newWorkerId = params.newWorkerId ?? "supervisor-recovery-worker";

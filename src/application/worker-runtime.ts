@@ -121,6 +121,12 @@ export type WorkerActionStatus =
 /** Error code returned when the Tier-1 replay gate refuses to dispatch a NON_IDEMPOTENT action. */
 export const REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT = "REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT";
 
+/**
+ * Error code returned when a NON_IDEMPOTENT Action is re-entered while its own Attempt is already
+ * DISPATCHED or RUNNING. The earlier dispatch may have produced a side effect, so it is not repeated.
+ */
+export const RESUME_BLOCKED_PRIOR_DISPATCH = "RESUME_BLOCKED_PRIOR_DISPATCH";
+
 interface UncertainPriorAttempt {
   readonly actionId: string;
   readonly attemptId: string;
@@ -1804,6 +1810,34 @@ export class WorkerRuntime {
     const existingAttempt = store.getAttemptByNumber(actionSnapshot.actionId, targetAttemptNumber);
     if (existingAttempt) {
       attemptSnapshot = existingAttempt;
+
+      // 8b. Re-dispatch guard (Milestone 2.11A).
+      // An existing Attempt that is anything other than CREATED (DISPATCHED, RUNNING, or an UNKNOWN or
+      // other terminal Attempt under a still-open Action) means a prior dispatch of this Action may have
+      // reached the adapter. For a NON_IDEMPOTENT tool the adapter is not invoked again. The Attempt and
+      // Action are left unchanged: lease expiry is not proof the earlier process stopped, so
+      // reconciliation stays with recovery. A CREATED Attempt was never dispatched and proceeds.
+      if (actionSnapshot.idempotency === "NON_IDEMPOTENT" && existingAttempt.status !== "CREATED") {
+        return {
+          status: "FAILED",
+          actionId: actionSnapshot.actionId,
+          runId: run.runId,
+          attemptId: existingAttempt.attemptId,
+          error: {
+            code: RESUME_BLOCKED_PRIOR_DISPATCH,
+            category: "policy",
+            message:
+              `Re-dispatch blocked: this '${actionSnapshot.toolName}' action already has an ` +
+              `${existingAttempt.status} attempt; its physical outcome is unresolved and is not retried automatically`,
+            details: {
+              toolName: actionSnapshot.toolName,
+              attemptStatus: existingAttempt.status,
+            },
+          },
+          action: actionSnapshot,
+          attempt: existingAttempt,
+        };
+      }
     } else {
       const attemptId = crypto.randomUUID();
       const idempotencyToken = createAttemptIdempotencyToken(
