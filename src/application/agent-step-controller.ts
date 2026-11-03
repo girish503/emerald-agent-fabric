@@ -77,7 +77,12 @@ import {
 import type { ReflexPort } from "../ports/reflex.port.js";
 import { NoopReflex } from "../adapters/reflex/noop-reflex.js";
 import { RunCoordinator } from "./run-coordinator.js";
-import { WorkerActionStatus, WorkerRuntime } from "./worker-runtime.js";
+import {
+  REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT,
+  WorkerActionStatus,
+  WorkerRuntime,
+  type WorkerActionResult,
+} from "./worker-runtime.js";
 import { ProposalValidator } from "./proposal-validator.js";
 import { ContextSource } from "./context/context-source.js";
 import { ContextEngine } from "./context/context-engine.js";
@@ -135,6 +140,43 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
   enableIntermediateTestFeedback: true,
   enablePostPassVerificationLatch: true,
 });
+
+/**
+ * Returns the structured, non-sensitive metadata of a Tier-1 replay-block result, or null when the
+ * result is not a replay block. Only fields actually present as strings are returned; nothing is
+ * fabricated and no input payload is ever read.
+ */
+export function extractReplayBlockDetails(
+  result: Pick<WorkerActionResult, "status" | "error">
+): Record<string, string> | null {
+  const error = result.error as
+    | { code?: unknown; details?: Record<string, unknown> | null }
+    | null
+    | undefined;
+  if (
+    result.status !== "FAILED" ||
+    !error ||
+    typeof error !== "object" ||
+    error.code !== REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT
+  ) {
+    return null;
+  }
+  const out: Record<string, string> = {};
+  const details = error.details && typeof error.details === "object" ? error.details : {};
+  for (const key of [
+    "toolName",
+    "priorActionId",
+    "priorAttemptId",
+    "priorAttemptStatus",
+    "priorReasonCode",
+  ]) {
+    const value = details[key];
+    if (typeof value === "string" && value.length > 0) {
+      out[key] = value;
+    }
+  }
+  return out;
+}
 
 export const MAX_REJECTION_FEEDBACK_CHARS = 512;
 export const REPEATED_IDENTICAL_READ_ADVISORY_THRESHOLD = 2;
@@ -916,6 +958,8 @@ export class AgentStepController {
     let pendingActionRecoveryObservation: Observation | null = null;
     let consecutiveIdenticalReads = 0;
     let consecutiveIneffectiveEdits = 0;
+    // Run-loop-local: replay-block results returned by WorkerRuntime in this invocation (not persisted).
+    let replayBlockCount = 0;
     let lastSuccessfulRead:
       | {
           readonly path: string;
@@ -2215,7 +2259,9 @@ export class AgentStepController {
         (action.toolName === "edit_file" || action.toolName === "write_file") &&
         effectiveBudget.enableIntermediateTestFeedback !== false
       ) {
-        if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
+        if (extractReplayBlockDetails(actionResult)) {
+          // Replay-blocked: never dispatched, so it is not an ineffective edit (handled in Step G).
+        } else if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
           consecutiveIneffectiveEdits++;
         } else if (actionResult.status === "SUCCEEDED") {
           const cleanRoomSpecObj = activeContract.spec.verificationSpecs?.find(
@@ -2611,6 +2657,60 @@ export class AgentStepController {
           `Action '${action.actionId}' was cancelled during execution`,
           taskId
         );
+      }
+
+      // Tier-1 replay gate outcome (Milestone 2.10G). The block is a runtime policy result, not an
+      // ordinary tool failure: explain it once, and stop if the model repeats a blocked proposal.
+      // Only actual WorkerRuntime replay-block results are counted, never similar-looking payloads.
+      const replayBlockDetails = extractReplayBlockDetails(actionResult);
+      if (replayBlockDetails) {
+        replayBlockCount++;
+        if (replayBlockCount >= 2) {
+          return assembleResult(
+            "POLICY_DENIED",
+            `Repeated proposal blocked by an uncertain prior execution: Action '${action.actionId}' was ` +
+              `refused again (${replayBlockCount} replay blocks in this run)`,
+            taskId
+          );
+        }
+
+        const replayFeedbackContent = redactSensitiveData({
+          feedbackKind: "REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT",
+          stepNumber: stepCount,
+          blockCode: REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT,
+          ...replayBlockDetails,
+          guidance:
+            "This proposal was NOT dispatched: an identical earlier action has an unresolved physical outcome. " +
+            "Do not repeat the identical proposal; it will not be dispatched. " +
+            "Choose a materially different safe action, or finish the task.",
+        }) as Record<string, unknown>;
+        const replayFeedbackBytes = estimateBytes(replayFeedbackContent);
+        const replayFeedbackObs: Observation = {
+          observationId: `obs-replay-block-step-${stepCount}`,
+          category: "TOOL_ERROR",
+          provenance: {
+            entityKind: "Action",
+            entityId: action.actionId,
+            runId,
+            sequenceNumber: stepCount,
+            timestamp: this.clock.now().toISOString(),
+            isAuthoritativeRuntimeFact: true,
+          },
+          freshness: "CURRENT",
+          priority: 90,
+          content: replayFeedbackContent,
+          contentHash: computeObservationContentHash(replayFeedbackContent),
+          estimatedBytes: replayFeedbackBytes,
+          estimatedTokens: estimateTokens(replayFeedbackBytes),
+          isMandatory: true,
+        };
+        try {
+          validateObservation(replayFeedbackObs);
+          pendingActionRecoveryObservation = replayFeedbackObs;
+        } catch {
+          pendingActionRecoveryObservation = null;
+        }
+        continue;
       }
 
       if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
