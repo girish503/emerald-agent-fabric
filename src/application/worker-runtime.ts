@@ -167,6 +167,44 @@ function findUncertainPriorAttempt(
   return null;
 }
 
+/**
+ * Returns the structured, non-sensitive metadata of a Tier-1 replay-block result, or null when the
+ * result is not a replay block. Recognition uses only the structured status and error code (never
+ * message text). Only fields actually present as strings are returned; nothing is fabricated and no
+ * input payload is ever read.
+ */
+export function extractReplayBlockDetails(
+  result: Pick<WorkerActionResult, "status" | "error">
+): Record<string, string> | null {
+  const error = result.error as
+    | { code?: unknown; details?: Record<string, unknown> | null }
+    | null
+    | undefined;
+  if (
+    result.status !== "FAILED" ||
+    !error ||
+    typeof error !== "object" ||
+    error.code !== REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT
+  ) {
+    return null;
+  }
+  const out: Record<string, string> = {};
+  const details = error.details && typeof error.details === "object" ? error.details : {};
+  for (const key of [
+    "toolName",
+    "priorActionId",
+    "priorAttemptId",
+    "priorAttemptStatus",
+    "priorReasonCode",
+  ]) {
+    const value = details[key];
+    if (typeof value === "string" && value.length > 0) {
+      out[key] = value;
+    }
+  }
+  return out;
+}
+
 export interface WorkerActionResult {
   readonly status: WorkerActionStatus;
   readonly actionId: string;

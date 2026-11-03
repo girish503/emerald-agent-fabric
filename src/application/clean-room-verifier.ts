@@ -34,7 +34,14 @@ import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { StateStorePort } from "../ports/state-store.port.js";
 import { WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { RunCoordinator } from "./run-coordinator.js";
-import { WorkerRuntime } from "./worker-runtime.js";
+import { WorkerRuntime, extractReplayBlockDetails } from "./worker-runtime.js";
+
+/** Raised when the replay gate refuses a clean-room test command; verification cannot proceed. */
+class ReplayBlockedVerificationError extends Error {
+  constructor(readonly details: Record<string, string>) {
+    super("Clean-room test command blocked by the replay gate");
+  }
+}
 
 // ============================================================================
 // Types
@@ -69,6 +76,11 @@ export interface CleanRoomVerificationOutcome {
   readonly payload: IndependentVerificationEvidencePayload;
   readonly verificationResult: VerificationResult;
   readonly failureReasonCode?: CleanRoomFailureReasonCode;
+  /**
+   * Present only when a clean-room test command was refused by the Tier-1 replay gate. Structured,
+   * payload-free metadata; the verification did not run and no test result is implied.
+   */
+  readonly replayBlock?: Readonly<Record<string, string>>;
   readonly message: string;
 }
 
@@ -514,6 +526,14 @@ export class CleanRoomVerifier {
       workspace,
       abortSignal,
     });
+
+    // Tier-1 replay gate: the command was not dispatched and an earlier identical execution is
+    // unresolved. This is neither a test result nor proof about the earlier run; do not interpret it
+    // as exit code, output, or defect reproduction.
+    const replayBlock = extractReplayBlockDetails(actionResult);
+    if (replayBlock) {
+      throw new ReplayBlockedVerificationError(replayBlock);
+    }
 
     if (actionResult.status === "TIMED_OUT") {
       return {
@@ -1128,6 +1148,34 @@ export class CleanRoomVerifier {
         verificationResult,
         message: "Independent clean-room proof verified: F2P=1.0, P2P=1.0, SUITE_RAN verified, zero regressions.",
       };
+    } catch (err: unknown) {
+      if (err instanceof ReplayBlockedVerificationError) {
+        const failure = this.assembleAndRecordFailure(
+          runId,
+          taskId,
+          contract,
+          spec,
+          candidatePatchHash,
+          candidatePatchBytes,
+          touchedFiles,
+          {
+            f2pExitCode: null,
+            f2pOutputHash: "",
+            p2pExitCode: null,
+            p2pOutputHash: "",
+            baselineValid: false,
+          },
+          {
+            status: "MALFORMED",
+            exitCode: 1,
+            outputText: "Verification not executed: test command blocked by uncertain prior execution",
+          },
+          "INFRA_ENVIRONMENT_FAILURE",
+          "Clean-room verification could not run: a test command was blocked because an identical earlier execution has an unresolved outcome. No test result is implied."
+        );
+        return { ...failure, replayBlock: err.details };
+      }
+      throw err;
     } finally {
       // Unconditionally dispose clean-room workspace and restore agent workspace
       await this.workspacePort.disposeWorkspace(verifyWorkspaceId).catch(() => {});

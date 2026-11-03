@@ -81,7 +81,7 @@ import {
   REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT,
   WorkerActionStatus,
   WorkerRuntime,
-  type WorkerActionResult,
+  extractReplayBlockDetails,
 } from "./worker-runtime.js";
 import { ProposalValidator } from "./proposal-validator.js";
 import { ContextSource } from "./context/context-source.js";
@@ -140,43 +140,6 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
   enableIntermediateTestFeedback: true,
   enablePostPassVerificationLatch: true,
 });
-
-/**
- * Returns the structured, non-sensitive metadata of a Tier-1 replay-block result, or null when the
- * result is not a replay block. Only fields actually present as strings are returned; nothing is
- * fabricated and no input payload is ever read.
- */
-export function extractReplayBlockDetails(
-  result: Pick<WorkerActionResult, "status" | "error">
-): Record<string, string> | null {
-  const error = result.error as
-    | { code?: unknown; details?: Record<string, unknown> | null }
-    | null
-    | undefined;
-  if (
-    result.status !== "FAILED" ||
-    !error ||
-    typeof error !== "object" ||
-    error.code !== REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT
-  ) {
-    return null;
-  }
-  const out: Record<string, string> = {};
-  const details = error.details && typeof error.details === "object" ? error.details : {};
-  for (const key of [
-    "toolName",
-    "priorActionId",
-    "priorAttemptId",
-    "priorAttemptStatus",
-    "priorReasonCode",
-  ]) {
-    const value = details[key];
-    if (typeof value === "string" && value.length > 0) {
-      out[key] = value;
-    }
-  }
-  return out;
-}
 
 export const MAX_REJECTION_FEEDBACK_CHARS = 512;
 export const REPEATED_IDENTICAL_READ_ADVISORY_THRESHOLD = 2;
@@ -1295,6 +1258,7 @@ export class AgentStepController {
             effectiveBudget,
             currentActionCount: actionCount,
             consecutiveFailures,
+            replayBlockCount,
             stepCount,
             startTime,
             stepStartTime,
@@ -1306,6 +1270,10 @@ export class AgentStepController {
 
           actionCount = stageResult.updatedActionCount;
           consecutiveFailures = stageResult.updatedConsecutiveFailures;
+          replayBlockCount = stageResult.updatedReplayBlockCount;
+          if (stageResult.replayFeedback) {
+            pendingActionRecoveryObservation = stageResult.replayFeedback;
+          }
 
           if (stageResult.terminalResult) {
             return stageResult.terminalResult;
@@ -1339,6 +1307,25 @@ export class AgentStepController {
             agentWorkspace: params.workspace,
             abortSignal: params.abortSignal,
           });
+
+          if (cleanRoomOutcome.replayBlock) {
+            // Clean-room test command was refused by the replay gate: verification could not run.
+            replayBlockCount++;
+            if (replayBlockCount >= 2) {
+              return assembleResult(
+                "POLICY_DENIED",
+                `Repeated clean-room verification blocked by an uncertain prior execution (${replayBlockCount} replay blocks in this run)`,
+                taskId
+              );
+            }
+            pendingActionRecoveryObservation = this.buildReplayBlockFeedback({
+              details: cleanRoomOutcome.replayBlock,
+              runId,
+              entityId: cleanRoomOutcome.replayBlock.priorActionId ?? `clean-room-step-${stepCount}`,
+              stepCount,
+              source: "CLEAN_ROOM_VERIFICATION",
+            });
+          }
 
           if (cleanRoomOutcome.status !== "VERIFIED") {
             verificationEvaluation = {
@@ -2425,6 +2412,26 @@ export class AgentStepController {
                       });
                       this.postPassLatch.recordCleanRoomResult(cleanRoomOutcome);
 
+                      if (cleanRoomOutcome.replayBlock) {
+                        // Clean-room test command refused by the replay gate: verification did not run.
+                        replayBlockCount++;
+                        if (replayBlockCount >= 2) {
+                          return assembleResult(
+                            "POLICY_DENIED",
+                            `Repeated clean-room verification blocked by an uncertain prior execution (${replayBlockCount} replay blocks in this run)`,
+                            taskId
+                          );
+                        }
+                        pendingActionRecoveryObservation = this.buildReplayBlockFeedback({
+                          details: cleanRoomOutcome.replayBlock,
+                          runId,
+                          entityId:
+                            cleanRoomOutcome.replayBlock.priorActionId ?? `clean-room-step-${stepCount}`,
+                          stepCount,
+                          source: "CLEAN_ROOM_VERIFICATION",
+                        });
+                      }
+
                       if (cleanRoomOutcome.status === "VERIFIED") {
                         const verificationEvaluation = this.evaluateCompletionVerification(
                           runId,
@@ -2674,42 +2681,13 @@ export class AgentStepController {
           );
         }
 
-        const replayFeedbackContent = redactSensitiveData({
-          feedbackKind: "REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT",
-          stepNumber: stepCount,
-          blockCode: REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT,
-          ...replayBlockDetails,
-          guidance:
-            "This proposal was NOT dispatched: an identical earlier action has an unresolved physical outcome. " +
-            "Do not repeat the identical proposal; it will not be dispatched. " +
-            "Choose a materially different safe action, or finish the task.",
-        }) as Record<string, unknown>;
-        const replayFeedbackBytes = estimateBytes(replayFeedbackContent);
-        const replayFeedbackObs: Observation = {
-          observationId: `obs-replay-block-step-${stepCount}`,
-          category: "TOOL_ERROR",
-          provenance: {
-            entityKind: "Action",
-            entityId: action.actionId,
-            runId,
-            sequenceNumber: stepCount,
-            timestamp: this.clock.now().toISOString(),
-            isAuthoritativeRuntimeFact: true,
-          },
-          freshness: "CURRENT",
-          priority: 90,
-          content: replayFeedbackContent,
-          contentHash: computeObservationContentHash(replayFeedbackContent),
-          estimatedBytes: replayFeedbackBytes,
-          estimatedTokens: estimateTokens(replayFeedbackBytes),
-          isMandatory: true,
-        };
-        try {
-          validateObservation(replayFeedbackObs);
-          pendingActionRecoveryObservation = replayFeedbackObs;
-        } catch {
-          pendingActionRecoveryObservation = null;
-        }
+        pendingActionRecoveryObservation = this.buildReplayBlockFeedback({
+          details: replayBlockDetails,
+          runId,
+          entityId: action.actionId,
+          stepCount,
+          source: "ACTION_LOOP",
+        });
         continue;
       }
 
@@ -2826,6 +2804,57 @@ export class AgentStepController {
   }
 
   /**
+   * Builds the mandatory, payload-free TOOL_ERROR observation explaining a Tier-1 replay block.
+   * Single source for the action loop, the verification stage and clean-room verification.
+   * Returns null if the observation fails validation (feedback is then simply not queued).
+   */
+  private buildReplayBlockFeedback(params: {
+    readonly details: Record<string, string>;
+    readonly runId: string;
+    readonly entityId: string;
+    readonly stepCount: number;
+    readonly source: "ACTION_LOOP" | "VERIFICATION_STAGE" | "CLEAN_ROOM_VERIFICATION";
+  }): Observation | null {
+    const content = redactSensitiveData({
+      feedbackKind: "REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT",
+      stepNumber: params.stepCount,
+      blockCode: REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT,
+      source: params.source,
+      ...params.details,
+      guidance:
+        "This proposal was NOT dispatched: an identical earlier action has an unresolved physical outcome. " +
+        "Do not repeat the identical proposal; it will not be dispatched. " +
+        "Choose a materially different safe action, or finish the task.",
+    }) as Record<string, unknown>;
+    const bytes = estimateBytes(content);
+    const observation: Observation = {
+      observationId: `obs-replay-block-step-${params.stepCount}`,
+      category: "TOOL_ERROR",
+      provenance: {
+        entityKind: "Action",
+        entityId: params.entityId,
+        runId: params.runId,
+        sequenceNumber: params.stepCount,
+        timestamp: this.clock.now().toISOString(),
+        isAuthoritativeRuntimeFact: true,
+      },
+      freshness: "CURRENT",
+      priority: 90,
+      content,
+      contentHash: computeObservationContentHash(content),
+      estimatedBytes: bytes,
+      estimatedTokens: estimateTokens(bytes),
+      isMandatory: true,
+    };
+    try {
+      validateObservation(observation);
+      return observation;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
    * Phase 13D: Governed Verification Stage Execution.
    *
    * Executes contract-declared physical verification actions (e.g. git_diff, run_command)
@@ -2852,6 +2881,7 @@ export class AgentStepController {
     readonly effectiveBudget: StepControllerBudget;
     readonly currentActionCount: number;
     readonly consecutiveFailures: number;
+    readonly replayBlockCount: number;
     readonly stepCount: number;
     readonly startTime: number;
     readonly stepStartTime: number;
@@ -2865,13 +2895,17 @@ export class AgentStepController {
   }): Promise<{
     readonly updatedActionCount: number;
     readonly updatedConsecutiveFailures: number;
+    readonly updatedReplayBlockCount: number;
+    readonly replayFeedback?: Observation | null;
     readonly terminalResult?: StepControllerResult;
   }> {
     let actionCount = params.currentActionCount;
     let consecutiveFailures = params.consecutiveFailures;
+    let replayBlockCount = params.replayBlockCount;
+    let replayFeedback: Observation | null | undefined;
     const vSpecs = params.contract.spec.verificationSpecs ?? [];
     if (vSpecs.length === 0) {
-      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
+      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures, updatedReplayBlockCount: replayBlockCount };
     }
 
     const actions = this.stateStore.getActionsForRun(params.runId);
@@ -2894,7 +2928,7 @@ export class AgentStepController {
 
     // If mutation is required but no successful write_file exists, do not execute verification stage
     if (requiresMutation && lastWriteActionIndex === -1) {
-      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
+      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures, updatedReplayBlockCount: replayBlockCount };
     }
 
     // 2. Prevent verification loops (Section 16):
@@ -2916,7 +2950,7 @@ export class AgentStepController {
 
     if (alreadyTestedAfterMutation) {
       // Verification already ran on this exact mutation state and failed; do not loop without code changes
-      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
+      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures, updatedReplayBlockCount: replayBlockCount };
     }
 
     // 3. Determine verification actions to execute
@@ -2993,6 +3027,7 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "CANCELLED",
             `Autonomous loop aborted by AbortSignal prior to verification action '${task.toolName}'`
@@ -3006,6 +3041,7 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "MAX_WALL_CLOCK",
             `Wall clock ceiling reached prior to verification action '${task.toolName}' (${elapsedMs}ms >= ${params.effectiveBudget.maxWallClockMs}ms)`
@@ -3018,6 +3054,7 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "MAX_ACTIONS",
             `Maximum action execution ceiling reached prior to verification action '${task.toolName}' (${actionCount} >= ${params.effectiveBudget.maxActions})`
@@ -3031,6 +3068,7 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "LEASE_LOST",
             `Lease lost prior to executing verification action '${task.toolName}'`
@@ -3041,6 +3079,7 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "LEASE_LOST",
             `Lease expired prior to executing verification action '${task.toolName}' (expired at '${preExecRun.leaseExpiresAt}')`
@@ -3091,6 +3130,7 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "UNKNOWN_EXECUTION",
             `Verification action '${actionResult.actionId}' produced UNKNOWN execution outcome: physical side effects are uncertain`
@@ -3102,6 +3142,7 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "LEASE_LOST",
             `Verification action '${actionResult.actionId}' execution fenced due to lost lease`
@@ -3113,11 +3154,38 @@ export class AgentStepController {
         return {
           updatedActionCount: actionCount,
           updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "CANCELLED",
             `Verification action '${actionResult.actionId}' was cancelled during execution`
           ),
         };
+      }
+
+      // Tier-1 replay block: not dispatched; the earlier execution's outcome stays unresolved. It is
+      // neither a verification failure nor evidence that the earlier execution did or did not occur.
+      const replayBlockDetails = extractReplayBlockDetails(actionResult);
+      if (replayBlockDetails) {
+        replayBlockCount++;
+        if (replayBlockCount >= 2) {
+          return {
+            updatedActionCount: actionCount,
+            updatedConsecutiveFailures: consecutiveFailures,
+            updatedReplayBlockCount: replayBlockCount,
+            terminalResult: params.assembleResult(
+              "POLICY_DENIED",
+              `Repeated verification proposal blocked by an uncertain prior execution: Action '${actionResult.actionId}' was refused again (${replayBlockCount} replay blocks in this run)`
+            ),
+          };
+        }
+        replayFeedback = this.buildReplayBlockFeedback({
+          details: replayBlockDetails,
+          runId: params.runId,
+          entityId: actionResult.actionId,
+          stepCount: params.stepCount,
+          source: "VERIFICATION_STAGE",
+        });
+        break; // Never continue to further verification tasks, never redispatch the blocked one
       }
 
       if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
@@ -3142,7 +3210,12 @@ export class AgentStepController {
       }
     }
 
-    return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures };
+    return {
+      updatedActionCount: actionCount,
+      updatedConsecutiveFailures: consecutiveFailures,
+      updatedReplayBlockCount: replayBlockCount,
+      ...(replayFeedback !== undefined ? { replayFeedback } : {}),
+    };
   }
 
   /**
