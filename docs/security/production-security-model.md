@@ -41,8 +41,9 @@ Every proposed action must navigate a multi-layered security lattice before reac
 [Layer 5: Operator Approval Gate]
        │ Halts high-risk operations (deployments, destructive wipes) for human consent
        ▼
-[Layer 6: Sandboxed Execution Environment]
-       │ Local subprocess bounded by CPU time, output bytes, and unprivileged user
+[Layer 6: Execution Environment & Containment]
+       │ In-process: attempt-scoped path containment (0700, NodeFsWorkspaceAdapter)
+       │ Containerized: unprivileged user (1000:1000), read-only rootfs, CapDrop=ALL
        ▼
 [Layer 7: Sovereign Verification]
        │ Clean-room compilation, test suite execution, and cryptographic proof sealing
@@ -67,6 +68,7 @@ The security model strictly enforces invariants `C1` through `C20` and controls 
 1. **Zero Permanent Credentials**: No production API keys, personal access tokens, or cloud credentials are permitted inside the workspace or execution environment.
 2. **Automated Redaction**: Cross-harness gateway sanitizes outgoing and incoming payloads, stripping regex-matched tokens, keys, and environment variables.
 3. **No Network Egress**: The default production configuration sets `networkAllowed: false`. Local inference (Ollama) communicates exclusively via localhost IPC/HTTP (`127.0.0.1:11434`), blocking unauthorized telemetry or external data exfiltration.
+4. **Local Model Fallback & Fail-Closed Integrity**: When `--model-provider ollama` is selected on `emerald worker` without an explicit `--model` flag, the provider defaults to `llama3.2`. If this model is not installed/pulled locally, Ollama returns HTTP 404 and execution fails closed with `ModelRequestInvalidError`. Emerald never attempts automatic background model downloads and never falls back to cloud inference APIs.
 
 ---
 
@@ -80,3 +82,24 @@ Goal completion triggers clean-room sovereign verification:
 3. Test suites execute to assert functional correctness.
 4. An immutable proof hash is generated and embedded in the cryptographic evidence bundle.
 5. If verification fails, the run status is marked `FAILED` or returned for governed recovery. Model claims are rejected without proof.
+
+---
+
+## 6. Recovery Quiescence & Process Death Boundary
+
+1. **Lease Expiry vs. Process Death**: A lapsed or expired worker lease (`lease_expires_at < now`) in SQLite is strictly an expiration of a time-bounded coordination lock. Lease expiry alone is **never** proof that a previously executing worker or tenant process has terminated.
+2. **Quiescence Verification Gate**:
+   - For containerized runs (`tenantModel = "ISOLATED_PROCESSES"`), recovery sweeps require affirmative physical verification (`quiesceRun() === "QUIESCENT"`) via Docker container inspection and kill loops before rollback, disposal, or retry.
+   - If quiescence cannot be verified or if the launch gate is `QUARANTINED`, recovery fails closed (`HELD` / `TENANTS_NOT_QUIESCED`), leaving the workspace and run state untouched.
+3. **Delivery Semantics**: Execution delivery across crash recovery is strictly at-least-once. Emerald explicitly rejects claims of exactly-once execution.
+
+---
+
+## 7. Multi-Layer Isolation Tiers & `tenantModel` Boundary
+
+Emerald Agent Fabric distinguishes four separate tiers of isolation:
+
+1. **Attempt-Scoped Workspace Separation (`NodeFsWorkspaceAdapter`)**: Strict lexical normalization, ancestor directory canonicalization (`fs.realpath`), symlink escape defense, and single-attempt ownership markers. Does not provide process or memory isolation.
+2. **Application-Level Capability Validation (`ProposalValidator`, `ReflexPort`)**: Model proposals are unprivileged data structures validated fail-closed against the active `MissionContract`. Does not provide OS-level sandboxing.
+3. **Container Isolation (`DockerExecutionProvider`)**: Implements `tenantModel = "ISOLATED_PROCESSES"`, providing Linux container namespaces, read-only root filesystems, dropped capabilities (`CapDrop=ALL`), and `--network=none`.
+4. **Host-Process and OS Isolation**: In-process execution (`tenantModel: "NONE"`) operates within the worker Node.js process under the operator's host privileges. Declaring `tenantModel: "NONE"` signifies provider lifecycle dispatch; it does **not** prove the absence of background or child processes on the host. Production-grade OS sandboxing is not provided for in-process runs.

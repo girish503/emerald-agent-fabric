@@ -52,7 +52,7 @@ User / Developer CLI (`emerald`)
 [Production Tool Gateway]
   ├── read_file, search_code, write_file
   ├── git_status, git_diff, run_command
-  └── Sandboxed Workspace / Repository
+  └── Attempt-Scoped Workspace / Repository
        │
        ▼
 [Sovereign Verification]
@@ -67,7 +67,7 @@ User / Developer CLI (`emerald`)
 ### Prerequisites
 - **Node.js**: $\ge 20.0.0$
 - **Git**: $\ge 2.30.0$
-- **Ollama** (optional for local inference): running at `http://127.0.0.1:11434` with model `qwen2.5-coder:7b` or `deepseek-coder-v2`
+- **Ollama** (optional for local inference): running at `http://127.0.0.1:11434` with model `llama3.2` (the CLI default fallback) or an explicitly specified model (e.g. `qwen2.5-coder:7b`). If the target model is not pulled, inference fails closed with HTTP 404 (no automatic background downloads or commercial cloud fallback).
 
 ### Installation
 ```bash
@@ -145,6 +145,33 @@ Reconstruct the full run history and decision timeline deterministically:
 ```bash
 emerald replay <runId>
 ```
+
+### 8. Durable CLI Task Submission & Governed Worker
+Submit a natural-language task to SQLite with least-privilege capability policy:
+```bash
+emerald submit --db ./emerald.sqlite --task "Inspect package.json and verify dependency integrity"
+```
+
+Run a governed worker with local Ollama inference:
+```bash
+emerald worker --db ./emerald.sqlite --once --model-provider ollama --model llama3.2
+```
+*Note: If `--model` is omitted when using `--model-provider ollama`, the worker defaults to `llama3.2`. If `llama3.2` is not pulled locally, Ollama returns HTTP 404 and execution fails closed.*
+
+---
+
+## Security, Isolation & Recovery Invariants
+
+Emerald Agent Fabric distinguishes four distinct boundaries:
+1. **Attempt-Scoped Workspace Separation (`NodeFsWorkspaceAdapter`)**: Lexical path sanitization, ancestor directory realpath verification, and symlink escape defenses isolate directory contents per execution attempt. This does **not** provide process or memory isolation.
+2. **Application-Level Capability Governance (`ProposalValidator`, `ReflexPort`)**: Model proposals are treated as untrusted inputs, validated fail-closed against the active `MissionContract`. Does **not** provide operating-system-level virtualization.
+3. **Container Isolation (`DockerExecutionProvider`, `tenantModel: "ISOLATED_PROCESSES"`)**: Provides Linux container namespaces, read-only root filesystems, dropped capabilities (`CapDrop=ALL`), and `--network=none`.
+4. **Host-Process and OS Isolation**: In-process execution (`tenantModel: "NONE"`) runs inside the worker Node.js process under the operator's host privileges. Declaring `tenantModel: "NONE"` signifies provider lifecycle dispatch; it does **not** prove the absence of background or child processes on the host. Production-grade OS sandboxing is not provided for in-process runs.
+
+### Recovery Boundary
+- **Lease Expiry vs. Process Death**: A lapsed worker lease in SQLite is solely an expiration of a time-bounded coordination lock. Lease expiry alone is **never** proof that a previously executing worker or tenant process has terminated.
+- **Fail-Closed Quiescence**: Recovery requires verified physical quiescence (`quiesceRun() === "QUIESCENT"`) before rollback or disposal for containerized workloads. Unverified workloads are held fail-closed (`QUARANTINED`).
+- **Delivery Semantics**: Execution delivery across crash recovery is strictly at-least-once. Exactly-once execution is explicitly disclaimed.
 
 ---
 

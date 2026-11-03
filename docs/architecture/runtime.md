@@ -1665,3 +1665,55 @@ At the ingestion boundary, the `EvidenceIngestionGateway` evaluates the signatur
 - **Revoked Keys**: Keys marked `REVOKED` fail closed with `REVOKED_SIGNING_KEY` for new submissions.
 - **Dual Verification Requirement**: A valid Ed25519 signature never overrides replay verification failure. Both signature and deterministic replay must pass for acceptance.
 - **Legacy Compatibility**: Unsigned bundles can be accepted under explicit `allowUnsignedLegacy` policy, reporting authority as `NOT_ESTABLISHED`.
+
+---
+
+## 41. Execution Isolation Tiers, Process Quiescence & Model Fallback Semantics (Milestone 2.7)
+
+### 41.1 Four-Tier Isolation Hierarchy
+Emerald Agent Fabric establishes defense-in-depth across four distinct conceptual and physical boundaries. These tiers must never be conflated:
+
+1. **Tier 1: Attempt-Scoped Workspace Separation (`NodeFsWorkspaceAdapter`)**:
+   - Manages directory-level isolation per execution attempt under `EMERALD_WORKSPACE_ROOT`.
+   - Path containment: Enforces strict lexical subpath checks and filesystem canonicalization (`fs.realpath`) to block directory traversal (`..`), symlink redirection attacks, and Windows device paths (`CON`, `NUL`, `AUX`).
+   - Ownership marker fencing: Reads authenticated single-attempt ownership markers (`.emerald-owner.json`) before permitting disposal.
+   - Tombstone deletion: Preserves failed or quarantined workspaces; safe deletion renames aside to `.disposing-<id>-<uuid>` before deletion.
+   - *Limitation*: Workspace separation does NOT provide process isolation or memory protection.
+
+2. **Tier 2: Application-Level Capability and Proposal Validation (`ProposalValidator`, `ReflexPort`, `MissionContract`)**:
+   - Model outputs are untrusted data structures; zero execution authority is conferred upon LLM proposals.
+   - Validates tool input schemas, checks permissions against the active `MissionContract`'s `allowedCapabilities`, and bounds iterations via step/action budgets.
+   - Evaluates proposals against reflexive policies (`ReflexPort`) before domain action aggregates can be formed.
+   - Evaluates physical verification proofs independently; an agent's self-declaration of completion (`GOAL_REACHED`) is never authoritative.
+   - *Limitation*: Application-level governance bounds logical dispatch, but does not provide operating system boundary containment.
+
+3. **Tier 3: Container Isolation (`DockerExecutionProvider`)**:
+   - Implements `tenantModel = "ISOLATED_PROCESSES"`.
+   - Provides OS-level namespace containment: unprivileged user (`1000:1000`), read-only rootfs (`--read-only`), dropped Linux capabilities (`CapDrop=ALL`), `no-new-privileges`, and isolated in-memory tmpfs (`/tmp:rw,noexec,nosuid,size=64m`).
+   - Network isolation: Enforces `--network=none` for offline tool execution.
+   - *Limitation*: Shared host kernel via OCI/WSL2; does not provide microVM or hardware-assisted virtualization.
+
+4. **Tier 4: Host-Process and Operating-System Isolation**:
+   - In-process execution (`tenantModel: "NONE"`) runs inside the worker process on the host under the operator's host user privileges.
+   - Emerald does NOT claim production-grade OS-level multi-tenant sandboxing for in-process runs. Multi-tenant execution requires dedicated containerization or microVM boundaries.
+
+### 41.2 Scope and Exact Classification of `tenantModel: "NONE"`
+- **What It Establishes**: `tenantModel: "NONE"` classifies provider lifecycle dispatch. It signifies that the execution provider (e.g. `InProcessExecutionProvider`, `GovernedAgentExecutionProvider`) operates entirely in-process within the worker Node.js process and does not manage an external container runtime or child process lifecycle.
+- **What It Does NOT Establish**: Declaring `tenantModel: "NONE"` does **NOT** prove or guarantee the absence of background or child processes on the host. If tools spawn subprocesses on the host or if external daemons run independently (such as the Ollama host server), `tenantModel: "NONE"` does not monitor, track, or terminate those processes.
+
+### 41.3 Recovery Safety Boundary: Lease Expiry Does Not Prove Process Death
+- **Temporal Bound vs. Physical Proof**: A lapsed worker lease (`lease_expires_at < now`) is solely an expiration of a time-bounded lock in SQLite. Lease expiry alone is **never** proof that the prior worker or tenant process has terminated.
+- **Quiescence Verification Gate**:
+  - For containerized runs (`ISOLATED_PROCESSES`), recovery sweeps require affirmative physical verification (`quiesceRun() === "QUIESCENT"`) via Docker container inspection and kill loops before rollback, disposal, or retry.
+  - If quiescence cannot be verified or if the launch gate is `QUARANTINED`, recovery fails closed (`HELD` / `TENANTS_NOT_QUIESCED`), leaving the workspace and run state untouched.
+  - In-process runs (`tenantModel: "NONE"`) proceed with worker lease fencing and the operator assertion (`--workers-stopped`), but lease expiration remains separate from physical process death.
+
+### 41.4 Local Model Provider Fallback Semantics
+- **Ollama Model Selection**: When `emerald worker` is launched with `--model-provider ollama`, if `--model` is omitted, the runtime defaults to `llama3.2` at `http://127.0.0.1:11434`.
+- **Missing Fallback Model Behavior**: If `llama3.2` is not pulled or installed in the local Ollama instance, Ollama returns HTTP 404 (`model 'llama3.2' not found`), and `OllamaModelProvider` fails closed throwing `ModelRequestInvalidError`.
+- **Zero Cloud Leakage**: The runtime never silently falls back to commercial cloud APIs, and never automatically downloads models over the network. Operators must pull models explicitly (`ollama pull <model>`) or pass `--model <installed-model>`.
+
+### 41.5 Unsupported Guarantees Explicitly Disclaimed
+- **No Exactly-Once Execution**: Emerald execution delivery is strictly at-least-once across crash-recovery cycles.
+- **No Strict Orphan-Process Lifetime Bounds**: Un-containerized host subprocesses are not subject to strict kernel-level lifetime bounds unless managed by container runtimes.
+- **No Production-Grade OS Sandboxing for In-Process Runs**: In-process execution relies on application-level capability lattices and directory path containment, not OS containerization or hypervisor boundaries.
