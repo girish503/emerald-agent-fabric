@@ -123,7 +123,16 @@ export const REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT = "REPLAY_BLOCKED_UNCERTAIN_
 
 /**
  * Error code returned when a NON_IDEMPOTENT Action is re-entered while its own Attempt is already
- * DISPATCHED or RUNNING. The earlier dispatch may have produced a side effect, so it is not repeated.
+ * past CREATED. The earlier dispatch may have produced a side effect, so it is not repeated.
+ *
+ * Result semantics: the returned `FAILED` status describes this call only (nothing was dispatched). It is
+ * NOT a terminal outcome of the Action. The durable Action and Attempt are left exactly as they were
+ * (typically RUNNING); nothing is marked UNKNOWN or terminal here, because that needs recovery evidence
+ * rather than a caller's retry. Callers must not retry, count it as a tool failure of the Action, or
+ * report completion from it. Resolution belongs to recovery (RunCoordinator.recoverStaleExecutions or
+ * recoverMission), which records the Attempt as UNKNOWN and the Action as FAILED/EXECUTION_UNCERTAIN.
+ * The runtime's own callers (agent step controller, verification stage, clean-room verifier) always
+ * create a fresh Action and so cannot reach this result.
  */
 export const RESUME_BLOCKED_PRIOR_DISPATCH = "RESUME_BLOCKED_PRIOR_DISPATCH";
 
