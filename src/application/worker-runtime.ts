@@ -12,6 +12,7 @@ import {
   Attempt,
   AttemptSnapshot,
   createAttemptIdempotencyToken,
+  isTerminalAttemptStatus,
 } from "../domain/attempt.js";
 import { AttemptUnknownReason } from "../domain/events.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
@@ -116,6 +117,55 @@ export type WorkerActionStatus =
   | "CANCELLED"
   | "UNKNOWN"
   | "FENCED";
+
+/** Error code returned when the Tier-1 replay gate refuses to dispatch a NON_IDEMPOTENT action. */
+export const REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT = "REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT";
+
+interface UncertainPriorAttempt {
+  readonly actionId: string;
+  readonly attemptId: string;
+  readonly attemptStatus: string;
+  readonly reasonCode: string;
+}
+
+/**
+ * Finds a prior Action with the same (toolName, inputHash) in the run that has an UNKNOWN attempt, or an
+ * attempt that is still non-terminal (fail-closed: in-flight is never assumed to have stopped).
+ */
+function findUncertainPriorAttempt(
+  actions: readonly ActionSnapshot[],
+  getAttempts: (actionId: string) => readonly AttemptSnapshot[],
+  candidate: ActionSnapshot
+): UncertainPriorAttempt | null {
+  for (const prior of actions) {
+    if (
+      prior.actionId === candidate.actionId ||
+      prior.toolName !== candidate.toolName ||
+      prior.inputHash !== candidate.inputHash
+    ) {
+      continue;
+    }
+    for (const attempt of getAttempts(prior.actionId)) {
+      const unknown = attempt.status === "UNKNOWN";
+      if (!unknown && isTerminalAttemptStatus(attempt.status)) {
+        continue;
+      }
+      const payload = attempt.errorPayload as { reasonCode?: unknown } | null;
+      return {
+        actionId: prior.actionId,
+        attemptId: attempt.attemptId,
+        attemptStatus: attempt.status,
+        reasonCode:
+          unknown && typeof payload?.reasonCode === "string"
+            ? payload.reasonCode
+            : unknown
+              ? "UNSPECIFIED_EXECUTION_UNCERTAINTY"
+              : "ATTEMPT_NOT_TERMINAL",
+      };
+    }
+  }
+  return null;
+}
 
 export interface WorkerActionResult {
   readonly status: WorkerActionStatus;
@@ -1602,6 +1652,56 @@ export class WorkerRuntime {
         error: failErrorPayload,
         action: actionSnapshot,
       };
+    }
+
+    // 5b. Tier-1 replay gate (Milestone 2.10C).
+    // A new NON_IDEMPOTENT Action whose (runId, toolName, inputHash) equals that of a prior Action
+    // with an UNKNOWN or still-in-flight Attempt is not dispatched. The key is a candidate-equivalence
+    // match only: it does not prove an equivalent side effect, and a different payload is not caught.
+    // The Action is failed from CREATED with zero Attempts, exactly like an authorization denial.
+    if (actionSnapshot.status === "CREATED" && actionSnapshot.idempotency === "NON_IDEMPOTENT") {
+      const gateCandidate = actionSnapshot;
+      const blocked = store.transaction((tx) => {
+        const prior = findUncertainPriorAttempt(
+          tx.getActionsForRun(runId),
+          (actionId) => tx.getAttemptsForAction(actionId),
+          gateCandidate
+        );
+        if (!prior) {
+          return null;
+        }
+        const errorPayload = {
+          code: REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT,
+          category: "policy",
+          message:
+            `Replay blocked: a prior '${gateCandidate.toolName}' action with identical input has an ` +
+            `${prior.attemptStatus} attempt; its physical outcome is unresolved and is not retried automatically`,
+          details: {
+            toolName: gateCandidate.toolName,
+            priorActionId: prior.actionId,
+            priorAttemptId: prior.attemptId,
+            priorAttemptStatus: prior.attemptStatus,
+            priorReasonCode: prior.reasonCode,
+          },
+        };
+        const res = tx.transitionAction(
+          gateCandidate.actionId,
+          { type: "FAIL", errorPayload, now: this.clock.nowIso() },
+          () => crypto.randomUUID(),
+          fencing
+        );
+        return { snapshot: res.snapshot, errorPayload };
+      });
+
+      if (blocked) {
+        return {
+          status: "FAILED",
+          actionId: blocked.snapshot.actionId,
+          runId: run.runId,
+          error: blocked.errorPayload,
+          action: blocked.snapshot,
+        };
+      }
     }
 
     // 6. Action Transition: CREATED -> AUTHORIZED
