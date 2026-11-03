@@ -55,6 +55,7 @@ import {
 import { OrphanSweepOptions, WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { isRollbackPendingStatus } from "../domain/mutation-intent.js";
 import { LeaseManager } from "./lease-manager.js";
+import { SUPERVISOR_EVIDENCE, SWEEPER_EVIDENCE, decideRecovery } from "./recovery-decision-policy.js";
 
 export interface CreateTaskParams {
   readonly taskId?: string;
@@ -1195,185 +1196,139 @@ export class RunCoordinator {
         tx.getActiveAttemptForAction(action.actionId) ??
         attempts.find((a: AttemptSnapshot) => !isTerminalAttemptStatus(a.status));
       const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
+      const subject = activeAttempt ?? latestAttempt;
 
-      // Case 1: In-flight attempt exists (Window C, D, E, F)
-      if (activeAttempt) {
-        let reconciledAttemptStatus = activeAttempt.status;
-        let resultingActionStatus: ActionStatus = action.status;
+      // Shared recovery policy (see recovery-decision-policy.ts). The sweeper holds no supervisor
+      // lease and no quiescence proof, so an uncertain Attempt is never retried here.
+      const decision = decideRecovery({
+        idempotency: action.idempotency,
+        actionStatus: action.status,
+        attemptStatus: subject?.status ?? null,
+        totalAttempts: action.totalAttempts,
+        maxAttempts: action.maxAttempts,
+        evidence: SWEEPER_EVIDENCE,
+      });
 
-        if (activeAttempt.status === "CREATED") {
-          // Window C: Attempt created but never dispatched -> CANCEL
-          const attRes = tx.transitionAttempt(
-            activeAttempt.attemptId,
-            { type: "CANCEL", reason: "Worker crashed before dispatch", now: nowIso },
-            () => crypto.randomUUID(),
-            fencing
-          );
-          reconciledAttemptStatus = attRes.snapshot.status;
-
-          // Reconcile Action:
-          if (action.idempotency === "IDEMPOTENT" && action.totalAttempts < action.maxAttempts) {
-            const actRes = tx.transitionAction(
-              action.actionId,
-              { type: "PREPARE_RETRY", errorPayload: "Worker crashed before dispatch", now: nowIso },
-              () => crypto.randomUUID(),
-              fencing
-            );
-            resultingActionStatus = actRes.snapshot.status;
-          } else {
-            const actRes = tx.transitionAction(
-              action.actionId,
-              {
-                type: "FAIL",
-                errorPayload: { code: "WORKER_CRASHED", message: "Worker crashed before dispatch" },
-                now: nowIso,
-              },
-              () => crypto.randomUUID(),
-              fencing
-            );
-            resultingActionStatus = actRes.snapshot.status;
-          }
-
+      if (!subject || (decision.attemptTransition === "NONE" && decision.actionTransition === "NONE")) {
+        if (action.status === "RETRYING") {
+          // Window H: Action already RETRYING; report eligibility against the actual last Attempt.
+          const eligibility = evaluateRetryEligibility(action, latestAttempt);
           details.push({
             runId,
             actionId: action.actionId,
-            attemptId: activeAttempt.attemptId,
-            priorAttemptStatus: activeAttempt.status,
-            resultingAttemptStatus: reconciledAttemptStatus,
             priorActionStatus: action.status,
-            resultingActionStatus,
-            retryEligible: resultingActionStatus === "RETRYING",
-            reason: "Attempt cancelled before dispatch",
-          });
-        } else if (activeAttempt.status === "DISPATCHED" || activeAttempt.status === "RUNNING") {
-          // Windows D, E, F: Physical outcome uncertain -> MARK_UNKNOWN
-          const attRes = tx.transitionAttempt(
-            activeAttempt.attemptId,
-            {
-              type: "MARK_UNKNOWN",
-              reason: "Worker crashed or lease expired during execution",
-              reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
-              now: nowIso,
-            },
-            () => crypto.randomUUID(),
-            fencing
-          );
-          reconciledAttemptStatus = attRes.snapshot.status;
-
-          // Action: UNKNOWN is fail-closed!
-          // Non-idempotent MUST NEVER be automatically retried.
-          // Idempotent with uncertain outcome is fail-closed against blind auto-retry.
-          const actRes = tx.transitionAction(
-            action.actionId,
-            {
-              type: "FAIL",
-              errorPayload: {
-                code: "EXECUTION_UNCERTAIN",
-                reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
-                message: "Physical execution uncertain: worker crashed or lease expired during execution",
-              },
-              now: nowIso,
-            },
-            () => crypto.randomUUID(),
-            fencing
-          );
-          resultingActionStatus = actRes.snapshot.status;
-
-          details.push({
-            runId,
-            actionId: action.actionId,
-            attemptId: activeAttempt.attemptId,
-            priorAttemptStatus: activeAttempt.status,
-            resultingAttemptStatus: reconciledAttemptStatus,
-            priorActionStatus: action.status,
-            resultingActionStatus,
-            retryEligible: false,
-            reason:
-              "Attempt marked UNKNOWN due to lease expiration during execution; action failed closed",
+            resultingActionStatus: action.status,
+            retryEligible: eligibility.eligible,
+            reason: "Action is awaiting retry attempt creation",
           });
         }
-      } else if (
-        action.status === "RUNNING" &&
-        latestAttempt &&
-        isTerminalAttemptStatus(latestAttempt.status)
-      ) {
-        // Case 2: Window G: Attempt reached terminal state, but worker crashed before Action was updated!
-        let resultingActionStatus: ActionStatus = action.status;
-        if (latestAttempt.status === "SUCCEEDED") {
-          const actRes = tx.transitionAction(
-            action.actionId,
-            { type: "SUCCEED", resultPayload: latestAttempt.outputPayload, now: nowIso },
-            () => crypto.randomUUID(),
-            fencing
-          );
-          resultingActionStatus = actRes.snapshot.status;
-        } else if (latestAttempt.status === "FAILED") {
-          if (action.idempotency === "IDEMPOTENT" && action.totalAttempts < action.maxAttempts) {
-            const actRes = tx.transitionAction(
-              action.actionId,
-              { type: "PREPARE_RETRY", errorPayload: latestAttempt.errorPayload, now: nowIso },
-              () => crypto.randomUUID(),
-              fencing
-            );
-            resultingActionStatus = actRes.snapshot.status;
-          } else {
-            const actRes = tx.transitionAction(
-              action.actionId,
-              { type: "FAIL", errorPayload: latestAttempt.errorPayload, now: nowIso },
-              () => crypto.randomUUID(),
-              fencing
-            );
-            resultingActionStatus = actRes.snapshot.status;
-          }
-        } else if (latestAttempt.status === "TIMED_OUT") {
-          const actRes = tx.transitionAction(
-            action.actionId,
-            { type: "TIMEOUT", reason: latestAttempt.errorPayload, now: nowIso },
-            () => crypto.randomUUID(),
-            fencing
-          );
-          resultingActionStatus = actRes.snapshot.status;
-        } else if (latestAttempt.status === "CANCELLED") {
-          const actRes = tx.transitionAction(
-            action.actionId,
-            { type: "CANCEL", reason: latestAttempt.errorPayload, now: nowIso },
-            () => crypto.randomUUID(),
-            fencing
-          );
-          resultingActionStatus = actRes.snapshot.status;
-        } else if (latestAttempt.status === "UNKNOWN") {
-          const actRes = tx.transitionAction(
-            action.actionId,
-            { type: "FAIL", errorPayload: latestAttempt.errorPayload, now: nowIso },
-            () => crypto.randomUUID(),
-            fencing
-          );
-          resultingActionStatus = actRes.snapshot.status;
-        }
-
-        details.push({
-          runId,
-          actionId: action.actionId,
-          attemptId: latestAttempt.attemptId,
-          priorAttemptStatus: latestAttempt.status,
-          resultingAttemptStatus: latestAttempt.status,
-          priorActionStatus: action.status,
-          resultingActionStatus,
-          retryEligible: resultingActionStatus === "RETRYING",
-          reason: "Action reconciled from durable terminal attempt state",
-        });
-      } else if (action.status === "RETRYING") {
-        // Case 3: Action already in RETRYING state (Window H)
-        const eligibility = evaluateRetryEligibility(action);
-        details.push({
-          runId,
-          actionId: action.actionId,
-          priorActionStatus: action.status,
-          resultingActionStatus: action.status,
-          retryEligible: eligibility.eligible,
-          reason: "Action is awaiting retry attempt creation",
-        });
+        continue;
       }
+
+      let reconciledAttemptStatus = subject.status;
+      if (decision.attemptTransition === "CANCEL") {
+        // Window C: Attempt created but never dispatched -> CANCEL
+        reconciledAttemptStatus = tx.transitionAttempt(
+          subject.attemptId,
+          { type: "CANCEL", reason: "Worker crashed before dispatch", now: nowIso },
+          () => crypto.randomUUID(),
+          fencing
+        ).snapshot.status;
+      } else if (decision.attemptTransition === "MARK_UNKNOWN") {
+        // Windows D, E, F: physical outcome uncertain -> MARK_UNKNOWN
+        reconciledAttemptStatus = tx.transitionAttempt(
+          subject.attemptId,
+          {
+            type: "MARK_UNKNOWN",
+            reason: "Worker crashed or lease expired during execution",
+            reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+            now: nowIso,
+          },
+          () => crypto.randomUUID(),
+          fencing
+        ).snapshot.status;
+      }
+
+      let resultingActionStatus: ActionStatus = action.status;
+      const gen = () => crypto.randomUUID();
+      switch (decision.actionTransition) {
+        case "SUCCEED":
+          resultingActionStatus = tx.transitionAction(
+            action.actionId,
+            { type: "SUCCEED", resultPayload: subject.outputPayload, now: nowIso },
+            gen,
+            fencing
+          ).snapshot.status;
+          break;
+        case "PREPARE_RETRY":
+          resultingActionStatus = tx.transitionAction(
+            action.actionId,
+            {
+              type: "PREPARE_RETRY",
+              errorPayload:
+                subject.status === "CREATED" ? "Worker crashed before dispatch" : subject.errorPayload,
+              now: nowIso,
+            },
+            gen,
+            fencing
+          ).snapshot.status;
+          break;
+        case "FAIL": {
+          // UNKNOWN is fail-closed: it is recorded as uncertainty, never as proof of failure or of no effect.
+          const errorPayload =
+            decision.failureKind === "NOT_DISPATCHED"
+              ? { code: "WORKER_CRASHED", message: "Worker crashed before dispatch" }
+              : decision.failureKind === "UNCERTAIN" && decision.attemptTransition === "MARK_UNKNOWN"
+                ? {
+                    code: "EXECUTION_UNCERTAIN",
+                    reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+                    message: "Physical execution uncertain: worker crashed or lease expired during execution",
+                  }
+                : subject.errorPayload;
+          resultingActionStatus = tx.transitionAction(
+            action.actionId,
+            { type: "FAIL", errorPayload, now: nowIso },
+            gen,
+            fencing
+          ).snapshot.status;
+          break;
+        }
+        case "TIMEOUT":
+          resultingActionStatus = tx.transitionAction(
+            action.actionId,
+            { type: "TIMEOUT", reason: subject.errorPayload, now: nowIso },
+            gen,
+            fencing
+          ).snapshot.status;
+          break;
+        case "CANCEL":
+          resultingActionStatus = tx.transitionAction(
+            action.actionId,
+            { type: "CANCEL", reason: subject.errorPayload, now: nowIso },
+            gen,
+            fencing
+          ).snapshot.status;
+          break;
+        default:
+          break;
+      }
+
+      details.push({
+        runId,
+        actionId: action.actionId,
+        attemptId: subject.attemptId,
+        priorAttemptStatus: subject.status,
+        resultingAttemptStatus: reconciledAttemptStatus,
+        priorActionStatus: action.status,
+        resultingActionStatus,
+        retryEligible: resultingActionStatus === "RETRYING",
+        reason:
+          decision.attemptTransition === "CANCEL"
+            ? "Attempt cancelled before dispatch"
+            : decision.attemptTransition === "MARK_UNKNOWN"
+              ? "Attempt marked UNKNOWN due to lease expiration during execution; action failed closed"
+              : "Action reconciled from durable terminal attempt state",
+      });
     }
 
     return details;
@@ -1931,57 +1886,53 @@ export class RunCoordinator {
           };
         }
 
-        // Reconcile Attempt N if it's currently in-flight
+        // Shared recovery policy (see recovery-decision-policy.ts). recoverMission has already validated
+        // supervisor fencing and any required tenant quiescence, so those count as evidence here.
+        const decision = decideRecovery({
+          idempotency: targetAction.idempotency,
+          actionStatus: targetAction.status,
+          attemptStatus: latestAttempt?.status ?? null,
+          totalAttempts: targetAction.totalAttempts,
+          maxAttempts: targetAction.maxAttempts,
+          evidence: SUPERVISOR_EVIDENCE,
+        });
+        const gen = () => crypto.randomUUID();
+
+        // Reconcile Attempt N
         if (latestAttempt) {
-          if (!isTerminalAttemptStatus(latestAttempt.status)) {
-            if (latestAttempt.status === "CREATED") {
-              const res = tx.transitionAttempt(
-                latestAttempt.attemptId,
-                { type: "CANCEL", reason: "Supervisor recovery cancelled un-dispatched attempt", now: nowIso },
-                () => crypto.randomUUID()
-              );
-              previousAttempt = res.snapshot;
-            } else {
-              const res = tx.transitionAttempt(
-                latestAttempt.attemptId,
-                {
-                  type: "MARK_UNKNOWN",
-                  reason: "Supervisor recovery of crashed attempt",
-                  reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
-                  now: nowIso,
-                },
-                () => crypto.randomUUID()
-              );
-              previousAttempt = res.snapshot;
-            }
+          if (decision.attemptTransition === "CANCEL") {
+            previousAttempt = tx.transitionAttempt(
+              latestAttempt.attemptId,
+              { type: "CANCEL", reason: "Supervisor recovery cancelled un-dispatched attempt", now: nowIso },
+              gen
+            ).snapshot;
+          } else if (decision.attemptTransition === "MARK_UNKNOWN") {
+            previousAttempt = tx.transitionAttempt(
+              latestAttempt.attemptId,
+              {
+                type: "MARK_UNKNOWN",
+                reason: "Supervisor recovery of crashed attempt",
+                reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+                now: nowIso,
+              },
+              gen
+            ).snapshot;
           } else {
             previousAttempt = latestAttempt;
           }
         }
 
-        // A NON_IDEMPOTENT Action whose Attempt is UNKNOWN has an unresolved physical outcome. It is
-        // failed closed (as recoverStaleExecutions does) and never given a new Attempt: lease expiry is not
-        // proof that the earlier process stopped or that the side effect did not occur.
-        const uncertainNonIdempotent =
-          targetAction.idempotency === "NON_IDEMPOTENT" && previousAttempt?.status === "UNKNOWN";
-
-        // Action transition
-        if (!isTerminalActionStatus(targetAction.status)) {
-          if (uncertainNonIdempotent) {
+        // Action transition. A terminal Action is never reopened; an uncertain NON_IDEMPOTENT Action is
+        // failed closed and receives no replacement Attempt.
+        switch (decision.actionTransition) {
+          case "SUCCEED":
             tx.transitionAction(
               targetAction.actionId,
-              {
-                type: "FAIL",
-                errorPayload: {
-                  code: "EXECUTION_UNCERTAIN",
-                  reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
-                  message: "Physical execution uncertain: worker crashed or lease expired during execution",
-                },
-                now: nowIso,
-              },
-              () => crypto.randomUUID()
+              { type: "SUCCEED", resultPayload: latestAttempt?.outputPayload, now: nowIso },
+              gen
             );
-          } else if (targetAction.status !== "RETRYING") {
+            break;
+          case "PREPARE_RETRY":
             tx.transitionAction(
               targetAction.actionId,
               {
@@ -1989,14 +1940,51 @@ export class RunCoordinator {
                 errorPayload: { code: "EXECUTION_UNCERTAIN", reason: "Supervisor recovery" },
                 now: nowIso,
               },
-              () => crypto.randomUUID()
+              gen
             );
-          }
+            break;
+          case "FAIL":
+            tx.transitionAction(
+              targetAction.actionId,
+              {
+                type: "FAIL",
+                errorPayload:
+                  decision.failureKind === "NOT_DISPATCHED"
+                    ? { code: "WORKER_CRASHED", message: "Worker crashed before dispatch" }
+                    : decision.failureKind === "UNCERTAIN"
+                      ? {
+                          code: "EXECUTION_UNCERTAIN",
+                          reasonCode: "LEASE_EXPIRED_DURING_EXECUTION",
+                          message:
+                            "Physical execution uncertain: worker crashed or lease expired during execution",
+                        }
+                      : latestAttempt?.errorPayload,
+                now: nowIso,
+              },
+              gen
+            );
+            break;
+          case "TIMEOUT":
+            tx.transitionAction(
+              targetAction.actionId,
+              { type: "TIMEOUT", reason: latestAttempt?.errorPayload, now: nowIso },
+              gen
+            );
+            break;
+          case "CANCEL":
+            tx.transitionAction(
+              targetAction.actionId,
+              { type: "CANCEL", reason: latestAttempt?.errorPayload, now: nowIso },
+              gen
+            );
+            break;
+          default:
+            break;
         }
 
-        // Check if Action can retry
+        // A replacement Attempt is created only when the shared policy permits a retry.
         const currentTotalAttempts = targetAction.totalAttempts;
-        if (!uncertainNonIdempotent && currentTotalAttempts < targetAction.maxAttempts) {
+        if (decision.retry) {
           const nextAttemptNumber = (previousAttempt?.attemptNumber ?? currentTotalAttempts) + 1;
           const newAttemptId = crypto.randomUUID();
           const newWorkerId = params.newWorkerId ?? "supervisor-recovery-worker";

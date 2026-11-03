@@ -2206,7 +2206,8 @@ export class WorkerRuntime {
       }
 
       for (const action of actionsToRetry) {
-        const eligibility = evaluateRetryEligibility(action);
+        const priorAttempts = store.getAttemptsForAction(action.actionId);
+        const eligibility = evaluateRetryEligibility(action, priorAttempts[priorAttempts.length - 1]);
         if (eligibility.eligible) {
           const run = store.getRun(action.runId);
           if (run && (run.status === "RUNNING" || run.status === "LEASED")) {
