@@ -215,6 +215,7 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
     nowIso: string;
   }): void;
   getTenantLaunchGate(runId: string): TenantLaunchGate | null;
+  listTenantLaunchGates?(): readonly TenantLaunchGate[];
 }
 
 /**
@@ -302,6 +303,7 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
     nowIso: string;
   }): void;
   getTenantLaunchGate(runId: string): TenantLaunchGate | null;
+  listTenantLaunchGates?(): readonly TenantLaunchGate[];
 
   /**
    * Binds a run to the canonical workspace root it owns. First bind wins; rebinding

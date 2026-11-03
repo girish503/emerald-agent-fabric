@@ -3,3 +3,4 @@ export * from "./durable-rollback-engine.js";
 export * from "./recovery-supervisor.js";
 export * from "./recovery-sweeper.js";
 export * from "./recovery-host.js";
+export * from "./quarantine-diagnostics.js";

@@ -2862,6 +2862,24 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
       ownerPid: row.owner_pid ?? undefined,
     };
   }
+
+  listTenantLaunchGates(): readonly TenantLaunchGate[] {
+    const rows = this.db
+      .prepare(`SELECT * FROM tenant_launch_gates ORDER BY acquired_at ASC, run_id ASC`)
+      .all() as any[];
+    return rows.map((row) => ({
+      runId: row.run_id,
+      holderType: row.holder_type,
+      holderId: row.holder_id,
+      leaseId: row.lease_id,
+      token: row.token,
+      acquiredAt: row.acquired_at,
+      expiresAt: row.expires_at,
+      releasedAt: row.released_at ?? undefined,
+      state: row.state,
+      ownerPid: row.owner_pid ?? undefined,
+    }));
+  }
 }
 
 export interface SqliteStateStoreOptions {
@@ -3259,6 +3277,11 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
   getTenantLaunchGate(runId: string): TenantLaunchGate | null {
     const tx = new SqliteStorageTransaction(this.db, this.isProcessAlive);
     return tx.getTenantLaunchGate(runId);
+  }
+
+  listTenantLaunchGates(): readonly TenantLaunchGate[] {
+    const tx = new SqliteStorageTransaction(this.db, this.isProcessAlive);
+    return tx.listTenantLaunchGates();
   }
 
   close(): void {

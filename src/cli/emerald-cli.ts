@@ -48,6 +48,10 @@ import {
   sweepNeedsOperator,
 } from "../recovery/recovery-host.js";
 import {
+  formatLaunchGateDiagnostics,
+  readTenantLaunchGateDiagnostics,
+} from "../recovery/quarantine-diagnostics.js";
+import {
   BenchmarkDoctor,
   BenchmarkManifestLoader,
   BenchmarkRunner,
@@ -334,14 +338,18 @@ export class EmeraldCli {
   }
 
   /**
-   * emerald recovery sweep|watch — the host entry point for crash recovery against the SQLite store.
+   * emerald recovery sweep|watch|status — the host entry point for crash recovery and read-only diagnostics.
    * Exit codes: 0 ok, 1 error (including a watch that hit sweep errors), 2 sweep finished but runs need
    * an operator (held, failed closed, or workspace cleanup failed).
    */
   private async handleRecovery(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
-    const usage =
-      "Usage: emerald recovery <sweep|watch> --db <file> --workers-stopped [--workspace-root <dir>] [--interval-ms <n>]";
     const sub = args[0];
+    if (sub === "status") {
+      return this.handleRecoveryStatus(args.slice(1));
+    }
+
+    const usage =
+      "Usage: emerald recovery <sweep|watch|status> --db <file> --workers-stopped [--workspace-root <dir>] [--interval-ms <n>]";
     if (sub !== "sweep" && sub !== "watch") return { exitCode: 1, output: usage };
 
     const valueFlags = new Set(["--db", "--workspace-root", "--interval-ms"]);
@@ -401,6 +409,47 @@ export class EmeraldCli {
       if (err instanceof RecoveryHostConfigError) return { exitCode: 1, output: `Error: ${err.message}` };
       return { exitCode: 1, output: `Error: recovery failed: ${err instanceof Error ? err.message : String(err)}` };
     }
+  }
+
+  /**
+   * emerald recovery status --db <file> [--run-id <id>] [--json]
+   * Read-only operator diagnostic query of persisted tenant launch-gate records.
+   * Restricts output strictly to the eight existing schema columns.
+   */
+  private handleRecoveryStatus(args: readonly string[]): { exitCode: number; output: string } {
+    const usage = "Usage: emerald recovery status --db <file> [--run-id <id>] [--json]";
+    let isJson = false;
+    const rest: string[] = [];
+    for (const a of args) {
+      if (a === "--json") {
+        if (isJson) return { exitCode: 1, output: `Error: --json given more than once. ${usage}` };
+        isJson = true;
+      } else {
+        rest.push(a);
+      }
+    }
+
+    const parsed = this.parseValueFlags(rest, ["--db", "--run-id"], usage);
+    if ("error" in parsed) return parsed.error;
+    const dbPath = parsed.flags.get("--db");
+    const runId = parsed.flags.get("--run-id");
+    if (!dbPath) return { exitCode: 1, output: `Error: --db is required. ${usage}` };
+    if (dbPath === ":memory:") return { exitCode: 1, output: `Error: --db <file> is required (not :memory:). ${usage}` };
+
+    const result = readTenantLaunchGateDiagnostics({ dbPath, runId });
+    if (result.status === "ERROR") {
+      return { exitCode: 1, output: `Error: ${result.error}` };
+    }
+    if (result.status === "NOT_FOUND") {
+      return { exitCode: 0, output: isJson ? "null" : result.message };
+    }
+    if (result.records.length === 0) {
+      return { exitCode: 0, output: isJson ? "[]" : "No tenant launch gates found." };
+    }
+    if (isJson) {
+      return { exitCode: 0, output: JSON.stringify(runId ? result.records[0] : result.records, null, 2) };
+    }
+    return { exitCode: 0, output: formatLaunchGateDiagnostics(result.records) };
   }
 
   /** Strict `--flag value` parser shared by the durable-store commands (no positional arguments). */
@@ -1013,6 +1062,8 @@ Commands:
   emerald worker --db <file> [--once] [--workspace-root <dir>] [--lease-ttl-ms <n>]
                                          Claim and execute queued runs from an existing database
                                          (built-in operations: echo, sum, slow; Ctrl+C finishes the in-flight run)
+  emerald recovery status --db <file> [--run-id <id>] [--json]
+                                         Show read-only tenant launch-gate diagnostic status (8 fields only)
   emerald recovery sweep --db <file> --workers-stopped [--workspace-root <dir>]
                                          Run one crash-recovery sweep (exit 0 clean, 2 needs operator)
   emerald recovery watch --db <file> --workers-stopped [--workspace-root <dir>] [--interval-ms <n>]

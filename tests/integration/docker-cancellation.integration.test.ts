@@ -665,6 +665,7 @@ describe.skipIf(!runLiveDocker)(
 
       const task = coordinator.createTask({ title: "slow", inputPayload: {} });
       createAndActivateContract(store, task.taskId, {
+        timeoutMs: 60_000,
         policy: createExecutionPolicy({
           policyId: `policy-${task.taskId}`,
           allowedCapabilities: ["execution.slow"],
@@ -672,7 +673,7 @@ describe.skipIf(!runLiveDocker)(
           trustedInProcessOperations: [],
         }),
       });
-      const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3, timeoutMs: 2_500 });
+      const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3, timeoutMs: 60_000 });
       coordinator.queueRun(run.runId);
       const runId = run.runId;
       ownedRunIds.add(runId); // the provider labels its containers with this run id
@@ -693,11 +694,16 @@ describe.skipIf(!runLiveDocker)(
         leaseTtlMs: 30_000,
       });
 
-      const runPromise = track(runtime.runOnce(runId, { signal: newAbort().signal }));
+      const ac = newAbort();
+      const runPromise = track(runtime.runOnce(runId, { signal: ac.signal }));
       await waitRunning(runId);
       const wsDir = path.join(workspaceRoot, `ws-${runId}`);
       const canary = path.join(wsDir, "canary.txt");
       fs.writeFileSync(canary, "scenario-8-work-must-survive", "utf8");
+      expect(fs.existsSync(canary)).toBe(true);
+      expect(fs.readFileSync(canary, "utf8")).toBe("scenario-8-work-must-survive");
+
+      ac.abort();
 
       const result = await runPromise;
       expect(result.status, JSON.stringify((result as { error?: unknown }).error)).toBe("TERMINATION_UNVERIFIED");
