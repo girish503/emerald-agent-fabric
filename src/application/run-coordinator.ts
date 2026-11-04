@@ -4,6 +4,7 @@ import {
   ContractIntegrityError,
   InvalidMissionContractError,
   InvalidRunError,
+  LeaseExpiredError,
   LeaseLostError,
   MissionContractTaskMismatchError,
   NoActiveMissionContractError,
@@ -59,6 +60,7 @@ import {
   SUPERVISOR_EVIDENCE,
   SWEEPER_EVIDENCE,
   decideRecovery,
+  decideVerifiedRunRecovery,
   isStartedAttemptRowMissing,
 } from "./recovery-decision-policy.js";
 
@@ -134,6 +136,12 @@ export interface SaveCheckpointParams {
   readonly durableState: Record<string, unknown>;
   readonly eventSequence?: number;
   readonly supervisorFencing?: SupervisorFencingCheck;
+  /**
+   * Worker authority proof (2.16-D). When present, the write is rejected inside the same
+   * transaction unless the caller still holds the run's current, ACTIVE, unexpired worker lease.
+   * A worker that lost authority between its last lease check and this write cannot persist.
+   */
+  readonly workerFencing?: LeaseFencingCheck;
   readonly nowIso?: string;
 }
 
@@ -475,18 +483,25 @@ export class RunCoordinator {
    * Transitions a run from CREATED to QUEUED for worker pickup.
    */
   queueRun(runId: string): TransitionResult {
-    return this.stateStore.transaction((tx) => {
-      const snapshot = tx.getRun(runId);
-      if (!snapshot) {
-        throw new Error(`Run '${runId}' not found`);
-      }
+    return this.stateStore.transaction((tx) => this.queueRunInTransaction(tx, runId));
+  }
 
-      const run = Run.reconstitute(snapshot);
-      const event = run.queue(this.clock.nowIso());
-      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+  /**
+   * Same transition as `queueRun`, but inside a caller-owned transaction so that a caller
+   * (the task router's admission step) can make "count in-flight runs + queue" atomic.
+   * Uses the same state machine and optimistic version check; it grants no extra authority.
+   */
+  queueRunInTransaction(tx: StorageTransaction, runId: string): TransitionResult {
+    const snapshot = tx.getRun(runId);
+    if (!snapshot) {
+      throw new Error(`Run '${runId}' not found`);
+    }
 
-      return { run: run.snapshot, event: persistedEvent };
-    });
+    const run = Run.reconstitute(snapshot);
+    const event = run.queue(this.clock.nowIso());
+    const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+
+    return { run: run.snapshot, event: persistedEvent };
   }
 
   /**
@@ -1124,7 +1139,41 @@ export class RunCoordinator {
           return;
         }
 
-        // 6. Valid Active Contract: Existing Retry Semantics (Section 2, 9)
+        // 6. Valid Active Contract: Check Scenario 12 Verified Run Recovery
+        const runEvents = tx.getEventsForRun(snapshot.runId);
+        const actions = tx.getActionsForRun(snapshot.runId);
+        const attempts = actions.flatMap((a) => tx.getAttemptsForAction(a.actionId));
+        const recoveryDecision = decideVerifiedRunRecovery({
+          runSnapshot: run.snapshot,
+          events: runEvents,
+          actions,
+          attempts,
+        });
+
+        if (recoveryDecision.action === "FAIL_CLOSED") {
+          failGovernanceClosed({
+            code: recoveryDecision.reasonCode,
+            message: recoveryDecision.message,
+            details: recoveryDecision.details,
+          });
+          return;
+        }
+
+        if (recoveryDecision.action === "COMPLETE_FROM_VERIFIED_EVENT") {
+          cleanupCrashedWorkspace();
+          const versionBeforeComplete = run.version;
+          const completeEvent = run.complete(
+            "recovery",
+            "recovery",
+            recoveryDecision.resultPayload,
+            nowIso
+          );
+          tx.updateRun(snapshot.runId, versionBeforeComplete, run.snapshot, completeEvent);
+          recoveredRuns.push(run.snapshot);
+          return;
+        }
+
+        // 7. Valid Active Contract: Existing Retry Semantics (Section 2, 9)
         cleanupCrashedWorkspace();
         if (run.attemptCount < run.maxAttempts) {
           // Transition: RECOVERING -> QUEUED (increments attemptCount)
@@ -1203,6 +1252,13 @@ export class RunCoordinator {
       const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
       const subject = activeAttempt ?? latestAttempt;
 
+      // verifiedEventAfterAction is intentionally false here: this method is only reached via the
+      // PROCEED_TO_RETRY path, meaning decideVerifiedRunRecovery already determined that any
+      // verification event in run_events is not authoritative for this recovery operation (stale
+      // attempt, action.started after verification, or no event). Passing true would incorrectly
+      // allow an uncertain DISPATCHED/RUNNING/UNKNOWN attempt to be reconciled as SUCCEEDED.
+      const verifiedEventAfterAction = false;
+
       // Shared recovery policy (see recovery-decision-policy.ts). The sweeper holds no supervisor
       // lease and no quiescence proof, so an uncertain Attempt is never retried here.
       const decision = decideRecovery({
@@ -1213,6 +1269,7 @@ export class RunCoordinator {
         maxAttempts: action.maxAttempts,
         evidence: SWEEPER_EVIDENCE,
         startedAttemptRowMissing: isStartedAttemptRowMissing(action, latestAttempt?.attemptNumber ?? null),
+        verifiedEventAfterAction,
       });
 
       if (!subject || (decision.attemptTransition === "NONE" && decision.actionTransition === "NONE")) {
@@ -1711,6 +1768,20 @@ export class RunCoordinator {
       const run = tx.getRun(params.runId);
       if (!run) {
         throw new Error(`Run '${params.runId}' not found`);
+      }
+
+      if (params.workerFencing) {
+        const wf = params.workerFencing;
+        if (run.leaseId !== wf.leaseId || run.currentWorkerId !== wf.workerId) {
+          throw new LeaseLostError(params.runId, wf.leaseId, run.leaseId ?? null);
+        }
+        const lease = tx.getLease(wf.leaseId);
+        if (!lease || lease.state !== "ACTIVE") {
+          throw new LeaseLostError(params.runId, wf.leaseId, run.leaseId ?? null);
+        }
+        if (lease.expiresAt <= nowIso) {
+          throw new LeaseExpiredError(wf.leaseId, lease.expiresAt, nowIso);
+        }
       }
 
       const contractBinding = params.contractBinding ?? run.contractBinding;

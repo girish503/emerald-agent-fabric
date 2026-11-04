@@ -79,7 +79,7 @@ export function canTransition(status: RunStatus, command: RunCommand): boolean {
     case "START":
       return status === "LEASED";
     case "COMPLETE":
-      return status === "RUNNING";
+      return status === "RUNNING" || status === "RECOVERING";
     case "FAIL":
       return status === "RUNNING" || status === "RECOVERING";
     case "TIMEOUT":
@@ -216,9 +216,12 @@ export function applyTransition(
     }
 
     case "COMPLETE": {
-      // Fencing check
-      if (snapshot.currentWorkerId !== command.workerId || snapshot.leaseId !== command.leaseId) {
-        throw new LeaseLostError(snapshot.runId, command.leaseId, snapshot.leaseId);
+      // Fencing check: enforce worker fencing unless completing under coordinator/supervisor recovery authority
+      const isRecoveryAuthority = command.workerId === "recovery" || command.workerId === "coordinator.recovery";
+      if (!isRecoveryAuthority) {
+        if (snapshot.currentWorkerId !== command.workerId || snapshot.leaseId !== command.leaseId) {
+          throw new LeaseLostError(snapshot.runId, command.leaseId, snapshot.leaseId);
+        }
       }
 
       const nextSnapshot: RunSnapshot = {
@@ -237,10 +240,10 @@ export function applyTransition(
         timestamp: command.now,
         eventType: "run.completed",
         schemaVersion: 1,
-        producer: `worker:${command.workerId}`,
+        producer: isRecoveryAuthority ? "coordinator.recovery" : `worker:${command.workerId}`,
         payload: {
-          workerId: command.workerId,
-          leaseId: command.leaseId,
+          workerId: snapshot.currentWorkerId ?? command.workerId,
+          leaseId: snapshot.leaseId ?? command.leaseId,
           result: command.result,
         },
       };

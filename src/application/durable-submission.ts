@@ -35,6 +35,11 @@ export interface SubmitDurableTaskParams {
    * stored in the task input; the worker performs and audits the copy.
    */
   readonly repositoryPath?: string;
+  /**
+   * When true the run is left in CREATED and is NOT queued (used by the task router, which admits runs itself
+   * under its concurrency cap). Default false preserves the existing behaviour: the run is queued immediately.
+   */
+  readonly deferQueue?: boolean;
 }
 
 export interface SubmittedTask {
@@ -138,6 +143,9 @@ export function submitDurableTask(
     timeoutMs,
     idempotencyKey: params.idempotencyKey ?? null,
   });
+  if (params.deferQueue === true) {
+    return { taskId: task.taskId, runId: run.runId, status: run.status, deduplicated: false };
+  }
   const queued = coordinator.queueRun(run.runId);
   return { taskId: task.taskId, runId: queued.run.runId, status: queued.run.status, deduplicated: false };
 }

@@ -4,6 +4,7 @@ import { ActionCommand, ActionSnapshot } from "../domain/action.js";
 import { AttemptCommand, AttemptSnapshot } from "../domain/attempt.js";
 import { MissionContractStorePort } from "./mission-contract-store.port.js";
 import { MutationIntentStorePort } from "./mutation-intent-store.port.js";
+import { TaskRouterStorePort } from "./task-router-store.port.js";
 import type { TenantLaunchGate } from "./tenant-launch-coordinator.port.js";
 
 export interface TaskRecord {
@@ -46,6 +47,7 @@ export interface SupervisorLease {
   readonly expiresAt: string;
   readonly releasedAt: string | null;
   readonly state: "ACTIVE" | "EXPIRED" | "RELEASED";
+  readonly ownerPid?: number | null;
 }
 
 export interface SupervisorFencingCheck {
@@ -88,7 +90,10 @@ export interface LeaseFencingCheck {
  * StorageTransaction encapsulates operations executed within an atomic database transaction.
  * Guarantee: state mutations and event appends commit or roll back together.
  */
-export interface StorageTransaction extends MissionContractStorePort, MutationIntentStorePort {
+export interface StorageTransaction
+  extends MissionContractStorePort,
+    MutationIntentStorePort,
+    TaskRouterStorePort {
   insertTask(task: TaskRecord): void;
   getTask(taskId: string): TaskRecord | null;
 
@@ -168,6 +173,7 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
     supervisorId: string;
     ttlMs: number;
     nowIso: string;
+    ownerPid?: number;
   }): SupervisorLease;
   renewSupervisorLease(params: {
     leaseId: string;
@@ -177,7 +183,7 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
     nowIso: string;
   }): SupervisorLease;
   validateSupervisorFencing(runId: string, fencing: SupervisorFencingCheck): void;
-  releaseSupervisorLease(leaseId: string, nowIso: string): void;
+  releaseSupervisorLease(leaseId: string, nowIso: string, fencing?: SupervisorFencingCheck): void;
   expireSupervisorLease(leaseId: string, nowIso: string): void;
   getSupervisorLease(leaseId: string): SupervisorLease | null;
   findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null;
@@ -259,6 +265,7 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
     supervisorId: string;
     ttlMs: number;
     nowIso: string;
+    ownerPid?: number;
   }): SupervisorLease;
   renewSupervisorLease(params: {
     leaseId: string;
@@ -271,7 +278,7 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
   getSupervisorLease(leaseId: string): SupervisorLease | null;
   findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null;
   getSupervisorLeasesForRun(runId: string): readonly SupervisorLease[];
-  releaseSupervisorLease(leaseId: string, nowIso?: string): void;
+  releaseSupervisorLease(leaseId: string, nowIso?: string, fencing?: SupervisorFencingCheck): void;
   expireSupervisorLease(leaseId: string, nowIso?: string): void;
   getLatestCheckpoint(runId: string): MissionCheckpoint | null;
   getCheckpoints(runId: string): readonly MissionCheckpoint[];

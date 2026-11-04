@@ -171,7 +171,8 @@ CREATE TABLE IF NOT EXISTS supervisor_leases (
     acquired_at TEXT NOT NULL,
     expires_at TEXT NOT NULL,
     released_at TEXT,
-    state TEXT NOT NULL
+    state TEXT NOT NULL,
+    owner_pid INTEGER
 );
 
 CREATE INDEX IF NOT EXISTS idx_sup_leases_run_state ON supervisor_leases(run_id, state);
@@ -411,7 +412,8 @@ export function migrateDatabase(db: DatabaseSync): void {
         acquired_at TEXT NOT NULL,
         expires_at TEXT NOT NULL,
         released_at TEXT,
-        state TEXT NOT NULL
+        state TEXT NOT NULL,
+        owner_pid INTEGER
     );
 
     CREATE INDEX IF NOT EXISTS idx_sup_leases_run_state ON supervisor_leases(run_id, state);
@@ -541,11 +543,37 @@ export function migrateDatabase(db: DatabaseSync): void {
     );
 
     CREATE INDEX IF NOT EXISTS idx_launch_gates_run_state ON tenant_launch_gates(run_id, state);
+
+    -- Step 10: Durable Task Router (Milestone 2.17). Additive only; no existing table is altered.
+    CREATE TABLE IF NOT EXISTS task_relations (
+        child_task_id TEXT PRIMARY KEY REFERENCES tasks(task_id),
+        parent_task_id TEXT NOT NULL REFERENCES tasks(task_id),
+        depth INTEGER NOT NULL CHECK (depth >= 1),
+        ordinal INTEGER NOT NULL CHECK (ordinal >= 0),
+        created_at TEXT NOT NULL,
+        CHECK (child_task_id <> parent_task_id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_task_relations_parent ON task_relations(parent_task_id, ordinal);
+
+    CREATE TABLE IF NOT EXISTS router_submissions (
+        submission_key TEXT PRIMARY KEY,
+        task_id TEXT NOT NULL UNIQUE REFERENCES tasks(task_id),
+        run_id TEXT NOT NULL UNIQUE REFERENCES runs(run_id),
+        request_hash TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    );
   `);
 
   // Ensure owner_pid column exists on pre-existing tenant_launch_gates tables
   const gateCols = (db.prepare("PRAGMA table_info(tenant_launch_gates)").all() as Array<{ name: string }>).map((c) => c.name);
   if (!gateCols.includes("owner_pid")) {
     db.exec("ALTER TABLE tenant_launch_gates ADD COLUMN owner_pid INTEGER;");
+  }
+
+  // Ensure owner_pid column exists on pre-existing supervisor_leases tables
+  const supCols = (db.prepare("PRAGMA table_info(supervisor_leases)").all() as Array<{ name: string }>).map((c) => c.name);
+  if (!supCols.includes("owner_pid")) {
+    db.exec("ALTER TABLE supervisor_leases ADD COLUMN owner_pid INTEGER;");
   }
 }
