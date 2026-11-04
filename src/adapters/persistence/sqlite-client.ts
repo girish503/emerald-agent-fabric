@@ -22,20 +22,31 @@ export function createSqliteClient(config: SqliteClientConfig = {}): DatabaseSyn
 
   const db = new NodeDatabaseSync(location);
 
-  // Configure mandatory PRAGMAs
-  // Note: in-memory databases use "memory" journal mode by default; file-based databases use WAL.
-  if (location !== ":memory:") {
-    db.exec("PRAGMA journal_mode = WAL;");
+  try {
+    // Configure mandatory PRAGMAs
+    // Note: in-memory databases use "memory" journal mode by default; file-based databases use WAL.
+    if (location !== ":memory:") {
+      db.exec("PRAGMA journal_mode = WAL;");
+    }
+    db.exec(`PRAGMA synchronous = ${synchronous};`);
+    db.exec("PRAGMA foreign_keys = ON;");
+    db.exec(`PRAGMA busy_timeout = ${busyTimeoutMs};`);
+
+    // Initialize schema
+    db.exec(INITIAL_SCHEMA_SQL);
+
+    // Apply idempotent migrations for existing databases
+    migrateDatabase(db);
+
+    return db;
+  } catch (err) {
+    // Initialisation failed: release the partially initialised connection so the file is not left locked
+    // (notably on Windows). A close failure must never mask the original error, which is rethrown unchanged.
+    try {
+      db.close();
+    } catch {
+      // ignore: the original initialisation error is the one callers need
+    }
+    throw err;
   }
-  db.exec(`PRAGMA synchronous = ${synchronous};`);
-  db.exec("PRAGMA foreign_keys = ON;");
-  db.exec(`PRAGMA busy_timeout = ${busyTimeoutMs};`);
-
-  // Initialize schema
-  db.exec(INITIAL_SCHEMA_SQL);
-
-  // Apply idempotent migrations for existing databases
-  migrateDatabase(db);
-
-  return db;
 }
