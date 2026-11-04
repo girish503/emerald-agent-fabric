@@ -59,6 +59,7 @@ import {
   SUPERVISOR_EVIDENCE,
   SWEEPER_EVIDENCE,
   decideRecovery,
+  decideVerifiedRunRecovery,
   isStartedAttemptRowMissing,
 } from "./recovery-decision-policy.js";
 
@@ -1124,7 +1125,41 @@ export class RunCoordinator {
           return;
         }
 
-        // 6. Valid Active Contract: Existing Retry Semantics (Section 2, 9)
+        // 6. Valid Active Contract: Check Scenario 12 Verified Run Recovery
+        const runEvents = tx.getEventsForRun(snapshot.runId);
+        const actions = tx.getActionsForRun(snapshot.runId);
+        const attempts = actions.flatMap((a) => tx.getAttemptsForAction(a.actionId));
+        const recoveryDecision = decideVerifiedRunRecovery({
+          runSnapshot: run.snapshot,
+          events: runEvents,
+          actions,
+          attempts,
+        });
+
+        if (recoveryDecision.action === "FAIL_CLOSED") {
+          failGovernanceClosed({
+            code: recoveryDecision.reasonCode,
+            message: recoveryDecision.message,
+            details: recoveryDecision.details,
+          });
+          return;
+        }
+
+        if (recoveryDecision.action === "COMPLETE_FROM_VERIFIED_EVENT") {
+          cleanupCrashedWorkspace();
+          const versionBeforeComplete = run.version;
+          const completeEvent = run.complete(
+            "recovery",
+            "recovery",
+            recoveryDecision.resultPayload,
+            nowIso
+          );
+          tx.updateRun(snapshot.runId, versionBeforeComplete, run.snapshot, completeEvent);
+          recoveredRuns.push(run.snapshot);
+          return;
+        }
+
+        // 7. Valid Active Contract: Existing Retry Semantics (Section 2, 9)
         cleanupCrashedWorkspace();
         if (run.attemptCount < run.maxAttempts) {
           // Transition: RECOVERING -> QUEUED (increments attemptCount)
@@ -1203,6 +1238,13 @@ export class RunCoordinator {
       const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
       const subject = activeAttempt ?? latestAttempt;
 
+      // verifiedEventAfterAction is intentionally false here: this method is only reached via the
+      // PROCEED_TO_RETRY path, meaning decideVerifiedRunRecovery already determined that any
+      // verification event in run_events is not authoritative for this recovery operation (stale
+      // attempt, action.started after verification, or no event). Passing true would incorrectly
+      // allow an uncertain DISPATCHED/RUNNING/UNKNOWN attempt to be reconciled as SUCCEEDED.
+      const verifiedEventAfterAction = false;
+
       // Shared recovery policy (see recovery-decision-policy.ts). The sweeper holds no supervisor
       // lease and no quiescence proof, so an uncertain Attempt is never retried here.
       const decision = decideRecovery({
@@ -1213,6 +1255,7 @@ export class RunCoordinator {
         maxAttempts: action.maxAttempts,
         evidence: SWEEPER_EVIDENCE,
         startedAttemptRowMissing: isStartedAttemptRowMissing(action, latestAttempt?.attemptNumber ?? null),
+        verifiedEventAfterAction,
       });
 
       if (!subject || (decision.attemptTransition === "NONE" && decision.actionTransition === "NONE")) {
