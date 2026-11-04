@@ -52,6 +52,28 @@ export interface RecoveryDecisionInput {
   readonly totalAttempts: number;
   readonly maxAttempts: number;
   readonly evidence: RecoveryEvidence;
+  /**
+   * True when the Action recorded a started Attempt whose row was never inserted (see
+   * isStartedAttemptRowMissing). That Attempt never reached the adapter and the Action's own state
+   * already points at it, so an IDEMPOTENT Action is left for an explicit executeAction re-entry.
+   */
+  readonly startedAttemptRowMissing?: boolean;
+}
+
+/**
+ * A RUNNING Action whose activeAttemptNumber is beyond the latest Attempt row recorded START_ATTEMPT
+ * but stopped before inserting that Attempt. When the numbers are equal, the Attempt exists and the
+ * Action simply was not updated after it finished.
+ */
+export function isStartedAttemptRowMissing(
+  action: { readonly status: ActionStatus; readonly activeAttemptNumber: number | null },
+  latestAttemptNumber: number | null
+): boolean {
+  return (
+    action.status === "RUNNING" &&
+    action.activeAttemptNumber !== null &&
+    action.activeAttemptNumber > (latestAttemptNumber ?? 0)
+  );
 }
 
 export type RecoveryAttemptTransition = "NONE" | "CANCEL" | "MARK_UNKNOWN";
@@ -90,6 +112,9 @@ export function decideRecovery(input: RecoveryDecisionInput): RecoveryDecision {
   }
 
   const idempotent = input.idempotency === "IDEMPOTENT";
+  if (input.startedAttemptRowMissing === true && idempotent) {
+    return NO_ACTION;
+  }
   const attemptsRemaining = input.totalAttempts < input.maxAttempts;
   const alreadyRetrying = input.actionStatus === "RETRYING";
 

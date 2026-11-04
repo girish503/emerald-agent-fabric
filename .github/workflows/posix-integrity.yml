@@ -50,3 +50,5 @@ jobs:
           tests/application/recover-mission-non-idempotent.test.ts
           tests/application/recovery-interruption-lifecycle.test.ts
           tests/application/recovery-policy-consistency.test.ts
+          tests/application/recovery-missing-attempt.test.ts
+          tests/application/governed-real-adapter-recovery.test.ts

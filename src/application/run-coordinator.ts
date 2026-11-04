@@ -55,7 +55,12 @@ import {
 import { OrphanSweepOptions, WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { isRollbackPendingStatus } from "../domain/mutation-intent.js";
 import { LeaseManager } from "./lease-manager.js";
-import { SUPERVISOR_EVIDENCE, SWEEPER_EVIDENCE, decideRecovery } from "./recovery-decision-policy.js";
+import {
+  SUPERVISOR_EVIDENCE,
+  SWEEPER_EVIDENCE,
+  decideRecovery,
+  isStartedAttemptRowMissing,
+} from "./recovery-decision-policy.js";
 
 export interface CreateTaskParams {
   readonly taskId?: string;
@@ -1207,6 +1212,7 @@ export class RunCoordinator {
         totalAttempts: action.totalAttempts,
         maxAttempts: action.maxAttempts,
         evidence: SWEEPER_EVIDENCE,
+        startedAttemptRowMissing: isStartedAttemptRowMissing(action, latestAttempt?.attemptNumber ?? null),
       });
 
       if (!subject || (decision.attemptTransition === "NONE" && decision.actionTransition === "NONE")) {
@@ -1895,6 +1901,10 @@ export class RunCoordinator {
           totalAttempts: targetAction.totalAttempts,
           maxAttempts: targetAction.maxAttempts,
           evidence: SUPERVISOR_EVIDENCE,
+          startedAttemptRowMissing: isStartedAttemptRowMissing(
+            targetAction,
+            latestAttempt?.attemptNumber ?? null
+          ),
         });
         const gen = () => crypto.randomUUID();
 
