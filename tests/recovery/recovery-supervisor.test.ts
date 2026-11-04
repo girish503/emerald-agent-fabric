@@ -378,6 +378,7 @@ describe("RecoverySupervisor Unit & Integration Tests", () => {
       supervisorId: "crashed-supervisor",
       ttlMs: 1000,
       nowIso: new Date(clock.nowMs() - 5000).toISOString(),
+      ownerPid: 99999999,
     });
 
     // Advance clock past old supervisor lease expiry

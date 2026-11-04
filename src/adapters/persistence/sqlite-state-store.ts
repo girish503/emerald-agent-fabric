@@ -208,6 +208,7 @@ interface DbSupervisorLeaseRow {
   expires_at: string;
   released_at: string | null;
   state: string;
+  owner_pid?: number | null;
 }
 
 interface DbCheckpointRow {
@@ -234,6 +235,7 @@ function mapSupervisorLeaseRow(row: DbSupervisorLeaseRow): SupervisorLease {
     expiresAt: row.expires_at,
     releasedAt: row.released_at,
     state: row.state as "ACTIVE" | "EXPIRED" | "RELEASED",
+    ownerPid: row.owner_pid ?? null,
   };
 }
 
@@ -1734,7 +1736,7 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
       if (isNaN(callerNowMs)) {
         throw new MissingMutationAuthorityError(runId, `Invalid supervisor fencing nowIso timestamp format: '${fencing.nowIso}'`);
       }
-      effectiveNowMs = Math.max(Date.now(), callerNowMs);
+      effectiveNowMs = callerNowMs;
     }
 
     if (effectiveNowMs >= expiresMs) {
@@ -1747,6 +1749,7 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
     supervisorId: string;
     ttlMs: number;
     nowIso: string;
+    ownerPid?: number;
   }): SupervisorLease {
     const run = this.getRun(params.runId);
     if (!run) {
@@ -1774,6 +1777,40 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
             : `Active unexpired supervisor lease held by '${existing.supervisor_id}' until ${existing.expires_at}`
         );
       } else {
+        // Expired supervisor lease:
+        // Enforce crash handling & process-liveness rules:
+        // A supervisor crash must not permanently block recovery, but reclamation must follow process-liveness rules.
+        const isSameOwner =
+          existing.supervisor_id === params.supervisorId &&
+          (existing.owner_pid === null || existing.owner_pid === undefined || existing.owner_pid === params.ownerPid);
+
+        if (!isSameOwner) {
+          const pid = existing.owner_pid;
+          if (!isValidOwnerPid(pid)) {
+            // Missing, unrecorded, or non-positive owner process identity: fail closed
+            throw new SupervisorLeaseLostError(
+              params.runId,
+              params.supervisorId,
+              existing.supervisor_id,
+              `Recovery supervisor '${existing.supervisor_id}' process identity is unknown or unrecorded; supervisor lease stealing refused fail-closed.`
+            );
+          }
+          let isAlive = true;
+          try {
+            isAlive = this.isProcessAlive(pid);
+          } catch {
+            isAlive = true; // indeterminate: fail closed
+          }
+          if (isAlive) {
+            throw new SupervisorLeaseLostError(
+              params.runId,
+              params.supervisorId,
+              existing.supervisor_id,
+              `Recovery supervisor '${existing.supervisor_id}' (PID ${pid}) is still alive; supervisor lease stealing refused.`
+            );
+          }
+        }
+
         this.db.prepare(`UPDATE supervisor_leases SET state = 'EXPIRED' WHERE lease_id = ?`).run(existing.lease_id);
       }
     }
@@ -1782,11 +1819,11 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
     const expiresAt = new Date(new Date(params.nowIso).getTime() + params.ttlMs).toISOString();
 
     const insertStmt = this.db.prepare(
-      `INSERT INTO supervisor_leases (lease_id, run_id, supervisor_id, acquired_at, expires_at, state)
-       VALUES (?, ?, ?, ?, ?, 'ACTIVE')`
+      `INSERT INTO supervisor_leases (lease_id, run_id, supervisor_id, acquired_at, expires_at, state, owner_pid)
+       VALUES (?, ?, ?, ?, ?, 'ACTIVE', ?)`
     );
     try {
-      insertStmt.run(leaseId, params.runId, params.supervisorId, params.nowIso, expiresAt);
+      insertStmt.run(leaseId, params.runId, params.supervisorId, params.nowIso, expiresAt, params.ownerPid ?? null);
     } catch (err: unknown) {
       if (err instanceof Error && /UNIQUE constraint failed/i.test(err.message)) {
         throw new SupervisorLeaseLostError(
@@ -1807,6 +1844,7 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
       expiresAt,
       releasedAt: null,
       state: "ACTIVE",
+      ownerPid: params.ownerPid ?? null,
     };
   }
 
@@ -1882,8 +1920,58 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
     };
   }
 
-  releaseSupervisorLease(leaseId: string, nowIso: string): void {
-    this.db.prepare(`UPDATE supervisor_leases SET state = 'RELEASED', released_at = ? WHERE lease_id = ?`).run(nowIso, leaseId);
+  releaseSupervisorLease(leaseId: string, nowIso: string, fencing?: SupervisorFencingCheck): void {
+    const stmt = this.db.prepare(`SELECT * FROM supervisor_leases WHERE lease_id = ?`);
+    const row = stmt.get(leaseId) as DbSupervisorLeaseRow | undefined;
+    if (!row) {
+      throw new SupervisorLeaseLostError(
+        "unknown",
+        fencing?.supervisorId ?? "unknown",
+        null,
+        `Supervisor lease '${leaseId}' not found`
+      );
+    }
+
+    if (fencing) {
+      if (fencing.leaseId && fencing.leaseId !== leaseId) {
+        throw new SupervisorLeaseLostError(
+          row.run_id,
+          fencing.supervisorId,
+          row.supervisor_id,
+          "Supervisor lease ID mismatch on release"
+        );
+      }
+      if (row.supervisor_id !== fencing.supervisorId) {
+        throw new SupervisorLeaseLostError(
+          row.run_id,
+          fencing.supervisorId,
+          row.supervisor_id,
+          `Supervisor identity mismatch on lease release: caller '${fencing.supervisorId}' is not the lease owner '${row.supervisor_id}'`
+        );
+      }
+    }
+
+    if (row.state !== "ACTIVE") {
+      throw new SupervisorLeaseLostError(
+        row.run_id,
+        fencing?.supervisorId ?? row.supervisor_id,
+        row.supervisor_id,
+        `Cannot release supervisor lease '${leaseId}' in state '${row.state}'`
+      );
+    }
+
+    const effectiveNow = fencing?.nowIso ?? nowIso;
+    const nowMs = new Date(effectiveNow).getTime();
+    const expiresMs = new Date(row.expires_at).getTime();
+
+    if (!isNaN(expiresMs) && !isNaN(nowMs) && nowMs >= expiresMs) {
+      this.db.prepare(`UPDATE supervisor_leases SET state = 'EXPIRED' WHERE lease_id = ?`).run(leaseId);
+      throw new SupervisorLeaseExpiredError(leaseId, row.expires_at, effectiveNow);
+    }
+
+    this.db.prepare(
+      `UPDATE supervisor_leases SET state = 'RELEASED', released_at = ? WHERE lease_id = ? AND state = 'ACTIVE'`
+    ).run(nowIso, leaseId);
   }
 
   expireSupervisorLease(leaseId: string, _nowIso: string): void {
@@ -3072,14 +3160,16 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     return tx.getSupervisorLeasesForRun(runId);
   }
 
-  releaseSupervisorLease(leaseId: string, nowIso?: string): void {
-    const tx = new SqliteStorageTransaction(this.db);
-    tx.releaseSupervisorLease(leaseId, nowIso ?? new Date().toISOString());
+  releaseSupervisorLease(leaseId: string, nowIso?: string, fencing?: SupervisorFencingCheck): void {
+    this.transaction((tx) => {
+      tx.releaseSupervisorLease(leaseId, nowIso ?? new Date().toISOString(), fencing);
+    });
   }
 
   expireSupervisorLease(leaseId: string, nowIso?: string): void {
-    const tx = new SqliteStorageTransaction(this.db);
-    tx.expireSupervisorLease(leaseId, nowIso ?? new Date().toISOString());
+    this.transaction((tx) => {
+      tx.expireSupervisorLease(leaseId, nowIso ?? new Date().toISOString());
+    });
   }
 
   getLatestCheckpoint(runId: string): MissionCheckpoint | null {
@@ -3183,6 +3273,7 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     supervisorId: string;
     ttlMs: number;
     nowIso: string;
+    ownerPid?: number;
   }): SupervisorLease {
     return this.transaction((tx) => {
       return tx.acquireSupervisorLease(params);
@@ -3202,7 +3293,7 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
   }
 
   validateSupervisorFencing(runId: string, fencing: SupervisorFencingCheck): void {
-    const tx = new SqliteStorageTransaction(this.db);
+    const tx = new SqliteStorageTransaction(this.db, this.isProcessAlive);
     tx.validateSupervisorFencing(runId, fencing);
   }
 

@@ -32,9 +32,7 @@ import { isTerminalState, RunSnapshot } from "../domain/invariants.js";
 import {
   ActiveWorkerLeaseFencingError,
   MissingMutationAuthorityError,
-  SupervisorLeaseExpiredError,
   SupervisorLeaseLostError,
-  TerminalStateError,
   WorkspaceBindingConflictError,
   WorkspaceResolutionError,
 } from "../domain/errors.js";
@@ -381,6 +379,7 @@ export class RecoverySupervisor {
         supervisorId: this.supervisorId,
         ttlMs: this.leaseTtlMs,
         nowIso: effectiveNow,
+        ownerPid: this.supervisorPid,
       });
     } catch (err: unknown) {
       if (err instanceof SupervisorLeaseLostError) {
@@ -508,7 +507,11 @@ export class RecoverySupervisor {
         if (isTransientInfrastructureError(rollbackErr)) {
           this.stateStore.transaction((tx: StorageTransaction) => {
             this.assertSupervisorFenced(runId, supervisorLease.leaseId, effectiveNow);
-            tx.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow);
+            tx.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow, {
+              supervisorId: this.supervisorId,
+              leaseId: supervisorLease.leaseId,
+              nowIso: effectiveNow,
+            });
           });
           return {
             runId,
@@ -547,7 +550,11 @@ export class RecoverySupervisor {
             tx.updateRun(runId, current.version, runAggregate.snapshot, failEvent);
           }
 
-          tx.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow);
+          tx.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow, {
+            supervisorId: this.supervisorId,
+            leaseId: supervisorLease.leaseId,
+            nowIso: effectiveNow,
+          });
         });
 
         return {
@@ -605,7 +612,11 @@ export class RecoverySupervisor {
         }
 
         // Release supervisor lease
-        tx.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow);
+        tx.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow, {
+          supervisorId: this.supervisorId,
+          leaseId: supervisorLease.leaseId,
+          nowIso: effectiveNow,
+        });
       });
 
       return {
@@ -632,7 +643,11 @@ export class RecoverySupervisor {
     } catch (unexpectedErr: unknown) {
       // Release lease if possible on unexpected crash
       try {
-        this.stateStore.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow);
+        this.stateStore.releaseSupervisorLease(supervisorLease.leaseId, effectiveNow, {
+          supervisorId: this.supervisorId,
+          leaseId: supervisorLease.leaseId,
+          nowIso: effectiveNow,
+        });
       } catch {
         // Ignore secondary lease release failure
       }

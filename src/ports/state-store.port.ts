@@ -46,6 +46,7 @@ export interface SupervisorLease {
   readonly expiresAt: string;
   readonly releasedAt: string | null;
   readonly state: "ACTIVE" | "EXPIRED" | "RELEASED";
+  readonly ownerPid?: number | null;
 }
 
 export interface SupervisorFencingCheck {
@@ -168,6 +169,7 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
     supervisorId: string;
     ttlMs: number;
     nowIso: string;
+    ownerPid?: number;
   }): SupervisorLease;
   renewSupervisorLease(params: {
     leaseId: string;
@@ -177,7 +179,7 @@ export interface StorageTransaction extends MissionContractStorePort, MutationIn
     nowIso: string;
   }): SupervisorLease;
   validateSupervisorFencing(runId: string, fencing: SupervisorFencingCheck): void;
-  releaseSupervisorLease(leaseId: string, nowIso: string): void;
+  releaseSupervisorLease(leaseId: string, nowIso: string, fencing?: SupervisorFencingCheck): void;
   expireSupervisorLease(leaseId: string, nowIso: string): void;
   getSupervisorLease(leaseId: string): SupervisorLease | null;
   findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null;
@@ -259,6 +261,7 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
     supervisorId: string;
     ttlMs: number;
     nowIso: string;
+    ownerPid?: number;
   }): SupervisorLease;
   renewSupervisorLease(params: {
     leaseId: string;
@@ -271,7 +274,7 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
   getSupervisorLease(leaseId: string): SupervisorLease | null;
   findActiveSupervisorLease(runId: string, nowIso?: string): SupervisorLease | null;
   getSupervisorLeasesForRun(runId: string): readonly SupervisorLease[];
-  releaseSupervisorLease(leaseId: string, nowIso?: string): void;
+  releaseSupervisorLease(leaseId: string, nowIso?: string, fencing?: SupervisorFencingCheck): void;
   expireSupervisorLease(leaseId: string, nowIso?: string): void;
   getLatestCheckpoint(runId: string): MissionCheckpoint | null;
   getCheckpoints(runId: string): readonly MissionCheckpoint[];

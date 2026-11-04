@@ -171,7 +171,8 @@ CREATE TABLE IF NOT EXISTS supervisor_leases (
     acquired_at TEXT NOT NULL,
     expires_at TEXT NOT NULL,
     released_at TEXT,
-    state TEXT NOT NULL
+    state TEXT NOT NULL,
+    owner_pid INTEGER
 );
 
 CREATE INDEX IF NOT EXISTS idx_sup_leases_run_state ON supervisor_leases(run_id, state);
@@ -411,7 +412,8 @@ export function migrateDatabase(db: DatabaseSync): void {
         acquired_at TEXT NOT NULL,
         expires_at TEXT NOT NULL,
         released_at TEXT,
-        state TEXT NOT NULL
+        state TEXT NOT NULL,
+        owner_pid INTEGER
     );
 
     CREATE INDEX IF NOT EXISTS idx_sup_leases_run_state ON supervisor_leases(run_id, state);
@@ -547,5 +549,11 @@ export function migrateDatabase(db: DatabaseSync): void {
   const gateCols = (db.prepare("PRAGMA table_info(tenant_launch_gates)").all() as Array<{ name: string }>).map((c) => c.name);
   if (!gateCols.includes("owner_pid")) {
     db.exec("ALTER TABLE tenant_launch_gates ADD COLUMN owner_pid INTEGER;");
+  }
+
+  // Ensure owner_pid column exists on pre-existing supervisor_leases tables
+  const supCols = (db.prepare("PRAGMA table_info(supervisor_leases)").all() as Array<{ name: string }>).map((c) => c.name);
+  if (!supCols.includes("owner_pid")) {
+    db.exec("ALTER TABLE supervisor_leases ADD COLUMN owner_pid INTEGER;");
   }
 }
