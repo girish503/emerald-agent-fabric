@@ -100,6 +100,12 @@ import {
   PostPassVerificationLatch,
   type PostPassLatchSnapshot,
 } from "./post-pass-verification-latch.js";
+import {
+  saveStepLoopCheckpoint,
+  reconcileCheckpointWithDurableEvidence,
+} from "./step-loop-checkpoint.js";
+import type { MissionCheckpoint } from "../ports/state-store.port.js";
+import type { AttemptSnapshot } from "../domain/attempt.js";
 
 // ============================================================================
 // 1. Budgets & Defaults
@@ -126,6 +132,8 @@ export interface StepControllerBudget {
   readonly enableIntermediateTestFeedback?: boolean;
   /** Whether the post-pass verification latch is enabled */
   readonly enablePostPassVerificationLatch?: boolean;
+  /** Whether durable checkpointing at safe boundaries is enabled */
+  readonly enableCheckpointing?: boolean;
 }
 
 export const DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS = 3;
@@ -143,6 +151,7 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
   maxConsecutiveIneffectiveEdits: DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS,
   enableIntermediateTestFeedback: true,
   enablePostPassVerificationLatch: true,
+  enableCheckpointing: true,
 });
 
 export const MAX_REJECTION_FEEDBACK_CHARS = 512;
@@ -742,6 +751,7 @@ export interface StepControllerResult {
   readonly transcript: readonly StepTranscriptEntry[];
   readonly lastContextSnapshot?: ContextSnapshot;
   readonly postPassLatchSnapshot?: PostPassLatchSnapshot;
+  readonly latestCheckpoint?: MissionCheckpoint;
 }
 
 // ============================================================================
@@ -792,6 +802,16 @@ export interface RunStepLoopParams {
    * Default: falls back to controller option (default: false).
    */
   readonly enableDynamicToolFiltering?: boolean;
+  /**
+   * Whether to restore loop counters and verification latch from the latest durable checkpoint.
+   * Default: true.
+   */
+  readonly restoreFromCheckpoint?: boolean;
+  /**
+   * Whether to persist durable checkpoints at defined safe boundaries.
+   * Default: true.
+   */
+  readonly persistCheckpoints?: boolean;
 }
 
 // ============================================================================
@@ -955,6 +975,7 @@ export class AgentStepController {
       taskId: string
     ): StepControllerResult => {
       const totalWallClockMs = this.clock.now().getTime() - startTime;
+      const latestCheckpoint = this.stateStore.getLatestCheckpoint(runId);
       return Object.freeze({
         runId,
         taskId,
@@ -968,6 +989,7 @@ export class AgentStepController {
         transcript: Object.freeze([...transcript]),
         ...(lastContextSnapshot ? { lastContextSnapshot } : {}),
         postPassLatchSnapshot: this.postPassLatch.getSnapshot(),
+        ...(latestCheckpoint ? { latestCheckpoint } : {}),
       });
     };
 
@@ -977,6 +999,138 @@ export class AgentStepController {
       return assembleResult("LEASE_LOST", `Run '${runId}' not found in state store`, "unknown");
     }
     const taskId = initialRun.taskId;
+
+    // Phase 2.16-B: Checkpoint Restoration & Reconciliation
+    let currentCheckpointVersion = 0;
+    const initialLatestCheckpoint = this.stateStore.getLatestCheckpoint(runId);
+    if (initialLatestCheckpoint) {
+      currentCheckpointVersion = initialLatestCheckpoint.checkpointVersion;
+      if (params.restoreFromCheckpoint !== false) {
+        if (!initialRun.contractBinding) {
+          return assembleResult(
+            "CONTRACT_REVOKED",
+            `Run '${runId}' has no bound Mission Contract`,
+            taskId
+          );
+        }
+        const initialContract = this.stateStore.getContract(
+          initialRun.contractBinding.contractId,
+          initialRun.contractBinding.version
+        );
+        if (!initialContract || initialContract.lifecycle.status !== "ACTIVE") {
+          return assembleResult(
+            "CONTRACT_REVOKED",
+            `Bound Mission Contract '${initialRun.contractBinding.contractId}' is not ACTIVE`,
+            taskId
+          );
+        }
+
+        const runActions = this.stateStore.getActionsForRun(runId);
+        const runEvents = this.stateStore.getEventsForRun(runId);
+        const runAttempts: AttemptSnapshot[] = [];
+        for (const act of runActions) {
+          const atts = this.stateStore.getAttemptsForAction(act.actionId);
+          runAttempts.push(...atts);
+        }
+
+        try {
+          const reconciliation = reconcileCheckpointWithDurableEvidence({
+            checkpoint: initialLatestCheckpoint,
+            runSnapshot: initialRun,
+            contract: initialContract,
+            actions: runActions,
+            attempts: runAttempts,
+            events: runEvents,
+            clock: this.clock,
+          });
+
+          if (reconciliation.status === "ALREADY_VERIFIED") {
+            return assembleResult(
+              "COMPLETED",
+              reconciliation.reason ??
+                "Run already verified by authoritative verification evidence (Scenario 12)",
+              taskId
+            );
+          }
+
+          if (reconciliation.status === "FAIL_CLOSED") {
+            return assembleResult(
+              "POLICY_DENIED",
+              reconciliation.reason ?? "Checkpoint reconciliation failed closed",
+              taskId
+            );
+          }
+
+          const dState = reconciliation.durableState;
+          stepCount = reconciliation.reconciledStepCount;
+          actionCount = reconciliation.reconciledActionCount;
+          consecutiveFailures = reconciliation.reconciledConsecutiveFailures;
+          proposalRejections = dState.proposalRejections;
+          consecutiveIdenticalReads = dState.consecutiveIdenticalReads;
+          consecutiveIdenticalWrites = dState.consecutiveIdenticalWrites;
+          consecutiveIneffectiveEdits = dState.consecutiveIneffectiveEdits;
+
+          if (dState.postPassLatchSnapshot) {
+            this.postPassLatch.restoreFromSnapshot(dState.postPassLatchSnapshot);
+          }
+        } catch (err: unknown) {
+          const errMsg = err instanceof Error ? err.message : String(err);
+          return assembleResult(
+            "POLICY_DENIED",
+            `Checkpoint restoration rejected: ${errMsg}`,
+            taskId
+          );
+        }
+      }
+    }
+
+    const shouldPersistCheckpoints =
+      params.persistCheckpoints !== false &&
+      effectiveBudget.enableCheckpointing !== false;
+
+    let currentLastActionId: string | null =
+      initialLatestCheckpoint?.actionId ??
+      (initialLatestCheckpoint?.durableState as any)?.lastActionId ??
+      null;
+    let currentLastAttemptNumber: number | null =
+      initialLatestCheckpoint?.attemptNumber ??
+      (initialLatestCheckpoint?.durableState as any)?.lastAttemptNumber ??
+      null;
+
+    const persistLoopCheckpoint = (
+      lastActionId?: string | null,
+      lastAttemptNumber?: number | null
+    ) => {
+      if (!shouldPersistCheckpoints) return;
+      currentCheckpointVersion++;
+      if (lastActionId !== undefined) {
+        currentLastActionId = lastActionId;
+      }
+      if (lastAttemptNumber !== undefined) {
+        currentLastAttemptNumber = lastAttemptNumber;
+      }
+      try {
+        saveStepLoopCheckpoint({
+          coordinator: this.coordinator,
+          stateStore: this.stateStore,
+          clock: this.clock,
+          runId,
+          stepCount,
+          actionCount,
+          consecutiveFailures,
+          proposalRejections,
+          consecutiveIdenticalReads,
+          consecutiveIdenticalWrites,
+          consecutiveIneffectiveEdits,
+          postPassLatch: this.postPassLatch,
+          lastActionId: currentLastActionId,
+          lastAttemptNumber: currentLastAttemptNumber,
+          currentCheckpointVersion,
+        });
+      } catch {
+        // Safe persistence fallback: storage errors do not crash running memory loop
+      }
+    };
 
     // ------------------------------------------------------------------------
     // The Autonomous Step Loop
@@ -1682,6 +1836,9 @@ export class AgentStepController {
             timestamp: stepTimestamp,
           })
         );
+
+        // Persist checkpoint at safe proposal rejection boundary
+        persistLoopCheckpoint();
 
         // Rejection does not execute physical actions. Loop continues if budget permits.
         continue;
@@ -2894,6 +3051,9 @@ export class AgentStepController {
       } else if (actionResult.status === "SUCCEEDED") {
         consecutiveFailures = 0;
       }
+
+      // Safe step boundary: persist durable checkpoint after step execution and all updates
+      persistLoopCheckpoint(action.actionId, (actionResult as any)?.attemptNumber ?? null);
     }
   }
 
