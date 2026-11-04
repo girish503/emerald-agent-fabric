@@ -17,6 +17,7 @@
 
 import { ClockPort } from "../ports/clock.port.js";
 import {
+  LeaseFencingCheck,
   MissionCheckpoint,
   PersistedEvent,
   StateStorePort,
@@ -214,6 +215,8 @@ export interface SaveStepLoopCheckpointParams {
   readonly lastActionId?: string | null;
   readonly lastAttemptNumber?: number | null;
   readonly currentCheckpointVersion: number;
+  /** Worker authority proof; when set the write is lease-fenced inside the transaction (2.16-D). */
+  readonly workerFencing?: LeaseFencingCheck;
 }
 
 /**
@@ -243,6 +246,7 @@ export function saveStepLoopCheckpoint(
     actionId: params.lastActionId ?? null,
     attemptNumber: params.lastAttemptNumber ?? null,
     durableState: durableState as unknown as Record<string, unknown>,
+    ...(params.workerFencing ? { workerFencing: params.workerFencing } : {}),
   });
 }
 

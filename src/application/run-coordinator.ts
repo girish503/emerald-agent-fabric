@@ -4,6 +4,7 @@ import {
   ContractIntegrityError,
   InvalidMissionContractError,
   InvalidRunError,
+  LeaseExpiredError,
   LeaseLostError,
   MissionContractTaskMismatchError,
   NoActiveMissionContractError,
@@ -135,6 +136,12 @@ export interface SaveCheckpointParams {
   readonly durableState: Record<string, unknown>;
   readonly eventSequence?: number;
   readonly supervisorFencing?: SupervisorFencingCheck;
+  /**
+   * Worker authority proof (2.16-D). When present, the write is rejected inside the same
+   * transaction unless the caller still holds the run's current, ACTIVE, unexpired worker lease.
+   * A worker that lost authority between its last lease check and this write cannot persist.
+   */
+  readonly workerFencing?: LeaseFencingCheck;
   readonly nowIso?: string;
 }
 
@@ -1754,6 +1761,20 @@ export class RunCoordinator {
       const run = tx.getRun(params.runId);
       if (!run) {
         throw new Error(`Run '${params.runId}' not found`);
+      }
+
+      if (params.workerFencing) {
+        const wf = params.workerFencing;
+        if (run.leaseId !== wf.leaseId || run.currentWorkerId !== wf.workerId) {
+          throw new LeaseLostError(params.runId, wf.leaseId, run.leaseId ?? null);
+        }
+        const lease = tx.getLease(wf.leaseId);
+        if (!lease || lease.state !== "ACTIVE") {
+          throw new LeaseLostError(params.runId, wf.leaseId, run.leaseId ?? null);
+        }
+        if (lease.expiresAt <= nowIso) {
+          throw new LeaseExpiredError(wf.leaseId, lease.expiresAt, nowIso);
+        }
       }
 
       const contractBinding = params.contractBinding ?? run.contractBinding;

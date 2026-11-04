@@ -37,7 +37,11 @@ import {
   validateObservation,
 } from "../domain/context.js";
 import { redactSensitiveData } from "../domain/canonical-hash.js";
-import { ContextBudgetExceededError } from "../domain/errors.js";
+import {
+  ContextBudgetExceededError,
+  LeaseExpiredError,
+  LeaseLostError,
+} from "../domain/errors.js";
 import { ProposalRejectionReason } from "../domain/action-proposal.js";
 import { defaultGovernedToolRegistry, ExtendedToolName, ToolName, type ToolDefinition } from "../domain/tool.js";
 import {
@@ -1097,11 +1101,15 @@ export class AgentStepController {
       (initialLatestCheckpoint?.durableState as any)?.lastAttemptNumber ??
       null;
 
+    // 2.16-D: set when a worker-fenced checkpoint write is rejected for lost/expired lease authority.
+    // The loop must stop at its next boundary; storage-level errors remain non-fatal as before.
+    let checkpointAuthorityLostReason: string | null = null;
+
     const persistLoopCheckpoint = (
       lastActionId?: string | null,
       lastAttemptNumber?: number | null
     ) => {
-      if (!shouldPersistCheckpoints) return;
+      if (!shouldPersistCheckpoints || checkpointAuthorityLostReason !== null) return;
       currentCheckpointVersion++;
       if (lastActionId !== undefined) {
         currentLastActionId = lastActionId;
@@ -1126,8 +1134,13 @@ export class AgentStepController {
           lastActionId: currentLastActionId,
           lastAttemptNumber: currentLastAttemptNumber,
           currentCheckpointVersion,
+          workerFencing: { workerId, leaseId },
         });
-      } catch {
+      } catch (err: unknown) {
+        if (err instanceof LeaseLostError || err instanceof LeaseExpiredError) {
+          checkpointAuthorityLostReason = err.message;
+          return;
+        }
         // Safe persistence fallback: storage errors do not crash running memory loop
       }
     };
@@ -1142,6 +1155,15 @@ export class AgentStepController {
       // 1. Check Cancellation
       if (params.abortSignal?.aborted) {
         return assembleResult("CANCELLED", "Autonomous loop aborted by AbortSignal", taskId);
+      }
+
+      // 1b. A fenced checkpoint write was rejected: this worker no longer holds authority.
+      if (checkpointAuthorityLostReason !== null) {
+        return assembleResult(
+          "LEASE_LOST",
+          `Worker authority lost during checkpoint persistence: ${checkpointAuthorityLostReason}`,
+          taskId
+        );
       }
 
       // 2. Check Wall-Clock Budget
