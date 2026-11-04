@@ -40,6 +40,7 @@ import { ProductionDoctor } from "./doctor.js";
 import { SqliteStateStore } from "../adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator } from "../application/run-coordinator.js";
 import { submitDurableTask } from "../application/durable-submission.js";
+import { TaskRouterService } from "../application/task-router.js";
 import { WorkerHostConfigError, runWorkerHost } from "../application/worker-host.js";
 import { SystemClock } from "../ports/clock.port.js";
 import {
@@ -170,6 +171,9 @@ export class EmeraldCli {
 
         case "submit":
           return this.handleSubmit(args.slice(1));
+
+        case "router":
+          return this.handleRouter(args.slice(1));
 
         case "artifact":
           return this.handleArtifact(args.slice(1));
@@ -552,6 +556,176 @@ export class EmeraldCli {
       return { exitCode: 0, output: JSON.stringify(submitted) };
     } finally {
       store.close();
+    }
+  }
+
+  /**
+   * emerald router <submit|tick|status|cancel> — one-shot commands over the durable Task Router (Milestone 2.18).
+   * No daemon: every command opens the file database, does one bounded piece of work, prints JSON and exits, so each
+   * is restart-safe (all state lives in SQLite). `submit` may create the database; the others never do.
+   * `tick` requires an explicit --max-concurrent (1 or 2). A busy database exits 2 so a scheduler can retry.
+   * Delivery is at-least-once; cancellation records a state change and never asserts a process stopped.
+   */
+  private handleRouter(args: readonly string[]): { exitCode: number; output: string } {
+    const sub = args[0];
+    const rest = args.slice(1);
+    const usage =
+      "Usage: emerald router submit --db <file> --key <submissionKey> (--task <text> | --operation <name>) [--parent-task <taskId>] [--repo <dir>] [--input <json>] [--capabilities <csv>] [--max-attempts <n>] [--timeout-ms <n>] | " +
+      "emerald router tick --db <file> --max-concurrent <1|2> | " +
+      "emerald router status --db <file> --root <taskId> | " +
+      "emerald router cancel --db <file> --root <taskId> [--reason <text>]";
+    const fail = (message: string) => ({ exitCode: 1, output: `Error: ${message}. ${usage}` });
+    const requireExistingDb = (dbPath: string | undefined) => {
+      if (!dbPath) return fail("--db is required");
+      if (dbPath === ":memory:" || !fs.existsSync(dbPath) || !fs.statSync(dbPath).isFile()) {
+        return { exitCode: 1, output: `Error: database not found (router ${sub} never creates one): ${dbPath}` };
+      }
+      return null;
+    };
+    const withRouter = <T>(
+      dbPath: string,
+      cap: 1 | 2,
+      op: (router: TaskRouterService, coordinator: RunCoordinator, store: SqliteStateStore) => T
+    ): T => {
+      const store = new SqliteStateStore({ location: dbPath });
+      try {
+        const clock = new SystemClock();
+        const coordinator = new RunCoordinator(store, clock);
+        return op(new TaskRouterService(store, coordinator, clock, { maxConcurrentRuns: cap }), coordinator, store);
+      } finally {
+        store.close();
+      }
+    };
+    const busy = (err: unknown) =>
+      err instanceof Error && /database is locked|SQLITE_BUSY/i.test(err.message)
+        ? { exitCode: 2, output: JSON.stringify({ error: "DATABASE_BUSY", message: err.message, retryable: true }) }
+        : null;
+
+    try {
+      if (sub === "tick") {
+        const parsed = this.parseValueFlags(rest, ["--db", "--max-concurrent"], usage);
+        if ("error" in parsed) return parsed.error;
+        const cap = parsed.flags.get("--max-concurrent");
+        if (cap !== "1" && cap !== "2") return fail("--max-concurrent is required and must be 1 or 2");
+        const dbErr = requireExistingDb(parsed.flags.get("--db"));
+        if (dbErr) return dbErr;
+        const result = withRouter(parsed.flags.get("--db")!, Number(cap) as 1 | 2, (router) => router.dispatchTick());
+        return { exitCode: 0, output: JSON.stringify(result) };
+      }
+
+      if (sub === "status") {
+        const parsed = this.parseValueFlags(rest, ["--db", "--root"], usage);
+        if ("error" in parsed) return parsed.error;
+        const root = parsed.flags.get("--root");
+        if (!root) return fail("--root is required");
+        const dbErr = requireExistingDb(parsed.flags.get("--db"));
+        if (dbErr) return dbErr;
+        const result = withRouter(parsed.flags.get("--db")!, 1, (router) => router.getTaskTreeStatus(root));
+        return { exitCode: 0, output: JSON.stringify(result) };
+      }
+
+      if (sub === "cancel") {
+        const parsed = this.parseValueFlags(rest, ["--db", "--root", "--reason"], usage);
+        if ("error" in parsed) return parsed.error;
+        const root = parsed.flags.get("--root");
+        if (!root) return fail("--root is required");
+        const dbErr = requireExistingDb(parsed.flags.get("--db"));
+        if (dbErr) return dbErr;
+        const result = withRouter(parsed.flags.get("--db")!, 1, (router) =>
+          router.cancelTaskTree(root, parsed.flags.get("--reason") ?? "Cancelled via emerald router cancel")
+        );
+        return { exitCode: 0, output: JSON.stringify(result) };
+      }
+
+      if (sub === "submit") {
+        const parsed = this.parseValueFlags(
+          rest,
+          ["--db", "--key", "--operation", "--task", "--parent-task", "--repo", "--input", "--capabilities", "--max-attempts", "--timeout-ms"],
+          usage
+        );
+        if ("error" in parsed) return parsed.error;
+        const { flags } = parsed;
+        const dbPath = flags.get("--db");
+        const key = flags.get("--key");
+        const operation = flags.get("--operation");
+        const task = flags.get("--task");
+        if (!dbPath || dbPath === ":memory:") return fail("--db <file> is required (not :memory:)");
+        if (!key || key.trim().length === 0) return fail("--key is required");
+        if (!operation && !task) return fail("either --task or --operation is required");
+        let repositoryPath: string | undefined;
+        if (flags.has("--repo")) {
+          if (!task || flags.has("--input")) return fail("--repo requires --task and cannot be combined with --input");
+          repositoryPath = path.resolve(flags.get("--repo")!);
+          try {
+            if (!fs.statSync(repositoryPath).isDirectory()) return fail(`--repo is not a directory: ${repositoryPath}`);
+          } catch {
+            return fail(`--repo directory not found: ${repositoryPath}`);
+          }
+        }
+        let input: unknown = null;
+        if (flags.has("--input")) {
+          try {
+            input = JSON.parse(flags.get("--input")!);
+          } catch {
+            return fail("--input must be valid JSON");
+          }
+        }
+        const intFlag = (name: string): number | undefined | "bad" => {
+          const raw = flags.get(name);
+          if (raw === undefined) return undefined;
+          return /^\d+$/.test(raw) && Number(raw) >= 1 ? Number(raw) : "bad";
+        };
+        const maxAttempts = intFlag("--max-attempts");
+        const timeoutMs = intFlag("--timeout-ms");
+        if (maxAttempts === "bad" || timeoutMs === "bad") return fail("--max-attempts and --timeout-ms must be positive integers");
+        const capabilities = flags.has("--capabilities")
+          ? flags.get("--capabilities")!.split(",").map((c) => c.trim()).filter(Boolean)
+          : undefined;
+        const parentTaskId = flags.get("--parent-task");
+
+        const result = withRouter(dbPath, 1, (router, coordinator, store) => {
+          // The run is created in CREATED (never queued here); the router admits it under its cap.
+          const submitted = submitDurableTask(store, coordinator, {
+            operation,
+            task,
+            input,
+            maxAttempts,
+            timeoutMs,
+            idempotencyKey: key,
+            capabilities,
+            repositoryPath,
+            deferQueue: true,
+          });
+          try {
+            const routed = router.submitTask({
+              submissionKey: key,
+              taskId: submitted.taskId,
+              ...(parentTaskId ? { parentTaskId } : {}),
+              ...(maxAttempts !== undefined ? { maxAttempts } : {}),
+              ...(timeoutMs !== undefined ? { timeoutMs } : {}),
+            });
+            return { taskId: routed.taskId, runId: routed.runId, status: coordinator.getRun(routed.runId)?.status ?? null, duplicate: routed.duplicate };
+          } catch (err: unknown) {
+            // Topology/conflict rejection: do not leave an unrouted CREATED run behind.
+            if (!submitted.deduplicated) {
+              try {
+                coordinator.cancelRun(submitted.runId, "Router submission rejected");
+              } catch {
+                // already terminal; nothing further to clean up
+              }
+            }
+            throw err;
+          }
+        });
+        return { exitCode: 0, output: JSON.stringify(result) };
+      }
+
+      return { exitCode: 1, output: usage };
+    } catch (err: unknown) {
+      const b = busy(err);
+      if (b) return b;
+      const msg = err instanceof Error ? err.message : String(err);
+      return { exitCode: 1, output: `Error: ${msg}` };
     }
   }
 
@@ -1197,6 +1371,8 @@ Commands:
   emerald run resume <runId>             Resume a paused run
   emerald run recover <runId>            Recover an interrupted or crashed run
   emerald run inspect <runId>            Inspect run timeline and actions
+  emerald router submit|tick|status|cancel --db <file> ...
+                                         One-shot durable Task Router commands (tick needs --max-concurrent 1|2)
   emerald diff <runId>                   Show working-tree changes produced by run
   emerald verify <runId>                 Show sovereign verification proof
   emerald evidence <runId>               Export full cryptographic evidence bundle
