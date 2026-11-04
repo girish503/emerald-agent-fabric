@@ -196,11 +196,24 @@ export type WorkspaceProvisioningEvent = DomainEvent<WorkspaceProvisioningPayloa
   readonly eventType: "workspace.provisioning";
 };
 
+/** Audit summary of a repository copied into a run workspace. Counts only; never file contents. */
+export interface RepositoryImportSummary {
+  readonly sourcePath: string;
+  readonly fileCount: number;
+  readonly totalBytes: number;
+  readonly skippedSymlinks: number;
+  readonly skippedSpecialFiles: number;
+  /** VCS metadata, dependency directories and likely secret files that were deliberately not copied. */
+  readonly excludedEntries: number;
+  readonly oversizeSkipped: number;
+}
+
 export interface WorkspaceReadyPayload {
   readonly workspaceId: string;
   readonly runId: string;
   readonly hostPath?: string;
   readonly containerMountPath?: string;
+  readonly repositoryImport?: RepositoryImportSummary;
 }
 
 export type WorkspaceReadyEvent = DomainEvent<WorkspaceReadyPayload> & {

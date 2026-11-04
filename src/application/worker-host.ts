@@ -16,6 +16,7 @@ import { InProcessExecutionProvider } from "../adapters/execution/in-process-exe
 import { GovernedAgentExecutionProvider } from "../adapters/execution/governed-agent-execution-provider.js";
 import { OllamaModelProvider } from "../adapters/models/ollama-model-provider.js";
 import { NodeFsWorkspaceAdapter } from "../adapters/workspace/node-fs-workspace-adapter.js";
+import { NodeFsRepositoryImporter } from "../adapters/workspace/node-fs-repository-importer.js";
 import { SlowOperation, DeterministicOperation, EchoOperation, SumOperation } from "../domain/operation.js";
 import { ModelRequestCancelledError, ModelRequestTimeoutError } from "../domain/errors.js";
 import {
@@ -299,6 +300,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           leaseTtlMs: options.leaseTtlMs,
           workspacePort: workspace,
           executionProvider: governedProvider,
+          repositoryImporter: new NodeFsRepositoryImporter(),
         });
 
         const stepController = new AgentStepController({
@@ -321,6 +323,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           leaseTtlMs: options.leaseTtlMs,
           workspacePort: workspace,
           executionProvider,
+          repositoryImporter: new NodeFsRepositoryImporter(),
         });
       }
     } catch (err: unknown) {

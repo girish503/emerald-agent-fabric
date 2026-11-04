@@ -14,7 +14,8 @@ import {
   createAttemptIdempotencyToken,
   isTerminalAttemptStatus,
 } from "../domain/attempt.js";
-import { AttemptUnknownReason } from "../domain/events.js";
+import { AttemptUnknownReason, type RepositoryImportSummary } from "../domain/events.js";
+import type { RepositoryImporterPort } from "../ports/repository-importer.port.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   ContractIntegrityError,
@@ -290,6 +291,11 @@ export interface WorkerRuntimeOptions {
   /** ADR-0038: Optional launch coordinator for closing the late-start tenant race. */
   readonly launchCoordinator?: TenantLaunchCoordinatorPort;
   readonly launchGateTimeoutMs?: number;
+  /**
+   * Copies a task's requested repository (inputPayload.repositoryPath) into the run workspace. Without an
+   * importer, a task that requests a repository fails closed instead of running on an empty workspace.
+   */
+  readonly repositoryImporter?: RepositoryImporterPort;
 }
 
 /**
@@ -321,6 +327,7 @@ export class WorkerRuntime {
   private readonly toolGateway: ToolExecutionGateway;
   private readonly launchCoordinator: TenantLaunchCoordinatorPort;
   private readonly launchGateTimeoutMs?: number;
+  private readonly repositoryImporter?: RepositoryImporterPort;
   private readonly runWorkspaces = new Map<
     string,
     { workspaceId: string; hostPath: string; containerMountPath?: string }
@@ -333,6 +340,7 @@ export class WorkerRuntime {
     this.coordinator = options.coordinator;
     this.clock = options.clock ?? new SystemClock();
     this.launchGateTimeoutMs = options.launchGateTimeoutMs;
+    this.repositoryImporter = options.repositoryImporter;
     this.launchCoordinator =
       options.launchCoordinator ??
       (this.coordinator.store
@@ -958,10 +966,65 @@ export class WorkerRuntime {
         });
       }
 
+      // 9d-import. Optional repository import: a task may request a host repository (inputPayload.repositoryPath).
+      // The copy is made into the empty, owned workspace; it fails closed (workspace disposed, run failed)
+      // if no importer is configured, the policy grants no file-read capability, or the import is unsafe.
+      let repositoryImport: RepositoryImportSummary | undefined;
+      const requestedRepository = (task.inputPayload as { repositoryPath?: unknown } | null | undefined)
+        ?.repositoryPath;
+      if (requestedRepository !== undefined) {
+        let importFailure: { code: string; message: string } | undefined;
+        if (typeof requestedRepository !== "string" || requestedRepository.trim().length === 0) {
+          importFailure = {
+            code: "REPOSITORY_IMPORT_INVALID",
+            message: "Task repositoryPath must be a non-empty string",
+          };
+        } else if (!this.repositoryImporter) {
+          importFailure = {
+            code: "REPOSITORY_IMPORT_UNAVAILABLE",
+            message: "Task requests a repository but this worker has no repository importer configured",
+          };
+        } else if (!contract.spec.policy.allowedCapabilities.includes("workspace.file.read")) {
+          importFailure = {
+            code: "REPOSITORY_IMPORT_DENIED",
+            message: "Importing a repository requires the workspace.file.read capability in the mission policy",
+          };
+        } else {
+          try {
+            repositoryImport = await this.repositoryImporter.importRepository(
+              requestedRepository,
+              workspaceHandle.hostPath,
+              { maxFileBytes: maxFileSizeBytes }
+            );
+          } catch (importErr: unknown) {
+            importFailure = {
+              code: "REPOSITORY_IMPORT_FAILED",
+              message: importErr instanceof Error ? importErr.message : String(importErr),
+            };
+          }
+        }
+        if (importFailure) {
+          const failedEvent = workspace.markFailed({
+            errorMessage: `Repository import failed: ${importFailure.message}`,
+            now: this.clock.nowIso(),
+          });
+          this.coordinator.recordWorkspaceEvent(failedEvent);
+          await this.workspacePort
+            .disposeWorkspace(workspaceId, { runId: run.runId, leaseId: lease.leaseId })
+            .catch(() => {});
+          return failRunSafely({
+            code: importFailure.code,
+            message: importFailure.message,
+            details: { workspaceId },
+          });
+        }
+      }
+
       // 9e. Transition domain aggregate: READY and LEASED
       const readyEvent = workspace.markReady({
         hostPath: workspaceHandle.hostPath,
         containerMountPath: workspaceHandle.containerMountPath,
+        ...(repositoryImport ? { repositoryImport } : {}),
         now: this.clock.nowIso(),
       });
       this.coordinator.recordWorkspaceEvent(readyEvent);

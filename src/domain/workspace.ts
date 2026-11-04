@@ -21,6 +21,7 @@ import {
   WorkspaceLeasedEvent,
   WorkspaceProvisioningEvent,
   WorkspaceReadyEvent,
+  RepositoryImportSummary,
 } from "./events.js";
 
 /**
@@ -90,6 +91,7 @@ export type WorkspaceCommand =
       readonly now: string;
       readonly hostPath?: string;
       readonly containerMountPath?: string;
+      readonly repositoryImport?: RepositoryImportSummary;
     }
   | {
       readonly type: "CLAIM_LEASE";
@@ -268,6 +270,7 @@ export function applyWorkspaceTransition(
           runId: current.runId,
           ...(command.hostPath ? { hostPath: command.hostPath } : {}),
           ...(command.containerMountPath ? { containerMountPath: command.containerMountPath } : {}),
+          ...(command.repositoryImport ? { repositoryImport: command.repositoryImport } : {}),
         },
       };
 
@@ -597,12 +600,14 @@ export class Workspace {
     now?: string;
     hostPath?: string;
     containerMountPath?: string;
+    repositoryImport?: RepositoryImportSummary;
   }): WorkspaceReadyEvent {
     return this.executeCommand<WorkspaceReadyEvent>({
       type: "MARK_READY",
       now: params?.now ?? new Date().toISOString(),
       ...(params?.hostPath ? { hostPath: params.hostPath } : {}),
       ...(params?.containerMountPath ? { containerMountPath: params.containerMountPath } : {}),
+      ...(params?.repositoryImport ? { repositoryImport: params.repositoryImport } : {}),
     });
   }
 

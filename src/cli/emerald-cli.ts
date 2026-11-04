@@ -25,6 +25,7 @@
 
 import * as fs from "node:fs";
 import * as os from "node:os";
+import * as path from "node:path";
 import { createProductionConfig, ProductionConfig } from "../config/production-config.js";
 import { MissionControl } from "../control-plane/mission-control.js";
 import { RunControl } from "../control-plane/run-control.js";
@@ -479,10 +480,10 @@ export class EmeraldCli {
    */
   private handleSubmit(args: readonly string[]): { exitCode: number; output: string } {
     const usage =
-      "Usage: emerald submit --db <file> (--task <text> | --operation <name>) [--input <json>] [--capabilities <csv>] [--max-attempts <n>] [--timeout-ms <n>] [--idempotency-key <key>]";
+      "Usage: emerald submit --db <file> (--task <text> | --operation <name>) [--repo <dir>] [--input <json>] [--capabilities <csv>] [--max-attempts <n>] [--timeout-ms <n>] [--idempotency-key <key>]";
     const parsed = this.parseValueFlags(
       args,
-      ["--db", "--operation", "--task", "--input", "--capabilities", "--max-attempts", "--timeout-ms", "--idempotency-key"],
+      ["--db", "--operation", "--task", "--repo", "--input", "--capabilities", "--max-attempts", "--timeout-ms", "--idempotency-key"],
       usage
     );
     if ("error" in parsed) return parsed.error;
@@ -492,6 +493,20 @@ export class EmeraldCli {
     const task = flags.get("--task");
     if (!dbPath || dbPath === ":memory:") return { exitCode: 1, output: `Error: --db <file> is required (not :memory:). ${usage}` };
     if (!operation && !task) return { exitCode: 1, output: `Error: either --task or --operation is required. ${usage}` };
+    let repositoryPath: string | undefined;
+    if (flags.has("--repo")) {
+      if (!task || flags.has("--input")) {
+        return { exitCode: 1, output: `Error: --repo requires --task and cannot be combined with --input. ${usage}` };
+      }
+      repositoryPath = path.resolve(flags.get("--repo")!);
+      try {
+        if (!fs.statSync(repositoryPath).isDirectory()) {
+          return { exitCode: 1, output: `Error: --repo is not a directory: ${repositoryPath}` };
+        }
+      } catch {
+        return { exitCode: 1, output: `Error: --repo directory not found: ${repositoryPath}` };
+      }
+    }
     let input: unknown = null;
     if (flags.has("--input")) {
       try {
@@ -528,6 +543,7 @@ export class EmeraldCli {
         timeoutMs,
         idempotencyKey: flags.get("--idempotency-key"),
         capabilities,
+        repositoryPath,
       });
       return { exitCode: 0, output: JSON.stringify(submitted) };
     } finally {

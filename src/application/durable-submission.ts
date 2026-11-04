@@ -30,6 +30,11 @@ export interface SubmitDurableTaskParams {
   readonly idempotencyKey?: string;
   /** Explicit allowed tool capabilities for governed agent tasks. */
   readonly capabilities?: readonly string[];
+  /**
+   * Absolute path of a host repository to copy into the run workspace (governed agent tasks only). It is
+   * stored in the task input; the worker performs and audits the copy.
+   */
+  readonly repositoryPath?: string;
 }
 
 export interface SubmittedTask {
@@ -65,11 +70,19 @@ export function submitDurableTask(
   const maxAttempts = params.maxAttempts ?? 3;
   const operationName = params.operation ?? "echo";
   const taskDescription = params.task ?? params.operation ?? "";
+  if (params.repositoryPath !== undefined) {
+    if (!params.task || (params.input !== undefined && params.input !== null)) {
+      throw new Error("submitDurableTask: repositoryPath requires a task and cannot be combined with an explicit input");
+    }
+    if (typeof params.repositoryPath !== "string" || params.repositoryPath.trim().length === 0) {
+      throw new Error("submitDurableTask: repositoryPath must be a non-empty string");
+    }
+  }
   const inputPayload =
     params.input !== undefined && params.input !== null
       ? params.input
       : params.task
-      ? { instruction: params.task }
+      ? { instruction: params.task, ...(params.repositoryPath !== undefined ? { repositoryPath: params.repositoryPath } : {}) }
       : null;
 
   const task = coordinator.createTask({

@@ -52,3 +52,5 @@ jobs:
           tests/application/recovery-policy-consistency.test.ts
           tests/application/recovery-missing-attempt.test.ts
           tests/application/governed-real-adapter-recovery.test.ts
+          tests/adapters/node-fs-repository-importer.test.ts
+          tests/application/repository-import-worker.test.ts
