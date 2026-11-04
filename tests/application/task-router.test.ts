@@ -183,6 +183,22 @@ describe("Milestone 2.17 — Durable Task Router", () => {
       coordinator.createRun({ taskId: "t1", idempotencyKey: "k-collide" });
       expect(() => router.submitTask({ submissionKey: "k-collide", taskId: "t2" })).toThrow(SubmissionConflictError);
     });
+
+    it("refuses to route a key whose run was cancelled by an earlier rejection (no silent dead submission)", () => {
+      makeTask("t1");
+      // Earlier attempt: run was created for the key, then cancelled after the router rejected the submission.
+      const created = coordinator.createRun({ taskId: "t1", idempotencyKey: "k-dead" });
+      coordinator.cancelRun(created.run.runId, "Router submission rejected");
+      expect(() => router.submitTask({ submissionKey: "k-dead", taskId: "t1" })).toThrow(SubmissionConflictError);
+      expect(store.transaction((tx) => tx.getRouterSubmissionByKey("k-dead"))).toBeNull();
+    });
+
+    it("refuses to route a key whose run was already queued by another path", () => {
+      makeTask("t1");
+      const created = coordinator.createRun({ taskId: "t1", idempotencyKey: "k-queued" });
+      coordinator.queueRun(created.run.runId);
+      expect(() => router.submitTask({ submissionKey: "k-queued", taskId: "t1" })).toThrow(SubmissionConflictError);
+    });
   });
 
   describe("4. Deterministic, bounded dispatch", () => {

@@ -191,6 +191,16 @@ export class TaskRouterService {
       );
     }
 
+    // A run found for this key that is no longer CREATED was not made by an unfinished router submission
+    // (e.g. it was cancelled after an earlier rejection, or queued by another path). Recording it would route a
+    // run that can never be dispatched while reporting success, so refuse and require a new key.
+    if (created.run.status !== "CREATED") {
+      throw new SubmissionConflictError(
+        params.submissionKey,
+        `key is already bound to a run in state '${created.run.status}' that the router did not admit; use a new submission key`
+      );
+    }
+
     // 4. Record relation + submission atomically
     return this.stateStore.transaction((tx) => {
       const raced = tx.getRouterSubmissionByKey(params.submissionKey);

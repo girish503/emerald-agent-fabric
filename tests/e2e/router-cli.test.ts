@@ -33,14 +33,7 @@ describe("emerald router (one-shot durable Task Router commands)", () => {
     dir = fs.mkdtempSync(path.join(os.tmpdir(), "emerald-router-cli-"));
     db = path.join(dir, "emerald.sqlite");
   });
-  afterEach(() => {
-    try {
-      fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
-    } catch {
-      // Best-effort: on Windows a connection whose open failed under a held write lock (createSqliteClient does not
-      // close the handle when initialisation throws) can keep the temp file locked until the process exits.
-    }
-  });
+  afterEach(() => fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }));
 
   it("submit leaves runs CREATED (not queued) and is idempotent on the key", async () => {
     const a = await submit("k-root");
@@ -55,6 +48,15 @@ describe("emerald router (one-shot durable Task Router commands)", () => {
     const r = await cli.run(["router", "submit", "--db", db, "--key", "k1", "--operation", "sum", "--input", "[9]", "--max-attempts", "2"]);
     expect(r.exitCode).toBe(1);
     expect(r.output).toMatch(/conflict/i);
+  });
+
+  it("retrying a rejected key is refused instead of reporting a cancelled run as success", async () => {
+    const bad = await cli.run(["router", "submit", "--db", db, "--key", "kx", "--operation", "sum", "--parent-task", "ghost"]);
+    expect(bad.exitCode).toBe(1);
+    const root = await submit("k-root");
+    const retry = await cli.run(["router", "submit", "--db", db, "--key", "kx", "--operation", "sum", "--parent-task", root.taskId]);
+    expect(retry.exitCode).toBe(1);
+    expect(retry.output).toMatch(/new submission key/);
   });
 
   it("rejects an unknown parent and cancels the orphan run it had created", async () => {
