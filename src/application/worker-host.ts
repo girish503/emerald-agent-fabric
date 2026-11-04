@@ -11,12 +11,14 @@
 import * as crypto from "node:crypto";
 import * as fs from "node:fs";
 import * as os from "node:os";
+import * as path from "node:path";
 import { SqliteStateStore } from "../adapters/persistence/sqlite-state-store.js";
 import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
 import { GovernedAgentExecutionProvider } from "../adapters/execution/governed-agent-execution-provider.js";
 import { OllamaModelProvider } from "../adapters/models/ollama-model-provider.js";
 import { NodeFsWorkspaceAdapter } from "../adapters/workspace/node-fs-workspace-adapter.js";
 import { NodeFsRepositoryImporter } from "../adapters/workspace/node-fs-repository-importer.js";
+import { GitArtifactExporter, assertGitAvailable } from "../adapters/workspace/git-artifact-exporter.js";
 import { SlowOperation, DeterministicOperation, EchoOperation, SumOperation } from "../domain/operation.js";
 import { ModelRequestCancelledError, ModelRequestTimeoutError } from "../domain/errors.js";
 import {
@@ -45,6 +47,11 @@ export interface WorkerHostOptions {
   readonly workerId?: string;
   /** Existing directory for per-run workspaces; without it runs execute with no workspace. */
   readonly workspaceRoot?: string;
+  /**
+   * Existing directory that receives each run's artifact (patch + manifest) before its workspace is
+   * disposed. It must not overlap the workspace root. Requires git. Without it nothing is preserved.
+   */
+  readonly artifactRoot?: string;
   readonly leaseTtlMs?: number;
   readonly pollIntervalMs?: number;
   /** Exit when no run is queued instead of polling. */
@@ -227,6 +234,28 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
   if (options.workspaceRoot !== undefined && (!fs.existsSync(options.workspaceRoot) || !fs.statSync(options.workspaceRoot).isDirectory())) {
     throw new WorkerHostConfigError(`workspaceRoot must be an existing directory (it is never created): ${options.workspaceRoot}`);
   }
+  if (options.artifactRoot !== undefined) {
+    if (!fs.existsSync(options.artifactRoot) || !fs.statSync(options.artifactRoot).isDirectory()) {
+      throw new WorkerHostConfigError(`artifactRoot must be an existing directory (it is never created): ${options.artifactRoot}`);
+    }
+    if (options.workspaceRoot === undefined) {
+      throw new WorkerHostConfigError("artifactRoot requires workspaceRoot: artifacts are exported from run workspaces");
+    }
+    const artifactReal = fs.realpathSync(options.artifactRoot);
+    const workspaceReal = fs.realpathSync(options.workspaceRoot);
+    const within = (parent: string, child: string): boolean => {
+      const rel = path.relative(parent, child);
+      return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
+    };
+    if (within(workspaceReal, artifactReal) || within(artifactReal, workspaceReal)) {
+      throw new WorkerHostConfigError("artifactRoot and workspaceRoot must not contain one another");
+    }
+    try {
+      assertGitAvailable();
+    } catch (err: unknown) {
+      throw new WorkerHostConfigError(err instanceof Error ? err.message : String(err));
+    }
+  }
   const pollIntervalMs = options.pollIntervalMs ?? 1000;
   if (!Number.isInteger(pollIntervalMs) || pollIntervalMs < 10 || pollIntervalMs > 3_600_000) {
     throw new WorkerHostConfigError("pollIntervalMs must be an integer between 10 and 3600000");
@@ -301,6 +330,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           workspacePort: workspace,
           executionProvider: governedProvider,
           repositoryImporter: new NodeFsRepositoryImporter(),
+          ...(options.artifactRoot ? { artifactExporter: new GitArtifactExporter({ artifactRoot: options.artifactRoot }) } : {}),
         });
 
         const stepController = new AgentStepController({
@@ -324,6 +354,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           workspacePort: workspace,
           executionProvider,
           repositoryImporter: new NodeFsRepositoryImporter(),
+          ...(options.artifactRoot ? { artifactExporter: new GitArtifactExporter({ artifactRoot: options.artifactRoot }) } : {}),
         });
       }
     } catch (err: unknown) {

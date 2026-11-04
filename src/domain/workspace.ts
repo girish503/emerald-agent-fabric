@@ -22,6 +22,7 @@ import {
   WorkspaceProvisioningEvent,
   WorkspaceReadyEvent,
   RepositoryImportSummary,
+  ArtifactExportSummary,
 } from "./events.js";
 
 /**
@@ -105,6 +106,7 @@ export type WorkspaceCommand =
       readonly now: string;
       readonly workerId?: string;
       readonly leaseId?: string;
+      readonly artifactExport?: ArtifactExportSummary;
     }
   | {
       readonly type: "MARK_DISPOSED";
@@ -372,6 +374,7 @@ export function applyWorkspaceTransition(
           workspaceId: current.workspaceId,
           runId: current.runId,
           ...(command.reason ? { reason: command.reason } : {}),
+          ...(command.artifactExport ? { artifactExport: command.artifactExport } : {}),
         },
       };
 
@@ -629,12 +632,14 @@ export class Workspace {
     now?: string;
     workerId?: string;
     leaseId?: string;
+    artifactExport?: ArtifactExportSummary;
   }): WorkspaceCleaningEvent {
     return this.executeCommand<WorkspaceCleaningEvent>({
       type: "START_CLEANING",
       reason: params?.reason,
       workerId: params?.workerId,
       leaseId: params?.leaseId,
+      ...(params?.artifactExport ? { artifactExport: params.artifactExport } : {}),
       now: params?.now ?? new Date().toISOString(),
     });
   }

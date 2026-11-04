@@ -118,6 +118,8 @@ export interface StepControllerBudget {
   readonly maxProposalRejections: number;
   /** Maximum consecutive identical successful read actions producing no state change before halting */
   readonly maxConsecutiveIdenticalReads?: number;
+  /** Maximum consecutive identical successful write_file actions (same path and content) before halting */
+  readonly maxConsecutiveIdenticalWrites?: number;
   /** Maximum consecutive ineffective edits failing to pass tests before halting */
   readonly maxConsecutiveIneffectiveEdits?: number;
   /** Whether intermediate test feedback after mutations is enabled */
@@ -127,6 +129,7 @@ export interface StepControllerBudget {
 }
 
 export const DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS = 3;
+export const DEFAULT_MAX_CONSECUTIVE_IDENTICAL_WRITES = 3;
 export const DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS = 3;
 
 export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freeze({
@@ -136,6 +139,7 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
   maxConsecutiveFailures: 3,
   maxProposalRejections: 3,
   maxConsecutiveIdenticalReads: DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS,
+  maxConsecutiveIdenticalWrites: DEFAULT_MAX_CONSECUTIVE_IDENTICAL_WRITES,
   maxConsecutiveIneffectiveEdits: DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS,
   enableIntermediateTestFeedback: true,
   enablePostPassVerificationLatch: true,
@@ -143,6 +147,7 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
 
 export const MAX_REJECTION_FEEDBACK_CHARS = 512;
 export const REPEATED_IDENTICAL_READ_ADVISORY_THRESHOLD = 2;
+export const REPEATED_IDENTICAL_WRITE_ADVISORY_THRESHOLD = 2;
 
 /**
  * Deterministic mapping of known model hallucination aliases to authoritative schema parameter names.
@@ -920,6 +925,7 @@ export class AgentStepController {
     let pendingTestFeedbackObservation: Observation | null = null;
     let pendingActionRecoveryObservation: Observation | null = null;
     let consecutiveIdenticalReads = 0;
+    let consecutiveIdenticalWrites = 0;
     let consecutiveIneffectiveEdits = 0;
     // Run-loop-local: replay-block results returned by WorkerRuntime in this invocation (not persisted).
     let replayBlockCount = 0;
@@ -928,6 +934,15 @@ export class AgentStepController {
           readonly path: string;
           readonly inputHash: string;
           readonly outputHash: string;
+          consecutiveCount: number;
+          advisoryIssued: boolean;
+        }
+      | undefined;
+    // Repeating the same successful write_file (same path and requested content) changes nothing.
+    let lastSuccessfulWrite:
+      | {
+          readonly path: string;
+          readonly inputHash: string;
           consecutiveCount: number;
           advisoryIssued: boolean;
         }
@@ -1028,6 +1043,18 @@ export class AgentStepController {
         return assembleResult(
           "STAGNATION",
           `Execution loop halted due to stagnation: ${consecutiveIdenticalReads} consecutive identical successful reads of '${lastSuccessfulRead?.path ?? "unknown"}' without progress`,
+          taskId
+        );
+      }
+
+      // 7a. Check Stagnation (Consecutive Identical Successful Writes) Budget
+      const maxConsecutiveIdenticalWrites =
+        effectiveBudget.maxConsecutiveIdenticalWrites ??
+        DEFAULT_MAX_CONSECUTIVE_IDENTICAL_WRITES;
+      if (consecutiveIdenticalWrites >= maxConsecutiveIdenticalWrites) {
+        return assembleResult(
+          "STAGNATION",
+          `Execution loop halted due to stagnation: ${consecutiveIdenticalWrites} consecutive identical successful writes of '${lastSuccessfulWrite?.path ?? "unknown"}' without progress`,
           taskId
         );
       }
@@ -2102,6 +2129,73 @@ export class AgentStepController {
       } else {
         lastSuccessfulRead = undefined;
         consecutiveIdenticalReads = 0;
+      }
+
+      // Track identical successful writes: the same path and requested content, repeated, makes no progress.
+      if (
+        actionResult.status === "SUCCEEDED" &&
+        validationResult.proposal.toolName === "write_file" &&
+        typeof inputPayloadRecord?.path === "string"
+      ) {
+        const writePath = inputPayloadRecord.path;
+        if (
+          lastSuccessfulWrite !== undefined &&
+          lastSuccessfulWrite.path === writePath &&
+          lastSuccessfulWrite.inputHash === action.inputHash
+        ) {
+          lastSuccessfulWrite.consecutiveCount++;
+          consecutiveIdenticalWrites = lastSuccessfulWrite.consecutiveCount;
+
+          if (
+            lastSuccessfulWrite.consecutiveCount >= REPEATED_IDENTICAL_WRITE_ADVISORY_THRESHOLD &&
+            !lastSuccessfulWrite.advisoryIssued
+          ) {
+            progressAdvisory =
+              `The same write_file request for '${writePath}' was already applied successfully with identical content. ` +
+              "The file already contains it; finish the task or choose a meaningfully different next action.";
+            const advisoryContent: Record<string, unknown> = {
+              feedbackKind: "REPEATED_IDENTICAL_WRITE",
+              repeatCount: lastSuccessfulWrite.consecutiveCount,
+              path: writePath,
+              inputHash: action.inputHash,
+              message: progressAdvisory,
+            };
+            const advisoryBytes = estimateBytes(advisoryContent);
+            const advisoryObservation: Observation = {
+              observationId: `obs-progress-repeated-write-step-${stepCount}`,
+              category: "SYSTEM_EVENT",
+              provenance: {
+                entityKind: "Action",
+                entityId: action.actionId,
+                runId,
+                sequenceNumber: action.sequenceNumber,
+                timestamp: this.clock.nowIso(),
+                isAuthoritativeRuntimeFact: true,
+              },
+              freshness: "CURRENT",
+              priority: 85,
+              content: advisoryContent,
+              contentHash: computeObservationContentHash(advisoryContent),
+              estimatedBytes: advisoryBytes,
+              estimatedTokens: estimateTokens(advisoryBytes),
+              isMandatory: true,
+            };
+            validateObservation(advisoryObservation);
+            pendingProgressAdvisoryObservation = advisoryObservation;
+            lastSuccessfulWrite.advisoryIssued = true;
+          }
+        } else {
+          lastSuccessfulWrite = {
+            path: writePath,
+            inputHash: action.inputHash,
+            consecutiveCount: 1,
+            advisoryIssued: false,
+          };
+          consecutiveIdenticalWrites = 1;
+        }
+      } else {
+        lastSuccessfulWrite = undefined;
+        consecutiveIdenticalWrites = 0;
       }
 
       // Invalidate duplicate proposal detector on action execution

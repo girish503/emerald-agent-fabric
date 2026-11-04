@@ -14,7 +14,8 @@ import {
   createAttemptIdempotencyToken,
   isTerminalAttemptStatus,
 } from "../domain/attempt.js";
-import { AttemptUnknownReason, type RepositoryImportSummary } from "../domain/events.js";
+import { AttemptUnknownReason, type ArtifactExportSummary, type RepositoryImportSummary } from "../domain/events.js";
+import { ArtifactExportError, type ArtifactExporterPort } from "../ports/artifact-exporter.port.js";
 import type { RepositoryImporterPort } from "../ports/repository-importer.port.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
@@ -296,6 +297,12 @@ export interface WorkerRuntimeOptions {
    * importer, a task that requests a repository fails closed instead of running on an empty workspace.
    */
   readonly repositoryImporter?: RepositoryImporterPort;
+  /**
+   * Preserves a run's workspace changes (patch + manifest) before the workspace is disposed. When set, a
+   * baseline is captured before the agent runs; a failed baseline fails the run, and a failed export
+   * preserves the workspace and fails the run instead of reporting success.
+   */
+  readonly artifactExporter?: ArtifactExporterPort;
 }
 
 /**
@@ -328,6 +335,7 @@ export class WorkerRuntime {
   private readonly launchCoordinator: TenantLaunchCoordinatorPort;
   private readonly launchGateTimeoutMs?: number;
   private readonly repositoryImporter?: RepositoryImporterPort;
+  private readonly artifactExporter?: ArtifactExporterPort;
   private readonly runWorkspaces = new Map<
     string,
     { workspaceId: string; hostPath: string; containerMountPath?: string }
@@ -341,6 +349,7 @@ export class WorkerRuntime {
     this.clock = options.clock ?? new SystemClock();
     this.launchGateTimeoutMs = options.launchGateTimeoutMs;
     this.repositoryImporter = options.repositoryImporter;
+    this.artifactExporter = options.artifactExporter;
     this.launchCoordinator =
       options.launchCoordinator ??
       (this.coordinator.store
@@ -881,6 +890,8 @@ export class WorkerRuntime {
     // 9. Workspace Provisioning & Sandbox Boundary (if WorkspacePort is configured)
     let workspace: Workspace | undefined;
     let workspaceHandle: WorkspaceHandle | undefined;
+    let artifactBaselineCaptured = false;
+    const artifactAttempt = Math.max(1, run.attemptCount);
 
     if (this.workspacePort) {
       // 9a. Workspace identity: distinct from runId but stable for the run, so every attempt of
@@ -1020,6 +1031,35 @@ export class WorkerRuntime {
         }
       }
 
+      // 9d-baseline. Capture the artifact baseline (after any repository import, before the agent runs) in a
+      // location the agent cannot reach. A failed baseline fails the run closed: work must not run
+      // unrecoverably when the operator asked for it to be preserved.
+      if (this.artifactExporter) {
+        try {
+          await this.artifactExporter.captureBaseline({
+            runId: run.runId,
+            attempt: artifactAttempt,
+            workspacePath: workspaceHandle.hostPath,
+          });
+          artifactBaselineCaptured = true;
+        } catch (baselineErr: unknown) {
+          const message = baselineErr instanceof Error ? baselineErr.message : String(baselineErr);
+          const failedEvent = workspace.markFailed({
+            errorMessage: `Artifact baseline failed: ${message}`,
+            now: this.clock.nowIso(),
+          });
+          this.coordinator.recordWorkspaceEvent(failedEvent);
+          await this.workspacePort
+            .disposeWorkspace(workspaceId, { runId: run.runId, leaseId: lease.leaseId })
+            .catch(() => {});
+          return failRunSafely({
+            code: "ARTIFACT_BASELINE_FAILED",
+            message,
+            details: { workspaceId },
+          });
+        }
+      }
+
       // 9e. Transition domain aggregate: READY and LEASED
       const readyEvent = workspace.markReady({
         hostPath: workspaceHandle.hostPath,
@@ -1108,6 +1148,35 @@ export class WorkerRuntime {
         }
       }
 
+      // Artifact export: by now ownership is verified and (for isolated providers) tenant quiescence is
+      // established, so the workspace is stable. The export never modifies the workspace. If it fails, the
+      // workspace is PRESERVED (never disposed) and the failure is surfaced, so work is not silently lost.
+      let artifactExport: ArtifactExportSummary | undefined;
+      if (this.artifactExporter && artifactBaselineCaptured && workspaceHandle) {
+        try {
+          artifactExport = await this.artifactExporter.exportArtifact({
+            runId: run.runId,
+            attempt: artifactAttempt,
+            workspacePath: workspaceHandle.hostPath,
+            disposalReason: reason,
+          });
+        } catch (exportErr: unknown) {
+          const message = exportErr instanceof Error ? exportErr.message : String(exportErr);
+          const failedEvent = workspace.markFailed({
+            errorMessage: `Workspace disposal withheld - artifact export failed: ${message}`,
+            now: this.clock.nowIso(),
+          });
+          try {
+            this.coordinator.recordWorkspaceEvent(failedEvent, fencing);
+          } catch (recordErr: unknown) {
+            if (!(recordErr instanceof LeaseLostError)) throw recordErr;
+          }
+          throw exportErr instanceof ArtifactExportError
+            ? exportErr
+            : new ArtifactExportError("ARTIFACT_EXPORT_FAILED", message);
+        }
+      }
+
       // The cleaning event is recorded WITH lease fencing inside a database transaction, so it is the
       // atomic ownership assertion made immediately before deletion. Only LeaseLost means "fenced, stop
       // quietly"; any other failure is unexpected and must not be treated as permission to delete.
@@ -1116,6 +1185,7 @@ export class WorkerRuntime {
           reason,
           workerId: this.workerId,
           leaseId: lease.leaseId,
+          ...(artifactExport ? { artifactExport } : {}),
           now: this.clock.nowIso(),
         });
         this.coordinator.recordWorkspaceEvent(cleaningEvent, fencing);
@@ -1383,10 +1453,13 @@ export class WorkerRuntime {
             await disposeWorkspaceSafely("Run completed successfully");
           } catch (cleanupErr: unknown) {
             return failRunSafely({
-              code: "WORKSPACE_CLEANUP_FAILED",
-              message: `Workspace cleanup failed after execution: ${
-                cleanupErr instanceof Error ? cleanupErr.message : String(cleanupErr)
-              }`,
+              code: cleanupErr instanceof ArtifactExportError ? cleanupErr.code : "WORKSPACE_CLEANUP_FAILED",
+              message:
+                cleanupErr instanceof ArtifactExportError
+                  ? cleanupErr.message
+                  : `Workspace cleanup failed after execution: ${
+                      cleanupErr instanceof Error ? cleanupErr.message : String(cleanupErr)
+                    }`,
               details: { workspaceId: workspace?.workspaceId },
             });
           }

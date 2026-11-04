@@ -54,3 +54,6 @@ jobs:
           tests/application/governed-real-adapter-recovery.test.ts
           tests/adapters/node-fs-repository-importer.test.ts
           tests/application/repository-import-worker.test.ts
+          tests/application/write-stagnation.test.ts
+          tests/adapters/git-artifact-exporter.test.ts
+          tests/application/artifact-export-worker.test.ts

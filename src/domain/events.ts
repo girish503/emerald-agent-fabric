@@ -231,10 +231,24 @@ export type WorkspaceLeasedEvent = DomainEvent<WorkspaceLeasedPayload> & {
   readonly eventType: "workspace.leased";
 };
 
+/** Audit summary of the artifact preserved from a run workspace before disposal. Counts and a digest only. */
+export interface ArtifactExportSummary {
+  /** Location relative to the configured artifact root. */
+  readonly artifactPath: string;
+  readonly attempt: number;
+  readonly changedFiles: number;
+  readonly added: number;
+  readonly modified: number;
+  readonly deleted: number;
+  readonly patchBytes: number;
+  readonly patchSha256: string;
+}
+
 export interface WorkspaceCleaningPayload {
   readonly workspaceId: string;
   readonly runId: string;
   readonly reason?: string;
+  readonly artifactExport?: ArtifactExportSummary;
 }
 
 export type WorkspaceCleaningEvent = DomainEvent<WorkspaceCleaningPayload> & {

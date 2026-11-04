@@ -26,6 +26,7 @@
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
+import { artifactDirectory } from "../adapters/workspace/git-artifact-exporter.js";
 import { createProductionConfig, ProductionConfig } from "../config/production-config.js";
 import { MissionControl } from "../control-plane/mission-control.js";
 import { RunControl } from "../control-plane/run-control.js";
@@ -169,6 +170,9 @@ export class EmeraldCli {
 
         case "submit":
           return this.handleSubmit(args.slice(1));
+
+        case "artifact":
+          return this.handleArtifact(args.slice(1));
 
         case "inspect":
           return this.handleInspect(args.slice(1));
@@ -559,10 +563,11 @@ export class EmeraldCli {
    */
   private async handleWorker(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
     const usage =
-      "Usage: emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--model-timeout-ms <n>] [--ollama-base-url <url>] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]";
+      "Usage: emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--model-timeout-ms <n>] [--ollama-base-url <url>] [--workspace-root <dir>] [--artifact-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]";
     const valueFlags = [
       "--db",
       "--workspace-root",
+      "--artifact-root",
       "--worker-id",
       "--lease-ttl-ms",
       "--poll-interval-ms",
@@ -623,6 +628,7 @@ export class EmeraldCli {
         dbPath,
         workerId: flags.get("--worker-id"),
         workspaceRoot: flags.get("--workspace-root"),
+        artifactRoot: flags.get("--artifact-root"),
         leaseTtlMs,
         pollIntervalMs,
         maxRuns,
@@ -641,6 +647,86 @@ export class EmeraldCli {
       process.off("SIGINT", stop);
       process.off("SIGTERM", stop);
     }
+  }
+
+  /**
+   * emerald artifact show — read-only view of the artifact a worker exported for a run: the manifest of changed
+   * files (with the run's status when --db is given) or, with --patch, the raw patch. Never modifies anything.
+   */
+  private handleArtifact(args: readonly string[]): { exitCode: number; output: string } {
+    const usage =
+      "Usage: emerald artifact show --artifact-root <dir> --run-id <id> [--attempt <n>] [--patch] [--db <file>]";
+    if (args[0] !== "show") return { exitCode: 1, output: usage };
+
+    let showPatch = false;
+    const rest: string[] = [];
+    for (const a of args.slice(1)) {
+      if (a === "--patch") {
+        if (showPatch) return { exitCode: 1, output: `Error: --patch given more than once. ${usage}` };
+        showPatch = true;
+      } else rest.push(a);
+    }
+    const parsed = this.parseValueFlags(rest, ["--artifact-root", "--run-id", "--attempt", "--db"], usage);
+    if ("error" in parsed) return parsed.error;
+    const { flags } = parsed;
+    const root = flags.get("--artifact-root");
+    const runId = flags.get("--run-id");
+    if (!root || !runId) return { exitCode: 1, output: `Error: --artifact-root and --run-id are required. ${usage}` };
+    if (!fs.existsSync(root) || !fs.statSync(root).isDirectory()) {
+      return { exitCode: 1, output: `Error: artifact root not found: ${root}` };
+    }
+
+    let attempt: number | undefined;
+    if (flags.has("--attempt")) {
+      const raw = flags.get("--attempt")!;
+      if (!/^\d+$/.test(raw) || Number(raw) < 1) return { exitCode: 1, output: "Error: --attempt must be a positive integer" };
+      attempt = Number(raw);
+    }
+
+    let runDir: string;
+    try {
+      runDir = path.dirname(artifactDirectory(root, runId, 1));
+    } catch {
+      return { exitCode: 1, output: "Error: --run-id is not a valid run id" };
+    }
+    if (!fs.existsSync(runDir)) return { exitCode: 1, output: `No artifact found for run ${runId}` };
+
+    if (attempt === undefined) {
+      const attempts = fs
+        .readdirSync(runDir)
+        .map((name) => /^attempt-(\d+)$/.exec(name))
+        .filter((m): m is RegExpExecArray => m !== null)
+        .map((m) => Number(m[1]))
+        .sort((a, b) => a - b);
+      attempt = attempts[attempts.length - 1];
+      if (attempt === undefined) return { exitCode: 1, output: `No artifact found for run ${runId}` };
+    }
+
+    const dir = artifactDirectory(root, runId, attempt);
+    const manifestPath = path.join(dir, "manifest.json");
+    if (!fs.existsSync(manifestPath)) {
+      return {
+        exitCode: 1,
+        output: `No exported artifact for run ${runId} attempt ${attempt} (the run may still be in progress, or its export failed)`,
+      };
+    }
+    if (showPatch) return { exitCode: 0, output: fs.readFileSync(path.join(dir, "patch.diff"), "utf8") };
+
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as unknown;
+    let runStatus: string | null = null;
+    const dbPath = flags.get("--db");
+    if (dbPath !== undefined) {
+      if (dbPath === ":memory:" || !fs.existsSync(dbPath)) {
+        return { exitCode: 1, output: `Error: database not found (artifact show never creates one): ${dbPath}` };
+      }
+      const store = new SqliteStateStore({ location: dbPath });
+      try {
+        runStatus = new RunCoordinator(store, new SystemClock()).getRun(runId)?.status ?? null;
+      } finally {
+        store.close();
+      }
+    }
+    return { exitCode: 0, output: JSON.stringify({ runId, attempt, runStatus, manifest }) };
   }
 
   /** emerald inspect — read-only view of a run and its persisted event history from an EXISTING database file. */
