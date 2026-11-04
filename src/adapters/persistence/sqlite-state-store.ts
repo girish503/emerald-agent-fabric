@@ -95,6 +95,47 @@ import {
   WorkerStatus,
 } from "../../ports/state-store.port.js";
 import { createSqliteClient, SqliteClientConfig } from "./sqlite-client.js";
+import type {
+  DispatchCandidateRecord,
+  RouterSubmissionRecord,
+  TaskRelationRecord,
+} from "../../ports/task-router-store.port.js";
+
+interface DbTaskRelationRow {
+  child_task_id: string;
+  parent_task_id: string;
+  depth: number;
+  ordinal: number;
+  created_at: string;
+}
+
+function mapTaskRelationRow(row: DbTaskRelationRow): TaskRelationRecord {
+  return {
+    childTaskId: row.child_task_id,
+    parentTaskId: row.parent_task_id,
+    depth: Number(row.depth),
+    ordinal: Number(row.ordinal),
+    createdAt: row.created_at,
+  };
+}
+
+interface DbRouterSubmissionRow {
+  submission_key: string;
+  task_id: string;
+  run_id: string;
+  request_hash: string;
+  created_at: string;
+}
+
+function mapRouterSubmissionRow(row: DbRouterSubmissionRow): RouterSubmissionRecord {
+  return {
+    submissionKey: row.submission_key,
+    taskId: row.task_id,
+    runId: row.run_id,
+    requestHash: row.request_hash,
+    createdAt: row.created_at,
+  };
+}
 
 
 interface DbTaskRow {
@@ -665,6 +706,101 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
       createdAt: row.created_at,
       updatedAt: row.updated_at,
     };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Task Router Operations (Milestone 2.17)
+  // ---------------------------------------------------------------------------
+
+  insertTaskRelation(relation: TaskRelationRecord): void {
+    this.db
+      .prepare(
+        `INSERT INTO task_relations (child_task_id, parent_task_id, depth, ordinal, created_at)
+         VALUES (?, ?, ?, ?, ?)`
+      )
+      .run(relation.childTaskId, relation.parentTaskId, relation.depth, relation.ordinal, relation.createdAt);
+  }
+
+  getTaskRelation(childTaskId: string): TaskRelationRecord | null {
+    const row = this.db
+      .prepare(`SELECT * FROM task_relations WHERE child_task_id = ?`)
+      .get(childTaskId) as DbTaskRelationRow | undefined;
+    return row ? mapTaskRelationRow(row) : null;
+  }
+
+  listChildTaskRelations(parentTaskId: string): readonly TaskRelationRecord[] {
+    const rows = this.db
+      .prepare(`SELECT * FROM task_relations WHERE parent_task_id = ? ORDER BY ordinal ASC, child_task_id ASC`)
+      .all(parentTaskId) as unknown as DbTaskRelationRow[];
+    return rows.map(mapTaskRelationRow);
+  }
+
+  insertRouterSubmission(submission: RouterSubmissionRecord): void {
+    this.db
+      .prepare(
+        `INSERT INTO router_submissions (submission_key, task_id, run_id, request_hash, created_at)
+         VALUES (?, ?, ?, ?, ?)`
+      )
+      .run(
+        submission.submissionKey,
+        submission.taskId,
+        submission.runId,
+        submission.requestHash,
+        submission.createdAt
+      );
+  }
+
+  getRouterSubmissionByKey(submissionKey: string): RouterSubmissionRecord | null {
+    const row = this.db
+      .prepare(`SELECT * FROM router_submissions WHERE submission_key = ?`)
+      .get(submissionKey) as DbRouterSubmissionRow | undefined;
+    return row ? mapRouterSubmissionRow(row) : null;
+  }
+
+  getRouterSubmissionByTaskId(taskId: string): RouterSubmissionRecord | null {
+    const row = this.db
+      .prepare(`SELECT * FROM router_submissions WHERE task_id = ?`)
+      .get(taskId) as DbRouterSubmissionRow | undefined;
+    return row ? mapRouterSubmissionRow(row) : null;
+  }
+
+  countRunsByStatuses(statuses: readonly string[]): number {
+    if (statuses.length === 0) return 0;
+    const placeholders = statuses.map(() => "?").join(", ");
+    const row = this.db
+      .prepare(`SELECT COUNT(*) AS n FROM runs WHERE status IN (${placeholders})`)
+      .get(...statuses) as { n: number };
+    return Number(row.n);
+  }
+
+  listDispatchCandidates(): readonly DispatchCandidateRecord[] {
+    const rows = this.db
+      .prepare(
+        `SELECT s.task_id AS task_id, s.run_id AS run_id, s.created_at AS submitted_at,
+                rel.parent_task_id AS parent_task_id,
+                COALESCE(rel.depth, 0) AS depth, COALESCE(rel.ordinal, 0) AS ordinal
+           FROM router_submissions s
+           JOIN runs r ON r.run_id = s.run_id
+           LEFT JOIN task_relations rel ON rel.child_task_id = s.task_id
+          WHERE r.status = 'CREATED'
+          ORDER BY depth ASC, ordinal ASC, s.created_at ASC, s.task_id ASC`
+      )
+      .all() as unknown as Array<{
+      task_id: string;
+      run_id: string;
+      submitted_at: string;
+      parent_task_id: string | null;
+      depth: number;
+      ordinal: number;
+    }>;
+    return rows.map((r) => ({
+      taskId: r.task_id,
+      runId: r.run_id,
+      parentTaskId: r.parent_task_id,
+      depth: Number(r.depth),
+      ordinal: Number(r.ordinal),
+      submittedAt: r.submitted_at,
+    }));
   }
 
   insertRun(snapshot: RunSnapshot, event: DomainEvent): PersistedEvent {

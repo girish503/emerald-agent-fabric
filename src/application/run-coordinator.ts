@@ -483,18 +483,25 @@ export class RunCoordinator {
    * Transitions a run from CREATED to QUEUED for worker pickup.
    */
   queueRun(runId: string): TransitionResult {
-    return this.stateStore.transaction((tx) => {
-      const snapshot = tx.getRun(runId);
-      if (!snapshot) {
-        throw new Error(`Run '${runId}' not found`);
-      }
+    return this.stateStore.transaction((tx) => this.queueRunInTransaction(tx, runId));
+  }
 
-      const run = Run.reconstitute(snapshot);
-      const event = run.queue(this.clock.nowIso());
-      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+  /**
+   * Same transition as `queueRun`, but inside a caller-owned transaction so that a caller
+   * (the task router's admission step) can make "count in-flight runs + queue" atomic.
+   * Uses the same state machine and optimistic version check; it grants no extra authority.
+   */
+  queueRunInTransaction(tx: StorageTransaction, runId: string): TransitionResult {
+    const snapshot = tx.getRun(runId);
+    if (!snapshot) {
+      throw new Error(`Run '${runId}' not found`);
+    }
 
-      return { run: run.snapshot, event: persistedEvent };
-    });
+    const run = Run.reconstitute(snapshot);
+    const event = run.queue(this.clock.nowIso());
+    const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+
+    return { run: run.snapshot, event: persistedEvent };
   }
 
   /**

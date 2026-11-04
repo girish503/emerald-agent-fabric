@@ -4,6 +4,7 @@ import { ActionCommand, ActionSnapshot } from "../domain/action.js";
 import { AttemptCommand, AttemptSnapshot } from "../domain/attempt.js";
 import { MissionContractStorePort } from "./mission-contract-store.port.js";
 import { MutationIntentStorePort } from "./mutation-intent-store.port.js";
+import { TaskRouterStorePort } from "./task-router-store.port.js";
 import type { TenantLaunchGate } from "./tenant-launch-coordinator.port.js";
 
 export interface TaskRecord {
@@ -89,7 +90,10 @@ export interface LeaseFencingCheck {
  * StorageTransaction encapsulates operations executed within an atomic database transaction.
  * Guarantee: state mutations and event appends commit or roll back together.
  */
-export interface StorageTransaction extends MissionContractStorePort, MutationIntentStorePort {
+export interface StorageTransaction
+  extends MissionContractStorePort,
+    MutationIntentStorePort,
+    TaskRouterStorePort {
   insertTask(task: TaskRecord): void;
   getTask(taskId: string): TaskRecord | null;
 

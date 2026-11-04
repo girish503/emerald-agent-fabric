@@ -543,6 +543,26 @@ export function migrateDatabase(db: DatabaseSync): void {
     );
 
     CREATE INDEX IF NOT EXISTS idx_launch_gates_run_state ON tenant_launch_gates(run_id, state);
+
+    -- Step 10: Durable Task Router (Milestone 2.17). Additive only; no existing table is altered.
+    CREATE TABLE IF NOT EXISTS task_relations (
+        child_task_id TEXT PRIMARY KEY REFERENCES tasks(task_id),
+        parent_task_id TEXT NOT NULL REFERENCES tasks(task_id),
+        depth INTEGER NOT NULL CHECK (depth >= 1),
+        ordinal INTEGER NOT NULL CHECK (ordinal >= 0),
+        created_at TEXT NOT NULL,
+        CHECK (child_task_id <> parent_task_id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_task_relations_parent ON task_relations(parent_task_id, ordinal);
+
+    CREATE TABLE IF NOT EXISTS router_submissions (
+        submission_key TEXT PRIMARY KEY,
+        task_id TEXT NOT NULL UNIQUE REFERENCES tasks(task_id),
+        run_id TEXT NOT NULL UNIQUE REFERENCES runs(run_id),
+        request_hash TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    );
   `);
 
   // Ensure owner_pid column exists on pre-existing tenant_launch_gates tables
