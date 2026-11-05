@@ -18,7 +18,8 @@ import {
 } from "./invariants.js";
 import { applyTransition, RunCommand } from "./state-machine.js";
 
-export { ContractBinding, createContractBinding } from "./invariants.js";
+export type { ContractBinding } from "./invariants.js";
+export { createContractBinding } from "./invariants.js";
 
 export interface CreateRunParams {
   readonly runId: string;

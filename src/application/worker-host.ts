@@ -343,6 +343,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           workerRuntime: runtime,
           agentBrain: brain,
           clock,
+          enableDynamicToolFiltering: options.modelProvider === "ollama",
         });
 
         governedProvider.setStepController(stepController);

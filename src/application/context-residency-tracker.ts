@@ -16,6 +16,7 @@
  */
 
 import { createHash } from "node:crypto";
+import { posix as posixPath } from "node:path";
 import { ToolDefinition, ToolName } from "../domain/tool.js";
 import { ReadFileInput, ReadFileOutput } from "../domain/tool-schemas.js";
 import { ContextSnapshot } from "../domain/context.js";
@@ -39,6 +40,18 @@ export interface FileResidencyRecord {
   readonly sequenceNumber: number;
   /** Whether intervening actions have modified the workspace since observation */
   readonly isStale: boolean;
+}
+
+/**
+ * Canonical key for a workspace-relative path: backslashes become slashes, then `.`/`..`/duplicate-slash
+ * segments are collapsed (so `./input/a.md`, `input//a.md` and `input/../input/a.md` all map to `input/a.md`).
+ * Returns "" for the workspace root. Tool adapters report the model-supplied spelling, so every residency
+ * lookup and mutation must go through this to refer to the same file consistently.
+ */
+export function normalizeResidencyPath(rawPath: string): string {
+  const normalized = posixPath.normalize(rawPath.replace(/\\/g, "/"));
+  const stripped = normalized.replace(/^(\.\/)+/, "");
+  return stripped === "." ? "" : stripped;
 }
 
 export type ToolEligibilityState = "ELIGIBLE" | "FILTERED" | "RESTORED";
@@ -101,7 +114,7 @@ export class ContextResidencyTracker {
       isStale: false,
     };
 
-    this.records.set(output.path, record);
+    this.records.set(normalizeResidencyPath(output.path), record);
     return record;
   }
 
@@ -110,15 +123,22 @@ export class ContextResidencyTracker {
    * Enforces Rule 1: Invalidates residency for target path (or entire workspace).
    */
   recordWorkspaceMutation(path?: string, sequenceNumber?: number): void {
-    if (path && this.records.has(path)) {
-      const existing = this.records.get(path)!;
-      this.records.set(path, {
-        ...existing,
-        isStale: true,
-        sequenceNumber: sequenceNumber ?? existing.sequenceNumber,
+    const target = path ? normalizeResidencyPath(path) : "";
+    if (target !== "") {
+      // Targeted mutation: invalidate only records for the same file. Comparison is case-folded because
+      // workspace filesystems may be case-insensitive; folding can only over-invalidate (the safe direction).
+      const foldedTarget = target.toLowerCase();
+      this.records.forEach((rec, key) => {
+        if (key.toLowerCase() === foldedTarget) {
+          this.records.set(key, {
+            ...rec,
+            isStale: true,
+            sequenceNumber: sequenceNumber ?? rec.sequenceNumber,
+          });
+        }
       });
     } else {
-      // General workspace mutation or untracked file written: invalidate all
+      // General workspace mutation (no target, or the workspace root): invalidate all
       this.records.forEach((rec, p) => {
         this.records.set(p, {
           ...rec,
@@ -169,7 +189,8 @@ export class ContextResidencyTracker {
       return "ELIGIBLE";
     }
 
-    const record = this.records.get(targetPath);
+    const normalizedTarget = normalizeResidencyPath(targetPath);
+    const record = this.records.get(normalizedTarget);
 
     // Rule 4: Multi-file exploration - unobserved file is eligible
     if (!record) {
@@ -191,7 +212,7 @@ export class ContextResidencyTracker {
       const hasObservationInSnapshot = contextSnapshot.observations.some((obs) => {
         if (obs.category === "TOOL_RESULT") {
           const payload = (obs.content as any)?.output ?? (obs.content as any)?.payload;
-          return payload?.path === targetPath;
+          return typeof payload?.path === "string" && normalizeResidencyPath(payload.path) === normalizedTarget;
         }
         return false;
       });
@@ -233,7 +254,7 @@ export class ContextResidencyTracker {
    * Returns the residency record for a specific file path, if any.
    */
   getResidency(path: string): FileResidencyRecord | undefined {
-    return this.records.get(path);
+    return this.records.get(normalizeResidencyPath(path));
   }
 
   /**

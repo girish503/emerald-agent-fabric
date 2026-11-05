@@ -907,6 +907,37 @@ export class LiveAgentBrain implements AgentBrainPort {
       );
     }
 
+    // Task-agnostic progress reminder (small local models lose the objective as the context grows).
+    // It restates the task's own objective and lists governed file actions that already SUCCEEDED, derived
+    // only from observations. It names no fixed paths, issues no completion instruction and never overrides
+    // governance: completion is still decided by the authoritative verification gate in the step controller.
+    if (taskDetails?.description) {
+      const filesRead = new Set<string>();
+      const filesChanged = new Set<string>();
+      for (const obs of contextSnapshot.observations) {
+        if (obs.category !== "ACTION_HISTORY") continue;
+        const content = obs.content as Record<string, unknown> | undefined;
+        const status = content?.status;
+        if (status !== "SUCCEEDED" && status !== "COMPLETED") continue;
+        const payload = content?.inputPayload as Record<string, unknown> | undefined;
+        const targetPath = payload?.path;
+        if (typeof targetPath !== "string" || targetPath.length === 0 || targetPath.length > 200) continue;
+        if (content?.toolName === "read_file") filesRead.add(targetPath);
+        else if (content?.toolName === "write_file" || content?.toolName === "edit_file") filesChanged.add(targetPath);
+      }
+      const list = (set: Set<string>) => (set.size === 0 ? "none" : Array.from(set).slice(0, 10).join(", "));
+      sections.push(
+        `\n## Task Reminder\n` +
+          `Task Objective: ${taskDetails.description}\n` +
+          `Files read successfully so far: ${list(filesRead)}\n` +
+          `Files written or edited successfully so far: ${list(filesChanged)}\n` +
+          (filesChanged.size > 0
+            ? `If the files written or edited above already satisfy the objective, set isGoalReached: true instead of repeating the same action.`+"\n"
+            : "") +
+          `Only set isGoalReached: true when every part of the objective above is satisfied.`
+      );
+    }
+
     sections.push(
       `\n## Required Action\n` +
         `Propose the next logical tool action as a JSON object conforming to the action proposal schema.\n` +
