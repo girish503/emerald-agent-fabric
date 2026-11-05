@@ -161,7 +161,11 @@ export class DeterministicFixtureModelProvider implements ModelProviderPort {
       (userContent.includes("FILE_CONTENT") ||
         userContent.includes("TOOL_OUTPUT") ||
         userContent.includes("File Content:") ||
-        userContent.includes("Observation (TOOL_OUTPUT)"));
+        userContent.includes("Observation (TOOL_OUTPUT)") ||
+        userContent.includes("SUCCEEDED") ||
+        userContent.includes("ACTION_HISTORY") ||
+        userContent.includes("TOOL_RESULT") ||
+        userContent.includes("REPEATED_IDENTICAL_READ"));
 
     const fileMatch =
       taskObjective.match(/(?:read|inspect|file)\s+([a-zA-Z0-9_\-./\\]+)/i) ??
