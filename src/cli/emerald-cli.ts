@@ -63,6 +63,15 @@ import {
   BenchmarkCondition,
 } from "../production/benchmark/index.js";
 
+import {
+  inspectRun,
+  formatRunInspectionReport,
+  inspectTaskTree,
+  formatTaskTreeReport,
+  getRunEventTimeline,
+  formatRunEventTimelineReport,
+} from "../application/operator-observability.js";
+
 export const SUPPORTED_BENCHMARK_CONDITIONS: readonly BenchmarkCondition[] = [
   "CONTROL_A_MODEL_ONLY",
   "CONTROL_B_GOVERNED_RUNTIME",
@@ -162,10 +171,17 @@ export class EmeraldCli {
             const runId = args[2];
             return this.handleRunRecover(runId);
           } else if (subCmd === "inspect") {
-            const runId = args[2];
-            return this.handleRunInspect(runId);
+            return this.handleRunInspectDispatcher(args.slice(2));
+          } else if (subCmd === "events") {
+            return this.handleRunEvents(args.slice(2));
           }
-          return { exitCode: 1, output: "Usage: emerald run [start|list|status|cancel|resume|recover|inspect]" };
+          return { exitCode: 1, output: "Usage: emerald run [start|list|status|cancel|resume|recover|inspect|events]" };
+
+        case "task":
+          if (subCmd === "tree") {
+            return this.handleTaskTree(args.slice(2));
+          }
+          return { exitCode: 1, output: "Usage: emerald task tree --db <file> --task-id <id> [--json]" };
 
         case "recovery":
           return await this.handleRecovery(args.slice(1));
@@ -1055,6 +1071,141 @@ export class EmeraldCli {
     }
   }
 
+  private handleRunInspectDispatcher(args: readonly string[]): { exitCode: number; output: string } {
+    const usage = "Usage: emerald run inspect --db <file> --run-id <id> [--artifact-root <dir>] [--json] | emerald run inspect <runId>";
+    if (args.includes("--db") || args.includes("--run-id")) {
+      return this.handleDurableRunInspect(args);
+    }
+    const first = args[0];
+    if (first !== undefined && !first.startsWith("--")) {
+      return this.handleRunInspect(first);
+    }
+    return { exitCode: 1, output: usage };
+  }
+
+  private handleDurableRunInspect(args: readonly string[]): { exitCode: number; output: string } {
+    const usage = "Usage: emerald run inspect --db <file> --run-id <id> [--artifact-root <dir>] [--json]";
+    let isJson = false;
+    const rest: string[] = [];
+    for (const a of args) {
+      if (a === "--json") {
+        if (isJson) return { exitCode: 1, output: `Error: --json given more than once. ${usage}` };
+        isJson = true;
+      } else {
+        rest.push(a);
+      }
+    }
+
+    const parsed = this.parseValueFlags(rest, ["--db", "--run-id", "--artifact-root"], usage);
+    if ("error" in parsed) return parsed.error;
+    const { flags } = parsed;
+    const dbPath = flags.get("--db");
+    const runId = flags.get("--run-id");
+    if (!dbPath || !runId) return { exitCode: 1, output: `Error: --db and --run-id are required. ${usage}` };
+
+    try {
+      const report = inspectRun({
+        dbPath,
+        runId,
+        artifactRoot: flags.get("--artifact-root"),
+      });
+      return {
+        exitCode: 0,
+        output: isJson ? JSON.stringify(report, null, 2) : formatRunInspectionReport(report),
+      };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return { exitCode: 1, output: `Error: ${msg}` };
+    }
+  }
+
+  private handleTaskTree(args: readonly string[]): { exitCode: number; output: string } {
+    const usage = "Usage: emerald task tree --db <file> --task-id <id> [--json]";
+    let isJson = false;
+    const rest: string[] = [];
+    for (const a of args) {
+      if (a === "--json") {
+        if (isJson) return { exitCode: 1, output: `Error: --json given more than once. ${usage}` };
+        isJson = true;
+      } else {
+        rest.push(a);
+      }
+    }
+
+    const parsed = this.parseValueFlags(rest, ["--db", "--task-id"], usage);
+    if ("error" in parsed) return parsed.error;
+    const { flags } = parsed;
+    const dbPath = flags.get("--db");
+    const taskId = flags.get("--task-id");
+    if (!dbPath || !taskId) return { exitCode: 1, output: `Error: --db and --task-id are required. ${usage}` };
+
+    try {
+      const report = inspectTaskTree({
+        dbPath,
+        taskId,
+      });
+      return {
+        exitCode: 0,
+        output: isJson ? JSON.stringify(report, null, 2) : formatTaskTreeReport(report),
+      };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return { exitCode: 1, output: `Error: ${msg}` };
+    }
+  }
+
+  private handleRunEvents(args: readonly string[]): { exitCode: number; output: string } {
+    const usage = "Usage: emerald run events --db <file> --run-id <id> [--limit <n>] [--after-sequence <n>] [--json]";
+    let isJson = false;
+    const rest: string[] = [];
+    for (const a of args) {
+      if (a === "--json") {
+        if (isJson) return { exitCode: 1, output: `Error: --json given more than once. ${usage}` };
+        isJson = true;
+      } else {
+        rest.push(a);
+      }
+    }
+
+    const parsed = this.parseValueFlags(rest, ["--db", "--run-id", "--limit", "--after-sequence"], usage);
+    if ("error" in parsed) return parsed.error;
+    const { flags } = parsed;
+    const dbPath = flags.get("--db");
+    const runId = flags.get("--run-id");
+    if (!dbPath || !runId) return { exitCode: 1, output: `Error: --db and --run-id are required. ${usage}` };
+
+    const intFlag = (name: string): number | undefined | "bad" => {
+      const raw = flags.get(name);
+      if (raw === undefined) return undefined;
+      return /^\d+$/.test(raw) ? Number(raw) : "bad";
+    };
+
+    const limit = intFlag("--limit");
+    const afterSequence = intFlag("--after-sequence");
+    if (limit === "bad" || (limit !== undefined && limit < 1)) {
+      return { exitCode: 1, output: "Error: --limit must be a positive integer" };
+    }
+    if (afterSequence === "bad" || (afterSequence !== undefined && afterSequence < 0)) {
+      return { exitCode: 1, output: "Error: --after-sequence must be a non-negative integer" };
+    }
+
+    try {
+      const report = getRunEventTimeline({
+        dbPath,
+        runId,
+        limit,
+        afterSequence,
+      });
+      return {
+        exitCode: 0,
+        output: isJson ? JSON.stringify(report, null, 2) : formatRunEventTimelineReport(report),
+      };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return { exitCode: 1, output: `Error: ${msg}` };
+    }
+  }
+
   private handleRunRecover(runId?: string): { exitCode: number; output: string } {
     if (!runId) return { exitCode: 1, output: "runId required" };
     const run = this.runControl.recoverRun(runId);
@@ -1481,7 +1632,13 @@ Commands:
   emerald run cancel <runId>             Cancel an active run
   emerald run resume <runId>             Resume a paused run
   emerald run recover <runId>            Recover an interrupted or crashed run
-  emerald run inspect <runId>            Inspect run timeline and actions
+  emerald run inspect --db <file> --run-id <id> [--artifact-root <dir>] [--json]
+                                         Inspect run lifecycle, verification, artifacts, failure diagnosis
+  emerald run events --db <file> --run-id <id> [--limit <n>] [--after-sequence <n>] [--json]
+                                         Sequence-ordered durable event timeline with payload redaction
+  emerald task tree --db <file> --task-id <id> [--json]
+                                         Parent-child hierarchy, status, and router dispatch eligibility
+  emerald run inspect <runId>            Inspect in-memory run timeline and actions
   emerald router submit|tick|host|status|cancel --db <file> ...
                                          Durable Task Router commands (host dispatches continuously)
   emerald diff <runId>                   Show working-tree changes produced by run
