@@ -73,6 +73,7 @@ describe("Milestone 3.1A — write-stagnation protection", () => {
     });
     brain = new ScriptableAgentBrain();
     stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime,

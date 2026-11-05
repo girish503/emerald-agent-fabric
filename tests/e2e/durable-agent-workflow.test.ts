@@ -125,6 +125,7 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
       "--once",
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
       "--workspace-root",
       workspaceRoot,
     ]);
@@ -750,6 +751,7 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
       "--once",
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
       "--workspace-root",
       workspaceRoot,
     ]);

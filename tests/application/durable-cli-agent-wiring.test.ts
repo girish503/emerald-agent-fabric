@@ -102,6 +102,7 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       "--once",
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
     ]);
     expect(workerResult.exitCode, workerResult.output).toBe(0);
 
@@ -140,6 +141,7 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       workspaceRoot,
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
     ]);
     expect(workerResult.exitCode, workerResult.output).toBe(0);
 
@@ -182,6 +184,7 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       "--once",
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
     ]);
 
     const i = await cli.run(["inspect", "--db", dbPath, "--run-id", runId]);
@@ -217,6 +220,7 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       "--once",
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
     ]);
 
     const i = await cli.run(["inspect", "--db", dbPath, "--run-id", runId]);
@@ -263,6 +267,7 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       dbPath,
       once: true,
       modelProvider: "fixture",
+      allowUnverifiedCompletion: true,
       signal: controller.signal,
     });
 
@@ -289,6 +294,7 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       workspaceRoot,
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
     ]);
 
     const i = await cli.run(["inspect", "--db", dbPath, "--run-id", runId]);

@@ -296,6 +296,24 @@ export class GovernedAgentExecutionProvider implements ExecutionProvider {
         };
       }
 
+      case "COMPLETION_UNVERIFIABLE": {
+        // The runtime could not authorize completion (no verifiable contract). Never a successful run.
+        return {
+          status: "FAILED",
+          durationMs,
+          error: {
+            code: "COMPLETION_UNVERIFIABLE",
+            message: stepResult.terminalMessage,
+            details: {
+              terminalReason: stepResult.terminalReason,
+              totalSteps: stepResult.totalSteps,
+              totalProposalRejections: stepResult.totalProposalRejections,
+            },
+          },
+          providerMetadata,
+        };
+      }
+
       case "MAX_WALL_CLOCK": {
         return {
           status: "TIMED_OUT",

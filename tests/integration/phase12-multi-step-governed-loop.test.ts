@@ -111,6 +111,7 @@ describe("Phase 12 — Multi-Step Governed Agent Loop Integration", () => {
     brain = new ScriptableAgentBrain();
 
     stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime,

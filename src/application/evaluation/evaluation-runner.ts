@@ -225,6 +225,9 @@ export async function executeEvaluationRun(
     agentBrain: liveBrain,
     clock,
     reflex: effectiveReflex,
+    // Evaluation harness contract declares no verification specs; explicit opt-in keeps its legacy behaviour.
+    // NOTE: taskSuccess here therefore means 'model claimed completion', not 'verified' (see 2.23 docs).
+    allowUnverifiedCompletion: true,
   });
 
   let wsHandle: any;

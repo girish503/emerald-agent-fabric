@@ -75,6 +75,12 @@ export interface WorkerHostOptions {
   readonly modelTimeoutMs?: number;
   /** Optional custom AgentBrainPort for testing or direct dependency injection. */
   readonly agentBrain?: AgentBrainPort;
+  /**
+   * Explicit operator opt-in: authorize autonomous completion for Mission Contracts that declare no verification
+   * specifications. Default false (fail closed: such runs end as COMPLETION_UNVERIFIABLE -> FAILED, never COMPLETED).
+   * Each use is recorded durably as "verification.unverified_completion_authorized".
+   */
+  readonly allowUnverifiedCompletion?: boolean;
 }
 
 export interface WorkerHostResult {
@@ -344,6 +350,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           agentBrain: brain,
           clock,
           enableDynamicToolFiltering: options.modelProvider === "ollama",
+          allowUnverifiedCompletion: options.allowUnverifiedCompletion === true,
         });
 
         governedProvider.setStepController(stepController);
@@ -373,6 +380,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
         once: options.once ?? false,
         workspaceRoot: options.workspaceRoot ?? null,
         modelProvider: options.modelProvider ?? "in-process",
+        allowUnverifiedCompletion: options.allowUnverifiedCompletion === true,
         model: options.model ?? null,
       })
     );
