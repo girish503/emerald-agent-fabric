@@ -41,6 +41,7 @@ import { SqliteStateStore } from "../adapters/persistence/sqlite-state-store.js"
 import { RunCoordinator } from "../application/run-coordinator.js";
 import { submitDurableTask } from "../application/durable-submission.js";
 import { TaskRouterService } from "../application/task-router.js";
+import { RouterHostConfigError, runRouterHost } from "../application/router-host.js";
 import { WorkerHostConfigError, runWorkerHost } from "../application/worker-host.js";
 import { SystemClock } from "../ports/clock.port.js";
 import {
@@ -173,7 +174,7 @@ export class EmeraldCli {
           return this.handleSubmit(args.slice(1));
 
         case "router":
-          return this.handleRouter(args.slice(1));
+          return await this.handleRouter(args.slice(1));
 
         case "artifact":
           return this.handleArtifact(args.slice(1));
@@ -566,12 +567,13 @@ export class EmeraldCli {
    * `tick` requires an explicit --max-concurrent (1 or 2). A busy database exits 2 so a scheduler can retry.
    * Delivery is at-least-once; cancellation records a state change and never asserts a process stopped.
    */
-  private handleRouter(args: readonly string[]): { exitCode: number; output: string } {
+  private async handleRouter(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
     const sub = args[0];
     const rest = args.slice(1);
     const usage =
       "Usage: emerald router submit --db <file> --key <submissionKey> (--task <text> | --operation <name>) [--parent-task <taskId>] [--repo <dir>] [--input <json>] [--capabilities <csv>] [--max-attempts <n>] [--timeout-ms <n>] | " +
       "emerald router tick --db <file> --max-concurrent <1|2> | " +
+      "emerald router host --db <file> [--max-concurrent <1|2>] [--poll-interval-ms <n>] [--busy-backoff-ms <n>] [--max-busy-backoff-ms <n>] [--workspace-root <dir>] [--once] | " +
       "emerald router status --db <file> --root <taskId> | " +
       "emerald router cancel --db <file> --root <taskId> [--reason <text>]";
     const fail = (message: string) => ({ exitCode: 1, output: `Error: ${message}. ${usage}` });
@@ -611,6 +613,115 @@ export class EmeraldCli {
         if (dbErr) return dbErr;
         const result = withRouter(parsed.flags.get("--db")!, Number(cap) as 1 | 2, (router) => router.dispatchTick());
         return { exitCode: 0, output: JSON.stringify(result) };
+      }
+
+      if (sub === "host") {
+        let once = false;
+        const hostRest: string[] = [];
+        for (const a of rest) {
+          if (a === "--once") {
+            if (once) return { exitCode: 1, output: `Error: --once given more than once. ${usage}` };
+            once = true;
+          } else {
+            hostRest.push(a);
+          }
+        }
+        const parsed = this.parseValueFlags(
+          hostRest,
+          [
+            "--db",
+            "--max-concurrent",
+            "--poll-interval-ms",
+            "--busy-backoff-ms",
+            "--max-busy-backoff-ms",
+            "--workspace-root",
+            "--root",
+            "--max-ticks",
+          ],
+          usage
+        );
+        if ("error" in parsed) return parsed.error;
+        const { flags } = parsed;
+        const dbPath = flags.get("--db");
+        const dbErr = requireExistingDb(dbPath);
+        if (dbErr) return dbErr;
+
+        let maxConcurrentRuns: 1 | 2 | undefined;
+        if (flags.has("--max-concurrent")) {
+          const cap = flags.get("--max-concurrent");
+          if (cap !== "1" && cap !== "2") return fail("--max-concurrent must be 1 or 2");
+          maxConcurrentRuns = Number(cap) as 1 | 2;
+        }
+
+        const intFlag = (name: string): number | undefined | "bad" => {
+          const raw = flags.get(name);
+          if (raw === undefined) return undefined;
+          return /^\d+$/.test(raw) && Number(raw) >= 1 ? Number(raw) : "bad";
+        };
+
+        const pollIntervalMs = intFlag("--poll-interval-ms");
+        const busyBackoffMs = intFlag("--busy-backoff-ms");
+        const maxBusyBackoffMs = intFlag("--max-busy-backoff-ms");
+        const maxTicks = intFlag("--max-ticks");
+        if (
+          pollIntervalMs === "bad" ||
+          busyBackoffMs === "bad" ||
+          maxBusyBackoffMs === "bad" ||
+          maxTicks === "bad"
+        ) {
+          return fail("--poll-interval-ms, --busy-backoff-ms, --max-busy-backoff-ms, and --max-ticks must be positive integers");
+        }
+        if (
+          busyBackoffMs !== undefined &&
+          maxBusyBackoffMs !== undefined &&
+          maxBusyBackoffMs < busyBackoffMs
+        ) {
+          return fail("--max-busy-backoff-ms must be >= --busy-backoff-ms");
+        }
+
+        const workspaceRoot = flags.get("--workspace-root") ?? flags.get("--root");
+        if (workspaceRoot !== undefined) {
+          try {
+            if (!fs.statSync(workspaceRoot).isDirectory()) {
+              return fail(`--workspace-root is not a directory: ${workspaceRoot}`);
+            }
+          } catch {
+            return fail(`--workspace-root directory not found: ${workspaceRoot}`);
+          }
+        }
+
+        const controller = new AbortController();
+        const stop = (): void => {
+          if (!controller.signal.aborted) {
+            controller.abort();
+          }
+        };
+        process.on("SIGINT", stop);
+        process.on("SIGTERM", stop);
+
+        try {
+          await runRouterHost({
+            dbPath: dbPath!,
+            maxConcurrentRuns,
+            pollIntervalMs,
+            busyBackoffMs,
+            maxBusyBackoffMs,
+            workspaceRoot,
+            once,
+            maxTicks,
+            signal: controller.signal,
+          });
+          return { exitCode: 0, output: "" };
+        } catch (err: unknown) {
+          if (err instanceof RouterHostConfigError) {
+            return { exitCode: 1, output: `Error: ${err.message}` };
+          }
+          const msg = err instanceof Error ? err.message : String(err);
+          return { exitCode: 1, output: `Error: router host failed: ${msg}` };
+        } finally {
+          process.off("SIGINT", stop);
+          process.off("SIGTERM", stop);
+        }
       }
 
       if (sub === "status") {
@@ -1371,8 +1482,8 @@ Commands:
   emerald run resume <runId>             Resume a paused run
   emerald run recover <runId>            Recover an interrupted or crashed run
   emerald run inspect <runId>            Inspect run timeline and actions
-  emerald router submit|tick|status|cancel --db <file> ...
-                                         One-shot durable Task Router commands (tick needs --max-concurrent 1|2)
+  emerald router submit|tick|host|status|cancel --db <file> ...
+                                         Durable Task Router commands (host dispatches continuously)
   emerald diff <runId>                   Show working-tree changes produced by run
   emerald verify <runId>                 Show sovereign verification proof
   emerald evidence <runId>               Export full cryptographic evidence bundle
