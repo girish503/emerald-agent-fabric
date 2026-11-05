@@ -127,6 +127,7 @@ describe("AgentStepController — Governed Autonomous Reasoning Loop (Task 5.3)"
     brain = new ScriptableAgentBrain();
 
     stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime,

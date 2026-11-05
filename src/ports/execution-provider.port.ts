@@ -97,7 +97,13 @@ export type ExecutionErrorCode =
    * execution is gone. Always reported with status "FAILED" (never TIMED_OUT/CANCELLED): the workload may
    * still be running, so the runtime must leave the run to lease-expiry recovery (ADR-0037).
    */
-  | "TERMINATION_UNVERIFIED";
+  | "TERMINATION_UNVERIFIED"
+  /**
+   * The agent claimed completion but the runtime could not authorize it because the Mission Contract has
+   * nothing verifiable (no specifications, unsupported rule, or a missing clean-room verifier/workspace).
+   * Always reported with status "FAILED": a model claim never produces a successful run (Milestone 2.23).
+   */
+  | "COMPLETION_UNVERIFIABLE";
 
 export interface ExecutionErrorPayload {
   readonly code: ExecutionErrorCode;

@@ -274,6 +274,7 @@ describe("Milestone 2.9A — Recovered Attempt Action-History Verification", () 
     });
 
     const stepControllerAttempt2 = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime2,
@@ -441,6 +442,7 @@ describe("Milestone 2.9A — Recovered Attempt Action-History Verification", () 
     });
 
     const stepControllerAttempt2 = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime2,

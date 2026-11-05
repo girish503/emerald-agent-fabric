@@ -523,6 +523,7 @@ describe("Milestone 2.16-B — Durable Step Loop Checkpoint Integration", () => 
       // 2. Initialize step controller
       brain.setFallback(() => ({ finishReason: "GOAL_REACHED" }));
       const controller = new AgentStepController({
+        allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
         coordinator,
         stateStore: store,
         workerRuntime,
@@ -809,6 +810,7 @@ describe("Milestone 2.16-B — Durable Step Loop Checkpoint Integration", () => 
       }));
 
       const controller1 = new AgentStepController({
+        allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
         coordinator,
         stateStore: store,
         workerRuntime,
@@ -852,6 +854,7 @@ describe("Milestone 2.16-B — Durable Step Loop Checkpoint Integration", () => 
       }));
 
       const controller2 = new AgentStepController({
+        allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
         coordinator,
         stateStore: store,
         workerRuntime,
@@ -927,6 +930,7 @@ describe("Milestone 2.16-B — Durable Step Loop Checkpoint Integration", () => 
       });
 
       const controller = new AgentStepController({
+        allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
         coordinator,
         stateStore: store,
         workerRuntime,

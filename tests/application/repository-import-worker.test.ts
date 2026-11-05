@@ -79,6 +79,7 @@ describe("Milestone 3.0A — repository ingestion via the durable worker path", 
       "--once",
       "--model-provider",
       "fixture",
+      "--allow-unverified-completion",
       "--workspace-root",
       workspaceRoot,
     ]);

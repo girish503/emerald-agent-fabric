@@ -1717,3 +1717,53 @@ Emerald Agent Fabric establishes defense-in-depth across four distinct conceptua
 - **No Exactly-Once Execution**: Emerald execution delivery is strictly at-least-once across crash-recovery cycles.
 - **No Strict Orphan-Process Lifetime Bounds**: Un-containerized host subprocesses are not subject to strict kernel-level lifetime bounds unless managed by container runtimes.
 - **No Production-Grade OS Sandboxing for In-Process Runs**: In-process execution relies on application-level capability lattices and directory path containment, not OS containerization or hypervisor boundaries.
+
+## 42. Completion Authorization (Milestone 2.23)
+
+**Invariant:** `MODEL_GOAL_REACHED != RUN_COMPLETED`. A model's `isGoalReached` is an untrusted proposal. Only the runtime authorizes completion, and only when every Mission Contract verification requirement has authoritative evidence. An empty verification set is not proof of success. This section describes behaviour implemented in `AgentStepController` (`evaluateCompletionVerification` and the `GOAL_REACHED` handler) and tested in `tests/application/completion-evidence-gate.test.ts`.
+
+### 42.1 Authorization rules
+Completion is authorized only when the typed `CompletionEvaluation` is `verified: true`, which requires that **every** declared specification produced exactly one `VERIFIED` result:
+
+| Specification | Satisfied by |
+| :--- | :--- |
+| `EXIT_CODE_ZERO` | A recorded attempt of the named tool/argv whose latest exit code is 0 (plus optional `requireMutation` / `requireDiff` prerequisites) |
+| `EXACT_OUTPUT_MATCH`, `OUTPUT_HASH_MATCH` | `DeterministicVerifier` over the latest attempt's output evidence |
+| `CLEAN_ROOM_DUAL_GATE` | Only a `VERIFIED` independent `CleanRoomVerifier` outcome. It is never skipped or assumed. |
+| any other rule kind | Not supported: completion is refused (`UNSUPPORTED_VERIFICATION_RULE`) |
+
+A mix of passing and failing requirements never authorizes completion, and an empty or partial result set is never success.
+
+### 42.2 Empty verification set
+If the contract declares no verification specifications (missing or empty), completion is **not** authorized. The step loop ends immediately with terminal reason `COMPLETION_UNVERIFIABLE` (it does not keep asking the model to satisfy a requirement it cannot meet) and a `verification.rejected` event is persisted with `status: "COMPLETION_UNVERIFIABLE"` and `reason: "NO_VERIFICATION_SPECS"`.
+
+The only way to authorize completion for such a contract is an explicit operator opt-in (`allowUnverifiedCompletion` on the controller; `emerald worker --allow-unverified-completion` on the CLI; `allowUnverifiedCompletion` on `runWorkerHost`). It is off by default, and every use is recorded durably as a `verification.unverified_completion_authorized` event (`reason: "OPERATOR_OPT_IN_NO_VERIFICATION_SPECS"`). There is no silent default.
+
+### 42.3 Clean-room dependency failures
+For `CLEAN_ROOM_DUAL_GATE`:
+- No `CleanRoomVerifier` available: `COMPLETION_UNVERIFIABLE` (`CLEAN_ROOM_VERIFIER_UNAVAILABLE`).
+- No agent workspace available: `COMPLETION_UNVERIFIABLE` (`CLEAN_ROOM_WORKSPACE_UNAVAILABLE`); the verifier is not invoked.
+- Verifier returns `FAILED`, a replay block, or throws (timeout / infrastructure): completion is rejected as a recoverable rejection (`CLEAN_ROOM_NOT_VERIFIED`); the raw error text is not persisted.
+- The clean-room verifier is consulted only after every other specification has verified.
+
+### 42.4 Rejection reasons
+Persisted `verification.rejected` payloads carry only structured, payload-free fields (`status`, `reason` or `rejectionCode`, `requirements`, `outstandingRequirements`, `rejectedAt`); no model output or workspace content.
+
+| Code | Terminal? | Meaning |
+| :--- | :--- | :--- |
+| `NO_VERIFICATION_SPECS` | Yes (`COMPLETION_UNVERIFIABLE`) | Contract declares nothing verifiable |
+| `UNSUPPORTED_VERIFICATION_RULE` | Yes | Rule kind not handled by the gate |
+| `CLEAN_ROOM_VERIFIER_UNAVAILABLE` | Yes | Required verifier absent |
+| `CLEAN_ROOM_WORKSPACE_UNAVAILABLE` | Yes | Required workspace absent |
+| `MISSING_EVIDENCE` | No (bounded retry) | Required action or evidence not yet recorded |
+| `VERIFICATION_FAILED` | No | Evidence recorded but the rule failed |
+| `CLEAN_ROOM_NOT_VERIFIED` | No | Clean-room outcome failed, blocked, or could not be evaluated |
+
+### 42.5 Downstream lifecycle
+`COMPLETION_UNVERIFIABLE` maps in `GovernedAgentExecutionProvider` to `status: "FAILED"` with error code `COMPLETION_UNVERIFIABLE`, so `WorkerRuntime` terminates the run as `FAILED`. A rejected or unverifiable completion produces no `run.completed` event and no successful worker result. Checkpoint reconciliation is unchanged: a prior `verification.rejected` still conflicts with a latch that claims verification.
+
+### 42.6 Compatibility and limits
+- Deterministic in-process operations (`emerald submit --operation ...`) do not use the step controller and are unaffected.
+- Governed agent runs created by `emerald submit --task ...` declare no verification specifications, so they now end as `COMPLETION_UNVERIFIABLE` unless the worker is started with `--allow-unverified-completion`.
+- The internal evaluation harnesses (`evaluation-runner`, `local-eval-harness`) declare no specs and use the opt-in, so their `taskSuccess` means "the model claimed completion", not "verified".
+- Not changed: lease fencing, replay protection, recovery, `safeToResume` (remains `false`), and at-least-once delivery. No exactly-once claim is made.

@@ -1000,6 +1000,7 @@ describe("LiveAgentBrain — Provider-Neutral Agent Brain Bridge (Phase 6.2)", (
       });
 
       const stepController = new AgentStepController({
+        allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
         coordinator,
         stateStore: store,
         workerRuntime,

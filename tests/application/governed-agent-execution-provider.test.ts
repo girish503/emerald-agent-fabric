@@ -210,6 +210,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,
@@ -426,6 +427,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,
@@ -486,6 +488,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,
@@ -573,6 +576,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,
@@ -636,6 +640,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,
@@ -695,6 +700,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,
@@ -772,6 +778,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,
@@ -832,6 +839,7 @@ describe("GovernedAgentExecutionProvider", () => {
     });
 
     const stepController = new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime,

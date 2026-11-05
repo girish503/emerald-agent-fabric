@@ -864,7 +864,7 @@ export class EmeraldCli {
    */
   private async handleWorker(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
     const usage =
-      "Usage: emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--model-timeout-ms <n>] [--ollama-base-url <url>] [--workspace-root <dir>] [--artifact-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]";
+      "Usage: emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--model-timeout-ms <n>] [--ollama-base-url <url>] [--workspace-root <dir>] [--artifact-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>] [--allow-unverified-completion]";
     const valueFlags = [
       "--db",
       "--workspace-root",
@@ -879,11 +879,15 @@ export class EmeraldCli {
       "--ollama-base-url",
     ];
     let once = false;
+    let allowUnverifiedCompletion = false;
     const rest: string[] = [];
     for (const a of args) {
       if (a === "--once") {
         if (once) return { exitCode: 1, output: `Error: --once given more than once. ${usage}` };
         once = true;
+      } else if (a === "--allow-unverified-completion") {
+        if (allowUnverifiedCompletion) return { exitCode: 1, output: `Error: --allow-unverified-completion given more than once. ${usage}` };
+        allowUnverifiedCompletion = true;
       } else rest.push(a);
     }
     const parsed = this.parseValueFlags(rest, valueFlags, usage);
@@ -939,6 +943,7 @@ export class EmeraldCli {
         model: flags.get("--model"),
         modelTimeoutMs,
         ollamaBaseUrl: flags.get("--ollama-base-url"),
+        allowUnverifiedCompletion,
       });
       return { exitCode: once && result.errors > 0 ? 1 : 0, output: "" };
     } catch (err: unknown) {

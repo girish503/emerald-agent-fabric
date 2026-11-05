@@ -149,6 +149,7 @@ describe("Milestone 2.10G — replay block feedback and repeat-block termination
 
   function controllerFor(runtime: Pick<WorkerRuntime, "executeAction">): AgentStepController {
     return new AgentStepController({
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
       coordinator,
       stateStore: store,
       workerRuntime: runtime as unknown as WorkerRuntime,

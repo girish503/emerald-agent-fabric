@@ -120,6 +120,7 @@ describe("Milestone 3.1A — artifact export via the durable worker path", () =>
       artifactRoot,
       once: true,
       modelProvider: "fixture",
+      allowUnverifiedCompletion: true,
       agentBrain: brain,
       signal: new AbortController().signal,
       log: () => {},

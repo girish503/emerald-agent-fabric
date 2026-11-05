@@ -54,7 +54,7 @@ import {
   type VerificationResult,
   type CleanRoomVerificationSpec,
 } from "../domain/verification.js";
-import type { CleanRoomVerifier } from "./clean-room-verifier.js";
+import type { CleanRoomVerificationOutcome, CleanRoomVerifier } from "./clean-room-verifier.js";
 import type { MissionContract } from "../domain/mission-contract.js";
 import type { RunCommandOutput } from "../domain/tool-schemas.js";
 import {
@@ -707,7 +707,45 @@ export type StepControllerTerminalReason =
   | "BRAIN_FAILURE"
   | "DEFERRED"
   | "STAGNATION"
-  | "POLICY_DENIED";
+  | "POLICY_DENIED"
+  | "COMPLETION_UNVERIFIABLE";
+
+/**
+ * Structured reason a completion proposal was not authorized. Never contains model output.
+ */
+export type CompletionRejectionCode =
+  | "NO_VERIFICATION_SPECS"
+  | "UNSUPPORTED_VERIFICATION_RULE"
+  | "CLEAN_ROOM_VERIFIER_UNAVAILABLE"
+  | "CLEAN_ROOM_WORKSPACE_UNAVAILABLE"
+  | "CLEAN_ROOM_NOT_EVALUATED"
+  | "CLEAN_ROOM_NOT_VERIFIED"
+  | "MISSING_EVIDENCE"
+  | "VERIFICATION_FAILED";
+
+/**
+ * Typed result of the authoritative completion evaluation (MODEL_GOAL_REACHED != RUN_COMPLETED).
+ * `verified` is true only when every required specification produced a VERIFIED result.
+ */
+export interface CompletionEvaluation {
+  readonly verified: boolean;
+  readonly failureReason?: string;
+  readonly specResults: readonly VerificationResult[];
+  readonly requirementsSummary?: Record<string, string>;
+  readonly outstandingRequirements?: readonly string[];
+  readonly rejectionCode?: CompletionRejectionCode;
+  /** True when no further model action can satisfy the contract (terminal COMPLETION_UNVERIFIABLE). */
+  readonly unverifiable?: boolean;
+  /** True only when every other spec verified and an independent clean-room run is still required. */
+  readonly cleanRoomPending?: boolean;
+}
+
+/** Runtime dependencies available to the evaluator; absence of a required dependency fails closed. */
+export interface CompletionEvaluationContext {
+  readonly cleanRoomVerifierAvailable: boolean;
+  readonly workspaceAvailable: boolean;
+  readonly cleanRoomOutcome?: CleanRoomVerificationOutcome;
+}
 
 export interface StepTranscriptEntry {
   readonly stepNumber: number;
@@ -775,6 +813,13 @@ export interface AgentStepControllerOptions {
   readonly reflex?: ReflexPort;
   readonly enableGovernedVerificationStage?: boolean;
   readonly cleanRoomVerifier?: CleanRoomVerifier;
+  /**
+   * Explicit, auditable operator opt-in to authorize completion for a Mission Contract that declares NO
+   * verification specifications. Default false: an empty specification set is not proof of success and a
+   * completion claim is then rejected as COMPLETION_UNVERIFIABLE. When enabled, every authorization is
+   * recorded durably as a "verification.unverified_completion_authorized" event.
+   */
+  readonly allowUnverifiedCompletion?: boolean;
   readonly speculativePromotionGate?: import("./speculative-promotion-gate.js").SpeculativePromotionGate;
   readonly speculativePolicy?: import("./runtime-speculative-execution-policy.js").RuntimeSpeculativeExecutionPolicy;
   /**
@@ -835,6 +880,7 @@ export class AgentStepController {
   private readonly reflex: ReflexPort;
   private readonly enableGovernedVerificationStage: boolean;
   private readonly cleanRoomVerifier?: CleanRoomVerifier;
+  private readonly allowUnverifiedCompletion: boolean;
   private readonly speculativePromotionGate?: import("./speculative-promotion-gate.js").SpeculativePromotionGate;
   private readonly speculativePolicy?: import("./runtime-speculative-execution-policy.js").RuntimeSpeculativeExecutionPolicy;
   private readonly enableDynamicToolFiltering: boolean;
@@ -854,6 +900,7 @@ export class AgentStepController {
     this.enableGovernedVerificationStage =
       options.enableGovernedVerificationStage ?? false;
     this.cleanRoomVerifier = options.cleanRoomVerifier;
+    this.allowUnverifiedCompletion = options.allowUnverifiedCompletion ?? false;
     this.speculativePromotionGate = options.speculativePromotionGate;
     this.speculativePolicy = options.speculativePolicy;
     this.enableDynamicToolFiltering = options.enableDynamicToolFiltering ?? false;
@@ -1436,9 +1483,14 @@ export class AgentStepController {
         // Authoritative Physical Verification Completion Gate (Phase 13B)
         // MODEL_GOAL_REACHED != RUN_COMPLETED
         // isGoalReached: true is strictly an untrusted model proposal.
+        const completionContext: CompletionEvaluationContext = {
+          cleanRoomVerifierAvailable: Boolean(this.cleanRoomVerifier),
+          workspaceAvailable: Boolean(params.workspace),
+        };
         let verificationEvaluation = this.evaluateCompletionVerification(
           runId,
-          contract
+          contract,
+          completionContext
         );
 
         // Phase 13D: Governed Verification Stage Experiment
@@ -1485,66 +1537,144 @@ export class AgentStepController {
           // Re-evaluate verification after executing contract-declared verification stage
           verificationEvaluation = this.evaluateCompletionVerification(
             runId,
-            contract
+            contract,
+            completionContext
           );
         }
 
-        // Phase 14: Independent Clean-Room Verification
+        // Phase 14: Independent Clean-Room Verification (fail closed: a missing verifier/workspace is
+        // reported by the evaluator as unverifiable; a verifier that cannot run never authorizes completion)
         const cleanRoomSpecObj = (contract.spec.verificationSpecs ?? []).find(
           (s) => s.ruleKind === "CLEAN_ROOM_DUAL_GATE"
         );
         if (
-          verificationEvaluation.verified &&
+          verificationEvaluation.cleanRoomPending &&
           cleanRoomSpecObj &&
           this.cleanRoomVerifier &&
           params.workspace
         ) {
           const cleanSpec = cleanRoomSpecObj.expectedValue as CleanRoomVerificationSpec;
-          const cleanRoomOutcome = await this.cleanRoomVerifier.verifyCandidatePatch({
-            runId,
-            taskId,
-            workerId,
-            leaseId,
-            contract,
-            spec: cleanSpec,
-            agentWorkspace: params.workspace,
-            abortSignal: params.abortSignal,
-          });
-
-          if (cleanRoomOutcome.replayBlock) {
-            // Clean-room test command was refused by the replay gate: verification could not run.
-            replayBlockCount++;
-            if (replayBlockCount >= 2) {
-              return assembleResult(
-                "POLICY_DENIED",
-                `Repeated clean-room verification blocked by an uncertain prior execution (${replayBlockCount} replay blocks in this run)`,
-                taskId
-              );
-            }
-            pendingActionRecoveryObservation = this.buildReplayBlockFeedback({
-              details: cleanRoomOutcome.replayBlock,
+          let cleanRoomOutcome: CleanRoomVerificationOutcome | undefined;
+          let cleanRoomError: string | undefined;
+          try {
+            cleanRoomOutcome = await this.cleanRoomVerifier.verifyCandidatePatch({
               runId,
-              entityId: cleanRoomOutcome.replayBlock.priorActionId ?? `clean-room-step-${stepCount}`,
-              stepCount,
-              source: "CLEAN_ROOM_VERIFICATION",
+              taskId,
+              workerId,
+              leaseId,
+              contract,
+              spec: cleanSpec,
+              agentWorkspace: params.workspace,
+              abortSignal: params.abortSignal,
             });
+          } catch (err: unknown) {
+            cleanRoomError = err instanceof Error ? err.name : "UnknownError";
           }
 
-          if (cleanRoomOutcome.status !== "VERIFIED") {
+          if (!cleanRoomOutcome) {
             verificationEvaluation = {
               verified: false,
-              failureReason: `Independent clean-room proof failed: ${cleanRoomOutcome.message}`,
-              specResults: [cleanRoomOutcome.verificationResult],
+              rejectionCode: "CLEAN_ROOM_NOT_VERIFIED",
+              failureReason: `Independent clean-room verification could not be evaluated (${cleanRoomError ?? "no outcome"})`,
+              specResults: verificationEvaluation.specResults,
               requirementsSummary: {
                 ...(verificationEvaluation.requirementsSummary ?? {}),
-                "clean-room verification": "failed",
+                "clean-room verification": "not evaluated",
               },
               outstandingRequirements: [
                 ...(verificationEvaluation.outstandingRequirements ?? []),
-                `clean-room proof: ${cleanRoomOutcome.failureReasonCode ?? "FAILED"}`,
+                "clean-room proof: NOT_EVALUATED",
               ],
             };
+          } else {
+            if (cleanRoomOutcome.replayBlock) {
+              // Clean-room test command was refused by the replay gate: verification could not run.
+              replayBlockCount++;
+              if (replayBlockCount >= 2) {
+                return assembleResult(
+                  "POLICY_DENIED",
+                  `Repeated clean-room verification blocked by an uncertain prior execution (${replayBlockCount} replay blocks in this run)`,
+                  taskId
+                );
+              }
+              pendingActionRecoveryObservation = this.buildReplayBlockFeedback({
+                details: cleanRoomOutcome.replayBlock,
+                runId,
+                entityId: cleanRoomOutcome.replayBlock.priorActionId ?? `clean-room-step-${stepCount}`,
+                stepCount,
+                source: "CLEAN_ROOM_VERIFICATION",
+              });
+            }
+
+            if (cleanRoomOutcome.status !== "VERIFIED") {
+              verificationEvaluation = {
+                verified: false,
+                rejectionCode: "CLEAN_ROOM_NOT_VERIFIED",
+                failureReason: `Independent clean-room proof failed: ${cleanRoomOutcome.message}`,
+                specResults: [cleanRoomOutcome.verificationResult],
+                requirementsSummary: {
+                  ...(verificationEvaluation.requirementsSummary ?? {}),
+                  "clean-room verification": "failed",
+                },
+                outstandingRequirements: [
+                  ...(verificationEvaluation.outstandingRequirements ?? []),
+                  `clean-room proof: ${cleanRoomOutcome.failureReasonCode ?? "FAILED"}`,
+                ],
+              };
+            } else {
+              // Re-evaluate with the independent outcome so the clean-room requirement is satisfied by evidence.
+              verificationEvaluation = this.evaluateCompletionVerification(runId, contract, {
+                ...completionContext,
+                cleanRoomOutcome,
+              });
+            }
           }
+        }
+
+        // Terminal: no model action can satisfy this contract (no specs, unsupported rule, missing verifier or
+        // workspace). Do not keep asking the model to solve a requirement it cannot meet.
+        if (!verificationEvaluation.verified && verificationEvaluation.unverifiable) {
+          const rejectionTimestamp = this.clock.nowIso();
+          const rejectionCode = verificationEvaluation.rejectionCode ?? "NO_VERIFICATION_SPECS";
+          this.stateStore.transaction((tx) => {
+            tx.appendEvent({
+              eventId: crypto.randomUUID(),
+              runId,
+              timestamp: rejectionTimestamp,
+              eventType: "verification.rejected",
+              schemaVersion: 1,
+              producer: "application.agent_step_controller",
+              payload: {
+                status: "COMPLETION_UNVERIFIABLE",
+                reason: rejectionCode,
+                message: "Completion cannot be authorized: the runtime has no way to verify this Mission Contract.",
+                requirements: verificationEvaluation.requirementsSummary ?? {},
+                outstandingRequirements: verificationEvaluation.outstandingRequirements ?? [],
+                rejectedAt: rejectionTimestamp,
+              },
+            });
+          });
+          transcript.push(
+            Object.freeze({
+              stepNumber: stepCount,
+              contextSnapshotId: contextSnapshot.snapshotId,
+              contextHash: contextSnapshot.contextHash,
+              contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+              contextBytes: contextSnapshot.totalBytes,
+              contextObservationsCount: contextSnapshot.observations.length,
+              finishReason: "GOAL_REACHED",
+              proposalValid: false,
+              proposalRejectionReason: "UNVERIFIED_COMPLETION_CLAIM",
+              proposalRejectionMessage: `Goal reached claim cannot be verified: ${rejectionCode}`,
+              durationMs: this.clock.now().getTime() - stepStartTime,
+              timestamp: stepTimestamp,
+            })
+          );
+          return assembleResult(
+            "COMPLETION_UNVERIFIABLE",
+            `Completion cannot be authorized (${rejectionCode}): ${verificationEvaluation.failureReason ?? "no verifiable requirement"}`,
+            taskId
+          );
         }
 
         if (!verificationEvaluation.verified) {
@@ -1563,6 +1693,7 @@ export class AgentStepController {
               payload: {
                 status: "COMPLETION_REJECTED",
                 reason: "UNVERIFIED_COMPLETION_CLAIM",
+                rejectionCode: this.classifyCompletionRejection(verificationEvaluation),
                 message:
                   "Required verification evidence is missing. The task is not complete. Continue using the available governed tools.",
                 requirements: verificationEvaluation.requirementsSummary ?? {},
@@ -1592,6 +1723,29 @@ export class AgentStepController {
 
           // Goal claim rejected: bounded next model step if budget permits
           continue;
+        }
+
+        // Explicit operator opt-in only: record that completion was authorized WITHOUT verification specs.
+        if (
+          this.allowUnverifiedCompletion &&
+          (!contract.spec.verificationSpecs || contract.spec.verificationSpecs.length === 0)
+        ) {
+          const authorizedAt = this.clock.nowIso();
+          this.stateStore.transaction((tx) => {
+            tx.appendEvent({
+              eventId: crypto.randomUUID(),
+              runId,
+              timestamp: authorizedAt,
+              eventType: "verification.unverified_completion_authorized",
+              schemaVersion: 1,
+              producer: "application.agent_step_controller",
+              payload: {
+                status: "UNVERIFIED_COMPLETION_AUTHORIZED",
+                reason: "OPERATOR_OPT_IN_NO_VERIFICATION_SPECS",
+                authorizedAt,
+              },
+            });
+          });
         }
 
         // Verified goal reached: physical verification invariant satisfied
@@ -2708,7 +2862,12 @@ export class AgentStepController {
                       if (cleanRoomOutcome.status === "VERIFIED") {
                         const verificationEvaluation = this.evaluateCompletionVerification(
                           runId,
-                          activeContract
+                          activeContract,
+                          {
+                            cleanRoomVerifierAvailable: true,
+                            workspaceAvailable: true,
+                            cleanRoomOutcome,
+                          }
                         );
                         if (verificationEvaluation.verified) {
                           transcript.push(
@@ -3504,26 +3663,41 @@ export class AgentStepController {
    * have executed and succeeded based strictly on durable Action and Attempt state
    * in SQLite.
    */
+  /**
+   * Authoritative completion evaluation (MODEL_GOAL_REACHED != RUN_COMPLETED). Fail closed:
+   *  - no verification specifications => never verified (unverifiable) unless the explicit operator opt-in is set;
+   *  - a CLEAN_ROOM_DUAL_GATE spec is satisfied only by a VERIFIED independent clean-room outcome; a missing
+   *    verifier or workspace is unverifiable, and an unevaluated one is pending, never passed;
+   *  - an unsupported rule kind is unverifiable;
+   *  - verified only when every specification produced exactly one VERIFIED result.
+   */
   private evaluateCompletionVerification(
     runId: string,
-    contract: MissionContract
-  ): {
-    readonly verified: boolean;
-    readonly failureReason?: string;
-    readonly specResults: readonly VerificationResult[];
-    readonly requirementsSummary?: Record<string, string>;
-    readonly outstandingRequirements?: readonly string[];
-  } {
+    contract: MissionContract,
+    context: CompletionEvaluationContext
+  ): CompletionEvaluation {
     const vSpecs = contract.spec.verificationSpecs;
     if (!vSpecs || vSpecs.length === 0) {
+      if (this.allowUnverifiedCompletion) {
+        return {
+          verified: true,
+          specResults: [],
+          requirementsSummary: {},
+          outstandingRequirements: [],
+        };
+      }
       return {
-        verified: true,
+        verified: false,
+        unverifiable: true,
+        rejectionCode: "NO_VERIFICATION_SPECS",
+        failureReason: "The Mission Contract declares no verification specifications; an empty set is not proof of completion.",
         specResults: [],
-        requirementsSummary: {},
-        outstandingRequirements: [],
+        requirementsSummary: { "verification specifications": "none declared" },
+        outstandingRequirements: ["verification specifications: none declared"],
       };
     }
 
+    let cleanRoomPending = false;
     const actions = this.stateStore.getActionsForRun(runId);
     const specResults: VerificationResult[] = [];
     const requirementsSummary: Record<string, string> = {};
@@ -3681,7 +3855,45 @@ export class AgentStepController {
 
       // 3. Rule Kind Evaluation
       if (spec.ruleKind === "CLEAN_ROOM_DUAL_GATE") {
-        // Independent clean-room dual-gate is evaluated by CleanRoomVerifier in completion stage
+        // Satisfied only by a VERIFIED independent clean-room outcome. Never skipped.
+        if (!context.cleanRoomVerifierAvailable) {
+          return {
+            verified: false,
+            unverifiable: true,
+            rejectionCode: "CLEAN_ROOM_VERIFIER_UNAVAILABLE",
+            failureReason: "Clean-room verification is required but no CleanRoomVerifier is available.",
+            specResults,
+            requirementsSummary: { ...requirementsSummary, "clean-room verification": "verifier unavailable" },
+            outstandingRequirements: [...outstandingRequirements, "clean-room proof: VERIFIER_UNAVAILABLE"],
+          };
+        }
+        if (!context.workspaceAvailable) {
+          return {
+            verified: false,
+            unverifiable: true,
+            rejectionCode: "CLEAN_ROOM_WORKSPACE_UNAVAILABLE",
+            failureReason: "Clean-room verification is required but no agent workspace is available.",
+            specResults,
+            requirementsSummary: { ...requirementsSummary, "clean-room verification": "workspace unavailable" },
+            outstandingRequirements: [...outstandingRequirements, "clean-room proof: WORKSPACE_UNAVAILABLE"],
+          };
+        }
+        if (!context.cleanRoomOutcome) {
+          cleanRoomPending = true;
+          continue;
+        }
+        if (context.cleanRoomOutcome.status !== "VERIFIED" || context.cleanRoomOutcome.verificationResult.status !== "VERIFIED") {
+          return {
+            verified: false,
+            rejectionCode: "CLEAN_ROOM_NOT_VERIFIED",
+            failureReason: `Independent clean-room proof failed: ${context.cleanRoomOutcome.message}`,
+            specResults: [...specResults, context.cleanRoomOutcome.verificationResult],
+            requirementsSummary: { ...requirementsSummary, "clean-room verification": "failed" },
+            outstandingRequirements: [...outstandingRequirements, "clean-room proof: FAILED"],
+          };
+        }
+        specResults.push(context.cleanRoomOutcome.verificationResult);
+        requirementsSummary["clean-room verification"] = "satisfied";
         continue;
       }
 
@@ -3805,8 +4017,8 @@ export class AgentStepController {
             outstandingRequirements,
           };
         }
-      } else {
-        // Fallback for EXACT_OUTPUT_MATCH or OUTPUT_HASH_MATCH
+      } else if (spec.ruleKind === "EXACT_OUTPUT_MATCH" || spec.ruleKind === "OUTPUT_HASH_MATCH") {
+        // Output-evidence rules
         const lastAction = actions[actions.length - 1];
         const attempts = lastAction ? this.stateStore.getAttemptsForAction(lastAction.actionId) : [];
         const latestAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : undefined;
@@ -3835,10 +4047,52 @@ export class AgentStepController {
             outstandingRequirements,
           };
         }
+      } else {
+        // Unsupported or unhandled rule kind: never treated as satisfied.
+        return {
+          verified: false,
+          unverifiable: true,
+          rejectionCode: "UNSUPPORTED_VERIFICATION_RULE",
+          failureReason: `Verification rule '${String((spec as { ruleKind?: unknown }).ruleKind)}' is not supported by the completion gate.`,
+          specResults,
+          requirementsSummary: { ...requirementsSummary, "verification rule": "unsupported" },
+          outstandingRequirements: [...outstandingRequirements, "verification rule: unsupported"],
+        };
       }
     }
 
+    if (cleanRoomPending) {
+      return {
+        verified: false,
+        cleanRoomPending: true,
+        rejectionCode: "CLEAN_ROOM_NOT_EVALUATED",
+        failureReason: "Independent clean-room verification has not yet been evaluated.",
+        specResults,
+        requirementsSummary: { ...requirementsSummary, "clean-room verification": "not yet evaluated" },
+        outstandingRequirements: [...outstandingRequirements, "clean-room proof: NOT_EVALUATED"],
+      };
+    }
+
+    // An empty or partial result set is never success: every specification needs exactly one VERIFIED result.
+    if (specResults.length !== vSpecs.length || !specResults.every((r) => r.status === "VERIFIED")) {
+      return {
+        verified: false,
+        rejectionCode: "MISSING_EVIDENCE",
+        failureReason: "Not every required verification specification produced a VERIFIED result.",
+        specResults,
+        requirementsSummary,
+        outstandingRequirements,
+      };
+    }
+
     return { verified: true, specResults, requirementsSummary, outstandingRequirements };
+  }
+
+  /** Maps an unverified evaluation to a stable, payload-free rejection code. */
+  private classifyCompletionRejection(evaluation: CompletionEvaluation): CompletionRejectionCode {
+    if (evaluation.rejectionCode) return evaluation.rejectionCode;
+    const last = evaluation.specResults[evaluation.specResults.length - 1];
+    return last?.reasonCode === "MISSING_EVIDENCE" ? "MISSING_EVIDENCE" : "VERIFICATION_FAILED";
   }
 
   /**

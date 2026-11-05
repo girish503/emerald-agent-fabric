@@ -540,6 +540,7 @@ describe("4. Failure Safety & Recovery Invariants", () => {
       workerRuntime,
       agentBrain: liveBrain,
       clock,
+      allowUnverifiedCompletion: true, // loop-behavior test: no verification specs declared
     });
 
     const task = coordinator.createTask({
