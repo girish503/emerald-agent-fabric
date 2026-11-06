@@ -314,6 +314,23 @@ export class GovernedAgentExecutionProvider implements ExecutionProvider {
         };
       }
 
+      case "CYCLE_DETECTED": {
+        return {
+          status: "FAILED",
+          durationMs,
+          error: {
+            code: "EXECUTION_FAILED",
+            message: stepResult.terminalMessage,
+            details: {
+              terminalReason: stepResult.terminalReason,
+              totalSteps: stepResult.totalSteps,
+              totalProposalRejections: stepResult.totalProposalRejections,
+            },
+          },
+          providerMetadata,
+        };
+      }
+
       case "MAX_WALL_CLOCK": {
         return {
           status: "TIMED_OUT",
