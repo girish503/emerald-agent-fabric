@@ -404,13 +404,11 @@ export class ProposalValidator {
     }
 
     // ------------------------------------------------------------------------
-    // Stage 11: Governed Benchmark Repair Policy Check (File Overwrite Prevention)
+    // Stage 11: Governed File Mutation Policy Check (Protected Oracle Paths & Repair Mode)
     // ------------------------------------------------------------------------
     if (
-      actionProposal.toolName === "write_file" &&
-      targetFilePath !== undefined &&
-      contract.spec.policy.governedBenchmarkRepairMode &&
-      !contract.spec.policy.allowWholeFileReplacement
+      (actionProposal.toolName === "write_file" || actionProposal.toolName === "edit_file") &&
+      targetFilePath !== undefined
     ) {
       const editFileDef = this.toolRegistry.getTool("edit_file");
       const editFileDecision = editFileDef
@@ -418,37 +416,35 @@ export class ProposalValidator {
         : { allowed: false };
       const isEditFileAvailableAndAuthorized = Boolean(editFileDef && editFileDecision.allowed);
 
-      if (isEditFileAvailableAndAuthorized) {
-        let fileExists = false;
-        if (context.fileExistsChecker) {
-          fileExists = context.fileExistsChecker(targetFilePath);
-        } else if (context.workspaceHostPath) {
-          try {
-            const normalizedHost = path.resolve(context.workspaceHostPath);
-            const resolvedTarget = path.resolve(normalizedHost, targetFilePath);
-            fileExists = fs.existsSync(resolvedTarget) && !fs.lstatSync(resolvedTarget).isDirectory();
-          } catch {
-            fileExists = false;
-          }
+      let fileExists = false;
+      if (context.fileExistsChecker) {
+        fileExists = context.fileExistsChecker(targetFilePath);
+      } else if (context.workspaceHostPath) {
+        try {
+          const normalizedHost = path.resolve(context.workspaceHostPath);
+          const resolvedTarget = path.resolve(normalizedHost, targetFilePath);
+          fileExists = fs.existsSync(resolvedTarget) && !fs.lstatSync(resolvedTarget).isDirectory();
+        } catch {
+          fileExists = false;
         }
+      }
 
-        const fileOpDecision = PolicyEvaluator.evaluateFileOperation(
-          {
-            toolName: "write_file",
-            path: targetFilePath,
-            fileExists,
-            isEditFileAvailableAndAuthorized,
-          },
-          contract.spec.policy
-        );
+      const fileOpDecision = PolicyEvaluator.evaluateFileOperation(
+        {
+          toolName: actionProposal.toolName,
+          path: targetFilePath,
+          fileExists,
+          isEditFileAvailableAndAuthorized,
+        },
+        contract.spec.policy
+      );
 
-        if (!fileOpDecision.allowed) {
-          return {
-            valid: false,
-            reason: "DISALLOWED_FILE_OVERWRITE",
-            message: fileOpDecision.message,
-          };
-        }
+      if (!fileOpDecision.allowed) {
+        return {
+          valid: false,
+          reason: "DISALLOWED_FILE_OVERWRITE",
+          message: fileOpDecision.message,
+        };
       }
     }
 

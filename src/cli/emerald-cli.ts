@@ -64,6 +64,7 @@ import {
 } from "../production/benchmark/index.js";
 
 import {
+  openReadOnlyDatabase,
   inspectRun,
   formatRunInspectionReport,
   inspectTaskTree,
@@ -71,6 +72,11 @@ import {
   getRunEventTimeline,
   formatRunEventTimelineReport,
 } from "../application/operator-observability.js";
+import {
+  aggregateReliabilityEvaluation,
+  formatReliabilityReportJson,
+  formatReliabilityReportMarkdown,
+} from "../domain/evaluation-metrics.js";
 
 export const SUPPORTED_BENCHMARK_CONDITIONS: readonly BenchmarkCondition[] = [
   "CONTROL_A_MODEL_ONLY",
@@ -233,7 +239,10 @@ export class EmeraldCli {
           } else if (subCmd === "report") {
             return this.handleBenchmarkReport();
           }
-          return { exitCode: 1, output: "Usage: emerald benchmark [list|doctor|run|status|report]" };
+          else if (subCmd === "reliability-report") {
+            return await this.handleReliabilityReport(args.slice(2));
+          }
+          return { exitCode: 1, output: "Usage: emerald benchmark [list|doctor|run|status|report|reliability-report]" };
 
         case "help":
         default:
@@ -1618,6 +1627,113 @@ export class EmeraldCli {
     return { exitCode: 0, output: "Benchmark report not yet generated. Run benchmark suite first." };
   }
 
+  private async handleReliabilityReport(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
+    let inputPath: string | undefined;
+    let dbPath: string | undefined;
+    let isJson = false;
+    let outputPath: string | undefined;
+
+    for (let i = 0; i < args.length; i++) {
+      const arg = args[i]!;
+      if (arg === "--input" && i + 1 < args.length) {
+        inputPath = args[++i];
+      } else if (arg === "--db" && i + 1 < args.length) {
+        dbPath = args[++i];
+      } else if (arg === "--output" && i + 1 < args.length) {
+        outputPath = args[++i];
+      } else if (arg === "--json") {
+        isJson = true;
+      }
+    }
+
+    let records: any[] = [];
+
+    if (inputPath) {
+      const resolvedInput = path.resolve(process.cwd(), inputPath);
+      if (!fs.existsSync(resolvedInput)) {
+        return { exitCode: 1, output: `Error: Input file '${inputPath}' does not exist.` };
+      }
+      try {
+        const rawContent = fs.readFileSync(resolvedInput, "utf8");
+        const parsed = JSON.parse(rawContent);
+        records = Array.isArray(parsed) ? parsed : [parsed];
+      } catch (err: unknown) {
+        return {
+          exitCode: 1,
+          output: `Error parsing input file '${inputPath}': ${err instanceof Error ? err.message : String(err)}`,
+        };
+      }
+    } else if (dbPath) {
+      const resolvedDb = path.resolve(process.cwd(), dbPath);
+      if (!fs.existsSync(resolvedDb)) {
+        return { exitCode: 1, output: `Error: Database file '${dbPath}' does not exist.` };
+      }
+      let handle: { db: any; store: any; close: () => void } | undefined;
+      try {
+        handle = openReadOnlyDatabase(resolvedDb);
+        const rows = handle.db
+          .prepare("SELECT payload FROM events WHERE event_type = 'evaluation.completed'")
+          .all() as Array<{ payload: string }>;
+        for (const r of rows) {
+          try {
+            const p = typeof r.payload === "string" ? JSON.parse(r.payload) : r.payload;
+            if (p && typeof p === "object") {
+              if (p.trial) {
+                records.push(p.trial);
+              } else if (p.finalOutcome) {
+                records.push(p);
+              }
+            }
+          } catch {}
+        }
+      } catch (err: unknown) {
+        return {
+          exitCode: 1,
+          output: `Error querying database '${dbPath}': ${err instanceof Error ? err.message : String(err)}`,
+        };
+      } finally {
+        handle?.close();
+      }
+    } else {
+      const defaultPath = path.resolve(process.cwd(), "emerald-evaluation-trials.json");
+      if (fs.existsSync(defaultPath)) {
+        try {
+          const parsed = JSON.parse(fs.readFileSync(defaultPath, "utf8"));
+          records = Array.isArray(parsed) ? parsed : [parsed];
+        } catch {
+          records = [];
+        }
+      } else {
+        return {
+          exitCode: 0,
+          output: "Usage: emerald benchmark reliability-report (--input <trials.json> | --db <runs.sqlite>) [--json] [--output <path>]\n\nNo input or database file specified and 'emerald-evaluation-trials.json' not found.",
+        };
+      }
+    }
+
+    const report = aggregateReliabilityEvaluation(records);
+    const output = isJson ? formatReliabilityReportJson(report) : formatReliabilityReportMarkdown(report);
+
+    if (outputPath) {
+      const resolvedOutput = path.resolve(process.cwd(), outputPath);
+      try {
+        fs.mkdirSync(path.dirname(resolvedOutput), { recursive: true });
+        fs.writeFileSync(resolvedOutput, output, "utf8");
+        return {
+          exitCode: 0,
+          output: `Report written to ${outputPath}\n\nSummary:\n- Total Records: ${report.totalRecordsReceived}\n- Accepted: ${report.acceptedRecordsCount}\n- Verified Success Rate: ${(report.overall.rates.verifiedSuccessRate_TotalTrials * 100).toFixed(1)}%`,
+        };
+      } catch (err: unknown) {
+        return {
+          exitCode: 1,
+          output: `Error writing report to '${outputPath}': ${err instanceof Error ? err.message : String(err)}`,
+        };
+      }
+    }
+
+    return { exitCode: 0, output };
+  }
+
   private handleHelp(): { exitCode: number; output: string } {
     return {
       exitCode: 0,
@@ -1674,6 +1790,8 @@ Benchmark Commands:
   emerald benchmark run [taskId]         Execute benchmark trial(s)
   emerald benchmark status               Show active benchmark status
   emerald benchmark report               Display benchmark results report
+  emerald benchmark reliability-report (--input <file> | --db <file>) [--json] [--output <file>]
+                                         Aggregate and generate local model reliability report
 `,
     };
   }

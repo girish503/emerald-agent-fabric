@@ -37,3 +37,4 @@ export * from "./governed-agreement.js";
 export * from "./capability-fence.js";
 export * from "./cross-harness-request.js";
 export * from "./mutation-intent.js";
+export * from "./evaluation-metrics.js";

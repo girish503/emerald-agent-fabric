@@ -25,7 +25,7 @@ import { z } from "zod";
 import { computeCanonicalHash, isSensitiveKey, redactSensitiveData } from "./canonical-hash.js";
 import { sanitizeWorkspacePath } from "./workspace-path.js";
 import { FORBIDDEN_AUTHORITY_KEYS } from "./action-proposal.js";
-import { VerificationSpec } from "./verification.js";
+import { VerificationSpec, VerificationResult, createVerificationSpec } from "./verification.js";
 import { ReflexNotImplementedError } from "./errors.js";
 import { type ReflexEvidence, ReflexEvidenceSchema } from "./reflex-evidence.js";
 
@@ -72,6 +72,299 @@ export type EvaluationExecutionMode = (typeof EVALUATION_EXECUTION_MODES)[number
 
 export function isValidEvaluationExecutionMode(mode: unknown): mode is EvaluationExecutionMode {
   return typeof mode === "string" && (EVALUATION_EXECUTION_MODES as readonly string[]).includes(mode);
+}
+
+// ============================================================================
+// 2C. Reliability Trial Final Outcome Taxonomy (Milestone 2.25)
+// ============================================================================
+
+export const TRIAL_FINAL_OUTCOMES = [
+  "VERIFIED_SUCCESS",
+  "FALSE_COMPLETION",
+  "COMPLETION_UNVERIFIABLE",
+  "LOOP_DETECTED",
+  "EXECUTION_FAILURE",
+  "TIMEOUT",
+  "BLOCKED",
+] as const;
+
+export type TrialFinalOutcome = (typeof TRIAL_FINAL_OUTCOMES)[number];
+
+export function isValidTrialFinalOutcome(outcome: unknown): outcome is TrialFinalOutcome {
+  return typeof outcome === "string" && (TRIAL_FINAL_OUTCOMES as readonly string[]).includes(outcome);
+}
+
+export const TrialFinalOutcomeSchema = z.enum(TRIAL_FINAL_OUTCOMES);
+
+// ============================================================================
+// 2D. Model Completion Claim Observation (Milestone 2.25)
+// ============================================================================
+
+/**
+ * Represents the agent's explicit claim of task completion as an observable event,
+ * separated from the authoritative final trial outcome.
+ *
+ * An agent claiming completion (e.g. finishReason === "GOAL_REACHED") does not
+ * dictate task success; the claim is independently evaluated against runtime
+ * verification evidence.
+ */
+export interface ModelCompletionClaimObservation {
+  /** Whether the model explicitly asserted task completion */
+  readonly claimed: boolean;
+  /** The step number at which completion was claimed */
+  readonly stepNumber?: number;
+  /** Finish reason emitted by the model */
+  readonly finishReason?: string;
+  /** Optional rationale provided by the model */
+  readonly rationale?: string;
+  /** ISO timestamp of the claim observation */
+  readonly claimedAt?: string;
+}
+
+export const ModelCompletionClaimObservationSchema = z
+  .object({
+    claimed: z.boolean(),
+    stepNumber: z.number().int().positive().optional(),
+    finishReason: z.string().optional(),
+    rationale: z.string().optional(),
+    claimedAt: z.string().optional(),
+  })
+  .strict();
+
+// ============================================================================
+// 2E. Trial Verification Assessment (Milestone 2.25)
+// ============================================================================
+
+export const TRIAL_VERIFICATION_DECISIONS = [
+  "VERIFIED",
+  "REJECTED",
+  "UNVERIFIABLE",
+  "NOT_EVALUATED",
+] as const;
+
+export type TrialVerificationDecision = (typeof TRIAL_VERIFICATION_DECISIONS)[number];
+
+export const TRIAL_VERIFICATION_REASON_CODES = [
+  "AUTHORITATIVE_VERIFIED",
+  "NO_VERIFICATION_SPECS",
+  "VERIFIER_UNAVAILABLE",
+  "EVIDENCE_DEFICIT",
+  "SPEC_ASSERTION_FAILED",
+  "POST_RUN_CRITERION_FAILED",
+] as const;
+
+export type TrialVerificationReasonCode = (typeof TRIAL_VERIFICATION_REASON_CODES)[number];
+
+/**
+ * Structured assessment of runtime and post-run verification, preserving
+ * the exact reason an attempt was verified, rejected, or unverifiable.
+ */
+export interface TrialVerificationAssessment {
+  readonly decision: TrialVerificationDecision;
+  readonly reasonCode?: TrialVerificationReasonCode;
+  readonly message?: string;
+  readonly specCount?: number;
+  readonly passedSpecCount?: number;
+  readonly failedSpecCount?: number;
+  readonly specResults?: readonly VerificationResult[];
+  readonly criteriaResults?: readonly EvaluationCriterionResult[];
+}
+
+export const TrialVerificationAssessmentSchema = z
+  .object({
+    decision: z.enum(TRIAL_VERIFICATION_DECISIONS),
+    reasonCode: z.enum(TRIAL_VERIFICATION_REASON_CODES).optional(),
+    message: z.string().optional(),
+    specCount: z.number().int().nonnegative().optional(),
+    passedSpecCount: z.number().int().nonnegative().optional(),
+    failedSpecCount: z.number().int().nonnegative().optional(),
+    specResults: z.array(z.any()).optional(),
+    criteriaResults: z.array(z.any()).optional(),
+  })
+  .strict();
+
+// ============================================================================
+// 2F. Domain Evaluation Classification Function (Milestone 2.25)
+// ============================================================================
+
+export interface ClassifyTrialOutcomeParams {
+  /** Terminal reason from the governed step loop */
+  readonly terminalReason: string;
+  /** Terminal message or error explanation from the step loop */
+  readonly terminalMessage?: string;
+  /** Explicit model completion claim observation */
+  readonly modelCompletionClaim: ModelCompletionClaimObservation;
+  /** Verification assessment from runtime or criteria evaluator */
+  readonly verificationAssessment: TrialVerificationAssessment;
+  /** Whether post-run physical criteria passed (if evaluated) */
+  readonly postRunCriteriaPassed?: boolean;
+  /** Explicit opt-in for legacy unverified completion (must never count as VERIFIED_SUCCESS) */
+  readonly allowUnverifiedCompletion?: boolean;
+}
+
+export interface ClassifiedTrialOutcome {
+  readonly outcome: TrialFinalOutcome;
+  readonly reason: string;
+  readonly modelClaimedCompletion: boolean;
+  readonly verificationDecision: TrialVerificationDecision;
+  readonly verificationReasonCode?: TrialVerificationReasonCode;
+}
+
+/**
+ * Pure, deterministic domain classification function that assigns exactly one
+ * final trial outcome based on runtime facts, verification evidence, and model claims.
+ *
+ * Rules:
+ * 1. Lease loss, contract revocation, policy denial, or cancellation -> BLOCKED.
+ * 2. Step, action, or wall-clock budget exhaustion -> TIMEOUT.
+ * 3. Multi-step loop stagnation (CYCLE_DETECTED or STAGNATION) -> LOOP_DETECTED.
+ * 4. Brain or tool failures -> EXECUTION_FAILURE.
+ * 5. Completion claim + authoritative verification PASS -> VERIFIED_SUCCESS.
+ * 6. Completion claim + unverified opt-in / missing specs / unavailable verifier -> COMPLETION_UNVERIFIABLE.
+ * 7. Completion claim + failed evidence / failed criteria -> FALSE_COMPLETION.
+ * 8. Fallthrough -> EXECUTION_FAILURE.
+ */
+export function classifyTrialOutcome(params: ClassifyTrialOutcomeParams): ClassifiedTrialOutcome {
+  const {
+    terminalReason,
+    terminalMessage,
+    modelCompletionClaim,
+    verificationAssessment,
+    postRunCriteriaPassed,
+    allowUnverifiedCompletion,
+  } = params;
+
+  const modelClaimedCompletion = Boolean(modelCompletionClaim.claimed);
+
+  // 1. Fencing and Revocation Precedence
+  if (
+    terminalReason === "LEASE_LOST" ||
+    terminalReason === "CONTRACT_REVOKED" ||
+    terminalReason === "POLICY_DENIED" ||
+    terminalReason === "CANCELLED" ||
+    terminalReason === "DEFERRED"
+  ) {
+    return Object.freeze({
+      outcome: "BLOCKED",
+      reason: `Trial halted due to governance or lease fencing: ${terminalReason}${terminalMessage ? ` (${terminalMessage})` : ""}`,
+      modelClaimedCompletion,
+      verificationDecision: verificationAssessment.decision,
+      verificationReasonCode: verificationAssessment.reasonCode,
+    });
+  }
+
+  // 2. Resource Budget Exhaustion
+  if (
+    terminalReason === "MAX_STEPS" ||
+    terminalReason === "MAX_ACTIONS" ||
+    terminalReason === "MAX_WALL_CLOCK"
+  ) {
+    return Object.freeze({
+      outcome: "TIMEOUT",
+      reason: `Trial exhausted resource ceiling: ${terminalReason}${terminalMessage ? ` (${terminalMessage})` : ""}`,
+      modelClaimedCompletion,
+      verificationDecision: verificationAssessment.decision,
+      verificationReasonCode: verificationAssessment.reasonCode,
+    });
+  }
+
+  // 3. Multi-Step Loop / Cycle Stagnation (Milestone 2.24)
+  if (terminalReason === "CYCLE_DETECTED" || terminalReason === "STAGNATION") {
+    return Object.freeze({
+      outcome: "LOOP_DETECTED",
+      reason: `Trial terminated due to ineffective action repetition: ${terminalReason}${terminalMessage ? ` (${terminalMessage})` : ""}`,
+      modelClaimedCompletion,
+      verificationDecision: verificationAssessment.decision,
+      verificationReasonCode: verificationAssessment.reasonCode,
+    });
+  }
+
+  // 4. Execution / Brain Failure
+  if (
+    terminalReason === "BRAIN_FAILURE" ||
+    terminalReason === "MAX_FAILURES" ||
+    terminalReason === "MAX_PROPOSAL_REJECTIONS" ||
+    terminalReason === "UNKNOWN_EXECUTION"
+  ) {
+    return Object.freeze({
+      outcome: "EXECUTION_FAILURE",
+      reason: `Trial execution failed: ${terminalReason}${terminalMessage ? ` (${terminalMessage})` : ""}`,
+      modelClaimedCompletion,
+      verificationDecision: verificationAssessment.decision,
+      verificationReasonCode: verificationAssessment.reasonCode,
+    });
+  }
+
+  // 5. Completion Evaluation (Model claimed GOAL_REACHED or step loop COMPLETED)
+  const isCompletionAttempt =
+    modelClaimedCompletion ||
+    terminalReason === "COMPLETED" ||
+    terminalReason === "COMPLETION_UNVERIFIABLE";
+
+  if (isCompletionAttempt) {
+    // 5a. Missing specifications, unavailable verifier, or operator unverified opt-in -> COMPLETION_UNVERIFIABLE
+    if (
+      terminalReason === "COMPLETION_UNVERIFIABLE" ||
+      verificationAssessment.reasonCode === "NO_VERIFICATION_SPECS" ||
+      verificationAssessment.reasonCode === "VERIFIER_UNAVAILABLE" ||
+      allowUnverifiedCompletion
+    ) {
+      return Object.freeze({
+        outcome: "COMPLETION_UNVERIFIABLE",
+        reason:
+          verificationAssessment.message ??
+          (allowUnverifiedCompletion
+            ? "Completed unverified: operator explicitly permitted completion without authoritative verification"
+            : "Model claimed completion, but runtime verification cannot establish success (no specifications declared or verifier unavailable)"),
+        modelClaimedCompletion,
+        verificationDecision: "UNVERIFIABLE",
+        verificationReasonCode: verificationAssessment.reasonCode ?? "NO_VERIFICATION_SPECS",
+      });
+    }
+
+    // 5b. Authoritative Verification Passed
+    const runtimeVerified = verificationAssessment.decision === "VERIFIED";
+    const postRunPassed = postRunCriteriaPassed === undefined || postRunCriteriaPassed === true;
+    const hasDeclaredSpecs = (verificationAssessment.specCount ?? 0) > 0;
+
+    if (runtimeVerified && postRunPassed && hasDeclaredSpecs && !allowUnverifiedCompletion) {
+      return Object.freeze({
+        outcome: "VERIFIED_SUCCESS",
+        reason: "Model claimed completion and authoritative verification specifications were satisfied by evidence",
+        modelClaimedCompletion,
+        verificationDecision: "VERIFIED",
+        verificationReasonCode: "AUTHORITATIVE_VERIFIED",
+      });
+    }
+
+    // 5c. Model claimed completion, but verification or post-run criteria failed -> FALSE_COMPLETION
+    if (
+      verificationAssessment.decision === "REJECTED" ||
+      postRunCriteriaPassed === false ||
+      (verificationAssessment.failedSpecCount !== undefined && verificationAssessment.failedSpecCount > 0)
+    ) {
+      return Object.freeze({
+        outcome: "FALSE_COMPLETION",
+        reason:
+          verificationAssessment.message ??
+          `Model claimed goal reached, but physical verification failed (${verificationAssessment.reasonCode ?? "SPEC_ASSERTION_FAILED"})`,
+        modelClaimedCompletion,
+        verificationDecision: "REJECTED",
+        verificationReasonCode:
+          verificationAssessment.reasonCode ??
+          (postRunCriteriaPassed === false ? "POST_RUN_CRITERION_FAILED" : "SPEC_ASSERTION_FAILED"),
+      });
+    }
+  }
+
+  // 6. Fallthrough: Default execution failure
+  return Object.freeze({
+    outcome: "EXECUTION_FAILURE",
+    reason: terminalMessage ?? `Trial ended without verified completion (${terminalReason})`,
+    modelClaimedCompletion,
+    verificationDecision: verificationAssessment.decision,
+    verificationReasonCode: verificationAssessment.reasonCode,
+  });
 }
 
 // ============================================================================
@@ -162,6 +455,11 @@ export interface EvaluationMission {
     readonly maxAttempts?: number;
     readonly maxOutputBytes?: number;
   };
+  /**
+   * Protected oracle and benchmark fixture paths (e.g. ['test/**', 'package.json']).
+   * Mutation attempts targeting these paths are rejected fail-closed.
+   */
+  readonly protectedPaths?: readonly string[];
 }
 
 export const EvaluationMissionSchema = z
@@ -175,6 +473,7 @@ export const EvaluationMissionSchema = z
       })
       .strict()
       .optional(),
+    protectedPaths: z.array(z.string().min(1)).optional(),
   })
   .strict();
 
@@ -358,6 +657,9 @@ export function validateEvaluationTask(def: unknown): EvaluationTaskDefinition {
       resourceLimits: result.data.mission.resourceLimits
         ? Object.freeze({ ...result.data.mission.resourceLimits })
         : undefined,
+      protectedPaths: result.data.mission.protectedPaths
+        ? Object.freeze([...result.data.mission.protectedPaths])
+        : undefined,
     }),
     successCriteria: Object.freeze(result.data.successCriteria.map((c) => Object.freeze({ ...c }))),
     budget: Object.freeze({ ...result.data.budget }),
@@ -366,6 +668,182 @@ export function validateEvaluationTask(def: unknown): EvaluationTaskDefinition {
 
 export function createEvaluationTask(def: EvaluationTaskDefinition): EvaluationTaskDefinition {
   return validateEvaluationTask(def);
+}
+
+// ============================================================================
+// 7B. Evaluation Task Criteria Translation to Runtime Verification Specs
+// ============================================================================
+
+export interface CriterionTranslationSuccess {
+  readonly supported: true;
+  readonly verificationSpec: VerificationSpec;
+}
+
+export interface CriterionTranslationFailure {
+  readonly supported: false;
+  readonly criterionId: string;
+  readonly reason: string;
+}
+
+export type CriterionTranslationResult =
+  | CriterionTranslationSuccess
+  | CriterionTranslationFailure;
+
+export interface TaskVerificationSpecsTranslation {
+  readonly supported: boolean;
+  readonly verificationSpecs: readonly VerificationSpec[];
+  readonly unsupportedReasons: readonly string[];
+}
+
+/**
+ * Translates an individual EvaluationCriterion into a runtime VerificationSpec.
+ * Only returns supported = true if there is an exact, authoritative runtime verification rule equivalent.
+ *
+ * Supported mappings:
+ * 1. VERIFICATION_SPEC -> Direct VerificationSpec (validated via createVerificationSpec)
+ * 2. COMMAND_EXIT_CODE with expectedExitCode === 0 -> EXIT_CODE_ZERO with expectedValue: { toolName: "run_command", argv: command }
+ *
+ * Unsupported mappings:
+ * - COMMAND_EXIT_CODE with expectedExitCode !== 0 (runtime EXIT_CODE_ZERO only evaluates 0)
+ * - FILE_CONTENT_EQUALS, FILE_EXISTS, FILE_ABSENT, TEXT_CONTAINS (no runtime verifier rule equivalent)
+ */
+export function translateCriterionToVerificationSpec(
+  criterion: EvaluationCriterion
+): CriterionTranslationResult {
+  if (!criterion || typeof criterion !== "object") {
+    return {
+      supported: false,
+      criterionId: "unknown",
+      reason: "Criterion must be a valid object.",
+    };
+  }
+
+  const criterionId = criterion.criterionId || "unknown";
+
+  switch (criterion.kind) {
+    case "VERIFICATION_SPEC": {
+      if (!criterion.verificationSpec || typeof criterion.verificationSpec !== "object") {
+        return {
+          supported: false,
+          criterionId,
+          reason: "Criterion kind 'VERIFICATION_SPEC' requires a valid 'verificationSpec' object.",
+        };
+      }
+      try {
+        const spec = createVerificationSpec(criterion.verificationSpec);
+        return {
+          supported: true,
+          verificationSpec: spec,
+        };
+      } catch (err: unknown) {
+        return {
+          supported: false,
+          criterionId,
+          reason: `Invalid verification spec: ${err instanceof Error ? err.message : String(err)}`,
+        };
+      }
+    }
+
+    case "COMMAND_EXIT_CODE": {
+      if (!criterion.command || !Array.isArray(criterion.command) || criterion.command.length === 0) {
+        return {
+          supported: false,
+          criterionId,
+          reason: "Criterion kind 'COMMAND_EXIT_CODE' requires a non-empty 'command' array.",
+        };
+      }
+      if (criterion.expectedExitCode !== 0) {
+        return {
+          supported: false,
+          criterionId,
+          reason: `Runtime verification rule 'EXIT_CODE_ZERO' requires expectedExitCode === 0, but received ${String(criterion.expectedExitCode)}. Non-zero exit code verification is not supported by runtime verifiers.`,
+        };
+      }
+      const spec = createVerificationSpec({
+        specId: criterion.criterionId,
+        ruleKind: "EXIT_CODE_ZERO",
+        expectedValue: Object.freeze({
+          toolName: "run_command",
+          argv: Object.freeze([...criterion.command]),
+        }),
+      });
+      return {
+        supported: true,
+        verificationSpec: spec,
+      };
+    }
+
+    case "FILE_CONTENT_EQUALS":
+    case "FILE_EXISTS":
+    case "FILE_ABSENT":
+    case "TEXT_CONTAINS": {
+      return {
+        supported: false,
+        criterionId,
+        reason: `Evaluation criterion kind '${criterion.kind}' has no direct runtime verification rule equivalent. Runtime verification rules evaluate observable tool executions, output hashes, or clean-room proof, rather than arbitrary post-run workspace scans.`,
+      };
+    }
+
+    default: {
+      return {
+        supported: false,
+        criterionId,
+        reason: `Unsupported evaluation criterion kind: '${String((criterion as any).kind)}'.`,
+      };
+    }
+  }
+}
+
+/**
+ * Deterministically translates all success criteria of an EvaluationTaskDefinition
+ * into runtime VerificationSpecs for inclusion in MissionContract.spec.verificationSpecs.
+ *
+ * Invariants:
+ * 1. If any criterion cannot be safely and faithfully translated, the entire task is marked unsupported.
+ * 2. Never silently drops a required criterion.
+ * 3. Never produces an empty verification specification list for a valid benchmark task.
+ * 4. Preserves stable deterministic ordering and identifiers.
+ */
+export function translateEvaluationTaskCriteria(
+  task: EvaluationTaskDefinition
+): TaskVerificationSpecsTranslation {
+  if (!task || !task.successCriteria || !Array.isArray(task.successCriteria) || task.successCriteria.length === 0) {
+    return Object.freeze({
+      supported: false,
+      verificationSpecs: Object.freeze([]),
+      unsupportedReasons: Object.freeze([
+        `Task '${task?.taskId ?? "unknown"}' declares no success criteria; cannot generate runtime verification specifications.`,
+      ]),
+    });
+  }
+
+  const translatedSpecs: VerificationSpec[] = [];
+  const unsupportedReasons: string[] = [];
+
+  for (const criterion of task.successCriteria) {
+    const result = translateCriterionToVerificationSpec(criterion);
+    if (result.supported) {
+      translatedSpecs.push(result.verificationSpec);
+    } else {
+      unsupportedReasons.push(result.reason);
+    }
+  }
+
+  // Invariant 4: Never silently drop a required criterion.
+  // Invariant 5: Never generate an empty verification specification list for a benchmark task.
+  if (unsupportedReasons.length > 0 || translatedSpecs.length === 0) {
+    return Object.freeze({
+      supported: false,
+      verificationSpecs: Object.freeze([]),
+      unsupportedReasons: Object.freeze(unsupportedReasons),
+    });
+  }
+
+  return Object.freeze({
+    supported: true,
+    verificationSpecs: Object.freeze(translatedSpecs),
+    unsupportedReasons: Object.freeze([]),
+  });
 }
 
 // ============================================================================
@@ -583,6 +1061,92 @@ export function createEvaluationMetrics(params: EvaluationMetrics): EvaluationMe
 }
 
 // ============================================================================
+// 10B. Reliability Evaluation Metrics Contract (Milestone 2.25)
+// ============================================================================
+
+export interface ReliabilityEvaluationMetrics {
+  readonly totalTrials: number;
+  readonly modelCompletionClaims: number;
+  readonly verifiedSuccesses: number;
+  readonly falseCompletions: number;
+  readonly unverifiableCompletions: number;
+  readonly loopDetections: number;
+  readonly executionFailures: number;
+  readonly timeouts: number;
+  readonly blockedTrials: number;
+
+  /**
+   * Verified Task Success Rate: fraction of total trials with VERIFIED_SUCCESS.
+   * Never counts claimed or unverified completion as success.
+   */
+  readonly verifiedSuccessRate?: number;
+
+  /**
+   * False Completion Rate: fraction of trials where the model claimed completion but verification failed.
+   */
+  readonly falseCompletionRate?: number;
+
+  /**
+   * Unverifiable Completion Rate: fraction of trials where the model claimed completion without verifiable proof.
+   */
+  readonly unverifiableCompletionRate?: number;
+
+  /**
+   * Loop Frequency: fraction of trials halted due to multi-step cycle stagnation.
+   */
+  readonly loopFrequency?: number;
+
+  /**
+   * Tool Efficiency: ratio of productive actions to total proposed actions.
+   */
+  readonly toolEfficiency?: number;
+
+  /**
+   * Unnecessary Tool Call Rate: ratio of ineffective/redundant actions to total actions.
+   */
+  readonly unnecessaryToolCallRate?: number;
+
+  /**
+   * Mean Wall-Clock Latency (ms) across VERIFIED_SUCCESS trials only.
+   */
+  readonly meanCompletionLatencyMs?: number;
+
+  /**
+   * Recovery Integrity Preserved: whether all interrupted trials preserved durable state and safeToResume: false.
+   */
+  readonly recoveryIntegrityPreserved?: boolean;
+}
+
+export const ReliabilityEvaluationMetricsSchema = z
+  .object({
+    totalTrials: z.number().int().nonnegative(),
+    modelCompletionClaims: z.number().int().nonnegative(),
+    verifiedSuccesses: z.number().int().nonnegative(),
+    falseCompletions: z.number().int().nonnegative(),
+    unverifiableCompletions: z.number().int().nonnegative(),
+    loopDetections: z.number().int().nonnegative(),
+    executionFailures: z.number().int().nonnegative(),
+    timeouts: z.number().int().nonnegative(),
+    blockedTrials: z.number().int().nonnegative(),
+    verifiedSuccessRate: z.number().min(0).max(1).optional(),
+    falseCompletionRate: z.number().min(0).max(1).optional(),
+    unverifiableCompletionRate: z.number().min(0).max(1).optional(),
+    loopFrequency: z.number().min(0).max(1).optional(),
+    toolEfficiency: z.number().min(0).max(1).optional(),
+    unnecessaryToolCallRate: z.number().min(0).max(1).optional(),
+    meanCompletionLatencyMs: z.number().nonnegative().optional(),
+    recoveryIntegrityPreserved: z.boolean().optional(),
+  })
+  .strict();
+
+export function createReliabilityEvaluationMetrics(
+  params: ReliabilityEvaluationMetrics
+): ReliabilityEvaluationMetrics {
+  const parsed = ReliabilityEvaluationMetricsSchema.parse(params);
+  return Object.freeze({ ...parsed });
+}
+
+// ============================================================================
 // 11. Evaluation Run Result Contract
 // ============================================================================
 
@@ -607,6 +1171,12 @@ export interface EvaluationRunResult {
   readonly transcript?: readonly any[];
   readonly startedAt: string;
   readonly completedAt: string;
+  /** Final trial outcome under Milestone 2.25 reliability taxonomy */
+  readonly finalOutcome?: TrialFinalOutcome;
+  /** Observable model completion assertion */
+  readonly completionClaim?: ModelCompletionClaimObservation;
+  /** Runtime and post-run verification assessment */
+  readonly verificationAssessment?: TrialVerificationAssessment;
 }
 
 // ============================================================================
@@ -806,6 +1376,12 @@ export interface EvaluationTrial {
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
+  /** Final trial outcome under Milestone 2.25 reliability taxonomy */
+  readonly finalOutcome?: TrialFinalOutcome;
+  /** Observable model completion assertion */
+  readonly completionClaim?: ModelCompletionClaimObservation;
+  /** Runtime and post-run verification assessment */
+  readonly verificationAssessment?: TrialVerificationAssessment;
 }
 
 export interface EvaluationTrialIdentityParams {
@@ -883,6 +1459,9 @@ export const EvaluationTrialSchema = z
     errorDetails: z.string().optional(),
     startedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "startedAt must be a valid ISO 8601 timestamp"),
     completedAt: z.string().refine((s) => !isNaN(Date.parse(s)), "completedAt must be a valid ISO 8601 timestamp"),
+    finalOutcome: TrialFinalOutcomeSchema.optional(),
+    completionClaim: ModelCompletionClaimObservationSchema.optional(),
+    verificationAssessment: TrialVerificationAssessmentSchema.optional(),
   })
   .strict()
   .superRefine((val, ctx) => {
@@ -971,6 +1550,9 @@ export function validateEvaluationTrial(def: unknown): EvaluationTrial {
     errorDetails: data.errorDetails,
     startedAt: data.startedAt,
     completedAt: data.completedAt,
+    finalOutcome: data.finalOutcome,
+    completionClaim: data.completionClaim,
+    verificationAssessment: data.verificationAssessment,
   });
 }
 
@@ -996,6 +1578,12 @@ export interface CreateEvaluationTrialParams {
   readonly errorDetails?: string;
   readonly startedAt: string;
   readonly completedAt: string;
+  /** Final trial outcome under Milestone 2.25 reliability taxonomy */
+  readonly finalOutcome?: TrialFinalOutcome;
+  /** Observable model completion assertion */
+  readonly completionClaim?: ModelCompletionClaimObservation;
+  /** Runtime and post-run verification assessment */
+  readonly verificationAssessment?: TrialVerificationAssessment;
 }
 
 export function createEvaluationTrial(params: CreateEvaluationTrialParams): EvaluationTrial {
@@ -1049,6 +1637,9 @@ export function createEvaluationTrial(params: CreateEvaluationTrialParams): Eval
     errorDetails: params.errorDetails,
     startedAt: params.startedAt,
     completedAt: params.completedAt,
+    finalOutcome: params.finalOutcome,
+    completionClaim: params.completionClaim,
+    verificationAssessment: params.verificationAssessment,
   };
 
   return validateEvaluationTrial(raw);
@@ -1116,6 +1707,9 @@ export function createEvaluationTrialFromRunResult(
         : undefined),
     startedAt: runResult.startedAt,
     completedAt: runResult.completedAt,
+    finalOutcome: runResult.finalOutcome,
+    completionClaim: runResult.completionClaim,
+    verificationAssessment: runResult.verificationAssessment,
   };
 
   return validateEvaluationTrial(raw);
