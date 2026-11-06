@@ -108,6 +108,16 @@ import {
   saveStepLoopCheckpoint,
   reconcileCheckpointWithDurableEvidence,
 } from "./step-loop-checkpoint.js";
+import {
+  ProgressLoopDetector,
+  type ProgressAssessment,
+  DEFAULT_MAX_CONSECUTIVE_CYCLE_REPETITIONS,
+  DEFAULT_MAX_CYCLE_LENGTH,
+} from "./progress-loop-detector.js";
+export {
+  DEFAULT_MAX_CONSECUTIVE_CYCLE_REPETITIONS,
+  DEFAULT_MAX_CYCLE_LENGTH,
+} from "./progress-loop-detector.js";
 import type { MissionCheckpoint } from "../ports/state-store.port.js";
 import type { AttemptSnapshot } from "../domain/attempt.js";
 
@@ -132,6 +142,12 @@ export interface StepControllerBudget {
   readonly maxConsecutiveIdenticalWrites?: number;
   /** Maximum consecutive ineffective edits failing to pass tests before halting */
   readonly maxConsecutiveIneffectiveEdits?: number;
+  /** Maximum consecutive ineffective multi-step cycle repetitions before halting (default: 2) */
+  readonly maxConsecutiveCycleRepetitions?: number;
+  /** Maximum cycle length L to evaluate (default: 5) */
+  readonly maxCycleLength?: number;
+  /** Whether generalized multi-step loop progress detection is enabled (default: true) */
+  readonly enableProgressLoopDetection?: boolean;
   /** Whether intermediate test feedback after mutations is enabled */
   readonly enableIntermediateTestFeedback?: boolean;
   /** Whether the post-pass verification latch is enabled */
@@ -153,6 +169,9 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
   maxConsecutiveIdenticalReads: DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS,
   maxConsecutiveIdenticalWrites: DEFAULT_MAX_CONSECUTIVE_IDENTICAL_WRITES,
   maxConsecutiveIneffectiveEdits: DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS,
+  maxConsecutiveCycleRepetitions: DEFAULT_MAX_CONSECUTIVE_CYCLE_REPETITIONS,
+  maxCycleLength: DEFAULT_MAX_CYCLE_LENGTH,
+  enableProgressLoopDetection: true,
   enableIntermediateTestFeedback: true,
   enablePostPassVerificationLatch: true,
   enableCheckpointing: true,
@@ -707,6 +726,7 @@ export type StepControllerTerminalReason =
   | "BRAIN_FAILURE"
   | "DEFERRED"
   | "STAGNATION"
+  | "CYCLE_DETECTED"
   | "POLICY_DENIED"
   | "COMPLETION_UNVERIFIABLE";
 
@@ -830,6 +850,7 @@ export interface AgentStepControllerOptions {
   readonly contextResidencyTracker?: ContextResidencyTracker;
   readonly failedAnchorTracker?: FailedAnchorTracker;
   readonly duplicateProposalDetector?: DuplicateProposalDetector;
+  readonly progressLoopDetector?: ProgressLoopDetector;
 }
 
 
@@ -888,6 +909,7 @@ export class AgentStepController {
   private readonly failedAnchorTracker: FailedAnchorTracker;
   private readonly duplicateProposalDetector: DuplicateProposalDetector;
   private readonly postPassLatch: PostPassVerificationLatch;
+  readonly progressLoopDetector: ProgressLoopDetector;
 
   constructor(options: AgentStepControllerOptions) {
     this.coordinator = options.coordinator;
@@ -931,6 +953,16 @@ export class AgentStepController {
       ...DEFAULT_STEP_CONTROLLER_BUDGET,
       ...options.defaultBudget,
     });
+
+    this.progressLoopDetector =
+      options.progressLoopDetector ??
+      new ProgressLoopDetector({
+        stagnationRepetitionThreshold:
+          this.defaultBudget.maxConsecutiveCycleRepetitions ??
+          DEFAULT_MAX_CONSECUTIVE_CYCLE_REPETITIONS,
+        maxCycleLength:
+          this.defaultBudget.maxCycleLength ?? DEFAULT_MAX_CYCLE_LENGTH,
+      });
   }
 
   getContextResidencyTracker(): ContextResidencyTracker {
@@ -985,6 +1017,21 @@ export class AgentStepController {
     this.failedAnchorTracker.clearAll();
     this.duplicateProposalDetector.clearAll();
     this.postPassLatch.clear();
+    this.progressLoopDetector.configure({
+      stagnationRepetitionThreshold:
+        effectiveBudget.maxConsecutiveCycleRepetitions ??
+        DEFAULT_MAX_CONSECUTIVE_CYCLE_REPETITIONS,
+      maxCycleLength:
+        effectiveBudget.maxCycleLength ?? DEFAULT_MAX_CYCLE_LENGTH,
+    });
+    this.progressLoopDetector.clearAll();
+    const existingActions = this.stateStore.getActionsForRun(runId);
+    if (existingActions && existingActions.length > 0) {
+      this.progressLoopDetector.reconstructFromDurableHistory(
+        existingActions,
+        (actionId) => this.stateStore.getAttemptsForAction(actionId)
+      );
+    }
     const transcript: StepTranscriptEntry[] = [];
     let stepCount = 0;
     let actionCount = 0;
@@ -995,6 +1042,8 @@ export class AgentStepController {
     let pendingProgressAdvisoryObservation: Observation | null = null;
     let pendingTestFeedbackObservation: Observation | null = null;
     let pendingActionRecoveryObservation: Observation | null = null;
+    let pendingCycleStop: ProgressAssessment | null = null;
+    let cycleAdvisoryIssued = false;
     let consecutiveIdenticalReads = 0;
     let consecutiveIdenticalWrites = 0;
     let consecutiveIneffectiveEdits = 0;
@@ -1321,6 +1370,15 @@ export class AgentStepController {
         return assembleResult(
           "COMPLETED",
           `Run reached terminal status '${currentRun.status}'`,
+          taskId
+        );
+      }
+
+      // 8a. Check Multi-Step Ineffective Cycle Stagnation
+      if (pendingCycleStop) {
+        return assembleResult(
+          "CYCLE_DETECTED",
+          `Execution loop halted due to cycle stagnation: ${pendingCycleStop.reason}`,
           taskId
         );
       }
@@ -2663,10 +2721,13 @@ export class AgentStepController {
           this.duplicateProposalDetector.recordWorkspaceMutation(
             (action.inputPayload as any)?.path
           );
+          this.progressLoopDetector.recordWorkspaceMutation();
         } catch {
           // Defense in depth
         }
       }
+
+      let intermediateVerificationSignature: string | undefined;
 
       // Intermediate Test-Guided Feedback & Stagnation Tracking for Mutations
       if (
@@ -2763,9 +2824,13 @@ export class AgentStepController {
             } else {
               classification = "FAIL";
             }
+            intermediateVerificationSignature = `${classification}:${exitCode}`;
 
             if (classification === "PASS") {
               consecutiveIneffectiveEdits = 0;
+              this.progressLoopDetector.recordVerificationState("PASS");
+              cycleAdvisoryIssued = false;
+              pendingCycleStop = null;
               const targetRelPath =
                 typeof (action.inputPayload as any)?.path === "string"
                   ? ((action.inputPayload as any).path as string)
@@ -3231,6 +3296,72 @@ export class AgentStepController {
         }
       } else if (actionResult.status === "SUCCEEDED") {
         consecutiveFailures = 0;
+      }
+
+      // Progress Accounting & Multi-Step Loop Detection (Milestone 2.24)
+      if (effectiveBudget.enableProgressLoopDetection !== false) {
+        const progressAssessment = this.progressLoopDetector.recordStep({
+          stepNumber: stepCount,
+          actionId: action.actionId,
+          sequenceNumber: action.sequenceNumber,
+          toolName: action.toolName,
+          inputPayload: action.inputPayload,
+          inputHash: action.inputHash,
+          status: actionResult.status,
+          output: actionResult.output,
+          verificationSignature: intermediateVerificationSignature,
+        });
+
+        if (progressAssessment.classification === "REPEATED_CYCLE") {
+          pendingCycleStop = progressAssessment;
+        } else if (
+          progressAssessment.classification === "NO_PROGRESS" &&
+          progressAssessment.repetitionCount &&
+          progressAssessment.repetitionCount >= 1 &&
+          progressAssessment.cycleLength &&
+          progressAssessment.cyclePattern &&
+          !cycleAdvisoryIssued
+        ) {
+          const advPattern = progressAssessment.cyclePattern.join(" -> ");
+          const cycleAdvisoryMsg =
+            `A repeating multi-step action cycle [${advPattern}] was detected without observable progress. ` +
+            "Continuing to repeat this sequence without state or verification progress will result in cycle stagnation termination. " +
+            "Please select a meaningfully different action or approach.";
+          const advisoryContent: Record<string, unknown> = {
+            feedbackKind: "REPEATED_ACTION_CYCLE",
+            repeatCount: progressAssessment.repetitionCount,
+            cycleLength: progressAssessment.cycleLength,
+            pattern: progressAssessment.cyclePattern,
+            message: cycleAdvisoryMsg,
+          };
+          const advisoryBytes = estimateBytes(advisoryContent);
+          const advisoryObservation: Observation = {
+            observationId: `obs-progress-cycle-step-${stepCount}`,
+            category: "SYSTEM_EVENT",
+            provenance: {
+              entityKind: "Action",
+              entityId: action.actionId,
+              runId,
+              sequenceNumber: action.sequenceNumber,
+              timestamp: this.clock.nowIso(),
+              isAuthoritativeRuntimeFact: true,
+            },
+            freshness: "CURRENT",
+            priority: 85,
+            content: advisoryContent,
+            contentHash: computeObservationContentHash(advisoryContent),
+            estimatedBytes: advisoryBytes,
+            estimatedTokens: estimateTokens(advisoryBytes),
+            isMandatory: true,
+          };
+          try {
+            validateObservation(advisoryObservation);
+            pendingProgressAdvisoryObservation = advisoryObservation;
+            cycleAdvisoryIssued = true;
+          } catch {
+            // Best-effort observation validation
+          }
+        }
       }
 
       // Safe step boundary: persist durable checkpoint after step execution and all updates
