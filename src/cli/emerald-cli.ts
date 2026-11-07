@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import { buildFastifyServer, type PrincipalRecord } from "../transport/http/server.js";
+import type { PrincipalRecord } from "../transport/http/server.js";
 /**
  * Emerald Agent Fabric — Production Developer CLI
  *
@@ -1092,6 +1092,8 @@ export class EmeraldCli {
 
     let server;
     try {
+      const serverModulePath = "../transport/http/server.js";
+      const { buildFastifyServer } = await import(serverModulePath);
       server = buildFastifyServer({
         store,
         coordinator,
