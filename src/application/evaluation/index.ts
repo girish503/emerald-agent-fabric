@@ -5,3 +5,4 @@ export * from "./controlled-evaluation.js";
 export * from "./reflex-adversarial-fixtures.js";
 export * from "./swe-eval-tasks.js";
 export * from "./live-swe-evaluation.js";
+export * from "./model-reliability-tasks.js";

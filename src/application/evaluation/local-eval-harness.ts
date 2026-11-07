@@ -111,6 +111,7 @@ export interface ExecuteLocalEvaluationOptions {
   readonly allowedCapabilities?: readonly string[];
   readonly budget?: Partial<StepControllerBudget>;
   readonly abortSignal?: AbortSignal;
+  readonly allowUnverifiedCompletion?: boolean;
 }
 
 // ============================================================================
@@ -191,7 +192,7 @@ export async function executeLocalEvaluationRun(
     clock,
     // Evaluation harness contract declares no verification specs; explicit opt-in keeps its legacy behaviour.
     // NOTE: taskSuccess here therefore means 'model claimed completion', not 'verified' (see 2.23 docs).
-    allowUnverifiedCompletion: true,
+    allowUnverifiedCompletion: options.allowUnverifiedCompletion ?? true,
   });
 
   let wsHandle: any;

@@ -14,6 +14,7 @@
  * 6. Auditable: Produces structured decision audit payloads without logging secrets or credentials.
  */
 
+import path from "node:path";
 import { ExecutionRequest } from "../ports/execution-provider.port.js";
 import { isValidCapabilityName, operationNameToCapabilityName } from "./capability.js";
 
@@ -37,6 +38,11 @@ export interface ExecutionPolicy {
    * Explicit override permitting whole-file overwrites even when governedBenchmarkRepairMode is active.
    */
   readonly allowWholeFileReplacement?: boolean;
+  /**
+   * Protected oracle and benchmark fixture paths (e.g. "test/**", "package.json").
+   * Any file mutation operation targeting these paths is denied fail-closed.
+   */
+  readonly protectedPaths?: readonly string[];
 }
 
 export interface CreateExecutionPolicyOptions {
@@ -46,6 +52,7 @@ export interface CreateExecutionPolicyOptions {
   readonly trustedInProcessOperations?: Iterable<string>;
   readonly governedBenchmarkRepairMode?: boolean;
   readonly allowWholeFileReplacement?: boolean;
+  readonly protectedPaths?: Iterable<string>;
 }
 
 /**
@@ -80,6 +87,15 @@ export function createExecutionPolicy(options: CreateExecutionPolicyOptions): Ex
     }
   }
 
+  const protectedPathsSet = new Set<string>();
+  if (options.protectedPaths) {
+    for (const p of options.protectedPaths) {
+      if (typeof p === "string" && p.trim().length > 0) {
+        protectedPathsSet.add(p.trim());
+      }
+    }
+  }
+
   return Object.freeze({
     policyId: options.policyId ?? "policy-" + crypto.randomUUID().slice(0, 8),
     allowedCapabilities: Object.freeze(Array.from(allowedSet)),
@@ -87,6 +103,7 @@ export function createExecutionPolicy(options: CreateExecutionPolicyOptions): Ex
     trustedInProcessOperations: Object.freeze(Array.from(trustedInProcessSet)),
     governedBenchmarkRepairMode: options.governedBenchmarkRepairMode ?? false,
     allowWholeFileReplacement: options.allowWholeFileReplacement ?? false,
+    protectedPaths: protectedPathsSet.size > 0 ? Object.freeze(Array.from(protectedPathsSet)) : undefined,
   });
 }
 
@@ -187,6 +204,100 @@ export interface PolicyDecision {
  * Answers strictly: "Is this execution allowed, and what isolation is required?"
  * It has ZERO dependency on execution providers, containers, or platform daemons.
  */
+/**
+ * Evaluates whether a candidate file path matches a protected path pattern.
+ *
+ * Supports:
+ * - Case-insensitive comparison (vital for Windows / macOS filesystem integrity)
+ * - Traversal normalization (e.g. `src/../test/verify.js` -> `test/verify.js`)
+ * - Separator normalization (converts Windows backslashes `\` to `/`)
+ * - Wildcard directory recursion (e.g. `test/**`, `config/**`, `src/**`)
+ * - Wildcard single-level directory matching (e.g. `test/*`)
+ * - File extension wildcards (e.g. `*.json`, `*.md`)
+ * - Absolute paths containing the pattern (e.g. `/workspace/test/verify.js`)
+ */
+export function matchesProtectedPath(targetPath: string, pattern: string): boolean {
+  if (typeof targetPath !== "string" || typeof pattern !== "string") {
+    return false;
+  }
+  // Sanitize Windows NTFS Alternate Data Streams (::$DATA) and trailing dots/whitespace
+  const cleanTarget = targetPath
+    .replace(/::\$DATA/gi, "")
+    .split(/[\\/]/)
+    .map((seg) => seg.replace(/[. ]+$/, ""))
+    .filter((s) => s.length > 0)
+    .join("/");
+
+  const cleanPattern = pattern
+    .replace(/::\$DATA/gi, "")
+    .split(/[\\/]/)
+    .map((seg) => seg.replace(/[. ]+$/, ""))
+    .filter((s) => s.length > 0)
+    .join("/");
+
+  const normTarget = path
+    .normalize(cleanTarget)
+    .replace(/\\/g, "/")
+    .replace(/^\.\//, "")
+    .replace(/^\//, "");
+  const normPattern = path
+    .normalize(cleanPattern)
+    .replace(/\\/g, "/")
+    .replace(/^\.\//, "")
+    .replace(/^\//, "");
+
+  const targetLower = normTarget.toLowerCase();
+  const patternLower = normPattern.toLowerCase();
+
+  // Exact case-insensitive match
+  if (targetLower === patternLower) {
+    return true;
+  }
+
+  // Traversal or absolute path ending in pattern
+  if (targetLower.endsWith("/" + patternLower)) {
+    return true;
+  }
+
+  // File extension wildcard: *.json, *.md
+  if (patternLower.startsWith("*.")) {
+    const ext = patternLower.slice(1);
+    if (targetLower.endsWith(ext) || targetLower === patternLower.slice(2)) {
+      return true;
+    }
+  }
+
+  // Recursive directory wildcard: test/**, config/**
+  if (patternLower.endsWith("/**")) {
+    const prefix = patternLower.slice(0, -3);
+    if (targetLower === prefix || targetLower.startsWith(prefix + "/")) {
+      return true;
+    }
+    if (targetLower.includes("/" + prefix + "/")) {
+      return true;
+    }
+  }
+
+  // Single-level directory wildcard: test/*
+  if (patternLower.endsWith("/*")) {
+    const prefix = patternLower.slice(0, -2);
+    let subPath: string | null = null;
+    if (targetLower.startsWith(prefix + "/")) {
+      subPath = targetLower.slice(prefix.length + 1);
+    } else {
+      const idx = targetLower.indexOf("/" + prefix + "/");
+      if (idx !== -1) {
+        subPath = targetLower.slice(idx + prefix.length + 2);
+      }
+    }
+    if (subPath !== null && !subPath.includes("/")) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export class PolicyEvaluator {
   /**
    * Evaluates an execution request against an execution policy.
@@ -474,6 +585,20 @@ export class PolicyEvaluator {
     request: FileOperationEvaluationRequest,
     policy: ExecutionPolicy
   ): FileOperationPolicyDecision {
+    // 1. Protected Oracle / Fixture Paths Check
+    if (policy.protectedPaths && policy.protectedPaths.length > 0) {
+      for (const pattern of policy.protectedPaths) {
+        if (matchesProtectedPath(request.path, pattern)) {
+          return {
+            allowed: false,
+            reasonCode: "DISALLOWED_FILE_OVERWRITE",
+            message: `Target path '${request.path}' matches protected oracle path '${pattern}'. Mutation is strictly prohibited by execution policy.`,
+          };
+        }
+      }
+    }
+
+    // 2. Governed Benchmark Repair Mode Check
     if (
       request.toolName === "write_file" &&
       policy.governedBenchmarkRepairMode &&

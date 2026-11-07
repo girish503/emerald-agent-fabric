@@ -3942,6 +3942,13 @@ export class AgentStepController {
             reasonCode: "MISSING_EVIDENCE",
             message:
               "Prerequisite source mutation was not performed (no successful 'write_file' found).",
+            details: Object.freeze({
+              contractId: contract.spec.contractId,
+              contractVersion: contract.spec.version,
+              actionId: "none",
+              attemptId: "none",
+              attemptNumber: 0,
+            }),
             verifiedAt: this.clock.nowIso(),
           });
           this.coordinator.recordVerificationResult(runId, failureResult);
@@ -3971,6 +3978,13 @@ export class AgentStepController {
             reasonCode: "MISSING_EVIDENCE",
             message:
               "Prerequisite diff inspection was not performed (no successful 'git_diff' found).",
+            details: Object.freeze({
+              contractId: contract.spec.contractId,
+              contractVersion: contract.spec.version,
+              actionId: "none",
+              attemptId: "none",
+              attemptNumber: 0,
+            }),
             verifiedAt: this.clock.nowIso(),
           });
           this.coordinator.recordVerificationResult(runId, failureResult);
@@ -4054,6 +4068,13 @@ export class AgentStepController {
             evidenceIds: [],
             reasonCode: "MISSING_EVIDENCE",
             message: `Required verification command '${targetTool}${targetArgv ? " " + JSON.stringify(targetArgv) : ""}' was never executed.`,
+            details: Object.freeze({
+              contractId: contract.spec.contractId,
+              contractVersion: contract.spec.version,
+              actionId: "none",
+              attemptId: "none",
+              attemptNumber: 0,
+            }),
             verifiedAt: this.clock.nowIso(),
           });
           this.coordinator.recordVerificationResult(runId, failureResult);
@@ -4076,6 +4097,13 @@ export class AgentStepController {
             evidenceIds: [],
             reasonCode: "MISSING_EVIDENCE",
             message: `Required verification command was not found.`,
+            details: Object.freeze({
+              contractId: contract.spec.contractId,
+              contractVersion: contract.spec.version,
+              actionId: "none",
+              attemptId: "none",
+              attemptNumber: 0,
+            }),
             verifiedAt: this.clock.nowIso(),
           });
           this.coordinator.recordVerificationResult(runId, failureResult);
@@ -4098,6 +4126,13 @@ export class AgentStepController {
             evidenceIds: [],
             reasonCode: "MISSING_EVIDENCE",
             message: `Verification action '${latestAction.actionId}' has no recorded attempts.`,
+            details: Object.freeze({
+              contractId: contract.spec.contractId,
+              contractVersion: contract.spec.version,
+              actionId: latestAction.actionId,
+              attemptId: "none",
+              attemptNumber: 0,
+            }),
             verifiedAt: this.clock.nowIso(),
           });
           this.coordinator.recordVerificationResult(runId, failureResult);
@@ -4131,11 +4166,22 @@ export class AgentStepController {
           this.coordinator.recordEvidence(runId, outputEvidence);
         }
 
-        const verificationResult = DeterministicVerifier.verify(
+        const rawVerificationResult = DeterministicVerifier.verify(
           evidenceList,
           spec,
           this.clock.nowIso()
         );
+        const verificationResult: VerificationResult = Object.freeze({
+          ...rawVerificationResult,
+          details: Object.freeze({
+            ...(rawVerificationResult.details ?? {}),
+            contractId: contract.spec.contractId,
+            contractVersion: contract.spec.version,
+            actionId: latestAction.actionId,
+            attemptId: latestAttempt.attemptId,
+            attemptNumber: latestAttempt.attemptNumber,
+          }),
+        });
         this.coordinator.recordVerificationResult(runId, verificationResult);
         specResults.push(verificationResult);
 
@@ -4161,11 +4207,22 @@ export class AgentStepController {
           this.coordinator.recordEvidence(runId, outputEvidence);
         }
 
-        const verificationResult = DeterministicVerifier.verify(
+        const rawVerificationResult = DeterministicVerifier.verify(
           evidenceList,
           spec,
           this.clock.nowIso()
         );
+        const verificationResult: VerificationResult = Object.freeze({
+          ...rawVerificationResult,
+          details: Object.freeze({
+            ...(rawVerificationResult.details ?? {}),
+            contractId: contract.spec.contractId,
+            contractVersion: contract.spec.version,
+            actionId: lastAction?.actionId ?? "none",
+            attemptId: latestAttempt?.attemptId ?? "none",
+            attemptNumber: latestAttempt?.attemptNumber ?? 0,
+          }),
+        });
         this.coordinator.recordVerificationResult(runId, verificationResult);
         specResults.push(verificationResult);
 
