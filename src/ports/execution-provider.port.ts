@@ -47,6 +47,20 @@ export type ExecutionWorkloadTrustClassification =
   | "MULTI_TENANT_WORKLOAD"
   | "UNKNOWN";
 
+/**
+ * Architectural role of an ExecutionProvider within the runtime pipeline.
+ * - "PHYSICAL": Directly executes operations, commands, or processes (e.g. Docker, InProcess). Default.
+ * - "ORCHESTRATION": Drives multi-turn agent reasoning loops and delegates tool actions through ToolExecutionGateway.
+ */
+export type ExecutionProviderRole = "PHYSICAL" | "ORCHESTRATION";
+
+/**
+ * Resolves the role of an ExecutionProvider, defaulting to "PHYSICAL" if undeclared.
+ */
+export function resolveProviderRole(provider: ExecutionProvider): ExecutionProviderRole {
+  return provider.role ?? "PHYSICAL";
+}
+
 export interface ExecutionWorkspaceMount {
   readonly workspaceId?: string;
   readonly hostPath: string;
@@ -154,6 +168,10 @@ export interface ExecutionResult<TOutput = unknown> {
  */
 export interface ExecutionProvider {
   readonly name: string;
+  /**
+   * Role of the provider in the execution pipeline. Default: "PHYSICAL".
+   */
+  readonly role?: ExecutionProviderRole;
   /**
    * What this provider can leave running if its worker dies (ADR-0037). Omitted means ISOLATED_PROCESSES: an undeclared
    * provider is never assumed harmless.

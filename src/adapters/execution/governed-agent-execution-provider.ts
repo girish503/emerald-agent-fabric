@@ -70,6 +70,7 @@ export interface GovernedAgentExecutionProviderOptions {
 
 export class GovernedAgentExecutionProvider implements ExecutionProvider {
   readonly name: string;
+  readonly role = "ORCHESTRATION" as const;
   readonly tenantModel: TenantModel = "NONE";
   readonly cancellationModel: ProviderCancellationModel = "COOPERATIVE";
 

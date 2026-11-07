@@ -218,6 +218,7 @@ const SUPPORTED_OPERATIONS = new Set([
  */
 export class DockerExecutionProvider implements ExecutionProvider {
   readonly name = "docker";
+  readonly role = "PHYSICAL" as const;
   /**
    * Containers outlive a dead worker (ADR-0037). Quiescence verification is provided by DockerTenantQuiescenceAdapter.
    */

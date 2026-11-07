@@ -413,5 +413,115 @@ describe("Track E — Authoritative Workload Trust Routing & Runtime Enforcement
       const finalRun = coordinator.getRun(run.runId);
       expect(finalRun?.status).toBe("FAILED");
     });
+
+    it("allows governed-agent orchestrator with role ORCHESTRATION to execute isolated task control loop without rejection on provider name", async () => {
+      const store = new SqliteStateStore();
+      const clock = new SettableClock(new Date("2026-11-07T12:00:00Z"));
+      const coordinator = new RunCoordinator(store, clock);
+
+      const task = coordinator.createTask({
+        title: "echo",
+        inputPayload: { instruction: "Write result.txt" },
+      });
+
+      const policy = createExecutionPolicy({
+        policyId: "policy-untrusted-agent",
+        allowedCapabilities: ["execution.echo", "workspace.file.read", "workspace.file.write"],
+        isolationRequirement: "ISOLATED",
+        trustClassification: "UNTRUSTED_WORKLOAD",
+      });
+
+      createAndActivateContract(store, task.taskId, { policy });
+      const { run } = coordinator.createRun({
+        taskId: task.taskId,
+      });
+
+      coordinator.queueRun(run.runId);
+
+      let executed = false;
+      const orchestratorProvider: ExecutionProvider = {
+        name: "governed-agent",
+        role: "ORCHESTRATION",
+        tenantModel: "NONE",
+        async execute<TInput, TOutput>(_request: ExecutionRequest<TInput>): Promise<ExecutionResult<TOutput>> {
+          executed = true;
+          return {
+            status: "SUCCESS",
+            output: { terminalReason: "COMPLETED" } as unknown as TOutput,
+            durationMs: 15,
+          };
+        },
+      };
+
+      const runtime = new WorkerRuntime({
+        coordinator,
+        clock,
+        executionProvider: orchestratorProvider,
+        workerId: "worker-orchestrator",
+      });
+
+      const result = await runtime.runOnce();
+      expect(result.status).toBe("COMPLETED");
+      expect(executed).toBe(true);
+
+      const finalRun = coordinator.getRun(run.runId);
+      expect(finalRun?.status).toBe("COMPLETED");
+    });
+
+    it("strictly rejects physical in-process provider for ADVERSARIAL_WORKLOAD and MULTI_TENANT_WORKLOAD", async () => {
+      const store = new SqliteStateStore();
+      const clock = new SettableClock(new Date("2026-11-07T12:00:00Z"));
+      const coordinator = new RunCoordinator(store, clock);
+
+      const inProcessProvider: ExecutionProvider = {
+        name: "in-process",
+        role: "PHYSICAL",
+        async execute<TInput, TOutput>(_req: ExecutionRequest<TInput>): Promise<ExecutionResult<TOutput>> {
+          return { status: "SUCCESS", durationMs: 0 } as ExecutionResult<TOutput>;
+        },
+      };
+
+      const runtime = new WorkerRuntime({
+        coordinator,
+        clock,
+        executionProvider: inProcessProvider,
+        workerId: "worker-inproc-adv",
+      });
+
+      // 1. Adversarial workload
+      const task1 = coordinator.createTask({ title: "echo", inputPayload: { text: "adv" } });
+      const policy1 = createExecutionPolicy({
+        policyId: "adv-policy",
+        allowedCapabilities: ["execution.echo"],
+        isolationRequirement: "ISOLATED",
+        trustClassification: "ADVERSARIAL_WORKLOAD",
+      });
+      createAndActivateContract(store, task1.taskId, { policy: policy1 });
+      const { run: run1 } = coordinator.createRun({ taskId: task1.taskId });
+      coordinator.queueRun(run1.runId);
+
+      const res1 = await runtime.runOnce();
+      expect(res1.status).toBe("FAILED");
+      expect((res1 as any).error?.code).toBe("POLICY_DENIED");
+      expect((res1 as any).error?.message).toContain("no host fallback");
+
+      // 2. Multi-tenant workload
+      const task2 = coordinator.createTask({ title: "echo", inputPayload: { text: "mt" } });
+      const policy2 = createExecutionPolicy({
+        policyId: "mt-policy",
+        allowedCapabilities: ["execution.echo"],
+        isolationRequirement: "ISOLATED",
+        trustClassification: "MULTI_TENANT_WORKLOAD",
+        tenantId: "tenant-delta",
+      });
+      createAndActivateContract(store, task2.taskId, { policy: policy2 });
+      const { run: run2 } = coordinator.createRun({ taskId: task2.taskId });
+      coordinator.queueRun(run2.runId);
+
+      const res2 = await runtime.runOnce();
+      expect(res2.status).toBe("FAILED");
+      expect((res2 as any).error?.code).toBe("POLICY_DENIED");
+      expect((res2 as any).error?.message).toContain("no host fallback");
+    });
   });
 });

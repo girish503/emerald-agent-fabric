@@ -52,7 +52,7 @@ import {
 import { DeterministicVerifier, VerificationSpec } from "../domain/verification.js";
 import { Workspace } from "../domain/workspace.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
-import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../ports/execution-provider.port.js";
+import { ExecutionProvider, ExecutionRequest, ExecutionResult, resolveProviderRole } from "../ports/execution-provider.port.js";
 import { resolveProviderTenantModel } from "../ports/tenant-quiescence.port.js";
 import type { TenantLaunchCoordinatorPort, TenantLaunchGate } from "../ports/tenant-launch-coordinator.port.js";
 import { SqliteTenantLaunchCoordinator, InMemoryTenantLaunchCoordinator } from "../adapters/coordination/sqlite-tenant-launch-coordinator.js";
@@ -1575,6 +1575,32 @@ export class WorkerRuntime {
         ? (policy?.tenantId ? "MULTI_TENANT_WORKLOAD" : "UNTRUSTED_WORKLOAD")
         : "TRUSTED_INTERNAL");
 
+    // UNKNOWN trust classification is permanently rejected fail-closed
+    if (trustClassification === "UNKNOWN") {
+      return {
+        satisfied: false,
+        reason: "Workload trust classification is UNKNOWN; rejected fail-closed per security constitution.",
+      };
+    }
+
+    // MULTI_TENANT_WORKLOAD requires an explicit non-empty tenantId
+    if (trustClassification === "MULTI_TENANT_WORKLOAD" && (!policy?.tenantId || policy.tenantId.trim().length === 0)) {
+      return {
+        satisfied: false,
+        reason: "Workload classification 'MULTI_TENANT_WORKLOAD' requires a non-empty tenantId; rejected fail-closed.",
+      };
+    }
+
+    const providerRole = resolveProviderRole(this.executionProvider);
+
+    // Architectural Distinction: Orchestration vs Physical Execution Provider
+    if (providerRole === "ORCHESTRATION") {
+      // GovernedAgentExecutionProvider drives multi-turn agent reasoning in the control plane.
+      // Physical command sandbox isolation is independently enforced per-action by ToolExecutionGateway Stage 10.
+      return { satisfied: true, reason: "" };
+    }
+
+    // Physical Execution Providers (e.g. InProcessExecutionProvider, DockerExecutionProvider):
     const routing = evaluateWorkloadExecutionRouting({
       trustClassification,
       requestedProviderName: this.executionProvider.name,

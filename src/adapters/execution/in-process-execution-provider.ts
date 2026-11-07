@@ -22,6 +22,7 @@ import {
  */
 export class InProcessExecutionProvider implements ExecutionProvider {
   readonly name = "in-process";
+  readonly role = "PHYSICAL" as const;
   /** Operations run inside the worker process: a dead worker leaves no tenant (ADR-0037). */
   readonly tenantModel = "NONE" as const;
   /** In-process cooperative cancellation: checks signal before execution and at async boundaries. */

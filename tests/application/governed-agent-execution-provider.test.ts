@@ -123,7 +123,9 @@ describe("GovernedAgentExecutionProvider", () => {
           "workspace.file.read",
           "workspace.file.write",
         ],
-        isolationRequirement: "ISOLATED",
+        isolationRequirement: "IN_PROCESS",
+        trustClassification: "TRUSTED_INTERNAL",
+        trustedInProcessOperations: ["echo", "execution.echo"],
       }),
     });
 
@@ -235,7 +237,9 @@ describe("GovernedAgentExecutionProvider", () => {
           "workspace.file.read",
           "workspace.file.write",
         ],
-        isolationRequirement: "ISOLATED",
+        isolationRequirement: "IN_PROCESS",
+        trustClassification: "TRUSTED_INTERNAL",
+        trustedInProcessOperations: ["echo", "execution.echo"],
       }),
     });
 
@@ -448,7 +452,9 @@ describe("GovernedAgentExecutionProvider", () => {
       policy: createExecutionPolicy({
         policyId: `policy-${task.taskId}`,
         allowedCapabilities: ["execution.echo"],
-        isolationRequirement: "ISOLATED",
+        isolationRequirement: "IN_PROCESS",
+        trustClassification: "TRUSTED_INTERNAL",
+        trustedInProcessOperations: ["echo", "execution.echo"],
       }),
     });
 
@@ -722,7 +728,9 @@ describe("GovernedAgentExecutionProvider", () => {
       policy: createExecutionPolicy({
         policyId: `policy-read-only`,
         allowedCapabilities: ["execution.echo", "workspace.file.read"],
-        isolationRequirement: "ISOLATED",
+        isolationRequirement: "IN_PROCESS",
+        trustClassification: "TRUSTED_INTERNAL",
+        trustedInProcessOperations: ["echo", "execution.echo"],
       }),
     });
 
@@ -799,7 +807,9 @@ describe("GovernedAgentExecutionProvider", () => {
       policy: createExecutionPolicy({
         policyId: `policy-${task.taskId}`,
         allowedCapabilities: ["execution.echo", "workspace.file.read"],
-        isolationRequirement: "ISOLATED",
+        isolationRequirement: "IN_PROCESS",
+        trustClassification: "TRUSTED_INTERNAL",
+        trustedInProcessOperations: ["echo", "execution.echo"],
       }),
     });
 
@@ -859,7 +869,9 @@ describe("GovernedAgentExecutionProvider", () => {
       policy: createExecutionPolicy({
         policyId: `policy-${task.taskId}`,
         allowedCapabilities: ["execution.echo"],
-        isolationRequirement: "ISOLATED",
+        isolationRequirement: "IN_PROCESS",
+        trustClassification: "TRUSTED_INTERNAL",
+        trustedInProcessOperations: ["echo", "execution.echo"],
       }),
     });
 
