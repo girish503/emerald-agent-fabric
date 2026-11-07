@@ -22,6 +22,7 @@ import {
   ToolName,
 } from "../domain/tool.js";
 import { ToolInputMap, ToolOutputMap } from "../domain/tool-schemas.js";
+import type { ExecutionWorkloadTrustClassification } from "./execution-provider.port.js";
 
 /**
  * Minimal trusted execution context provided to a tool adapter.
@@ -46,6 +47,8 @@ export interface ToolExecutionContext {
   readonly abortSignal?: AbortSignal;
   readonly governedBenchmarkRepairMode?: boolean;
   readonly allowWholeFileReplacement?: boolean;
+  readonly tenantId?: string;
+  readonly trustClassification?: ExecutionWorkloadTrustClassification;
 }
 
 /**

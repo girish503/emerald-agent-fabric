@@ -12,6 +12,7 @@ export const DOCKER_TENANT_LABELS = {
   ATTEMPT: "emerald.attempt",
   LEASE_ID: "emerald.lease",
   WORKER_ID: "emerald.worker",
+  TENANT_ID: "emerald.tenant",
 } as const;
 
 /**

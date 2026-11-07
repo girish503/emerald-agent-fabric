@@ -37,9 +37,11 @@ import {
 import { MissionContract } from "../domain/mission-contract.js";
 import { DeterministicOperation, EchoOperation } from "../domain/operation.js";
 import {
+  evaluateWorkloadExecutionRouting,
   ExecutionPolicy,
   IsolationRequirement,
   PolicyEvaluator,
+  WorkloadTrustClassification,
 } from "../domain/policy.js";
 import {
   ExtendedToolName,
@@ -50,7 +52,7 @@ import {
 import { DeterministicVerifier, VerificationSpec } from "../domain/verification.js";
 import { Workspace } from "../domain/workspace.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
-import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../ports/execution-provider.port.js";
+import { ExecutionProvider, ExecutionRequest, ExecutionResult, resolveProviderRole } from "../ports/execution-provider.port.js";
 import { resolveProviderTenantModel } from "../ports/tenant-quiescence.port.js";
 import type { TenantLaunchCoordinatorPort, TenantLaunchGate } from "../ports/tenant-launch-coordinator.port.js";
 import { SqliteTenantLaunchCoordinator, InMemoryTenantLaunchCoordinator } from "../adapters/coordination/sqlite-tenant-launch-coordinator.js";
@@ -802,7 +804,10 @@ export class WorkerRuntime {
       throw new Error(`Task '${run.taskId}' not found for run '${run.runId}'`);
     }
 
-    // Construct ExecutionRequest
+    // 7. Resolve Policy from MissionContract (Sections 8, 10)
+    const policy = contract.spec.policy;
+
+    // Construct ExecutionRequest with authoritative tenant & trust routing
     let request: ExecutionRequest = {
       runId: run.runId,
       taskId: task.taskId,
@@ -814,10 +819,10 @@ export class WorkerRuntime {
       leaseId: lease.leaseId,
       workerId: this.workerId,
       signal: abortController.signal,
+      tenantId: policy.tenantId,
+      trustClassification: policy.trustClassification,
     };
 
-    // 7. Evaluate Policy from MissionContract (Sections 8, 10)
-    const policy = contract.spec.policy;
     const policyDecision = this.policyEvaluator.evaluate(request, policy);
 
     // If policy denies capability: fail run immediately WITHOUT calling provider
@@ -848,7 +853,8 @@ export class WorkerRuntime {
 
     // 8. Verify Required Isolation Posture (Section 9)
     const isolationSatisfaction = await this.verifyIsolationSatisfaction(
-      policyDecision.isolationRequirement
+      policyDecision.isolationRequirement,
+      policy
     );
 
     if (!isolationSatisfaction.satisfied) {
@@ -1558,8 +1564,59 @@ export class WorkerRuntime {
    * Isolates provider capabilities and availability checks strictly to runtime infrastructure.
    */
   private async verifyIsolationSatisfaction(
-    required: IsolationRequirement
+    required: IsolationRequirement,
+    policy?: ExecutionPolicy
   ): Promise<{ satisfied: boolean; reason: string }> {
+    const isAvailable = await this.checkIsolationAvailability();
+
+    const trustClassification: WorkloadTrustClassification =
+      policy?.trustClassification ??
+      (required === "ISOLATED"
+        ? (policy?.tenantId ? "MULTI_TENANT_WORKLOAD" : "UNTRUSTED_WORKLOAD")
+        : "TRUSTED_INTERNAL");
+
+    // UNKNOWN trust classification is permanently rejected fail-closed
+    if (trustClassification === "UNKNOWN") {
+      return {
+        satisfied: false,
+        reason: "Workload trust classification is UNKNOWN; rejected fail-closed per security constitution.",
+      };
+    }
+
+    // MULTI_TENANT_WORKLOAD requires an explicit non-empty tenantId
+    if (trustClassification === "MULTI_TENANT_WORKLOAD" && (!policy?.tenantId || policy.tenantId.trim().length === 0)) {
+      return {
+        satisfied: false,
+        reason: "Workload classification 'MULTI_TENANT_WORKLOAD' requires a non-empty tenantId; rejected fail-closed.",
+      };
+    }
+
+    const providerRole = resolveProviderRole(this.executionProvider);
+
+    // Architectural Distinction: Orchestration vs Physical Execution Provider
+    if (providerRole === "ORCHESTRATION") {
+      // GovernedAgentExecutionProvider drives multi-turn agent reasoning in the control plane.
+      // Physical command sandbox isolation is independently enforced per-action by ToolExecutionGateway Stage 10.
+      return { satisfied: true, reason: "" };
+    }
+
+    // Physical Execution Providers (e.g. InProcessExecutionProvider, DockerExecutionProvider):
+    const routing = evaluateWorkloadExecutionRouting({
+      trustClassification,
+      requestedProviderName: this.executionProvider.name,
+      isSandboxAvailable: isAvailable !== false,
+      isDaemonRootless: isAvailable !== false,
+      requireRootlessDaemon: policy?.requireRootlessDaemon,
+      tenantId: policy?.tenantId,
+    });
+
+    if (!routing.allowed) {
+      return {
+        satisfied: false,
+        reason: routing.message,
+      };
+    }
+
     if (required === "ISOLATED") {
       // Must not be an in-process provider
       if (this.executionProvider.name === "in-process") {
@@ -1570,7 +1627,6 @@ export class WorkerRuntime {
       }
 
       // Check whether isolated execution environment is operational
-      const isAvailable = await this.checkIsolationAvailability();
       if (isAvailable === false) {
         return {
           satisfied: false,
@@ -1795,6 +1851,15 @@ export class WorkerRuntime {
       input: actionSnapshot.inputPayload as any,
     };
 
+    let contractPolicy: ExecutionPolicy | undefined;
+    if (run.contractBinding) {
+      const boundContract = this.coordinator.getContract(
+        run.contractBinding.contractId,
+        run.contractBinding.version
+      );
+      contractPolicy = boundContract?.spec.policy;
+    }
+
     const toolContext: TrustedToolInvocationContext = {
       runId: run.runId,
       taskId: run.taskId,
@@ -1802,6 +1867,8 @@ export class WorkerRuntime {
       leaseId,
       workspace: effectiveWorkspace,
       abortSignal: params.abortSignal,
+      tenantId: contractPolicy?.tenantId,
+      trustClassification: contractPolicy?.trustClassification,
     };
 
     // 5. Evaluate Authorization via ToolExecutionGateway

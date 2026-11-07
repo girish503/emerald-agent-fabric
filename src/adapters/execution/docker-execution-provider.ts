@@ -1,5 +1,6 @@
 import { execFile, spawn } from "node:child_process";
 import * as crypto from "node:crypto";
+import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
 import { promisify } from "node:util";
@@ -24,6 +25,16 @@ export interface RunCommandExecutionPayload {
 
 const execFileAsync = promisify(execFile);
 
+export interface DaemonSecurityInspection {
+  readonly available: boolean;
+  readonly isRootlessDaemon: boolean;
+  readonly securityOptions: readonly string[];
+  readonly serverVersion?: string;
+  readonly dockerRootDir?: string;
+  readonly rawInspection?: string;
+  readonly error?: string;
+}
+
 export interface DockerExecutionConfig {
   readonly image?: string; // Default: "node:22-alpine"
   readonly memoryLimit?: string; // Default: "256m"
@@ -33,12 +44,17 @@ export interface DockerExecutionConfig {
   readonly maxOutputBytes?: number; // Default: 1024 * 1024 (1 MB)
   readonly networkDisabled?: boolean; // Default: true (--network=none)
   readonly readOnlyRootfs?: boolean; // Default: true (--read-only)
+  readonly runAsUser?: string; // Default: "1000:1000" (non-root rootless boundary)
   readonly dockerBinary?: string; // Default: "docker"
   readonly quiescence?: TenantQuiescencePort;
   /** Graceful `docker stop -t` window in seconds before escalating to `docker kill`. Default: 2 */
   readonly stopGraceSeconds?: number;
   /** Upper bound for each termination subprocess and for the local CLI to exit. Default: 10_000 */
   readonly terminationTimeoutMs?: number;
+  /** If true, requires the Docker daemon itself to run in rootless mode (verified via daemon SecurityOptions). Default: false */
+  readonly requireRootlessDaemon?: boolean;
+  /** Explicit image allowlist. If non-empty, container image must be present in this list. */
+  readonly imageAllowlist?: readonly string[];
   /** Test seam: spawns the long-running `docker run` CLI. Default: node:child_process spawn. */
   readonly spawnProcess?: DockerSpawn;
   /** Test seam: runs short bounded docker commands (stop/kill/rm). Default: node:child_process execFile. */
@@ -202,6 +218,7 @@ const SUPPORTED_OPERATIONS = new Set([
  */
 export class DockerExecutionProvider implements ExecutionProvider {
   readonly name = "docker";
+  readonly role = "PHYSICAL" as const;
   /**
    * Containers outlive a dead worker (ADR-0037). Quiescence verification is provided by DockerTenantQuiescenceAdapter.
    */
@@ -219,12 +236,129 @@ export class DockerExecutionProvider implements ExecutionProvider {
     Omit<DockerExecutionConfig, "quiescence" | "spawnProcess" | "commandRunner">
   >;
 
+  /**
+   * Validates container user configuration. UID 0 / root execution is strictly forbidden.
+   */
+  static validateRunAsUser(user: string): void {
+    if (!user || typeof user !== "string" || user.trim().length === 0) {
+      throw new Error("Invalid runAsUser: user string must not be empty");
+    }
+    const trimmed = user.trim().toLowerCase();
+    if (trimmed === "0" || trimmed === "root" || trimmed.startsWith("0:") || trimmed.startsWith("root:")) {
+      throw new Error(`Security violation: Root container execution (UID 0 / root) is strictly forbidden (got '${user}')`);
+    }
+    const parts = trimmed.split(":");
+    const firstPart = parts[0] ?? "";
+    const uid = Number.parseInt(firstPart, 10);
+    if (Number.isNaN(uid) || uid === 0 || uid < 0) {
+      throw new Error(`Security violation: Invalid or root UID (got '${firstPart}' in '${user}')`);
+    }
+  }
+
+  /**
+   * Pre-validates resource and timeout boundaries at construction.
+   */
+  private static validateResourceLimits(config: DockerExecutionConfig): void {
+    if (config.pidsLimit !== undefined) {
+      if (!Number.isInteger(config.pidsLimit) || config.pidsLimit <= 0) {
+        throw new Error(`Invalid pidsLimit: must be a positive integer (got ${config.pidsLimit})`);
+      }
+    }
+    if (config.maxOutputBytes !== undefined) {
+      if (!Number.isInteger(config.maxOutputBytes) || config.maxOutputBytes <= 0) {
+        throw new Error(`Invalid maxOutputBytes: must be a positive integer (got ${config.maxOutputBytes})`);
+      }
+    }
+    if (config.cpuLimit !== undefined) {
+      const cpu = Number.parseFloat(config.cpuLimit);
+      if (Number.isNaN(cpu) || cpu <= 0) {
+        throw new Error(`Invalid cpuLimit: must be a positive number (got '${config.cpuLimit}')`);
+      }
+    }
+    if (config.stopGraceSeconds !== undefined && config.stopGraceSeconds < 0) {
+      throw new Error(`Invalid stopGraceSeconds: must be non-negative (got ${config.stopGraceSeconds})`);
+    }
+    if (config.terminationTimeoutMs !== undefined && config.terminationTimeoutMs <= 0) {
+      throw new Error(`Invalid terminationTimeoutMs: must be positive (got ${config.terminationTimeoutMs})`);
+    }
+  }
+
+  /**
+   * Independently inspects and evaluates the Docker daemon's security configuration,
+   * specifically detecting whether the daemon is running in rootless mode vs rootful mode.
+   * Note: This inspects the daemon host configuration, which is distinct from the container user (runAsUser).
+   */
+  static async inspectDaemonSecurity(
+    dockerBinary: string = "docker",
+    runner?: SubprocessRunner
+  ): Promise<DaemonSecurityInspection> {
+    try {
+      const run = runner ?? createDefaultCommandRunner();
+      const res = await run(
+        dockerBinary,
+        ["info", "--format", "{{json .SecurityOptions}}|{{.ServerVersion}}|{{.DockerRootDir}}"],
+        { timeoutMs: 10_000 }
+      );
+      if (res.exitCode !== 0) {
+        return {
+          available: false,
+          isRootlessDaemon: false,
+          securityOptions: [],
+          error: res.stderr.trim() || `docker info exited with code ${res.exitCode}`,
+        };
+      }
+      const raw = res.stdout.trim();
+      const parts = raw.split("|");
+      const secOptRaw = parts[0] || "[]";
+      const serverVersion = parts[1] || undefined;
+      const dockerRootDir = parts[2] || undefined;
+
+      let securityOptions: string[] = [];
+      try {
+        const parsed = JSON.parse(secOptRaw);
+        if (Array.isArray(parsed)) {
+          securityOptions = parsed.map((item) => String(item));
+        } else if (typeof parsed === "string") {
+          securityOptions = [parsed];
+        }
+      } catch {
+        if (secOptRaw && secOptRaw !== "<no value>") {
+          securityOptions = secOptRaw.split(",").map((s) => s.trim());
+        }
+      }
+
+      const isRootlessDaemon = securityOptions.some((opt) =>
+        opt.toLowerCase().includes("rootless")
+      );
+
+      return {
+        available: true,
+        isRootlessDaemon,
+        securityOptions,
+        serverVersion,
+        dockerRootDir,
+        rawInspection: raw,
+      };
+    } catch (err: unknown) {
+      return {
+        available: false,
+        isRootlessDaemon: false,
+        securityOptions: [],
+        error: err instanceof Error ? err.message : String(err),
+      };
+    }
+  }
+
   constructor(config: DockerExecutionConfig = {}) {
     if (config.networkDisabled === false) {
       throw new Error(
         "Network access is not available: Phase 3 enforces network = NONE without explicit governance capability architecture."
       );
     }
+
+    const runAsUser = config.runAsUser ?? "1000:1000";
+    DockerExecutionProvider.validateRunAsUser(runAsUser);
+    DockerExecutionProvider.validateResourceLimits(config);
 
     this.config = {
       image: config.image ?? "node:22-alpine",
@@ -235,9 +369,12 @@ export class DockerExecutionProvider implements ExecutionProvider {
       maxOutputBytes: config.maxOutputBytes ?? 1024 * 1024,
       networkDisabled: true,
       readOnlyRootfs: config.readOnlyRootfs ?? true,
+      runAsUser,
       dockerBinary: config.dockerBinary ?? "docker",
       stopGraceSeconds: config.stopGraceSeconds ?? 2,
-      terminationTimeoutMs: config.terminationTimeoutMs ?? 10_000,
+      terminationTimeoutMs: config.terminationTimeoutMs ?? 25_000,
+      requireRootlessDaemon: config.requireRootlessDaemon ?? false,
+      imageAllowlist: config.imageAllowlist ? [...config.imageAllowlist] : ["node:22-alpine", "alpine:latest"],
     };
     this.spawnProcess = config.spawnProcess ?? defaultSpawn;
     this.commandRunner = config.commandRunner ?? createDefaultCommandRunner();
@@ -246,6 +383,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
       config.quiescence ??
       new DockerTenantQuiescenceAdapter({
         dockerBinary: this.config.dockerBinary,
+        runner: this.commandRunner,
       });
   }
 
@@ -270,6 +408,98 @@ export class DockerExecutionProvider implements ExecutionProvider {
     request: ExecutionRequest<TInput>
   ): Promise<ExecutionResult<TOutput>> {
     const startTime = performance.now();
+
+    // 0. Workload trust classification & tenant validation (Workstreams 1 & 3)
+    if (request.trustClassification === "UNKNOWN") {
+      return {
+        status: "FAILED",
+        error: {
+          code: "UNKNOWN_TRUST_CLASSIFICATION",
+          message: "Execution rejected: Workload trust classification is UNKNOWN (FAIL CLOSED per security constitution).",
+        },
+        durationMs: Math.round(performance.now() - startTime),
+        providerMetadata: { provider: this.name, operation: request.operationName },
+      };
+    }
+
+    if (
+      request.trustClassification === "MULTI_TENANT_WORKLOAD" &&
+      (!request.tenantId || typeof request.tenantId !== "string" || request.tenantId.trim().length === 0)
+    ) {
+      return {
+        status: "FAILED",
+        error: {
+          code: "SANDBOX_CONFIGURATION_INVALID",
+          message: "Execution rejected: MULTI_TENANT_WORKLOAD requires an explicit non-empty tenantId.",
+        },
+        durationMs: Math.round(performance.now() - startTime),
+        providerMetadata: { provider: this.name, operation: request.operationName },
+      };
+    }
+
+    // Workstream 2: Mandatory rootless daemon enforcement
+    const mustEnforceRootless =
+      this.config.requireRootlessDaemon ||
+      request.trustClassification === "UNTRUSTED_WORKLOAD" ||
+      request.trustClassification === "ADVERSARIAL_WORKLOAD" ||
+      request.trustClassification === "MULTI_TENANT_WORKLOAD";
+
+    if (mustEnforceRootless) {
+      const inspection = await DockerExecutionProvider.inspectDaemonSecurity(
+        this.config.dockerBinary,
+        this.commandRunner
+      );
+      if (!inspection.available) {
+        return {
+          status: "FAILED",
+          error: {
+            code: "DOCKER_UNAVAILABLE",
+            message: `Docker daemon unavailable for rootless validation: ${inspection.error ?? "unknown error"}`,
+          },
+          durationMs: Math.round(performance.now() - startTime),
+          providerMetadata: {
+            provider: this.name,
+            operation: request.operationName,
+            rootlessValidation: "FAILED_DAEMON_UNAVAILABLE",
+          },
+        };
+      }
+      if (!inspection.isRootlessDaemon) {
+        return {
+          status: "FAILED",
+          error: {
+            code: "ROOTLESS_VALIDATION_FAILED",
+            message: `Rootless Docker daemon is required by policy, but daemon is running in rootful mode (SecurityOptions: [${inspection.securityOptions.join(", ")}])`,
+          },
+          durationMs: Math.round(performance.now() - startTime),
+          providerMetadata: {
+            provider: this.name,
+            operation: request.operationName,
+            rootlessValidation: "REJECTED_ROOTFUL_DAEMON",
+            securityOptions: inspection.securityOptions,
+          },
+        };
+      }
+    }
+
+    if (this.config.imageAllowlist && this.config.imageAllowlist.length > 0) {
+      if (!this.config.imageAllowlist.includes(this.config.image)) {
+        return {
+          status: "FAILED",
+          error: {
+            code: "IMAGE_POLICY_REJECTED",
+            message: `Image '${this.config.image}' is not permitted by image allowlist: [${this.config.imageAllowlist.join(", ")}]`,
+          },
+          durationMs: Math.round(performance.now() - startTime),
+          providerMetadata: {
+            provider: this.name,
+            operation: request.operationName,
+            imageRejected: this.config.image,
+            imageAllowlist: this.config.imageAllowlist,
+          },
+        };
+      }
+    }
 
     // 1. Mechanical operation routing check
     if (!SUPPORTED_OPERATIONS.has(request.operationName)) {
@@ -332,7 +562,11 @@ export class DockerExecutionProvider implements ExecutionProvider {
     // Validate workspace mount if present
     if (request.workspace) {
       try {
-        this.validateWorkspaceMount(request.workspace.hostPath);
+        this.validateWorkspaceMount(
+          request.workspace.hostPath,
+          request.tenantId,
+          request.trustClassification === "MULTI_TENANT_WORKLOAD"
+        );
       } catch (err: unknown) {
         return {
           status: "FAILED",
@@ -401,8 +635,10 @@ export class DockerExecutionProvider implements ExecutionProvider {
       `--pids-limit=${this.config.pidsLimit}`,
       "--cap-drop=ALL",
       "--security-opt=no-new-privileges",
+      `--user=${this.config.runAsUser}`,
       "--label", `${DOCKER_TENANT_LABELS.RUN_ID}=${request.runId}`,
       "--label", `${DOCKER_TENANT_LABELS.ATTEMPT}=${request.attemptNumber}`,
+      ...(request.tenantId ? ["--label", `${DOCKER_TENANT_LABELS.TENANT_ID}=${request.tenantId}`] : []),
       ...(request.leaseId ? ["--label", `${DOCKER_TENANT_LABELS.LEASE_ID}=${request.leaseId}`] : []),
       ...(request.workerId ? ["--label", `${DOCKER_TENANT_LABELS.WORKER_ID}=${request.workerId}`] : []),
       ...(request.workspace
@@ -712,7 +948,7 @@ export class DockerExecutionProvider implements ExecutionProvider {
         return {
           status: "FAILED",
           error: {
-            code: "EXECUTION_FAILED",
+            code: "OUTPUT_LIMIT_EXCEEDED",
             message: `Output limit of ${effectiveMaxOutputBytes} bytes exceeded by container`,
           },
           durationMs: elapsed(),
@@ -967,42 +1203,115 @@ export class DockerExecutionProvider implements ExecutionProvider {
   }
 
   /**
-   * Validates workspace mount against forbidden host paths.
+   * Validates workspace mount against forbidden host paths, canonical symlink escapes,
+   * boundary violations, and multi-tenant partitioning.
    */
-  private validateWorkspaceMount(hostPath: string): void {
+  private validateWorkspaceMount(hostPath: string, tenantId?: string, isMultiTenant?: boolean): void {
     if (!hostPath || typeof hostPath !== "string" || hostPath.trim().length === 0) {
       throw new Error("Invalid workspace mount: hostPath must be a non-empty string");
     }
-    const resolved = path.resolve(hostPath);
-    const root = path.parse(resolved).root;
-    if (resolved === root) {
-      throw new Error("Security violation: Refusing to mount host root directory");
-    }
-    const home = os.homedir();
-    if (resolved === path.resolve(home)) {
-      throw new Error("Security violation: Refusing to mount host user home directory");
-    }
-    const cwd = process.cwd();
-    if (resolved === path.resolve(cwd)) {
-      throw new Error("Security violation: Refusing to mount current working directory");
-    }
-    const lower = resolved.toLowerCase();
-    if (
-      lower.includes(".ssh") ||
-      lower.includes(".aws") ||
-      lower.includes(".docker") ||
-      lower.includes("docker.sock")
-    ) {
-      throw new Error("Security violation: Refusing to mount sensitive host directory");
+
+    if (isMultiTenant && (!tenantId || tenantId.trim().length === 0)) {
+      throw new Error("Security violation: Multi-tenant workspace mount requires a non-empty tenantId");
     }
 
+    // 1. Raw lexical & named pipe checks
+    const rawLower = hostPath.toLowerCase();
+    if (
+      rawLower.includes("\\\\.\\pipe") ||
+      rawLower.includes("docker.sock") ||
+      rawLower.includes("docker_engine")
+    ) {
+      throw new Error("Security violation: Refusing to mount sensitive host directory or socket");
+    }
+
+    const resolved = path.resolve(hostPath);
+
+    // 2. Canonical symlink resolution (Workstream 4)
+    let canonicalPath = resolved;
+    try {
+      const stat = fs.lstatSync(resolved, { throwIfNoEntry: false });
+      if (stat) {
+        canonicalPath = fs.realpathSync(resolved);
+      } else {
+        // Target does not exist yet: resolve existing ancestor to verify no parent symlink escapes
+        let cur = path.dirname(resolved);
+        while (cur && cur !== path.dirname(cur)) {
+          if (fs.existsSync(cur)) {
+            const canonicalAncestor = fs.realpathSync(cur);
+            canonicalPath = path.join(canonicalAncestor, path.relative(cur, resolved));
+            break;
+          }
+          cur = path.dirname(cur);
+        }
+      }
+    } catch (err: unknown) {
+      throw new Error(
+        `Security violation: Unable to resolve canonical path for workspace mount '${hostPath}': ${
+          err instanceof Error ? err.message : String(err)
+        }`
+      );
+    }
+
+    // 3. Boundary-aware containment helper (prevents prefix confusion: e.g. /ws vs /ws-secret)
+    const isPathContainedOrEqual = (target: string, boundary: string): boolean => {
+      const normTarget = path.normalize(target).toLowerCase();
+      const normBoundary = path.normalize(boundary).toLowerCase();
+      if (normTarget === normBoundary) return true;
+      const sep = path.sep;
+      const boundaryWithSep = normBoundary.endsWith(sep) ? normBoundary : normBoundary + sep;
+      return normTarget.startsWith(boundaryWithSep);
+    };
+
+    // 4. Validate both lexical resolved and canonical resolved paths against sensitive targets
+    const pathsToValidate = resolved === canonicalPath ? [resolved] : [resolved, canonicalPath];
+    const home = os.homedir();
+    const cwd = process.cwd();
     const sensitiveSystemDirs = [
-      "/etc", "/var", "/usr", "/bin", "/sbin", "/lib", "/dev", "/proc", "/sys",
+      "/etc", "/var", "/usr", "/bin", "/sbin", "/lib", "/dev", "/proc", "/sys", "/boot", "/root",
       "c:\\windows", "c:\\program files", "c:\\program files (x86)", "c:\\programdata"
     ];
-    for (const sysDir of sensitiveSystemDirs) {
-      if (lower === sysDir || lower.startsWith(sysDir + path.sep)) {
-        throw new Error(`Security violation: Refusing to mount system directory '${sysDir}'`);
+
+    for (const p of pathsToValidate) {
+      const norm = path.normalize(p);
+      const root = path.parse(norm).root;
+      if (norm.toLowerCase() === root.toLowerCase()) {
+        throw new Error("Security violation: Refusing to mount host root directory");
+      }
+      if (norm.toLowerCase() === path.normalize(home).toLowerCase()) {
+        throw new Error("Security violation: Refusing to mount host user home directory");
+      }
+      if (norm.toLowerCase() === path.normalize(cwd).toLowerCase()) {
+        throw new Error("Security violation: Refusing to mount current working directory");
+      }
+
+      const pLower = norm.toLowerCase();
+      if (
+        pLower.includes(".ssh") ||
+        pLower.includes(".aws") ||
+        pLower.includes(".docker") ||
+        pLower.includes("docker.sock") ||
+        pLower.includes("docker_engine") ||
+        pLower.includes("\\\\.\\pipe")
+      ) {
+        throw new Error("Security violation: Refusing to mount sensitive host directory");
+      }
+
+      for (const sysDir of sensitiveSystemDirs) {
+        if (isPathContainedOrEqual(norm, sysDir)) {
+          throw new Error(`Security violation: Refusing to mount system directory '${sysDir}'`);
+        }
+      }
+
+      // Cross-tenant confinement: ensure no sibling tenant traversal or cross-tenant paths
+      if (tenantId) {
+        const normalizedPath = norm.replace(/\\/g, "/");
+        const tenantMatch = normalizedPath.match(/\/tenants\/([^/]+)/i);
+        if (tenantMatch && tenantMatch[1] && tenantMatch[1] !== tenantId) {
+          throw new Error(
+            `Security violation: Cross-tenant mount prohibited. Path belongs to tenant '${tenantMatch[1]}', but request is for tenant '${tenantId}'`
+          );
+        }
       }
     }
   }

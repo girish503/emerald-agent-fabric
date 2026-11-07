@@ -15,10 +15,23 @@
  */
 
 import path from "node:path";
-import { ExecutionRequest } from "../ports/execution-provider.port.js";
+import {
+  ExecutionRequest,
+  ExecutionWorkloadTrustClassification,
+} from "../ports/execution-provider.port.js";
 import { isValidCapabilityName, operationNameToCapabilityName } from "./capability.js";
 
 export type IsolationRequirement = "IN_PROCESS" | "ISOLATED";
+
+export type WorkloadTrustClassification = ExecutionWorkloadTrustClassification;
+
+export const ALL_WORKLOAD_TRUST_CLASSIFICATIONS: readonly WorkloadTrustClassification[] = [
+  "TRUSTED_INTERNAL",
+  "UNTRUSTED_WORKLOAD",
+  "ADVERSARIAL_WORKLOAD",
+  "MULTI_TENANT_WORKLOAD",
+  "UNKNOWN",
+] as const;
 
 export interface ExecutionPolicy {
   readonly policyId: string;
@@ -43,6 +56,18 @@ export interface ExecutionPolicy {
    * Any file mutation operation targeting these paths is denied fail-closed.
    */
   readonly protectedPaths?: readonly string[];
+  /**
+   * Workload trust classification determining execution isolation boundaries.
+   */
+  readonly trustClassification?: WorkloadTrustClassification;
+  /**
+   * Tenant identifier for multi-tenant isolation and filesystem partitioning.
+   */
+  readonly tenantId?: string;
+  /**
+   * Whether execution mandates a verified rootless container engine daemon.
+   */
+  readonly requireRootlessDaemon?: boolean;
 }
 
 export interface CreateExecutionPolicyOptions {
@@ -53,6 +78,9 @@ export interface CreateExecutionPolicyOptions {
   readonly governedBenchmarkRepairMode?: boolean;
   readonly allowWholeFileReplacement?: boolean;
   readonly protectedPaths?: Iterable<string>;
+  readonly trustClassification?: WorkloadTrustClassification;
+  readonly tenantId?: string;
+  readonly requireRootlessDaemon?: boolean;
 }
 
 /**
@@ -96,6 +124,33 @@ export function createExecutionPolicy(options: CreateExecutionPolicyOptions): Ex
     }
   }
 
+  // Resolve trust classification and tenant requirements
+  let trustClassification = options.trustClassification;
+  if (!trustClassification) {
+    if (options.isolationRequirement === "ISOLATED") {
+      trustClassification = options.tenantId ? "MULTI_TENANT_WORKLOAD" : "UNTRUSTED_WORKLOAD";
+    } else {
+      trustClassification = "TRUSTED_INTERNAL";
+    }
+  }
+
+  if (!ALL_WORKLOAD_TRUST_CLASSIFICATIONS.includes(trustClassification)) {
+    throw new Error(`Invalid trust classification: '${trustClassification}'.`);
+  }
+
+  const tenantId = options.tenantId ? options.tenantId.trim() : undefined;
+  if (trustClassification === "MULTI_TENANT_WORKLOAD" && (!tenantId || tenantId.length === 0)) {
+    throw new Error("ExecutionPolicy validation failed: MULTI_TENANT_WORKLOAD requires an explicit non-empty tenantId");
+  }
+
+  // Workstream 2: rootless daemon is authoritatively mandatory for untrusted, adversarial, and multi-tenant workloads
+  const requireRootlessDaemon =
+    trustClassification === "UNTRUSTED_WORKLOAD" ||
+    trustClassification === "ADVERSARIAL_WORKLOAD" ||
+    trustClassification === "MULTI_TENANT_WORKLOAD"
+      ? true
+      : (options.requireRootlessDaemon ?? false);
+
   return Object.freeze({
     policyId: options.policyId ?? "policy-" + crypto.randomUUID().slice(0, 8),
     allowedCapabilities: Object.freeze(Array.from(allowedSet)),
@@ -104,6 +159,9 @@ export function createExecutionPolicy(options: CreateExecutionPolicyOptions): Ex
     governedBenchmarkRepairMode: options.governedBenchmarkRepairMode ?? false,
     allowWholeFileReplacement: options.allowWholeFileReplacement ?? false,
     protectedPaths: protectedPathsSet.size > 0 ? Object.freeze(Array.from(protectedPathsSet)) : undefined,
+    trustClassification,
+    tenantId,
+    requireRootlessDaemon,
   });
 }
 
@@ -150,16 +208,22 @@ export function createDefaultInProcessPolicy(policyId: string = "default-in-proc
 /**
  * Creates a default isolated policy for Docker execution of core deterministic operations.
  */
-export function createDefaultDockerPolicy(policyId: string = "default-docker-isolated"): ExecutionPolicy {
+export function createDefaultDockerPolicy(
+  policyId: string = "default-docker-isolated",
+  options?: Partial<CreateExecutionPolicyOptions>
+): ExecutionPolicy {
   return createExecutionPolicy({
     policyId,
-    allowedCapabilities: [
+    allowedCapabilities: options?.allowedCapabilities ?? [
       "execution.echo",
       "execution.sum",
       "execution.slow",
       "execution.fail",
     ],
     isolationRequirement: "ISOLATED",
+    trustClassification: options?.trustClassification ?? "TRUSTED_INTERNAL",
+    tenantId: options?.tenantId,
+    requireRootlessDaemon: options?.requireRootlessDaemon,
   });
 }
 
@@ -171,7 +235,190 @@ export type PolicyDenialReasonCode =
   | "INVALID_REQUEST"
   | "IN_PROCESS_NOT_TRUSTED"
   | "INVALID_POLICY"
-  | "DISALLOWED_FILE_OVERWRITE";
+  | "DISALLOWED_FILE_OVERWRITE"
+  | "SANDBOX_POLICY_REJECTED"
+  | "DOCKER_UNAVAILABLE"
+  | "ROOTLESS_VALIDATION_FAILED"
+  | "UNKNOWN_TRUST_CLASSIFICATION"
+  | "HOST_FALLBACK_DISALLOWED"
+  | "SANDBOX_CONFIGURATION_INVALID";
+
+export interface SandboxSecurityPolicy {
+  readonly policyId: string;
+  readonly trustClassification: WorkloadTrustClassification;
+  readonly requireNonRootUser: boolean;
+  readonly runAsUser?: string;
+  readonly requireRootlessDaemon?: boolean;
+  readonly networkPolicy: "NONE";
+  readonly readOnlyRootfs: boolean;
+  readonly allowedImages: readonly string[];
+  readonly maxMemoryLimit?: string;
+  readonly maxCpuLimit?: string;
+  readonly maxPidsLimit?: number;
+  readonly maxExecutionTimeoutMs?: number;
+  readonly maxOutputBytes?: number;
+  readonly allowHostFallback: false;
+}
+
+export const DEFAULT_SANDBOX_IMAGES: readonly string[] = [
+  "node:22-alpine",
+  "node:20-alpine",
+  "alpine:latest",
+  "alpine:3.20",
+  "python:3.11-alpine",
+] as const;
+
+export function createSandboxSecurityPolicy(
+  options: Partial<SandboxSecurityPolicy> & { trustClassification: WorkloadTrustClassification }
+): SandboxSecurityPolicy {
+  if (!options || typeof options !== "object") {
+    throw new Error("Sandbox policy options must be a valid object.");
+  }
+  if (!ALL_WORKLOAD_TRUST_CLASSIFICATIONS.includes(options.trustClassification)) {
+    throw new Error(`Invalid trust classification: '${options.trustClassification}'.`);
+  }
+
+  const requireNonRoot = options.requireNonRootUser ?? true;
+  const runAsUser = options.runAsUser ?? "1000:1000";
+  if (requireNonRoot) {
+    const normUser = runAsUser.trim().toLowerCase();
+    if (
+      normUser === "0" ||
+      normUser === "0:0" ||
+      normUser === "root" ||
+      normUser.startsWith("0:") ||
+      normUser.endsWith(":0")
+    ) {
+      throw new Error(`Sandbox security violation: Refusing to create policy with root container user '${runAsUser}'`);
+    }
+  }
+
+  return Object.freeze({
+    policyId: options.policyId ?? "sandbox-policy-" + crypto.randomUUID().slice(0, 8),
+    trustClassification: options.trustClassification,
+    requireNonRootUser: requireNonRoot,
+    runAsUser,
+    requireRootlessDaemon: options.requireRootlessDaemon ?? false,
+    networkPolicy: "NONE" as const,
+    readOnlyRootfs: options.readOnlyRootfs ?? true,
+    allowedImages: Object.freeze(Array.from(options.allowedImages ?? DEFAULT_SANDBOX_IMAGES)),
+    maxMemoryLimit: options.maxMemoryLimit ?? "256m",
+    maxCpuLimit: options.maxCpuLimit ?? "0.5",
+    maxPidsLimit: options.maxPidsLimit ?? 64,
+    maxExecutionTimeoutMs: options.maxExecutionTimeoutMs ?? 300_000,
+    maxOutputBytes: options.maxOutputBytes ?? 1024 * 1024,
+    allowHostFallback: false as const,
+  });
+}
+
+export interface WorkloadRoutingDecision {
+  readonly allowed: boolean;
+  readonly requiredProvider: "docker" | "in-process" | "none";
+  readonly reasonCode?: PolicyDenialReasonCode;
+  readonly message: string;
+}
+
+export function evaluateWorkloadExecutionRouting(params: {
+  readonly trustClassification: WorkloadTrustClassification;
+  readonly requestedProviderName?: string;
+  readonly isSandboxAvailable: boolean;
+  readonly isDaemonRootless?: boolean;
+  readonly requireRootlessDaemon?: boolean;
+  readonly tenantId?: string;
+}): WorkloadRoutingDecision {
+  const { trustClassification, requestedProviderName, isSandboxAvailable, isDaemonRootless, requireRootlessDaemon, tenantId } =
+    params;
+
+  if (trustClassification === "UNKNOWN") {
+    return {
+      allowed: false,
+      requiredProvider: "none",
+      reasonCode: "UNKNOWN_TRUST_CLASSIFICATION",
+      message: "Workload trust classification is UNKNOWN; rejected fail-closed per security constitution.",
+    };
+  }
+
+  if (
+    trustClassification === "UNTRUSTED_WORKLOAD" ||
+    trustClassification === "ADVERSARIAL_WORKLOAD" ||
+    trustClassification === "MULTI_TENANT_WORKLOAD"
+  ) {
+    if (requestedProviderName && requestedProviderName !== "docker") {
+      return {
+        allowed: false,
+        requiredProvider: "docker",
+        reasonCode: "HOST_FALLBACK_DISALLOWED",
+        message: `Workload classification '${trustClassification}' requires isolated Docker sandbox execution; provider '${requestedProviderName}' is disallowed (no host fallback).`,
+      };
+    }
+
+    if (trustClassification === "MULTI_TENANT_WORKLOAD" && (!tenantId || tenantId.trim().length === 0)) {
+      return {
+        allowed: false,
+        requiredProvider: "docker",
+        reasonCode: "INVALID_REQUEST",
+        message: "Workload classification 'MULTI_TENANT_WORKLOAD' requires a non-empty tenantId; rejected fail-closed.",
+      };
+    }
+
+    if (!isSandboxAvailable) {
+      return {
+        allowed: false,
+        requiredProvider: "docker",
+        reasonCode: "DOCKER_UNAVAILABLE",
+        message: `Workload classification '${trustClassification}' requires isolated Docker sandbox execution, but Docker is unavailable. Host fallback is prohibited (FAIL CLOSED).`,
+      };
+    }
+
+    // Workstream 2: Mandatory rootless daemon enforcement for untrusted/adversarial/multi-tenant workloads
+    if (isDaemonRootless === false || (requireRootlessDaemon && isDaemonRootless !== true)) {
+      return {
+        allowed: false,
+        requiredProvider: "docker",
+        reasonCode: "ROOTLESS_VALIDATION_FAILED",
+        message: "Policy mandates rootless Docker daemon execution, but daemon is running with host root privileges or could not be verified as rootless.",
+      };
+    }
+
+    return {
+      allowed: true,
+      requiredProvider: "docker",
+      message: `Workload classification '${trustClassification}' authorized for isolated Docker sandbox execution.`,
+    };
+  }
+
+  if (trustClassification === "TRUSTED_INTERNAL") {
+    const provider = (requestedProviderName === "docker" ? "docker" : "in-process");
+    if (provider === "docker" && !isSandboxAvailable) {
+      return {
+        allowed: false,
+        requiredProvider: "docker",
+        reasonCode: "DOCKER_UNAVAILABLE",
+        message: "Docker execution requested for TRUSTED_INTERNAL workload, but Docker is unavailable.",
+      };
+    }
+    if (provider === "docker" && requireRootlessDaemon && !isDaemonRootless) {
+      return {
+        allowed: false,
+        requiredProvider: "docker",
+        reasonCode: "ROOTLESS_VALIDATION_FAILED",
+        message: "Policy mandates rootless Docker daemon execution, but daemon is running with host root privileges or could not be verified as rootless.",
+      };
+    }
+    return {
+      allowed: true,
+      requiredProvider: provider,
+      message: `TRUSTED_INTERNAL workload authorized for execution with provider '${provider}'.`,
+    };
+  }
+
+  return {
+    allowed: false,
+    requiredProvider: "none",
+    reasonCode: "UNKNOWN_TRUST_CLASSIFICATION",
+    message: `Unrecognized trust classification: '${String(trustClassification)}'.`,
+  };
+};
 
 export interface FileOperationEvaluationRequest {
   readonly toolName: string;
