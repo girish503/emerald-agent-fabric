@@ -14,7 +14,8 @@ import {
   createMissionContract,
   createResourceLimits,
 } from "../domain/index.js";
-import { createExecutionPolicy } from "../domain/policy.js";
+import { createExecutionPolicy, type WorkloadTrustClassification } from "../domain/policy.js";
+import { operationNameToCapabilityName } from "../domain/capability.js";
 import type { StateStorePort } from "../ports/state-store.port.js";
 import type { RunCoordinator } from "./run-coordinator.js";
 
@@ -40,6 +41,19 @@ export interface SubmitDurableTaskParams {
    * under its concurrency cap). Default false preserves the existing behaviour: the run is queued immediately.
    */
   readonly deferQueue?: boolean;
+  /**
+   * Tenant identifier for multi-tenant isolation and policy binding.
+   */
+  readonly tenantId?: string;
+  /**
+   * Workload trust classification determining execution isolation boundaries.
+   */
+  readonly trustClassification?: WorkloadTrustClassification;
+  readonly executionMode?: "sandboxed" | "constrained_host";
+  /**
+   * Authoritative server-side authorization check. Must be true for constrained_host execution.
+   */
+  readonly authorizedForConstrainedHost?: boolean;
 }
 
 export interface SubmittedTask {
@@ -99,23 +113,70 @@ export function submitDurableTask(
   const contractId = `contract-${task.taskId}`;
   const version = 1;
 
+  const isConstrainedHost = params.executionMode === "constrained_host";
+  if (isConstrainedHost && params.authorizedForConstrainedHost !== true) {
+    throw new Error(
+      "submitDurableTask: executionMode 'constrained_host' is rejected; caller is not authorized for constrained host execution"
+    );
+  }
+
+  const isolationRequirement: "IN_PROCESS" | "ISOLATED" = isConstrainedHost ? "IN_PROCESS" : "ISOLATED";
+  const trustClassification: WorkloadTrustClassification = isConstrainedHost
+    ? (params.trustClassification ?? "TRUSTED_INTERNAL")
+    : (params.tenantId ? "MULTI_TENANT_WORKLOAD" : (params.trustClassification ?? "UNTRUSTED_WORKLOAD"));
+
   let policy;
+  const opCap = operationNameToCapabilityName(operationName);
+  const extraCaps = opCap ? [opCap] : [];
+  const extraOps = opCap ? [operationName, opCap] : [operationName];
   if (params.capabilities && params.capabilities.length > 0) {
-    const allowed = Array.from(new Set(["execution.echo", ...params.capabilities]));
+    const allowed = Array.from(new Set(["execution.echo", ...extraCaps, ...params.capabilities]));
     policy = createExecutionPolicy({
       policyId: `policy-${task.taskId}`,
       allowedCapabilities: allowed,
-      isolationRequirement: "ISOLATED",
+      isolationRequirement,
+      trustedInProcessOperations: isConstrainedHost ? Array.from(new Set(["echo", "execution.echo", ...extraOps, ...params.capabilities])) : undefined,
+      ...(params.tenantId ? { tenantId: params.tenantId } : {}),
+      trustClassification,
+      requireRootlessDaemon: !isConstrainedHost,
     });
   } else if (params.task) {
-    // Default minimal capabilities for natural-language inspection/governed agent tasks
     policy = createExecutionPolicy({
       policyId: `policy-${task.taskId}`,
-      allowedCapabilities: ["execution.echo", "workspace.file.read", "workspace.code.search", "git.read"],
-      isolationRequirement: "ISOLATED",
+      allowedCapabilities: Array.from(new Set(["execution.echo", ...extraCaps, "workspace.file.read", "workspace.code.search", "git.read"])),
+      isolationRequirement,
+      trustedInProcessOperations: isConstrainedHost ? Array.from(new Set(["echo", "execution.echo", ...extraOps, "workspace.file.read", "workspace.code.search", "git.read"])) : undefined,
+      ...(params.tenantId ? { tenantId: params.tenantId } : {}),
+      trustClassification,
+      requireRootlessDaemon: !isConstrainedHost,
+    });
+  } else if (params.tenantId || params.trustClassification || isConstrainedHost) {
+    policy = createExecutionPolicy({
+      policyId: `policy-${task.taskId}`,
+      allowedCapabilities: [
+        "execution.echo",
+        "execution.sum",
+        "execution.slow",
+        "execution.fail",
+      ],
+      isolationRequirement: "IN_PROCESS",
+      trustedInProcessOperations: [
+        "echo",
+        "sum",
+        "slow",
+        "fail",
+        "failing",
+        "exploding",
+        "output-flood",
+        "execution.echo",
+        "execution.sum",
+        "execution.slow",
+        "execution.fail",
+      ],
+      ...(params.tenantId ? { tenantId: params.tenantId } : {}),
+      ...(trustClassification ? { trustClassification } : {}),
     });
   } else {
-    // Default in-process policy for standard deterministic operations
     policy = createDefaultInProcessPolicy(`policy-${task.taskId}`);
   }
 
