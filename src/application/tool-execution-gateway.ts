@@ -42,7 +42,11 @@ import {
   ToolWorkspaceBoundaryViolationError,
 } from "../domain/errors.js";
 import { MissionContract } from "../domain/mission-contract.js";
-import { PolicyEvaluator } from "../domain/policy.js";
+import {
+  evaluateWorkloadExecutionRouting,
+  PolicyEvaluator,
+  WorkloadTrustClassification,
+} from "../domain/policy.js";
 import { RunSnapshot } from "../domain/invariants.js";
 import {
   defaultGovernedToolRegistry,
@@ -54,6 +58,7 @@ import {
   ToolResult,
 } from "../domain/tool.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
+import type { ExecutionWorkloadTrustClassification } from "../ports/execution-provider.port.js";
 import { StateStorePort } from "../ports/state-store.port.js";
 import {
   ToolAdapterRegistryPort,
@@ -77,6 +82,8 @@ export interface TrustedToolInvocationContext {
     readonly containerMountPath?: string;
   };
   readonly abortSignal?: AbortSignal;
+  readonly tenantId?: string;
+  readonly trustClassification?: ExecutionWorkloadTrustClassification;
 }
 
 export type ToolAuthorizationStatus = "AUTHORIZED" | "DENIED" | "INVALID";
@@ -623,19 +630,41 @@ export class ToolExecutionGateway {
     }
 
     // ------------------------------------------------------------------------
-    // Stage 10: Isolation Environment Verification
+    // Stage 10: Isolation Environment Verification & Workload Routing
     // ------------------------------------------------------------------------
+    const tenantId = context.tenantId ?? contract.spec.policy.tenantId;
+    const trustClassification: WorkloadTrustClassification =
+      context.trustClassification ??
+      contract.spec.policy.trustClassification ??
+      (toolDef.isolationRequirement === "SANDBOX"
+        ? (tenantId ? "MULTI_TENANT_WORKLOAD" : "UNTRUSTED_WORKLOAD")
+        : "TRUSTED_INTERNAL");
+
     if (toolDef.isolationRequirement === "SANDBOX") {
       const isAvailable = await this.isSandboxIsolationAvailable();
-      if (!isAvailable) {
-        const error = new ToolProviderUnavailableError(
+      const routing = evaluateWorkloadExecutionRouting({
+        trustClassification,
+        requestedProviderName: "docker",
+        isSandboxAvailable: isAvailable,
+        isDaemonRootless: isAvailable,
+        requireRootlessDaemon: contract.spec.policy.requireRootlessDaemon,
+        tenantId,
+      });
+
+      if (!routing.allowed) {
+        const error = new ToolCapabilityDeniedError(
           toolDef.name,
-          `Tool '${toolDef.name}' requires SANDBOX isolation, but sandbox environment is unavailable`
+          toolDef.requiredCapability,
+          routing.message
         );
         return {
           status: "DENIED",
           toolName: toolDef.name,
-          errorPayload: error.toPayload(),
+          errorPayload: {
+            code: "CAPABILITY_DENIED",
+            category: "authorization",
+            message: routing.message,
+          },
           domainError: error,
         };
       }
@@ -676,6 +705,8 @@ export class ToolExecutionGateway {
       abortSignal: context.abortSignal,
       governedBenchmarkRepairMode: contract.spec.policy.governedBenchmarkRepairMode,
       allowWholeFileReplacement: contract.spec.policy.allowWholeFileReplacement,
+      tenantId,
+      trustClassification,
     };
 
     return {

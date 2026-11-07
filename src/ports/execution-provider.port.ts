@@ -40,6 +40,13 @@ import type { TenantModel, TenantQuiescencePort } from "./tenant-quiescence.port
  *    - It must not be expanded merely to anticipate speculative future requirements.
  */
 
+export type ExecutionWorkloadTrustClassification =
+  | "TRUSTED_INTERNAL"
+  | "UNTRUSTED_WORKLOAD"
+  | "ADVERSARIAL_WORKLOAD"
+  | "MULTI_TENANT_WORKLOAD"
+  | "UNKNOWN";
+
 export interface ExecutionWorkspaceMount {
   readonly workspaceId?: string;
   readonly hostPath: string;
@@ -57,6 +64,8 @@ export interface ExecutionRequest<TInput = unknown> {
   readonly workspace?: ExecutionWorkspaceMount;
   readonly leaseId?: string;
   readonly workerId?: string;
+  readonly tenantId?: string;
+  readonly trustClassification?: ExecutionWorkloadTrustClassification;
   /**
    * Optional cancellation signal delivered by the runtime.
    * NOTE: Receipt of an abort signal represents a cancellation request;
@@ -103,7 +112,24 @@ export type ExecutionErrorCode =
    * nothing verifiable (no specifications, unsupported rule, or a missing clean-room verifier/workspace).
    * Always reported with status "FAILED": a model claim never produces a successful run (Milestone 2.23).
    */
-  | "COMPLETION_UNVERIFIABLE";
+  | "COMPLETION_UNVERIFIABLE"
+  // Track E Sandbox and Security Failure Taxonomy
+  | "SANDBOX_CONFIGURATION_INVALID"
+  | "SANDBOX_POLICY_REJECTED"
+  | "DOCKER_UNAVAILABLE"
+  | "ROOTLESS_VALIDATION_FAILED"
+  | "IMAGE_NOT_AVAILABLE"
+  | "IMAGE_POLICY_REJECTED"
+  | "CONTAINER_CREATE_FAILED"
+  | "CONTAINER_START_FAILED"
+  | "RESOURCE_LIMIT_EXCEEDED"
+  | "OUTPUT_LIMIT_EXCEEDED"
+  | "CONTAINER_EXIT_NONZERO"
+  | "CONTAINER_CRASHED"
+  | "CONTAINER_CLEANUP_FAILED"
+  | "UNKNOWN_TRUST_CLASSIFICATION"
+  | "HOST_FALLBACK_DISALLOWED"
+  | "EXECUTION_OUTCOME_UNKNOWN";
 
 export interface ExecutionErrorPayload {
   readonly code: ExecutionErrorCode;

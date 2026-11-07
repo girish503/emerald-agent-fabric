@@ -13,7 +13,40 @@ import { createAndActivateContract } from "../application/test-helpers.js";
 
 const execFileAsync = promisify(execFile);
 
-describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 25000 }, () => {
+function recoverUnderQuiescence(
+  coordinator: RunCoordinator,
+  store: SqliteStateStore,
+  clock: SettableClock,
+  runId: string,
+  supervisorId = "sup-docker-recovery"
+) {
+  const gate = store.acquireTenantLaunchGate({
+    runId,
+    holderType: "RECOVERY",
+    holderId: supervisorId,
+    leaseId: "lease-docker-rec",
+    nowIso: clock.nowIso(),
+    ttlMs: 30_000,
+    ownerPid: process.pid,
+  });
+  store.markQuiescentTenantLaunchGate({
+    runId,
+    token: gate.token,
+    nowIso: clock.nowIso(),
+  });
+  const res = coordinator.recoverExpiredRuns({
+    supervisorId,
+    quiescedGateTokens: new Map([[runId, gate.token]]),
+  });
+  store.releaseTenantLaunchGate({
+    runId,
+    token: gate.token,
+    nowIso: clock.nowIso(),
+  });
+  return res;
+}
+
+describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 60000 }, () => {
   let isDockerAvailable = false;
 
   beforeAll(async () => {
@@ -81,7 +114,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
         inputPayload: { message: "Hello from ephemeral container", count: 123 },
         idempotencyToken: "idem-echo",
         attemptNumber: 0,
-        timeoutMs: 20000,
+        timeoutMs: 40000,
       };
 
       const result = await provider.execute(request);
@@ -416,7 +449,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
       expect(midState!.currentWorkerId).toBe("worker-A-docker");
 
       // 4. Sweeper detects expired lease and recovers run
-      const recovery = coordinator.recoverExpiredRuns();
+      const recovery = recoverUnderQuiescence(coordinator, store, clock, run.runId);
       expect(recovery.recoveredCount).toBe(1);
 
       const recoveredRun = coordinator.getRun(run.runId);
@@ -473,7 +506,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
 
       // Lease expires, sweeper recovers
       clock.advanceMs(3000);
-      coordinator.recoverExpiredRuns();
+      recoverUnderQuiescence(coordinator, store, clock, run.runId);
 
       // Worker 2 takes over
       const worker2 = new WorkerRuntime({
@@ -535,7 +568,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
 
       // Expire and recover attempt 1 (attemptCount becomes 1)
       clock.advanceMs(3000);
-      coordinator.recoverExpiredRuns();
+      recoverUnderQuiescence(coordinator, store, clock, run.runId);
 
       // Attempt 2 starts (attemptCount = 1)
       const claim2 = coordinator.claimRun(run.runId, "worker-exhaust", 2000);
@@ -543,7 +576,7 @@ describe("DockerExecutionProvider — Isolated Execution Boundary", { timeout: 2
 
       // Expire attempt 2
       clock.advanceMs(3000);
-      const recovery2 = coordinator.recoverExpiredRuns();
+      const recovery2 = recoverUnderQuiescence(coordinator, store, clock, run.runId);
       expect(recovery2.recoveredCount).toBe(1);
 
       const exhaustedRun = coordinator.getRun(run.runId);

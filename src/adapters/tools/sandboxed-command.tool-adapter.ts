@@ -123,6 +123,8 @@ export class SandboxedCommandToolAdapter implements ToolAdapter<"run_command"> {
         hostPath: context.workspace.hostPath,
         containerMountPath: context.workspace.containerMountPath ?? "/workspace",
       },
+      tenantId: context.tenantId,
+      trustClassification: context.trustClassification,
     };
 
     // 5. Dispatch exclusively through the hardened ExecutionProvider
