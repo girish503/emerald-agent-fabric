@@ -1,3 +1,5 @@
+import type { EventEmitter } from "node:events";
+import { createObservableStateStore } from "./observable-state-store.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   AmbiguousContractAuthorityError,
@@ -191,12 +193,22 @@ export class RunCoordinator {
   private readonly leaseManager: LeaseManager;
 
   constructor(
-    private readonly stateStore: StateStorePort,
+    private stateStore: StateStorePort,
     private readonly clock: ClockPort = new SystemClock(),
     leaseManager?: LeaseManager,
-    private readonly workspacePort?: WorkspacePort
+    private readonly workspacePort?: WorkspacePort,
+    eventBroadcaster?: EventEmitter
   ) {
+    if (eventBroadcaster) {
+      this.stateStore = createObservableStateStore(this.stateStore, eventBroadcaster);
+    }
     this.leaseManager = leaseManager ?? new LeaseManager(this.clock);
+  }
+
+  setEventBroadcaster(broadcaster?: EventEmitter): void {
+    if (broadcaster) {
+      this.stateStore = createObservableStateStore(this.stateStore, broadcaster);
+    }
   }
 
   private readonly activeWorkspaceIds = new Set<string>();

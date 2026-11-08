@@ -1,3 +1,5 @@
+import { EventEmitter } from "node:events";
+import type { PrincipalRecord } from "../transport/http/server.js";
 /**
  * Emerald Agent Fabric — Production Developer CLI
  *
@@ -20,6 +22,7 @@
  * - emerald recovery sweep|watch
  * - emerald submit --db <file> (--task <text> | --operation <name>) [--input <json>] [--capabilities <csv>]
  * - emerald inspect --db <file> --run-id <id>
+ * - emerald server --db <file> [--port 3000] [--host 127.0.0.1]
  * - emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--model <name>] [--ollama-base-url <url>] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]
  */
 
@@ -200,6 +203,9 @@ export class EmeraldCli {
 
         case "artifact":
           return this.handleArtifact(args.slice(1));
+
+        case "server":
+          return await this.handleServer(args.slice(1));
 
         case "inspect":
           return this.handleInspect(args.slice(1));
@@ -1042,6 +1048,93 @@ export class EmeraldCli {
       }
     }
     return { exitCode: 0, output: JSON.stringify({ runId, attempt, runStatus, manifest }) };
+  }
+
+
+  /**
+   * emerald server — persistent Fastify REST/SSE HTTP transport server over a durable SQLite database.
+   */
+  private async handleServer(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
+    const usage =
+      "Usage: emerald server --db <file> [--port <port>] [--host <host>] [--principals <json>] [--cors-origins <csv>]";
+    const parsed = this.parseValueFlags(args, ["--db", "--port", "--host", "--principals", "--cors-origins"], usage);
+    if ("error" in parsed) return parsed.error;
+    const { flags } = parsed;
+    const dbPath = flags.get("--db");
+    if (!dbPath) return { exitCode: 1, output: `Error: --db is required. ${usage}` };
+
+    const portRaw = flags.get("--port");
+    const port = portRaw !== undefined ? Number(portRaw) : 3000;
+    if (!Number.isInteger(port) || port < 1 || port > 65535) {
+      return { exitCode: 1, output: "Error: --port must be an integer between 1 and 65535" };
+    }
+    const host = flags.get("--host") ?? "127.0.0.1";
+
+    let principals: PrincipalRecord[] | undefined;
+    if (flags.has("--principals")) {
+      try {
+        const raw = JSON.parse(flags.get("--principals")!);
+        if (!Array.isArray(raw)) throw new Error("not an array");
+        principals = raw as PrincipalRecord[];
+      } catch {
+        return { exitCode: 1, output: "Error: --principals must be a JSON array of principal objects" };
+      }
+    }
+
+    const corsOrigins = flags.has("--cors-origins")
+      ? flags.get("--cors-origins")!.split(",").map((s: string) => s.trim()).filter(Boolean)
+      : undefined;
+
+    const store = new SqliteStateStore({ location: dbPath });
+    const clock = new SystemClock();
+    const eventBroadcaster = new EventEmitter();
+    const coordinator = new RunCoordinator(store, clock, undefined, undefined, eventBroadcaster);
+
+    let server;
+    try {
+      const serverModulePath = "../transport/http/server.js";
+      const { buildFastifyServer } = await import(serverModulePath);
+      server = buildFastifyServer({
+        store,
+        coordinator,
+        eventBroadcaster,
+        principals,
+        corsOrigins,
+      });
+    } catch (err: unknown) {
+      store.close();
+      return { exitCode: 1, output: `Error: ${err instanceof Error ? err.message : String(err)}` };
+    }
+
+    const controller = new AbortController();
+    const stop = async (): Promise<void> => {
+      controller.abort();
+      try {
+        await server.close();
+      } catch {}
+      try {
+        store.close();
+      } catch {}
+    };
+
+    process.on("SIGINT", stop);
+    process.on("SIGTERM", stop);
+
+    try {
+      const address = await server.listen({ port, host });
+      console.log(`Emerald REST/SSE server listening on ${address}`);
+
+      await new Promise<void>((resolve) => {
+        controller.signal.addEventListener("abort", () => resolve(), { once: true });
+      });
+      return { exitCode: 0, output: "Server shut down cleanly" };
+    } catch (err: unknown) {
+      await stop();
+      return { exitCode: 1, output: `Error: server failed: ${err instanceof Error ? err.message : String(err)}` };
+    } finally {
+      process.off("SIGINT", stop);
+      process.off("SIGTERM", stop);
+    }
   }
 
   /** emerald inspect — read-only view of a run and its persisted event history from an EXISTING database file. */

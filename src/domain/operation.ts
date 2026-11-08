@@ -51,8 +51,17 @@ export class SlowOperation implements DeterministicOperation<{ ms: number; value
   readonly name = "slow";
   static readonly MAX_MS = 60_000;
 
-  async execute(input: { ms: number; value?: unknown }, _context: OperationContext): Promise<OperationResult<unknown>> {
-    const ms = input?.ms;
+  async execute(input: { ms?: number; value?: unknown; instruction?: string }, _context: OperationContext): Promise<OperationResult<unknown>> {
+    let ms = input?.ms;
+    if (ms === undefined && typeof input?.instruction === "string") {
+      const parsed = parseInt(input.instruction, 10);
+      if (Number.isInteger(parsed)) {
+        ms = parsed;
+      }
+    }
+    if (ms === undefined) {
+      ms = 1000;
+    }
     if (!Number.isInteger(ms) || ms < 0 || ms > SlowOperation.MAX_MS) {
       throw new Error(`slow: input.ms must be an integer between 0 and ${SlowOperation.MAX_MS}`);
     }
