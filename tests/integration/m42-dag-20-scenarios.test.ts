@@ -81,7 +81,7 @@ function registerTask(
   store.activateContract(contract.spec.contractId, 1, "2026-11-12T10:00:00.000Z");
 }
 
-function claimStartComplete(coordinator: RunCoordinator, store: SqliteStateStore, clock: SettableClock, runId: string) {
+function claimStartComplete(coordinator: RunCoordinator, clock: SettableClock, runId: string) {
   const claim = coordinator.claimRun(runId, "worker-dag", 60_000);
   coordinator.startRun(runId, "worker-dag", claim.lease.leaseId);
   coordinator.recordVerificationResult(
@@ -123,12 +123,12 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
       expect(coordinator.getRun(rA.runId)?.status).toBe("CREATED");
       expect(coordinator.getRun(rB.runId)?.status).toBe("CREATED");
 
-      claimStartComplete(coordinator, store, clock, rRoot.runId);
+      claimStartComplete(coordinator, clock, rRoot.runId);
       const t2 = router.dispatchTick();
       expect(t2.admittedRunIds).toEqual([rA.runId]);
       expect(coordinator.getRun(rB.runId)?.status).toBe("CREATED");
 
-      claimStartComplete(coordinator, store, clock, rA.runId);
+      claimStartComplete(coordinator, clock, rA.runId);
       const t3 = router.dispatchTick();
       expect(t3.admittedRunIds).toEqual([rB.runId]);
     } finally {
@@ -151,15 +151,15 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
       });
 
       router.dispatchTick();
-      claimStartComplete(coordinator, store, clock, rRoot.runId);
+      claimStartComplete(coordinator, clock, rRoot.runId);
       const tBranches = router.dispatchTick();
       expect(new Set(tBranches.admittedRunIds)).toEqual(new Set([rLeft.runId, rRight.runId]));
 
-      claimStartComplete(coordinator, store, clock, rLeft.runId);
+      claimStartComplete(coordinator, clock, rLeft.runId);
       router.dispatchTick();
       expect(coordinator.getRun(rSink.runId)?.status).toBe("CREATED");
 
-      claimStartComplete(coordinator, store, clock, rRight.runId);
+      claimStartComplete(coordinator, clock, rRight.runId);
       const tSink = router.dispatchTick();
       expect(tSink.admittedRunIds).toEqual([rSink.runId]);
     } finally {
@@ -181,7 +181,7 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
       });
 
       router.dispatchTick();
-      claimStartComplete(coordinator, store, clock, r1.runId);
+      claimStartComplete(coordinator, clock, r1.runId);
       const claim2 = coordinator.claimRun(r2.runId, "worker-dag", 60_000);
       coordinator.startRun(r2.runId, "worker-dag", claim2.lease.leaseId);
       coordinator.failRun(r2.runId, "boom", "worker-dag", claim2.lease.leaseId);
@@ -546,9 +546,9 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
         }).runId;
 
         router.dispatchTick();
-        claimStartComplete(coordinator, store, clock, rr.runId);
+        claimStartComplete(coordinator, clock, rr.runId);
         router.dispatchTick();
-        claimStartComplete(coordinator, store, clock, leftRunId);
+        claimStartComplete(coordinator, clock, leftRunId);
         router.dispatchTick();
         expect(coordinator.getRun(sinkRunId)?.status).toBe("CREATED");
       } finally {
@@ -567,7 +567,7 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
         router.dispatchTick();
         expect(coordinator.getRun(sinkRunId)?.status).toBe("CREATED");
 
-        claimStartComplete(coordinator, store, clock, rightRunId);
+        claimStartComplete(coordinator, clock, rightRunId);
         const tickAfterRestart = router.dispatchTick();
         expect(tickAfterRestart.admittedRunIds).toEqual([sinkRunId]);
       } finally {
@@ -632,7 +632,10 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
 
     const migratedStore = new SqliteStateStore({ location: legacyDbPath });
     try {
-      const migratedDeps = migratedStore.transaction((tx) => tx.listTaskDependencies("leg-child"));
+      const migratedDeps = migratedStore.transaction((tx) => {
+        if (!tx.listTaskDependencies) throw new Error("listTaskDependencies not supported");
+        return tx.listTaskDependencies("leg-child");
+      });
       expect(migratedDeps).toEqual([
         {
           childTaskId: "leg-child",
@@ -641,7 +644,10 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
           createdAt: "2026-01-01T00:00:00Z",
         },
       ]);
-      expect(migratedStore.transaction((tx) => tx.listDependentTaskIds("leg-root"))).toEqual(["leg-child"]);
+      expect(migratedStore.transaction((tx) => {
+        if (!tx.listDependentTaskIds) throw new Error("listDependentTaskIds not supported");
+        return tx.listDependentTaskIds("leg-root");
+      })).toEqual(["leg-child"]);
       const idxCheck = new DatabaseSync(legacyDbPath, { readOnly: true });
       try {
         const idxRow = idxCheck
@@ -680,7 +686,10 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
       const taskA = decomp.subtaskTaskIds[decomp.subtasks.findIndex((s) => s.subtaskId === "sub-a")]!;
       const taskB = decomp.subtaskTaskIds[decomp.subtasks.findIndex((s) => s.subtaskId === "sub-b")]!;
       const taskJoin = decomp.subtaskTaskIds[decomp.subtasks.findIndex((s) => s.subtaskId === "sub-join")]!;
-      const joinDeps = store.transaction((tx) => tx.listTaskDependencies(taskJoin));
+      const joinDeps = store.transaction((tx) => {
+        if (!tx.listTaskDependencies) throw new Error("listTaskDependencies not supported");
+        return tx.listTaskDependencies(taskJoin);
+      });
       expect(new Set(joinDeps.map((d) => d.parentTaskId))).toEqual(new Set([taskA, taskB]));
 
       const t1 = router.dispatchTick();
@@ -694,15 +703,15 @@ describe("M4.2 WS-B — Comprehensive 20-Scenario Durable DAG Integrity & Migrat
 
       const runA = store.transaction((tx) => tx.getRouterSubmissionByTaskId(taskA))!.runId;
       const runB = store.transaction((tx) => tx.getRouterSubmissionByTaskId(taskB))!.runId;
-      claimStartComplete(coordinator, store, clock, runA);
+      claimStartComplete(coordinator, clock, runA);
       const t1b = router.dispatchTick();
       expect(t1b.admittedRunIds).toEqual([runB]);
       expect(coordinator.getRun(joinSub.runId)?.status).toBe("CREATED");
-      claimStartComplete(coordinator, store, clock, runB);
+      claimStartComplete(coordinator, clock, runB);
 
       const t2 = router.dispatchTick();
       expect(t2.admittedRunIds).toEqual([joinSub.runId]);
-      claimStartComplete(coordinator, store, clock, joinSub.runId);
+      claimStartComplete(coordinator, clock, joinSub.runId);
 
       const finalReport = orchestrator.synthesizeMission("mission-20");
       expect(finalReport.verdict).toBe("SUCCESS");

@@ -716,10 +716,16 @@ describe("M4.2 Tranche 1 — Workstream A, CLI Server & Integrated A+B DAG", () 
       const branchBTaskId = `${missionTaskId}__sub__branch-b`;
       const sinkTaskId = `${missionTaskId}__sub__sink`;
 
-      const joinDeps = reopened.transaction((tx) => tx.listTaskDependencies(joinTaskId));
+      const joinDeps = reopened.transaction((tx) => {
+        if (!tx.listTaskDependencies) throw new Error("listTaskDependencies not supported");
+        return tx.listTaskDependencies(joinTaskId);
+      });
       expect(new Set(joinDeps.map((d) => d.parentTaskId))).toEqual(new Set([branchATaskId, branchBTaskId]));
 
-      const sinkDeps = reopened.transaction((tx) => tx.listTaskDependencies(sinkTaskId));
+      const sinkDeps = reopened.transaction((tx) => {
+        if (!tx.listTaskDependencies) throw new Error("listTaskDependencies not supported");
+        return tx.listTaskDependencies(sinkTaskId);
+      });
       expect(sinkDeps.map((d) => d.parentTaskId)).toEqual([joinTaskId]);
 
       for (const subId of ["root", "branch-a", "branch-b", "join", "sink"]) {

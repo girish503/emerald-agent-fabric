@@ -17,7 +17,6 @@ import {
   TerminalStateError,
   ToolCapabilityDeniedError,
   ToolNotFoundError,
-  ToolProviderUnavailableError,
   ToolWorkspaceBoundaryViolationError,
 } from "../../src/domain/errors.js";
 import { createMissionContract } from "../../src/domain/mission-contract.js";

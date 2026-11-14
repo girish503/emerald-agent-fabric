@@ -100,25 +100,22 @@ describe("M4.2 WS-B — Durable Multi-Parent DAG Integrity", () => {
     makeTask("task-b");
     makeTask("task-c");
 
-    router.submitTask({ taskId: "task-root", tenantId: "tenant-default", submissionKey: "k-root" });
+    router.submitTask({ taskId: "task-root", submissionKey: "k-root" });
     router.dispatchTick();
     expect(statusOf("task-root")).toBe("QUEUED");
 
     router.submitTask({
       taskId: "task-a",
-      tenantId: "tenant-default",
       submissionKey: "k-a",
       parentTaskId: "task-root",
     });
     router.submitTask({
       taskId: "task-b",
-      tenantId: "tenant-default",
       submissionKey: "k-b",
       parentTaskId: "task-root",
     });
     router.submitTask({
       taskId: "task-c",
-      tenantId: "tenant-default",
       submissionKey: "k-c",
       parentTaskId: "task-b",
       dependsOnTaskIds: ["task-a", "task-b"],
@@ -161,11 +158,10 @@ describe("M4.2 WS-B — Durable Multi-Parent DAG Integrity", () => {
     makeTask("task-b2");
     makeTask("task-c2");
 
-    router.submitTask({ taskId: "task-a2", tenantId: "tenant-default", submissionKey: "k-a2" });
-    router.submitTask({ taskId: "task-b2", tenantId: "tenant-default", submissionKey: "k-b2" });
+    router.submitTask({ taskId: "task-a2", submissionKey: "k-a2" });
+    router.submitTask({ taskId: "task-b2", submissionKey: "k-b2" });
     router.submitTask({
       taskId: "task-c2",
-      tenantId: "tenant-default",
       submissionKey: "k-c2",
       parentTaskId: "task-b2",
       dependsOnTaskIds: ["task-a2", "task-b2"],
@@ -184,11 +180,10 @@ describe("M4.2 WS-B — Durable Multi-Parent DAG Integrity", () => {
     makeTask("task-b3");
     makeTask("task-c3");
 
-    router.submitTask({ taskId: "task-a3", tenantId: "tenant-default", submissionKey: "k-a3" });
-    router.submitTask({ taskId: "task-b3", tenantId: "tenant-default", submissionKey: "k-b3" });
+    router.submitTask({ taskId: "task-a3", submissionKey: "k-a3" });
+    router.submitTask({ taskId: "task-b3", submissionKey: "k-b3" });
     router.submitTask({
       taskId: "task-c3",
-      tenantId: "tenant-default",
       submissionKey: "k-c3",
       parentTaskId: "task-b3",
       dependsOnTaskIds: ["task-a3", "task-b3"],
@@ -206,12 +201,11 @@ describe("M4.2 WS-B — Durable Multi-Parent DAG Integrity", () => {
     makeTask("t-alpha-1", "tenant-alpha");
     makeTask("t-beta-1", "tenant-beta");
 
-    router.submitTask({ taskId: "t-alpha-1", tenantId: "tenant-alpha", submissionKey: "ka" });
+    router.submitTask({ taskId: "t-alpha-1", submissionKey: "ka" });
 
     expect(() =>
       router.submitTask({
         taskId: "t-beta-1",
-        tenantId: "tenant-beta",
         submissionKey: "kb",
         dependsOnTaskIds: ["t-alpha-1"],
       })
@@ -222,7 +216,6 @@ describe("M4.2 WS-B — Durable Multi-Parent DAG Integrity", () => {
     expect(() =>
       router.submitTask({
         taskId: "t-alpha-2",
-        tenantId: "tenant-alpha",
         submissionKey: "ka2",
         dependsOnTaskIds: ["t-alpha-2"],
       })
@@ -323,7 +316,10 @@ describe("M4.2 WS-B — Durable Multi-Parent DAG Integrity", () => {
       dependsOnTaskIds: ["dep-sibling"],
     });
 
-    const depsPreRestart = store.transaction((tx) => tx.listTaskDependencies("child-both"));
+    const depsPreRestart = store.transaction((tx) => {
+      if (!tx.listTaskDependencies) throw new Error("listTaskDependencies not supported");
+      return tx.listTaskDependencies("child-both");
+    });
     expect(depsPreRestart.map((d) => d.parentTaskId)).toEqual(["dep-sibling", "p-parent"]);
 
     // Admit parents (concurrent=2 admits both p-parent and dep-sibling); child-both stays CREATED
@@ -341,7 +337,10 @@ describe("M4.2 WS-B — Durable Multi-Parent DAG Integrity", () => {
     coordinator = new RunCoordinator(store, clock);
     router = new TaskRouterService(store, coordinator, clock, { maxConcurrentRuns: 2 });
 
-    const depsPostRestart = store.transaction((tx) => tx.listTaskDependencies("child-both"));
+    const depsPostRestart = store.transaction((tx) => {
+      if (!tx.listTaskDependencies) throw new Error("listTaskDependencies not supported");
+      return tx.listTaskDependencies("child-both");
+    });
     expect(depsPostRestart.map((d) => ({ parentTaskId: d.parentTaskId, ordinal: d.ordinal }))).toEqual([
       { parentTaskId: "dep-sibling", ordinal: 0 },
       { parentTaskId: "p-parent", ordinal: 1 },
