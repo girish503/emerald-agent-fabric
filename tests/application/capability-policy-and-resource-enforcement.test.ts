@@ -261,6 +261,7 @@ describe("Phase 4 / Task 4.3 — Capability Policy Mapping & Mission Contract Re
           git_status: {},
           git_diff: {},
           run_command: { argv: ["echo", "test"] },
+          edit_file: { path: "file.txt", searchAnchor: "a", replacementText: "b" },
         };
 
         const request: ToolRequest = {

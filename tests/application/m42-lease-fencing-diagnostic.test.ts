@@ -11,7 +11,7 @@ import { ProposalValidator } from "../../src/application/proposal-validator.js";
 import { RunCoordinator } from "../../src/application/run-coordinator.js";
 import { ScopedContextMemoryService } from "../../src/application/scoped-context-memory.js";
 import { WorkerRuntime } from "../../src/application/worker-runtime.js";
-import { LeaseExpiredError, LeaseLostError } from "../../src/domain/errors.js";
+import { LeaseLostError } from "../../src/domain/errors.js";
 import { createOutputPayloadEvidence } from "../../src/domain/evidence.js";
 import { createExecutionPolicy } from "../../src/domain/policy.js";
 import { staticToolRegistry } from "../../src/domain/tool.js";
@@ -229,7 +229,6 @@ describe("M4.2 Stage 1 — Lease Fencing & Stale-Worker Mutation Prevention", ()
         sequenceNumber: 1,
         toolName: "write_file",
         inputPayload: { path: "stale.txt", content: "bad" },
-        workerId: "worker-1",
         leaseId: lease1Id,
         workspace: ws1,
       })
@@ -301,7 +300,6 @@ describe("M4.2 Stage 1 — Lease Fencing & Stale-Worker Mutation Prevention", ()
         sequenceNumber: 1,
         toolName: "write_file",
         inputPayload: { path: "race.txt", content: "old-worker" },
-        workerId: "worker-1",
         leaseId: lease1Id,
         workspace: ws1,
       }),
@@ -311,7 +309,6 @@ describe("M4.2 Stage 1 — Lease Fencing & Stale-Worker Mutation Prevention", ()
         sequenceNumber: 1,
         toolName: "write_file",
         inputPayload: { path: "winner.txt", content: "new-worker" },
-        workerId: "worker-2",
         leaseId: claim2.lease.leaseId,
         workspace: ws1,
       }),

@@ -3,7 +3,6 @@ import * as crypto from "node:crypto";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
-import { canonicalJsonStringify, sha256Hex } from "../../src/domain/canonical-hash.js";
 import {
   CLEANROOM_TOOL_CONTRACTS,
   computeToolSchemasHash,
@@ -25,6 +24,14 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
   const modelId = "qwen2.5-coder:1.5b";
   const modelDigest = "sha256:d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668";
   const harness = new DualGateEvaluationHarness();
+
+  const mockResponse = (outputText: string): ModelProviderResponse => ({
+    requestId: "mock-req",
+    model: modelId,
+    outputText,
+    finishReason: "STOP",
+    durationMs: 10,
+  });
 
   // 1. Every G3/G4 model-visible tool schema matches its gateway contract
   it("Scenario 1: every G3/G4 model-visible tool schema matches its gateway contract", () => {
@@ -99,18 +106,18 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
     let capturedWorkspace: string | undefined;
 
     const mockProvider: ModelProviderPort = {
-      modelId,
-      generate: async (req: ModelProviderRequest): Promise<ModelProviderResponse> => {
-        return {
-          outputText: JSON.stringify({
+      providerName: modelId,
+      generate: async (): Promise<ModelProviderResponse> => {
+        return mockResponse(
+          JSON.stringify({
             toolName: "write_file",
             inputPayload: {
               filePath: "src/math-pow.js", // Invalid key
               content: "MUTATED_CONTENT_SHOULD_NEVER_EXIST",
             },
             rationale: "Attempt write with invalid key",
-          }),
-        };
+          })
+        );
       },
     };
 
@@ -125,6 +132,7 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
       },
     });
 
+    expect(capturedWorkspace).toBeDefined();
     expect(trial.overallPassed).toBe(false);
     const step1 = trial.stepRecords?.[0];
     expect(step1?.toolObservation).toContain("MISSING_PATH");
@@ -197,30 +205,30 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
     const capturedRequests: ModelProviderRequest[] = [];
 
     const mockProvider: ModelProviderPort = {
-      modelId,
+      providerName: modelId,
       generate: async (req: ModelProviderRequest): Promise<ModelProviderResponse> => {
         capturedRequests.push(req);
         if (capturedRequests.length === 1) {
           // Step 1: propose invalid filePath
-          return {
-            outputText: JSON.stringify({
+          return mockResponse(
+            JSON.stringify({
               toolName: "write_file",
               inputPayload: { filePath: "src/math-pow.js", content: "attempt 1" },
               rationale: "Propose with invalid key",
-            }),
-          };
+            })
+          );
         }
         // Step 2: propose valid path
-        return {
-          outputText: JSON.stringify({
+        return mockResponse(
+          JSON.stringify({
             toolName: "write_file",
             inputPayload: {
               path: "src/math-pow.js",
               content: "export function power(base, exp) {\n  return base ** exp;\n}\n",
             },
             rationale: "Corrected to use canonical path parameter",
-          }),
-        };
+          })
+        );
       },
     };
 
@@ -262,15 +270,15 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
     let hostTmpPath = "";
 
     const mockProvider: ModelProviderPort = {
-      modelId,
+      providerName: modelId,
       generate: async (): Promise<ModelProviderResponse> => {
-        return {
-          outputText: JSON.stringify({
+        return mockResponse(
+          JSON.stringify({
             toolName: "write_file",
             inputPayload: { filePath: "src/math-pow.js", content: "dummy" },
             rationale: "test",
-          }),
-        };
+          })
+        );
       },
     };
 
@@ -388,14 +396,15 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
   it("Scenario 13: independent verification remains authoritative; model claiming success without fix fails", async () => {
     const task = getBenchmarkTaskById("g4-repair-01-fix-math-pow")!;
     const liarProvider: ModelProviderPort = {
-      modelId,
-      generate: async (): Promise<ModelProviderResponse> => ({
-        outputText: JSON.stringify({
-          toolName: undefined,
-          inputPayload: {},
-          rationale: "I have fixed the bug and all tests pass! TEST_PASSED 100% verified.",
-        }),
-      }),
+      providerName: modelId,
+      generate: async (): Promise<ModelProviderResponse> =>
+        mockResponse(
+          JSON.stringify({
+            toolName: undefined,
+            inputPayload: {},
+            rationale: "I have fixed the bug and all tests pass! TEST_PASSED 100% verified.",
+          })
+        ),
     };
 
     const trial = await harness.executeTrial({
@@ -414,14 +423,15 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
   it("Scenario 14: stagnation detection still halts repeated invalid proposals", async () => {
     const task = getBenchmarkTaskById("g4-repair-01-fix-math-pow")!;
     const repeatingProvider: ModelProviderPort = {
-      modelId,
-      generate: async (): Promise<ModelProviderResponse> => ({
-        outputText: JSON.stringify({
-          toolName: "write_file",
-          inputPayload: { filePath: "src/math-pow.js", content: "repeating bug" },
-          rationale: "repeated attempt",
-        }),
-      }),
+      providerName: modelId,
+      generate: async (): Promise<ModelProviderResponse> =>
+        mockResponse(
+          JSON.stringify({
+            toolName: "write_file",
+            inputPayload: { filePath: "src/math-pow.js", content: "repeating bug" },
+            rationale: "repeated attempt",
+          })
+        ),
     };
 
     const trial = await harness.executeTrial({
@@ -486,19 +496,19 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
   it("Scenario 16: late model responses cannot produce success", async () => {
     const task = getBenchmarkTaskById("g4-repair-01-fix-math-pow")!;
     const slowProvider: ModelProviderPort = {
-      modelId,
+      providerName: modelId,
       generate: async (): Promise<ModelProviderResponse> => {
         await new Promise((resolve) => setTimeout(resolve, 150));
-        return {
-          outputText: JSON.stringify({
+        return mockResponse(
+          JSON.stringify({
             toolName: "write_file",
             inputPayload: {
               path: "src/math-pow.js",
               content: "export function power(base, exp) { return base ** exp; }",
             },
             rationale: "Late response",
-          }),
-        };
+          })
+        );
       },
     };
 
