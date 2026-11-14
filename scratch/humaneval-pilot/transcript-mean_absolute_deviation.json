@@ -1,0 +1,26 @@
+{
+  "task": "HumanEval/4",
+  "entryPoint": "mean_absolute_deviation",
+  "status": "FAILED",
+  "turnsTaken": 0,
+  "toolsCalled": [],
+  "patchSizeBytes": 0,
+  "patchDiff": "",
+  "testPassed": false,
+  "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-mean_absolute_deviation-eMFMPc\\workspaces\\ws-humaneval-5\\test_solution.py\", line 19, in <module>\r\n    check(mean_absolute_deviation)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-mean_absolute_deviation-eMFMPc\\workspaces\\ws-humaneval-5\\test_solution.py\", line 12, in check\r\n    assert abs(candidate([1.0, 2.0, 3.0]) - 2.0/3.0) < 1e-6\r\n               ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~\r\nTypeError: unsupported operand type(s) for -: 'NoneType' and 'float'",
+  "durationMs": 50194,
+  "costUsd": 0,
+  "stepResultTranscript": [
+    {
+      "stepNumber": 1,
+      "contextSnapshotId": "ctx-019c1c8c2ac542ed",
+      "contextHash": "41e9cf0f704ab4c5725a5bd6222d10981f3b410af12c04a3a24d10fb38e49e34",
+      "contextEstimatedTokens": 2128,
+      "contextBytes": 8502,
+      "contextObservationsCount": 8,
+      "proposalValid": false,
+      "durationMs": 49060,
+      "timestamp": "2026-11-14T13:23:42.059Z"
+    }
+  ]
+}

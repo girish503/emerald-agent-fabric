@@ -1,76 +1,249 @@
 {
-  "dataset": "HumanEval",
-  "model": "qwen2.5-coder:1.5b",
-  "evaluatedAt": "2026-11-13T16:29:48.729Z",
-  "budgetPerTaskSec": 600,
-  "totalTasks": 3,
-  "passedCount": 0,
-  "failedCount": 3,
+  "totalTasks": 10,
+  "passedCount": 4,
+  "failedCount": 6,
   "timedOutCount": 0,
-  "passRatePercent": 0,
-  "totalDurationMs": 523166,
+  "passRate": 40,
+  "totalDurationMs": 1165880,
+  "totalCostUsd": 0.026033999999999998,
   "results": [
     {
       "taskId": "HumanEval/0",
       "entryPoint": "has_close_elements",
-      "status": "FAILED",
-      "durationMs": 162108,
-      "turnsTaken": 1,
+      "status": "PASSED",
+      "durationMs": 203955,
+      "turnsTaken": 4,
       "turnDurationsMs": [
-        88816,
-        72295
+        1897,
+        33224,
+        56790,
+        55441,
+        55325
       ],
       "toolsCalled": [
-        "read_file"
+        "read_file",
+        "read_file",
+        "edit_file",
+        "run_command"
       ],
-      "patchSizeBytes": 0,
-      "terminalReason": "COMPLETION_UNVERIFIABLE",
-      "terminalMessage": "Completion cannot be authorized (NO_VERIFICATION_SPECS): The Mission Contract declares no verification specifications; an empty set is not proof of completion.",
-      "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-has_close_elements-0DJHOc\\workspaces\\ws-humaneval-1\\test_solution.py\", line 23, in <module>\r\n    check(has_close_elements)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-has_close_elements-0DJHOc\\workspaces\\ws-humaneval-1\\test_solution.py\", line 12, in check\r\n    assert candidate([1.0, 2.0, 3.9, 4.0, 5.0, 2.2], 0.3) == True\r\n        ",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 1)"
+      "patchSizeBytes": 465,
+      "patchDiff": "diff --git a/solution.py b/solution.py\nindex d5780c5..b38ff70 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -9,4 +9,8 @@ def has_close_elements(numbers: List[float], threshold: float) -> bool:\n     >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n     True\n     \"\"\"\n-    pass\n+    sorted_nums = sorted(numbers)\n+    for i in range(1, len(sorted_nums)):\n+        if sorted_nums[i] - sorted_nums[i-1] < threshold:\n+            return True\n+    return False",
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_PROVIDER_UNAVAILABLE] Provider returned HTTP error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-120b` in organization `org_01m6zv3yhjeatbcybfa1hsset2` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8101,",
+      "testPassed": true,
+      "testOutput": "PASS: all test assertions passed",
+      "costUsd": 0.00471045,
+      "verifiedPatch": true
     },
     {
       "taskId": "HumanEval/1",
       "entryPoint": "separate_paren_groups",
-      "status": "FAILED",
-      "durationMs": 156064,
-      "turnsTaken": 1,
+      "status": "PASSED",
+      "durationMs": 149626,
+      "turnsTaken": 3,
       "turnDurationsMs": [
-        88069,
-        67094
+        1170,
+        35193,
+        56019,
+        56235
       ],
       "toolsCalled": [
-        "read_file"
+        "read_file",
+        "read_file",
+        "edit_file"
       ],
-      "patchSizeBytes": 0,
-      "terminalReason": "COMPLETION_UNVERIFIABLE",
-      "terminalMessage": "Completion cannot be authorized (NO_VERIFICATION_SPECS): The Mission Contract declares no verification specifications; an empty set is not proof of completion.",
-      "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-separate_paren_groups-ngDDEL\\workspaces\\ws-humaneval-2\\test_solution.py\", line 25, in <module>\r\n    check(separate_paren_groups)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-separate_paren_groups-ngDDEL\\workspaces\\ws-humaneval-2\\test_solution.py\", line 12, in check\r\n    assert candidate('(()()) ((())) () ((())()())') == [\r\n     ",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 1)"
+      "patchSizeBytes": 664,
+      "patchDiff": "diff --git a/solution.py b/solution.py\nindex c2fa9f0..79ab44e 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -9,4 +9,18 @@ def separate_paren_groups(paren_string: str) -> List[str]:\n     >>> separate_paren_groups('( ) (( )) (( )( ))')\n     ['()', '(())', '(()())']\n     \"\"\"\n-    pass\n+    # Remove spaces\n+    s = paren_string.replace(\" \", \"\")\n+    groups = []\n+    depth = 0\n+    start = 0\n+    for i, ch in enumerate(s):\n+        if ch == '(':\n+            if depth == 0:\n+                start = i\n+            depth += 1\n+        elif ch == ')':\n+            depth -= 1\n+            if depth == 0:\n+                groups.append(s[start:i+1])\n+    return groups",
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_PROVIDER_UNAVAILABLE] Provider returned HTTP error 400: {\"error\":{\"message\":\"Failed to validate JSON. Please adjust your prompt. See 'failed_generation' for more details.\",\"type\":\"invalid_request_error\",\"code\":\"json_validate_failed\",\"failed_generation\":\"\"}",
+      "testPassed": true,
+      "testOutput": "PASS: all test assertions passed",
+      "costUsd": 0.003549749999999999,
+      "verifiedPatch": true
     },
     {
       "taskId": "HumanEval/2",
       "entryPoint": "truncate_number",
-      "status": "FAILED",
-      "durationMs": 203329,
-      "turnsTaken": 2,
+      "status": "PASSED",
+      "durationMs": 363024,
+      "turnsTaken": 8,
       "turnDurationsMs": [
-        68144,
-        68267,
-        66053
+        36297,
+        53894,
+        55723,
+        58515,
+        48880,
+        55471,
+        53257
       ],
       "toolsCalled": [
         "read_file",
-        "read_file"
+        "read_file",
+        "edit_file",
+        "run_command",
+        "run_command",
+        "run_command",
+        "run_command",
+        "run_command"
       ],
+      "patchSizeBytes": 256,
+      "patchDiff": "diff --git a/solution.py b/solution.py\nindex 98f7c64..6f6fe2b 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -9,4 +9,4 @@ def truncate_number(number: float) -> float:\n     >>> truncate_number(3.5)\n     0.5\n     \"\"\"\n-    pass\n+    return number - int(number)",
+      "terminalReason": "MAX_FAILURES",
+      "terminalMessage": "Maximum consecutive action failures ceiling reached (3 >= 3)",
+      "testPassed": true,
+      "testOutput": "PASS: all test assertions passed",
+      "costUsd": 0.008559749999999998,
+      "verifiedPatch": true
+    },
+    {
+      "taskId": "HumanEval/3",
+      "entryPoint": "below_zero",
+      "status": "PASSED",
+      "durationMs": 379925,
+      "turnsTaken": 10,
+      "turnDurationsMs": [
+        36858,
+        48620,
+        55608,
+        59343,
+        59894,
+        60454,
+        58219
+      ],
+      "toolsCalled": [
+        "read_file",
+        "read_file",
+        "edit_file",
+        "run_command",
+        "run_command",
+        "run_command",
+        "run_command",
+        "run_command",
+        "run_command",
+        "run_command"
+      ],
+      "patchSizeBytes": 368,
+      "patchDiff": "diff --git a/solution.py b/solution.py\nindex fa592df..0ece949 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -10,4 +10,9 @@ def below_zero(operations: List[int]) -> bool:\n     >>> below_zero([1, 2, -4, 5])\n     True\n     \"\"\"\n-    pass\n+    balance = 0\n+    for op in operations:\n+        balance += op\n+        if balance < 0:\n+            return True\n+    return False",
+      "terminalReason": "MAX_PROPOSAL_REJECTIONS",
+      "terminalMessage": "Maximum proposal rejections ceiling reached (3 >= 3)",
+      "testPassed": true,
+      "testOutput": "PASS: all test assertions passed",
+      "costUsd": 0.009214050000000001,
+      "verifiedPatch": true
+    },
+    {
+      "taskId": "HumanEval/4",
+      "entryPoint": "mean_absolute_deviation",
+      "status": "FAILED",
+      "durationMs": 50194,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        49060
+      ],
+      "toolsCalled": [],
       "patchSizeBytes": 0,
-      "terminalReason": "COMPLETION_UNVERIFIABLE",
-      "terminalMessage": "Completion cannot be authorized (NO_VERIFICATION_SPECS): The Mission Contract declares no verification specifications; an empty set is not proof of completion.",
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_RATE_LIMITED] Provider rate limit exceeded (HTTP 429): {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6zv3yhjeatbcybfa1hsset2` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 196491, Re",
       "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-truncate_number-8jIVym\\workspaces\\ws-humaneval-3\\test_solution.py\", line 18, in <module>\r\n    check(truncate_number)\r\n    ~~~~~^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-truncate_number-8jIVym\\workspaces\\ws-humaneval-3\\test_solution.py\", line 12, in check\r\n    assert candidate(3.5) == 0.5\r\n           ^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 2)"
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-mean_absolute_deviation-eMFMPc\\workspaces\\ws-humaneval-5\\test_solution.py\", line 19, in <module>\r\n    check(mean_absolute_deviation)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-mean_absolute_deviation-eMFMPc\\workspaces\\ws-humaneval-5\\test_solution.py\", line 12, in check\r\n    assert abs(candidate([1.0, 2.0, 3.0]) - 2.0/3.0) < ",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "costUsd": 0,
+      "verifiedPatch": false
+    },
+    {
+      "taskId": "HumanEval/5",
+      "entryPoint": "intersperse",
+      "status": "FAILED",
+      "durationMs": 3259,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        2314
+      ],
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_RATE_LIMITED] Provider rate limit exceeded (HTTP 429): {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6zv3yhjeatbcybfa1hsset2` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 196483, Re",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-intersperse-7nZNQO\\workspaces\\ws-humaneval-6\\test_solution.py\", line 18, in <module>\r\n    check(intersperse)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-intersperse-7nZNQO\\workspaces\\ws-humaneval-6\\test_solution.py\", line 12, in check\r\n    assert candidate([], 7) == []\r\n           ^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "costUsd": 0,
+      "verifiedPatch": false
+    },
+    {
+      "taskId": "HumanEval/6",
+      "entryPoint": "parse_nested_parens",
+      "status": "FAILED",
+      "durationMs": 3231,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        2306
+      ],
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_RATE_LIMITED] Provider rate limit exceeded (HTTP 429): {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6zv3yhjeatbcybfa1hsset2` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 196473, Re",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-parse_nested_parens-MEnyr3\\workspaces\\ws-humaneval-7\\test_solution.py\", line 18, in <module>\r\n    check(parse_nested_parens)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-parse_nested_parens-MEnyr3\\workspaces\\ws-humaneval-7\\test_solution.py\", line 12, in check\r\n    assert candidate('(()()) ((())) () ((())()())') == [2, 3, 1, 3]\r\n  ",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "costUsd": 0,
+      "verifiedPatch": false
+    },
+    {
+      "taskId": "HumanEval/7",
+      "entryPoint": "filter_by_substring",
+      "status": "FAILED",
+      "durationMs": 2750,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        1833
+      ],
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_RATE_LIMITED] Provider rate limit exceeded (HTTP 429): {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6zv3yhjeatbcybfa1hsset2` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 196466, Re",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-filter_by_substring-4xco3m\\workspaces\\ws-humaneval-8\\test_solution.py\", line 19, in <module>\r\n    check(filter_by_substring)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-filter_by_substring-4xco3m\\workspaces\\ws-humaneval-8\\test_solution.py\", line 12, in check\r\n    assert candidate([], 'john') == []\r\n           ^^^^^^^^^^^^^^^^^^^^",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "costUsd": 0,
+      "verifiedPatch": false
+    },
+    {
+      "taskId": "HumanEval/8",
+      "entryPoint": "sum_product",
+      "status": "FAILED",
+      "durationMs": 2842,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        1807
+      ],
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_RATE_LIMITED] Provider rate limit exceeded (HTTP 429): {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6zv3yhjeatbcybfa1hsset2` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 196459, Re",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-sum_product-PLIOvY\\workspaces\\ws-humaneval-9\\test_solution.py\", line 20, in <module>\r\n    check(sum_product)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-sum_product-PLIOvY\\workspaces\\ws-humaneval-9\\test_solution.py\", line 12, in check\r\n    assert candidate([]) == (0, 1)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "costUsd": 0,
+      "verifiedPatch": false
+    },
+    {
+      "taskId": "HumanEval/9",
+      "entryPoint": "rolling_max",
+      "status": "FAILED",
+      "durationMs": 2880,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        1822
+      ],
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_RATE_LIMITED] Provider rate limit exceeded (HTTP 429): {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6zv3yhjeatbcybfa1hsset2` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 196451, Re",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-rolling_max-5xlPZi\\workspaces\\ws-humaneval-10\\test_solution.py\", line 19, in <module>\r\n    check(rolling_max)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-rolling_max-5xlPZi\\workspaces\\ws-humaneval-10\\test_solution.py\", line 12, in check\r\n    assert candidate([]) == []\r\n           ^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "costUsd": 0,
+      "verifiedPatch": false
     }
   ]
 }

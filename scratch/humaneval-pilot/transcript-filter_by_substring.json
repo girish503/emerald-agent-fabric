@@ -1,0 +1,26 @@
+{
+  "task": "HumanEval/7",
+  "entryPoint": "filter_by_substring",
+  "status": "FAILED",
+  "turnsTaken": 0,
+  "toolsCalled": [],
+  "patchSizeBytes": 0,
+  "patchDiff": "",
+  "testPassed": false,
+  "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-filter_by_substring-4xco3m\\workspaces\\ws-humaneval-8\\test_solution.py\", line 19, in <module>\r\n    check(filter_by_substring)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-filter_by_substring-4xco3m\\workspaces\\ws-humaneval-8\\test_solution.py\", line 12, in check\r\n    assert candidate([], 'john') == []\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+  "durationMs": 2750,
+  "costUsd": 0,
+  "stepResultTranscript": [
+    {
+      "stepNumber": 1,
+      "contextSnapshotId": "ctx-c6ef81640e6e81e3",
+      "contextHash": "455d67d2a6b28b0cda99346ed5431d1eaeeabca4ca197b5087dfcc8593e7f5a5",
+      "contextEstimatedTokens": 2123,
+      "contextBytes": 8482,
+      "contextObservationsCount": 8,
+      "proposalValid": false,
+      "durationMs": 1833,
+      "timestamp": "2026-11-14T13:24:39.959Z"
+    }
+  ]
+}
