@@ -38,6 +38,8 @@ import { AgentStepController } from "./agent-step-controller.js";
 import { LiveAgentBrain } from "./live-agent-brain.js";
 import { RunCoordinator } from "./run-coordinator.js";
 import { WorkerRuntime } from "./worker-runtime.js";
+import { BoundedRepairLoopController, RepairLimits } from "./bounded-repair-loop.js";
+import type { ProductionRepairOrchestrator } from "../production/repair/repair-orchestrator.js";
 import type { EmeraldLifecycleTelemetry } from "./observability-instrumentation.js";
 import type { GovernedToolConnectorService } from "./governed-tool-connector.js";
 
@@ -122,6 +124,12 @@ export interface WorkerHostOptions {
   readonly telemetry?: EmeraldLifecycleTelemetry;
   /** Optional pre-configured governed connector service passed into WorkerRuntime. */
   readonly connectorService?: GovernedToolConnectorService;
+  /** Optional custom BoundedRepairLoopController. Defaults to a standard BoundedRepairLoopController. */
+  readonly repairController?: BoundedRepairLoopController;
+  /** Optional custom ProductionRepairOrchestrator for mission-driven repair orchestration. */
+  readonly repairOrchestrator?: ProductionRepairOrchestrator;
+  /** Optional repair limits for the default BoundedRepairLoopController. */
+  readonly repairLimits?: Partial<RepairLimits>;
 }
 
 
@@ -423,6 +431,8 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
       }
     }
     const coordinator = new RunCoordinator(store, clock, undefined, workspace);
+    const repairController = options.repairController ?? new BoundedRepairLoopController(options.repairLimits);
+    const repairOrchestrator = options.repairOrchestrator;
     let runtime: WorkerRuntime;
 
     try {
@@ -492,6 +502,8 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           ...(gatewayToolRegistry ? { toolRegistry: gatewayToolRegistry } : {}),
           repositoryImporter: new NodeFsRepositoryImporter(),
           allowUnverifiedCompletion: options.allowUnverifiedCompletion === true,
+          repairController,
+          ...(repairOrchestrator ? { repairOrchestrator } : {}),
           ...(options.artifactRoot ? { artifactExporter: new GitArtifactExporter({ artifactRoot: options.artifactRoot }) } : {}),
           ...(options.telemetry ? { telemetry: options.telemetry } : {}),
           ...(options.connectorService ? { connectorService: options.connectorService } : {}),
@@ -506,6 +518,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           enableGovernedVerificationStage: true,
           enableDynamicToolFiltering: options.modelProvider === "ollama",
           allowUnverifiedCompletion: options.allowUnverifiedCompletion === true,
+          boundedRepairLoop: repairController,
           ...(runtime.memoryService ? { scopedMemory: runtime.memoryService } : {}),
           ...(options.telemetry ? { telemetry: options.telemetry } : {}),
         });
@@ -524,6 +537,8 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           executionProvider,
           repositoryImporter: new NodeFsRepositoryImporter(),
           allowUnverifiedCompletion: options.allowUnverifiedCompletion === true,
+          repairController,
+          ...(repairOrchestrator ? { repairOrchestrator } : {}),
           ...(options.artifactRoot ? { artifactExporter: new GitArtifactExporter({ artifactRoot: options.artifactRoot }) } : {}),
           ...(options.telemetry ? { telemetry: options.telemetry } : {}),
           ...(options.connectorService ? { connectorService: options.connectorService } : {}),

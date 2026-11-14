@@ -1929,10 +1929,11 @@ export class WorkerRuntime {
               }
 
               for (const spec of vSpecs) {
-                const verificationResult = DeterministicVerifier.verify(evidenceList, spec);
+                let currentEvidence = evidenceList;
+                let verificationResult = DeterministicVerifier.verify(currentEvidence, spec);
                 this.coordinator.recordVerificationResult(run.runId, verificationResult, undefined, verificationFencing);
 
-                const passed = verificationResult.status === "VERIFIED";
+                let passed = verificationResult.status === "VERIFIED";
                 if (this.observability) {
                   try {
                     this.observability.incrementCounter(
@@ -1951,7 +1952,7 @@ export class WorkerRuntime {
                   let haltReason: string | undefined;
                   if (this.repairController) {
                     repairCycle = this.repairController.initCycle(task.taskId, run.runId);
-                    const diagCategory = this.repairController.diagnoseFeedback(
+                    let diagCategory = this.repairController.diagnoseFeedback(
                       repairCycle,
                       verificationResult.message,
                       JSON.stringify(verificationResult.details ?? {}),
@@ -1974,32 +1975,111 @@ export class WorkerRuntime {
                       } catch { /* zero-authority */ }
                     }
 
-                    const boundsCheck = this.repairController.shouldContinueRepair(repairCycle);
-                    const missionId =
-                      typeof (task.inputPayload as Record<string, unknown> | null)?.missionId === "string"
-                        ? ((task.inputPayload as Record<string, unknown>).missionId as string)
-                        : undefined;
-                    if (!boundsCheck.canContinue) {
+                    const isNonIdempotent =
+                      (task.inputPayload as Record<string, unknown> | null)?.idempotency === "NON_IDEMPOTENT" ||
+                      (contract.spec as unknown as Record<string, unknown> | null)?.idempotency === "NON_IDEMPOTENT";
+
+                    if (isNonIdempotent) {
                       this.repairController.concludeVerification(repairCycle, 1);
-                      haltReason = boundsCheck.reason;
-                    } else if (this.repairOrchestrator && missionId) {
-                      try {
-                        const repairResult = await this.repairOrchestrator.executeRepairSession(
-                          missionId,
-                          (this.executionProvider as any)?.modelAdapter ?? {
-                            generate: async () => ({ action: "NOOP", confidence: 0, reasoning: "Fallback" }),
-                          }
-                        );
-                        if (repairResult.verification?.verified) {
-                          this.repairController.concludeVerification(repairCycle, 0);
-                          continue;
-                        }
-                      } catch {
-                        this.repairController.concludeVerification(repairCycle, 1);
-                      }
+                      haltReason = "NON_IDEMPOTENT_OPERATION_RETRY_REFUSED: non-idempotent operation verification failure cannot be auto-repaired";
                     } else {
-                      this.repairController.concludeVerification(repairCycle, 1);
+                      const missionId =
+                        typeof (task.inputPayload as Record<string, unknown> | null)?.missionId === "string"
+                          ? ((task.inputPayload as Record<string, unknown>).missionId as string)
+                          : undefined;
+
+                      while (!passed) {
+                        const boundsCheck = this.repairController.shouldContinueRepair(repairCycle);
+                        if (!boundsCheck.canContinue) {
+                          this.repairController.concludeVerification(repairCycle, 1);
+                          haltReason = boundsCheck.reason;
+                          break;
+                        }
+
+                        repairCycle.iterationCount++;
+                        repairCycle.cumulativeActions++;
+
+                        if (this.repairOrchestrator && missionId) {
+                          try {
+                            const repairResult = await this.repairOrchestrator.executeRepairSession(
+                              missionId,
+                              (this.executionProvider as any)?.modelAdapter ?? {
+                                generate: async () => ({ action: "NOOP", confidence: 0, reasoning: "Fallback" }),
+                              }
+                            );
+                            if (repairResult.verification?.verified) {
+                              this.repairController.concludeVerification(repairCycle, 0);
+                              passed = true;
+                              break;
+                            }
+                          } catch {
+                            this.repairController.concludeVerification(repairCycle, 1);
+                          }
+                        } else {
+                          const repairEvidence = createEvidence({
+                            runId: run.runId,
+                            kind: "OUTPUT_PAYLOAD",
+                            rawContent: {
+                              type: "REPAIR_ATTEMPT",
+                              iteration: repairCycle.iterationCount,
+                              taskId: task.taskId,
+                              diagnosis: repairCycle.lastDiagnosis,
+                            },
+                          });
+                          try {
+                            this.coordinator.recordEvidence(run.runId, repairEvidence, verificationFencing);
+                          } catch { /* best effort */ }
+
+                          try {
+                            const repairRequest: ExecutionRequest = {
+                              ...request,
+                              attemptNumber: run.attemptCount + repairCycle.iterationCount,
+                            };
+                            const repairExecutionResult = await this.executionProvider.execute(repairRequest);
+                            if (repairExecutionResult.status === "SUCCESS") {
+                              const newEvidenceList: Evidence[] = [
+                                createOutputPayloadEvidence(run.runId, repairExecutionResult.output),
+                              ];
+                              if (typeof repairExecutionResult.providerMetadata?.exitCode === "number") {
+                                newEvidenceList.push(
+                                  createProcessExitEvidence(run.runId, {
+                                    exitCode: repairExecutionResult.providerMetadata.exitCode as number,
+                                    signal: (repairExecutionResult.providerMetadata?.signal as string) ?? null,
+                                  })
+                                );
+                              }
+                              for (const ev of newEvidenceList) {
+                                try {
+                                  this.coordinator.recordEvidence(run.runId, ev, verificationFencing);
+                                } catch { /* best effort */ }
+                              }
+                              currentEvidence = newEvidenceList;
+                              verificationResult = DeterministicVerifier.verify(currentEvidence, spec);
+                              this.coordinator.recordVerificationResult(run.runId, verificationResult, undefined, verificationFencing);
+                              if (verificationResult.status === "VERIFIED") {
+                                passed = true;
+                                executionResult = repairExecutionResult;
+                                this.repairController.concludeVerification(repairCycle, 0);
+                                break;
+                              }
+                            }
+                          } catch {
+                            // Execution failed during repair attempt
+                          }
+
+                          diagCategory = this.repairController.diagnoseFeedback(
+                            repairCycle,
+                            verificationResult.message,
+                            JSON.stringify(verificationResult.details ?? {}),
+                            1
+                          );
+                        }
+                      }
                     }
+                  }
+
+                  if (passed) {
+                    continue;
                   }
 
                   await disposeWorkspaceSafely("Verification failed").catch(() => {});
