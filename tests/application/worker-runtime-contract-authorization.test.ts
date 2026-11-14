@@ -62,7 +62,9 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
         title: "sum",
         inputPayload: [20, 22],
       });
-      const contract = createAndActivateContract(store, task.taskId);
+      const contract = createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-sum-42", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { sum: 42 } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -381,7 +383,9 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
       const provider = new CountingExecutionProvider("in-process", { ok: true });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: { active: true } });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-ok", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { ok: true } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -532,7 +536,10 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: 123 });
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-echo-123", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { echoed: 123 } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -571,7 +578,10 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: null });
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-docker", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { isolatedResult: true } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -698,7 +708,10 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: null });
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-docker", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { isolatedResult: true } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -731,7 +744,10 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: null });
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-docker", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { isolatedResult: true } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -768,7 +784,10 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: null });
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-docker", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { isolatedResult: true } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -1081,7 +1100,9 @@ describe("WorkerRuntime — MissionContract Pre-Dispatch Authorization Boundary 
       const provider = new CountingExecutionProvider("in-process", { normal: "path" });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: { normal: true } });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-normal", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { normal: "path" } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);

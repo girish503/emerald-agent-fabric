@@ -47,6 +47,7 @@ class SettableClock implements ClockPort {
 }
 
 import { createAndActivateContract } from "./test-helpers.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 class TestCountingExecutionProvider implements ExecutionProvider {
   readonly tenantModel = "NONE" as const;
@@ -132,7 +133,9 @@ describe("Task 3.4 — Workspace Crash Recovery, Orphan Reclamation & Sandbox Se
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: { x: 1 } });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-echo-ws", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { result: 1 } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);

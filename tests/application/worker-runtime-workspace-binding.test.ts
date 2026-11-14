@@ -9,6 +9,7 @@ import { createDefaultInProcessPolicy } from "../../src/domain/policy.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../../src/ports/execution-provider.port.js";
 import { createAndActivateContract } from "./test-helpers.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 class RecordingProvider implements ExecutionProvider {
   readonly name = "in-process";
@@ -43,7 +44,10 @@ describe("Run workspace ownership is bound when the workspace is provisioned (on
     const provider = new RecordingProvider();
     const runtime = new WorkerRuntime({ coordinator, clock, executionProvider: provider, workspacePort: adapter });
     const task = coordinator.createTask({ title: "echo", inputPayload: { foo: "bar" } });
-    createAndActivateContract(store, task.taskId, { policy: createDefaultInProcessPolicy("test-policy") });
+    createAndActivateContract(store, task.taskId, {
+      policy: createDefaultInProcessPolicy("test-policy"),
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-ok", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { ok: true } })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
     return { store, coordinator, provider, runtime, run };

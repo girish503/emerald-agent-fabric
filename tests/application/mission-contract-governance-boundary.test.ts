@@ -161,7 +161,16 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       registerWorker(coordinator, "w-nonsub-a", clock);
 
       const task = coordinator.createTask({ title: "echo", inputPayload: null });
-      const contractV1 = createAndActivateContract(store, task.taskId, { version: 1 });
+      const contractV1 = createAndActivateContract(store, task.taskId, {
+        version: 1,
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "v-spec-case-a",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true, result: 100 },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -205,7 +214,16 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       registerWorker(coordinator, "w-nonsub-b", clock);
 
       const task = coordinator.createTask({ title: "revoked-v1", inputPayload: null });
-      const contractV1 = createAndActivateContract(store, task.taskId, { version: 1 });
+      const contractV1 = createAndActivateContract(store, task.taskId, {
+        version: 1,
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "v-spec-case-a",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true, result: 100 },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -244,7 +262,16 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       registerWorker(coordinator, "w-nonsub-c", clock);
 
       const task = coordinator.createTask({ title: "missing-v1", inputPayload: null });
-      const contractV1 = createAndActivateContract(store, task.taskId, { version: 1 });
+      const contractV1 = createAndActivateContract(store, task.taskId, {
+        version: 1,
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "v-spec-case-a",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true, result: 100 },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -287,7 +314,16 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       registerWorker(coordinator, "w-nonsub-d", clock);
 
       const task = coordinator.createTask({ title: "hash-mismatch-v1", inputPayload: null });
-      const contractV1 = createAndActivateContract(store, task.taskId, { version: 1 });
+      const contractV1 = createAndActivateContract(store, task.taskId, {
+        version: 1,
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "v-spec-case-a",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true, result: 100 },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -589,7 +625,16 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       registerWorker(coordinator, "w-rec-safety", clock);
 
       const task = coordinator.createTask({ title: "rec-op", inputPayload: null });
-      const contractV1 = createAndActivateContract(store, task.taskId, { version: 1 });
+      const contractV1 = createAndActivateContract(store, task.taskId, {
+        version: 1,
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "v-spec-case-a",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true, result: 100 },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -639,7 +684,16 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       registerWorker(coordinator, "w-rec-tamper", clock);
 
       const task = coordinator.createTask({ title: "rec-tamper", inputPayload: null });
-      const contractV1 = createAndActivateContract(store, task.taskId, { version: 1 });
+      const contractV1 = createAndActivateContract(store, task.taskId, {
+        version: 1,
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "v-spec-case-a",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true, result: 100 },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -1185,7 +1239,16 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       registerWorker(coordinator, "w-e2e-revoke", clock);
 
       const task = coordinator.createTask({ title: "e2e-revocation", inputPayload: null });
-      const contractV1 = createAndActivateContract(store, task.taskId, { version: 1 });
+      const contractV1 = createAndActivateContract(store, task.taskId, {
+        version: 1,
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "v-spec-case-a",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true, result: 100 },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);

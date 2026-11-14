@@ -65,6 +65,7 @@ function setup(providerOutcome: "ECHO" | "TIMED_OUT" | "CANCELLED" | "FAILED" = 
     leaseTtlMs: TTL,
     executionProvider: provider,
     leaseRenewal: { scheduler: timer.scheduler },
+    allowUnverifiedCompletion: true,
   });
   worker.ensureRegistered();
 

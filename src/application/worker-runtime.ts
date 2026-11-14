@@ -14,7 +14,7 @@ import {
   createAttemptIdempotencyToken,
   isTerminalAttemptStatus,
 } from "../domain/attempt.js";
-import { AttemptUnknownReason, type ArtifactExportSummary, type RepositoryImportSummary } from "../domain/events.js";
+import { AttemptUnknownReason, type ArtifactExportSummary, type RepositoryImportSummary, type DomainEvent } from "../domain/events.js";
 import { ArtifactExportError, type ArtifactExporterPort } from "../ports/artifact-exporter.port.js";
 import type { RepositoryImporterPort } from "../ports/repository-importer.port.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
@@ -32,6 +32,7 @@ import {
   WorkspaceOwnershipError,
 } from "../domain/errors.js";
 import {
+  createEvidence,
   createOutputPayloadEvidence,
   createProcessExitEvidence,
   Evidence,
@@ -344,6 +345,12 @@ export interface WorkerRuntimeOptions {
   readonly observabilityPort?: ObservabilityPort;
   readonly repairController?: BoundedRepairLoopController;
   readonly repairOrchestrator?: ProductionRepairOrchestrator;
+  /**
+   * Explicit operator opt-in: authorize completion for Mission Contracts that declare no verification
+   * specifications. Default false (fail closed: such runs end as NO_VERIFICATION_SPECS -> FAILED, never COMPLETED).
+   * Each use is recorded durably as "verification.unverified_completion_authorized".
+   */
+  readonly allowUnverifiedCompletion?: boolean;
 }
 
 /**
@@ -385,6 +392,7 @@ export class WorkerRuntime {
   public readonly observability?: ObservabilityPort;
   private readonly repairController?: BoundedRepairLoopController;
   private readonly repairOrchestrator?: ProductionRepairOrchestrator;
+  public readonly allowUnverifiedCompletion: boolean;
   private readonly runWorkspaces = new Map<
     string,
     { workspaceId: string; hostPath: string; containerMountPath?: string }
@@ -405,6 +413,7 @@ export class WorkerRuntime {
       (this.observability ? new EmeraldLifecycleTelemetry(this.observability) : undefined);
     this.repairController = options.repairController;
     this.repairOrchestrator = options.repairOrchestrator;
+    this.allowUnverifiedCompletion = options.allowUnverifiedCompletion === true;
     const coordinatorStoreForServices = this.coordinator.store;
     this.approvalControl =
       options.approvalControl ??
@@ -1692,6 +1701,85 @@ export class WorkerRuntime {
 
           // Authoritative verification specifications from MissionContract (Section 12)
           const vSpecs = contract.spec.verificationSpecs;
+          if (!vSpecs || vSpecs.length === 0) {
+            const runEvents = this.coordinator.store.getEventsForRun(run.runId);
+            const hasPriorAuthorization = runEvents.some(
+              (e) => e.eventType === "verification.unverified_completion_authorized"
+            );
+            const isAuthorized = this.allowUnverifiedCompletion || hasPriorAuthorization;
+
+            const verificationFencing = { workerId: this.workerId, leaseId: lease.leaseId };
+            const evidenceList: Evidence[] = [
+              createOutputPayloadEvidence(run.runId, executionResult.output),
+            ];
+            if (typeof executionResult.providerMetadata?.exitCode === "number") {
+              evidenceList.push(
+                createProcessExitEvidence(run.runId, {
+                  exitCode: executionResult.providerMetadata.exitCode as number,
+                  signal: (executionResult.providerMetadata?.signal as string) ?? null,
+                })
+              );
+            }
+            for (const evidence of evidenceList) {
+              try {
+                this.coordinator.recordEvidence(run.runId, evidence, verificationFencing);
+              } catch { /* best effort */ }
+            }
+
+            if (isAuthorized) {
+              if (!hasPriorAuthorization) {
+                const authorizedAt = this.clock.nowIso();
+                const operatorIdentity =
+                  (task.inputPayload as Record<string, unknown> | null)?.operatorId ??
+                  (task.inputPayload as Record<string, unknown> | null)?.submittedBy ??
+                  this.workerId;
+                const unverifiedEvent: DomainEvent = {
+                  eventId: crypto.randomUUID(),
+                  runId: run.runId,
+                  timestamp: authorizedAt,
+                  eventType: "verification.unverified_completion_authorized",
+                  schemaVersion: 1,
+                  producer: typeof operatorIdentity === "string" ? `operator:${operatorIdentity}` : "application.worker_runtime",
+                  payload: {
+                    status: "UNVERIFIED_COMPLETION_AUTHORIZED",
+                    reason: "OPERATOR_OPT_IN_NO_VERIFICATION_SPECS",
+                    authorizedAt,
+                    operator: operatorIdentity,
+                  },
+                };
+                try {
+                  this.coordinator.store.transaction((tx) => {
+                    tx.appendEvent(unverifiedEvent);
+                  });
+                } catch { /* best effort */ }
+              }
+              // Explicit operator override: allow completion without failing closed.
+              // Note: scopedMemory.recordEntry is skipped because vSpecs is empty.
+            } else {
+              const noSpecEvidence = createEvidence({
+                runId: run.runId,
+                kind: "OUTPUT_PAYLOAD",
+                rawContent: {
+                  error: "NO_VERIFICATION_SPECS",
+                  message: "Contract specifies zero verification specifications; run cannot be verified",
+                  contractId: contract.spec.contractId,
+                  taskId: task.taskId,
+                },
+              });
+              try {
+                this.coordinator.recordEvidence(run.runId, noSpecEvidence, verificationFencing);
+              } catch { /* best effort */ }
+
+              await disposeWorkspaceSafely("No verification specifications").catch(() => {});
+              const errorPayload = {
+                code: "NO_VERIFICATION_SPECS",
+                message: "Contract specifies zero verification specifications; cannot complete run as verified success",
+                details: { contractId: contract.spec.contractId, taskId: task.taskId },
+              };
+              return failRunSafely(errorPayload);
+            }
+          }
+
           if (vSpecs && vSpecs.length > 0) {
             if (providerRole === "ORCHESTRATION") {
               // Orchestration providers (GovernedAgentExecutionProvider) verify specs per tool attempt inside

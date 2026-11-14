@@ -14,6 +14,7 @@ import {
   SumOperation,
 } from "../../src/domain/operation.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 class FailingOperation implements DeterministicOperation<unknown, unknown> {
   readonly name = "failing";
@@ -43,7 +44,9 @@ describe("Application Runtime & Lease Coordination", () => {
       inputPayload: { message: "Deterministic hello world", count: 42 },
     });
     expect(task.taskId).toBeDefined();
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-echo-1", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { message: "Deterministic hello world", count: 42 } })],
+    });
 
     // 2. Create run
     const createResult = coordinator.createRun({
@@ -85,16 +88,18 @@ describe("Application Runtime & Lease Coordination", () => {
 
     // 7. Verify gapless event sequence
     const events = coordinator.getEventsForRun(createResult.run.runId);
-    expect(events).toHaveLength(6);
+    expect(events).toHaveLength(8);
     expect(events.map((e) => e.eventType)).toEqual([
       "run.created",
       "run.queued",
       "worker.claimed",
       "run.started",
       "policy.evaluated",
+      "evidence.recorded",
+      "verification.completed",
       "run.completed",
     ]);
-    expect(events.map((e) => e.sequence)).toEqual([1, 2, 3, 4, 5, 6]);
+    expect(events.map((e) => e.sequence)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
 
     store.close();
   });
@@ -114,7 +119,9 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "sum",
       inputPayload: [10, 20, 30, 40],
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-sum-1b", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: 100 })],
+    });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -457,7 +464,9 @@ describe("Application Runtime & Lease Coordination", () => {
       title: "echo",
       inputPayload: { resilient: true },
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-resilient", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { resilient: true } })],
+    });
 
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3 });
     coordinator.queueRun(run.runId);

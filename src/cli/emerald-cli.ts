@@ -22,7 +22,7 @@ import type { PrincipalRecord } from "../transport/http/server.js";
  * - emerald recovery sweep|watch
  * - emerald submit --db <file> (--task <text> | --operation <name>) [--input <json>] [--capabilities <csv>]
  * - emerald inspect --db <file> --run-id <id>
- * - emerald server --db <file> [--port 3000] [--host 127.0.0.1]
+ * - emerald server --db <file> [--port 3000] [--host 127.0.0.1] [--web-ui-root <dir>]
  * - emerald worker --db <file> [--once] [--model-provider <fixture|ollama|in-process>] [--physical-provider <docker|none>] [--model <name>] [--ollama-base-url <url>] [--workspace-root <dir>] [--worker-id <id>] [--lease-ttl-ms <n>] [--poll-interval-ms <n>] [--max-runs <n>]
  */
 
@@ -562,7 +562,7 @@ export class EmeraldCli {
       "Usage: emerald submit --db <file> (--task <text> | --operation <name>) [--repo <dir>] [--input <json>] [--capabilities <csv>] [--max-attempts <n>] [--timeout-ms <n>] [--idempotency-key <key>]";
     const parsed = this.parseValueFlags(
       args,
-      ["--db", "--operation", "--task", "--repo", "--input", "--capabilities", "--max-attempts", "--timeout-ms", "--idempotency-key"],
+      ["--db", "--operation", "--task", "--repo", "--input", "--capabilities", "--max-attempts", "--timeout-ms", "--idempotency-key", "--verification-spec"],
       usage
     );
     if ("error" in parsed) return parsed.error;
@@ -603,6 +603,16 @@ export class EmeraldCli {
     const timeoutMs = intFlag("--timeout-ms");
     if (maxAttempts === "bad" || timeoutMs === "bad") return { exitCode: 1, output: "Error: --max-attempts and --timeout-ms must be positive integers" };
 
+    let verificationSpecs: any[] | undefined;
+    if (flags.has("--verification-spec")) {
+      try {
+        const rawSpec = JSON.parse(flags.get("--verification-spec")!);
+        verificationSpecs = Array.isArray(rawSpec) ? rawSpec : [rawSpec];
+      } catch {
+        return { exitCode: 1, output: "Error: --verification-spec must be valid JSON" };
+      }
+    }
+
     const capabilities = flags.has("--capabilities")
       ? flags
           .get("--capabilities")!
@@ -623,6 +633,7 @@ export class EmeraldCli {
         idempotencyKey: flags.get("--idempotency-key"),
         capabilities,
         repositoryPath,
+        verificationSpecs,
       });
       return { exitCode: 0, output: JSON.stringify(submitted) };
     } finally {
@@ -1109,7 +1120,7 @@ export class EmeraldCli {
    */
   private async handleServer(args: readonly string[]): Promise<{ exitCode: number; output: string }> {
     const usage =
-      "Usage: emerald server --db <file> [--port <port>] [--host <host>] [--principals <json>] [--cors-origins <csv>] [--artifact-root <dir>] [--ollama-base-url <url>] [--otlp-endpoint <url>] [--langfuse-base-url <url>] [--enable-execution-loop] [--workspace-root <dir>] [--execution-mode <fixture|live>] [--max-concurrent <1|2>] [--loop-interval-ms <n>]";
+      "Usage: emerald server --db <file> [--port <port>] [--host <host>] [--principals <json>] [--cors-origins <csv>] [--artifact-root <dir>] [--ollama-base-url <url>] [--otlp-endpoint <url>] [--langfuse-base-url <url>] [--enable-execution-loop] [--workspace-root <dir>] [--execution-mode <fixture|live>] [--max-concurrent <1|2>] [--loop-interval-ms <n>] [--web-ui-root <dir>]";
     let enableExecutionLoop = false;
     const restArgs: string[] = [];
     for (const a of args) {
@@ -1136,6 +1147,8 @@ export class EmeraldCli {
         "--execution-mode",
         "--max-concurrent",
         "--loop-interval-ms",
+        "--web-ui-root",
+        "--web-ui",
       ],
       usage
     );
@@ -1212,6 +1225,27 @@ export class EmeraldCli {
       if (!fs.existsSync(artifactRoot) || !fs.statSync(artifactRoot).isDirectory()) {
         return { exitCode: 1, output: `Error: artifact root not found: ${artifactRoot}` };
       }
+    }
+
+    let webUiRoot: string | undefined;
+    if (flags.has("--web-ui-root") && flags.has("--web-ui")) {
+      return { exitCode: 1, output: `Error: cannot supply both --web-ui-root and --web-ui. ${usage}` };
+    }
+    const webUiRootRaw = flags.get("--web-ui-root") ?? flags.get("--web-ui");
+    if (webUiRootRaw !== undefined) {
+      const resolvedUiRoot = path.resolve(webUiRootRaw);
+      if (!fs.existsSync(resolvedUiRoot) || !fs.statSync(resolvedUiRoot).isDirectory()) {
+        return { exitCode: 1, output: `Error: web UI root directory not found: ${resolvedUiRoot}` };
+      }
+      const indexHtmlPath = path.join(resolvedUiRoot, "index.html");
+      if (!fs.existsSync(indexHtmlPath) || !fs.statSync(indexHtmlPath).isFile()) {
+        return { exitCode: 1, output: `Error: web UI root missing index.html: ${indexHtmlPath}` };
+      }
+      const bundleJsPath = path.join(resolvedUiRoot, "dist", "bundle.js");
+      if (!fs.existsSync(bundleJsPath) || !fs.statSync(bundleJsPath).isFile()) {
+        return { exitCode: 1, output: `Error: web UI root missing dist/bundle.js: ${bundleJsPath}` };
+      }
+      webUiRoot = resolvedUiRoot;
     }
 
     const store = new SqliteStateStore({ location: dbPath });
@@ -1297,6 +1331,7 @@ export class EmeraldCli {
         principals,
         corsOrigins,
         artifactRoot,
+        webUiRoot,
         modelRouter: routing.router,
         workerRuntime,
         enableExecutionLoop,

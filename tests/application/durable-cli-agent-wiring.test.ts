@@ -312,6 +312,8 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       "sum",
       "--input",
       "[15, 27]",
+      "--verification-spec",
+      JSON.stringify([{ specId: "vspec-sum", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: 42 }]),
     ]);
     expect(s.exitCode).toBe(0);
     const { runId } = JSON.parse(s.output);

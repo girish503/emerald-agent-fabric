@@ -8,6 +8,7 @@ import {
 } from "../../src/domain/policy.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../../src/ports/execution-provider.port.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 /**
  * Spy ExecutionProvider that records all execution invocations.
@@ -62,7 +63,10 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: { msg: "hello" },
     });
-    createAndActivateContract(store, task.taskId, { policy });
+    createAndActivateContract(store, task.taskId, {
+      policy,
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-echo-policy", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { echoed: 123 } })],
+    });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -337,7 +341,9 @@ describe("WorkerRuntime — Policy Enforcement & Capability Boundary", () => {
       title: "echo",
       inputPayload: { foo: "bar" },
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-contract-policy", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { default: "ok" } })],
+    });
 
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
