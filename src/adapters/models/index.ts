@@ -7,3 +7,8 @@ export {
   type OllamaModelProviderOptions,
   type OllamaFetchLike,
 } from "./ollama-model-provider.js";
+
+export {
+  OpenAICompatibleModelProvider,
+  type OpenAICompatibleModelProviderOptions,
+} from "./openai-compatible-model-provider.js";
