@@ -42,6 +42,8 @@ import { createExecutionPolicy } from "../../../src/domain/policy.js";
 import { createAndActivateContract } from "../../application/test-helpers.js";
 
 class SpyExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "spy-docker";
   public invocationCount = 0;
   public lastRequest?: ExecutionRequest<any>;

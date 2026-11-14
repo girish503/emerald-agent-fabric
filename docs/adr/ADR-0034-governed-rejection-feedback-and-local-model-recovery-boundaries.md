@@ -7,12 +7,12 @@
 - **Decision Type**: Architectural runtime governance, validation feedback policy, and local model operating boundaries
 - **Governing Constitution**: [GEMINI.md](../../GEMINI.md) (Master Engineering Constitution Version 1.0)
 - **Related Evidence**:
-  - Phase 43 Gate B Research Report: [`docs/research/phase43-gate-b-empirical-research-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase43-gate-b-empirical-research-report.md)
-  - Gate B.1 Trial Record: [`scratch/phase43-gate-b1-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b1-trial-results.json)
-  - Gate B.2 Trial Record: [`scratch/phase43-gate-b2-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b2-trial-results.json)
-  - Gate B.3 Trial Record: [`scratch/phase43-gate-b3-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b3-trial-results.json)
-  - Gate B.4 Trial Record: [`scratch/phase43-gate-b4-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b4-trial-results.json)
-  - Gate B.6 Trial Record: [`scratch/phase43-gate-b6-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b6-trial-results.json)
+  - Phase 43 Gate B Research Report: [`docs/research/phase43-gate-b-empirical-research-report.md`](../../docs/research/phase43-gate-b-empirical-research-report.md)
+  - Gate B.1 Trial Record: [`scratch/phase43-gate-b1-trial-results.json`](../../scratch/phase43-gate-b1-trial-results.json)
+  - Gate B.2 Trial Record: [`scratch/phase43-gate-b2-trial-results.json`](../../scratch/phase43-gate-b2-trial-results.json)
+  - Gate B.3 Trial Record: [`scratch/phase43-gate-b3-trial-results.json`](../../scratch/phase43-gate-b3-trial-results.json)
+  - Gate B.4 Trial Record: [`scratch/phase43-gate-b4-trial-results.json`](../../scratch/phase43-gate-b4-trial-results.json)
+  - Gate B.6 Trial Record: [`scratch/phase43-gate-b6-trial-results.json`](../../scratch/phase43-gate-b6-trial-results.json)
 - **Related ADRs**:
   - ADR-0001: Master Engineering Constitution
   - ADR-0003: Workspace and Typed Tools

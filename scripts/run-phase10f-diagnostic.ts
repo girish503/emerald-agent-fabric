@@ -43,7 +43,7 @@ import { canonicalJsonStringify } from "../src/domain/canonical-hash.js";
 // ============================================================================
 
 const SCRATCH_DIR = path.resolve(
-  "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch"
+  path.resolve(__dirname, "../tests/fixtures")
 );
 
 const TARGET_ARTIFACT_PATH = path.join(SCRATCH_DIR, "phase10f-tool-input-diagnostic.json");

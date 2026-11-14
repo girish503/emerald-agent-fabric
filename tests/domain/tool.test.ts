@@ -52,8 +52,8 @@ describe("Phase 4 / Task 4.1: Typed Tool Domain Contracts, Schemas & Error Taxon
   // =========================================================================
   describe("1. Tool Identity & Catalog", () => {
     it("defines exactly the six initial tools with stable names", () => {
-      expect(TOOL_NAMES).toHaveLength(6);
-      expect(INITIAL_TOOL_DEFINITIONS).toHaveLength(6);
+      expect(TOOL_NAMES).toHaveLength(7);
+      expect(INITIAL_TOOL_DEFINITIONS).toHaveLength(7);
       expect(TOOL_NAMES).toEqual([
         "run_command",
         "write_file",
@@ -61,6 +61,7 @@ describe("Phase 4 / Task 4.1: Typed Tool Domain Contracts, Schemas & Error Taxon
         "search_code",
         "git_status",
         "git_diff",
+        "edit_file",
       ]);
     });
 
@@ -82,7 +83,7 @@ describe("Phase 4 / Task 4.1: Typed Tool Domain Contracts, Schemas & Error Taxon
     });
 
     it("registers all six tools in StaticToolRegistry reference catalog", () => {
-      expect(staticToolRegistry.listTools()).toHaveLength(6);
+      expect(staticToolRegistry.listTools()).toHaveLength(7);
       for (const name of TOOL_NAMES) {
         expect(staticToolRegistry.hasTool(name)).toBe(true);
         const tool = staticToolRegistry.getTool(name);
@@ -650,7 +651,7 @@ describe("Phase 4 / Task 4.1: Typed Tool Domain Contracts, Schemas & Error Taxon
   // =========================================================================
   describe("11. Error Taxonomy & Categorization", () => {
     it("defines all nine stable tool error codes", () => {
-      expect(TOOL_ERROR_CODES).toHaveLength(9);
+      expect(TOOL_ERROR_CODES).toHaveLength(13);
       expect(TOOL_ERROR_CODES).toEqual([
         "TOOL_NOT_FOUND",
         "INVALID_TOOL_INPUT",
@@ -661,6 +662,10 @@ describe("Phase 4 / Task 4.1: Typed Tool Domain Contracts, Schemas & Error Taxon
         "TOOL_EXECUTION_FAILED",
         "TOOL_CANCELLED",
         "TOOL_PROVIDER_UNAVAILABLE",
+        "WAITING_APPROVAL",
+        "APPROVAL_REJECTED",
+        "APPROVAL_EXPIRED",
+        "APPROVAL_INVALID",
       ]);
     });
 

@@ -1,0 +1,19 @@
+# Emerald Agent Fabric — Prometheus Configuration (Phase 3)
+# Target metrics exposed read-only by Fastify transport on GET /metrics.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "prometheus-alerts.yml"
+
+scrape_configs:
+  - job_name: "emerald-agent-fabric"
+    scrape_interval: 5s
+    metrics_path: "/metrics"
+    static_configs:
+      # Use host.docker.internal when Prometheus runs in Docker; use 127.0.0.1:3000 for local bare-metal Prometheus.
+      - targets: ["host.docker.internal:3000"]
+        labels:
+          service: "emerald-agent-fabric"
+          environment: "local"

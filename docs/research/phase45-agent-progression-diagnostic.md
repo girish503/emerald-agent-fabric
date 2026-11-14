@@ -8,10 +8,10 @@ This diagnostic inspected the context engine, prompt construction, tool result a
 
 ### Primary Diagnostic Findings
 1. **Target File Contents Were Fully Present in Context**: Tool execution succeeded on Step 1, and the complete 125-byte content of `src/calc.js` was serialized into a typed `TOOL_RESULT` observation and included in the model context for Steps 2, 3, 4, and 5. Context loss or output truncation did **not** occur.
-2. **Task Objective Omitted Defect and Repair Specifications**: The task definition in [`src/production/benchmark/phase43-benchmark-runner.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/benchmark/phase43-benchmark-runner.ts#L740-L749) categorized `EAF-BM-01` as `"CODE_NAVIGATION"`, providing the agent only with `title: "Core Arithmetic Off-by-One Fix"` and `inputPayload: { targetFile: "src/calc.js" }`. Zero bug descriptions, failure logs, expected return values, or edit instructions were provided to the agent.
-3. **Prompt Lacks Phase Progression Guidance**: The system instructions in [`src/application/live-agent-brain.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L61-L76) instruct the agent on authority limits, tool schema matching, and goal completion, but provide zero guidance on task lifecycle progression (e.g., transition from inspection to editing, or avoiding redundant reads).
+2. **Task Objective Omitted Defect and Repair Specifications**: The task definition in [`src/production/benchmark/phase43-benchmark-runner.ts`](../../src/production/benchmark/phase43-benchmark-runner.ts#L740-L749) categorized `EAF-BM-01` as `"CODE_NAVIGATION"`, providing the agent only with `title: "Core Arithmetic Off-by-One Fix"` and `inputPayload: { targetFile: "src/calc.js" }`. Zero bug descriptions, failure logs, expected return values, or edit instructions were provided to the agent.
+3. **Prompt Lacks Phase Progression Guidance**: The system instructions in [`src/application/live-agent-brain.ts`](../../src/application/live-agent-brain.ts#L61-L76) instruct the agent on authority limits, tool schema matching, and goal completion, but provide zero guidance on task lifecycle progression (e.g., transition from inspection to editing, or avoiding redundant reads).
 4. **Context Engine Duplicated Identical Observations**: Across Steps 2 through 5, `ContextSource` gathered and retained an additional `TOOL_RESULT` observation for every identical read of `src/calc.js`, creating multi-observation duplication without summarization or deduplication.
-5. **Runtime Controller Perceived Stagnation as Healthy Progress**: In [`src/application/agent-step-controller.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/agent-step-controller.ts#L1381-L1385), `consecutiveFailures` is reset to 0 whenever an action succeeds, and `proposalRejections` only increments on invalid proposals. Because all 5 read actions succeeded under governance, the controller detected zero anomalies until the hard `maxSteps: 5` ceiling halted the run.
+5. **Runtime Controller Perceived Stagnation as Healthy Progress**: In [`src/application/agent-step-controller.ts`](../../src/application/agent-step-controller.ts#L1381-L1385), `consecutiveFailures` is reset to 0 whenever an action succeeds, and `proposalRejections` only increments on invalid proposals. Because all 5 read actions succeeded under governance, the controller detected zero anomalies until the hard `maxSteps: 5` ceiling halted the run.
 
 ---
 
@@ -56,7 +56,7 @@ The following sequence illustrates the actual step-by-step decision and executio
 ## 2. Detailed Technical Inspection by Subsystem
 
 ### 2.1 Task Representation & Objective Clarity
-- **Source**: [`src/production/benchmark/phase43-benchmark-runner.ts#L108-L143`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/benchmark/phase43-benchmark-runner.ts#L108-L143) and [`#L740-L750`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/benchmark/phase43-benchmark-runner.ts#L740-L750).
+- **Source**: [`src/production/benchmark/phase43-benchmark-runner.ts#L108-L143`](../../src/production/benchmark/phase43-benchmark-runner.ts#L108-L143) and [`#L740-L750`](../../src/production/benchmark/phase43-benchmark-runner.ts#L740-L750).
 - **Observed Code**:
   ```typescript
   const runtimeTask = coordinator.createTask({
@@ -85,7 +85,7 @@ The following sequence illustrates the actual step-by-step decision and executio
   The category is explicitly labeled `"CODE_NAVIGATION"` rather than `"BUG_REPAIR"`. The task description provides zero indication of what function is defective, what tests are failing, or that `write_file` must be called to apply a patch. An agent without pre-trained benchmark memory has only the title `"Core Arithmetic Off-by-One Fix"` to infer that code modification is expected.
 
 ### 2.2 Observation Assembly & Tool Result Serialization
-- **Source**: [`src/application/context/context-source.ts#L249-L275`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/context/context-source.ts#L249-L275).
+- **Source**: [`src/application/context/context-source.ts#L249-L275`](../../src/application/context/context-source.ts#L249-L275).
 - **Observed Code**:
   ```typescript
   if (attempt.outputPayload !== null && attempt.outputPayload !== undefined) {
@@ -113,7 +113,7 @@ The following sequence illustrates the actual step-by-step decision and executio
   The agent definitively received the file content. However, `ContextSource` gathers all historical actions for the run. By Step 5, the context contained 4 previous identical `read_file` action records and 4 previous identical `TOOL_RESULT` observations, repeating the exact same 125 bytes 4 times. While within the 16,000-byte context budget, this repetitive accumulation reinforces the read pattern in the prompt.
 
 ### 2.3 Prompt Structure & System Instructions
-- **Source**: [`src/application/live-agent-brain.ts#L61-L76`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L61-L76) and [`#L602-L656`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L602-L656).
+- **Source**: [`src/application/live-agent-brain.ts#L61-L76`](../../src/application/live-agent-brain.ts#L61-L76) and [`#L602-L656`](../../src/application/live-agent-brain.ts#L602-L656).
 - **Observed System Prompt**:
   ```
   You are a reasoning component within the Emerald Agent Fabric.
@@ -144,7 +144,7 @@ The following sequence illustrates the actual step-by-step decision and executio
   The instructions tell the model what *not* to do (do not execute, do not claim authority, do not use `filePath`), but provide no guidance on the *process* of solving a task. The model is told: "Inspect context" -> "Select a tool". Because `read_file` is the tool it has already selected successfully, and `write_file` requires generating a larger, more complex payload with code replacement, the model defaults to `read_file`.
 
 ### 2.4 Asymmetry in Tool Proposal Complexity
-- **Source**: [`src/application/live-agent-brain.ts#L119-L195`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L119-L195).
+- **Source**: [`src/application/live-agent-brain.ts#L119-L195`](../../src/application/live-agent-brain.ts#L119-L195).
 - **Comparison**:
   - `read_file` proposal payload:
     ```json
@@ -160,7 +160,7 @@ The following sequence illustrates the actual step-by-step decision and executio
   Under temperature 0.0 (greedy decoding) on a 1.5B model, token probabilities heavily favor the shorter, lower-entropy `read_file` token path unless the prompt creates a strong conditional prior toward modification.
 
 ### 2.5 Controller Stagnation Detection Gap
-- **Source**: [`src/application/agent-step-controller.ts#L1308-L1385`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/agent-step-controller.ts#L1308-L1385).
+- **Source**: [`src/application/agent-step-controller.ts#L1308-L1385`](../../src/application/agent-step-controller.ts#L1308-L1385).
 - **Observed Behavior**:
   ```typescript
   if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
@@ -198,7 +198,7 @@ The following three candidate experiments are strictly prioritized to address th
 ### Candidate Experiment 1: Explicit Task Lifecycle & Progression Guidance in System Prompt
 - **Hypothesis**: Clarifying the expected problem-solving lifecycle in `DEFAULT_LIVE_BRAIN_SYSTEM_INSTRUCTION` (Phase 1: Inspect code with `read_file`; Phase 2: Modify code with `write_file`; Phase 3: Verify or conclude) will shift model token distribution from redundant reading to patch authoring once target code is in context.
 - **Smallest Proposed Change**:
-  In [`src/application/live-agent-brain.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L70-L76), append a progression rule:
+  In [`src/application/live-agent-brain.ts`](../../src/application/live-agent-brain.ts#L70-L76), append a progression rule:
   ```
   7. Progression: Once you have read and inspected the target file, do not re-read it. Propose write_file to apply the required fix, or declare completion with isGoalReached: true.
   ```
@@ -210,7 +210,7 @@ The following three candidate experiments are strictly prioritized to address th
 ### Candidate Experiment 2: Redundant Action Stagnation Detection in Step Controller
 - **Hypothesis**: If `AgentStepController` detects that an agent proposes an identical read-only action (`read_file` on the same path) that has already succeeded without intervening workspace modifications, rejecting the proposal or injecting a non-fatal stagnation advisory observation will force the model to select an alternative tool branch.
 - **Smallest Proposed Change**:
-  In [`src/application/agent-step-controller.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/agent-step-controller.ts), before action execution, check if `toolName === "read_file"` matches the immediate prior action on the same path, and if so, inject an ephemeral `[STAGNATION_ADVISORY]` observation informing the agent that the file has already been read and is present in context.
+  In [`src/application/agent-step-controller.ts`](../../src/application/agent-step-controller.ts), before action execution, check if `toolName === "read_file"` matches the immediate prior action on the same path, and if so, inject an ephemeral `[STAGNATION_ADVISORY]` observation informing the agent that the file has already been read and is present in context.
 - **Offline Tests Needed**: Unit tests in `tests/application/agent-step-controller.test.ts` verifying advisory generation on consecutive duplicate reads.
 - **Success Metric**: Step loop halts or redirects the agent before exhausting the 5-step budget on duplicate reads.
 - **Regression & Security Risks**: Medium. Must avoid false positives on valid repeated reads (e.g., reading different line ranges or reading after a command runs).
@@ -219,7 +219,7 @@ The following three candidate experiments are strictly prioritized to address th
 ### Candidate Experiment 3: Context Snapshot Tool-Result Deduplication
 - **Hypothesis**: Suppressing redundant historical `TOOL_RESULT` observations for identical read actions on unmutated files prevents prompt token bloat and avoids reinforcing the model's recency bias toward repeated reads.
 - **Smallest Proposed Change**:
-  In [`src/application/context/context-source.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/context/context-source.ts), deduplicate `TOOL_RESULT` observations targeting identical file paths when no intervening workspace write or command has occurred, keeping only the most recent observation.
+  In [`src/application/context/context-source.ts`](../../src/application/context/context-source.ts), deduplicate `TOOL_RESULT` observations targeting identical file paths when no intervening workspace write or command has occurred, keeping only the most recent observation.
 - **Offline Tests Needed**: Unit tests in `tests/application/context-engine.test.ts` asserting deduplication of identical tool output observations.
 - **Success Metric**: Context snapshot retains only one instance of `src/calc.js` content.
 - **Regression & Security Risks**: Low. Preserves full action history while reducing observation redundancy.

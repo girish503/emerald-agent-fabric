@@ -14,7 +14,7 @@ The runtime controller deterministically recognized stagnation and halted the tr
 
 ## 1. Background & The Phase 44D Observation Loop Failure
 
-In Phase 44 (documented in [`docs/research/phase44-structured-output-and-repair-loop-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase44-structured-output-and-repair-loop-report.md)), grammar-constrained structured output successfully eliminated the parameter-name hallucination (`filePath` vs `path`) that had caused repeated proposal rejections in Phase 43. 
+In Phase 44 (documented in [`docs/research/phase44-structured-output-and-repair-loop-report.md`](../../docs/research/phase44-structured-output-and-repair-loop-report.md)), grammar-constrained structured output successfully eliminated the parameter-name hallucination (`filePath` vs `path`) that had caused repeated proposal rejections in Phase 43. 
 
 However, during the live Phase 44D trial (`scratch/phase44d-repair-results.json`):
 - The model proposed `read_file` for `src/calc.js` across all five allocated steps.
@@ -27,7 +27,7 @@ However, during the live Phase 44D trial (`scratch/phase44d-repair-results.json`
 
 ## 2. Phase 45A: Read-Only Progression Diagnostic
 
-Before modifying any source code, a comprehensive trace of prompt assembly, context construction, and controller execution was conducted (documented in [`docs/research/phase45-agent-progression-diagnostic.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase45-agent-progression-diagnostic.md)).
+Before modifying any source code, a comprehensive trace of prompt assembly, context construction, and controller execution was conducted (documented in [`docs/research/phase45-agent-progression-diagnostic.md`](../../docs/research/phase45-agent-progression-diagnostic.md)).
 
 ### Diagnostic Findings
 1. **Target Content Was Never Lost**: In Step 1 of Phase 44D, `src/calc.js` was read successfully. Its full 125-byte content was serialized into a typed `TOOL_RESULT` observation and delivered into the model prompt for Steps 2 through 5. Context loss did not explain the repetition.
@@ -41,7 +41,7 @@ Before modifying any source code, a comprehensive trace of prompt assembly, cont
 To eliminate model guessing and provide clear task objectives, Phase 45B established a typed, grounded contract from benchmark fixtures to prompt construction without modifying frozen benchmark definitions (`PHASE43_PILOT_TASKS`).
 
 ### Implementation Details
-- **Benchmark Runner Registration**: In [`src/production/benchmark/phase43-benchmark-runner.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/benchmark/phase43-benchmark-runner.ts#L740-L766), `executeTrial()` constructs a grounded task description from invariant fixture fields:
+- **Benchmark Runner Registration**: In [`src/production/benchmark/phase43-benchmark-runner.ts`](../../src/production/benchmark/phase43-benchmark-runner.ts#L740-L766), `executeTrial()` constructs a grounded task description from invariant fixture fields:
   ```text
   Task: Core Arithmetic Off-by-One Fix
   Category: CODE_NAVIGATION
@@ -52,14 +52,14 @@ To eliminate model guessing and provide clear task objectives, Phase 45B establi
   - Verification test 'node test/f2p.test.js' must pass with exit code 0.
   - Regression test 'node test/p2p.test.js' must pass with exit code 0.
   ```
-- **Context Injection**: In [`src/application/live-agent-brain.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L614-L627), `buildModelRequest()` extracts `taskDetails` from the `MISSION_CONTEXT` observation and injects `- Task Title: ...` and `\n### Task Objective & Criteria\n...` under `## Task Execution Context`.
-- **Offline Contract Verification**: Authored [`tests/contract/task-context-contract.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/contract/task-context-contract.test.ts). Verified across `EAF-BM-01`, `EAF-BM-02`, and `EAF-BM-03` that outbound model requests receive the exact criteria, navigation tasks without descriptions preserve baseline prompts, and benchmark fixtures remain immutable (3/3 tests passed).
+- **Context Injection**: In [`src/application/live-agent-brain.ts`](../../src/application/live-agent-brain.ts#L614-L627), `buildModelRequest()` extracts `taskDetails` from the `MISSION_CONTEXT` observation and injects `- Task Title: ...` and `\n### Task Objective & Criteria\n...` under `## Task Execution Context`.
+- **Offline Contract Verification**: Authored [`tests/contract/task-context-contract.test.ts`](../../tests/contract/task-context-contract.test.ts). Verified across `EAF-BM-01`, `EAF-BM-02`, and `EAF-BM-03` that outbound model requests receive the exact criteria, navigation tasks without descriptions preserve baseline prompts, and benchmark fixtures remain immutable (3/3 tests passed).
 
 ---
 
 ## 4. Phase 45C: Bounded Stagnation Control Implementation
 
-To prevent unbounded loops on repetitive actions, Phase 45C added deterministic stagnation detection and progression feedback to [`src/application/agent-step-controller.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/agent-step-controller.ts).
+To prevent unbounded loops on repetitive actions, Phase 45C added deterministic stagnation detection and progression feedback to [`src/application/agent-step-controller.ts`](../../src/application/agent-step-controller.ts).
 
 ### Mechanisms
 1. **Identical Read Tracking**: Tracks `consecutiveCount` for successful `read_file` actions where the relative file path, input argument hash (`inputHash`), and output content hash (`outputHash`) match the immediately preceding read action.
@@ -69,15 +69,15 @@ To prevent unbounded loops on repetitive actions, Phase 45C added deterministic 
    - `terminalReason: "STAGNATION"`
    - `terminalMessage: "Execution loop halted due to stagnation: 3 consecutive identical successful reads of '<path>' without progress"`
 4. **Deterministic Counter Resets**: The stagnation counter resets to 1 if the model reads a different file path, reads a different line range, or if the file content on disk changes. The counter resets to 0 if any non-read tool executes (`write_file`, `search_code`, `run_command`, etc.) or if an action fails.
-5. **Offline Test Verification**: Added Section 22 to [`tests/application/agent-step-controller.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/application/agent-step-controller.test.ts#L1142-L1419) with 6 unit tests covering default ceiling termination, content change resets, range exploration, path exploration, intervening writes, and custom budget overrides (30/30 tests passed).
+5. **Offline Test Verification**: Added Section 22 to [`tests/application/agent-step-controller.test.ts`](../../tests/application/agent-step-controller.test.ts#L1142-L1419) with 6 unit tests covering default ceiling termination, content change resets, range exploration, path exploration, intervening writes, and custom budget overrides (30/30 tests passed).
 
 ---
 
 ## 5. Live Empirical Evaluation: Phase 45C Trial
 
 ### 5.1 Trial Configuration
-- **Suite**: [`tests/integration/phase45c-repair-live.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/integration/phase45c-repair-live.test.ts)
-- **Authoritative Record**: [`scratch/phase45c-repair-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase45c-repair-results.json)
+- **Suite**: [`tests/integration/phase45c-repair-live.test.ts`](../../tests/integration/phase45c-repair-live.test.ts)
+- **Authoritative Record**: [`scratch/phase45c-repair-results.json`](../../scratch/phase45c-repair-results.json)
 - **Benchmark Task**: `EAF-BM-01` (`src/calc.js` off-by-one arithmetic defect)
 - **Model**: `qwen2.5-coder:1.5b` (local Ollama digest `d7372fd82851...`)
 - **Budgets**: `maxSteps: 5`, `maxProposalRejections: 3`, `maxConsecutiveIdenticalReads: 3`, `stepTimeoutMs: 120,000`
@@ -135,7 +135,7 @@ A critical architectural distinction in Emerald Agent Fabric is separating evide
    - Contains 29 canonical domain events covering run creation, lease acquisition, action executions, observation captures, and terminal transition.
    - Dual-signed with valid Ed25519 signatures from `WORKER_PRODUCER` and `SUPERVISOR`.
    - Provenance root: `6d28c386b644affb0aae537e4620d5bb12372935d8067223c4120d5cb4335ecf`.
-   - Independent [`OfflineAuditor`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/offline-auditor.ts) verified the bundle with status `VERIFIED` (`thresholdSatisfied: true`, `failures: []`).
+   - Independent [`OfflineAuditor`](../../src/application/offline-auditor.ts) verified the bundle with status `VERIFIED` (`thresholdSatisfied: true`, `failures: []`).
 2. **Task Correctness: UNVERIFIED / FAILED**
    - The model never proposed `write_file`.
    - The candidate patch length was 0 bytes.

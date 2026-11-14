@@ -6,7 +6,7 @@
 - **Date**: 2026-10-22
 - **Model**: Local Ollama `qwen2.5-coder:3b` (HTTP `http://127.0.0.1:11434`)
 - **Cost**: ₹0.00 (100% local CPU inference)
-- **Primary Change**: Applied minimal prompt alignment to [`scripts/run-task-a-real-project.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/run-task-a-real-project.ts) to instruct and exemplify canonical `read_file` tool input `{"path": string}`, eliminating unmodeled `offsetLine` and `limitLines` parameters while preserving strict Zod runtime validation (`ReadFileInputSchema.strict()`).
+- **Primary Change**: Applied minimal prompt alignment to [`scripts/run-task-a-real-project.ts`](../../scripts/run-task-a-real-project.ts) to instruct and exemplify canonical `read_file` tool input `{"path": string}`, eliminating unmodeled `offsetLine` and `limitLines` parameters while preserving strict Zod runtime validation (`ReadFileInputSchema.strict()`).
 - **Trial Outcome**: `qwen2.5-coder:3b` generated a 100% valid proposal on Turn 1 (zero reprompts). The `read_file` tool executed successfully, returned genuine production file contents, and completed sovereign verification and 3-sweep deterministic replay with zero workspace mutations.
 
 ---
@@ -14,7 +14,7 @@
 ## 1. Minimal Correction Scope & Architectural Rationale
 
 ### A. Minimal Script Correction
-The change was confined strictly to [`scripts/run-task-a-real-project.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/run-task-a-real-project.ts):
+The change was confined strictly to [`scripts/run-task-a-real-project.ts`](../../scripts/run-task-a-real-project.ts):
 1. **Initial Prompt Alignment (lines 120–128)**: Removed `"Propose a read_file action with limitLines=50."` and replaced the example toolInput `{ path: targetFile, offsetLine: 1, limitLines: 50 }` with the canonical contract `{ path: targetFile }`.
 2. **Repair Reprompt Alignment (line 164)**: Aligned correction guidance from `"toolInput must contain ONLY: path, offsetLine, limitLines"` to `"toolInput must contain ONLY: path"`.
 3. **Evidence Artifact Separation (line 301)**: Directed output to `scratch/bounded-real-project-task-a-aligned-results.json` to prevent overwriting prior evidence.

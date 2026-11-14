@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "benchmark": "node bin/run-benchmark.js",
+    "benchmark:humaneval": "node bin/run-humaneval.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"

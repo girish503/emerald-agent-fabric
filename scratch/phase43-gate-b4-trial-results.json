@@ -4,9 +4,9 @@
   "model": "qwen2.5-coder:3b",
   "modelDigest": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
   "timestamps": {
-    "startedAt": "2026-10-25T12:54:26.667Z",
-    "completedAt": "2026-10-25T12:56:27.871Z",
-    "wallClockDurationMs": 121199
+    "startedAt": "2026-11-13T18:57:51.634Z",
+    "completedAt": "2026-11-13T18:59:53.941Z",
+    "wallClockDurationMs": 122306
   },
   "telemetry": {
     "modelCalls": 1,
@@ -30,10 +30,10 @@
   },
   "cleanRoomVerification": null,
   "evidenceBundle": {
-    "bundleId": "2aa5e0c7c7b322ba965178e3227ff4a389a9feb32f0dfb23d639bb97efeb0403",
-    "provenanceRoot": "444cd0abc08b18884dd758083aa2d8038e8807b921c068443865a193092627a1",
+    "bundleId": "e76d4bedb54b055df83d89d119fd197f6fef46a0ca10776e91d289a4b92eb32a",
+    "provenanceRoot": "ca7cd5c1810d30939bb1b896577c9cc0109784ed3bdd5c8acc4770132c8ddc94",
     "signaturesCount": 2,
-    "eventsCount": 5
+    "eventsCount": 6
   },
   "offlineAudit": {
     "status": "VERIFIED",
@@ -41,13 +41,13 @@
     "fourfoldSatisfied": false,
     "failures": []
   },
-  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1792932866706-KHFKrd",
+  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1794596271646-oTZziY",
   "diagnostics": {
     "stepDiagnostics": [
       {
         "stepNumber": 1,
-        "timestamp": "2026-10-25T12:54:27.079Z",
-        "durationMs": 120386,
+        "timestamp": "2026-11-13T18:57:52.615Z",
+        "durationMs": 120798,
         "proposalValid": false
       }
     ],
@@ -57,6 +57,12 @@
         "proposalValid": false
       }
     ],
-    "rawCompletions": []
+    "rawCompletions": [],
+    "postPassLatchSnapshot": {
+      "schemaVersion": 1,
+      "isLatched": false,
+      "protectedPaths": [],
+      "cleanRoomVerified": false
+    }
   }
 }

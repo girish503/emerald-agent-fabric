@@ -1,0 +1,160 @@
+# Emerald Agent Fabric — Actionable Prometheus Alert Rules (Phase 3)
+# Every rule references emitted metrics and separates fixture vs live execution_mode where applicable.
+groups:
+  - name: emerald_execution_and_router
+    rules:
+      - alert: EmeraldHighTaskFailureRate
+        expr: |
+          (
+            sum(rate(emerald_verifications_total{verified="false",execution_mode="live"}[5m]))
+            /
+            clamp_min(sum(rate(emerald_verifications_total{execution_mode="live"}[5m])), 0.001)
+          ) > 0.25
+        for: 5m
+        labels:
+          severity: critical
+          component: verification
+        annotations:
+          summary: "Live task verification rejection rate exceeds 25%"
+          description: "More than 25% of live verifications failed over the last 5 minutes."
+
+      - alert: EmeraldRouterCapacitySaturated
+        expr: emerald_router_capacity_remaining{execution_mode="live"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          component: router
+        annotations:
+          summary: "Task router admission capacity exhausted"
+          description: "emerald_router_capacity_remaining has remained at 0 for 5 minutes."
+
+      - alert: EmeraldHttp5xxSpike
+        expr: sum(rate(emerald_http_errors_total[5m])) > 0.1
+        for: 2m
+        labels:
+          severity: critical
+          component: transport
+        annotations:
+          summary: "Sustained HTTP 5xx responses on Fastify control plane"
+          description: "API server is returning HTTP 5xx errors."
+
+      - alert: EmeraldHttpLatencyP95High
+        expr: |
+          histogram_quantile(0.95, sum(rate(emerald_http_request_duration_seconds_bucket[5m])) by (le)) > 2.0
+        for: 5m
+        labels:
+          severity: warning
+          component: transport
+        annotations:
+          summary: "Control-plane HTTP p95 latency > 2s"
+          description: "95th percentile Fastify HTTP request latency exceeded 2 seconds."
+
+  - name: emerald_tools_and_models
+    rules:
+      - alert: EmeraldConnectorAuthorizationDeniedSpike
+        expr: sum(increase(emerald_connector_executions_total{status="denied",execution_mode="live"}[5m])) >= 3
+        for: 1m
+        labels:
+          severity: warning
+          component: connector_security
+        annotations:
+          summary: "Repeated governed connector capability denials detected"
+          description: "Three or more connector authorization denials occurred within 5 minutes."
+
+      - alert: EmeraldConnectorTimeoutBurst
+        expr: sum(increase(emerald_connector_executions_total{status="timeout",execution_mode="live"}[5m])) >= 3
+        for: 2m
+        labels:
+          severity: warning
+          component: connectors
+        annotations:
+          summary: "Repeated tool connector timeouts"
+          description: "Three or more governed connectors timed out in 5 minutes."
+
+      - alert: EmeraldModelProviderUnavailable
+        expr: sum(increase(emerald_model_requests_total{status="unavailable",execution_mode="live"}[5m])) >= 3
+        for: 2m
+        labels:
+          severity: critical
+          component: model_provider
+        annotations:
+          summary: "Local model runtime unavailable during live requests"
+          description: "Ollama / local provider returned unavailable errors >= 3 times in 5 minutes."
+
+      - alert: EmeraldModelLatencyExceeded
+        expr: |
+          histogram_quantile(0.90, sum(rate(emerald_model_request_duration_seconds_bucket{execution_mode="live"}[10m])) by (le, model)) > 45
+        for: 5m
+        labels:
+          severity: warning
+          component: model_provider
+        annotations:
+          summary: "Model p90 inference latency exceeded 45s budget"
+          description: "Local open-weight inference p90 latency threatens step timeout budget."
+
+  - name: emerald_persistence_and_recovery
+    rules:
+      - alert: EmeraldSqliteBusyContention
+        expr: sum(increase(emerald_sqlite_busy_errors_total[5m])) > 0
+        for: 1m
+        labels:
+          severity: warning
+          component: sqlite
+        annotations:
+          summary: "SQLite SQLITE_BUSY lock contention observed"
+          description: "Concurrent writers triggered SQLITE_BUSY within the last 5 minutes."
+
+      - alert: EmeraldTruthFirewallRejections
+        expr: sum(increase(emerald_memory_truth_firewall_rejections_total{execution_mode="live"}[5m])) > 0
+        for: 1m
+        labels:
+          severity: warning
+          component: memory_security
+        annotations:
+          summary: "Truth Firewall blocked attempt to promote model output as VERIFIED_EVIDENCE"
+          description: "Model-generated content attempted illegal VERIFIED_EVIDENCE write."
+
+      - alert: EmeraldWorkerLeaseExpirySpike
+        expr: sum(increase(emerald_recovery_worker_leases_expired_observed_total{execution_mode="live"}[10m])) >= 2
+        for: 1m
+        labels:
+          severity: warning
+          component: recovery
+        annotations:
+          summary: "Multiple worker lease expirations observed (requires quiescence verification)"
+          description: "Worker leases expired repeatedly; inspect host CPU/RAM pressure and worker quiescence."
+
+  - name: emerald_host_and_observability
+    rules:
+      - alert: EmeraldProcessMemoryHigh
+        expr: emerald_process_resident_memory_bytes > 1073741824
+        for: 5m
+        labels:
+          severity: critical
+          component: runtime
+        annotations:
+          summary: "Emerald Node.js RSS exceeds 1 GiB on constrained host"
+          description: "Process resident memory surpassed 1 GiB."
+
+      - alert: EmeraldDiskSpaceLow
+        expr: (emerald_disk_free_bytes / clamp_min(emerald_disk_total_bytes, 1)) < 0.10
+        for: 5m
+        labels:
+          severity: critical
+          component: storage
+        annotations:
+          summary: "Monitored data directory has less than 10% free disk space"
+          description: "Low disk threatens SQLite WAL writes and artifact bundles."
+
+      - alert: EmeraldTelemetryPipelineDegraded
+        expr: |
+          increase(emerald_telemetry_spans_dropped_total[5m]) > 0
+          or increase(emerald_telemetry_export_failures_total[5m]) > 0
+          or increase(emerald_langfuse_export_failures_total[5m]) > 0
+        for: 2m
+        labels:
+          severity: warning
+          component: observability
+        annotations:
+          summary: "Observability exporter dropping spans or failing export (execution unaffected)"
+          description: "Telemetry self-monitoring detected dropped batches or exporter failures."

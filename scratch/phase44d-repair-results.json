@@ -5,9 +5,9 @@
   "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
   "classification": "REPAIR_FAILED",
   "timestamps": {
-    "startedAt": "2026-10-26T06:55:26.291Z",
-    "completedAt": "2026-10-26T07:02:18.515Z",
-    "wallClockDurationMs": 412220
+    "startedAt": "2026-11-13T18:54:33.026Z",
+    "completedAt": "2026-11-13T18:56:34.770Z",
+    "wallClockDurationMs": 121719
   },
   "schema": {
     "name": "action_proposal",
@@ -22,18 +22,18 @@
     ]
   },
   "telemetry": {
-    "modelCalls": 5,
-    "modelFailures": 0,
-    "promptTokens": 10269,
-    "evalTokens": 652,
-    "totalTokens": 10921
+    "modelCalls": 1,
+    "modelFailures": 1,
+    "promptTokens": null,
+    "evalTokens": null,
+    "totalTokens": null
   },
   "execution": {
     "verified": false,
-    "terminalStatus": "TIMED_OUT",
-    "terminalReason": "MAX_STEPS",
-    "totalSteps": 5,
-    "totalActions": 5,
+    "terminalStatus": "FAILED",
+    "terminalReason": "BRAIN_FAILURE",
+    "totalSteps": 1,
+    "totalActions": 0,
     "totalProposalRejections": 0
   },
   "workspaceMutation": {
@@ -50,10 +50,10 @@
   },
   "cleanRoomVerification": null,
   "evidenceBundle": {
-    "bundleId": "e76e7a44387a4d50edfee813fef718872a31d08da1aa528211f8e67a39ec5cac",
-    "provenanceRoot": "6120445d81845f7e3aaf88903b84af8d9a46af523614c34e61462a820cad5ea9",
+    "bundleId": "c458255c1732b090bc521e5cf45ea712e90bcf2cb6f3d0fc9556b31a5338f47c",
+    "provenanceRoot": "e0237cc8a947db4aebf91cdb5552c308c407835b5c14592941cdeded068ee1cb",
     "signaturesCount": 2,
-    "eventsCount": 45
+    "eventsCount": 6
   },
   "offlineAudit": {
     "status": "VERIFIED",
@@ -61,142 +61,28 @@
     "fourfoldSatisfied": false,
     "failures": []
   },
-  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1792997726313-OkpUEo",
+  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1794596073133-dSTl55",
   "diagnostics": {
     "stepDiagnostics": [
       {
         "stepNumber": 1,
-        "timestamp": "2026-10-26T06:55:26.633Z",
-        "durationMs": 69610,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "read_file",
-        "toolName": "read_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "offsetLine": 1,
-          "limitLines": 500
-        },
-        "actionId": "a0edcb3c-e678-48fc-9b70-24e08967d9c2",
-        "actionStatus": "SUCCEEDED",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"read_file\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"261f1a91c61cdfdc9cd7d857ffc875cc5800ee43c00c5ca68b37206eced54d93\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
-      },
-      {
-        "stepNumber": 2,
-        "timestamp": "2026-10-26T06:56:36.243Z",
-        "durationMs": 78573,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "proposal-1",
-        "toolName": "read_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "offsetLine": 1,
-          "limitLines": 500
-        },
-        "actionId": "20e92508-07f3-45db-bd7a-dd7d52de8d6d",
-        "actionStatus": "SUCCEEDED",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"proposal-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"8f55b5be7c76a9814824a3ca6c6271c497a5a11c11dfcd09a58f8a850da3a9ad\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
-      },
-      {
-        "stepNumber": 3,
-        "timestamp": "2026-10-26T06:57:54.819Z",
-        "durationMs": 96077,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "20e92508-07f3-45db-bd7a-dd7d52de8d6d",
-        "toolName": "read_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "offsetLine": 1,
-          "limitLines": 500
-        },
-        "actionId": "75c840f0-0b0c-49a5-8641-060e8656ff0c",
-        "actionStatus": "SUCCEEDED",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"20e92508-07f3-45db-bd7a-dd7d52de8d6d\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"ccff3254c59de8d2ec16f79b746e0b86b9b4f5542493b681fc835501b8963899\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
-      },
-      {
-        "stepNumber": 4,
-        "timestamp": "2026-10-26T06:59:30.898Z",
-        "durationMs": 86073,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "action-12345",
-        "toolName": "read_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "offsetLine": 1,
-          "limitLines": 500
-        },
-        "actionId": "eb5648ca-fb2f-4d46-b758-d12b8b15aef6",
-        "actionStatus": "SUCCEEDED",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"f09a5cb9affbd7db255d0c26591368b07c97590615219d761581f0a7089a8b90\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 28\n}"
-      },
-      {
-        "stepNumber": 5,
-        "timestamp": "2026-10-26T07:00:56.973Z",
-        "durationMs": 81323,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
-        "toolName": "read_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "offsetLine": 1,
-          "limitLines": 500
-        },
-        "actionId": "177ed702-80ef-4cf1-86cf-38ce24e120c7",
-        "actionStatus": "SUCCEEDED",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"345287617a50118f4e91a417c8cb1ee0612cd566993a6c94e777edc18c69154b\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 36\n}"
+        "timestamp": "2026-11-13T18:54:33.926Z",
+        "durationMs": 120660,
+        "proposalValid": false
       }
     ],
-    "proposalRejections": [],
-    "rawCompletions": [
+    "proposalRejections": [
       {
-        "callIndex": 1,
-        "durationMs": 69533,
-        "promptTokens": 2069,
-        "evalTokens": 109,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"read_file\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"261f1a91c61cdfdc9cd7d857ffc875cc5800ee43c00c5ca68b37206eced54d93\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
-        "truncated": false,
-        "originalLength": 228
-      },
-      {
-        "callIndex": 2,
-        "durationMs": 78347,
-        "promptTokens": 2050,
-        "evalTokens": 117,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"proposal-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"8f55b5be7c76a9814824a3ca6c6271c497a5a11c11dfcd09a58f8a850da3a9ad\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
-        "truncated": false,
-        "originalLength": 229
-      },
-      {
-        "callIndex": 3,
-        "durationMs": 95928,
-        "promptTokens": 2050,
-        "evalTokens": 145,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"20e92508-07f3-45db-bd7a-dd7d52de8d6d\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"ccff3254c59de8d2ec16f79b746e0b86b9b4f5542493b681fc835501b8963899\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
-        "truncated": false,
-        "originalLength": 255
-      },
-      {
-        "callIndex": 4,
-        "durationMs": 85862,
-        "promptTokens": 2050,
-        "evalTokens": 130,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"f09a5cb9affbd7db255d0c26591368b07c97590615219d761581f0a7089a8b90\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 28\n}",
-        "truncated": false,
-        "originalLength": 253
-      },
-      {
-        "callIndex": 5,
-        "durationMs": 81184,
-        "promptTokens": 2050,
-        "evalTokens": 151,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"345287617a50118f4e91a417c8cb1ee0612cd566993a6c94e777edc18c69154b\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"sequenceHint\": 36\n}",
-        "truncated": false,
-        "originalLength": 277
+        "stepNumber": 1,
+        "proposalValid": false
       }
-    ]
+    ],
+    "rawCompletions": [],
+    "postPassLatchSnapshot": {
+      "schemaVersion": 1,
+      "isLatched": false,
+      "protectedPaths": [],
+      "cleanRoomVerified": false
+    }
   }
 }

@@ -17,6 +17,11 @@ import {
   SSE_CONTROL_EVENT_TYPES,
   StreamOverflowPayloadSchema,
   TaskResponseSchema,
+  ListTasksQuerySchema,
+  ListTasksResponseSchema,
+  TaskSummarySchema,
+  VerificationSpecInputSchema,
+  ALLOWED_VERIFICATION_EXECUTABLES,
 } from "../../src/transport/http/api-contracts.js";
 import { TRIAL_FINAL_OUTCOMES } from "../../src/domain/evaluation.js";
 
@@ -62,6 +67,230 @@ describe("Track B — Frozen Backend API Contracts", () => {
           prompt: "Do something",
           executionMode: "unrestricted_root",
           modelConfig: { modelName: "qwen2.5-coder:7b" },
+        })
+      ).toThrow();
+    });
+
+    it("accepts structured verificationSpecs in task creation", () => {
+      const parsed = CreateTaskRequestSchema.parse({
+        title: "Test with verification",
+        prompt: "Fix bug",
+        modelConfig: { modelName: "qwen2.5-coder:7b" },
+        verificationSpecs: [
+          {
+            specId: "vspec-test-1",
+            name: "test-suite",
+            argv: ["node", "test.js"],
+            timeoutMs: 45000,
+          },
+        ],
+      });
+
+      expect(parsed.verificationSpecs).toHaveLength(1);
+      expect(parsed.verificationSpecs[0]!.specId).toBe("vspec-test-1");
+      expect(parsed.verificationSpecs[0]!.argv).toEqual(["node", "test.js"]);
+    });
+
+    it("rejects unallowlisted executable in verificationSpecs", () => {
+      expect(() =>
+        CreateTaskRequestSchema.parse({
+          title: "Test",
+          prompt: "Do something",
+          modelConfig: { modelName: "qwen2.5-coder:7b" },
+          verificationSpecs: [
+            {
+              argv: ["bash", "-c", "echo exploit"],
+            },
+          ],
+        })
+      ).toThrow(/allowlisted/);
+    });
+
+    it("rejects shell metacharacters in verificationSpecs argv", () => {
+      expect(() =>
+        CreateTaskRequestSchema.parse({
+          title: "Test",
+          prompt: "Do something",
+          modelConfig: { modelName: "qwen2.5-coder:7b" },
+          verificationSpecs: [
+            {
+              argv: ["node", "test.js; rm -rf /"],
+            },
+          ],
+        })
+      ).toThrow(/metacharacters/);
+    });
+  });
+
+  describe("VerificationSpecInputSchema (ADR-0043)", () => {
+    it("accepts valid structured argv specification", () => {
+      const parsed = VerificationSpecInputSchema.parse({
+        specId: "vspec-node-1",
+        name: "node-runner",
+        argv: ["node", "solution.js"],
+        timeoutMs: 60000,
+        expectedExitCode: 0,
+      });
+
+      expect(parsed.specId).toBe("vspec-node-1");
+      expect(parsed.argv).toEqual(["node", "solution.js"]);
+      expect(parsed.timeoutMs).toBe(60000);
+      expect(parsed.expectedExitCode).toBe(0);
+    });
+
+    it("accepts valid legacy command specification with allowlisted binary", () => {
+      const parsed = VerificationSpecInputSchema.parse({
+        name: "test-run",
+        command: "npm test",
+        timeoutMs: 30000,
+      });
+
+      expect(parsed.command).toBe("npm test");
+      expect(parsed.timeoutMs).toBe(30000);
+    });
+
+    it("rejects shell metacharacters in command string", () => {
+      for (const badCmd of [
+        "npm test; evil",
+        "node test.js && whoami",
+        "python3 -c 'print(1)' | grep 1",
+        "node `cat /etc/passwd`",
+        "pytest $SECRET_ENV",
+        "node test.js > out.txt",
+        "node test.js < in.txt",
+        "node test.js\nevil",
+      ]) {
+        expect(() =>
+          VerificationSpecInputSchema.parse({
+            name: "malicious",
+            command: badCmd,
+          })
+        ).toThrow(/metacharacters/);
+      }
+    });
+
+    it("rejects prohibited executables", () => {
+      for (const badExe of ["bash", "sh", "zsh", "curl", "wget", "rm", "sudo", "docker"]) {
+        expect(() =>
+          VerificationSpecInputSchema.parse({
+            name: "prohibited",
+            argv: [badExe, "arg"],
+          })
+        ).toThrow(/allowlisted/);
+      }
+    });
+
+    it("verifies all allowlisted test runners are accepted with valid operations", () => {
+      const sampleArgs: Record<string, string[]> = {
+        node: ["node", "test.js"],
+        npm: ["npm", "test"],
+        npx: ["npx", "vitest"],
+        vitest: ["vitest", "run"],
+        jest: ["jest"],
+        python: ["python", "test.py"],
+        python3: ["python3", "test.py"],
+        pytest: ["pytest"],
+        cargo: ["cargo", "test"],
+        go: ["go", "test"],
+        ruby: ["ruby", "test.rb"],
+        rake: ["rake", "test"],
+        rspec: ["rspec"],
+        mvn: ["mvn", "test"],
+        gradle: ["gradle", "test"],
+        dotnet: ["dotnet", "test"],
+      };
+
+      for (const exe of ALLOWED_VERIFICATION_EXECUTABLES) {
+        const parsed = VerificationSpecInputSchema.parse({
+          name: `runner-${exe}`,
+          argv: sampleArgs[exe] ?? [exe, "test"],
+        });
+        expect(parsed.argv?.[0]).toBe(exe);
+      }
+    });
+
+    it("rejects arbitrary code execution and evaluation flags", () => {
+      const forbiddenFlagPayloads = [
+        ["node", "-e", "process.exit(0)"],
+        ["node", "--eval", "process.exit(0)"],
+        ["node", "-r", "malicious.js", "test.js"],
+        ["node", "--require", "malicious.js", "test.js"],
+        ["node", "--inspect", "test.js"],
+        ["node", "--prof", "test.js"],
+        ["python3", "-c", "import os; os.system('id')"],
+        ["python", "-c", "print(1)"],
+        ["python3", "-i", "test.py"],
+        ["ruby", "-e", "puts 1"],
+      ];
+
+      for (const badArgv of forbiddenFlagPayloads) {
+        expect(() =>
+          VerificationSpecInputSchema.parse({
+            name: "eval-attack",
+            argv: badArgv,
+          })
+        ).toThrow(/forbidden|arbitrary code execution/);
+      }
+    });
+
+    it("rejects path traversal and absolute paths in verification arguments", () => {
+      const traversalPayloads = [
+        ["node", "../../etc/passwd"],
+        ["node", "..\\Windows\\System32\\cmd.exe"],
+        ["python3", "/root/secret.py"],
+        ["pytest", "C:\\test\\run.py"],
+      ];
+
+      for (const badArgv of traversalPayloads) {
+        expect(() =>
+          VerificationSpecInputSchema.parse({
+            name: "traversal-attack",
+            argv: badArgv,
+          })
+        ).toThrow(/traversal|absolute path/);
+      }
+    });
+
+    it("rejects disallowed npm subcommands", () => {
+      const badNpmPayloads = [
+        ["npm", "install", "malicious-pkg"],
+        ["npm", "exec", "curl", "evil.com"],
+        ["npm", "publish"],
+      ];
+
+      for (const badArgv of badNpmPayloads) {
+        expect(() =>
+          VerificationSpecInputSchema.parse({
+            name: "npm-attack",
+            argv: badArgv,
+          })
+        ).toThrow(/restricted to the 'test' subcommand/);
+      }
+    });
+
+    it("rejects specification without both argv and command for EXIT_CODE_ZERO", () => {
+      expect(() =>
+        VerificationSpecInputSchema.parse({
+          name: "empty-spec",
+        })
+      ).toThrow(/either non-empty 'argv' or 'command'/);
+    });
+
+    it("rejects invalid specId with special characters", () => {
+      expect(() =>
+        VerificationSpecInputSchema.parse({
+          specId: "invalid/id!@#",
+          argv: ["node", "test.js"],
+        })
+      ).toThrow();
+    });
+
+    it("rejects unknown properties strictly", () => {
+      expect(() =>
+        VerificationSpecInputSchema.parse({
+          name: "valid",
+          argv: ["node", "test.js"],
+          unknownProp: "illegal",
         })
       ).toThrow();
     });
@@ -221,9 +450,80 @@ describe("Track B — Frozen Backend API Contracts", () => {
     });
   });
 
+  describe("ListTasksQuerySchema & ListTasksResponseSchema (Milestone 2.28)", () => {
+    it("applies default limit of 20 when limit is omitted", () => {
+      const parsed = ListTasksQuerySchema.parse({});
+      expect(parsed.limit).toBe(20);
+      expect(parsed.cursor).toBeUndefined();
+      expect(parsed.status).toBeUndefined();
+    });
+
+    it("preprocesses string limit to integer", () => {
+      const parsed = ListTasksQuerySchema.parse({ limit: "50" });
+      expect(parsed.limit).toBe(50);
+    });
+
+    it("accepts valid boundary limits: 1 and 100", () => {
+      expect(ListTasksQuerySchema.parse({ limit: 1 }).limit).toBe(1);
+      expect(ListTasksQuerySchema.parse({ limit: 100 }).limit).toBe(100);
+    });
+
+    it("rejects invalid limits: 0, -1, 101, float, NaN", () => {
+      expect(() => ListTasksQuerySchema.parse({ limit: 0 })).toThrow();
+      expect(() => ListTasksQuerySchema.parse({ limit: -5 })).toThrow();
+      expect(() => ListTasksQuerySchema.parse({ limit: 101 })).toThrow();
+      expect(() => ListTasksQuerySchema.parse({ limit: 15.5 })).toThrow();
+      expect(() => ListTasksQuerySchema.parse({ limit: "abc" })).toThrow();
+    });
+
+    it("rejects caller-supplied tenantId (strict tenant isolation)", () => {
+      expect(() => ListTasksQuerySchema.parse({ tenantId: "tenant-other" })).toThrow();
+    });
+
+    it("rejects unknown query parameters with strict mode", () => {
+      expect(() => ListTasksQuerySchema.parse({ extraParam: "value" })).toThrow();
+      expect(() => ListTasksQuerySchema.parse({ sort: "desc" })).toThrow();
+    });
+
+    it("accepts valid status filter", () => {
+      const parsed = ListTasksQuerySchema.parse({ status: "COMPLETED" });
+      expect(parsed.status).toBe("COMPLETED");
+    });
+
+    it("rejects invalid status filter", () => {
+      expect(() => ListTasksQuerySchema.parse({ status: "UNKNOWN_STATE" })).toThrow();
+    });
+
+    it("validates ListTasksResponseSchema and TaskSummarySchema", () => {
+      const summary = {
+        taskId: "task-001",
+        tenantId: "tenant-alpha",
+        title: "Test Task",
+        status: "CREATED" as const,
+        executionMode: "sandboxed" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        contractId: "contract-001",
+        runId: "run-001",
+      };
+      expect(TaskSummarySchema.parse(summary)).toEqual(summary);
+
+      const response = {
+        success: true,
+        data: [summary],
+        nextCursor: "cursor_abc123",
+      };
+      const parsed = ListTasksResponseSchema.parse(response);
+      expect(parsed.success).toBe(true);
+      expect(parsed.data).toHaveLength(1);
+      expect(parsed.nextCursor).toBe("cursor_abc123");
+    });
+  });
+
   describe("FROZEN_API_ROUTES", () => {
     it("declares all required task, run, streaming, and artifact endpoints", () => {
       const urls = FROZEN_API_ROUTES.map((r) => `${r.method} ${r.url}`);
+      expect(urls).toContain("GET /api/v1/tasks");
       expect(urls).toContain("POST /api/v1/tasks");
       expect(urls).toContain("GET /api/v1/tasks/:taskId");
       expect(urls).toContain("GET /api/v1/runs/:runId");

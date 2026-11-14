@@ -20,9 +20,11 @@ import type { RepositoryImporterPort } from "../ports/repository-importer.port.j
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import {
   ContractIntegrityError,
+  InvalidExecutionProviderRoleError,
   InvalidContractBindingError,
   InvalidMissionContractError,
   InvalidRunError,
+  LeaseExpiredError,
   LeaseLostError,
   MissingBoundContractError,
   ResourceLimitExceededError,
@@ -45,7 +47,6 @@ import {
 } from "../domain/policy.js";
 import {
   ExtendedToolName,
-  ToolName,
   ToolRequest,
   ToolResult,
 } from "../domain/tool.js";
@@ -71,6 +72,20 @@ import {
   ToolExecutionGateway,
   TrustedToolInvocationContext,
 } from "./tool-execution-gateway.js";
+import { defaultGovernedToolRegistry } from "../domain/tool.js";
+import {
+  createWorkspaceToolConnectorService,
+  type GovernedToolConnectorService,
+} from "./governed-tool-connector.js";
+import { ApprovalControl } from "../control-plane/approval-control.js";
+import { ScopedContextMemoryService } from "./scoped-context-memory.js";
+import { EmeraldLifecycleTelemetry } from "./observability-instrumentation.js";
+import {
+  BoundedRepairLoopController,
+  type RepairCycleState,
+} from "./bounded-repair-loop.js";
+import type { ObservabilityPort, TelemetrySpanRecord } from "../ports/observability.port.js";
+import type { ProductionRepairOrchestrator } from "../production/repair/repair-orchestrator.js";
 
 /**
  * Structural check establishing whether an object is a state store capable of durable launch gate operations.
@@ -112,7 +127,13 @@ export type WorkerRunResult =
    * sweeper's quiescence pre-pass (ADR-0037/0038) owns the run from there.
    */
   | { readonly status: "TERMINATION_UNVERIFIED"; readonly runId: string; readonly error: unknown }
-  | { readonly status: "FENCED"; readonly runId: string; readonly error: LeaseLostError };
+  | {
+      readonly status: "WAITING_APPROVAL";
+      readonly runId: string;
+      readonly approvalId: string;
+      readonly operation: string;
+    }
+  | { readonly status: "FENCED"; readonly runId: string; readonly error: LeaseLostError | LeaseExpiredError };
 
 export type WorkerActionStatus =
   | "SUCCEEDED"
@@ -259,6 +280,7 @@ export interface ExecuteActionParams {
   readonly throwOnError?: boolean;
   readonly autoRetry?: boolean;
   readonly speculativeBinding?: import("../domain/runtime-speculative-binding.js").RuntimeSpeculativeBinding;
+  readonly systemVerificationSpecId?: string;
 }
 
 export interface WorkerRuntimeOptions {
@@ -271,6 +293,15 @@ export interface WorkerRuntimeOptions {
   /** Tuning for the lease-renewal heartbeat that runs while a claimed run executes. */
   readonly leaseRenewal?: LeaseRenewalOptions;
   readonly executionProvider?: ExecutionProvider;
+  /**
+   * Physical execution provider dedicated to executing concrete commands (e.g. Docker, InProcess)
+   * for workspace tools (e.g. SandboxedCommandToolAdapter).
+   *
+   * When options.executionProvider is an ORCHESTRATION provider (such as GovernedAgentExecutionProvider),
+   * physical command execution is delegated to this provider instead of recursively re-entering
+   * the orchestration loop.
+   */
+  readonly physicalExecutionProvider?: ExecutionProvider;
   readonly operations?: readonly DeterministicOperation[] | DeterministicOperation;
   readonly workspacePort?: WorkspacePort;
   /**
@@ -305,6 +336,14 @@ export interface WorkerRuntimeOptions {
    * preserves the workspace and fails the run instead of reporting success.
    */
   readonly artifactExporter?: ArtifactExporterPort;
+  readonly connectorService?: GovernedToolConnectorService;
+  readonly approvalControl?: ApprovalControl;
+  readonly enableApprovalGate?: boolean;
+  readonly scopedMemory?: ScopedContextMemoryService;
+  readonly telemetry?: EmeraldLifecycleTelemetry;
+  readonly observabilityPort?: ObservabilityPort;
+  readonly repairController?: BoundedRepairLoopController;
+  readonly repairOrchestrator?: ProductionRepairOrchestrator;
 }
 
 /**
@@ -326,6 +365,7 @@ export class WorkerRuntime {
   private readonly leaseTtlMs: number;
   private readonly leaseRenewalOptions?: LeaseRenewalOptions;
   private readonly executionProvider: ExecutionProvider;
+  private readonly physicalExecutionProvider?: ExecutionProvider;
   private readonly workspacePort?: WorkspacePort;
   private readonly ephemeralPolicy?: ExecutionPolicy;
   private readonly ephemeralVerificationSpec?:
@@ -338,6 +378,13 @@ export class WorkerRuntime {
   private readonly launchGateTimeoutMs?: number;
   private readonly repositoryImporter?: RepositoryImporterPort;
   private readonly artifactExporter?: ArtifactExporterPort;
+  private readonly connectorService?: GovernedToolConnectorService;
+  private readonly approvalControl?: ApprovalControl;
+  private readonly scopedMemory?: ScopedContextMemoryService;
+  private readonly telemetry?: EmeraldLifecycleTelemetry;
+  public readonly observability?: ObservabilityPort;
+  private readonly repairController?: BoundedRepairLoopController;
+  private readonly repairOrchestrator?: ProductionRepairOrchestrator;
   private readonly runWorkspaces = new Map<
     string,
     { workspaceId: string; hostPath: string; containerMountPath?: string }
@@ -352,6 +399,27 @@ export class WorkerRuntime {
     this.launchGateTimeoutMs = options.launchGateTimeoutMs;
     this.repositoryImporter = options.repositoryImporter;
     this.artifactExporter = options.artifactExporter;
+    this.observability = options.observabilityPort ?? options.telemetry?.observability;
+    this.telemetry =
+      options.telemetry ??
+      (this.observability ? new EmeraldLifecycleTelemetry(this.observability) : undefined);
+    this.repairController = options.repairController;
+    this.repairOrchestrator = options.repairOrchestrator;
+    const coordinatorStoreForServices = this.coordinator.store;
+    this.approvalControl =
+      options.approvalControl ??
+      (options.enableApprovalGate !== false && coordinatorStoreForServices?.insertApprovalRequest
+        ? new ApprovalControl(this.clock, coordinatorStoreForServices, true)
+        : undefined);
+    this.scopedMemory =
+      options.scopedMemory ??
+      (coordinatorStoreForServices &&
+      typeof (coordinatorStoreForServices as any).getScopedMemoryStore === "function"
+        ? new ScopedContextMemoryService((coordinatorStoreForServices as any).getScopedMemoryStore(), {
+            clock: this.clock,
+            telemetry: this.telemetry,
+          })
+        : undefined);
     this.launchCoordinator =
       options.launchCoordinator ??
       (this.coordinator.store
@@ -373,6 +441,23 @@ export class WorkerRuntime {
       this.executionProvider = new InProcessExecutionProvider(
         options.operations ?? [new EchoOperation()]
       );
+    }
+
+    if (options.physicalExecutionProvider) {
+      const physicalRole = resolveProviderRole(options.physicalExecutionProvider);
+      if (physicalRole !== "PHYSICAL") {
+        throw new InvalidExecutionProviderRoleError(
+          options.physicalExecutionProvider.name,
+          "PHYSICAL",
+          physicalRole,
+          `WorkerRuntime: options.physicalExecutionProvider '${options.physicalExecutionProvider.name}' has role '${physicalRole}'. Only PHYSICAL execution providers are permitted.`
+        );
+      }
+      this.physicalExecutionProvider = options.physicalExecutionProvider;
+    } else if (resolveProviderRole(this.executionProvider) === "PHYSICAL") {
+      this.physicalExecutionProvider = this.executionProvider;
+    } else {
+      this.physicalExecutionProvider = undefined;
     }
 
     // ADR-0037 Step 4: fail at construction if a workspace-bearing worker is given an isolated-process
@@ -436,6 +521,7 @@ export class WorkerRuntime {
 
     if (options.toolGateway) {
       this.toolGateway = options.toolGateway;
+      this.connectorService = options.connectorService;
     } else {
       const coordinatorStore = this.coordinator.store;
       const mutationStore =
@@ -447,20 +533,48 @@ export class WorkerRuntime {
       const adapterRegistry =
         options.toolAdapterRegistry ??
         (this.workspacePort
-          ? createWorkspaceToolAdapterRegistry(this.workspacePort, this.executionProvider, {
+          ? createWorkspaceToolAdapterRegistry(this.workspacePort, this.physicalExecutionProvider, {
               mutationStore,
             })
           : undefined);
 
+      const effectiveToolRegistry = options.toolRegistry ?? defaultGovernedToolRegistry;
+      const connectorService =
+        options.connectorService ??
+        (adapterRegistry
+          ? createWorkspaceToolConnectorService({
+              toolRegistry: effectiveToolRegistry,
+              adapterRegistry,
+              telemetry: this.telemetry,
+            })
+          : undefined);
+      this.connectorService = connectorService;
+
       this.toolGateway = new ToolExecutionGateway({
-        toolRegistry: options.toolRegistry,
+        toolRegistry: effectiveToolRegistry,
         adapterRegistry,
         coordinator: this.coordinator,
         policyEvaluator: this.policyEvaluator,
         clock: this.clock,
         isIsolationAvailable: this.isIsolationAvailableProbe,
+        connectorService,
+        approvalControl: this.approvalControl,
+        enableApprovalGate: options.enableApprovalGate ?? Boolean(this.approvalControl),
+        telemetry: this.telemetry,
       });
     }
+  }
+
+  get memoryService(): ScopedContextMemoryService | undefined {
+    return this.scopedMemory;
+  }
+
+  get connector(): GovernedToolConnectorService | undefined {
+    return this.connectorService;
+  }
+
+  get approvalService(): ApprovalControl | undefined {
+    return this.approvalControl;
   }
 
   /**
@@ -578,7 +692,7 @@ export class WorkerRuntime {
     try {
       this.coordinator.startRun(run.runId, this.workerId, lease.leaseId);
     } catch (err: unknown) {
-      if (err instanceof LeaseLostError) {
+      if (err instanceof LeaseLostError || err instanceof LeaseExpiredError) {
         return { status: "FENCED", runId: run.runId, error: err };
       }
       throw err;
@@ -641,12 +755,50 @@ export class WorkerRuntime {
       },
     });
     renewal.start();
+    let attemptSpan: TelemetrySpanRecord | undefined;
+    if (this.observability) {
+      try {
+        attemptSpan = this.observability.startSpan(
+          "worker.execute_attempt",
+          {
+            workerId: this.workerId,
+            taskId: run.taskId,
+            runId: run.runId,
+            attemptCount: run.attemptCount,
+          },
+          {
+            correlation: {
+              taskId: run.taskId,
+              runId: run.runId,
+            },
+          }
+        );
+        this.observability.incrementCounter(
+          "emerald_worker_runs_started_total",
+          "Total runs started by worker",
+          { execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live" }
+        );
+      } catch { /* zero-authority */ }
+    }
     try {
     const failRunSafely = (errorPayload: {
       code: string;
       message: string;
       details?: unknown;
     }): WorkerRunResult => {
+      if (this.observability) {
+        try {
+          if (attemptSpan) {
+            this.observability.endSpan(attemptSpan.spanId, "ERROR", errorPayload.message);
+            attemptSpan = undefined;
+          }
+          this.observability.incrementCounter(
+            "emerald_worker_runs_completed_total",
+            "Total runs completed by worker",
+            { status: "failed", execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live" }
+          );
+        } catch { /* zero-authority */ }
+      }
       try {
         this.coordinator.failRun(run.runId, errorPayload, this.workerId, lease.leaseId);
       } catch (err: unknown) {
@@ -823,7 +975,23 @@ export class WorkerRuntime {
       trustClassification: policy.trustClassification,
     };
 
-    const policyDecision = this.policyEvaluator.evaluate(request, policy);
+    const providerRole = resolveProviderRole(this.executionProvider);
+    let policyDecision = this.policyEvaluator.evaluate(request, policy);
+    const hasAgentInstruction =
+      Boolean(task.inputPayload) &&
+      typeof task.inputPayload === "object" &&
+      ("instruction" in (task.inputPayload as Record<string, unknown>) ||
+        "objective" in (task.inputPayload as Record<string, unknown>) ||
+        "subtaskId" in (task.inputPayload as Record<string, unknown>));
+    if (
+      providerRole === "ORCHESTRATION" &&
+      policyDecision.status === "DENIED" &&
+      policyDecision.reasonCode === "UNKNOWN_CAPABILITY" &&
+      hasAgentInstruction &&
+      policy.allowedCapabilities.length > 0
+    ) {
+      policyDecision = PolicyEvaluator.evaluateCapability(policy.allowedCapabilities[0]!, policy);
+    }
 
     // If policy denies capability: fail run immediately WITHOUT calling provider
     if (policyDecision.status === "DENIED") {
@@ -893,6 +1061,10 @@ export class WorkerRuntime {
       providerName: this.executionProvider.name,
     });
 
+    const priorWaitingApproval = this.coordinator.store
+      .getEventsForRun(run.runId)
+      .some((e) => e.eventType === "run.waiting_approval");
+
     // 9. Workspace Provisioning & Sandbox Boundary (if WorkspacePort is configured)
     let workspace: Workspace | undefined;
     let workspaceHandle: WorkspaceHandle | undefined;
@@ -919,12 +1091,18 @@ export class WorkerRuntime {
       workspace = wsAggregate;
       this.coordinator.recordWorkspaceEvent(provisioningEvent);
 
-      // 9c. Provision isolated filesystem directory in adapter
+      // 9c. Provision isolated filesystem directory in adapter (or resume existing authenticated workspace)
       try {
-        workspaceHandle = await this.workspacePort.provisionWorkspace(workspace.spec, {
-          runId: run.runId,
-          leaseId: lease.leaseId,
-        });
+        workspaceHandle =
+          priorWaitingApproval && this.workspacePort.resumeWorkspace
+            ? await this.workspacePort.resumeWorkspace(workspace.spec, {
+                runId: run.runId,
+                leaseId: lease.leaseId,
+              })
+            : await this.workspacePort.provisionWorkspace(workspace.spec, {
+                runId: run.runId,
+                leaseId: lease.leaseId,
+              });
       } catch (err: unknown) {
         const failedEvent = workspace.markFailed({
           errorMessage: err instanceof Error ? err.message : String(err),
@@ -989,7 +1167,7 @@ export class WorkerRuntime {
       let repositoryImport: RepositoryImportSummary | undefined;
       const requestedRepository = (task.inputPayload as { repositoryPath?: unknown } | null | undefined)
         ?.repositoryPath;
-      if (requestedRepository !== undefined) {
+      if (requestedRepository !== undefined && !priorWaitingApproval) {
         let importFailure: { code: string; message: string } | undefined;
         if (typeof requestedRepository !== "string" || requestedRepository.trim().length === 0) {
           importFailure = {
@@ -1226,7 +1404,66 @@ export class WorkerRuntime {
       }
     };
 
-    // 10. Delegate to ExecutionProvider ONLY NOW (ADR-0038: Gated Tenant Launch)
+    // 10. Pre-launch approval gate for physical providers requiring explicit operator sign-off
+    if (
+      this.approvalControl &&
+      resolveProviderRole(this.executionProvider) === "PHYSICAL" &&
+      Boolean((task.inputPayload as { requireApproval?: unknown } | null | undefined)?.requireApproval === true)
+    ) {
+      const tenantId = contract.spec.policy.tenantId ?? "tenant-default";
+      const contractHash = run.contractBinding?.contentHash ?? contract.contentHash;
+      const parametersHash = computeCanonicalHash(request.inputPayload ?? {}).contentHash;
+      const auth = this.approvalControl.authorizeAndConsume({
+        runId: run.runId,
+        taskId: task.taskId,
+        tenantId,
+        contractHash,
+        operation: request.operationName,
+        parametersHash,
+        consume: true,
+      });
+      if (!auth.authorized) {
+        if (auth.status === "REJECTED" || auth.status === "EXPIRED" || auth.status === "CONSUMED" || auth.status === "MISMATCH") {
+          this.telemetry?.recordApprovalDecision({ action: auth.status.toLowerCase(), riskLevel: "HIGH" });
+          await disposeWorkspaceSafely(`Approval ${auth.status}`).catch(() => {});
+          return failRunSafely({
+            code: auth.status === "REJECTED" ? "APPROVAL_REJECTED" : auth.status === "EXPIRED" ? "APPROVAL_EXPIRED" : "APPROVAL_INVALID",
+            message: auth.reason,
+            details: { approvalId: auth.approvalId, status: auth.status },
+          });
+        }
+        const approvalId =
+          auth.approvalId ??
+          this.approvalControl.requestApproval({
+            runId: run.runId,
+            taskId: task.taskId,
+            tenantId,
+            contractHash,
+            operation: request.operationName,
+            parameters:
+              request.inputPayload && typeof request.inputPayload === "object" && !Array.isArray(request.inputPayload)
+                ? (request.inputPayload as Record<string, unknown>)
+                : {},
+            riskLevel: "HIGH",
+            justification: `Task '${task.taskId}' requires operator approval before execution`,
+            singleUse: true,
+          }).approvalId;
+        this.telemetry?.recordApprovalDecision({ action: "requested", riskLevel: "HIGH" });
+        this.coordinator.requestApprovalTransition(run.runId, approvalId, request.operationName, {
+          workerId: this.workerId,
+          leaseId: lease.leaseId,
+        });
+        return {
+          status: "WAITING_APPROVAL",
+          runId: run.runId,
+          approvalId,
+          operation: request.operationName,
+        };
+      }
+      this.telemetry?.recordApprovalDecision({ action: "consumed", riskLevel: "HIGH" });
+    }
+
+    // 10b. Delegate to ExecutionProvider ONLY NOW (ADR-0038: Gated Tenant Launch)
     let executionResult: ExecutionResult;
     let launchGate: TenantLaunchGate | undefined;
     const isIsolated = resolveProviderTenantModel(this.executionProvider) === "ISOLATED_PROCESSES";
@@ -1328,6 +1565,15 @@ export class WorkerRuntime {
         return { status: "FENCED", runId: run.runId, error: new LeaseLostError(run.runId, lease.leaseId, current?.leaseId ?? null) };
       }
 
+      if (executionResult.status === "FAILED" && executionResult.error?.code === "LEASE_LOST") {
+        // Provider aborted cleanly on lost/expired lease; fence without marking terminal FAILED or disposing workspace.
+        return {
+          status: "FENCED",
+          runId: run.runId,
+          error: new LeaseLostError(run.runId, lease.leaseId, current.leaseId ?? null),
+        };
+      }
+
       // Fencing has priority (above). An unverified termination is never rewritten into TIMED_OUT/CANCELLED
       // by the precedence rules below, and never reaches a terminal write or workspace disposal: a tenant may
       // still be running, so the run is left RUNNING for lease-expiry recovery to quiesce.
@@ -1341,6 +1587,39 @@ export class WorkerRuntime {
           launchGate = undefined;
         }
         return { status: "TERMINATION_UNVERIFIED", runId: run.runId, error: executionResult.error };
+      }
+
+      // Human-in-the-loop pause: release launch gate, preserve workspace for resume, transition run -> WAITING_APPROVAL
+      if (
+        executionResult.status === "FAILED" &&
+        executionResult.error?.code === "WAITING_APPROVAL"
+      ) {
+        if (launchGate) {
+          await this.launchCoordinator.release(launchGate).catch(() => {});
+          launchGate = undefined;
+        }
+        const errDetails =
+          executionResult.error.details && typeof executionResult.error.details === "object"
+            ? (executionResult.error.details as Record<string, unknown>)
+            : {};
+        const approvalId =
+          typeof errDetails.approvalId === "string" && errDetails.approvalId.length > 0
+            ? errDetails.approvalId
+            : `appr-pending-${run.runId}`;
+        const operation =
+          typeof errDetails.operation === "string" && errDetails.operation.length > 0
+            ? errDetails.operation
+            : request.operationName;
+        this.coordinator.requestApprovalTransition(run.runId, approvalId, operation, {
+          workerId: this.workerId,
+          leaseId: lease.leaseId,
+        });
+        return {
+          status: "WAITING_APPROVAL",
+          runId: run.runId,
+          approvalId,
+          operation,
+        };
       }
 
       // Deterministic precedence: timeout/cancellation takes precedence over late success
@@ -1414,42 +1693,252 @@ export class WorkerRuntime {
           // Authoritative verification specifications from MissionContract (Section 12)
           const vSpecs = contract.spec.verificationSpecs;
           if (vSpecs && vSpecs.length > 0) {
-            const evidenceList: Evidence[] = [
-              createOutputPayloadEvidence(run.runId, executionResult.output),
-            ];
+            if (providerRole === "ORCHESTRATION") {
+              // Orchestration providers (GovernedAgentExecutionProvider) verify specs per tool attempt inside
+              // AgentStepController and persist `verification.completed` events. Independently confirm from
+              // durable events after the latest `run.started` that EVERY contract spec passed (fail closed).
+              const runEvents = this.coordinator.store.getEventsForRun(run.runId);
+              let lastStartIdx = -1;
+              for (let idx = runEvents.length - 1; idx >= 0; idx--) {
+                if (runEvents[idx]?.eventType === "run.started") {
+                  lastStartIdx = idx;
+                  break;
+                }
+              }
+              const attemptEvents = lastStartIdx >= 0 ? runEvents.slice(lastStartIdx) : [];
+              const latestStatusBySpec = new Map<
+                string,
+                { status: string; message?: string; reasonCode?: string }
+              >();
+              for (const ev of attemptEvents) {
+                if (ev.eventType === "verification.completed") {
+                  const p = ev.payload as
+                    | { specId?: unknown; status?: unknown; message?: unknown; reasonCode?: unknown }
+                    | undefined;
+                  if (typeof p?.specId === "string" && typeof p?.status === "string") {
+                    latestStatusBySpec.set(p.specId, {
+                      status: p.status,
+                      message: typeof p.message === "string" ? p.message : undefined,
+                      reasonCode: typeof p.reasonCode === "string" ? p.reasonCode : undefined,
+                    });
+                  }
+                }
+              }
+              for (const spec of vSpecs) {
+                const outcome = latestStatusBySpec.get(spec.specId);
+                const passed = outcome?.status === "VERIFIED";
 
-            if (typeof executionResult.providerMetadata?.exitCode === "number") {
-              evidenceList.push(
-                createProcessExitEvidence(run.runId, {
-                  exitCode: executionResult.providerMetadata.exitCode as number,
-                  signal: (executionResult.providerMetadata?.signal as string) ?? null,
-                })
-              );
-            }
+                if (this.observability) {
+                  try {
+                    this.observability.incrementCounter(
+                      "emerald_worker_verifications_total",
+                      "Total verification evaluations performed by worker",
+                      {
+                        status: passed ? "verified" : "failed",
+                        execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live",
+                      }
+                    );
+                  } catch { /* zero-authority */ }
+                }
 
-            for (const evidence of evidenceList) {
-              this.coordinator.recordEvidence(run.runId, evidence);
-            }
+                if (!passed) {
+                  let repairCycle: RepairCycleState | undefined;
+                  let haltReason: string | undefined;
+                  if (this.repairController) {
+                    repairCycle = this.repairController.initCycle(task.taskId, run.runId);
+                    const diagCategory = this.repairController.diagnoseFeedback(
+                      repairCycle,
+                      outcome?.message ?? "Orchestration verification failed",
+                      JSON.stringify(outcome ?? {}),
+                      1
+                    );
 
-            for (const spec of vSpecs) {
-              const verificationResult = DeterministicVerifier.verify(evidenceList, spec);
-              this.coordinator.recordVerificationResult(run.runId, verificationResult);
+                    if (this.observability) {
+                      try {
+                        this.observability.incrementCounter(
+                          "emerald_worker_repair_attempts_total",
+                          "Total post-verification repair attempts triggered by worker",
+                          { category: diagCategory, execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live" }
+                        );
+                        this.observability.emitLog(
+                          "WARN",
+                          "worker.repair.diagnosed",
+                          `Post-verification failure diagnosed: ${diagCategory}`,
+                          { taskId: task.taskId, runId: run.runId, category: diagCategory, specId: spec.specId }
+                        );
+                      } catch { /* zero-authority */ }
+                    }
 
-              if (verificationResult.status !== "VERIFIED") {
-                await disposeWorkspaceSafely("Verification failed").catch(() => {});
-                const errorPayload = {
-                  code: "VERIFICATION_FAILED",
-                  message: verificationResult.message,
-                  details: {
-                    specId: spec.specId,
-                    reasonCode: verificationResult.reasonCode,
-                    details: verificationResult.details,
-                    evidenceIds: verificationResult.evidenceIds,
-                    verifierId: verificationResult.verifierId,
-                  },
-                };
+                    const boundsCheck = this.repairController.shouldContinueRepair(repairCycle);
+                    const missionId =
+                      typeof (task.inputPayload as Record<string, unknown> | null)?.missionId === "string"
+                        ? ((task.inputPayload as Record<string, unknown>).missionId as string)
+                        : undefined;
+                    if (!boundsCheck.canContinue) {
+                      this.repairController.concludeVerification(repairCycle, 1);
+                      haltReason = boundsCheck.reason;
+                    } else if (this.repairOrchestrator && missionId) {
+                      try {
+                        const repairResult = await this.repairOrchestrator.executeRepairSession(
+                          missionId,
+                          (this.executionProvider as any)?.modelAdapter ?? {
+                            generate: async () => ({ action: "NOOP", confidence: 0, reasoning: "Fallback" }),
+                          }
+                        );
+                        if (repairResult.verification?.verified) {
+                          this.repairController.concludeVerification(repairCycle, 0);
+                          continue;
+                        }
+                      } catch {
+                        this.repairController.concludeVerification(repairCycle, 1);
+                      }
+                    } else {
+                      this.repairController.concludeVerification(repairCycle, 1);
+                    }
+                  }
 
-                return failRunSafely(errorPayload);
+                  await disposeWorkspaceSafely("Verification failed").catch(() => {});
+                  return failRunSafely({
+                    code: haltReason ? "VERIFICATION_FAILED_REPAIR_EXHAUSTED" : "VERIFICATION_FAILED",
+                    message:
+                      haltReason
+                        ? `Verification failed and repair halted: ${haltReason}`
+                        : outcome?.message ??
+                          `Required verification specification '${spec.specId}' was not verified during orchestrated execution.`,
+                    details: {
+                      specId: spec.specId,
+                      reasonCode: outcome?.reasonCode ?? "MISSING_EVIDENCE",
+                      observedStatus: outcome?.status ?? "NOT_EVALUATED",
+                      ...(repairCycle
+                        ? {
+                            repairDiagnosis: repairCycle.lastDiagnosis,
+                            repairIterations: repairCycle.iterationCount,
+                            repairStage: repairCycle.currentStage,
+                            repairHaltReason: repairCycle.terminalReason,
+                          }
+                        : {}),
+                    },
+                  });
+                }
+              }
+            } else {
+              const evidenceList: Evidence[] = [
+                createOutputPayloadEvidence(run.runId, executionResult.output),
+              ];
+
+              if (typeof executionResult.providerMetadata?.exitCode === "number") {
+                evidenceList.push(
+                  createProcessExitEvidence(run.runId, {
+                    exitCode: executionResult.providerMetadata.exitCode as number,
+                    signal: (executionResult.providerMetadata?.signal as string) ?? null,
+                  })
+                );
+              }
+
+              const verificationFencing = { workerId: this.workerId, leaseId: lease.leaseId };
+              for (const evidence of evidenceList) {
+                this.coordinator.recordEvidence(run.runId, evidence, verificationFencing);
+              }
+
+              for (const spec of vSpecs) {
+                const verificationResult = DeterministicVerifier.verify(evidenceList, spec);
+                this.coordinator.recordVerificationResult(run.runId, verificationResult, undefined, verificationFencing);
+
+                const passed = verificationResult.status === "VERIFIED";
+                if (this.observability) {
+                  try {
+                    this.observability.incrementCounter(
+                      "emerald_worker_verifications_total",
+                      "Total verification evaluations performed by worker",
+                      {
+                        status: passed ? "verified" : "failed",
+                        execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live",
+                      }
+                    );
+                  } catch { /* zero-authority */ }
+                }
+
+                if (!passed) {
+                  let repairCycle: RepairCycleState | undefined;
+                  let haltReason: string | undefined;
+                  if (this.repairController) {
+                    repairCycle = this.repairController.initCycle(task.taskId, run.runId);
+                    const diagCategory = this.repairController.diagnoseFeedback(
+                      repairCycle,
+                      verificationResult.message,
+                      JSON.stringify(verificationResult.details ?? {}),
+                      1
+                    );
+
+                    if (this.observability) {
+                      try {
+                        this.observability.incrementCounter(
+                          "emerald_worker_repair_attempts_total",
+                          "Total post-verification repair attempts triggered by worker",
+                          { category: diagCategory, execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live" }
+                        );
+                        this.observability.emitLog(
+                          "WARN",
+                          "worker.repair.diagnosed",
+                          `Post-verification failure diagnosed: ${diagCategory}`,
+                          { taskId: task.taskId, runId: run.runId, category: diagCategory, specId: spec.specId }
+                        );
+                      } catch { /* zero-authority */ }
+                    }
+
+                    const boundsCheck = this.repairController.shouldContinueRepair(repairCycle);
+                    const missionId =
+                      typeof (task.inputPayload as Record<string, unknown> | null)?.missionId === "string"
+                        ? ((task.inputPayload as Record<string, unknown>).missionId as string)
+                        : undefined;
+                    if (!boundsCheck.canContinue) {
+                      this.repairController.concludeVerification(repairCycle, 1);
+                      haltReason = boundsCheck.reason;
+                    } else if (this.repairOrchestrator && missionId) {
+                      try {
+                        const repairResult = await this.repairOrchestrator.executeRepairSession(
+                          missionId,
+                          (this.executionProvider as any)?.modelAdapter ?? {
+                            generate: async () => ({ action: "NOOP", confidence: 0, reasoning: "Fallback" }),
+                          }
+                        );
+                        if (repairResult.verification?.verified) {
+                          this.repairController.concludeVerification(repairCycle, 0);
+                          continue;
+                        }
+                      } catch {
+                        this.repairController.concludeVerification(repairCycle, 1);
+                      }
+                    } else {
+                      this.repairController.concludeVerification(repairCycle, 1);
+                    }
+                  }
+
+                  await disposeWorkspaceSafely("Verification failed").catch(() => {});
+                  const errorPayload = {
+                    code: haltReason ? "VERIFICATION_FAILED_REPAIR_EXHAUSTED" : "VERIFICATION_FAILED",
+                    message: haltReason
+                      ? `Verification failed and repair halted: ${haltReason}`
+                      : verificationResult.message,
+                    details: {
+                      specId: spec.specId,
+                      reasonCode: verificationResult.reasonCode,
+                      details: verificationResult.details,
+                      evidenceIds: verificationResult.evidenceIds,
+                      verifierId: verificationResult.verifierId,
+                      ...(repairCycle
+                        ? {
+                            repairDiagnosis: repairCycle.lastDiagnosis,
+                            repairIterations: repairCycle.iterationCount,
+                            repairStage: repairCycle.currentStage,
+                            repairHaltReason: repairCycle.terminalReason,
+                          }
+                        : {}),
+                    },
+                  };
+
+                  return failRunSafely(errorPayload);
+                }
               }
             }
           }
@@ -1470,6 +1959,54 @@ export class WorkerRuntime {
             });
           }
 
+          const preMemRun = this.coordinator.getRun(run.runId);
+          if (
+            this.scopedMemory &&
+            vSpecs &&
+            vSpecs.length > 0 &&
+            preMemRun &&
+            preMemRun.status === "RUNNING" &&
+            preMemRun.leaseId === lease.leaseId &&
+            preMemRun.currentWorkerId === this.workerId
+          ) {
+            try {
+              this.scopedMemory.recordEntry(
+                contract.spec.policy.tenantId ?? "tenant-default",
+                task.taskId,
+                "VERIFIED_EVIDENCE",
+                "verifier.worker_runtime",
+                JSON.stringify({
+                  runId: run.runId,
+                  taskId: task.taskId,
+                  verifiedSpecs: vSpecs.map((s) => s.specId),
+                  verifiedAt: this.clock.nowIso(),
+                }),
+                {
+                  runId: run.runId,
+                  agentId: this.workerId,
+                  isModelGenerated: false,
+                  isIndependentlyVerified: true,
+                  idempotencyKey: `m42:worker_verified:${run.runId}`,
+                  nowIso: this.clock.nowIso(),
+                }
+              );
+            } catch { /* non-fatal */ }
+          }
+
+          if (this.observability) {
+            try {
+              if (attemptSpan) {
+                this.observability.endSpan(attemptSpan.spanId, "OK");
+                attemptSpan = undefined;
+              }
+              this.observability.incrementCounter(
+                "emerald_worker_runs_completed_total",
+                "Total runs completed by worker",
+                { status: "completed", execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live" }
+              );
+            } catch { /* zero-authority */ }
+          }
+
           this.coordinator.completeRun(
             run.runId,
             this.workerId,
@@ -1484,6 +2021,12 @@ export class WorkerRuntime {
         }
 
         case "TIMED_OUT": {
+          if (this.observability && attemptSpan) {
+            try {
+              this.observability.endSpan(attemptSpan.spanId, "ERROR", executionResult.error?.message ?? "Operation timed out");
+              attemptSpan = undefined;
+            } catch { /* zero-authority */ }
+          }
           await disposeWorkspaceSafely("Run timed out").catch(() => {});
           const reason =
             executionResult.error?.message ?? `Operation exceeded timeout of ${run.timeoutMs}ms`;
@@ -1496,6 +2039,12 @@ export class WorkerRuntime {
         }
 
         case "CANCELLED": {
+          if (this.observability && attemptSpan) {
+            try {
+              this.observability.endSpan(attemptSpan.spanId, "ERROR", executionResult.error?.message ?? "Operation cancelled");
+              attemptSpan = undefined;
+            } catch { /* zero-authority */ }
+          }
           await disposeWorkspaceSafely("Run cancelled").catch(() => {});
           const reason = executionResult.error?.message ?? "Operation cancelled by provider";
           this.coordinator.cancelRun(run.runId, reason, { workerId: this.workerId, leaseId: lease.leaseId });
@@ -1508,6 +2057,21 @@ export class WorkerRuntime {
 
         case "FAILED":
         default: {
+          if (executionResult.error?.code === "LEASE_LOST") {
+            // Fenced worker must NOT dispose workspace (another worker/recovery may own it)
+            // and must NOT attempt state mutation (no lease authority)
+            const fenceErr = new LeaseLostError(
+              run.runId,
+              lease.leaseId,
+              this.coordinator.getRun(run.runId)?.leaseId ?? null
+            );
+            return {
+              status: "FENCED",
+              runId: run.runId,
+              error: fenceErr,
+            };
+          }
+
           await disposeWorkspaceSafely("Execution failed").catch(() => {});
           const errorPayload = executionResult.error ?? {
             code: "EXECUTION_FAILED",
@@ -1669,6 +2233,19 @@ export class WorkerRuntime {
   async executeAction(params: ExecuteActionParams): Promise<WorkerActionResult> {
     const runId = params.runId;
     const store = this.coordinator.store;
+
+    if (this.observability) {
+      try {
+        this.observability.incrementCounter(
+          "emerald_worker_actions_total",
+          "Total actions executed by worker",
+          {
+            tool_name: params.toolName ?? "unknown",
+            execution_mode: this.telemetry?.getDefaultExecutionMode() ?? "live",
+          }
+        );
+      } catch { /* zero-authority */ }
+    }
 
     // 1. Authoritative Run and Lease Resolution
     const run = store.getRun(runId);
@@ -1869,6 +2446,7 @@ export class WorkerRuntime {
       abortSignal: params.abortSignal,
       tenantId: contractPolicy?.tenantId,
       trustClassification: contractPolicy?.trustClassification,
+      systemVerificationSpecId: params.systemVerificationSpecId,
     };
 
     // 5. Evaluate Authorization via ToolExecutionGateway

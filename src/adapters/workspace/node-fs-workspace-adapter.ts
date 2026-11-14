@@ -298,6 +298,93 @@ export class NodeFsWorkspaceAdapter implements WorkspacePort {
   }
 
   /**
+   * Resumes an existing authenticated workspace directory for a resumed attempt of the same run
+   * (e.g., after WAITING_APPROVAL), re-binding ownership to the new lease while preserving workspace files.
+   */
+  async resumeWorkspace(spec: WorkspaceSpec, owner: WorkspaceOwner): Promise<WorkspaceHandle> {
+    const violations = getWorkspaceSpecViolations(spec);
+    if (violations.length > 0) {
+      throw new InvalidWorkspaceError(spec.workspaceId, violations);
+    }
+    if (isUnsafeWorkspaceId(spec.workspaceId)) {
+      throw new InvalidWorkspaceError(spec.workspaceId, [
+        "workspaceId contains invalid characters for directory naming",
+      ]);
+    }
+    if (!owner || typeof owner.runId !== "string" || !owner.runId || typeof owner.leaseId !== "string" || !owner.leaseId) {
+      throw new InvalidWorkspaceError(spec.workspaceId, ["owner.runId and owner.leaseId must be non-empty strings"]);
+    }
+    if (owner.runId !== spec.runId) {
+      throw new WorkspaceOwnershipError(spec.workspaceId, spec.runId, owner.runId);
+    }
+
+    const root = await this.getCanonicalWorkspaceRoot();
+    const targetDir = path.join(root, spec.workspaceId);
+    if (!this.isContainedInRoot(root, targetDir)) {
+      throw new WorkspacePathOutsideBoundaryError(
+        targetDir,
+        "Constructed workspace directory path escapes workspace root"
+      );
+    }
+
+    let stat: syncFs.Stats;
+    try {
+      stat = await fs.lstat(targetDir);
+    } catch (err: unknown) {
+      if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+        throw new WorkspaceStateError(spec.workspaceId, "NOT_FOUND", "UNALLOCATED", "resumeWorkspace");
+      }
+      throw err;
+    }
+    if (stat.isSymbolicLink() || !stat.isDirectory()) {
+      throw new WorkspacePathOutsideBoundaryError(targetDir, "Existing workspace entry is not a regular directory");
+    }
+
+    const canonicalHostPath = await fs.realpath(targetDir);
+    if (!this.isContainedInRoot(root, canonicalHostPath)) {
+      throw new WorkspacePathOutsideBoundaryError(
+        canonicalHostPath,
+        "Canonical workspace directory escapes root directory"
+      );
+    }
+
+    const currentOwner = await this.readOwnerMarker(canonicalHostPath, spec.workspaceId);
+    if (currentOwner.state !== "owner" || currentOwner.runId !== spec.runId) {
+      throw new WorkspaceOwnershipError(
+        spec.workspaceId,
+        owner.leaseId,
+        currentOwner.state === "owner" ? currentOwner.leaseId : currentOwner.state
+      );
+    }
+
+    const markerPath = path.join(canonicalHostPath, OWNER_MARKER);
+    const markerStat = await fs.lstat(markerPath);
+    if (markerStat.isSymbolicLink() || !markerStat.isFile()) {
+      throw new WorkspacePathOutsideBoundaryError(markerPath, "Workspace owner marker is not a regular file");
+    }
+    const nextMarker = issueOwnership(root, spec.workspaceId, owner);
+    await fs.writeFile(markerPath, nextMarker, { mode: 0o600 });
+
+    const now = new Date().toISOString();
+    const handle: WorkspaceHandle = Object.freeze({
+      workspaceId: spec.workspaceId,
+      runId: spec.runId,
+      hostPath: canonicalHostPath,
+      containerMountPath: "/workspace",
+      createdAt: now,
+      maxWorkspaceBytes: spec.maxWorkspaceBytes,
+    });
+
+    this.workspaces.set(spec.workspaceId, {
+      spec: Object.freeze({ ...spec }),
+      handle,
+      canonicalHostPath,
+    });
+
+    return handle;
+  }
+
+  /**
    * Resolves a relative path within a workspace to its canonical, symlink-verified host path.
    * Guarantees that the final real path remains strictly inside the workspace directory.
    */

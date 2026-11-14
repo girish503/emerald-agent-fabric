@@ -32,7 +32,7 @@ import {
   findForbiddenAuthorityKeys,
   type ActionProposal,
 } from "./action-proposal.js";
-import { EXTENDED_TOOL_NAMES, TOOL_NAMES, type ExtendedToolName, type ToolName } from "./tool.js";
+import { EXTENDED_TOOL_NAMES, type ExtendedToolName } from "./tool.js";
 import {
   InvalidReflexDecisionError,
   InvalidReflexContextError,

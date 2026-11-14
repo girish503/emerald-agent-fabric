@@ -290,6 +290,10 @@ describe("RunStateMachine", () => {
         { type: "EXPIRE_LEASE", now },
         { type: "RETRY", now },
         { type: "FAIL_EXHAUSTED", now },
+        { type: "START_VERIFICATION", workerId: "w", leaseId: "l", now },
+        { type: "REQUEST_APPROVAL", approvalId: "a", operation: "run_command", workerId: "w", leaseId: "l", now },
+        { type: "APPROVE_RESUME", approvalId: "a", approver: "op", now },
+        { type: "REJECT_APPROVAL", approvalId: "a", approver: "op", reason: "no", now },
       ];
 
       for (const terminal of TERMINAL_STATES) {
@@ -312,6 +316,76 @@ describe("RunStateMachine", () => {
 
       const res = applyTransition(snapshot, { type: "QUEUE", now });
       expect(res.nextSnapshot.version).toBe(initialVersion + 1);
+    });
+  });
+
+  describe("VERIFYING & WAITING_APPROVAL Transitions (M4.1)", () => {
+    it("transitions RUNNING -> VERIFYING -> COMPLETED with active worker fencing", () => {
+      const running = createMockSnapshot({
+        status: "RUNNING",
+        version: 4,
+        currentWorkerId: "worker-1",
+        leaseId: "lease-1",
+        leaseExpiresAt: "2026-10-10T12:05:00.000Z",
+      });
+      const ver = applyTransition(running, { type: "START_VERIFICATION", workerId: "worker-1", leaseId: "lease-1", now });
+      expect(ver.nextSnapshot.status).toBe("VERIFYING");
+      expect(ver.nextSnapshot.version).toBe(5);
+      expect(ver.event.eventType).toBe("verification.started");
+
+      // Stale worker blocked during VERIFYING
+      expect(() => applyTransition(ver.nextSnapshot, { type: "COMPLETE", workerId: "worker-2", leaseId: "lease-old", result: {}, now })).toThrow(LeaseLostError);
+
+      const done = applyTransition(ver.nextSnapshot, { type: "COMPLETE", workerId: "worker-1", leaseId: "lease-1", result: { passed: true }, now });
+      expect(done.nextSnapshot.status).toBe("COMPLETED");
+      expect(done.nextSnapshot.version).toBe(6);
+    });
+
+    it("supports VERIFYING lease expiry recovery to RECOVERING", () => {
+      const verifying = createMockSnapshot({
+        status: "VERIFYING",
+        version: 5,
+        currentWorkerId: "worker-1",
+        leaseId: "lease-1",
+        leaseExpiresAt: "2026-10-10T12:05:00.000Z",
+      });
+      expect(canTransition("VERIFYING", { type: "EXPIRE_LEASE", now })).toBe(true);
+      const exp = applyTransition(verifying, { type: "EXPIRE_LEASE", now });
+      expect(exp.nextSnapshot.status).toBe("RECOVERING");
+    });
+
+    it("transitions RUNNING -> WAITING_APPROVAL -> QUEUED (approve) and WAITING_APPROVAL -> FAILED (reject) or CANCELLED", () => {
+      const running = createMockSnapshot({
+        status: "RUNNING",
+        version: 4,
+        currentWorkerId: "worker-1",
+        leaseId: "lease-1",
+        leaseExpiresAt: "2026-10-10T12:05:00.000Z",
+      });
+      const wait = applyTransition(running, {
+        type: "REQUEST_APPROVAL",
+        approvalId: "appr-1",
+        operation: "run_command",
+        workerId: "worker-1",
+        leaseId: "lease-1",
+        now,
+      });
+      expect(wait.nextSnapshot.status).toBe("WAITING_APPROVAL");
+      expect(wait.nextSnapshot.leaseExpiresAt).toBeNull();
+      expect(wait.event.eventType).toBe("run.waiting_approval");
+
+      // Illegal to COMPLETE or START directly from WAITING_APPROVAL
+      expect(canTransition("WAITING_APPROVAL", { type: "COMPLETE", workerId: "worker-1", leaseId: "lease-1", result: {}, now })).toBe(false);
+      expect(canTransition("WAITING_APPROVAL", { type: "START", workerId: "worker-1", leaseId: "lease-1", now })).toBe(false);
+
+      const resumed = applyTransition(wait.nextSnapshot, { type: "APPROVE_RESUME", approvalId: "appr-1", approver: "op-alice", now });
+      expect(resumed.nextSnapshot.status).toBe("QUEUED");
+
+      const rejected = applyTransition(wait.nextSnapshot, { type: "REJECT_APPROVAL", approvalId: "appr-1", approver: "op-bob", reason: "unsafe", now });
+      expect(rejected.nextSnapshot.status).toBe("FAILED");
+
+      const cancelled = applyTransition(wait.nextSnapshot, { type: "CANCEL", reason: "operator cancelled", now });
+      expect(cancelled.nextSnapshot.status).toBe("CANCELLED");
     });
   });
 });

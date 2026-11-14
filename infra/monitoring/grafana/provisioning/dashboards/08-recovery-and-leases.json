@@ -1,0 +1,44 @@
+{
+  "uid": "emerald-08-recovery",
+  "title": "08 - Crash Recovery, Lease Expiry & Fencing",
+  "tags": ["emerald", "phase3", "recovery"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Recovery Outcomes by Status",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum by (outcome) (rate(emerald_recovery_runs_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{outcome}}" }]
+    },
+    {
+      "id": 2,
+      "title": "Leases Fenced & Expired Worker Leases Observed",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "sum(emerald_recovery_leases_fenced_total{execution_mode=~\"$execution_mode\"})", "legendFormat": "Leases Fenced" },
+        { "refId": "B", "expr": "sum(emerald_recovery_worker_leases_expired_observed_total{execution_mode=~\"$execution_mode\"})", "legendFormat": "Worker Lease Expired (Observed Only)" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Recovery Evaluation Duration p95 (Seconds)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [{ "refId": "A", "expr": "histogram_quantile(0.95, sum(rate(emerald_recovery_duration_seconds_bucket{execution_mode=~\"$execution_mode\"}[5m])) by (le))", "legendFormat": "p95" }]
+    }
+  ]
+}

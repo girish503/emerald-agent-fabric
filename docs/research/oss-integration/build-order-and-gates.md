@@ -12,7 +12,7 @@
 
 This document establishes the binding implementation sequence and explicit conformance gates for advancing Emerald Agent Fabric from diagnostic boundary validation to verified autonomous software engineering execution.
 
-In strict adherence to the Master Engineering Constitution ([`GEMINI.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/GEMINI.md)), the development sequence follows:
+In strict adherence to the Master Engineering Constitution ([`GEMINI.md`](../../GEMINI.md)), the development sequence follows:
 $$\text{SPECIFY} \rightarrow \text{DESIGN} \rightarrow \text{IMPLEMENT} \rightarrow \text{VERIFY} \rightarrow \text{MEASURE} \rightarrow \text{DOCUMENT}$$
 
 ### Absolute Frozen Core Constraints

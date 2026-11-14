@@ -1175,7 +1175,7 @@ describe("LiveAgentBrain — Provider-Neutral Agent Brain Bridge (Phase 6.2)", (
       const schema = ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA.jsonSchema as any;
       expect(schema.anyOf).toBeDefined();
       expect(Array.isArray(schema.anyOf)).toBe(true);
-      expect(schema.anyOf.length).toBe(7);
+      expect(schema.anyOf.length).toBe(8);
 
       // Branch 1: GoalReachedProposal
       const goalBranch = schema.anyOf[0];
@@ -1192,7 +1192,7 @@ describe("LiveAgentBrain — Provider-Neutral Agent Brain Bridge (Phase 6.2)", (
 
       // Branches 2-7: ToolActionProposals per tool
       const toolBranches = schema.anyOf.slice(1);
-      expect(toolBranches.length).toBe(6);
+      expect(toolBranches.length).toBe(7);
 
       for (const branch of toolBranches) {
         expect(branch.type).toBe("object");

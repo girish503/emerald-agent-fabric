@@ -243,18 +243,18 @@ Because no patch was applied and clean-room dual-gate verification failed, `four
 ## 10. Reproducibility Information & Archival Data
 
 All trial records, scripts, and test suites are retained in the repository:
-- **Gate B.1 Record**: [`scratch/phase43-gate-b1-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b1-trial-results.json)
-- **Gate B.2 Record**: [`scratch/phase43-gate-b2-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b2-trial-results.json)
-- **Gate B.3 Record**: [`scratch/phase43-gate-b3-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b3-trial-results.json)
-- **Gate B.4 Record**: [`scratch/phase43-gate-b4-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b4-trial-results.json)
-- **Gate B.6 Record**: [`scratch/phase43-gate-b6-trial-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase43-gate-b6-trial-results.json)
-- **Gate A Deterministic Suite**: [`tests/integration/phase43-benchmark-runner.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/integration/phase43-benchmark-runner.test.ts)
+- **Gate B.1 Record**: [`scratch/phase43-gate-b1-trial-results.json`](../../scratch/phase43-gate-b1-trial-results.json)
+- **Gate B.2 Record**: [`scratch/phase43-gate-b2-trial-results.json`](../../scratch/phase43-gate-b2-trial-results.json)
+- **Gate B.3 Record**: [`scratch/phase43-gate-b3-trial-results.json`](../../scratch/phase43-gate-b3-trial-results.json)
+- **Gate B.4 Record**: [`scratch/phase43-gate-b4-trial-results.json`](../../scratch/phase43-gate-b4-trial-results.json)
+- **Gate B.6 Record**: [`scratch/phase43-gate-b6-trial-results.json`](../../scratch/phase43-gate-b6-trial-results.json)
+- **Gate A Deterministic Suite**: [`tests/integration/phase43-benchmark-runner.test.ts`](../../tests/integration/phase43-benchmark-runner.test.ts)
 - **Gate B Live Test Specs**:
-  - [`tests/integration/phase43-gate-b1-live.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/integration/phase43-gate-b1-live.test.ts)
-  - [`tests/integration/phase43-gate-b2-live.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/integration/phase43-gate-b2-live.test.ts)
-  - [`tests/integration/phase43-gate-b3-live.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/integration/phase43-gate-b3-live.test.ts)
-  - [`tests/integration/phase43-gate-b4-live.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/integration/phase43-gate-b4-live.test.ts)
-  - [`tests/integration/phase43-gate-b6-live.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/integration/phase43-gate-b6-live.test.ts)
+  - [`tests/integration/phase43-gate-b1-live.test.ts`](../../tests/integration/phase43-gate-b1-live.test.ts)
+  - [`tests/integration/phase43-gate-b2-live.test.ts`](../../tests/integration/phase43-gate-b2-live.test.ts)
+  - [`tests/integration/phase43-gate-b3-live.test.ts`](../../tests/integration/phase43-gate-b3-live.test.ts)
+  - [`tests/integration/phase43-gate-b4-live.test.ts`](../../tests/integration/phase43-gate-b4-live.test.ts)
+  - [`tests/integration/phase43-gate-b6-live.test.ts`](../../tests/integration/phase43-gate-b6-live.test.ts)
 
 ---
 

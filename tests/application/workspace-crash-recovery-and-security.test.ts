@@ -49,6 +49,8 @@ class SettableClock implements ClockPort {
 import { createAndActivateContract } from "./test-helpers.js";
 
 class TestCountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name: string;
   providerInvocationCount = 0;
   invocations: ExecutionRequest[] = [];
@@ -550,6 +552,8 @@ describe("Task 3.4 — Workspace Crash Recovery, Orphan Reclamation & Sandbox Se
       const coordinator = new RunCoordinator(store, clock, undefined, workspaceAdapter);
 
       class ExplodingProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
         readonly name = "in-process";
         async execute<TInput = unknown, TOutput = unknown>(_request: ExecutionRequest<TInput>): Promise<ExecutionResult<TOutput>> {
           throw new Error("Physical provider daemon crashed");
@@ -653,6 +657,8 @@ describe("Task 3.4 — Workspace Crash Recovery, Orphan Reclamation & Sandbox Se
 
       // Custom provider that revokes v1 and creates an active v2 during execution
       class RevokingProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
         readonly name = "in-process";
         async execute<TInput = unknown, TOutput = unknown>(_request: ExecutionRequest<TInput>): Promise<ExecutionResult<TOutput>> {
           // Revoke v1

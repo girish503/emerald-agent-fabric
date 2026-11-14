@@ -1,200 +1,198 @@
 # Emerald Agent Fabric
 
-**Production Build V1.0.0-rc1**  
-*A Governed Autonomous Software-Engineering Agent Runtime*
+**A Governed Agent Runtime & Evaluation Harness for Autonomous Software Engineering**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/Node.js-20.x%20|%2022.x%20|%2024.x-brightgreen.svg)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
+[![Tests](https://img.shields.io/badge/Tests-Vitest-purple.svg)](https://vitest.dev/)
 
 ---
 
 > $$\boxed{\text{The model proposes. The runtime governs. The sandbox executes. The verifier decides. The evidence proves.}}$$
 
-Emerald Agent Fabric is a zero-cost, local-only, high-assurance agent infrastructure system. It enables autonomous software-engineering agents to operate safely on real codebases while remaining observable, strictly bounded, recoverable, and verifiable.
-
-Unlike conversational wrappers or unconstrained agent runtimes, Emerald assumes all model proposals are untrusted and potentially flawed or adversarial. Every action is mediated through typed capability lattices, path containment barriers, operator approval gates, and clean-room sovereign verifiers.
+Emerald Agent Fabric is an experimental research-grade infrastructure system for safely executing autonomous software-engineering agents. It treats all model outputs as untrusted proposals, evaluating every action against typed capability lattices, path containment barriers, human-in-the-loop approval gates, and sovereign clean-room verification.
 
 ---
 
-## Key Capabilities
+## What Emerald Is
 
-- **Zero-Cost & Local-First**: Built from the ground up for local open-weight models (via Ollama, Qwen2.5-Coder, DeepSeek-Coder, Llama 3). Zero commercial API keys, zero cloud inference costs, and zero network leakage.
-- **Governed Capability Lattice**: Enforces 20 core capability invariants (`C1`–`C20`) and 720 security controls (`N1`–`N720`) fail-closed. Undeclared tools, path escapes, and unredacted secrets are blocked immediately.
-- **Sovereign Verification Pipeline**: A run never succeeds because a model declares itself finished. Verification authority belongs exclusively to clean-room build, lint, and test suites that produce cryptographic SHA-256 proof hashes.
-- **Tamper-Evident Cryptographic Evidence**: Every run produces a complete, sealed evidence bundle binding mission contracts, proposal timelines, git diffs, tool outcomes, and verification proofs.
-- **Deterministic Replay Engine**: Inspect and reconstruct previous runs without side-effects, verifying the exact sequence of events, governance decisions, and working-tree modifications.
-- **Resilient Recovery & Fencing**: Automatically fences expired leases, sweeps orphaned locks, and enables deterministic recovery after unexpected process restarts.
+- **A Governed Agent Runtime**: Provides strict boundary enforcement, capability fencing, attempt-scoped workspace isolation, lease-fenced execution, and deterministic replay for AI-driven software modifications.
+- **An Evaluation Harness**: Provides zero-cost, local-only benchmarking pipelines for public datasets like **HumanEval** and **SWE-bench Lite** against local open-weight models (via Ollama).
+- **A Sovereign Verification Engine**: Eliminates model self-attestation. Tasks only complete when independent, deterministic verifiers (test suites, linters, exit codes) succeed and produce cryptographic SHA-256 evidence proofs.
+- **A Resilient State Machine**: Built on durable SQLite persistence with WAL mode and `BEGIN IMMEDIATE` transactions, ensuring crash recovery, multi-parent DAG task orchestration, and lease fencing.
+
+---
+
+## What Emerald Is NOT
+
+> [!IMPORTANT]
+> **Emerald is NOT an autonomous coding agent yet.**
+> 
+> Across 23 real-model empirical benchmark runs using `qwen2.5-coder:1.5b` on a local CPU host, Emerald achieved an honest **0 / 23 (0.0%) pass rate**:
+> - **SWE-bench Lite (40s budget)**: 0/10 (10 `EMPTY_PATCH` failures)
+> - **SWE-bench Lite (180s budget)**: 0/10 (10 `TIMED_OUT` during model inference / Action 2)
+> - **HumanEval (180s budget)**: 0/10 (6 `EMPTY_PATCH`, 4 `TIMED_OUT`)
+> - **HumanEval (600s budget)**: 0/3 (3 `EMPTY_PATCH` failures; average 174s/task with 0 timeouts)
+>
+> While the governance runtime, lease fencing, tool execution, and verification pipelines operated with 100% fidelity (zero false positives, zero crashes), current lightweight open-weight models (1.5B) on CPU hardware read files (`read_file`) but do not synthesize verified code patches.
+> 
+> Emerald is **NOT**:
+> - A commercial coding assistant (Devin, Cursor, Copilot, OpenHands)
+> - A ChatGPT prompt wrapper or conversational chatbot
+> - A model training or fine-tuning framework
+> - A cloud service requiring paid API tokens
 
 ---
 
 ## Architectural Layers
 
+Emerald is built using Hexagonal (Ports & Adapters) architecture:
+
 ```
-User / Developer CLI (`emerald`)
-       │
-       ▼
-[Control Plane]
-  ├── Mission Control (Immutable MissionContract)
-  ├── Run Control (Durable Lifecycle State Machine)
-  ├── Approval Control (Human-in-the-Loop Gate)
-  └── Evidence Control (Cryptographic Audit Log)
-       │
-       ▼
-[Agent Runtime Engine]
-  ├── Context Distillation & Selection
-  ├── Local Model Adapter (Ollama)
-  └── Unprivileged Action Proposal
-       │
-       ▼
-[Governance & Security Gate]
-  ├── Capability Fence Enforcer (C1-C20, N691-N720)
-  ├── Cross-Harness Gateway (N696)
-  └── Path Containment & Anti-Traversal Engine
-       │
-       ▼
-[Production Tool Gateway]
-  ├── read_file, search_code, write_file
-  ├── git_status, git_diff, run_command
-  └── Attempt-Scoped Workspace / Repository
-       │
-       ▼
-[Sovereign Verification]
-  ├── Clean-Room Syntax, Build, and Test Suites
-  └── SHA-256 Verification Proof Sealing
+                  ┌─────────────────────────────────────┐
+                  │    Developer CLI / Fastify HTTP     │
+                  └──────────────────┬──────────────────┘
+                                     │
+                                     ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Control Plane & Governance                      │
+│   ├── RunCoordinator: Lifecycle State Machine (LEASED, RUNNING, etc.)  │
+│   ├── ApprovalControl: Durable SQLite Human-in-the-Loop Approvals      │
+│   ├── CapabilityGuard: C1-C20 Invariants & Workspace Path Containment   │
+│   └── TenantQuiescencePort: Physical Process & Container Fencing       │
+└────────────────────────────────────┬───────────────────────────────────┘
+                                     │
+                                     ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                           Agent Runtime Core                           │
+│   ├── WorkerRuntime: Step-loop orchestration & lease heartbeat         │
+│   ├── LiveAgentBrain: Untrusted prompt synthesis & proposal parsing    │
+│   ├── ToolExecutionGateway: Scoped tool dispatch (read, write, edit)   │
+│   └── BoundedRepairLoopController: Post-verification recovery loop    │
+└────────────────────────────────────┬───────────────────────────────────┘
+                                     │
+                                     ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Sovereign Verification                          │
+│   ├── DeterministicVerifier: Clean-room test runner & exit code check  │
+│   └── Sealed Evidence Store: Tamper-evident SHA-256 evidence bundles   │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Quickstart
+## Prerequisites
 
-### Prerequisites
-- **Node.js**: $\ge 20.0.0$
-- **Git**: $\ge 2.30.0$
-- **Ollama** (optional for local inference): running at `http://127.0.0.1:11434` with model `llama3.2` (the CLI default fallback) or an explicitly specified model (e.g. `qwen2.5-coder:7b`). If the target model is not pulled, inference fails closed with HTTP 404 (no automatic background downloads or commercial cloud fallback).
+- **Node.js**: `v20.0.0` or higher (tested on Node 20, 22, and 24).
+- **Git**: `2.30.0` or higher.
+- **Python**: `3.10+` (required for running benchmark task verification scripts).
+- **Ollama**: (Required for local model execution) running locally at `http://127.0.0.1:11434`.
 
-### Installation
+---
+
+## Installation
+
 ```bash
-# Clone the repository
-git clone https://github.com/emerald/emerald-agent-fabric.git
-cd emerald-agent-fabric
+# 1. Clone the repository
+git clone https://github.com/emerald-agent-fabric/emerald.git
+cd emerald
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Link CLI locally
-npm link
-```
+# 3. Compile TypeScript build
+npm run build
 
-### Run System Diagnostics
-```bash
-emerald doctor
-```
-
-Output:
-```
-============================================================
-Emerald Agent Fabric — Production Diagnostics
-============================================================
-[PASSED] Node.js Runtime: v20.x or higher detected
-[PASSED] Git Installation: git version 2.x detected
-[PASSED] Database Path: Local SQLite database directory accessible
-[PASSED] Workspace Directory: Hermetic workspace directory accessible
-[WARNING] Local Ollama Engine: Ollama endpoint unreachable (local mock available)
-
-Status: PASSED (System is ready for governed agent execution)
+# 4. Run tests
+npm test
 ```
 
 ---
 
-## Developer CLI Usage
+## Running Benchmarks
 
-### 1. Initialize Workspace
+Emerald includes reproducible, zero-cost benchmark runners that evaluate real models against open datasets under strict governance.
+
+### 1. Run HumanEval Benchmark
+Evaluates single-function coding tasks from OpenAI HumanEval:
+
 ```bash
-emerald init
+# Run the 10-task HumanEval benchmark (180s timeout per task)
+npm run benchmark:humaneval
+
+# Run a 3-task subset with custom timeout (e.g. 600s)
+node bin/run-humaneval.js --limit 3 --timeout 600
 ```
 
-### 2. Create a Governed Mission
-Create an engineering mission with an immutable contract:
+### 2. Run SWE-bench Lite Benchmark
+Evaluates multi-file repository maintenance tasks from Princeton SWE-bench Lite:
+
 ```bash
-emerald mission create "Fix off-by-one error in calculator parser"
+# Run default 10-task SWE-bench Lite benchmark
+npm run benchmark
+
+# Run with custom task limit and per-task timeout
+node bin/run-benchmark.js --limit 10 --timeout 180
 ```
 
-### 3. Start Governed Run
-Execute the autonomous engineering loop:
-```bash
-emerald run start <missionId>
-```
-
-### 4. Inspect Working-Tree Diff
-View the candidate patch generated by the agent:
-```bash
-emerald diff <runId>
-```
-
-### 5. Inspect Sovereign Verification Proof
-Check the cryptographic verification proof:
-```bash
-emerald verify <runId>
-```
-
-### 6. Export Evidence Bundle
-Export the tamper-evident JSON evidence bundle:
-```bash
-emerald evidence <runId>
-```
-
-### 7. Replay Historical Run
-Reconstruct the full run history and decision timeline deterministically:
-```bash
-emerald replay <runId>
-```
-
-### 8. Durable CLI Task Submission & Governed Worker
-Submit a natural-language task to SQLite with least-privilege capability policy:
-```bash
-emerald submit --db ./emerald.sqlite --task "Inspect package.json and verify dependency integrity"
-```
-
-Run a governed worker with local Ollama inference:
-```bash
-emerald worker --db ./emerald.sqlite --once --model-provider ollama --model llama3.2
-```
-*Note: If `--model` is omitted when using `--model-provider ollama`, the worker defaults to `llama3.2`. If `llama3.2` is not pulled locally, Ollama returns HTTP 404 and execution fails closed.*
+Detailed methodology, recorded results, and full empirical logs across all 23 trials are documented in [BENCHMARK.md](./BENCHMARK.md).
 
 ---
 
-## Security, Isolation & Recovery Invariants
+## Plugging in a Different Ollama Model
 
-Emerald Agent Fabric distinguishes four distinct boundaries:
-1. **Attempt-Scoped Workspace Separation (`NodeFsWorkspaceAdapter`)**: Lexical path sanitization, ancestor directory realpath verification, and symlink escape defenses isolate directory contents per execution attempt. This does **not** provide process or memory isolation.
-2. **Application-Level Capability Governance (`ProposalValidator`, `ReflexPort`)**: Model proposals are treated as untrusted inputs, validated fail-closed against the active `MissionContract`. Does **not** provide operating-system-level virtualization.
-3. **Container Isolation (`DockerExecutionProvider`, `tenantModel: "ISOLATED_PROCESSES"`)**: Provides Linux container namespaces, read-only root filesystems, dropped capabilities (`CapDrop=ALL`), and `--network=none`.
-4. **Host-Process and OS Isolation**: In-process execution (`tenantModel: "NONE"`) runs inside the worker Node.js process under the operator's host privileges. Declaring `tenantModel: "NONE"` signifies provider lifecycle dispatch; it does **not** prove the absence of background or child processes on the host. Production-grade OS sandboxing is not provided for in-process runs.
+By default, Emerald benchmarks and worker CLI use `qwen2.5-coder:1.5b`. You can plug in any open-weight model supported by Ollama without writing code.
 
-### Recovery Boundary
-- **Lease Expiry vs. Process Death**: A lapsed worker lease in SQLite is solely an expiration of a time-bounded coordination lock. Lease expiry alone is **never** proof that a previously executing worker or tenant process has terminated.
-- **Fail-Closed Quiescence**: Recovery requires verified physical quiescence (`quiesceRun() === "QUIESCENT"`) before rollback or disposal for containerized workloads. Unverified workloads are held fail-closed (`QUARANTINED`).
-- **Delivery Semantics**: Execution delivery across crash recovery is strictly at-least-once. Exactly-once execution is explicitly disclaimed.
+### Step 1: Pull the model in Ollama
+```bash
+ollama pull qwen2.5-coder:7b
+# or
+ollama pull deepseek-r1:8b
+# or
+ollama pull llama3.2:3b
+```
+
+### Step 2: Pass the model to the benchmark runner
+```bash
+# Run HumanEval with Qwen 2.5 Coder 7B
+node bin/run-humaneval.js --model qwen2.5-coder:7b --limit 3 --timeout 300
+
+# Run SWE-bench Lite with DeepSeek R1 8B
+node bin/run-benchmark.js --model deepseek-r1:8b --limit 5 --timeout 300
+```
+
+### Step 3: Use with the Developer CLI
+```bash
+# Submit a governed task
+node bin/emerald.js submit --db ./emerald.sqlite --task "Fix typo in parser tests"
+
+# Execute with specified Ollama model
+node bin/emerald.js worker --db ./emerald.sqlite --once --model-provider ollama --model qwen2.5-coder:7b
+```
+
+> [!NOTE]
+> If a requested model has not been pulled locally, Emerald fails closed immediately with an HTTP 404 error. The runtime will **never** automatically download models or fall back to commercial cloud APIs.
 
 ---
 
-## Testing & Quality Assurance
+## Security Invariants
 
-Run the comprehensive test suite:
+1. **Fail-Closed Verification Gates**: The runtime ignores completion claims unless clean-room verifiers pass.
+2. **No Blind Retries**: Destructive and non-idempotent operations are never retried without explicit supervisor rollback and operator approval.
+3. **Lease-Fenced Transitions**: Workers execute under bounded leases; expired leases invalidate pending mutations immediately.
+4. **Path Containment**: Workspace adapters prevent path traversal attacks (`..` or symlinks).
 
-```bash
-# Run production components & E2E workflow
-npx vitest run tests/production/production-components.test.ts tests/e2e/production-engineering-workflow.test.ts
+See [SECURITY.md](./SECURITY.md) for the complete security policy and threat model.
 
-# Run complete historical regression suite (Phases 89–99 + Production, 1,947 tests)
-npx vitest run tests/integration/phase89*.test.ts tests/integration/phase9*.test.ts tests/production/ tests/e2e/
+---
 
-# Verify Phase 10H artifact integrity (byte-for-byte SHA-256 audit)
-npx tsx scripts/verify-phase10h-artifacts.ts
+## Contributing
 
-# Run strict TypeScript typecheck
-npx tsc --noEmit
-```
+Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for architectural guidelines, test requirements, and development standards.
 
 ---
 
 ## License
 
-Apache 2.0. Developed as part of the Emerald Agent Fabric high-assurance agent research initiative.
+This project is licensed under the [MIT License](./LICENSE).

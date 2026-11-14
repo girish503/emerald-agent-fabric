@@ -1,0 +1,71 @@
+# =============================================================================
+# Emerald Agent Fabric — Local Monitoring & AI Observability Stack
+# ₹0-Cost Open-Source Stack: Prometheus + Grafana + Self-Hosted Langfuse
+# =============================================================================
+
+version: "3.8"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: emerald-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./infra/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/monitoring/prometheus-alerts.yml:/etc/prometheus/prometheus-alerts.yml:ro
+      - prometheus_data:/prometheus
+
+  grafana:
+    image: grafana/grafana:10.0.3
+    container_name: emerald-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${EMERALD_GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${EMERALD_GRAFANA_ADMIN_PASSWORD:?Set EMERALD_GRAFANA_ADMIN_PASSWORD in .env}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./infra/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+  # Self-hosted Langfuse for local AI agent tracing & observation
+  langfuse-web:
+    image: ghcr.io/langfuse/langfuse:2.95.11
+    container_name: emerald-langfuse
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${EMERALD_LANGFUSE_DB_USER:-langfuse}:${EMERALD_LANGFUSE_DB_PASSWORD:?Set EMERALD_LANGFUSE_DB_PASSWORD in .env}@langfuse-db:5432/${EMERALD_LANGFUSE_DB_NAME:-langfuse}
+      - NEXTAUTH_SECRET=${EMERALD_LANGFUSE_NEXTAUTH_SECRET:?Set EMERALD_LANGFUSE_NEXTAUTH_SECRET in .env}
+      - SALT=${EMERALD_LANGFUSE_SALT:?Set EMERALD_LANGFUSE_SALT in .env}
+      - NEXTAUTH_URL=http://localhost:3002
+      - TELEMETRY_ENABLED=false
+    depends_on:
+      - langfuse-db
+
+  langfuse-db:
+    image: postgres:15-alpine
+    container_name: emerald-langfuse-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${EMERALD_LANGFUSE_DB_USER:-langfuse}
+      - POSTGRES_PASSWORD=${EMERALD_LANGFUSE_DB_PASSWORD:?Set EMERALD_LANGFUSE_DB_PASSWORD in .env}
+      - POSTGRES_DB=${EMERALD_LANGFUSE_DB_NAME:-langfuse}
+    volumes:
+      - langfuse_db_data:/var/lib/postgresql/data
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  langfuse_db_data:

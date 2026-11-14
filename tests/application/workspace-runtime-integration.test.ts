@@ -25,6 +25,8 @@ import { createAndActivateContract } from "./test-helpers.js";
  * Counting mock ExecutionProvider for tracking provider invocations.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name: string;
   readonly invocations: ExecutionRequest[] = [];
   private readonly outcome: { status: "SUCCESS" | "FAILED" | "TIMED_OUT"; output?: unknown; error?: unknown };

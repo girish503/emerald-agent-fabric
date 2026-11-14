@@ -14,7 +14,7 @@
 
 ## 1. Executive Summary & Audit Baseline
 
-Pursuant to the approved plan in [`docs/production/real-workflow-validation-v2.5-plan.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/real-workflow-validation-v2.5-plan.md), the Production V2.5 evaluation was executed to measure practical developer utility under real-world development workflows using the existing production runtime, structured proposal interface, capability fencing, line-anchored editing, diagnostics, and sovereign verification.
+Pursuant to the approved plan in [`docs/production/real-workflow-validation-v2.5-plan.md`](../../docs/production/real-workflow-validation-v2.5-plan.md), the Production V2.5 evaluation was executed to measure practical developer utility under real-world development workflows using the existing production runtime, structured proposal interface, capability fencing, line-anchored editing, diagnostics, and sovereign verification.
 
 ### 1.1 High-Level Outcomes Matrix
 
@@ -40,7 +40,7 @@ Pursuant to the approved plan in [`docs/production/real-workflow-validation-v2.5
 - **Runtime Environment**: Node.js `v24.20.0` (win32 x64), Docker `v29.8.0` (build `88096ef`), Ollama `v0.40.8`.
 - **Active Model**: `qwen2.5-coder:3b` (Q4_K_M quantization, 1841 MB).
 - **Execution Budget**: ₹0 (Local CPU inference only; zero cloud dependencies).
-- **Primary Deliverable Artifact**: [`scratch/production-v25-real-workflow-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/production-v25-real-workflow-results.json).
+- **Primary Deliverable Artifact**: [`scratch/production-v25-real-workflow-results.json`](../../scratch/production-v25-real-workflow-results.json).
 
 ---
 

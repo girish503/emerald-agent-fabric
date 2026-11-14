@@ -131,7 +131,7 @@ export function validateRunInvariants(snapshot: RunSnapshot): void {
   }
 
   // Active leased and running states must possess valid worker and lease identifiers
-  if (snapshot.status === "LEASED" || snapshot.status === "RUNNING") {
+  if (snapshot.status === "LEASED" || snapshot.status === "RUNNING" || snapshot.status === "VERIFYING") {
     if (!snapshot.currentWorkerId) {
       violations.push(`State '${snapshot.status}' requires currentWorkerId`);
     }

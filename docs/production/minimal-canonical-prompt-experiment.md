@@ -5,7 +5,7 @@
 - **Milestone**: Prompt Engineering & Schema Conformance Empirical Experiment
 - **Status**: Completed — Empirical Trials Executed, Measured, and Cryptographically Recorded
 - **Selected Decision**: **`PROMPT_CHANGE_SUPPORTED`**
-- **Machine-Readable Evidence**: [`scratch/minimal-canonical-prompt-experiment-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/minimal-canonical-prompt-experiment-results.json)
+- **Machine-Readable Evidence**: [`scratch/minimal-canonical-prompt-experiment-results.json`](../../scratch/minimal-canonical-prompt-experiment-results.json)
 - **Model Adapter**: `qwen2.5-coder:3b` (Q4_K_M, 1841 MB) via local Ollama (`v0.40.8`)
 - **Inference Budget**: ₹0 (Strictly local inference; zero external APIs, paid endpoints, or cloud services)
 - **Governing Invariants**: [GEMINI.md](../../GEMINI.md), [ADR-0029](../adr/ADR-0029-rfc-standardized-model-facing-tool-contracts.md), [ADR-0032](../adr/ADR-0032-local-model-scaling-and-repair-benchmark-prerequisites.md)
@@ -14,7 +14,7 @@
 
 ## 1. Executive Summary
 
-Following the root-cause investigation in [`docs/production/tool-proposal-reliability-investigation.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/tool-proposal-reliability-investigation.md), this experiment directly tested whether supplying a minimal, canonical `read_file` prompt example (matching the active `ReadFileInputSchema` exactly) resolves the extraneous argument generation observed in `qwen2.5-coder:3b`.
+Following the root-cause investigation in [`docs/production/tool-proposal-reliability-investigation.md`](../../docs/production/tool-proposal-reliability-investigation.md), this experiment directly tested whether supplying a minimal, canonical `read_file` prompt example (matching the active `ReadFileInputSchema` exactly) resolves the extraneous argument generation observed in `qwen2.5-coder:3b`.
 
 A controlled, head-to-head experiment was conducted across 3 identical production file inspection targets (6 total trials) using the same local Ollama model instance, grammar constraint, and strict Zod validation path.
 
@@ -38,7 +38,7 @@ A controlled, head-to-head experiment was conducted across 3 identical productio
 
 Prior to running trials, the runtime validation path was inspected to confirm exact canonical contracts:
 
-1. **Active Adapter Input Validator** ([`src/production/adapter/structured-proposal-schema.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/adapter/structured-proposal-schema.ts#L46-L50)):
+1. **Active Adapter Input Validator** ([`src/production/adapter/structured-proposal-schema.ts`](../../src/production/adapter/structured-proposal-schema.ts#L46-L50)):
    ```typescript
    export const ReadFileInputSchema = z
      .object({

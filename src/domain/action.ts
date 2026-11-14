@@ -37,8 +37,7 @@ import {
   isValidToolName,
   TOOL_IDEMPOTENCY_MAP,
   ToolIdempotency,
-  ToolName,
-} from "./tool.js";
+  } from "./tool.js";
 
 /**
  * Deterministic lifecycle states for an Action.

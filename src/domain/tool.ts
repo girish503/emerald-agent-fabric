@@ -45,16 +45,14 @@ export const TOOL_NAMES = [
   "search_code",
   "git_status",
   "git_diff",
+  "edit_file",
 ] as const;
 
 export type ToolName = (typeof TOOL_NAMES)[number];
 
-export const EXTENDED_TOOL_NAMES = [
-  ...TOOL_NAMES,
-  "edit_file",
-] as const;
+export const EXTENDED_TOOL_NAMES = TOOL_NAMES;
 
-export type ExtendedToolName = (typeof EXTENDED_TOOL_NAMES)[number];
+export type ExtendedToolName = ToolName;
 
 export function isValidToolName(name: string): name is ExtendedToolName {
   return (EXTENDED_TOOL_NAMES as readonly string[]).includes(name);
@@ -257,7 +255,7 @@ export const RUN_COMMAND_TOOL: ToolDefinition<"run_command"> = Object.freeze({
   outputSchema: RunCommandOutputSchema,
 });
 
-export const EDIT_FILE_TOOL: ToolDefinition<any> = Object.freeze({
+export const EDIT_FILE_TOOL: ToolDefinition<"edit_file"> = Object.freeze({
   name: "edit_file",
   version: "1.0.0",
   description: "Applies a constrained, line-anchored search-and-replace edit to an existing file within the workspace sandbox.",
@@ -280,12 +278,10 @@ export const INITIAL_TOOL_DEFINITIONS: readonly ToolDefinition[] = Object.freeze
   GIT_STATUS_TOOL,
   GIT_DIFF_TOOL,
   RUN_COMMAND_TOOL,
-]);
-
-export const EXTENDED_TOOL_DEFINITIONS: readonly ToolDefinition[] = Object.freeze([
-  ...INITIAL_TOOL_DEFINITIONS,
   EDIT_FILE_TOOL,
 ]);
+
+export const EXTENDED_TOOL_DEFINITIONS: readonly ToolDefinition[] = INITIAL_TOOL_DEFINITIONS;
 
 // ============================================================================
 // 8. Tool Request & Tool Result Models

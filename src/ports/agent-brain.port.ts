@@ -34,6 +34,23 @@ export interface BrainModelMetadata {
   readonly completionTokens?: number;
   readonly totalTokens?: number;
   readonly durationMs?: number;
+  readonly requestId?: string;
+  readonly providerName?: string;
+  readonly totalDurationNs?: number | null;
+  readonly loadDurationNs?: number | null;
+  readonly promptEvalDurationNs?: number | null;
+  readonly evalDurationNs?: number | null;
+  readonly promptEvalCount?: number | null;
+  readonly evalCount?: number | null;
+  readonly doneReason?: string | null;
+  readonly finishReason?: string | null;
+  readonly modelParameters?: {
+    readonly temperature?: number;
+    readonly numPredict?: number;
+    readonly numCtx?: number;
+    readonly keepAlive?: string;
+  };
+  readonly providerMetadata?: Record<string, unknown>;
 }
 
 export interface AgentBrainResult {

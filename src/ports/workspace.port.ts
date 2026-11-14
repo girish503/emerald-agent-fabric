@@ -67,6 +67,12 @@ export interface WorkspacePort {
   provisionWorkspace(spec: WorkspaceSpec, owner?: WorkspaceOwner): Promise<WorkspaceHandle>;
 
   /**
+   * Resumes an existing authenticated workspace directory for a resumed attempt of the same run
+   * (e.g., after WAITING_APPROVAL), re-binding ownership to the new lease while preserving files.
+   */
+  resumeWorkspace?(spec: WorkspaceSpec, owner: WorkspaceOwner): Promise<WorkspaceHandle>;
+
+  /**
    * Resolves a relative path within a workspace to its canonical, symlink-verified host path.
    * Guarantees that the final real path remains strictly inside the workspace directory.
    */

@@ -102,6 +102,8 @@ class ScriptableAgentBrain implements AgentBrainPort {
 }
 
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "CountingExecutionProvider";
   readonly invocations: ExecutionRequest[] = [];
 

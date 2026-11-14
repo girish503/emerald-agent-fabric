@@ -7,10 +7,10 @@
 - **Decision Type**: Architectural transport contract, validation authority preservation, failure classification, and repair loop boundaries
 - **Governing Constitution**: [GEMINI.md](../../GEMINI.md) (Master Engineering Constitution Version 1.0)
 - **Related Evidence**:
-  - Phase 44 Research Report: [`docs/research/phase44-structured-output-and-repair-loop-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase44-structured-output-and-repair-loop-report.md)
-  - Phase 44C Preflight Record: [`scratch/phase44c-preflight-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase44c-preflight-results.json)
-  - Phase 44D Repair Trial Record: [`scratch/phase44d-repair-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase44d-repair-results.json)
-  - Offline Parity Suite: [`tests/contract/action-proposal-schema-parity.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/contract/action-proposal-schema-parity.test.ts)
+  - Phase 44 Research Report: [`docs/research/phase44-structured-output-and-repair-loop-report.md`](../../docs/research/phase44-structured-output-and-repair-loop-report.md)
+  - Phase 44C Preflight Record: [`scratch/phase44c-preflight-results.json`](../../scratch/phase44c-preflight-results.json)
+  - Phase 44D Repair Trial Record: [`scratch/phase44d-repair-results.json`](../../scratch/phase44d-repair-results.json)
+  - Offline Parity Suite: [`tests/contract/action-proposal-schema-parity.test.ts`](../../tests/contract/action-proposal-schema-parity.test.ts)
 - **Related ADRs**:
   - ADR-0001: Master Engineering Constitution
   - ADR-0003: Workspace and Typed Tools

@@ -4,129 +4,53 @@
   "taskTitle": "Core Arithmetic Off-by-One Fix",
   "model": "qwen2.5-coder:1.5b",
   "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
-  "classification": "PROGRESSION_ALTERED",
+  "classification": "OTHER_FAILURE",
   "timestamps": {
-    "startedAt": "2026-10-26T12:14:32.743Z",
-    "completedAt": "2026-10-26T12:21:32.372Z",
-    "wallClockDurationMs": 419616
+    "startedAt": "2026-11-13T18:53:22.233Z",
+    "completedAt": "2026-11-13T18:55:24.013Z",
+    "wallClockDurationMs": 121778
   },
   "dynamicToolFiltering": {
     "enabled": true,
     "filteringSummary": [
       {
         "stepNumber": 1,
-        "toolProposed": "read_file",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
+        "toolProposed": "none",
+        "eligibleTools": [],
         "filteredTools": [],
         "filterActive": false,
-        "proposalValid": true,
-        "actionStatus": "SUCCEEDED",
-        "rationale": "none"
-      },
-      {
-        "stepNumber": 2,
-        "toolProposed": "write_file",
-        "eligibleTools": [
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [
-          "read_file"
-        ],
-        "filterActive": true,
-        "proposalValid": true,
-        "actionStatus": "SUCCEEDED",
-        "rationale": "none"
-      },
-      {
-        "stepNumber": 3,
-        "toolProposed": "write_file",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [],
-        "filterActive": false,
-        "proposalValid": true,
-        "actionStatus": "SUCCEEDED",
-        "rationale": "none"
-      },
-      {
-        "stepNumber": 4,
-        "toolProposed": "write_file",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [],
-        "filterActive": false,
-        "proposalValid": true,
-        "actionStatus": "SUCCEEDED",
-        "rationale": "none"
-      },
-      {
-        "stepNumber": 5,
-        "toolProposed": "write_file",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [],
-        "filterActive": false,
-        "proposalValid": true,
-        "actionStatus": "SUCCEEDED",
+        "proposalValid": false,
+        "actionStatus": "none",
         "rationale": "none"
       }
     ]
   },
   "telemetry": {
-    "modelCalls": 5,
-    "modelFailures": 0,
-    "promptTokens": 10606,
-    "evalTokens": 780,
-    "totalTokens": 11386
+    "modelCalls": 1,
+    "modelFailures": 1,
+    "promptTokens": null,
+    "evalTokens": null,
+    "totalTokens": null
   },
   "execution": {
     "verified": false,
-    "terminalStatus": "TIMED_OUT",
-    "terminalReason": "MAX_STEPS",
-    "totalSteps": 5,
-    "totalActions": 5,
+    "terminalStatus": "FAILED",
+    "terminalReason": "BRAIN_FAILURE",
+    "totalSteps": 1,
+    "totalActions": 0,
     "totalProposalRejections": 0,
-    "readActionsCount": 1,
-    "writeActionsCount": 4,
+    "readActionsCount": 0,
+    "writeActionsCount": 0,
     "progressAdvisoriesCount": 0,
     "progressAdvisories": []
   },
   "workspaceMutation": {
     "targetFile": "src/calc.js",
     "targetFileFound": true,
-    "targetFileModified": true,
+    "targetFileModified": false,
     "initialContentLength": 125,
-    "finalContentLength": 16,
-    "finalTargetFileContent": "console.log(42);"
+    "finalContentLength": 125,
+    "finalTargetFileContent": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n"
   },
   "patch": {
     "candidatePatchBytes": 0,
@@ -134,23 +58,16 @@
   },
   "cleanRoomVerification": null,
   "evidenceBundle": {
-    "bundleId": "a2eeff51d7efd44ac3655e27c2df18714a169581496a938ff80f78f5c75336b3",
-    "provenanceRoot": "1528d856343ad9df17f2f01115c4e4521cd1020a70740ea0354b60476413e477",
+    "bundleId": "89c6cb95e6514ffbcfeaa5713c3117dad979e5ed7760c87a9632dea4d9d87a13",
+    "provenanceRoot": "ac4f33899fe3254b6f19cc50229efaf0a0108c0b4c52a5ee318946e729fe9475",
     "signaturesCount": 2,
-    "eventsCount": 45
+    "eventsCount": 6
   },
   "offlineAudit": {
-    "status": "FAILED",
-    "thresholdSatisfied": false,
+    "status": "VERIFIED",
+    "thresholdSatisfied": true,
     "fourfoldSatisfied": false,
-    "failures": [
-      {
-        "code": "UNKNOWN_AUTHORITY",
-        "message": "Threshold authority policy not satisfied: Signing key 'key-worker-p43' not found in trusted keyring; Signing key 'key-supervisor-p43' not found in trusted keyring",
-        "bundleId": "a2eeff51d7efd44ac3655e27c2df18714a169581496a938ff80f78f5c75336b3",
-        "runId": "91ac23f2-9da9-41cb-808f-80d0f709e3c5"
-      }
-    ]
+    "failures": []
   },
   "comparisonWithHistoricalPhases": {
     "phase44d": {
@@ -173,196 +90,36 @@
     },
     "phase46c": {
       "configuration": "Dynamic schema projection (CT-1..8), grounded defect context, stagnation advisory",
-      "behavior": "1 reads, 4 writes, totalSteps=5, terminalReason=MAX_STEPS",
-      "terminalStatus": "TIMED_OUT",
-      "terminalReason": "MAX_STEPS",
-      "steps": 5,
-      "actions": 5,
-      "writeActions": 4
+      "behavior": "0 reads, 0 writes, totalSteps=1, terminalReason=BRAIN_FAILURE",
+      "terminalStatus": "FAILED",
+      "terminalReason": "BRAIN_FAILURE",
+      "steps": 1,
+      "actions": 0,
+      "writeActions": 0
     }
   },
-  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1793016872852-ArZL3O",
+  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1794596002300-dYkDsm",
   "diagnostics": {
     "stepDiagnostics": [
       {
         "stepNumber": 1,
-        "timestamp": "2026-10-26T12:14:33.598Z",
-        "durationMs": 92661,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "action-1",
-        "toolName": "read_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "offsetLine": 1,
-          "limitLines": 500
-        },
-        "actionId": "0fe0e219-f883-4fbc-86d0-db97655ff44c",
-        "actionStatus": "SUCCEEDED",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [],
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"955598e41b8ba35651ff62b50c2ba356a1fcaa7f6171823795c726b73f0ebc0c\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
-      },
-      {
-        "stepNumber": 2,
-        "timestamp": "2026-10-26T12:16:06.261Z",
-        "durationMs": 89924,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "0fe0e219-f883-4fbc-86d0-db97655ff44c",
-        "toolName": "write_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "content": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
-          "overwrite": true
-        },
-        "actionId": "7126ae39-9866-4018-b4c2-aac2eabdf71b",
-        "actionStatus": "SUCCEEDED",
-        "eligibleTools": [
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [
-          "read_file"
-        ],
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"0fe0e219-f883-4fbc-86d0-db97655ff44c\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"b0643a4f828ad23ede85a74ce06a16789a475bf8bc7fd68956f6238108e2f854\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}"
-      },
-      {
-        "stepNumber": 3,
-        "timestamp": "2026-10-26T12:17:36.187Z",
-        "durationMs": 80461,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "12345678-90ab-cdef-ghij-klmno12345678",
-        "toolName": "write_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "content": "function add(a, b) {\n  return a + b + 1;\n}\n\nfunction multiply(a, b) {\n  return a * b;\n}\n\nmodule.exports = { add, multiply };\n",
-          "overwrite": true
-        },
-        "actionId": "d175a7ee-d20c-4b9b-92bc-822a66deed57",
-        "actionStatus": "SUCCEEDED",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [],
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-ghij-klmno12345678\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"b104d090ff37529c0cdef9889d97a895342d651122ec03e4f01b4fe79afae3c2\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"sequenceHint\": 21\n}"
-      },
-      {
-        "stepNumber": 4,
-        "timestamp": "2026-10-26T12:18:56.651Z",
-        "durationMs": 77845,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "action-12345",
-        "toolName": "write_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "content": "console.log(42);",
-          "overwrite": true
-        },
-        "actionId": "655331da-936d-4d78-8dd1-c3804d00d985",
-        "actionStatus": "SUCCEEDED",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [],
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"baa0152798b00cc4e910f552f6501cc329bba789ee049bf0ad7b2c2522e3e7b5\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"console.log(42);\"\n  }\n}"
-      },
-      {
-        "stepNumber": 5,
-        "timestamp": "2026-10-26T12:20:14.502Z",
-        "durationMs": 77704,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "action-12345",
-        "toolName": "write_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "content": "console.log(42);",
-          "overwrite": true
-        },
-        "actionId": "2c93ea4b-c74b-44ff-bf09-78fd3888886f",
-        "actionStatus": "SUCCEEDED",
-        "eligibleTools": [
-          "read_file",
-          "write_file",
-          "search_code",
-          "git_status",
-          "git_diff",
-          "run_command"
-        ],
-        "filteredTools": [],
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"75ad4a3b4f2c0cf623a5ae6708092f3882793e8b0001e62f2a02ad77627faced\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"console.log(42);\"\n  }\n}"
+        "timestamp": "2026-11-13T18:53:23.463Z",
+        "durationMs": 120385,
+        "proposalValid": false
       }
     ],
-    "proposalRejections": [],
-    "rawCompletions": [
+    "proposalRejections": [
       {
-        "callIndex": 1,
-        "durationMs": 92403,
-        "promptTokens": 2406,
-        "evalTokens": 116,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"955598e41b8ba35651ff62b50c2ba356a1fcaa7f6171823795c726b73f0ebc0c\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
-        "truncated": false,
-        "originalLength": 227
-      },
-      {
-        "callIndex": 2,
-        "durationMs": 89806,
-        "promptTokens": 2050,
-        "evalTokens": 197,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"0fe0e219-f883-4fbc-86d0-db97655ff44c\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"b0643a4f828ad23ede85a74ce06a16789a475bf8bc7fd68956f6238108e2f854\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  }\n}",
-        "truncated": false,
-        "originalLength": 409
-      },
-      {
-        "callIndex": 3,
-        "durationMs": 80396,
-        "promptTokens": 2050,
-        "evalTokens": 205,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-ghij-klmno12345678\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"b104d090ff37529c0cdef9889d97a895342d651122ec03e4f01b4fe79afae3c2\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"function add(a, b) {\\n  return a + b + 1;\\n}\\n\\nfunction multiply(a, b) {\\n  return a * b;\\n}\\n\\nmodule.exports = { add, multiply };\\n\"\n  },\n  \"sequenceHint\": 21\n}",
-        "truncated": false,
-        "originalLength": 432
-      },
-      {
-        "callIndex": 4,
-        "durationMs": 77490,
-        "promptTokens": 2050,
-        "evalTokens": 131,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"baa0152798b00cc4e910f552f6501cc329bba789ee049bf0ad7b2c2522e3e7b5\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"console.log(42);\"\n  }\n}",
-        "truncated": false,
-        "originalLength": 267
-      },
-      {
-        "callIndex": 5,
-        "durationMs": 77529,
-        "promptTokens": 2050,
-        "evalTokens": 131,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-12345\",\n  \"toolName\": \"write_file\",\n  \"contextSnapshotHash\": \"75ad4a3b4f2c0cf623a5ae6708092f3882793e8b0001e62f2a02ad77627faced\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\",\n    \"content\": \"console.log(42);\"\n  }\n}",
-        "truncated": false,
-        "originalLength": 267
+        "stepNumber": 1,
+        "proposalValid": false
       }
-    ]
+    ],
+    "rawCompletions": [],
+    "postPassLatchSnapshot": {
+      "schemaVersion": 1,
+      "isLatched": false,
+      "protectedPaths": [],
+      "cleanRoomVerified": false
+    }
   }
 }

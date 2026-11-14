@@ -292,7 +292,7 @@ describe("Phase 44 Preflight: Action Proposal Schema Parity & Representative Val
   // --------------------------------------------------------------------------
   describe("1. Candidate Schema Structural Completeness", () => {
     it("defines exactly 7 anyOf branches (1 goal completion + 6 tools)", () => {
-      expect(PROMOTED_ACTION_PROPOSAL_JSON_SCHEMA.anyOf.length).toBe(7);
+      expect(PROMOTED_ACTION_PROPOSAL_JSON_SCHEMA.anyOf.length).toBe(8);
     });
 
     it("includes Branch 1 as strict goal-completion signal with no tool fields", () => {

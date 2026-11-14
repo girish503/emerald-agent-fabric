@@ -4,24 +4,24 @@
   "model": "qwen2.5-coder:1.5b",
   "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
   "timestamps": {
-    "startedAt": "2026-10-25T11:10:11.011Z",
-    "completedAt": "2026-10-25T11:13:48.500Z",
-    "wallClockDurationMs": 217487
+    "startedAt": "2026-11-13T18:57:35.000Z",
+    "completedAt": "2026-11-13T18:59:44.982Z",
+    "wallClockDurationMs": 129982
   },
   "telemetry": {
-    "modelCalls": 4,
-    "modelFailures": 0,
-    "promptTokens": 8196,
-    "evalTokens": 566,
-    "totalTokens": 8762
+    "modelCalls": 1,
+    "modelFailures": 1,
+    "promptTokens": null,
+    "evalTokens": null,
+    "totalTokens": null
   },
   "execution": {
     "verified": false,
     "terminalStatus": "FAILED",
-    "terminalReason": "MAX_PROPOSAL_REJECTIONS",
-    "totalSteps": 4,
-    "totalActions": 1,
-    "totalProposalRejections": 3
+    "terminalReason": "BRAIN_FAILURE",
+    "totalSteps": 1,
+    "totalActions": 0,
+    "totalProposalRejections": 0
   },
   "patch": {
     "candidatePatchBytes": 0,
@@ -30,10 +30,10 @@
   },
   "cleanRoomVerification": null,
   "evidenceBundle": {
-    "bundleId": "7f1dd590f5a6a856ced536cd6eef5a0805dd9f5f4d379946abe96b84121fbb45",
-    "provenanceRoot": "724711ddddbf63d1634499f8b9413eeac2b1ed14fcaac3131f2a6403347ab432",
+    "bundleId": "88b910aac2bfb515ce050286fde0f2eaabe96b77b606c2c52c190f37354923bd",
+    "provenanceRoot": "810520877796862b9fe0dbb3f768da3f0970486c46ce0e1e6399f09b2103140e",
     "signaturesCount": 2,
-    "eventsCount": 13
+    "eventsCount": 6
   },
   "offlineAudit": {
     "status": "VERIFIED",
@@ -41,5 +41,28 @@
     "fourfoldSatisfied": false,
     "failures": []
   },
-  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1792926611030-yphzeZ"
+  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1794596255012-0v0HRI",
+  "diagnostics": {
+    "stepDiagnostics": [
+      {
+        "stepNumber": 1,
+        "timestamp": "2026-11-13T18:57:36.581Z",
+        "durationMs": 126005,
+        "proposalValid": false
+      }
+    ],
+    "proposalRejections": [
+      {
+        "stepNumber": 1,
+        "proposalValid": false
+      }
+    ],
+    "rawCompletions": [],
+    "postPassLatchSnapshot": {
+      "schemaVersion": 1,
+      "isLatched": false,
+      "protectedPaths": [],
+      "cleanRoomVerified": false
+    }
+  }
 }

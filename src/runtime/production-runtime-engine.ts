@@ -43,6 +43,7 @@ import { ProductionVerifier, ProductionVerificationResult } from "../verificatio
 import { EvidenceControl, ProductionEvidenceBundle } from "../control-plane/evidence-control.js";
 import { MissionControl } from "../control-plane/mission-control.js";
 import { RunControl, ProductionRun } from "../control-plane/run-control.js";
+import { ApprovalControl } from "../control-plane/approval-control.js";
 import { ProductionConfig } from "../config/production-config.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import {
@@ -88,6 +89,7 @@ export class ProductionRuntimeEngine {
     diagnosticEngine?: SourceDiagnosticEngine,
     mutationStore?: MutationIntentStorePort,
     snapshotBasePath?: string,
+    approvalControl?: ApprovalControl,
   ) {
     const resolvedStore: MutationIntentStorePort | undefined =
       mutationStore ??
@@ -97,7 +99,13 @@ export class ProductionRuntimeEngine {
           ? (this.runControl.getStateStore() as any)
           : undefined);
 
-    this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway);
+    const approvalStore = this.runControl.getStateStore() ?? (this.runControl.getCoordinator()?.store as any);
+    const resolvedApprovalControl =
+      approvalControl ??
+      (approvalStore && typeof (approvalStore as any).insertApprovalRequest === "function"
+        ? new ApprovalControl(this.clock, approvalStore, true)
+        : undefined);
+    this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway, resolvedApprovalControl, this.clock);
     this.toolGateway = new ProductionToolGateway(this.governanceFacade, resolvedStore, snapshotBasePath);
     this.verifier = verifier ?? new ProductionVerifier(this.clock);
     this.evidenceControl = evidenceControl ?? new EvidenceControl();
@@ -117,6 +125,7 @@ export class ProductionRuntimeEngine {
       this.clock,
       resolvedStore,
       snapshotBasePath,
+      resolvedApprovalControl,
     );
   }
 
@@ -248,6 +257,8 @@ export class ProductionRuntimeEngine {
     // Execution Context
     const toolCtx: ToolExecutionContext = {
       runId: run.runId,
+      taskId: mission.taskId,
+      tenantId: mission.contract.spec.policy.tenantId,
       subjectId: actorId,
       fenceId,
       harnessType: "IMPLEMENTATION_HARNESS",
@@ -256,6 +267,7 @@ export class ProductionRuntimeEngine {
       maxOutputBytes: this.config.resourceLimits.maxOutputBytes,
       timeoutMs: this.config.timeouts.actionTimeoutMs,
     };
+    let waitingApprovalReason: string | null = null;
 
     // 2. The Governed Agent Loop
     while (stepCount < maxSteps && !goalReached) {
@@ -309,8 +321,27 @@ export class ProductionRuntimeEngine {
           success: toolRes.success,
           error: toolRes.error,
           bytesOutput: toolRes.bytesOutput,
+          requiresHumanApproval: toolRes.requiresHumanApproval ?? false,
+          approvalId: toolRes.approvalId,
         },
       );
+
+      if (!toolRes.success && (toolRes.requiresHumanApproval || toolRes.runStatusHint === "WAITING_APPROVAL")) {
+        waitingApprovalReason = toolRes.error ?? `Tool '${proposal.toolName}' requires human approval`;
+        this.runControl.transitionStatus(run.runId, "WAITING_APPROVAL", waitingApprovalReason);
+        this.evidenceControl.recordTimelineEntry(
+          run.runId,
+          "run.waiting_approval",
+          waitingApprovalReason,
+          "ProductionRuntimeEngine",
+          {
+            stepCount,
+            toolName: proposal.toolName,
+            approvalId: toolRes.approvalId,
+          },
+        );
+        break;
+      }
 
       // --- Advisory Diagnostic Stage (Only after authorized candidate mutation) ---
       if (toolRes.success && proposal.toolName === "write_file") {
@@ -422,34 +453,51 @@ export class ProductionRuntimeEngine {
     const diffRes = await this.toolGateway.executeTool("git_diff", {}, toolCtx);
     finalDiff = String(diffRes.output ?? "");
 
-    // 3. Sovereign Verification Pipeline
-    this.runControl.transitionStatus(run.runId, "VERIFYING");
+    let verificationResult: ProductionVerificationResult;
+    let disposition: "ACCEPTED" | "REJECTED" | "QUARANTINED";
+    let completedRun: ProductionRun;
 
-    this.evidenceControl.recordTimelineEntry(
-      run.runId,
-      "verification.started",
-      "Sovereign multi-stage verification initiated",
-      "SovereignVerifier",
-    );
+    if (waitingApprovalReason !== null) {
+      verificationResult = {
+        verified: false,
+        stages: [],
+        proofHash: "",
+        durationMs: 0,
+        failureReason: waitingApprovalReason,
+        verifiedAt: this.clock.now().toISOString(),
+      };
+      disposition = "REJECTED";
+      completedRun = this.runControl.getRun(run.runId) ?? run;
+    } else {
+      // 3. Sovereign Verification Pipeline
+      this.runControl.transitionStatus(run.runId, "VERIFYING");
 
-    const verificationResult = await this.verifier.verify({
-      workspacePath: mission.workspacePath,
-      buildCommand: options?.buildCommand,
-      testCommand: options?.testCommand,
-    });
+      this.evidenceControl.recordTimelineEntry(
+        run.runId,
+        "verification.started",
+        "Sovereign multi-stage verification initiated",
+        "SovereignVerifier",
+      );
 
-    this.evidenceControl.recordTimelineEntry(
-      run.runId,
-      "verification.completed",
-      `Verification result: ${verificationResult.verified ? "PASSED" : "FAILED"}. Proof: ${verificationResult.proofHash}`,
-      "SovereignVerifier",
-      { verified: verificationResult.verified, proofHash: verificationResult.proofHash },
-    );
+      verificationResult = await this.verifier.verify({
+        workspacePath: mission.workspacePath,
+        buildCommand: options?.buildCommand,
+        testCommand: options?.testCommand,
+      });
 
-    // 4. Final Disposition
-    const disposition = verificationResult.verified ? "ACCEPTED" : "REJECTED";
-    const finalStatus = verificationResult.verified ? "COMPLETED" : "FAILED";
-    const completedRun = this.runControl.transitionStatus(run.runId, finalStatus, verificationResult.failureReason);
+      this.evidenceControl.recordTimelineEntry(
+        run.runId,
+        "verification.completed",
+        `Verification result: ${verificationResult.verified ? "PASSED" : "FAILED"}. Proof: ${verificationResult.proofHash}`,
+        "SovereignVerifier",
+        { verified: verificationResult.verified, proofHash: verificationResult.proofHash },
+      );
+
+      // 4. Final Disposition
+      disposition = verificationResult.verified ? "ACCEPTED" : "REJECTED";
+      const finalStatus = verificationResult.verified ? "COMPLETED" : "FAILED";
+      completedRun = this.runControl.transitionStatus(run.runId, finalStatus, verificationResult.failureReason);
+    }
 
     // 5. Seal Evidence Bundle
     const evidence = this.evidenceControl.sealEvidenceBundle({

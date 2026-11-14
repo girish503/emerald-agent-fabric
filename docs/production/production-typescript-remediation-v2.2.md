@@ -52,7 +52,7 @@ Prior to remediation, `npx.cmd tsc --noEmit` yielded 159 lines of compiler outpu
 ## 3. Files Changed and Exact Minimal Corrections
 
 Only **one file** was modified:
-- [`tests/production/structured-proposal-interface.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/production/structured-proposal-interface.test.ts)
+- [`tests/production/structured-proposal-interface.test.ts`](../../tests/production/structured-proposal-interface.test.ts)
 
 ### Exact Minimal Corrections Applied:
 1. **Unused Imports & Declarations Removed**:

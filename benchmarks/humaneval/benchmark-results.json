@@ -1,0 +1,76 @@
+{
+  "dataset": "HumanEval",
+  "model": "qwen2.5-coder:1.5b",
+  "evaluatedAt": "2026-11-13T16:29:48.729Z",
+  "budgetPerTaskSec": 600,
+  "totalTasks": 3,
+  "passedCount": 0,
+  "failedCount": 3,
+  "timedOutCount": 0,
+  "passRatePercent": 0,
+  "totalDurationMs": 523166,
+  "results": [
+    {
+      "taskId": "HumanEval/0",
+      "entryPoint": "has_close_elements",
+      "status": "FAILED",
+      "durationMs": 162108,
+      "turnsTaken": 1,
+      "turnDurationsMs": [
+        88816,
+        72295
+      ],
+      "toolsCalled": [
+        "read_file"
+      ],
+      "patchSizeBytes": 0,
+      "terminalReason": "COMPLETION_UNVERIFIABLE",
+      "terminalMessage": "Completion cannot be authorized (NO_VERIFICATION_SPECS): The Mission Contract declares no verification specifications; an empty set is not proof of completion.",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-has_close_elements-0DJHOc\\workspaces\\ws-humaneval-1\\test_solution.py\", line 23, in <module>\r\n    check(has_close_elements)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-has_close_elements-0DJHOc\\workspaces\\ws-humaneval-1\\test_solution.py\", line 12, in check\r\n    assert candidate([1.0, 2.0, 3.9, 4.0, 5.0, 2.2], 0.3) == True\r\n        ",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 1)"
+    },
+    {
+      "taskId": "HumanEval/1",
+      "entryPoint": "separate_paren_groups",
+      "status": "FAILED",
+      "durationMs": 156064,
+      "turnsTaken": 1,
+      "turnDurationsMs": [
+        88069,
+        67094
+      ],
+      "toolsCalled": [
+        "read_file"
+      ],
+      "patchSizeBytes": 0,
+      "terminalReason": "COMPLETION_UNVERIFIABLE",
+      "terminalMessage": "Completion cannot be authorized (NO_VERIFICATION_SPECS): The Mission Contract declares no verification specifications; an empty set is not proof of completion.",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-separate_paren_groups-ngDDEL\\workspaces\\ws-humaneval-2\\test_solution.py\", line 25, in <module>\r\n    check(separate_paren_groups)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-separate_paren_groups-ngDDEL\\workspaces\\ws-humaneval-2\\test_solution.py\", line 12, in check\r\n    assert candidate('(()()) ((())) () ((())()())') == [\r\n     ",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 1)"
+    },
+    {
+      "taskId": "HumanEval/2",
+      "entryPoint": "truncate_number",
+      "status": "FAILED",
+      "durationMs": 203329,
+      "turnsTaken": 2,
+      "turnDurationsMs": [
+        68144,
+        68267,
+        66053
+      ],
+      "toolsCalled": [
+        "read_file",
+        "read_file"
+      ],
+      "patchSizeBytes": 0,
+      "terminalReason": "COMPLETION_UNVERIFIABLE",
+      "terminalMessage": "Completion cannot be authorized (NO_VERIFICATION_SPECS): The Mission Contract declares no verification specifications; an empty set is not proof of completion.",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-truncate_number-8jIVym\\workspaces\\ws-humaneval-3\\test_solution.py\", line 18, in <module>\r\n    check(truncate_number)\r\n    ~~~~~^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Adusumalli Girish\\AppData\\Local\\Temp\\emerald-humaneval-truncate_number-8jIVym\\workspaces\\ws-humaneval-3\\test_solution.py\", line 12, in check\r\n    assert candidate(3.5) == 0.5\r\n           ^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 2)"
+    }
+  ]
+}

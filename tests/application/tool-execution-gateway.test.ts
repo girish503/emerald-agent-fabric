@@ -47,6 +47,8 @@ import { createAndActivateContract } from "./test-helpers.js";
  * Spy ExecutionProvider to rigorously verify that ZERO provider calls occur.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "spy-provider";
   readonly invocations: ExecutionRequest[] = [];
 
@@ -1160,8 +1162,8 @@ describe("ToolExecutionGateway — Pre-Execution Authorization & Boundary (Task 
 
       const decision = await gateway.authorize(request, fixture.context);
       expect(decision.status).toBe("DENIED");
-      expect(decision.domainError).toBeInstanceOf(ToolProviderUnavailableError);
-      expect(decision.errorPayload?.code).toBe("TOOL_PROVIDER_UNAVAILABLE");
+      expect(decision.domainError).toBeInstanceOf(ToolCapabilityDeniedError);
+      expect(decision.errorPayload?.code).toBe("CAPABILITY_DENIED");
       expect(fixture.provider.providerInvocationCount).toBe(0);
     });
 
@@ -1184,8 +1186,8 @@ describe("ToolExecutionGateway — Pre-Execution Authorization & Boundary (Task 
 
       const decision = await gateway.authorize(request, fixture.context);
       expect(decision.status).toBe("DENIED");
-      expect(decision.domainError).toBeInstanceOf(ToolProviderUnavailableError);
-      expect(decision.errorPayload?.code).toBe("TOOL_PROVIDER_UNAVAILABLE");
+      expect(decision.domainError).toBeInstanceOf(ToolCapabilityDeniedError);
+      expect(decision.errorPayload?.code).toBe("CAPABILITY_DENIED");
       expect(fixture.provider.providerInvocationCount).toBe(0);
     });
   });

@@ -98,6 +98,8 @@ class ScriptableAgentBrain implements AgentBrainPort {
  * Controllable execution provider that intercepts command runs and file operations.
  */
 class ControllableExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "controllable-test-provider";
   readonly invocations: ExecutionRequest[] = [];
   f2pExitCode = 0;

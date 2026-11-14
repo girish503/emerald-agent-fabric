@@ -33,6 +33,8 @@ import { createAndActivateContract } from "./test-helpers.js";
  * during proposal generation and proposal validation.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "spy-counting-provider";
   readonly invocations: ExecutionRequest[] = [];
 

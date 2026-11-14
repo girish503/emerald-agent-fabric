@@ -14,7 +14,7 @@
  */
 
 import { z } from "zod";
-import { TOOL_NAMES, ToolName, ToolDefinition, ToolCapability } from "./tool.js";
+import { TOOL_NAMES, ToolDefinition, ToolCapability } from "./tool.js";
 import { ContractBinding } from "./invariants.js";
 
 // ============================================================================

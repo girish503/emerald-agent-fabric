@@ -6,10 +6,10 @@
 - **Date**: 2026-10-23
 - **Model**: Local Ollama `qwen2.5-coder:3b` (HTTP `http://127.0.0.1:11434`)
 - **Cost**: ₹0.00 (100% local CPU inference)
-- **Target File**: [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts)
-- **Primary Script**: [`scripts/run-task-d-real-project.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/run-task-d-real-project.ts)
-- **Verification Script**: [`scripts/verify-task-d-repaired-write.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/verify-task-d-repaired-write.ts)
-- **Evidence Artifact**: [`scratch/bounded-real-project-task-d-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-task-d-results.json)
+- **Target File**: [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts)
+- **Primary Script**: [`scripts/run-task-d-real-project.ts`](../../scripts/run-task-d-real-project.ts)
+- **Verification Script**: [`scripts/verify-task-d-repaired-write.ts`](../../scripts/verify-task-d-repaired-write.ts)
+- **Evidence Artifact**: [`scratch/bounded-real-project-task-d-results.json`](../../scratch/bounded-real-project-task-d-results.json)
 - **Prior Artifacts Preserved**: Task A, Task B, and Task C reports and result records preserved byte-for-byte.
 
 ---
@@ -17,7 +17,7 @@
 ## 1. Defect Context & Isolated Reproduction
 
 ### A. The Confirmed Defect
-In Task C, defect localization confirmed that `toolWriteFile` in [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts) created the parent directory if missing (`fs.mkdirSync(dir, { recursive: true })`), but failed to verify whether `safePath` itself was an existing directory. Calling `write_file` on a directory resulted in an unhandled raw OS crash:
+In Task C, defect localization confirmed that `toolWriteFile` in [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts) created the parent directory if missing (`fs.mkdirSync(dir, { recursive: true })`), but failed to verify whether `safePath` itself was an existing directory. Calling `write_file` on a directory resulted in an unhandled raw OS crash:
 `EISDIR: illegal operation on a directory, open`
 
 ### B. Architectural Contract Alignment
@@ -78,7 +78,7 @@ Prior to any mutation, `scripts/run-task-d-real-project.ts` safely reproduced th
 
 ## 3. Empirical Verification & Behavioral Validation
 
-The repaired behavior was independently verified using isolated execution in [`scripts/verify-task-d-repaired-write.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/verify-task-d-repaired-write.ts):
+The repaired behavior was independently verified using isolated execution in [`scripts/verify-task-d-repaired-write.ts`](../../scripts/verify-task-d-repaired-write.ts):
 
 1. **Directory Write Rejection (Fail-Closed)**:
    - Call: `write_file` with `{ path: "src", content: "test" }`

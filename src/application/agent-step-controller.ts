@@ -36,12 +36,22 @@ import {
   estimateTokens,
   validateObservation,
 } from "../domain/context.js";
-import { redactSensitiveData } from "../domain/canonical-hash.js";
+import { redactSensitiveData, computeCanonicalHash, canonicalJsonStringify } from "../domain/canonical-hash.js";
 import {
   ContextBudgetExceededError,
   LeaseExpiredError,
   LeaseLostError,
+  ModelProviderError,
+  ModelRequestTimeoutError,
+  ModelRequestCancelledError,
+  ModelProviderUnavailableError,
+  ModelResponseInvalidError,
 } from "../domain/errors.js";
+import {
+  type ModelInferenceOutcome,
+  type ModelInferenceTelemetryEvent,
+  type ModelInferenceTelemetryPayload,
+} from "../domain/events.js";
 import { ProposalRejectionReason } from "../domain/action-proposal.js";
 import { defaultGovernedToolRegistry, ExtendedToolName, ToolName, type ToolDefinition } from "../domain/tool.js";
 import {
@@ -69,7 +79,7 @@ import {
   type ReflexEvidence,
 } from "../domain/reflex-evidence.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
-import { StateStorePort } from "../ports/state-store.port.js";
+import { type LeaseFencingCheck, StateStorePort } from "../ports/state-store.port.js";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
 import { ContextSourcePort } from "../ports/context-source.port.js";
 import {
@@ -83,6 +93,7 @@ import { NoopReflex } from "../adapters/reflex/noop-reflex.js";
 import { RunCoordinator } from "./run-coordinator.js";
 import {
   REPLAY_BLOCKED_UNCERTAIN_PRIOR_ATTEMPT,
+  WorkerActionResult,
   WorkerActionStatus,
   WorkerRuntime,
   extractReplayBlockDetails,
@@ -120,6 +131,13 @@ export {
 } from "./progress-loop-detector.js";
 import type { MissionCheckpoint } from "../ports/state-store.port.js";
 import type { AttemptSnapshot } from "../domain/attempt.js";
+import { ScopedContextMemoryService } from "./scoped-context-memory.js";
+import {
+  BoundedRepairLoopController,
+  type RepairCycleState,
+} from "./bounded-repair-loop.js";
+import { ProductionVerifier } from "../verification/production-verifier.js";
+import type { EmeraldLifecycleTelemetry } from "./observability-instrumentation.js";
 
 // ============================================================================
 // 1. Budgets & Defaults
@@ -154,11 +172,17 @@ export interface StepControllerBudget {
   readonly enablePostPassVerificationLatch?: boolean;
   /** Whether durable checkpointing at safe boundaries is enabled */
   readonly enableCheckpointing?: boolean;
+  /** Maximum number of system-owned verification actions allowed across the run (default: 5) */
+  readonly maxVerificationActions?: number;
+  /** Maximum elapsed wall-clock milliseconds allowed specifically for verification stage execution (default: 60_000) */
+  readonly maxVerificationWallClockMs?: number;
 }
 
 export const DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS = 3;
 export const DEFAULT_MAX_CONSECUTIVE_IDENTICAL_WRITES = 3;
 export const DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS = 3;
+export const DEFAULT_MAX_VERIFICATION_ACTIONS = 5;
+export const DEFAULT_MAX_VERIFICATION_WALL_CLOCK_MS = 60_000;
 
 export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freeze({
   maxSteps: 10,
@@ -175,6 +199,8 @@ export const DEFAULT_STEP_CONTROLLER_BUDGET: StepControllerBudget = Object.freez
   enableIntermediateTestFeedback: true,
   enablePostPassVerificationLatch: true,
   enableCheckpointing: true,
+  maxVerificationActions: DEFAULT_MAX_VERIFICATION_ACTIONS,
+  maxVerificationWallClockMs: DEFAULT_MAX_VERIFICATION_WALL_CLOCK_MS,
 });
 
 export const MAX_REJECTION_FEEDBACK_CHARS = 512;
@@ -401,7 +427,7 @@ export function parseAssertionEvidence(params: {
   const nodeDiffMatch = combined.match(
     /(?:Expected values to be strictly (?:deep-)?equal:\s*)?([^\r\n]+?)\s*!==\s*([^\r\n]+)/
   );
-  if (nodeDiffMatch) {
+  if (nodeDiffMatch && nodeDiffMatch[1] && nodeDiffMatch[2]) {
     actualValue = nodeDiffMatch[1].trim().slice(0, 120);
     expectedValue = nodeDiffMatch[2].trim().slice(0, 120);
     if (combined.includes("strictly deep-equal")) {
@@ -417,13 +443,13 @@ export function parseAssertionEvidence(params: {
   if (!assertionKind) {
     const vitestExpectedMatch = combined.match(/- Expected\s*:\s*([^\r\n]+)/i);
     const vitestReceivedMatch = combined.match(/\+ Received\s*:\s*([^\r\n]+)/i);
-    if (vitestExpectedMatch && vitestReceivedMatch) {
+    if (vitestExpectedMatch && vitestReceivedMatch && vitestExpectedMatch[1] && vitestReceivedMatch[1]) {
       expectedValue = vitestExpectedMatch[1].trim().slice(0, 120);
       actualValue = vitestReceivedMatch[1].trim().slice(0, 120);
       assertionKind = "DIFF_EQUAL";
     } else {
       const toBeMatch = combined.match(/expected\s+([^\r\n]+?)\s+to (?:be|equal)\s+([^\r\n]+)/i);
-      if (toBeMatch) {
+      if (toBeMatch && toBeMatch[1] && toBeMatch[2]) {
         actualValue = toBeMatch[1].trim().slice(0, 120);
         expectedValue = toBeMatch[2].trim().slice(0, 120);
         assertionKind = "STRICT_EQUAL";
@@ -454,7 +480,9 @@ export function parseAssertionEvidence(params: {
   let stackMatch: RegExpExecArray | null;
   while ((stackMatch = stackRegex.exec(combined)) !== null) {
     const rawPath = stackMatch[1];
-    const rawLine = parseInt(stackMatch[2], 10);
+    const rawLineStr = stackMatch[2];
+    if (!rawPath || !rawLineStr) continue;
+    const rawLine = parseInt(rawLineStr, 10);
 
     // Skip node internals, node_modules, and tooling
     if (
@@ -494,13 +522,13 @@ export function parseAssertionEvidence(params: {
         const testContent = fsSync.readFileSync(safeTestPath, "utf-8");
         const lines = testContent.split(/\r?\n/);
         if (testLine >= 1 && testLine <= lines.length) {
-          const testCodeLine = lines[testLine - 1].trim();
+          const testCodeLine = (lines[testLine - 1] ?? "").trim();
 
           // Pattern A: assert.throws
           const throwsMatch = testCodeLine.match(
             /assert\.throws\(\s*(?:\(\)\s*=>\s*|\bfunction\s*\(\)\s*\{\s*(?:return\s*)?)?([\s\S]+?)\s*(?:\}\s*)?\);?$/
           );
-          if (throwsMatch) {
+          if (throwsMatch && throwsMatch[1]) {
             let expr = throwsMatch[1].trim();
             if (expr.endsWith(")") && (expr.match(/\(/g) || []).length < (expr.match(/\)/g) || []).length) {
               expr = expr.slice(0, -1).trim();
@@ -511,7 +539,7 @@ export function parseAssertionEvidence(params: {
           // Pattern B: expect(expr).to...
           if (!failingExpression) {
             const expectMatch = testCodeLine.match(/expect\(\s*([\s\S]+?)\s*\)\./);
-            if (expectMatch) {
+            if (expectMatch && expectMatch[1]) {
               failingExpression = expectMatch[1].trim().slice(0, 120);
             }
           }
@@ -728,7 +756,11 @@ export type StepControllerTerminalReason =
   | "STAGNATION"
   | "CYCLE_DETECTED"
   | "POLICY_DENIED"
-  | "COMPLETION_UNVERIFIABLE";
+  | "COMPLETION_UNVERIFIABLE"
+  | "WAITING_APPROVAL"
+  | "APPROVAL_REJECTED"
+  | "APPROVAL_EXPIRED"
+  | "REPAIR_EXHAUSTED";
 
 /**
  * Structured reason a completion proposal was not authorized. Never contains model output.
@@ -758,6 +790,7 @@ export interface CompletionEvaluation {
   readonly unverifiable?: boolean;
   /** True only when every other spec verified and an independent clean-room run is still required. */
   readonly cleanRoomPending?: boolean;
+  readonly leaseLost?: boolean;
 }
 
 /** Runtime dependencies available to the evaluator; absence of a required dependency fails closed. */
@@ -765,6 +798,7 @@ export interface CompletionEvaluationContext {
   readonly cleanRoomVerifierAvailable: boolean;
   readonly workspaceAvailable: boolean;
   readonly cleanRoomOutcome?: CleanRoomVerificationOutcome;
+  readonly leaseFencing?: LeaseFencingCheck;
 }
 
 export interface StepTranscriptEntry {
@@ -807,6 +841,8 @@ export interface StepControllerResult {
   readonly terminalMessage: string;
   readonly totalSteps: number;
   readonly totalActions: number;
+  readonly totalAgentActions?: number;
+  readonly totalVerificationActions?: number;
   readonly totalProposalRejections: number;
   readonly totalConsecutiveFailures: number;
   readonly totalWallClockMs: number;
@@ -814,6 +850,8 @@ export interface StepControllerResult {
   readonly lastContextSnapshot?: ContextSnapshot;
   readonly postPassLatchSnapshot?: PostPassLatchSnapshot;
   readonly latestCheckpoint?: MissionCheckpoint;
+  readonly pendingApprovalId?: string;
+  readonly pendingApprovalOperation?: string;
 }
 
 // ============================================================================
@@ -851,6 +889,10 @@ export interface AgentStepControllerOptions {
   readonly failedAnchorTracker?: FailedAnchorTracker;
   readonly duplicateProposalDetector?: DuplicateProposalDetector;
   readonly progressLoopDetector?: ProgressLoopDetector;
+  readonly scopedMemory?: ScopedContextMemoryService;
+  readonly boundedRepairLoop?: BoundedRepairLoopController;
+  readonly productionVerifier?: ProductionVerifier;
+  readonly telemetry?: EmeraldLifecycleTelemetry;
 }
 
 
@@ -910,6 +952,10 @@ export class AgentStepController {
   private readonly duplicateProposalDetector: DuplicateProposalDetector;
   private readonly postPassLatch: PostPassVerificationLatch;
   readonly progressLoopDetector: ProgressLoopDetector;
+  private readonly scopedMemory?: ScopedContextMemoryService;
+  private readonly boundedRepairLoop: BoundedRepairLoopController;
+  private readonly productionVerifier?: ProductionVerifier;
+  private readonly telemetry?: EmeraldLifecycleTelemetry;
 
   constructor(options: AgentStepControllerOptions) {
     this.coordinator = options.coordinator;
@@ -920,7 +966,7 @@ export class AgentStepController {
     this.clock = options.clock ?? new SystemClock();
     this.reflex = options.reflex ?? new NoopReflex();
     this.enableGovernedVerificationStage =
-      options.enableGovernedVerificationStage ?? false;
+      options.enableGovernedVerificationStage ?? true;
     this.cleanRoomVerifier = options.cleanRoomVerifier;
     this.allowUnverifiedCompletion = options.allowUnverifiedCompletion ?? false;
     this.speculativePromotionGate = options.speculativePromotionGate;
@@ -963,6 +1009,17 @@ export class AgentStepController {
         maxCycleLength:
           this.defaultBudget.maxCycleLength ?? DEFAULT_MAX_CYCLE_LENGTH,
       });
+    this.telemetry = options.telemetry;
+    this.scopedMemory =
+      options.scopedMemory ??
+      (typeof (this.stateStore as any).getScopedMemoryStore === "function"
+        ? new ScopedContextMemoryService((this.stateStore as any).getScopedMemoryStore(), {
+            clock: this.clock,
+            telemetry: this.telemetry,
+          })
+        : undefined);
+    this.boundedRepairLoop = options.boundedRepairLoop ?? new BoundedRepairLoopController();
+    this.productionVerifier = options.productionVerifier ?? new ProductionVerifier(this.clock, this.telemetry);
   }
 
   getContextResidencyTracker(): ContextResidencyTracker {
@@ -1034,7 +1091,8 @@ export class AgentStepController {
     }
     const transcript: StepTranscriptEntry[] = [];
     let stepCount = 0;
-    let actionCount = 0;
+    let agentActionCount = 0;
+    let verificationActionCount = 0;
     let consecutiveFailures = 0;
     let proposalRejections = 0;
     let lastContextSnapshot: ContextSnapshot | undefined;
@@ -1047,6 +1105,11 @@ export class AgentStepController {
     let consecutiveIdenticalReads = 0;
     let consecutiveIdenticalWrites = 0;
     let consecutiveIneffectiveEdits = 0;
+    let hasRecordedTaskMemory = false;
+    let hasObservedRepairFailure = false;
+    let repairState: RepairCycleState | undefined;
+    let pendingApprovalIdResult: string | undefined;
+    let pendingApprovalOpResult: string | undefined;
     // Run-loop-local: replay-block results returned by WorkerRuntime in this invocation (not persisted).
     let replayBlockCount = 0;
     let lastSuccessfulRead:
@@ -1082,7 +1145,9 @@ export class AgentStepController {
         terminalReason: reason,
         terminalMessage: message,
         totalSteps: stepCount,
-        totalActions: actionCount,
+        totalActions: agentActionCount + verificationActionCount,
+        totalAgentActions: agentActionCount,
+        totalVerificationActions: verificationActionCount,
         totalProposalRejections: proposalRejections,
         totalConsecutiveFailures: consecutiveFailures,
         totalWallClockMs,
@@ -1090,6 +1155,8 @@ export class AgentStepController {
         ...(lastContextSnapshot ? { lastContextSnapshot } : {}),
         postPassLatchSnapshot: this.postPassLatch.getSnapshot(),
         ...(latestCheckpoint ? { latestCheckpoint } : {}),
+        ...(pendingApprovalIdResult ? { pendingApprovalId: pendingApprovalIdResult } : {}),
+        ...(pendingApprovalOpResult ? { pendingApprovalOperation: pendingApprovalOpResult } : {}),
       });
     };
 
@@ -1099,6 +1166,7 @@ export class AgentStepController {
       return assembleResult("LEASE_LOST", `Run '${runId}' not found in state store`, "unknown");
     }
     const taskId = initialRun.taskId;
+    repairState = this.boundedRepairLoop.initCycle(taskId, runId);
 
     // Phase 2.16-B: Checkpoint Restoration & Reconciliation
     let currentCheckpointVersion = 0;
@@ -1163,7 +1231,13 @@ export class AgentStepController {
 
           const dState = reconciliation.durableState;
           stepCount = reconciliation.reconciledStepCount;
-          actionCount = reconciliation.reconciledActionCount;
+          // Verification actions recorded by the checkpoint stay on the verification budget; anything
+          // reconciled beyond the checkpoint is charged to the agent budget (conservative).
+          verificationActionCount = Math.min(
+            dState.verificationActionCount ?? 0,
+            reconciliation.reconciledActionCount
+          );
+          agentActionCount = reconciliation.reconciledActionCount - verificationActionCount;
           consecutiveFailures = reconciliation.reconciledConsecutiveFailures;
           proposalRejections = dState.proposalRejections;
           consecutiveIdenticalReads = dState.consecutiveIdenticalReads;
@@ -1220,7 +1294,8 @@ export class AgentStepController {
           clock: this.clock,
           runId,
           stepCount,
-          actionCount,
+          actionCount: agentActionCount + verificationActionCount,
+          verificationActionCount,
           consecutiveFailures,
           proposalRejections,
           consecutiveIdenticalReads,
@@ -1241,12 +1316,38 @@ export class AgentStepController {
       }
     };
 
+    const hasActiveLeaseAuthority = (): string | null => {
+      const activeRun = this.stateStore.getRun(runId);
+      if (!activeRun) {
+        return `Run '${runId}' not found during loop step`;
+      }
+      if (activeRun.leaseId !== leaseId || activeRun.currentWorkerId !== workerId) {
+        return `Worker lease ownership lost for run '${runId}' (expected lease: '${activeRun.leaseId}', held: '${leaseId}')`;
+      }
+      if (activeRun.leaseExpiresAt && this.clock.nowIso() >= activeRun.leaseExpiresAt) {
+        return `Worker lease expired at '${activeRun.leaseExpiresAt}'`;
+      }
+      return null;
+    };
+
+    let hasAttemptedStagnationVerification = false;
+
     // ------------------------------------------------------------------------
     // The Autonomous Step Loop
     // ------------------------------------------------------------------------
     while (true) {
       const nowMs = this.clock.now().getTime();
       const elapsedMs = nowMs - startTime;
+
+      // 0. Check Lease Authority (Lease loss / expiry takes precedence over cancellation and timeout)
+      const loopLeaseLossReason = hasActiveLeaseAuthority();
+      if (loopLeaseLossReason !== null) {
+        return assembleResult(
+          "LEASE_LOST",
+          `Autonomous loop fenced due to lost or expired lease: ${loopLeaseLossReason}`,
+          taskId
+        );
+      }
 
       // 1. Check Cancellation
       if (params.abortSignal?.aborted) {
@@ -1280,11 +1381,112 @@ export class AgentStepController {
         );
       }
 
-      // 4. Check Action Budget
-      if (actionCount >= effectiveBudget.maxActions) {
+      // 4. Check Agent Action Budget (Milestone 2.28 Phase 5 Step 12: do not silently skip verification)
+      if (agentActionCount >= effectiveBudget.maxActions) {
+        const isVerificationStageEnabled =
+          params.enableGovernedVerificationStage ??
+          this.enableGovernedVerificationStage ??
+          true;
+
+        const checkRun = this.stateStore.getRun(runId);
+        const checkContract = checkRun?.contractBinding
+          ? this.stateStore.getContract(checkRun.contractBinding.contractId, checkRun.contractBinding.version)
+          : null;
+
+        if (isVerificationStageEnabled && checkContract && (checkContract.spec.verificationSpecs?.length ?? 0) > 0) {
+          const stepStartTime = this.clock.now().getTime();
+          const stepTimestamp = this.clock.nowIso();
+          const exhaustionSnapshot: ContextSnapshot = lastContextSnapshot ?? ContextEngine.build({
+            runId,
+            taskId,
+            candidates: [],
+            budget: params.contextBudget,
+            createdAt: stepTimestamp,
+          });
+
+          const stageResult = await this.executeGovernedVerificationStage({
+            runId,
+            taskId,
+            contract: checkContract,
+            workerId,
+            leaseId,
+            workspace: params.workspace,
+            abortSignal: params.abortSignal,
+            effectiveBudget,
+            currentAgentActionCount: agentActionCount,
+            currentVerificationActionCount: verificationActionCount,
+            consecutiveFailures,
+            replayBlockCount,
+            stepCount,
+            startTime,
+            stepStartTime,
+            stepTimestamp,
+            contextSnapshot: exhaustionSnapshot,
+            transcript,
+            assembleResult: (reason, message) => assembleResult(reason, message, taskId),
+          });
+
+          agentActionCount = stageResult.updatedAgentActionCount;
+          verificationActionCount = stageResult.updatedVerificationActionCount;
+          if (!stageResult.terminalResult && stageResult.lastVerificationActionId) {
+            persistLoopCheckpoint(
+              stageResult.lastVerificationActionId,
+              stageResult.lastVerificationAttemptNumber ?? null
+            );
+          }
+          consecutiveFailures = stageResult.updatedConsecutiveFailures;
+          replayBlockCount = stageResult.updatedReplayBlockCount;
+
+          if (stageResult.terminalResult) {
+            return stageResult.terminalResult;
+          }
+
+          const completionContext: CompletionEvaluationContext = {
+            cleanRoomVerifierAvailable: Boolean(this.cleanRoomVerifier),
+            workspaceAvailable: Boolean(params.workspace),
+            leaseFencing: { workerId, leaseId },
+          };
+
+          const verificationEvaluation = this.evaluateCompletionVerification(
+            runId,
+            checkContract,
+            completionContext
+          );
+          if (verificationEvaluation.leaseLost) {
+            return assembleResult(
+              "LEASE_LOST",
+              verificationEvaluation.failureReason ?? `Lease lost during completion verification`,
+              taskId
+            );
+          }
+
+          if (verificationEvaluation.verified) {
+            transcript.push(
+              Object.freeze({
+                stepNumber: stepCount,
+                contextSnapshotId: exhaustionSnapshot.snapshotId,
+                contextHash: exhaustionSnapshot.contextHash,
+                contextEstimatedTokens: exhaustionSnapshot.totalEstimatedTokens,
+                contextBytes: exhaustionSnapshot.totalBytes,
+                contextObservationsCount: exhaustionSnapshot.observations.length,
+                finishReason: "GOAL_REACHED",
+                proposalValid: false,
+                durationMs: this.clock.now().getTime() - stepStartTime,
+                timestamp: stepTimestamp,
+              })
+            );
+
+            return assembleResult(
+              "COMPLETED",
+              "Agent completed work and mandatory verification succeeded",
+              taskId
+            );
+          }
+        }
+
         return assembleResult(
           "MAX_ACTIONS",
-          `Maximum action execution ceiling reached (${actionCount} >= ${effectiveBudget.maxActions})`,
+          `Maximum agent action execution ceiling reached (${agentActionCount} >= ${effectiveBudget.maxActions})`,
           taskId
         );
       }
@@ -1311,34 +1513,197 @@ export class AgentStepController {
       const maxConsecutiveIdenticalReads =
         effectiveBudget.maxConsecutiveIdenticalReads ??
         DEFAULT_MAX_CONSECUTIVE_IDENTICAL_READS;
+      let stagnationReason: string | null = null;
       if (consecutiveIdenticalReads >= maxConsecutiveIdenticalReads) {
-        return assembleResult(
-          "STAGNATION",
-          `Execution loop halted due to stagnation: ${consecutiveIdenticalReads} consecutive identical successful reads of '${lastSuccessfulRead?.path ?? "unknown"}' without progress`,
-          taskId
-        );
+        stagnationReason = `Execution loop halted due to stagnation: ${consecutiveIdenticalReads} consecutive identical successful reads of '${lastSuccessfulRead?.path ?? "unknown"}' without progress`;
       }
 
       // 7a. Check Stagnation (Consecutive Identical Successful Writes) Budget
       const maxConsecutiveIdenticalWrites =
         effectiveBudget.maxConsecutiveIdenticalWrites ??
         DEFAULT_MAX_CONSECUTIVE_IDENTICAL_WRITES;
-      if (consecutiveIdenticalWrites >= maxConsecutiveIdenticalWrites) {
-        return assembleResult(
-          "STAGNATION",
-          `Execution loop halted due to stagnation: ${consecutiveIdenticalWrites} consecutive identical successful writes of '${lastSuccessfulWrite?.path ?? "unknown"}' without progress`,
-          taskId
-        );
+      if (!stagnationReason && consecutiveIdenticalWrites >= maxConsecutiveIdenticalWrites) {
+        stagnationReason = `Execution loop halted due to stagnation: ${consecutiveIdenticalWrites} consecutive identical successful writes of '${lastSuccessfulWrite?.path ?? "unknown"}' without progress`;
       }
 
       // 7b. Check Stagnation (Consecutive Ineffective Edits) Budget
       const maxConsecutiveIneffectiveEdits =
         effectiveBudget.maxConsecutiveIneffectiveEdits ??
         DEFAULT_MAX_CONSECUTIVE_INEFFECTIVE_EDITS;
-      if (consecutiveIneffectiveEdits >= maxConsecutiveIneffectiveEdits) {
+      if (!stagnationReason && consecutiveIneffectiveEdits >= maxConsecutiveIneffectiveEdits) {
+        stagnationReason = `Execution loop halted due to stagnation: ${consecutiveIneffectiveEdits} consecutive ineffective edit attempts failed to produce passing test results`;
+      }
+
+      // Stagnation-Aware System-Owned Verification Gate (Milestone 2.28 Phase 5 Step 13)
+      if (stagnationReason !== null) {
+        // Repeated stagnation signals must not trigger unlimited verification
+        if (hasAttemptedStagnationVerification) {
+          return assembleResult("STAGNATION", stagnationReason, taskId);
+        }
+
+        // Terminal-state precedence: FENCING > TIMEOUT > CANCELLED > SUCCESS
+        // 1. Cancellation precedence
+        if (params.abortSignal?.aborted) {
+          return assembleResult(
+            "CANCELLED",
+            `Loop aborted by AbortSignal prior to stagnation verification: ${stagnationReason}`,
+            taskId
+          );
+        }
+
+        // 2. Overall wall-clock budget precedence
+        const stagnationElapsedMs = this.clock.now().getTime() - startTime;
+        if (stagnationElapsedMs >= effectiveBudget.maxWallClockMs) {
+          return assembleResult(
+            "MAX_WALL_CLOCK",
+            `Wall clock ceiling reached prior to stagnation verification (${stagnationElapsedMs}ms >= ${effectiveBudget.maxWallClockMs}ms)`,
+            taskId
+          );
+        }
+
+        // 3. Lease & fencing precedence
+        const preStagnationRun = this.stateStore.getRun(runId);
+        if (!preStagnationRun) {
+          return assembleResult("LEASE_LOST", `Run '${runId}' not found during stagnation check`, taskId);
+        }
+        if (preStagnationRun.leaseId !== leaseId || preStagnationRun.currentWorkerId !== workerId) {
+          return assembleResult(
+            "LEASE_LOST",
+            `Worker lease ownership lost for run '${runId}' prior to stagnation verification (expected lease: '${preStagnationRun.leaseId}', held: '${leaseId}')`,
+            taskId
+          );
+        }
+        if (preStagnationRun.leaseExpiresAt && this.clock.nowIso() >= preStagnationRun.leaseExpiresAt) {
+          return assembleResult(
+            "LEASE_LOST",
+            `Worker lease expired at '${preStagnationRun.leaseExpiresAt}' prior to stagnation verification`,
+            taskId
+          );
+        }
+        const terminalStatuses: readonly string[] = ["COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED"];
+        if (terminalStatuses.includes(preStagnationRun.status)) {
+          return assembleResult(
+            "COMPLETED",
+            `Run reached terminal status '${preStagnationRun.status}'`,
+            taskId
+          );
+        }
+
+        // Contract & verification specifications bound to persisted task contract
+        const isVerificationStageEnabled =
+          params.enableGovernedVerificationStage ??
+          this.enableGovernedVerificationStage ??
+          true;
+
+        const checkContract = preStagnationRun.contractBinding
+          ? this.stateStore.getContract(preStagnationRun.contractBinding.contractId, preStagnationRun.contractBinding.version)
+          : null;
+
+        if (
+          !isVerificationStageEnabled ||
+          !checkContract ||
+          (checkContract.spec.verificationSpecs?.length ?? 0) === 0 ||
+          !params.workspace
+        ) {
+          // Stagnation without verification specs fails closed
+          return assembleResult("STAGNATION", stagnationReason, taskId);
+        }
+
+        // Single system-owned verification attempt against final workspace state
+        hasAttemptedStagnationVerification = true;
+        const stepStartTime = this.clock.now().getTime();
+        const stepTimestamp = this.clock.nowIso();
+        const stagnationSnapshot: ContextSnapshot = lastContextSnapshot ?? ContextEngine.build({
+          runId,
+          taskId,
+          candidates: [],
+          budget: params.contextBudget,
+          createdAt: stepTimestamp,
+        });
+
+        const stageResult = await this.executeGovernedVerificationStage({
+          runId,
+          taskId,
+          contract: checkContract,
+          workerId,
+          leaseId,
+          workspace: params.workspace,
+          abortSignal: params.abortSignal,
+          effectiveBudget,
+          currentAgentActionCount: agentActionCount,
+          currentVerificationActionCount: verificationActionCount,
+          consecutiveFailures,
+          replayBlockCount,
+          stepCount,
+          startTime,
+          stepStartTime,
+          stepTimestamp,
+          contextSnapshot: stagnationSnapshot,
+          transcript,
+          assembleResult: (reason, message) => assembleResult(reason, message, taskId),
+        });
+
+        agentActionCount = stageResult.updatedAgentActionCount;
+        verificationActionCount = stageResult.updatedVerificationActionCount;
+        if (!stageResult.terminalResult && stageResult.lastVerificationActionId) {
+          persistLoopCheckpoint(
+            stageResult.lastVerificationActionId,
+            stageResult.lastVerificationAttemptNumber ?? null
+          );
+        }
+        consecutiveFailures = stageResult.updatedConsecutiveFailures;
+        replayBlockCount = stageResult.updatedReplayBlockCount;
+
+        if (stageResult.terminalResult) {
+          return stageResult.terminalResult;
+        }
+
+        const completionContext: CompletionEvaluationContext = {
+          cleanRoomVerifierAvailable: Boolean(this.cleanRoomVerifier),
+          workspaceAvailable: Boolean(params.workspace),
+          leaseFencing: { workerId, leaseId },
+        };
+
+        const verificationEvaluation = this.evaluateCompletionVerification(
+          runId,
+          checkContract,
+          completionContext
+        );
+        if (verificationEvaluation.leaseLost) {
+          return assembleResult(
+            "LEASE_LOST",
+            verificationEvaluation.failureReason ?? `Lease lost during completion verification`,
+            taskId
+          );
+        }
+
+        if (verificationEvaluation.verified) {
+          transcript.push(
+            Object.freeze({
+              stepNumber: stepCount,
+              contextSnapshotId: stagnationSnapshot.snapshotId,
+              contextHash: stagnationSnapshot.contextHash,
+              contextEstimatedTokens: stagnationSnapshot.totalEstimatedTokens,
+              contextBytes: stagnationSnapshot.totalBytes,
+              contextObservationsCount: stagnationSnapshot.observations.length,
+              finishReason: "GOAL_REACHED",
+              proposalValid: false,
+              durationMs: this.clock.now().getTime() - stepStartTime,
+              timestamp: stepTimestamp,
+            })
+          );
+
+          return assembleResult(
+            "COMPLETED",
+            "Agent work completed via stagnation verification against valid workspace state",
+            taskId
+          );
+        }
+
+        // If verification fails after stagnation, retain the original stagnation failure classification
         return assembleResult(
           "STAGNATION",
-          `Execution loop halted due to stagnation: ${consecutiveIneffectiveEdits} consecutive ineffective edit attempts failed to produce passing test results`,
+          stagnationReason,
           taskId
         );
       }
@@ -1412,13 +1777,101 @@ export class AgentStepController {
       const stepTimestamp = this.clock.nowIso();
       let availableTools: readonly ToolDefinition[] = this.toolRegistry.listTools();
       let filteredToolNames: readonly string[] = [];
+      const activeTenantId = contract.spec.policy.tenantId ?? "tenant-default";
+
+      // Lifecycle Memory Hook 1: Record immutable task context on run initialization
+      if (this.scopedMemory && !hasRecordedTaskMemory) {
+        hasRecordedTaskMemory = true;
+        try {
+          const taskRecord = this.stateStore.getTask(taskId);
+          if (taskRecord) {
+            const safeTaskSummary = JSON.stringify(
+              redactSensitiveData({
+                taskId,
+                runId,
+                title: taskRecord.title,
+                description: taskRecord.description,
+              })
+            );
+            this.scopedMemory.recordEntry(
+              activeTenantId,
+              taskId,
+              "CURRENT_TASK_CONTEXT",
+              "runtime.task_init",
+              safeTaskSummary,
+              {
+                runId,
+                agentId: workerId,
+                isModelGenerated: false,
+                isIndependentlyVerified: false,
+                idempotencyKey: `m42:task_init:${runId}`,
+                nowIso: stepTimestamp,
+              }
+            );
+          }
+        } catch {
+          // Best-effort non-fatal init record; Truth Firewall still throws on invalid verified claims
+        }
+      }
 
       // Step A: Build Authoritative ContextSnapshot
       let contextSnapshot: ContextSnapshot;
       try {
         const candidates = await this.contextSource.gatherCandidateObservations(runId);
+        let memoryObs: Observation | null = null;
+        if (this.scopedMemory) {
+          try {
+            const rawRole = (this.stateStore.getTask(taskId)?.inputPayload as { role?: unknown } | null | undefined)?.role;
+            const role: "RESEARCHER" | "CODER" | "TESTER" | "REVIEWER" =
+              rawRole === "RESEARCHER" || rawRole === "CODER" || rawRole === "TESTER" || rawRole === "REVIEWER"
+                ? rawRole
+                : "CODER";
+            const compiled = this.scopedMemory.compileContextForPrompt(activeTenantId, taskId, {
+              maxTokens: Math.min(2048, params.contextBudget?.maxEstimatedTokens ?? 2048),
+              role,
+              runId,
+              includeProjectKnowledge: true,
+              includeAgentWorkingContext: true,
+              nowIso: stepTimestamp,
+            });
+            if (compiled.compiledPrompt.trim().length > 0) {
+              const memContent = redactSensitiveData({
+                memorySummary: compiled.compiledPrompt.slice(0, 4096),
+                verifiedFactCount: compiled.verifiedCount,
+                unverifiedObservationCount: compiled.unverifiedObservationCount,
+                modelHypothesisCount: compiled.modelHypothesisCount,
+                truthFirewallEnforced: true,
+              }) as Record<string, unknown>;
+              const memBytes = estimateBytes(memContent);
+              const candidateMemObs: Observation = {
+                observationId: `obs-scoped-memory-step-${stepCount}`,
+                category: "MISSION_CONTEXT",
+                provenance: {
+                  entityKind: "Run",
+                  entityId: runId,
+                  runId,
+                  sequenceNumber: stepCount,
+                  timestamp: stepTimestamp,
+                  isAuthoritativeRuntimeFact: false,
+                },
+                freshness: "CURRENT",
+                priority: 75,
+                content: memContent,
+                contentHash: computeObservationContentHash(memContent),
+                estimatedBytes: memBytes,
+                estimatedTokens: estimateTokens(memBytes),
+                isMandatory: false,
+              };
+              validateObservation(candidateMemObs);
+              memoryObs = candidateMemObs;
+            }
+          } catch {
+            memoryObs = null;
+          }
+        }
         const effectiveCandidates = [
           ...candidates,
+          ...(memoryObs ? [memoryObs] : []),
           ...(pendingProposalRejectionObservation ? [pendingProposalRejectionObservation] : []),
           ...(pendingProgressAdvisoryObservation ? [pendingProgressAdvisoryObservation] : []),
           ...(pendingTestFeedbackObservation ? [pendingTestFeedbackObservation] : []),
@@ -1446,6 +1899,8 @@ export class AgentStepController {
 
       // Step B: Query Agent Brain (Untrusted Model Output)
       let brainResult: AgentBrainResult;
+      const inferenceStartedAt = this.clock.nowIso();
+      const inferenceStartMs = this.clock.now().getTime();
       try {
         if (effectiveDynamicToolFiltering) {
           const targetPath = this.resolveTargetFilePath(contextSnapshot);
@@ -1471,26 +1926,168 @@ export class AgentStepController {
           abortSignal: params.abortSignal,
         };
         brainResult = await this.agentBrain.proposeAction(brainRequest);
-      } catch (err: unknown) {
-        transcript.push(
-          Object.freeze({
+
+        // Enforce active-lease fencing before committing telemetry, proposals, checkpoints, or completion
+        const postBrainLeaseError = hasActiveLeaseAuthority();
+        if (postBrainLeaseError !== null) {
+          return assembleResult("LEASE_LOST", postBrainLeaseError, taskId);
+        }
+
+          // Persist successful/response inference telemetry event
+          const inferenceCompletedAt = this.clock.nowIso();
+          const inferenceWallClockMs = this.clock.now().getTime() - inferenceStartMs;
+          const meta = brainResult.modelMetadata;
+          const outcome: ModelInferenceOutcome =
+            brainResult.finishReason === "ERROR"
+              ? (brainResult.error?.toLowerCase().includes("json") || brainResult.error?.toLowerCase().includes("schema")
+                  ? "INVALID_RESPONSE"
+                  : "ERROR")
+              : "SUCCESS";
+
+          const telemetryPayload: ModelInferenceTelemetryPayload = {
+            runId,
+            taskId,
             stepNumber: stepCount,
-            contextSnapshotId: contextSnapshot.snapshotId,
-            contextHash: contextSnapshot.contextHash,
-            contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
-            contextBytes: contextSnapshot.totalBytes,
-            contextObservationsCount: contextSnapshot.observations.length,
-            proposalValid: false,
-            durationMs: this.clock.now().getTime() - stepStartTime,
-            timestamp: stepTimestamp,
-          })
-        );
-        return assembleResult(
-          "BRAIN_FAILURE",
-          `Agent Brain invocation failed: ${err instanceof Error ? err.message : String(err)}`,
-          taskId
-        );
-      }
+            workerId,
+            leaseId,
+            requestId: meta?.requestId ?? crypto.randomUUID(),
+            model: meta?.modelName ?? (this.agentBrain as any)?.model ?? "unknown",
+            provider: meta?.providerName ?? "ollama",
+            outcome,
+            startedAt: inferenceStartedAt,
+            completedAt: inferenceCompletedAt,
+            wallClockDurationMs: inferenceWallClockMs,
+            totalDurationNs: meta?.totalDurationNs ?? null,
+            loadDurationNs: meta?.loadDurationNs ?? null,
+            promptEvalDurationNs: meta?.promptEvalDurationNs ?? null,
+            evalDurationNs: meta?.evalDurationNs ?? null,
+            promptEvalCount: meta?.promptEvalCount ?? null,
+            evalCount: meta?.evalCount ?? null,
+            doneReason: meta?.doneReason ?? null,
+            finishReason: meta?.finishReason ?? null,
+            modelParameters: meta?.modelParameters,
+            error: brainResult.finishReason === "ERROR" ? {
+              message: brainResult.error,
+            } : null,
+          };
+
+          const telemetryEvent: ModelInferenceTelemetryEvent = {
+            eventId: crypto.randomUUID(),
+            runId,
+            timestamp: inferenceCompletedAt,
+            eventType: "model.inference.telemetry",
+            schemaVersion: 1,
+            producer: "application.agent_step_controller",
+            payload: telemetryPayload,
+          };
+
+          if (hasActiveLeaseAuthority() === null) {
+            try {
+              this.stateStore.transaction((tx) => {
+                tx.appendEvent(telemetryEvent, `inference-telemetry:${telemetryPayload.requestId}`);
+              });
+            } catch {
+              // Failure isolation: telemetry failure must not disrupt step execution
+            }
+          }
+        } catch (err: unknown) {
+          // Persist failure inference telemetry event
+          const inferenceCompletedAt = this.clock.nowIso();
+          const inferenceWallClockMs = this.clock.now().getTime() - inferenceStartMs;
+          let outcome: ModelInferenceOutcome = "ERROR";
+          let errorCode = "UNKNOWN_ERROR";
+          let reqId: string = crypto.randomUUID();
+
+          if (err instanceof ModelRequestTimeoutError) {
+            outcome = "TIMEOUT";
+            errorCode = "MODEL_REQUEST_TIMEOUT";
+            if (err.requestId) reqId = err.requestId;
+          } else if (err instanceof ModelRequestCancelledError) {
+            outcome = "CANCELLED";
+            errorCode = "MODEL_REQUEST_CANCELLED";
+            if (err.requestId) reqId = err.requestId;
+          } else if (err instanceof ModelProviderUnavailableError) {
+            outcome = "PROVIDER_UNAVAILABLE";
+            errorCode = "MODEL_PROVIDER_UNAVAILABLE";
+            if (err.requestId) reqId = err.requestId;
+          } else if (err instanceof ModelResponseInvalidError) {
+            outcome = "INVALID_RESPONSE";
+            errorCode = "MODEL_RESPONSE_INVALID";
+            if (err.requestId) reqId = err.requestId;
+          } else if (err instanceof ModelProviderError) {
+            errorCode = err.code;
+            if (err.requestId) reqId = err.requestId;
+          }
+
+          const failurePayload: ModelInferenceTelemetryPayload = {
+            runId,
+            taskId,
+            stepNumber: stepCount,
+            workerId,
+            leaseId,
+            requestId: reqId,
+            model: (this.agentBrain as any)?.model ?? "unknown",
+            provider: (this.agentBrain as any)?.modelProvider?.providerName ?? "ollama",
+            outcome,
+            startedAt: inferenceStartedAt,
+            completedAt: inferenceCompletedAt,
+            wallClockDurationMs: inferenceWallClockMs,
+            totalDurationNs: null,
+            loadDurationNs: null,
+            promptEvalDurationNs: null,
+            evalDurationNs: null,
+            promptEvalCount: null,
+            evalCount: null,
+            doneReason: null,
+            finishReason: null,
+            error: {
+              code: errorCode,
+              message: err instanceof Error ? err.message : String(err),
+            },
+          };
+
+          const failureEvent: ModelInferenceTelemetryEvent = {
+            eventId: crypto.randomUUID(),
+            runId,
+            timestamp: inferenceCompletedAt,
+            eventType: "model.inference.telemetry",
+            schemaVersion: 1,
+            producer: "application.agent_step_controller",
+            payload: failurePayload,
+          };
+
+          const catchLeaseError = hasActiveLeaseAuthority();
+          if (catchLeaseError !== null) {
+            return assembleResult("LEASE_LOST", catchLeaseError, taskId);
+          }
+
+          try {
+            this.stateStore.transaction((tx) => {
+              tx.appendEvent(failureEvent, `inference-telemetry:${reqId}`);
+            });
+          } catch {
+            // Failure isolation
+          }
+
+          transcript.push(
+            Object.freeze({
+              stepNumber: stepCount,
+              contextSnapshotId: contextSnapshot.snapshotId,
+              contextHash: contextSnapshot.contextHash,
+              contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+              contextBytes: contextSnapshot.totalBytes,
+              contextObservationsCount: contextSnapshot.observations.length,
+              proposalValid: false,
+              durationMs: this.clock.now().getTime() - stepStartTime,
+              timestamp: stepTimestamp,
+            })
+          );
+          return assembleResult(
+            "BRAIN_FAILURE",
+            `Agent Brain invocation failed: ${err instanceof Error ? err.message : String(err)}`,
+            taskId
+          );
+        }
 
       // Step C: Inspect Brain Termination Signals
       if (brainResult.finishReason === "ERROR") {
@@ -1538,28 +2135,23 @@ export class AgentStepController {
       }
 
       if (brainResult.finishReason === "GOAL_REACHED") {
-        // Authoritative Physical Verification Completion Gate (Phase 13B)
+        // Authoritative Physical Verification Completion Gate (Phase 13B / Step 11)
         // MODEL_GOAL_REACHED != RUN_COMPLETED
         // isGoalReached: true is strictly an untrusted model proposal.
         const completionContext: CompletionEvaluationContext = {
           cleanRoomVerifierAvailable: Boolean(this.cleanRoomVerifier),
           workspaceAvailable: Boolean(params.workspace),
+          leaseFencing: { workerId, leaseId },
         };
-        let verificationEvaluation = this.evaluateCompletionVerification(
-          runId,
-          contract,
-          completionContext
-        );
 
-        // Phase 13D: Governed Verification Stage Experiment
+        // Milestone 2.28 Phase 5 Step 11: Mandatory System-Owned Governed Verification Stage
+        // System-owned verification execution runs on the completion path before authoritative gate evaluation.
         const isVerificationStageEnabled =
           params.enableGovernedVerificationStage ??
           this.enableGovernedVerificationStage ??
-          (contract.spec.verificationSpecs ?? []).some(
-            (s) => (s.expectedValue as any)?.governedStage === true
-          );
+          true;
 
-        if (!verificationEvaluation.verified && isVerificationStageEnabled) {
+        if (isVerificationStageEnabled) {
           const stageResult = await this.executeGovernedVerificationStage({
             runId,
             taskId,
@@ -1569,7 +2161,8 @@ export class AgentStepController {
             workspace: params.workspace,
             abortSignal: params.abortSignal,
             effectiveBudget,
-            currentActionCount: actionCount,
+            currentAgentActionCount: agentActionCount,
+            currentVerificationActionCount: verificationActionCount,
             consecutiveFailures,
             replayBlockCount,
             stepCount,
@@ -1581,7 +2174,14 @@ export class AgentStepController {
             assembleResult: (reason, message) => assembleResult(reason, message, taskId),
           });
 
-          actionCount = stageResult.updatedActionCount;
+          agentActionCount = stageResult.updatedAgentActionCount;
+          verificationActionCount = stageResult.updatedVerificationActionCount;
+          if (!stageResult.terminalResult && stageResult.lastVerificationActionId) {
+            persistLoopCheckpoint(
+              stageResult.lastVerificationActionId,
+              stageResult.lastVerificationAttemptNumber ?? null
+            );
+          }
           consecutiveFailures = stageResult.updatedConsecutiveFailures;
           replayBlockCount = stageResult.updatedReplayBlockCount;
           if (stageResult.replayFeedback) {
@@ -1591,12 +2191,18 @@ export class AgentStepController {
           if (stageResult.terminalResult) {
             return stageResult.terminalResult;
           }
+        }
 
-          // Re-evaluate verification after executing contract-declared verification stage
-          verificationEvaluation = this.evaluateCompletionVerification(
-            runId,
-            contract,
-            completionContext
+        let verificationEvaluation = this.evaluateCompletionVerification(
+          runId,
+          contract,
+          completionContext
+        );
+        if (verificationEvaluation.leaseLost) {
+          return assembleResult(
+            "LEASE_LOST",
+            verificationEvaluation.failureReason ?? `Lease lost during completion verification`,
+            taskId
           );
         }
 
@@ -1685,6 +2291,13 @@ export class AgentStepController {
                 ...completionContext,
                 cleanRoomOutcome,
               });
+              if (verificationEvaluation.leaseLost) {
+                return assembleResult(
+                  "LEASE_LOST",
+                  verificationEvaluation.failureReason ?? `Lease lost during clean-room completion verification`,
+                  taskId
+                );
+              }
             }
           }
         }
@@ -1692,6 +2305,10 @@ export class AgentStepController {
         // Terminal: no model action can satisfy this contract (no specs, unsupported rule, missing verifier or
         // workspace). Do not keep asking the model to solve a requirement it cannot meet.
         if (!verificationEvaluation.verified && verificationEvaluation.unverifiable) {
+          const unvLeaseError = hasActiveLeaseAuthority();
+          if (unvLeaseError !== null) {
+            return assembleResult("LEASE_LOST", unvLeaseError, taskId);
+          }
           const rejectionTimestamp = this.clock.nowIso();
           const rejectionCode = verificationEvaluation.rejectionCode ?? "NO_VERIFICATION_SPECS";
           this.stateStore.transaction((tx) => {
@@ -1736,6 +2353,10 @@ export class AgentStepController {
         }
 
         if (!verificationEvaluation.verified) {
+          const rejLeaseError = hasActiveLeaseAuthority();
+          if (rejLeaseError !== null) {
+            return assembleResult("LEASE_LOST", rejLeaseError, taskId);
+          }
           proposalRejections++;
           const rejectionTimestamp = this.clock.nowIso();
 
@@ -1783,6 +2404,11 @@ export class AgentStepController {
           continue;
         }
 
+        const preCompleteLeaseError = hasActiveLeaseAuthority();
+        if (preCompleteLeaseError !== null) {
+          return assembleResult("LEASE_LOST", preCompleteLeaseError, taskId);
+        }
+
         // Explicit operator opt-in only: record that completion was authorized WITHOUT verification specs.
         if (
           this.allowUnverifiedCompletion &&
@@ -1807,6 +2433,98 @@ export class AgentStepController {
         }
 
         // Verified goal reached: physical verification invariant satisfied
+        const taskForVerify = this.stateStore.getTask(taskId);
+        const taskInputForVerify = (taskForVerify?.inputPayload as Record<string, unknown> | null | undefined) ?? undefined;
+        let productionProofHash: string | undefined;
+        if (this.productionVerifier && params.workspace && taskInputForVerify?.productionVerify === true) {
+          const pv = await this.productionVerifier.verify({
+            workspacePath: params.workspace.hostPath,
+            ...(taskInputForVerify.buildCommand && typeof taskInputForVerify.buildCommand === "object"
+              ? { buildCommand: taskInputForVerify.buildCommand as { cmd: string; args: string[] } }
+              : {}),
+            ...(taskInputForVerify.testCommand && typeof taskInputForVerify.testCommand === "object"
+              ? { testCommand: taskInputForVerify.testCommand as { cmd: string; args: string[] } }
+              : {}),
+          });
+          const postPvLeaseError = hasActiveLeaseAuthority();
+          if (postPvLeaseError !== null) {
+            return assembleResult("LEASE_LOST", postPvLeaseError, taskId);
+          }
+          productionProofHash = pv.proofHash;
+          this.stateStore.transaction((tx) => {
+            tx.appendEvent({
+              eventId: crypto.randomUUID(),
+              runId,
+              timestamp: this.clock.nowIso(),
+              eventType: pv.verified ? "verification.completed" : "verification.rejected",
+              schemaVersion: 1,
+              producer: "verification.production_verifier",
+              payload: {
+                status: pv.verified ? "VERIFIED" : "FAILED",
+                proofHash: pv.proofHash,
+                stages: pv.stages,
+                ...(pv.failureReason ? { reason: pv.failureReason } : {}),
+              },
+            });
+          });
+          if (!pv.verified) {
+            this.telemetry?.recordRepairLifecycle({ outcome: "failed" });
+            if (this.scopedMemory) {
+              try {
+                this.scopedMemory.recordEntry(
+                  activeTenantId,
+                  taskId,
+                  "DURABLE_TASK_HISTORY",
+                  "verification.production_verifier",
+                  JSON.stringify(redactSensitiveData({ verified: false, proofHash: pv.proofHash, failureReason: pv.failureReason })),
+                  { runId, isModelGenerated: false, isIndependentlyVerified: false, nowIso: this.clock.nowIso() }
+                );
+              } catch { /* non-fatal */ }
+            }
+            return assembleResult(
+              "REPAIR_EXHAUSTED",
+              pv.failureReason ?? "Independent ProductionVerifier failed verification stages",
+              taskId
+            );
+          }
+        }
+
+        if (hasObservedRepairFailure && repairState) {
+          this.boundedRepairLoop.concludeVerification(repairState, 0);
+          this.telemetry?.recordRepairLifecycle({ outcome: "verified" });
+        }
+
+        if (this.scopedMemory) {
+          try {
+            const verifiedSummary = JSON.stringify(
+              redactSensitiveData({
+                runId,
+                taskId,
+                verifiedAt: stepTimestamp,
+                specIds: verificationEvaluation.specResults.map((s) => s.specId),
+                ...(productionProofHash ? { productionProofHash } : {}),
+              })
+            );
+            this.scopedMemory.recordEntry(
+              activeTenantId,
+              taskId,
+              "VERIFIED_EVIDENCE",
+              "verifier.deterministic",
+              verifiedSummary,
+              {
+                runId,
+                agentId: workerId,
+                isModelGenerated: false,
+                isIndependentlyVerified: true,
+                idempotencyKey: `m42:verified:${runId}`,
+                nowIso: stepTimestamp,
+              }
+            );
+          } catch {
+            // Best-effort durable verification summary
+          }
+        }
+
         transcript.push(
           Object.freeze({
             stepNumber: stepCount,
@@ -2098,7 +2816,7 @@ export class AgentStepController {
         workspacePath: params.workspace?.hostPath,
         resourceUsage: {
           elapsedWallClockMs: elapsedMs,
-          actionsExecuted: actionCount,
+          actionsExecuted: agentActionCount + verificationActionCount,
           stepsExecuted: stepCount,
         },
       };
@@ -2368,11 +3086,97 @@ export class AgentStepController {
         );
       }
 
-      // Pre-Execution Action Ceiling Check
-      if (actionCount >= effectiveBudget.maxActions) {
+      // Pre-Execution Action Ceiling Check (Milestone 2.28 Phase 5 Step 12: separate agent vs verification budget)
+      if (agentActionCount >= effectiveBudget.maxActions) {
+        const isVerificationStageEnabled =
+          params.enableGovernedVerificationStage ??
+          this.enableGovernedVerificationStage ??
+          true;
+
+        if (isVerificationStageEnabled && (contract.spec.verificationSpecs?.length ?? 0) > 0) {
+          const stageResult = await this.executeGovernedVerificationStage({
+            runId,
+            taskId,
+            contract,
+            workerId,
+            leaseId,
+            workspace: params.workspace,
+            abortSignal: params.abortSignal,
+            effectiveBudget,
+            currentAgentActionCount: agentActionCount,
+            currentVerificationActionCount: verificationActionCount,
+            consecutiveFailures,
+            replayBlockCount,
+            stepCount,
+            startTime,
+            stepStartTime,
+            stepTimestamp,
+            contextSnapshot,
+            transcript,
+            assembleResult: (reason, message) => assembleResult(reason, message, taskId),
+          });
+
+          agentActionCount = stageResult.updatedAgentActionCount;
+          verificationActionCount = stageResult.updatedVerificationActionCount;
+          if (!stageResult.terminalResult && stageResult.lastVerificationActionId) {
+            persistLoopCheckpoint(
+              stageResult.lastVerificationActionId,
+              stageResult.lastVerificationAttemptNumber ?? null
+            );
+          }
+          consecutiveFailures = stageResult.updatedConsecutiveFailures;
+          replayBlockCount = stageResult.updatedReplayBlockCount;
+
+          if (stageResult.terminalResult) {
+            return stageResult.terminalResult;
+          }
+
+          const completionContext: CompletionEvaluationContext = {
+            cleanRoomVerifierAvailable: Boolean(this.cleanRoomVerifier),
+            workspaceAvailable: Boolean(params.workspace),
+            leaseFencing: { workerId, leaseId },
+          };
+
+          const verificationEvaluation = this.evaluateCompletionVerification(
+            runId,
+            contract,
+            completionContext
+          );
+          if (verificationEvaluation.leaseLost) {
+            return assembleResult(
+              "LEASE_LOST",
+              verificationEvaluation.failureReason ?? `Lease lost during completion verification`,
+              taskId
+            );
+          }
+
+          if (verificationEvaluation.verified) {
+            transcript.push(
+              Object.freeze({
+                stepNumber: stepCount,
+                contextSnapshotId: contextSnapshot.snapshotId,
+                contextHash: contextSnapshot.contextHash,
+                contextEstimatedTokens: contextSnapshot.totalEstimatedTokens,
+                contextBytes: contextSnapshot.totalBytes,
+                contextObservationsCount: contextSnapshot.observations.length,
+                finishReason: "GOAL_REACHED",
+                proposalValid: false,
+                durationMs: this.clock.now().getTime() - stepStartTime,
+                timestamp: stepTimestamp,
+              })
+            );
+
+            return assembleResult(
+              "COMPLETED",
+              "Agent completed actions and mandatory verification succeeded",
+              taskId
+            );
+          }
+        }
+
         return assembleResult(
           "MAX_ACTIONS",
-          `Maximum action execution ceiling reached prior to executing Action '${action.actionId}' (${actionCount} >= ${effectiveBudget.maxActions})`,
+          `Maximum action execution ceiling reached prior to executing Action '${action.actionId}' (${agentActionCount} >= ${effectiveBudget.maxActions})`,
           taskId
         );
       }
@@ -2427,19 +3231,219 @@ export class AgentStepController {
       }
 
       // Step F: Execute Action via WorkerRuntime (Serial Execution)
-      actionCount++;
-      const actionResult = await this.workerRuntime.executeAction({
-        runId,
-        actionId: action.actionId,
-        sequenceNumber: action.sequenceNumber,
-        toolName: action.toolName,
-        inputPayload: action.inputPayload,
-        leaseId,
-        workspace: params.workspace,
-        timeoutMs: contract.spec.resourceLimits.timeoutMs,
-        maxOutputBytes: contract.spec.resourceLimits.maxOutputBytes,
-        abortSignal: params.abortSignal,
-      });
+      agentActionCount++;
+      let actionResult: any;
+      try {
+        actionResult = await this.workerRuntime.executeAction({
+          runId,
+          actionId: action.actionId,
+          sequenceNumber: action.sequenceNumber,
+          toolName: action.toolName,
+          inputPayload: action.inputPayload,
+          leaseId,
+          workspace: params.workspace,
+          timeoutMs: contract.spec.resourceLimits.timeoutMs,
+          maxOutputBytes: contract.spec.resourceLimits.maxOutputBytes,
+          abortSignal: params.abortSignal,
+        });
+      } catch (err: unknown) {
+        if (err instanceof LeaseLostError || err instanceof LeaseExpiredError) {
+          return assembleResult(
+            "LEASE_LOST",
+            `Action execution fenced due to lost or expired lease: ${(err as Error).message}`,
+            taskId
+          );
+        }
+        throw err;
+      }
+
+      // Short-circuit approval pause/rejection before polluting repair state or working context
+      const actionErrObj = actionResult.error as { code?: unknown; message?: unknown; details?: Record<string, unknown> } | undefined;
+      if (actionResult.status === "FAILED" && actionErrObj?.code === "WAITING_APPROVAL") {
+        const det = actionErrObj.details ?? {};
+        pendingApprovalIdResult = typeof det.approvalId === "string" ? det.approvalId : undefined;
+        pendingApprovalOpResult = typeof det.operation === "string" ? det.operation : action.toolName;
+        return assembleResult(
+          "WAITING_APPROVAL",
+          typeof actionErrObj.message === "string"
+            ? actionErrObj.message
+            : `Tool '${action.toolName}' is waiting for operator approval`,
+          taskId
+        );
+      }
+      if (
+        actionResult.status === "FAILED" &&
+        (actionErrObj?.code === "APPROVAL_REJECTED" || actionErrObj?.code === "APPROVAL_EXPIRED")
+      ) {
+        return assembleResult(
+          actionErrObj.code,
+          typeof actionErrObj.message === "string" ? actionErrObj.message : actionErrObj.code,
+          taskId
+        );
+      }
+
+      if (
+        this.scopedMemory &&
+        actionResult.status !== "FENCED" &&
+        actionResult.status !== "UNKNOWN" &&
+        actionResult.status !== "CANCELLED" &&
+        hasActiveLeaseAuthority() === null
+      ) {
+        try {
+          const actionMemContent = JSON.stringify(
+            redactSensitiveData({
+              toolName: action.toolName,
+              status: actionResult.status,
+              stepNumber: stepCount,
+              ...(actionResult.output !== undefined
+                ? { outputPreview: String(JSON.stringify(actionResult.output)).slice(0, 512) }
+                : {}),
+              ...(actionResult.error ? { error: actionResult.error } : {}),
+            })
+          );
+          this.scopedMemory.recordEntry(
+            activeTenantId,
+            taskId,
+            "AGENT_WORKING_CONTEXT",
+            `tool.${action.toolName}`,
+            actionMemContent,
+            {
+              runId,
+              agentId: workerId,
+              isModelGenerated: false,
+              isIndependentlyVerified: false,
+              idempotencyKey: `m42:action:${runId}:${action.actionId}:${actionResult.status}`,
+              nowIso: this.clock.nowIso(),
+            }
+          );
+        } catch {
+          // Non-fatal memory log
+        }
+      }
+
+      // Track bounded repair loop diagnostics and patch stagnation/budget limits
+      if (
+        action.toolName === "run_command" &&
+        actionResult.status === "SUCCEEDED" &&
+        typeof (actionResult.output as any)?.exitCode === "number" &&
+        (actionResult.output as any).exitCode !== 0 &&
+        repairState
+      ) {
+        hasObservedRepairFailure = true;
+        const cmdOut = actionResult.output as Record<string, unknown>;
+        const diagCategory = this.boundedRepairLoop.diagnoseFeedback(
+          repairState,
+          String(cmdOut.stderr ?? ""),
+          String(cmdOut.stdout ?? ""),
+          Number(cmdOut.exitCode ?? 1)
+        );
+        this.telemetry?.recordRepairLifecycle({
+          outcome: "diagnosed",
+          category: diagCategory,
+          durationMs: this.clock.now().getTime() - stepStartTime,
+        });
+        if (this.scopedMemory) {
+          try {
+            this.scopedMemory.recordEntry(
+              activeTenantId,
+              taskId,
+              "DURABLE_TASK_HISTORY",
+              "repair.diagnose",
+              JSON.stringify(
+                redactSensitiveData({
+                  stepNumber: stepCount,
+                  category: diagCategory,
+                  exitCode: cmdOut.exitCode,
+                  summary: repairState.lastDiagnosis?.summary ?? "",
+                })
+              ),
+              {
+                runId,
+                agentId: workerId,
+                isModelGenerated: false,
+                isIndependentlyVerified: false,
+                idempotencyKey: `m42:diag:${runId}:${action.actionId}`,
+                nowIso: this.clock.nowIso(),
+              }
+            );
+          } catch { /* non-fatal */ }
+        }
+      }
+
+      if (
+        (action.toolName === "write_file" || action.toolName === "edit_file") &&
+        actionResult.status === "SUCCEEDED" &&
+        hasObservedRepairFailure &&
+        repairState
+      ) {
+        const repairEval = this.boundedRepairLoop.evaluateProposedRepair(
+          repairState,
+          canonicalJsonStringify({ toolName: action.toolName, input: action.inputPayload ?? {} }),
+          Math.max(0, this.clock.now().getTime() - stepStartTime)
+        );
+        if (!repairEval.canProceed) {
+          const isStagnant =
+            repairEval.haltReason?.toLowerCase().includes("stagnation") ||
+            repairEval.haltReason?.toLowerCase().includes("duplicate") ||
+            false;
+          this.telemetry?.recordRepairLifecycle({
+            outcome: isStagnant ? "stagnation_halted" : "budget_exhausted",
+            durationMs: this.clock.now().getTime() - stepStartTime,
+          });
+          this.stateStore.transaction((tx) => {
+            tx.appendEvent({
+              eventId: crypto.randomUUID(),
+              runId,
+              timestamp: this.clock.nowIso(),
+              eventType: "verification.rejected",
+              schemaVersion: 1,
+              producer: "application.bounded_repair_loop",
+              payload: {
+                status: "REPAIR_EXHAUSTED",
+                reason: isStagnant ? "REPAIR_STAGNATION" : "REPAIR_BUDGET_EXCEEDED",
+                message: repairEval.haltReason ?? "Bounded repair loop halted",
+                iterationCount: repairState!.iterationCount,
+                cumulativeActions: repairState!.cumulativeActions,
+              },
+            });
+          });
+          if (this.scopedMemory) {
+            try {
+              this.scopedMemory.recordEntry(
+                activeTenantId,
+                taskId,
+                "DURABLE_TASK_HISTORY",
+                "repair.controller",
+                JSON.stringify(
+                  redactSensitiveData({
+                    halted: true,
+                    reason: repairEval.haltReason,
+                    iterationCount: repairState.iterationCount,
+                    cumulativeActions: repairState.cumulativeActions,
+                  })
+                ),
+                {
+                  runId,
+                  agentId: workerId,
+                  isModelGenerated: false,
+                  isIndependentlyVerified: false,
+                  idempotencyKey: `m42:repair_halt:${runId}:${action.actionId}`,
+                  nowIso: this.clock.nowIso(),
+                }
+              );
+            } catch { /* non-fatal */ }
+          }
+          return assembleResult(
+            "REPAIR_EXHAUSTED",
+            repairEval.haltReason ?? "Bounded repair cycle halted due to budget or stagnation limit",
+            taskId
+          );
+        }
+        this.telemetry?.recordRepairLifecycle({
+          outcome: "patch_proposed",
+          durationMs: this.clock.now().getTime() - stepStartTime,
+        });
+      }
 
       let progressAdvisory: string | undefined;
       const inputPayloadRecord = action.inputPayload as Record<string, unknown> | null;
@@ -2866,27 +3870,29 @@ export class AgentStepController {
                   });
 
                   // Persist durable verification.latched event
-                  try {
-                    this.stateStore.transaction((tx) => {
-                      tx.appendEvent({
-                        eventId: crypto.randomUUID(),
-                        runId,
-                        timestamp: this.clock.nowIso(),
-                        eventType: "verification.latched",
+                  if (hasActiveLeaseAuthority() === null) {
+                    try {
+                      this.stateStore.transaction((tx) => {
+                        tx.appendEvent({
+                          eventId: crypto.randomUUID(),
+                          runId,
+                          timestamp: this.clock.nowIso(),
+                          eventType: "verification.latched",
                         schemaVersion: 1,
                         producer: "application.agent_step_controller",
                         payload: {
                           stepNumber: stepCount,
                           protectedPath: targetRelPath,
                           targetHash: currentTargetHash,
-                          f2pExitCode: exitCode,
-                          p2pExitCode: 0,
-                          actionId: action.actionId,
-                        },
+                            f2pExitCode: exitCode,
+                            p2pExitCode: 0,
+                            actionId: action.actionId,
+                          },
+                        });
                       });
-                    });
-                  } catch {
-                    // Safe ignore
+                    } catch {
+                      // Safe ignore
+                    }
                   }
 
                   // Authoritative Clean-Room Completion Verification Gate
@@ -2902,6 +3908,10 @@ export class AgentStepController {
                         agentWorkspace: params.workspace,
                         abortSignal: params.abortSignal,
                       });
+                      const crLeaseError = hasActiveLeaseAuthority();
+                      if (crLeaseError !== null) {
+                        return assembleResult("LEASE_LOST", crLeaseError, taskId);
+                      }
                       this.postPassLatch.recordCleanRoomResult(cleanRoomOutcome);
 
                       if (cleanRoomOutcome.replayBlock) {
@@ -2932,8 +3942,16 @@ export class AgentStepController {
                             cleanRoomVerifierAvailable: true,
                             workspaceAvailable: true,
                             cleanRoomOutcome,
+                            leaseFencing: { workerId, leaseId },
                           }
                         );
+                        if (verificationEvaluation.leaseLost) {
+                          return assembleResult(
+                            "LEASE_LOST",
+                            verificationEvaluation.failureReason ?? `Lease lost during completion verification`,
+                            taskId
+                          );
+                        }
                         if (verificationEvaluation.verified) {
                           transcript.push(
                             Object.freeze({
@@ -3190,6 +4208,48 @@ export class AgentStepController {
 
       if (actionResult.status === "FAILED" || actionResult.status === "TIMED_OUT") {
         consecutiveFailures++;
+        if (repairState) {
+          hasObservedRepairFailure = true;
+          const failMsg =
+            actionResult.error instanceof Error
+              ? actionResult.error.message
+              : typeof (actionResult.error as any)?.message === "string"
+                ? (actionResult.error as any).message
+                : String(actionResult.error ?? actionResult.status);
+          const diagCat = this.boundedRepairLoop.diagnoseFeedback(
+            repairState,
+            failMsg,
+            "",
+            actionResult.status === "TIMED_OUT" ? -1 : 1
+          );
+          this.telemetry?.recordRepairLifecycle({ outcome: "diagnosed", category: diagCat });
+          if (this.scopedMemory) {
+            try {
+              this.scopedMemory.recordEntry(
+                activeTenantId,
+                taskId,
+                "DURABLE_TASK_HISTORY",
+                "repair.action_failure",
+                JSON.stringify(
+                  redactSensitiveData({
+                    stepNumber: stepCount,
+                    toolName: action.toolName,
+                    category: diagCat,
+                    message: failMsg.slice(0, 500),
+                  })
+                ),
+                {
+                  runId,
+                  agentId: workerId,
+                  isModelGenerated: false,
+                  isIndependentlyVerified: false,
+                  idempotencyKey: `m42:fail:${runId}:${action.actionId}`,
+                  nowIso: this.clock.nowIso(),
+                }
+              );
+            } catch { /* non-fatal */ }
+          }
+        }
 
         // Phase 48A & 48D: Add bounded recovery feedback and track failed edit_file search anchors
         if (action.toolName === "edit_file" && actionResult.status === "FAILED") {
@@ -3445,7 +4505,8 @@ export class AgentStepController {
     };
     readonly abortSignal?: AbortSignal;
     readonly effectiveBudget: StepControllerBudget;
-    readonly currentActionCount: number;
+    readonly currentAgentActionCount: number;
+    readonly currentVerificationActionCount: number;
     readonly consecutiveFailures: number;
     readonly replayBlockCount: number;
     readonly stepCount: number;
@@ -3459,22 +4520,51 @@ export class AgentStepController {
       message: string
     ) => StepControllerResult;
   }): Promise<{
-    readonly updatedActionCount: number;
+    readonly updatedAgentActionCount: number;
+    readonly updatedVerificationActionCount: number;
     readonly updatedConsecutiveFailures: number;
     readonly updatedReplayBlockCount: number;
     readonly replayFeedback?: Observation | null;
     readonly terminalResult?: StepControllerResult;
+    /** Last verification action executed by this stage invocation (for checkpointing), if any. */
+    readonly lastVerificationActionId?: string;
+    readonly lastVerificationAttemptNumber?: number | null;
   }> {
-    let actionCount = params.currentActionCount;
+    let agentActionCount = params.currentAgentActionCount;
+    let verificationActionCount = params.currentVerificationActionCount;
+    let lastVerificationActionId: string | undefined;
+    let lastVerificationAttemptNumber: number | null = null;
     let consecutiveFailures = params.consecutiveFailures;
     let replayBlockCount = params.replayBlockCount;
     let replayFeedback: Observation | null | undefined;
     const vSpecs = params.contract.spec.verificationSpecs ?? [];
-    if (vSpecs.length === 0) {
-      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures, updatedReplayBlockCount: replayBlockCount };
+    if (vSpecs.length === 0 || !params.workspace) {
+      return {
+        updatedAgentActionCount: agentActionCount,
+        updatedVerificationActionCount: verificationActionCount,
+        updatedConsecutiveFailures: consecutiveFailures,
+        updatedReplayBlockCount: replayBlockCount,
+      };
     }
 
     const actions = this.stateStore.getActionsForRun(params.runId);
+
+    // A command declared by an EXIT_CODE_ZERO verification spec is a check, not a workspace mutation:
+    // counting it as one would invalidate earlier verification passes and re-execute them.
+    const isVerificationSpecCommand = (act: { toolName: string; inputPayload: unknown }): boolean =>
+      vSpecs.some((s) => {
+        if (s.ruleKind !== "EXIT_CODE_ZERO") return false;
+        const expected = s.expectedValue as Record<string, unknown> | undefined;
+        const specTool = (expected?.toolName as string) ?? "run_command";
+        const specArgv = Array.isArray(expected?.argv) ? (expected!.argv as readonly unknown[]) : undefined;
+        if (act.toolName !== specTool || !specArgv) return false;
+        const inputArgv = (act.inputPayload as any)?.argv;
+        return (
+          Array.isArray(inputArgv) &&
+          inputArgv.length === specArgv.length &&
+          inputArgv.every((v: unknown, idx: number) => v === specArgv[idx])
+        );
+      });
 
     // 1. Check prerequisite mutation requirement
     const requiresMutation = vSpecs.some(
@@ -3483,8 +4573,11 @@ export class AgentStepController {
 
     let lastWriteActionIndex = -1;
     for (let i = actions.length - 1; i >= 0; i--) {
-      if (actions[i]!.toolName === "write_file" || actions[i]!.toolName === "edit_file") {
-        const attempts = this.stateStore.getAttemptsForAction(actions[i]!.actionId);
+      const act = actions[i]!;
+      // Mutation can be performed by write_file, edit_file, or mutating run_command
+      if (act.toolName === "write_file" || act.toolName === "edit_file" || act.toolName === "run_command") {
+        if (isVerificationSpecCommand(act)) continue;
+        const attempts = this.stateStore.getAttemptsForAction(act.actionId);
         if (attempts.some((att) => att.status === "SUCCEEDED")) {
           lastWriteActionIndex = i;
           break;
@@ -3492,42 +4585,39 @@ export class AgentStepController {
       }
     }
 
-    // If mutation is required but no successful write_file exists, do not execute verification stage
+    // If mutation is required but no successful write/command action exists, do not execute verification stage
     if (requiresMutation && lastWriteActionIndex === -1) {
-      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures, updatedReplayBlockCount: replayBlockCount };
+      return {
+        updatedAgentActionCount: agentActionCount,
+        updatedVerificationActionCount: verificationActionCount,
+        updatedConsecutiveFailures: consecutiveFailures,
+        updatedReplayBlockCount: replayBlockCount,
+      };
     }
 
-    // 2. Prevent verification loops (Section 16):
-    // Check if verification already executed on the current code state and failed
     const actionsAfterLastWrite = lastWriteActionIndex >= 0 ? actions.slice(lastWriteActionIndex + 1) : actions;
-    const alreadyTestedAfterMutation = actionsAfterLastWrite.some((a) => {
-      if (a.toolName !== "run_command") return false;
-      const attempts = this.stateStore.getAttemptsForAction(a.actionId);
-      const latestAttempt = attempts[attempts.length - 1];
-      if (!latestAttempt) return false;
-      const exitCode =
-        latestAttempt.exitCode !== null && latestAttempt.exitCode !== undefined
-          ? latestAttempt.exitCode
-          : (latestAttempt.outputPayload as any)?.exitCode !== undefined
-          ? (latestAttempt.outputPayload as any).exitCode
-          : null;
-      return exitCode !== null && exitCode !== 0;
-    });
 
-    if (alreadyTestedAfterMutation) {
-      // Verification already ran on this exact mutation state and failed; do not loop without code changes
-      return { updatedActionCount: actionCount, updatedConsecutiveFailures: consecutiveFailures, updatedReplayBlockCount: replayBlockCount };
-    }
-
-    // 3. Determine verification actions to execute
+    // 2. Determine verification actions to execute
     interface VerificationActionTask {
       readonly toolName: ToolName;
       readonly inputPayload: unknown;
+      readonly specId?: string;
+      readonly targetArgv?: readonly string[];
     }
 
     const tasksToExecute: VerificationActionTask[] = [];
 
-    // 3a. Diff requirement
+    const maxVerificationActions =
+      params.effectiveBudget.maxVerificationActions ?? DEFAULT_MAX_VERIFICATION_ACTIONS;
+    const maxVerificationWallClockMs =
+      params.effectiveBudget.maxVerificationWallClockMs ?? DEFAULT_MAX_VERIFICATION_WALL_CLOCK_MS;
+    // Deterministic per-command ceiling (stable input hash across replay): never above the verification budget.
+    const verificationCommandTimeoutMs = Math.max(
+      1,
+      Math.min(60000, params.contract.spec.resourceLimits.timeoutMs, maxVerificationWallClockMs)
+    );
+
+    // 2a. Diff requirement
     const requiresDiff = vSpecs.some(
       (s) => (s.expectedValue as Record<string, unknown> | undefined)?.requireDiff
     );
@@ -3541,11 +4631,12 @@ export class AgentStepController {
         tasksToExecute.push({
           toolName: "git_diff",
           inputPayload: { path: "." },
+          specId: "diff-requirement",
         });
       }
     }
 
-    // 3b. Test command requirements (EXIT_CODE_ZERO)
+    // 2b. Test command requirements (EXIT_CODE_ZERO)
     for (const spec of vSpecs) {
       if (spec.ruleKind === "EXIT_CODE_ZERO") {
         const expected = spec.expectedValue as Record<string, unknown> | undefined;
@@ -3554,7 +4645,8 @@ export class AgentStepController {
           ? (expected!.argv as readonly string[])
           : undefined;
 
-        const hasTestAfterMutation = actionsAfterLastWrite.some((a) => {
+        // Check if verification for this spec has already executed and passed on current state
+        const hasPassedOnCurrentState = actionsAfterLastWrite.some((a) => {
           if (a.toolName !== targetTool) return false;
           if (targetArgv) {
             const inputArgv = (a.inputPayload as any)?.argv;
@@ -3574,24 +4666,63 @@ export class AgentStepController {
           return exitCode === 0;
         });
 
-        if (!hasTestAfterMutation) {
-          tasksToExecute.push({
-            toolName: targetTool,
-            inputPayload: {
-              ...(targetArgv ? { argv: targetArgv } : {}),
-              timeoutMs: Math.min(60000, params.contract.spec.resourceLimits.timeoutMs),
-            },
-          });
+        if (hasPassedOnCurrentState) {
+          continue; // Already verified and passed
         }
+
+        // Loop Prevention (Section 16 / Step 10 audit):
+        // Only prevent execution if THIS SPECIFIC verification command itself already ran and failed
+        // as the most recent action on the unchanged workspace state without intervening agent actions.
+        if (actions.length > 0) {
+          const lastAction = actions[actions.length - 1]!;
+          if (lastAction.toolName === targetTool) {
+            let matchesArgv = true;
+            if (targetArgv) {
+              const inputArgv = (lastAction.inputPayload as any)?.argv;
+              matchesArgv =
+                Array.isArray(inputArgv) &&
+                inputArgv.length === targetArgv.length &&
+                inputArgv.every((v, idx) => v === targetArgv[idx]);
+            }
+            if (matchesArgv) {
+              const attempts = this.stateStore.getAttemptsForAction(lastAction.actionId);
+              const latestAttempt = attempts[attempts.length - 1];
+              const exitCode =
+                latestAttempt?.exitCode !== null && latestAttempt?.exitCode !== undefined
+                  ? latestAttempt.exitCode
+                  : (latestAttempt?.outputPayload as any)?.exitCode !== undefined
+                  ? (latestAttempt?.outputPayload as any).exitCode
+                  : null;
+              if (latestAttempt?.status === "FAILED" || (exitCode !== null && exitCode !== 0)) {
+                // The exact verification command failed on the latest action, and no intervening
+                // agent actions have been performed. Do not loop.
+                continue;
+              }
+            }
+          }
+        }
+
+        tasksToExecute.push({
+          toolName: targetTool,
+          inputPayload: {
+            ...(targetArgv ? { argv: targetArgv } : {}),
+            timeoutMs: verificationCommandTimeoutMs,
+          },
+          specId: spec.specId,
+          targetArgv,
+        });
       }
     }
+
+    const stageStartTime = this.clock.now().getTime();
 
     // 4. Sequentially execute required verification actions through WorkerRuntime
     for (const task of tasksToExecute) {
       // Check cancellation
       if (params.abortSignal?.aborted) {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
@@ -3601,29 +4732,46 @@ export class AgentStepController {
         };
       }
 
-      // Check wall-clock budget
-      const elapsedMs = this.clock.now().getTime() - params.startTime;
-      if (elapsedMs >= params.effectiveBudget.maxWallClockMs) {
+      // Check run-level wall-clock budget
+      const totalElapsedMs = this.clock.now().getTime() - params.startTime;
+      if (totalElapsedMs >= params.effectiveBudget.maxWallClockMs) {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "MAX_WALL_CLOCK",
-            `Wall clock ceiling reached prior to verification action '${task.toolName}' (${elapsedMs}ms >= ${params.effectiveBudget.maxWallClockMs}ms)`
+            `Run wall clock ceiling reached prior to verification action '${task.toolName}' (${totalElapsedMs}ms >= ${params.effectiveBudget.maxWallClockMs}ms)`
           ),
         };
       }
 
-      // Check action ceiling
-      if (actionCount >= params.effectiveBudget.maxActions) {
+      // Check verification-specific wall-clock budget (Milestone 2.28 Phase 5 Step 12)
+      const stageElapsedMs = this.clock.now().getTime() - stageStartTime;
+      if (stageElapsedMs >= maxVerificationWallClockMs) {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
+          terminalResult: params.assembleResult(
+            "MAX_WALL_CLOCK",
+            `Verification wall clock ceiling reached prior to verification action '${task.toolName}' (${stageElapsedMs}ms >= ${maxVerificationWallClockMs}ms)`
+          ),
+        };
+      }
+
+      // Check verification action ceiling (Milestone 2.28 Phase 5 Step 12: separate verification action budget)
+      if (verificationActionCount >= maxVerificationActions) {
+        return {
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
             "MAX_ACTIONS",
-            `Maximum action execution ceiling reached prior to verification action '${task.toolName}' (${actionCount} >= ${params.effectiveBudget.maxActions})`
+            `Maximum verification action execution ceiling reached prior to verification action '${task.toolName}' (${verificationActionCount} >= ${maxVerificationActions})`
           ),
         };
       }
@@ -3632,7 +4780,8 @@ export class AgentStepController {
       const preExecRun = this.stateStore.getRun(params.runId);
       if (!preExecRun || preExecRun.leaseId !== params.leaseId || preExecRun.currentWorkerId !== params.workerId) {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
@@ -3643,7 +4792,8 @@ export class AgentStepController {
       }
       if (preExecRun.leaseExpiresAt && this.clock.nowIso() >= preExecRun.leaseExpiresAt) {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
@@ -3654,20 +4804,72 @@ export class AgentStepController {
       }
 
       // Execute via governed WorkerRuntime pipeline
-      actionCount++;
+      verificationActionCount++;
       const actionStart = this.clock.now().getTime();
       const actionTimestamp = this.clock.nowIso();
 
-      const actionResult = await this.workerRuntime.executeAction({
-        runId: params.runId,
-        toolName: task.toolName,
-        inputPayload: task.inputPayload,
-        leaseId: params.leaseId,
-        workspace: params.workspace,
-        timeoutMs: params.contract.spec.resourceLimits.timeoutMs,
-        maxOutputBytes: params.contract.spec.resourceLimits.maxOutputBytes,
-        abortSignal: params.abortSignal,
-      });
+      // Determine the maximum command timeout constrained by remaining verification and run wall-clock budgets
+      const stageElapsedForTimeout = this.clock.now().getTime() - stageStartTime;
+      const remainingVerificationBudgetMs = Math.max(1, maxVerificationWallClockMs - stageElapsedForTimeout);
+      const totalElapsedForTimeout = this.clock.now().getTime() - params.startTime;
+      const remainingRunBudgetMs = Math.max(1, params.effectiveBudget.maxWallClockMs - totalElapsedForTimeout);
+      const effectiveCommandTimeoutMs = Math.max(
+        1,
+        Math.min(
+          verificationCommandTimeoutMs,
+          remainingVerificationBudgetMs,
+          remainingRunBudgetMs
+        )
+      );
+
+      const effectiveInputPayload =
+        task.inputPayload && typeof task.inputPayload === "object"
+          ? {
+              ...(task.inputPayload as Record<string, unknown>),
+              timeoutMs: effectiveCommandTimeoutMs,
+            }
+          : task.inputPayload;
+
+      let actionResult: WorkerActionResult;
+      try {
+        actionResult = await this.workerRuntime.executeAction({
+          runId: params.runId,
+          toolName: task.toolName,
+          inputPayload: effectiveInputPayload,
+          leaseId: params.leaseId,
+          workspace: params.workspace,
+          timeoutMs: effectiveCommandTimeoutMs,
+          maxOutputBytes: params.contract.spec.resourceLimits.maxOutputBytes,
+          abortSignal: params.abortSignal,
+          systemVerificationSpecId: task.specId,
+        });
+      } catch (err: unknown) {
+        if (err instanceof LeaseLostError || err instanceof LeaseExpiredError) {
+          return {
+            updatedAgentActionCount: agentActionCount,
+            updatedVerificationActionCount: verificationActionCount,
+            updatedConsecutiveFailures: consecutiveFailures,
+            updatedReplayBlockCount: replayBlockCount,
+            terminalResult: params.assembleResult("LEASE_LOST", err.message),
+          };
+        }
+        consecutiveFailures++;
+        return {
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
+          updatedConsecutiveFailures: consecutiveFailures,
+          updatedReplayBlockCount: replayBlockCount,
+          terminalResult: params.assembleResult(
+            "BRAIN_FAILURE",
+            `Physical execution provider error during verification action '${task.toolName}': ${err instanceof Error ? err.message : String(err)}`
+          ),
+        };
+      }
+
+      if (actionResult.actionId) {
+        lastVerificationActionId = actionResult.actionId;
+        lastVerificationAttemptNumber = (actionResult as any)?.attemptNumber ?? null;
+      }
 
       params.transcript.push(
         Object.freeze({
@@ -3678,8 +4880,9 @@ export class AgentStepController {
           contextBytes: params.contextSnapshot.totalBytes,
           contextObservationsCount: params.contextSnapshot.observations.length,
           toolName: task.toolName,
-          inputPayload: task.inputPayload,
-          rationale: "Contract-declared verification stage execution",
+          inputPayload: effectiveInputPayload,
+          rationale: "SYSTEM_INDEPENDENT_VERIFICATION",
+          provenance: "SYSTEM_VERIFICATION",
           finishReason: "GOAL_REACHED",
           proposalValid: true,
           actionId: actionResult.actionId,
@@ -3694,7 +4897,8 @@ export class AgentStepController {
       // Outcome checks
       if (actionResult.status === "UNKNOWN") {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
@@ -3706,7 +4910,8 @@ export class AgentStepController {
 
       if (actionResult.status === "FENCED") {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
@@ -3718,7 +4923,8 @@ export class AgentStepController {
 
       if (actionResult.status === "CANCELLED") {
         return {
-          updatedActionCount: actionCount,
+          updatedAgentActionCount: agentActionCount,
+          updatedVerificationActionCount: verificationActionCount,
           updatedConsecutiveFailures: consecutiveFailures,
           updatedReplayBlockCount: replayBlockCount,
           terminalResult: params.assembleResult(
@@ -3735,7 +4941,8 @@ export class AgentStepController {
         replayBlockCount++;
         if (replayBlockCount >= 2) {
           return {
-            updatedActionCount: actionCount,
+            updatedAgentActionCount: agentActionCount,
+            updatedVerificationActionCount: verificationActionCount,
             updatedConsecutiveFailures: consecutiveFailures,
             updatedReplayBlockCount: replayBlockCount,
             terminalResult: params.assembleResult(
@@ -3777,10 +4984,14 @@ export class AgentStepController {
     }
 
     return {
-      updatedActionCount: actionCount,
+      updatedAgentActionCount: agentActionCount,
+      updatedVerificationActionCount: verificationActionCount,
       updatedConsecutiveFailures: consecutiveFailures,
       updatedReplayBlockCount: replayBlockCount,
       ...(replayFeedback !== undefined ? { replayFeedback } : {}),
+      ...(lastVerificationActionId
+        ? { lastVerificationActionId, lastVerificationAttemptNumber }
+        : {}),
     };
   }
 
@@ -3803,6 +5014,42 @@ export class AgentStepController {
    *  - verified only when every specification produced exactly one VERIFIED result.
    */
   private evaluateCompletionVerification(
+    runId: string,
+    contract: MissionContract,
+    context: CompletionEvaluationContext
+  ): CompletionEvaluation {
+    if (context.leaseFencing) {
+      const activeRun = this.stateStore.getRun(runId);
+      if (
+        !activeRun ||
+        activeRun.leaseId !== context.leaseFencing.leaseId ||
+        activeRun.currentWorkerId !== context.leaseFencing.workerId ||
+        (activeRun.leaseExpiresAt && this.clock.nowIso() >= activeRun.leaseExpiresAt)
+      ) {
+        return {
+          verified: false,
+          leaseLost: true,
+          failureReason: `Worker lease authority lost for run '${runId}' prior to completion verification`,
+          specResults: [],
+        };
+      }
+    }
+    try {
+      return this.evaluateCompletionVerificationCore(runId, contract, context);
+    } catch (err: unknown) {
+      if (err instanceof LeaseLostError || err instanceof LeaseExpiredError) {
+        return {
+          verified: false,
+          leaseLost: true,
+          failureReason: err.message,
+          specResults: [],
+        };
+      }
+      throw err;
+    }
+  }
+
+  private evaluateCompletionVerificationCore(
     runId: string,
     contract: MissionContract,
     context: CompletionEvaluationContext
@@ -3873,6 +5120,39 @@ export class AgentStepController {
       }
 
       if (spec.ruleKind === "EXIT_CODE_ZERO") {
+        if (!context.workspaceAvailable) {
+          const failureResult: VerificationResult = Object.freeze({
+            status: "FAILED",
+            verifierId: DeterministicVerifier.VERIFIER_ID,
+            specId: spec.specId,
+            evidenceIds: [],
+            reasonCode: "MISSING_EVIDENCE",
+            message: "Verification rule 'EXIT_CODE_ZERO' requires an agent workspace, but workspace is unavailable.",
+            details: Object.freeze({
+              runId,
+              taskId: contract.spec.taskId,
+              tenantId: (contract.spec as any).tenantId ?? contract.spec.policy?.tenantId ?? "tenant-default",
+              contractId: contract.spec.contractId,
+              contractVersion: contract.spec.version,
+              specId: spec.specId,
+              actionId: "none",
+              attemptId: "none",
+              attemptNumber: 0,
+              provenance: "SYSTEM_VERIFICATION",
+            }),
+            verifiedAt: this.clock.nowIso(),
+          });
+          const dedupToken = `verification:${runId}:${contract.spec.version}:${spec.specId}:no_workspace`;
+          this.coordinator.recordVerificationResult(runId, failureResult, dedupToken, context.leaseFencing);
+          return {
+            verified: false,
+            failureReason: failureResult.message,
+            specResults: [...specResults, failureResult],
+            requirementsSummary,
+            outstandingRequirements,
+          };
+        }
+
         const targetTool = (expected?.toolName as string) ?? "run_command";
         const targetArgv = Array.isArray(expected?.argv)
           ? (expected!.argv as readonly string[])
@@ -3951,7 +5231,7 @@ export class AgentStepController {
             }),
             verifiedAt: this.clock.nowIso(),
           });
-          this.coordinator.recordVerificationResult(runId, failureResult);
+          this.coordinator.recordVerificationResult(runId, failureResult, undefined, context.leaseFencing);
           return {
             verified: false,
             failureReason: failureResult.message,
@@ -3987,7 +5267,7 @@ export class AgentStepController {
             }),
             verifiedAt: this.clock.nowIso(),
           });
-          this.coordinator.recordVerificationResult(runId, failureResult);
+          this.coordinator.recordVerificationResult(runId, failureResult, undefined, context.leaseFencing);
           return {
             verified: false,
             failureReason: failureResult.message,
@@ -4069,15 +5349,21 @@ export class AgentStepController {
             reasonCode: "MISSING_EVIDENCE",
             message: `Required verification command '${targetTool}${targetArgv ? " " + JSON.stringify(targetArgv) : ""}' was never executed.`,
             details: Object.freeze({
+              runId,
+              taskId: contract.spec.taskId,
+              tenantId: (contract.spec as any).tenantId ?? contract.spec.policy?.tenantId ?? "tenant-default",
               contractId: contract.spec.contractId,
               contractVersion: contract.spec.version,
+              specId: spec.specId,
               actionId: "none",
               attemptId: "none",
               attemptNumber: 0,
+              provenance: "SYSTEM_VERIFICATION",
             }),
             verifiedAt: this.clock.nowIso(),
           });
-          this.coordinator.recordVerificationResult(runId, failureResult);
+          const dedupToken = `verification:${runId}:${contract.spec.version}:${spec.specId}:missing`;
+          this.coordinator.recordVerificationResult(runId, failureResult, dedupToken, context.leaseFencing);
           return {
             verified: false,
             failureReason: failureResult.message,
@@ -4098,15 +5384,21 @@ export class AgentStepController {
             reasonCode: "MISSING_EVIDENCE",
             message: `Required verification command was not found.`,
             details: Object.freeze({
+              runId,
+              taskId: contract.spec.taskId,
+              tenantId: (contract.spec as any).tenantId ?? contract.spec.policy?.tenantId ?? "tenant-default",
               contractId: contract.spec.contractId,
               contractVersion: contract.spec.version,
+              specId: spec.specId,
               actionId: "none",
               attemptId: "none",
               attemptNumber: 0,
+              provenance: "SYSTEM_VERIFICATION",
             }),
             verifiedAt: this.clock.nowIso(),
           });
-          this.coordinator.recordVerificationResult(runId, failureResult);
+          const dedupToken = `verification:${runId}:${contract.spec.version}:${spec.specId}:missing`;
+          this.coordinator.recordVerificationResult(runId, failureResult, dedupToken, context.leaseFencing);
           return {
             verified: false,
             failureReason: failureResult.message,
@@ -4127,15 +5419,21 @@ export class AgentStepController {
             reasonCode: "MISSING_EVIDENCE",
             message: `Verification action '${latestAction.actionId}' has no recorded attempts.`,
             details: Object.freeze({
+              runId,
+              taskId: contract.spec.taskId,
+              tenantId: (contract.spec as any).tenantId ?? contract.spec.policy?.tenantId ?? "tenant-default",
               contractId: contract.spec.contractId,
               contractVersion: contract.spec.version,
+              specId: spec.specId,
               actionId: latestAction.actionId,
               attemptId: "none",
               attemptNumber: 0,
+              provenance: "SYSTEM_VERIFICATION",
             }),
             verifiedAt: this.clock.nowIso(),
           });
-          this.coordinator.recordVerificationResult(runId, failureResult);
+          const dedupToken = `verification:${runId}:${contract.spec.version}:${spec.specId}:${latestAction.actionId}:no_attempt`;
+          this.coordinator.recordVerificationResult(runId, failureResult, dedupToken, context.leaseFencing);
           return {
             verified: false,
             failureReason: failureResult.message,
@@ -4153,17 +5451,23 @@ export class AgentStepController {
             : null;
 
         const evidenceList: Evidence[] = [];
-        const exitEvidence = createProcessExitEvidence(runId, {
-          exitCode: typeof exitCode === "number" ? exitCode : null,
-          signal: null,
-        });
+        const exitEvidence = createProcessExitEvidence(
+          runId,
+          {
+            exitCode: typeof exitCode === "number" ? exitCode : null,
+            signal: null,
+          },
+          {
+            source: "INDEPENDENT_OBSERVER",
+          }
+        );
         evidenceList.push(exitEvidence);
-        this.coordinator.recordEvidence(runId, exitEvidence);
+        this.coordinator.recordEvidence(runId, exitEvidence, context.leaseFencing);
 
         if (latestAttempt.outputPayload !== null && latestAttempt.outputPayload !== undefined) {
           const outputEvidence = createOutputPayloadEvidence(runId, latestAttempt.outputPayload);
           evidenceList.push(outputEvidence);
-          this.coordinator.recordEvidence(runId, outputEvidence);
+          this.coordinator.recordEvidence(runId, outputEvidence, context.leaseFencing);
         }
 
         const rawVerificationResult = DeterministicVerifier.verify(
@@ -4171,18 +5475,30 @@ export class AgentStepController {
           spec,
           this.clock.nowIso()
         );
+        const commandHash =
+          (latestAttempt.outputPayload as any)?.commandHash ??
+          computeCanonicalHash(targetArgv ?? targetTool).contentHash;
         const verificationResult: VerificationResult = Object.freeze({
           ...rawVerificationResult,
           details: Object.freeze({
             ...(rawVerificationResult.details ?? {}),
+            runId,
+            taskId: contract.spec.taskId,
+            tenantId: (contract.spec as any).tenantId ?? contract.spec.policy?.tenantId ?? "tenant-default",
             contractId: contract.spec.contractId,
             contractVersion: contract.spec.version,
+            specId: spec.specId,
             actionId: latestAction.actionId,
             attemptId: latestAttempt.attemptId,
             attemptNumber: latestAttempt.attemptNumber,
+            commandHash,
+            exitCode: typeof exitCode === "number" ? exitCode : null,
+            executionOutcome: latestAttempt.status,
+            provenance: "SYSTEM_VERIFICATION",
           }),
         });
-        this.coordinator.recordVerificationResult(runId, verificationResult);
+        const dedupToken = `verification:${runId}:${contract.spec.version}:${spec.specId}:${latestAction.actionId}`;
+        this.coordinator.recordVerificationResult(runId, verificationResult, dedupToken, context.leaseFencing);
         specResults.push(verificationResult);
 
         if (verificationResult.status !== "VERIFIED") {
@@ -4204,7 +5520,7 @@ export class AgentStepController {
         if (latestAttempt?.outputPayload !== null && latestAttempt?.outputPayload !== undefined) {
           const outputEvidence = createOutputPayloadEvidence(runId, latestAttempt.outputPayload);
           evidenceList.push(outputEvidence);
-          this.coordinator.recordEvidence(runId, outputEvidence);
+          this.coordinator.recordEvidence(runId, outputEvidence, context.leaseFencing);
         }
 
         const rawVerificationResult = DeterministicVerifier.verify(
@@ -4216,14 +5532,21 @@ export class AgentStepController {
           ...rawVerificationResult,
           details: Object.freeze({
             ...(rawVerificationResult.details ?? {}),
+            runId,
+            taskId: contract.spec.taskId,
+            tenantId: (contract.spec as any).tenantId ?? contract.spec.policy?.tenantId ?? "tenant-default",
             contractId: contract.spec.contractId,
             contractVersion: contract.spec.version,
+            specId: spec.specId,
             actionId: lastAction?.actionId ?? "none",
             attemptId: latestAttempt?.attemptId ?? "none",
             attemptNumber: latestAttempt?.attemptNumber ?? 0,
+            executionOutcome: latestAttempt?.status ?? "UNKNOWN",
+            provenance: "SYSTEM_VERIFICATION",
           }),
         });
-        this.coordinator.recordVerificationResult(runId, verificationResult);
+        const dedupToken = `verification:${runId}:${contract.spec.version}:${spec.specId}:${lastAction?.actionId ?? "none"}`;
+        this.coordinator.recordVerificationResult(runId, verificationResult, dedupToken, context.leaseFencing);
         specResults.push(verificationResult);
 
         if (verificationResult.status !== "VERIFIED") {

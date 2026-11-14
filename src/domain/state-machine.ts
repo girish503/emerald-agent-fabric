@@ -13,6 +13,8 @@ import {
   RunRecoveredEvent,
   RunStartedEvent,
   RunTimedOutEvent,
+  RunWaitingApprovalEvent,
+  VerificationStartedEvent,
   WorkerClaimedEvent,
 } from "./events.js";
 import { isTerminalState, RunSnapshot, RunStatus, validateRunInvariants } from "./invariants.js";
@@ -56,7 +58,34 @@ export type RunCommand =
   | { readonly type: "CANCEL"; readonly reason?: string; readonly now: string }
   | { readonly type: "EXPIRE_LEASE"; readonly now: string }
   | { readonly type: "RETRY"; readonly now: string }
-  | { readonly type: "FAIL_EXHAUSTED"; readonly error?: unknown; readonly now: string };
+  | { readonly type: "FAIL_EXHAUSTED"; readonly error?: unknown; readonly now: string }
+  | {
+      readonly type: "START_VERIFICATION";
+      readonly workerId: string;
+      readonly leaseId: string;
+      readonly now: string;
+    }
+  | {
+      readonly type: "REQUEST_APPROVAL";
+      readonly approvalId: string;
+      readonly operation: string;
+      readonly workerId?: string;
+      readonly leaseId?: string;
+      readonly now: string;
+    }
+  | {
+      readonly type: "APPROVE_RESUME";
+      readonly approvalId: string;
+      readonly approver: string;
+      readonly now: string;
+    }
+  | {
+      readonly type: "REJECT_APPROVAL";
+      readonly approvalId: string;
+      readonly approver: string;
+      readonly reason: string;
+      readonly now: string;
+    };
 
 export interface TransitionResult {
   readonly nextSnapshot: RunSnapshot;
@@ -78,22 +107,31 @@ export function canTransition(status: RunStatus, command: RunCommand): boolean {
       return status === "QUEUED" || status === "RECOVERING";
     case "START":
       return status === "LEASED";
+    case "START_VERIFICATION":
+      return status === "RUNNING";
+    case "REQUEST_APPROVAL":
+      return status === "RUNNING" || status === "VERIFYING";
+    case "APPROVE_RESUME":
+    case "REJECT_APPROVAL":
+      return status === "WAITING_APPROVAL";
     case "COMPLETE":
-      return status === "RUNNING" || status === "RECOVERING";
+      return status === "RUNNING" || status === "VERIFYING" || status === "RECOVERING";
     case "FAIL":
-      return status === "RUNNING" || status === "RECOVERING";
+      if (status === "WAITING_APPROVAL") return true;
+      return status === "RUNNING" || status === "VERIFYING" || status === "RECOVERING";
     case "TIMEOUT":
-      return status === "LEASED" || status === "RUNNING";
+      return status === "LEASED" || status === "RUNNING" || status === "VERIFYING" || status === "WAITING_APPROVAL";
     case "CANCEL":
       return (
         status === "CREATED" ||
         status === "QUEUED" ||
         status === "LEASED" ||
         status === "RUNNING" ||
+        status === "WAITING_APPROVAL" ||
         status === "RECOVERING"
       );
     case "EXPIRE_LEASE":
-      return status === "LEASED" || status === "RUNNING";
+      return status === "LEASED" || status === "RUNNING" || status === "VERIFYING";
     case "RETRY":
       return status === "RECOVERING";
     case "FAIL_EXHAUSTED":
@@ -215,6 +253,121 @@ export function applyTransition(
       return { nextSnapshot, event };
     }
 
+    case "START_VERIFICATION": {
+      if (snapshot.currentWorkerId !== command.workerId || snapshot.leaseId !== command.leaseId) {
+        throw new LeaseLostError(snapshot.runId, command.leaseId, snapshot.leaseId);
+      }
+      const nextSnapshot: RunSnapshot = {
+        ...snapshot,
+        status: "VERIFYING",
+        version: nextVersion,
+        updatedAt: command.now,
+      };
+      validateRunInvariants(nextSnapshot);
+      const event: VerificationStartedEvent = {
+        eventId,
+        runId: snapshot.runId,
+        timestamp: command.now,
+        eventType: "verification.started",
+        schemaVersion: 1,
+        producer: `worker:${command.workerId}`,
+        payload: { workerId: command.workerId, leaseId: command.leaseId },
+      };
+      return { nextSnapshot, event };
+    }
+
+    case "REQUEST_APPROVAL": {
+      if (snapshot.currentWorkerId && snapshot.leaseId) {
+        if (snapshot.currentWorkerId !== command.workerId || snapshot.leaseId !== command.leaseId) {
+          throw new LeaseLostError(snapshot.runId, command.leaseId ?? "", snapshot.leaseId);
+        }
+      }
+      const nextSnapshot: RunSnapshot = {
+        ...snapshot,
+        status: "WAITING_APPROVAL",
+        version: nextVersion,
+        currentWorkerId: null,
+        leaseId: null,
+        leaseExpiresAt: null,
+        updatedAt: command.now,
+      };
+      validateRunInvariants(nextSnapshot);
+      const event: RunWaitingApprovalEvent = {
+        eventId,
+        runId: snapshot.runId,
+        timestamp: command.now,
+        eventType: "run.waiting_approval",
+        schemaVersion: 1,
+        producer: command.workerId ? `worker:${command.workerId}` : "domain.governance",
+        payload: {
+          approvalId: command.approvalId,
+          operation: command.operation,
+          previousStatus: snapshot.status,
+          workerId: snapshot.currentWorkerId,
+          leaseId: snapshot.leaseId,
+        },
+      };
+      return { nextSnapshot, event };
+    }
+
+    case "APPROVE_RESUME": {
+      const nextSnapshot: RunSnapshot = {
+        ...snapshot,
+        status: "QUEUED",
+        version: nextVersion,
+        currentWorkerId: null,
+        leaseId: null,
+        leaseExpiresAt: null,
+        updatedAt: command.now,
+      };
+      validateRunInvariants(nextSnapshot);
+      const event: RunQueuedEvent = {
+        eventId,
+        runId: snapshot.runId,
+        timestamp: command.now,
+        eventType: "run.queued",
+        schemaVersion: 1,
+        producer: `operator:${command.approver}`,
+        payload: { attemptNumber: nextSnapshot.attemptCount },
+      };
+      return { nextSnapshot, event };
+    }
+
+    case "REJECT_APPROVAL": {
+      const nextSnapshot: RunSnapshot = {
+        ...snapshot,
+        status: "FAILED",
+        version: nextVersion,
+        errorPayload: {
+          code: "APPROVAL_REJECTED",
+          approvalId: command.approvalId,
+          approver: command.approver,
+          reason: command.reason,
+        },
+        currentWorkerId: null,
+        leaseId: null,
+        leaseExpiresAt: null,
+        updatedAt: command.now,
+      };
+      validateRunInvariants(nextSnapshot);
+      const event: RunFailedEvent = {
+        eventId,
+        runId: snapshot.runId,
+        timestamp: command.now,
+        eventType: "run.failed",
+        schemaVersion: 1,
+        producer: `operator:${command.approver}`,
+        payload: {
+          workerId: snapshot.currentWorkerId,
+          leaseId: snapshot.leaseId,
+          error: nextSnapshot.errorPayload,
+          attemptNumber: snapshot.attemptCount,
+          retriesExhausted: true,
+        },
+      };
+      return { nextSnapshot, event };
+    }
+
     case "COMPLETE": {
       // Fencing check: enforce worker fencing unless completing under coordinator/supervisor recovery authority
       const isRecoveryAuthority = command.workerId === "recovery" || command.workerId === "coordinator.recovery";
@@ -252,7 +405,7 @@ export function applyTransition(
     }
 
     case "FAIL": {
-      if (snapshot.status === "RUNNING") {
+      if (snapshot.status === "RUNNING" || snapshot.status === "VERIFYING") {
         if (
           command.leaseId &&
           (snapshot.currentWorkerId !== command.workerId || snapshot.leaseId !== command.leaseId)

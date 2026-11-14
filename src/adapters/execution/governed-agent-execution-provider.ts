@@ -25,6 +25,7 @@
  */
 
 import { ClockPort, SystemClock } from "../../ports/clock.port.js";
+import { LeaseExpiredError, LeaseLostError } from "../../domain/errors.js";
 import {
   ExecutionProvider,
   ExecutionRequest,
@@ -218,6 +219,24 @@ export class GovernedAgentExecutionProvider implements ExecutionProvider {
         Math.round(performance.now() - startTimeMonotonic)
       );
 
+      // Lease expiry / loss takes precedence over cancellation or timeout
+      if (err instanceof LeaseLostError || err instanceof LeaseExpiredError) {
+        return {
+          status: "FAILED",
+          durationMs,
+          error: {
+            code: "LEASE_LOST",
+            message: err.message,
+            details: { error: String(err) },
+          },
+          providerMetadata: {
+            providerName: this.name,
+            terminalReason: "LEASE_LOST",
+            executedAt: this.clock.nowIso(),
+          },
+        };
+      }
+
       // Check if abort signal triggered during execution
       if (request.signal?.aborted) {
         return {
@@ -315,6 +334,42 @@ export class GovernedAgentExecutionProvider implements ExecutionProvider {
         };
       }
 
+      case "WAITING_APPROVAL": {
+        return {
+          status: "FAILED",
+          durationMs,
+          error: {
+            code: "WAITING_APPROVAL",
+            message: stepResult.terminalMessage,
+            details: {
+              terminalReason: stepResult.terminalReason,
+              ...(stepResult.pendingApprovalId ? { approvalId: stepResult.pendingApprovalId } : {}),
+              ...(stepResult.pendingApprovalOperation ? { operation: stepResult.pendingApprovalOperation } : {}),
+            },
+          },
+          providerMetadata,
+        };
+      }
+
+      case "APPROVAL_REJECTED":
+      case "APPROVAL_EXPIRED":
+      case "REPAIR_EXHAUSTED": {
+        return {
+          status: "FAILED",
+          durationMs,
+          error: {
+            code: stepResult.terminalReason,
+            message: stepResult.terminalMessage,
+            details: {
+              terminalReason: stepResult.terminalReason,
+              totalSteps: stepResult.totalSteps,
+              totalProposalRejections: stepResult.totalProposalRejections,
+            },
+          },
+          providerMetadata,
+        };
+      }
+
       case "CYCLE_DETECTED": {
         return {
           status: "FAILED",
@@ -340,6 +395,23 @@ export class GovernedAgentExecutionProvider implements ExecutionProvider {
             code: "EXECUTION_TIMEOUT",
             message: stepResult.terminalMessage,
             details: { terminalReason: stepResult.terminalReason },
+          },
+          providerMetadata,
+        };
+      }
+
+      case "LEASE_LOST": {
+        return {
+          status: "FAILED",
+          durationMs,
+          error: {
+            code: "LEASE_LOST",
+            message: stepResult.terminalMessage,
+            details: {
+              terminalReason: stepResult.terminalReason,
+              totalSteps: stepResult.totalSteps,
+              totalProposalRejections: stepResult.totalProposalRejections,
+            },
           },
           providerMetadata,
         };

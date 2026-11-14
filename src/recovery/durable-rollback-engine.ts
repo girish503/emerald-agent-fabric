@@ -27,7 +27,6 @@ import {
 import {
   MutationIntent,
   PathRollbackProgress,
-  PathRollbackStatus,
   RunRollback,
   RunRollbackStatus,
   computeRecoveryDedupToken,
@@ -37,9 +36,7 @@ import {
 import {
   DigestMismatchError,
   MissingMutationAuthorityError,
-  RollbackConflictDetectedError,
   RollbackSnapshotCorruptError,
-  RollbackSnapshotMissingError,
   SnapshotContainmentError,
   SupervisorLeaseExpiredError,
   SupervisorLeaseLostError,
@@ -570,8 +567,8 @@ export class DurableRollbackEngine {
       // earlier, already rolled-back attempt must not be reused.
       const intents = selectGenerationIntents(sortedIntents);
       if (intents.length === 0) continue; // fully reconciled by an earlier rollback
-      const rootIntent = intents[0];
-      const latestIntent = intents[intents.length - 1];
+      const rootIntent = intents[0]!;
+      const latestIntent = intents[intents.length - 1]!;
       const isBaselineAbsent = rootIntent.baseDigest === "ABSENT";
       const initialBaseDigest = rootIntent.baseDigest;
       const latestExpectedDigest = latestIntent.expectedResultingDigest;
@@ -1087,9 +1084,10 @@ export class DurableRollbackEngine {
       );
       const generation = selectGenerationIntents(pathIntents);
       const allIntents = generation.length > 0 ? generation : pathIntents;
+      if (allIntents.length === 0) continue;
       this.assertWorkspaceOwnsIntents(runId, item.relativePath, canonicalPath, allIntents);
-      const rootIntent = allIntents[0];
-      const latestIntent = allIntents[allIntents.length - 1];
+      const rootIntent = allIntents[0]!;
+      const latestIntent = allIntents[allIntents.length - 1]!;
 
       const plan: PreflightPathPlan = {
         relativePath: item.relativePath,
@@ -1153,7 +1151,7 @@ export class DurableRollbackEngine {
         conflictedPaths.push(item.relativePath);
         // Halt subsequent paths
         for (let j = i + 1; j < progressList.length; j++) {
-          skippedPaths.push(progressList[j].relativePath);
+          skippedPaths.push(progressList[j]!.relativePath);
         }
         return {
           runId,
@@ -1242,7 +1240,7 @@ export class DurableRollbackEngine {
     remainingPlans: PreflightPathPlan[],
     authorityContext: MutationAuthorityContext,
     actualDigest: string,
-    restoredPaths: string[],
+    _restoredPaths: string[],
     conflictedPaths: string[],
     skippedPaths: string[]
   ): void {

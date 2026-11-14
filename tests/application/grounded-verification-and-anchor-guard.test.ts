@@ -206,6 +206,8 @@ describe("Phase 48D: Grounded Verification Context and Failed-Anchor Guard", () 
   // ==========================================================================
   describe("Option B: Source-grounded verification context snapshot", () => {
     class MockExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
       public readonly name = "mock-provider";
       public execCount = 0;
       public f2pExitCode = 1;

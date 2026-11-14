@@ -37,6 +37,8 @@ class ExplodingOperation implements DeterministicOperation<unknown, never> {
 }
 
 class TrackingMockProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "in-process";
   readonly receivedRequests: ExecutionRequest[] = [];
 

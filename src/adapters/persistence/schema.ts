@@ -556,6 +556,24 @@ export function migrateDatabase(db: DatabaseSync): void {
 
     CREATE INDEX IF NOT EXISTS idx_task_relations_parent ON task_relations(parent_task_id, ordinal);
 
+    -- M4.2 WS-B: Durable Multi-Parent DAG Dependency Edges. Additive only.
+    CREATE TABLE IF NOT EXISTS task_dependencies (
+        child_task_id TEXT NOT NULL REFERENCES tasks(task_id),
+        parent_task_id TEXT NOT NULL REFERENCES tasks(task_id),
+        ordinal INTEGER NOT NULL CHECK (ordinal >= 0),
+        created_at TEXT NOT NULL,
+        PRIMARY KEY (child_task_id, parent_task_id),
+        CHECK (child_task_id <> parent_task_id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_task_dependencies_parent ON task_dependencies(parent_task_id, ordinal);
+    CREATE INDEX IF NOT EXISTS idx_task_dependencies_child ON task_dependencies(child_task_id, ordinal);
+
+    INSERT OR IGNORE INTO task_dependencies (child_task_id, parent_task_id, ordinal, created_at)
+    SELECT child_task_id, parent_task_id, ordinal, created_at
+    FROM task_relations
+    WHERE child_task_id <> parent_task_id;
+
     CREATE TABLE IF NOT EXISTS router_submissions (
         submission_key TEXT PRIMARY KEY,
         task_id TEXT NOT NULL UNIQUE REFERENCES tasks(task_id),
@@ -572,6 +590,83 @@ export function migrateDatabase(db: DatabaseSync): void {
   }
 
   // Ensure owner_pid column exists on pre-existing supervisor_leases tables
+  // Step 11: Durable Scoped Context Memory (Phase 2 Final Closure).
+  // Database-enforced Truth Firewall: model-generated entries can NEVER be
+  // marked independently verified or placed in VERIFIED_EVIDENCE scope.
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS scoped_memories (
+        memory_id TEXT PRIMARY KEY,
+        tenant_id TEXT NOT NULL CHECK(length(trim(tenant_id)) > 0),
+        task_id TEXT NOT NULL CHECK(length(trim(task_id)) > 0),
+        run_id TEXT CHECK(run_id IS NULL OR length(trim(run_id)) > 0),
+        agent_id TEXT CHECK(agent_id IS NULL OR length(trim(agent_id)) > 0),
+        scope TEXT NOT NULL CHECK(scope IN (
+            'CURRENT_TASK_CONTEXT',
+            'DURABLE_TASK_HISTORY',
+            'PROJECT_KNOWLEDGE',
+            'AGENT_WORKING_CONTEXT',
+            'VERIFIED_EVIDENCE',
+            'UNTRUSTED_OBSERVATION'
+        )),
+        source TEXT NOT NULL CHECK(length(trim(source)) > 0),
+        is_model_generated INTEGER NOT NULL CHECK(is_model_generated IN (0, 1)),
+        is_independently_verified INTEGER NOT NULL CHECK(is_independently_verified IN (0, 1)),
+        content TEXT NOT NULL,
+        content_hash TEXT NOT NULL CHECK(length(content_hash) = 64),
+        estimated_tokens INTEGER NOT NULL CHECK(estimated_tokens >= 0),
+        metadata_json TEXT,
+        idempotency_key TEXT CHECK(idempotency_key IS NULL OR length(trim(idempotency_key)) > 0),
+        version INTEGER NOT NULL DEFAULT 1 CHECK(version >= 1),
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        expires_at TEXT,
+        CHECK(NOT (is_model_generated = 1 AND is_independently_verified = 1)),
+        CHECK(NOT (is_model_generated = 1 AND scope = 'VERIFIED_EVIDENCE'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_scoped_memories_tenant_task
+        ON scoped_memories(tenant_id, task_id, scope, created_at, memory_id);
+    CREATE INDEX IF NOT EXISTS idx_scoped_memories_run
+        ON scoped_memories(tenant_id, task_id, run_id) WHERE run_id IS NOT NULL;
+    CREATE INDEX IF NOT EXISTS idx_scoped_memories_agent
+        ON scoped_memories(tenant_id, task_id, agent_id) WHERE agent_id IS NOT NULL;
+    CREATE INDEX IF NOT EXISTS idx_scoped_memories_expires
+        ON scoped_memories(expires_at) WHERE expires_at IS NOT NULL;
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_scoped_memories_idem
+        ON scoped_memories(tenant_id, task_id, idempotency_key) WHERE idempotency_key IS NOT NULL;
+  `);
+
+  // Ensure owner_pid column exists on pre-existing supervisor_leases tables
+  // Step 12: Durable Human Approval Requests (Phase 4 M4.1).
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS approval_requests (
+        approval_id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL,
+        task_id TEXT NOT NULL DEFAULT '',
+        tenant_id TEXT NOT NULL DEFAULT 'default-tenant',
+        contract_hash TEXT NOT NULL DEFAULT '',
+        action_id TEXT,
+        operation TEXT NOT NULL,
+        parameters_json TEXT NOT NULL,
+        parameters_hash TEXT NOT NULL CHECK(length(parameters_hash) = 64),
+        risk_level TEXT NOT NULL CHECK(risk_level IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')),
+        justification TEXT NOT NULL,
+        status TEXT NOT NULL CHECK(status IN ('PENDING', 'APPROVED', 'REJECTED', 'CONSUMED', 'EXPIRED')),
+        single_use INTEGER NOT NULL DEFAULT 1 CHECK(single_use IN (0, 1)),
+        requested_at TEXT NOT NULL,
+        expires_at TEXT,
+        decided_at TEXT,
+        consumed_at TEXT,
+        consumed_by_run_id TEXT,
+        approver TEXT,
+        decision_reason TEXT
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_approvals_run_op ON approval_requests(run_id, operation, status);
+    CREATE INDEX IF NOT EXISTS idx_approvals_status ON approval_requests(status);
+    CREATE INDEX IF NOT EXISTS idx_approvals_tenant_task ON approval_requests(tenant_id, task_id);
+  `);
+
   const supCols = (db.prepare("PRAGMA table_info(supervisor_leases)").all() as Array<{ name: string }>).map((c) => c.name);
   if (!supCols.includes("owner_pid")) {
     db.exec("ALTER TABLE supervisor_leases ADD COLUMN owner_pid INTEGER;");

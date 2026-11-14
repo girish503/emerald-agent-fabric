@@ -13,7 +13,7 @@ import * as path from "node:path";
 import * as crypto from "node:crypto";
 
 const SCRATCH_DIR = path.resolve(
-  "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch"
+  path.resolve(__dirname, "../tests/fixtures")
 );
 
 const EXPECTED_HISTORICAL_HASHES: Record<string, string> = {

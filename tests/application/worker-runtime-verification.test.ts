@@ -15,6 +15,8 @@ import {
  * Mock ExecutionProvider that returns configured output and metadata.
  */
 class MockExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name: string;
   readonly invocations: ExecutionRequest[] = [];
   private readonly mockOutput: unknown;

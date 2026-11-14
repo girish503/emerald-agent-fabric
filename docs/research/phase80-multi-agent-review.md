@@ -133,7 +133,7 @@ The frozen 15-task cohort from Phase 46 was evaluated without modification:
 
 ## 11. Review Schema
 
-Contract defined in [`src/domain/review-record.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/review-record.ts):
+Contract defined in [`src/domain/review-record.ts`](../../src/domain/review-record.ts):
 - Required fields: `reviewId`, `proposalId`, `reviewerRole`, `reviewerModel`, `reviewTargetDigest`, `findings`, `severity`, `recommendation`, `confidence`, `rationale`, `reviewDigest`, `timestamp`.
 - Findings schema: `findingId`, `findingType`, `severity`, `targetPath`, `lineStart`, `lineEnd`, `description`, `evidence`.
 - Severity levels: `INFO`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.

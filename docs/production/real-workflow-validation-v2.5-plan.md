@@ -31,7 +31,7 @@ Inspection of the current repository baseline prior to validation planning confi
 
 ## 2. V2.4 Evidence Audit
 
-A comprehensive audit of [`scratch/production-v24-evaluation-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/production-v24-evaluation-results.json) and [`docs/production/developer-utility-evaluation-v2.4.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/developer-utility-evaluation-v2.4.md) establishes the empirical baseline:
+A comprehensive audit of [`scratch/production-v24-evaluation-results.json`](../../scratch/production-v24-evaluation-results.json) and [`docs/production/developer-utility-evaluation-v2.4.md`](../../docs/production/developer-utility-evaluation-v2.4.md) establishes the empirical baseline:
 
 ### 2.1 Audit Findings Matrix
 

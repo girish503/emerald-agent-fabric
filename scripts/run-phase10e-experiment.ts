@@ -90,14 +90,14 @@ const DEFAULT_CONFIG: Phase10ERunnerConfig = Object.freeze({
   targetTasks: Object.freeze([...SWE_EVAL_TASK_IDS]),
   checkpointPath: path.resolve(
     process.env.CHECKPOINT_PATH ??
-      "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10e-checkpoint.ndjson"
+      path.resolve(__dirname, "../tests/fixtures/phase10e-checkpoint.ndjson")
   ),
   summaryPath: path.resolve(
     process.env.SUMMARY_PATH ??
-      "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10e-summary.json"
+      path.resolve(__dirname, "../tests/fixtures/phase10e-summary.json")
   ),
   historicalSummaryPath: path.resolve(
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10a-summary.json"
+    path.resolve(__dirname, "../tests/fixtures/phase10a-summary.json")
   ),
   resume: true,
 });
@@ -264,12 +264,12 @@ export async function runPhase10EExperiment(
 
   // Historical Artifact Protection: Verify historical artifacts exist and will never be overwritten
   const historicalPaths = [
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4b-checkpoint.ndjson",
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4b-summary.json",
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10a-checkpoint.ndjson",
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10a-summary.json",
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10b-structured-output-diagnostic.json",
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10c-schema-union-diagnostic.json",
+    path.resolve(__dirname, "../tests/fixtures/phase9-4b-checkpoint.ndjson"),
+    path.resolve(__dirname, "../tests/fixtures/phase9-4b-summary.json"),
+    path.resolve(__dirname, "../tests/fixtures/phase10a-checkpoint.ndjson"),
+    path.resolve(__dirname, "../tests/fixtures/phase10a-summary.json"),
+    path.resolve(__dirname, "../tests/fixtures/phase10b-structured-output-diagnostic.json"),
+    path.resolve(__dirname, "../tests/fixtures/phase10c-schema-union-diagnostic.json"),
   ];
 
   for (const histPath of historicalPaths) {

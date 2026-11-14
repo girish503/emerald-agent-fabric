@@ -89,11 +89,11 @@ const DEFAULT_CONFIG: RunnerConfig = Object.freeze({
   ]),
   checkpointPath: path.resolve(
     process.env.CHECKPOINT_PATH ??
-      "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4b-checkpoint.ndjson"
+      path.resolve(__dirname, "../tests/fixtures/phase9-4b-checkpoint.ndjson")
   ),
   summaryPath: path.resolve(
     process.env.SUMMARY_PATH ??
-      "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4b-summary.json"
+      path.resolve(__dirname, "../tests/fixtures/phase9-4b-summary.json")
   ),
   resume: true,
 });

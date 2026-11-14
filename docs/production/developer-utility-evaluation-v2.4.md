@@ -5,7 +5,7 @@
 - **Milestone**: Production V2.4 Candidate
 - **Status**: Completed — Evaluated and Verified
 - **Recommended Decision**: `CONTINUE_BOUNDED_PILOT`
-- **Evaluation Evidence File**: [`scratch/production-v24-evaluation-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/production-v24-evaluation-results.json)
+- **Evaluation Evidence File**: [`scratch/production-v24-evaluation-results.json`](../../scratch/production-v24-evaluation-results.json)
 - **Harness & Schema**: Structured Proposal Interface `v1.8.0` (Digest `0a91b348fe7a26c60e2fb2124824d68986228ae46582f51382766f99fe68314e`)
 - **Model Adapter**: `qwen2.5-coder:3b` (Q4_K_M, 1841 MB) via local Ollama (`v0.40.8`)
 - **Evaluation Cost**: ₹0 (Zero cloud inference, zero external APIs, zero paid endpoints)

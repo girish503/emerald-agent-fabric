@@ -552,7 +552,7 @@ export async function runPhase10CSchemaUnionDiagnostic(): Promise<void> {
   const baseUrl = process.env.OLLAMA_BASE_URL ?? "http://127.0.0.1:11434";
   const timeoutMs = 120_000;
   const artifactPath = path.resolve(
-    "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase10c-schema-union-diagnostic.json"
+    path.resolve(__dirname, "../tests/fixtures/phase10c-schema-union-diagnostic.json")
   );
 
   console.log("\n================================================================================");
@@ -578,7 +578,7 @@ export async function runPhase10CSchemaUnionDiagnostic(): Promise<void> {
     "phase9-4-counterfactual-results.json",
   ].map((p) =>
     path.resolve(
-      "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch",
+      path.resolve(__dirname, "../tests/fixtures"),
       p
     )
   );

@@ -17,22 +17,22 @@ This document specifies an offline architectural design for **Dynamic Context-Aw
 
 ### 1.1 The Current Projection Pipeline
 In the current implementation:
-1. **Tool Catalog Source**: In [`src/application/agent-step-controller.ts#L622`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/agent-step-controller.ts#L622), `AgentStepController` constructs `brainRequest` with:
+1. **Tool Catalog Source**: In [`src/application/agent-step-controller.ts#L622`](../../src/application/agent-step-controller.ts#L622), `AgentStepController` constructs `brainRequest` with:
    ```ts
    availableTools: this.toolRegistry.listTools()
    ```
    This passes all registered tools from the static registry on every turn, regardless of what has already been executed or observed.
-2. **Prompt Markdown Projection**: In [`src/application/live-agent-brain.ts#L628-L629`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L628-L629), `buildModelRequest()` renders:
+2. **Prompt Markdown Projection**: In [`src/application/live-agent-brain.ts#L628-L629`](../../src/application/live-agent-brain.ts#L628-L629), `buildModelRequest()` renders:
    ```ts
    sections.push("\n## Available Tools");
    sections.push(formatModelFacingToolCatalog(availableTools));
    ```
-3. **Structured-Output Schema Projection**: In [`src/application/live-agent-brain.ts#L680`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L680), `generation.structuredOutput` is bound to the static constant:
+3. **Structured-Output Schema Projection**: In [`src/application/live-agent-brain.ts#L680`](../../src/application/live-agent-brain.ts#L680), `generation.structuredOutput` is bound to the static constant:
    ```ts
    structuredOutput: ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA
    ```
    This schema hardcodes seven branches (`isGoalReached: true` + 6 tools). Even if an advisory suggests choosing an edit, the local Ollama GBNF grammar engine permits token generation for `read_file` with equal structural probability.
-4. **Validation Separation**: In [`src/application/proposal-validator.ts#L302`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/proposal-validator.ts#L302), `ProposalValidator` independently resolves tool definitions against `this.toolRegistry` and validates capability policies.
+4. **Validation Separation**: In [`src/application/proposal-validator.ts#L302`](../../src/application/proposal-validator.ts#L302), `ProposalValidator` independently resolves tool definitions against `this.toolRegistry` and validates capability policies.
 
 ### 1.2 The Root Cause of Repetitive Selection
 The root cause is an asymmetry between model capability and grammar projection:

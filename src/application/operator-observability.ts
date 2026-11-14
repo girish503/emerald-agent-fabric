@@ -21,6 +21,7 @@ import type { DatabaseSync } from "node:sqlite";
 import { SqliteStateStore } from "../adapters/persistence/sqlite-state-store.js";
 import type { RunSnapshot, RunStatus } from "../domain/invariants.js";
 import type { PersistedEvent, TaskRecord } from "../ports/state-store.port.js";
+import type { ModelInferenceTelemetryPayload } from "../domain/events.js";
 import type { TaskRelationRecord, RouterSubmissionRecord } from "../ports/task-router-store.port.js";
 import { PostPassVerificationLatch } from "./post-pass-verification-latch.js";
 import { artifactDirectory } from "../adapters/workspace/git-artifact-exporter.js";
@@ -1075,6 +1076,447 @@ export function formatRunEventTimelineReport(report: RunEventTimelineReport): st
   for (const e of report.events) {
     lines.push(`[Seq ${e.sequence}] ${e.timestamp} | ${e.eventType} (by ${e.producer})`);
     lines.push(`  Summary: ${e.summary}`);
+  }
+
+  return lines.join("\n");
+}
+
+
+// ============================================================================
+// Inference Telemetry Inspection & Performance Baseline (Phase 5 Step 5)
+// ============================================================================
+
+export interface InspectInferenceTelemetryOptions {
+  readonly dbPath: string;
+  readonly runId: string;
+  readonly tenantId?: string;
+  readonly limit?: number;
+}
+
+export interface InferenceTelemetryRecordReport {
+  readonly eventId: string;
+  readonly sequence: number;
+  readonly timestamp: string;
+  readonly schemaVersion: number;
+  readonly isSupportedSchema: boolean;
+  readonly isValidPayload: boolean;
+  readonly payload: ModelInferenceTelemetryPayload | null;
+  readonly error?: string;
+}
+
+export interface InferencePerformanceSummary {
+  readonly totalRequests: number;
+  readonly outcomeCounts: {
+    readonly SUCCESS: number;
+    readonly TIMEOUT: number;
+    readonly CANCELLED: number;
+    readonly INVALID_RESPONSE: number;
+    readonly PROVIDER_UNAVAILABLE: number;
+    readonly ERROR: number;
+  };
+  readonly wallClockDurationMs: {
+    readonly mean: number | null;
+    readonly median: number | null;
+    readonly min: number | null;
+    readonly max: number | null;
+  };
+  readonly loadDurationNs: {
+    readonly mean: number | null;
+    readonly median: number | null;
+    readonly measuredCount: number;
+    readonly missingCount: number;
+  };
+  readonly promptEvalDurationNs: {
+    readonly mean: number | null;
+    readonly median: number | null;
+    readonly measuredCount: number;
+    readonly missingCount: number;
+  };
+  readonly evalDurationNs: {
+    readonly mean: number | null;
+    readonly median: number | null;
+    readonly measuredCount: number;
+    readonly missingCount: number;
+  };
+  readonly promptEvalCount: {
+    readonly mean: number | null;
+    readonly measuredCount: number;
+    readonly missingCount: number;
+  };
+  readonly evalCount: {
+    readonly mean: number | null;
+    readonly measuredCount: number;
+    readonly missingCount: number;
+  };
+  readonly firstVsSubsequent?: {
+    readonly firstRequest: {
+      readonly totalDurationNs: number | null;
+      readonly loadDurationNs: number | null;
+      readonly promptEvalDurationNs: number | null;
+      readonly evalDurationNs: number | null;
+      readonly wallClockDurationMs: number;
+    } | null;
+    readonly subsequentMeanWallClockMs: number | null;
+    readonly subsequentMeanLoadDurationNs: number | null;
+    readonly subsequentCount: number;
+  };
+}
+
+export interface RunInferenceTelemetryReport {
+  readonly runId: string;
+  readonly taskId: string;
+  readonly tenantId: string | null;
+  readonly totalRecords: number;
+  readonly returnedRecords: number;
+  readonly limit: number;
+  readonly records: readonly InferenceTelemetryRecordReport[];
+  readonly performanceSummary: InferencePerformanceSummary | null;
+}
+
+function computeMedian(values: number[]): number | null {
+  if (values.length === 0) return null;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  if (sorted.length % 2 !== 0) {
+    return sorted[mid]!;
+  }
+  return (sorted[mid - 1]! + sorted[mid]!) / 2;
+}
+
+function computeMean(values: number[]): number | null {
+  if (values.length === 0) return null;
+  const sum = values.reduce((acc, val) => acc + val, 0);
+  return sum / values.length;
+}
+
+function formatNs(ns: number | null | undefined): string {
+  if (ns === null || ns === undefined) return "N/A";
+  const ms = (ns / 1_000_000).toFixed(2);
+  return `${ns.toLocaleString()} ns (${ms} ms)`;
+}
+
+/**
+ * Inspects persisted inference telemetry for a run in strictly read-only mode.
+ * Enforces authoritative tenant ownership and schema validation.
+ */
+export function inspectInferenceTelemetry(options: InspectInferenceTelemetryOptions): RunInferenceTelemetryReport {
+  const { dbPath, runId, tenantId, limit = 50 } = options;
+  if (!runId || typeof runId !== "string" || runId.trim().length === 0) {
+    throw new Error("runId is required");
+  }
+
+  const handle = openReadOnlyDatabase(dbPath);
+  try {
+    const { db, store } = handle;
+    const run = store.getRun(runId);
+    if (!run) {
+      throw new Error(`Run not found: ${runId}`);
+    }
+
+    let runTenantId: string | null = null;
+    if (run.contractBinding?.contractId) {
+      const contract = store.getContract(run.contractBinding.contractId, run.contractBinding.version);
+      runTenantId = contract?.spec?.policy?.tenantId ?? null;
+    }
+
+    if (tenantId && runTenantId !== tenantId) {
+      // Must be indistinguishable from run not found to preserve cross-tenant opacity
+      throw new Error(`Run not found: ${runId}`);
+    }
+
+    const countStmt = db.prepare(`
+      SELECT COUNT(*) as count FROM run_events
+      WHERE run_id = ? AND event_type = 'model.inference.telemetry'
+    `);
+    const countRow = countStmt.get(runId) as { count: number } | undefined;
+    const totalRecords = countRow ? Number(countRow.count) : 0;
+
+    const eventStmt = db.prepare(`
+      SELECT event_id, run_id, sequence, timestamp, event_type, schema_version, producer, payload
+      FROM run_events
+      WHERE run_id = ? AND event_type = 'model.inference.telemetry'
+      ORDER BY sequence ASC
+      LIMIT ?
+    `);
+    const rows = eventStmt.all(runId, limit) as any[];
+
+    const records: InferenceTelemetryRecordReport[] = [];
+    for (const row of rows) {
+      const schemaVersion = Number(row.schema_version);
+      const isSupportedSchema = schemaVersion === 1;
+
+      let rawPayload: any = null;
+      let isValidPayload = true;
+      let parseError: string | undefined;
+
+      try {
+        rawPayload = typeof row.payload === "string" ? JSON.parse(row.payload) : row.payload;
+      } catch (e) {
+        isValidPayload = false;
+        parseError = `Malformed payload JSON: ${e instanceof Error ? e.message : String(e)}`;
+      }
+
+      if (isValidPayload && (!rawPayload || typeof rawPayload !== "object")) {
+        isValidPayload = false;
+        parseError = "Payload is not a valid object";
+      }
+
+      records.push({
+        eventId: row.event_id,
+        sequence: Number(row.sequence),
+        timestamp: row.timestamp,
+        schemaVersion,
+        isSupportedSchema,
+        isValidPayload,
+        payload: isValidPayload && isSupportedSchema ? (rawPayload as ModelInferenceTelemetryPayload) : null,
+        ...(parseError ? { error: parseError } : {}),
+      });
+    }
+
+    // Performance Summary calculation over valid records
+    let performanceSummary: InferencePerformanceSummary | null = null;
+    const validPayloads = records
+      .filter((r) => r.isSupportedSchema && r.isValidPayload && r.payload !== null)
+      .map((r) => r.payload!);
+
+    if (validPayloads.length > 0) {
+      const outcomeCounts = {
+        SUCCESS: 0,
+        TIMEOUT: 0,
+        CANCELLED: 0,
+        INVALID_RESPONSE: 0,
+        PROVIDER_UNAVAILABLE: 0,
+        ERROR: 0,
+      };
+
+      const wallClocks: number[] = [];
+      const loadDurations: number[] = [];
+      let loadMissing = 0;
+      const promptEvalDurations: number[] = [];
+      let promptEvalMissing = 0;
+      const evalDurations: number[] = [];
+      let evalMissing = 0;
+      const promptEvalCounts: number[] = [];
+      let promptCountMissing = 0;
+      const evalCounts: number[] = [];
+      let evalCountMissing = 0;
+
+      for (const p of validPayloads) {
+        if (p.outcome in outcomeCounts) {
+          outcomeCounts[p.outcome]++;
+        } else {
+          outcomeCounts.ERROR++;
+        }
+
+        if (typeof p.wallClockDurationMs === "number" && !isNaN(p.wallClockDurationMs)) {
+          wallClocks.push(p.wallClockDurationMs);
+        }
+
+        if (typeof p.loadDurationNs === "number" && !isNaN(p.loadDurationNs)) {
+          loadDurations.push(p.loadDurationNs);
+        } else {
+          loadMissing++;
+        }
+
+        if (typeof p.promptEvalDurationNs === "number" && !isNaN(p.promptEvalDurationNs)) {
+          promptEvalDurations.push(p.promptEvalDurationNs);
+        } else {
+          promptEvalMissing++;
+        }
+
+        if (typeof p.evalDurationNs === "number" && !isNaN(p.evalDurationNs)) {
+          evalDurations.push(p.evalDurationNs);
+        } else {
+          evalMissing++;
+        }
+
+        if (typeof p.promptEvalCount === "number" && !isNaN(p.promptEvalCount)) {
+          promptEvalCounts.push(p.promptEvalCount);
+        } else {
+          promptCountMissing++;
+        }
+
+        if (typeof p.evalCount === "number" && !isNaN(p.evalCount)) {
+          evalCounts.push(p.evalCount);
+        } else {
+          evalCountMissing++;
+        }
+      }
+
+      let firstVsSubsequent: InferencePerformanceSummary["firstVsSubsequent"] = undefined;
+      if (validPayloads.length > 1) {
+        const first = validPayloads[0]!;
+        const subsequent = validPayloads.slice(1);
+        const subsequentWallClocks = subsequent.map((p) => p.wallClockDurationMs).filter((n) => typeof n === "number" && !isNaN(n));
+        const subsequentLoads = subsequent.map((p) => p.loadDurationNs).filter((n): n is number => typeof n === "number" && !isNaN(n));
+
+        firstVsSubsequent = {
+          firstRequest: {
+            totalDurationNs: typeof first.totalDurationNs === "number" ? first.totalDurationNs : null,
+            loadDurationNs: typeof first.loadDurationNs === "number" ? first.loadDurationNs : null,
+            promptEvalDurationNs: typeof first.promptEvalDurationNs === "number" ? first.promptEvalDurationNs : null,
+            evalDurationNs: typeof first.evalDurationNs === "number" ? first.evalDurationNs : null,
+            wallClockDurationMs: first.wallClockDurationMs,
+          },
+          subsequentMeanWallClockMs: computeMean(subsequentWallClocks),
+          subsequentMeanLoadDurationNs: computeMean(subsequentLoads),
+          subsequentCount: subsequent.length,
+        };
+      } else if (validPayloads.length === 1) {
+        const first = validPayloads[0]!;
+        firstVsSubsequent = {
+          firstRequest: {
+            totalDurationNs: typeof first.totalDurationNs === "number" ? first.totalDurationNs : null,
+            loadDurationNs: typeof first.loadDurationNs === "number" ? first.loadDurationNs : null,
+            promptEvalDurationNs: typeof first.promptEvalDurationNs === "number" ? first.promptEvalDurationNs : null,
+            evalDurationNs: typeof first.evalDurationNs === "number" ? first.evalDurationNs : null,
+            wallClockDurationMs: first.wallClockDurationMs,
+          },
+          subsequentMeanWallClockMs: null,
+          subsequentMeanLoadDurationNs: null,
+          subsequentCount: 0,
+        };
+      }
+
+      performanceSummary = {
+        totalRequests: validPayloads.length,
+        outcomeCounts,
+        wallClockDurationMs: {
+          mean: computeMean(wallClocks),
+          median: computeMedian(wallClocks),
+          min: wallClocks.length > 0 ? Math.min(...wallClocks) : null,
+          max: wallClocks.length > 0 ? Math.max(...wallClocks) : null,
+        },
+        loadDurationNs: {
+          mean: computeMean(loadDurations),
+          median: computeMedian(loadDurations),
+          measuredCount: loadDurations.length,
+          missingCount: loadMissing,
+        },
+        promptEvalDurationNs: {
+          mean: computeMean(promptEvalDurations),
+          median: computeMedian(promptEvalDurations),
+          measuredCount: promptEvalDurations.length,
+          missingCount: promptEvalMissing,
+        },
+        evalDurationNs: {
+          mean: computeMean(evalDurations),
+          median: computeMedian(evalDurations),
+          measuredCount: evalDurations.length,
+          missingCount: evalMissing,
+        },
+        promptEvalCount: {
+          mean: computeMean(promptEvalCounts),
+          measuredCount: promptEvalCounts.length,
+          missingCount: promptCountMissing,
+        },
+        evalCount: {
+          mean: computeMean(evalCounts),
+          measuredCount: evalCounts.length,
+          missingCount: evalCountMissing,
+        },
+        firstVsSubsequent,
+      };
+    }
+
+    return {
+      runId,
+      taskId: run.taskId,
+      tenantId: runTenantId,
+      totalRecords,
+      returnedRecords: records.length,
+      limit,
+      records,
+      performanceSummary,
+    };
+  } finally {
+    handle.close();
+  }
+}
+
+/**
+ * Formats a RunInferenceTelemetryReport into human-readable CLI text output.
+ * Preserves exact nanosecond values and explicitly labels conversions to milliseconds.
+ */
+export function formatInferenceTelemetryReport(report: RunInferenceTelemetryReport): string {
+  const lines: string[] = [
+    `Inference Telemetry: ${report.runId}`,
+    `============================================================`,
+    `Task ID: ${report.taskId}`,
+    `Tenant: ${report.tenantId ?? "None (Internal / Unbound)"}`,
+    `Total Telemetry Records: ${report.totalRecords} (Returned: ${report.returnedRecords}, Limit: ${report.limit})`,
+    ``,
+  ];
+
+  if (report.records.length === 0) {
+    lines.push(`(No inference telemetry recorded for run: ${report.runId})`);
+    return lines.join("\n");
+  }
+
+  if (report.performanceSummary) {
+    const s = report.performanceSummary;
+    lines.push(`Performance Summary:`);
+    lines.push(`------------------------------------------------------------`);
+    lines.push(`Total Requests: ${s.totalRequests}`);
+    lines.push(
+      `Outcomes: SUCCESS=${s.outcomeCounts.SUCCESS}, TIMEOUT=${s.outcomeCounts.TIMEOUT}, CANCELLED=${s.outcomeCounts.CANCELLED}, INVALID_RESPONSE=${s.outcomeCounts.INVALID_RESPONSE}, PROVIDER_UNAVAILABLE=${s.outcomeCounts.PROVIDER_UNAVAILABLE}, ERROR=${s.outcomeCounts.ERROR}`
+    );
+    lines.push(
+      `Wall Clock: Mean=${s.wallClockDurationMs.mean !== null ? s.wallClockDurationMs.mean.toFixed(2) + " ms" : "N/A"}, Median=${s.wallClockDurationMs.median !== null ? s.wallClockDurationMs.median.toFixed(2) + " ms" : "N/A"} (Min=${s.wallClockDurationMs.min !== null ? s.wallClockDurationMs.min + " ms" : "N/A"}, Max=${s.wallClockDurationMs.max !== null ? s.wallClockDurationMs.max + " ms" : "N/A"})`
+    );
+    lines.push(
+      `Load Duration: Mean=${formatNs(s.loadDurationNs.mean)}, Median=${formatNs(s.loadDurationNs.median)} (Measured=${s.loadDurationNs.measuredCount}, Missing=${s.loadDurationNs.missingCount})`
+    );
+    lines.push(
+      `Prompt Eval: Mean=${formatNs(s.promptEvalDurationNs.mean)}, Median=${formatNs(s.promptEvalDurationNs.median)} (Measured=${s.promptEvalDurationNs.measuredCount}, Missing=${s.promptEvalDurationNs.missingCount})`
+    );
+    lines.push(
+      `Token Eval: Mean=${formatNs(s.evalDurationNs.mean)}, Median=${formatNs(s.evalDurationNs.median)} (Measured=${s.evalDurationNs.measuredCount}, Missing=${s.evalDurationNs.missingCount})`
+    );
+    lines.push(
+      `Token Counts: Mean Prompt=${s.promptEvalCount.mean !== null ? s.promptEvalCount.mean.toFixed(1) : "N/A"}, Mean Eval=${s.evalCount.mean !== null ? s.evalCount.mean.toFixed(1) : "N/A"}`
+    );
+
+    if (s.firstVsSubsequent) {
+      lines.push(``);
+      lines.push(`First vs Subsequent Request Breakdown:`);
+      if (s.firstVsSubsequent.firstRequest) {
+        const fr = s.firstVsSubsequent.firstRequest;
+        lines.push(
+          `  First Request: WallClock=${fr.wallClockDurationMs} ms | Load=${formatNs(fr.loadDurationNs)} | PromptEval=${formatNs(fr.promptEvalDurationNs)} | Eval=${formatNs(fr.evalDurationNs)}`
+        );
+      }
+      if (s.firstVsSubsequent.subsequentCount > 0) {
+        lines.push(
+          `  Subsequent (${s.firstVsSubsequent.subsequentCount} requests): Mean WallClock=${s.firstVsSubsequent.subsequentMeanWallClockMs !== null ? s.firstVsSubsequent.subsequentMeanWallClockMs.toFixed(2) + " ms" : "N/A"} | Mean Load=${formatNs(s.firstVsSubsequent.subsequentMeanLoadDurationNs)}`
+        );
+      }
+    }
+    lines.push(``);
+  }
+
+  lines.push(`Telemetry Records:`);
+  lines.push(`------------------------------------------------------------`);
+  for (const rec of report.records) {
+    if (!rec.isSupportedSchema) {
+      lines.push(`[Seq ${rec.sequence}] ${rec.timestamp} | [UNSUPPORTED SCHEMA VERSION: ${rec.schemaVersion}]`);
+      continue;
+    }
+    if (!rec.isValidPayload || !rec.payload) {
+      lines.push(`[Seq ${rec.sequence}] ${rec.timestamp} | [MALFORMED PAYLOAD: ${rec.error ?? "Invalid structure"}]`);
+      continue;
+    }
+    const p = rec.payload;
+    lines.push(`[Seq ${rec.sequence}] ${rec.timestamp} | Step ${p.stepNumber} | ${p.outcome} | ${p.model} (${p.requestId})`);
+    lines.push(`  Wall Clock: ${p.wallClockDurationMs} ms`);
+    lines.push(`  Durations: Total=${formatNs(p.totalDurationNs)} | Load=${formatNs(p.loadDurationNs)} | PromptEval=${formatNs(p.promptEvalDurationNs)} | Eval=${formatNs(p.evalDurationNs)}`);
+    lines.push(`  Tokens: Prompt=${p.promptEvalCount !== null && p.promptEvalCount !== undefined ? p.promptEvalCount : "N/A"} | Eval=${p.evalCount !== null && p.evalCount !== undefined ? p.evalCount : "N/A"} | DoneReason=${p.doneReason ?? "N/A"} | FinishReason=${p.finishReason ?? "N/A"}`);
+    if (p.modelParameters) {
+      lines.push(`  Parameters: ${JSON.stringify(p.modelParameters)}`);
+    }
+    if (p.error) {
+      lines.push(`  Error: [${p.error.code ?? "UNKNOWN"}] ${p.error.message ?? "No message"}`);
+    }
   }
 
   return lines.join("\n");

@@ -1,0 +1,48 @@
+{
+  "uid": "emerald-01-overview",
+  "title": "01 - Emerald System Overview",
+  "tags": ["emerald", "phase3", "overview"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Total Durable Tasks",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum(emerald_tasks_total{execution_mode=~\"$execution_mode\"})", "legendFormat": "tasks" }]
+    },
+    {
+      "id": 2,
+      "title": "Active In-Flight Runs (Execution Mode Isolated)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "emerald_router_in_flight_runs{execution_mode=~\"$execution_mode\"}", "legendFormat": "{{execution_mode}}" }]
+    },
+    {
+      "id": 3,
+      "title": "HTTP Control-Plane Request Rate by Status Class",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "targets": [{ "refId": "A", "expr": "sum by (status_class) (rate(emerald_http_requests_total[5m]))", "legendFormat": "{{status_class}}" }]
+    },
+    {
+      "id": 4,
+      "title": "Verification Outcomes (Live vs Fixture Separated)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "targets": [{ "refId": "A", "expr": "sum by (verified, execution_mode) (rate(emerald_verifications_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "verified={{verified}} ({{execution_mode}})" }]
+    }
+  ]
+}

@@ -21,6 +21,8 @@ import { createAndActivateContract } from "../../application/test-helpers.js";
 import { createMockGitRepository } from "./git-test-helper.js";
 
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "counting-provider";
   invocationCount = 0;
 

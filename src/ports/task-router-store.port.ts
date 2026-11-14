@@ -18,6 +18,13 @@ export interface TaskRelationRecord {
   readonly createdAt: string;
 }
 
+export interface TaskDependencyRecord {
+  readonly childTaskId: string;
+  readonly parentTaskId: string;
+  readonly ordinal: number;
+  readonly createdAt: string;
+}
+
 export interface RouterSubmissionRecord {
   readonly submissionKey: string;
   readonly taskId: string;
@@ -40,6 +47,9 @@ export interface TaskRouterStorePort {
   insertTaskRelation(relation: TaskRelationRecord): void;
   getTaskRelation(childTaskId: string): TaskRelationRecord | null;
   listChildTaskRelations(parentTaskId: string): readonly TaskRelationRecord[];
+  insertTaskDependencies?(childTaskId: string, parentTaskIds: readonly string[], createdAt: string): void;
+  listTaskDependencies?(childTaskId: string): readonly TaskDependencyRecord[];
+  listDependentTaskIds?(parentTaskId: string): readonly string[];
 
   insertRouterSubmission(submission: RouterSubmissionRecord): void;
   getRouterSubmissionByKey(submissionKey: string): RouterSubmissionRecord | null;

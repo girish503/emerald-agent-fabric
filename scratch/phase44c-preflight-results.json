@@ -3,74 +3,59 @@
   "task": "EAF-BM-01",
   "model": "qwen2.5-coder:1.5b",
   "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
-  "classification": "PREFLIGHT_PASS",
+  "classification": "PREFLIGHT_TIMEOUT",
   "timestamps": {
-    "startedAt": "2026-10-26T12:10:39.859Z",
-    "completedAt": "2026-10-26T12:12:11.528Z",
-    "wallClockDurationMs": 91666
+    "startedAt": "2026-11-13T18:55:54.635Z",
+    "completedAt": "2026-11-13T18:57:55.829Z",
+    "wallClockDurationMs": 121193
   },
   "schema": {
     "name": "action_proposal",
-    "branchCount": 7,
+    "branchCount": 8,
     "toolsCovered": [
       "read_file",
       "write_file",
       "search_code",
       "git_status",
       "git_diff",
-      "run_command"
+      "run_command",
+      "edit_file"
     ]
   },
   "telemetry": {
     "modelCalls": 1,
-    "modelFailures": 0,
-    "promptTokens": 2402,
-    "evalTokens": 113,
-    "totalTokens": 2515,
-    "durationMs": 91322
+    "modelFailures": 1,
+    "promptTokens": null,
+    "evalTokens": null,
+    "totalTokens": null,
+    "durationMs": 121193
   },
   "execution": {
     "stepCount": 1,
-    "actionCount": 1,
+    "actionCount": 0,
     "proposalRejectionCount": 0,
-    "terminalStatus": "TIMED_OUT",
-    "terminalReason": "MAX_STEPS"
+    "terminalStatus": "FAILED",
+    "terminalReason": "LEASE_LOST"
   },
-  "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"c40a9dcfdb758676ba7182fc655492435866ac7769c4f12cb09b481806e36edd\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}",
-  "stepDiagnostic": {
-    "stepNumber": 1,
-    "timestamp": "2026-10-26T12:10:40.046Z",
-    "durationMs": 91426,
-    "finishReason": "ACTION_PROPOSED",
-    "proposalValid": true,
-    "proposalId": "action-1",
-    "toolName": "read_file",
-    "inputPayload": {
-      "path": "src/calc.js",
-      "offsetLine": 1,
-      "limitLines": 500
-    },
-    "actionId": "3b49b147-5641-4c93-b2a6-3c21e09b8864",
-    "actionStatus": "SUCCEEDED",
-    "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"contextSnapshotHash\": \"c40a9dcfdb758676ba7182fc655492435866ac7769c4f12cb09b481806e36edd\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  }\n}"
-  },
+  "rawOutput": "NO_RAW_OUTPUT",
+  "stepDiagnostic": null,
   "proposalRejection": null,
   "evidenceBundle": {
-    "bundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
-    "provenanceRoot": "99ae21e2666d038df93c00effbefb0a765a84c077ac6bd5fd97a9cfef61e3cfa",
+    "bundleId": "66eabb59ebde78ff11be9f50b5e0af76d5b8d84169bac1dd80f4e1e2f5f0c7d4",
+    "provenanceRoot": "7c4309d01c7bbd956e34b60159773b1e6e5ffaa5b6b7898f638bee80f1bf420b",
     "signaturesCount": 2,
-    "eventsCount": 13
+    "eventsCount": 5
   },
   "offlineAudit": {
     "status": "FAILED",
     "targetType": "SINGLE_BUNDLE",
     "runIds": [
-      "1e189bad-2aa5-415f-a752-09b5545971ca"
+      "e5dd5069-9619-4ec0-ac7b-cbfbd422a213"
     ],
     "bundleIds": [
-      "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd"
+      "66eabb59ebde78ff11be9f50b5e0af76d5b8d84169bac1dd80f4e1e2f5f0c7d4"
     ],
-    "authoritativeTerminalBundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
+    "authoritativeTerminalBundleId": "66eabb59ebde78ff11be9f50b5e0af76d5b8d84169bac1dd80f4e1e2f5f0c7d4",
     "terminalOutcome": "FAILED",
     "thresholdSatisfied": false,
     "replayValid": true,
@@ -83,14 +68,14 @@
       {
         "code": "UNKNOWN_AUTHORITY",
         "message": "Threshold authority policy not satisfied: Signing key 'key-worker-p43' not found in trusted keyring; Signing key 'key-supervisor-p43' not found in trusted keyring",
-        "bundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
-        "runId": "1e189bad-2aa5-415f-a752-09b5545971ca"
+        "bundleId": "66eabb59ebde78ff11be9f50b5e0af76d5b8d84169bac1dd80f4e1e2f5f0c7d4",
+        "runId": "e5dd5069-9619-4ec0-ac7b-cbfbd422a213"
       }
     ],
     "bundleSummaries": [
       {
-        "bundleId": "afda91b5f8c9fb9f9ce1385c2105f47fafdef35bf13878ea68d0958b385b10fd",
-        "runId": "1e189bad-2aa5-415f-a752-09b5545971ca",
+        "bundleId": "66eabb59ebde78ff11be9f50b5e0af76d5b8d84169bac1dd80f4e1e2f5f0c7d4",
+        "runId": "e5dd5069-9619-4ec0-ac7b-cbfbd422a213",
         "terminalStatus": "FAILED",
         "isTerminal": true,
         "contentIdValid": true,

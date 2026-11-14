@@ -32,3 +32,4 @@ export * from "./fault-governance-policy.js";
 export * from "./capability-fence-enforcer.js";
 export * from "./cross-harness-gateway.js";
 export * from "./capability-governance-policy.js";
+export * from "./scoped-context-memory.js";

@@ -31,6 +31,8 @@ import { createAndActivateContract } from "./test-helpers.js";
  * outside governed tool adapter dispatches.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "spy-counting-provider";
   readonly invocations: ExecutionRequest[] = [];
   nextResult?: ExecutionResult;
@@ -455,7 +457,8 @@ describe("AgentStepController — Governed Autonomous Reasoning Loop (Task 5.3)"
   // 7. Wall Clock Budget Expiration
   // =========================================================================
   it("halts when elapsed wall clock time exceeds maxWallClockMs", async () => {
-    const { runId, leaseId, workspace } = await setupGovernedRun();
+    // Keep lease TTL above total test clock advance (70,000ms) so wall-clock budget fires before lease expiry.
+    const { runId, leaseId, workspace } = await setupGovernedRun({ leaseTtlMs: 300000 });
 
     brain
       .queueStep((req) => {

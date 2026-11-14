@@ -12,6 +12,7 @@
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
 import { RunControl } from "../control-plane/run-control.js";
 import { CapabilityFenceEnforcer } from "../application/capability-fence-enforcer.js";
+import type { EmeraldLifecycleTelemetry } from "../application/observability-instrumentation.js";
 
 export interface RecoveryOutcome {
   readonly runId: string;
@@ -36,6 +37,7 @@ export class ProductionRecoveryService {
     private readonly runControl: RunControl,
     private readonly fenceEnforcer?: CapabilityFenceEnforcer,
     private readonly clock: ClockPort = new SystemClock(),
+    private readonly telemetry?: EmeraldLifecycleTelemetry,
   ) {}
 
   public getClock(): ClockPort {
@@ -63,6 +65,19 @@ export class ProductionRecoveryService {
    * Safely recover a single run following a crash or lease expiration.
    */
   public recoverRun(runId: string): RecoveryOutcome {
+    const startMs = Date.now();
+    const outcome = this.recoverRunCore(runId);
+    this.telemetry?.recordRecoveryOutcome({
+      runId: outcome.runId,
+      outcome: outcome.statusAfter,
+      leasesFenced: outcome.leasesFenced,
+      workerLeaseExpiredObserved: false,
+      durationMs: Date.now() - startMs,
+    });
+    return outcome;
+  }
+
+  private recoverRunCore(runId: string): RecoveryOutcome {
     const run = this.runControl.getRun(runId);
     if (!run) throw new Error(`Run not found for recovery: ${runId}`);
 

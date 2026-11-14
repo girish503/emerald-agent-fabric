@@ -285,7 +285,7 @@ export class DuplicateProposalDetector {
    * verification context, allowing previously ineffective edits on dependent files
    * to be legitimately reconsidered.
    */
-  public recordWorkspaceMutation(targetPath?: string): void {
+  public recordWorkspaceMutation(_targetPath?: string): void {
     this.currentWorkspaceMutationVersion++;
   }
 

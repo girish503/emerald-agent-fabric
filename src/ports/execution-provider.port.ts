@@ -143,7 +143,13 @@ export type ExecutionErrorCode =
   | "CONTAINER_CLEANUP_FAILED"
   | "UNKNOWN_TRUST_CLASSIFICATION"
   | "HOST_FALLBACK_DISALLOWED"
-  | "EXECUTION_OUTCOME_UNKNOWN";
+  | "EXECUTION_OUTCOME_UNKNOWN"
+  | "LEASE_LOST"
+  | "WAITING_APPROVAL"
+  | "APPROVAL_REJECTED"
+  | "APPROVAL_EXPIRED"
+  | "APPROVAL_INVALID"
+  | "REPAIR_EXHAUSTED";
 
 export interface ExecutionErrorPayload {
   readonly code: ExecutionErrorCode;

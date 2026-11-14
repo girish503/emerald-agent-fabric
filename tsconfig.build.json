@@ -6,7 +6,9 @@
     "noEmit": false
   },
   "include": [
-    "src/cli/**/*"
+    "src/cli/**/*",
+    "src/application/evaluation/swe-bench-lite-runner.ts",
+    "src/application/evaluation/humaneval-runner.ts"
   ],
   "exclude": [
     "tests/**/*",

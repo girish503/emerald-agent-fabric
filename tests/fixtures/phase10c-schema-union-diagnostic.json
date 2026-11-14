@@ -1,0 +1,422 @@
+{
+  "experimentName": "Phase 10C: Ollama Goal-or-Action Structured Schema RFC",
+  "timestamp": "2026-10-15T15:35:49.975Z",
+  "model": "llama3.2:3b",
+  "totalTrials": 12,
+  "unionCandidateSchema": {
+    "anyOf": [
+      {
+        "type": "object",
+        "description": "Goal-reached completion signal (no tool execution)",
+        "properties": {
+          "isGoalReached": {
+            "type": "boolean",
+            "enum": [
+              true
+            ],
+            "description": "Must be true when task goal is fully achieved"
+          },
+          "proposalId": {
+            "type": "string",
+            "description": "Unique client-generated proposal identifier"
+          },
+          "contextSnapshotHash": {
+            "type": "string",
+            "description": "The exact 64-character hexadecimal SHA-256 contextHash from snapshot"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Brief rationale explaining how the goal was achieved"
+          }
+        },
+        "required": [
+          "isGoalReached",
+          "proposalId",
+          "contextSnapshotHash"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "description": "Tool-action proposal (requests governed tool execution)",
+        "properties": {
+          "isGoalReached": {
+            "type": "boolean",
+            "enum": [
+              false
+            ],
+            "description": "Must be false when proposing a tool action"
+          },
+          "proposalId": {
+            "type": "string",
+            "description": "Unique client-generated proposal identifier"
+          },
+          "toolName": {
+            "type": "string",
+            "description": "Name of the registered tool to invoke",
+            "enum": [
+              "read_file",
+              "write_file",
+              "search_code",
+              "git_status",
+              "git_diff",
+              "run_command"
+            ]
+          },
+          "inputPayload": {
+            "type": "object",
+            "description": "Tool input parameters matching tool schema"
+          },
+          "contextSnapshotHash": {
+            "type": "string",
+            "description": "The exact 64-character hexadecimal SHA-256 contextHash from snapshot"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Brief rationale explaining why this action is proposed"
+          },
+          "sequenceHint": {
+            "type": "integer",
+            "description": "Optional sequence hint"
+          }
+        },
+        "required": [
+          "isGoalReached",
+          "proposalId",
+          "toolName",
+          "inputPayload",
+          "contextSnapshotHash"
+        ],
+        "additionalProperties": false
+      }
+    ]
+  },
+  "results": {
+    "goalReachedBranch": {
+      "trials": 5,
+      "validGoalProposals": 5,
+      "wrongVariant": 0,
+      "missingFields": 0,
+      "toolActionInGoalVariant": 0,
+      "invalidJson": 0,
+      "timeouts": 0,
+      "otherErrors": 0,
+      "meanLatencyMs": 17748,
+      "medianLatencyMs": 13826,
+      "totalPromptTokens": 2130,
+      "totalOutputTokens": 385,
+      "successRate": 1
+    },
+    "toolActionBranch": {
+      "trials": 5,
+      "validToolProposals": 5,
+      "wrongVariant": 0,
+      "missingFields": 0,
+      "goalCompletionInToolVariant": 0,
+      "invalidJson": 0,
+      "timeouts": 0,
+      "otherErrors": 0,
+      "meanLatencyMs": 20838,
+      "medianLatencyMs": 18803,
+      "totalPromptTokens": 2685,
+      "totalOutputTokens": 505,
+      "successRate": 1
+    },
+    "controlCondition": {
+      "trials": 2,
+      "validToolProposals": 2,
+      "successRate": 1,
+      "meanLatencyMs": 22784
+    }
+  },
+  "offlineDeterminismVerified": true,
+  "evaluationConclusion": {
+    "interpretation": "UNION_A",
+    "summary": "Both semantic branches (Goal Reached and Tool Action) consistently produced 100% valid domain proposals under Ollama GBNF anyOf schema enforcement.",
+    "isProductionAdapterChangeJustified": true,
+    "securityImplications": "Schema union acts strictly as a decoding format filter. All outputs remain untrusted and subject to full ProposalValidator, Reflex, and Policy evaluations.",
+    "nextStep": "Adopt the validated anyOf discriminated union in ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA and re-run calibrated execution-reach gate."
+  },
+  "records": [
+    {
+      "trialId": "phase10c-union_discriminated-goal_reached-1",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "GOAL_REACHED",
+      "trialOrdinal": 1,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": true,\n  \"proposalId\": \"prop-goal-complete-1\",\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": true,
+        "proposalId": "prop-goal-complete-1",
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_GOAL_PROPOSAL",
+      "classificationDetail": "Conforming GoalReachedProposal (isGoalReached: true, no tool execution)",
+      "modelLatencyMs": 33847,
+      "promptTokens": 426,
+      "outputTokens": 77,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:32:25.320Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-goal_reached-2",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "GOAL_REACHED",
+      "trialOrdinal": 2,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": true,\n  \"proposalId\": \"prop-goal-complete-1\",\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": true,
+        "proposalId": "prop-goal-complete-1",
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_GOAL_PROPOSAL",
+      "classificationDetail": "Conforming GoalReachedProposal (isGoalReached: true, no tool execution)",
+      "modelLatencyMs": 13623,
+      "promptTokens": 426,
+      "outputTokens": 77,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:32:38.945Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-goal_reached-3",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "GOAL_REACHED",
+      "trialOrdinal": 3,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": true,\n  \"proposalId\": \"prop-goal-complete-1\",\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": true,
+        "proposalId": "prop-goal-complete-1",
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_GOAL_PROPOSAL",
+      "classificationDetail": "Conforming GoalReachedProposal (isGoalReached: true, no tool execution)",
+      "modelLatencyMs": 13826,
+      "promptTokens": 426,
+      "outputTokens": 77,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:32:52.771Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-goal_reached-4",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "GOAL_REACHED",
+      "trialOrdinal": 4,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": true,\n  \"proposalId\": \"prop-goal-complete-1\",\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": true,
+        "proposalId": "prop-goal-complete-1",
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_GOAL_PROPOSAL",
+      "classificationDetail": "Conforming GoalReachedProposal (isGoalReached: true, no tool execution)",
+      "modelLatencyMs": 14066,
+      "promptTokens": 426,
+      "outputTokens": 77,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:33:06.837Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-goal_reached-5",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "GOAL_REACHED",
+      "trialOrdinal": 5,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": true,\n  \"proposalId\": \"prop-goal-complete-1\",\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": true,
+        "proposalId": "prop-goal-complete-1",
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_GOAL_PROPOSAL",
+      "classificationDetail": "Conforming GoalReachedProposal (isGoalReached: true, no tool execution)",
+      "modelLatencyMs": 13376,
+      "promptTokens": 426,
+      "outputTokens": 77,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:33:20.213Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-tool_action-1",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "TOOL_ACTION",
+      "trialOrdinal": 1,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-search-add-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-search-add-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_TOOL_PROPOSAL",
+      "classificationDetail": "Conforming ToolActionProposal (isGoalReached: false, passes ActionProposalSchema)",
+      "modelLatencyMs": 29607,
+      "promptTokens": 537,
+      "outputTokens": 101,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:33:49.822Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-tool_action-2",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "TOOL_ACTION",
+      "trialOrdinal": 2,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-search-add-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-search-add-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_TOOL_PROPOSAL",
+      "classificationDetail": "Conforming ToolActionProposal (isGoalReached: false, passes ActionProposalSchema)",
+      "modelLatencyMs": 18803,
+      "promptTokens": 537,
+      "outputTokens": 101,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:34:08.625Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-tool_action-3",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "TOOL_ACTION",
+      "trialOrdinal": 3,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-search-add-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-search-add-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_TOOL_PROPOSAL",
+      "classificationDetail": "Conforming ToolActionProposal (isGoalReached: false, passes ActionProposalSchema)",
+      "modelLatencyMs": 19176,
+      "promptTokens": 537,
+      "outputTokens": 101,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:34:27.801Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-tool_action-4",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "TOOL_ACTION",
+      "trialOrdinal": 4,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-search-add-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-search-add-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_TOOL_PROPOSAL",
+      "classificationDetail": "Conforming ToolActionProposal (isGoalReached: false, passes ActionProposalSchema)",
+      "modelLatencyMs": 18135,
+      "promptTokens": 537,
+      "outputTokens": 101,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:34:45.936Z"
+    },
+    {
+      "trialId": "phase10c-union_discriminated-tool_action-5",
+      "condition": "UNION_DISCRIMINATED",
+      "semanticBranch": "TOOL_ACTION",
+      "trialOrdinal": 5,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-search-add-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-search-add-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_TOOL_PROPOSAL",
+      "classificationDetail": "Conforming ToolActionProposal (isGoalReached: false, passes ActionProposalSchema)",
+      "modelLatencyMs": 18468,
+      "promptTokens": 537,
+      "outputTokens": 101,
+      "schemaHash": "1609368b92107fb44ba8c1cb2f2ddae9c5710bd92acbbf3363b8d1be8b73e1f5",
+      "timestamp": "2026-10-15T15:35:04.404Z"
+    },
+    {
+      "trialId": "phase10c-control_full_required-tool_action-1",
+      "condition": "CONTROL_FULL_REQUIRED",
+      "semanticBranch": "TOOL_ACTION",
+      "trialOrdinal": 1,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-search-add-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-search-add-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_TOOL_PROPOSAL",
+      "classificationDetail": "Conforming ToolActionProposal (isGoalReached: false, passes ActionProposalSchema)",
+      "modelLatencyMs": 19329,
+      "promptTokens": 537,
+      "outputTokens": 101,
+      "schemaHash": "b237bc25ef41949902b1389c0665cacb73a23594dd92ed7183dbd4ad8a8b02a1",
+      "timestamp": "2026-10-15T15:35:23.734Z"
+    },
+    {
+      "trialId": "phase10c-control_full_required-tool_action-2",
+      "condition": "CONTROL_FULL_REQUIRED",
+      "semanticBranch": "TOOL_ACTION",
+      "trialOrdinal": 2,
+      "model": "llama3.2:3b",
+      "rawResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-search-add-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-search-add-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "domainValidationResult": true,
+      "classification": "VALID_TOOL_PROPOSAL",
+      "classificationDetail": "Conforming ToolActionProposal (isGoalReached: false, passes ActionProposalSchema)",
+      "modelLatencyMs": 26238,
+      "promptTokens": 537,
+      "outputTokens": 101,
+      "schemaHash": "b237bc25ef41949902b1389c0665cacb73a23594dd92ed7183dbd4ad8a8b02a1",
+      "timestamp": "2026-10-15T15:35:49.972Z"
+    }
+  ]
+}

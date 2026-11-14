@@ -36,11 +36,11 @@ import {
 async function main() {
   const summaryPath = path.resolve(
     process.env.PHASE9_4B_SUMMARY_PATH ??
-      "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4b-summary.json"
+      path.resolve(__dirname, "../tests/fixtures/phase9-4b-summary.json")
   );
   const outputPath = path.resolve(
     process.env.PHASE9_4_RESULTS_PATH ??
-      "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4-counterfactual-results.json"
+      path.resolve(__dirname, "../tests/fixtures/phase9-4-counterfactual-results.json")
   );
 
   console.log("=======================================================");

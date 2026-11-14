@@ -44,6 +44,8 @@ export interface StepLoopDurableState {
   readonly runId: string;
   readonly stepCount: number;
   readonly actionCount: number;
+  /** System-owned verification actions included in actionCount. Absent in older checkpoints (treated as 0). */
+  readonly verificationActionCount?: number;
   readonly consecutiveFailures: number;
   readonly proposalRejections: number;
   readonly consecutiveIdenticalReads: number;
@@ -136,8 +138,19 @@ export function validateStepLoopDurableState(
   const consecutiveIdenticalWrites = checkNonNegativeInteger("consecutiveIdenticalWrites", state.consecutiveIdenticalWrites);
   const consecutiveIneffectiveEdits = checkNonNegativeInteger("consecutiveIneffectiveEdits", state.consecutiveIneffectiveEdits);
 
+  const verificationActionCount =
+    state.verificationActionCount === undefined || state.verificationActionCount === null
+      ? 0
+      : checkNonNegativeInteger("verificationActionCount", state.verificationActionCount);
+
   // Cross-counter invariant checks
-  if (actionCount > stepCount) {
+  if (verificationActionCount > actionCount) {
+    throw new CheckpointSchemaValidationError(
+      `verificationActionCount (${verificationActionCount}) cannot exceed actionCount (${actionCount})`
+    );
+  }
+  // Only agent actions are bounded by reasoning steps; system verification actions are not proposed in a step.
+  if (actionCount - verificationActionCount > stepCount) {
     throw new CheckpointSchemaValidationError(
       `actionCount (${actionCount}) cannot exceed stepCount (${stepCount})`
     );
@@ -183,6 +196,7 @@ export function validateStepLoopDurableState(
     runId: expectedRunId,
     stepCount,
     actionCount,
+    ...(verificationActionCount > 0 ? { verificationActionCount } : {}),
     consecutiveFailures,
     proposalRejections,
     consecutiveIdenticalReads,
@@ -206,6 +220,8 @@ export interface SaveStepLoopCheckpointParams {
   readonly runId: string;
   readonly stepCount: number;
   readonly actionCount: number;
+  /** System-owned verification actions included in actionCount (default 0). */
+  readonly verificationActionCount?: number;
   readonly consecutiveFailures: number;
   readonly proposalRejections: number;
   readonly consecutiveIdenticalReads: number;
@@ -230,6 +246,7 @@ export function saveStepLoopCheckpoint(
     runId: params.runId,
     stepCount: params.stepCount,
     actionCount: params.actionCount,
+    ...(params.verificationActionCount ? { verificationActionCount: params.verificationActionCount } : {}),
     consecutiveFailures: params.consecutiveFailures,
     proposalRejections: params.proposalRejections,
     consecutiveIdenticalReads: params.consecutiveIdenticalReads,
@@ -429,8 +446,11 @@ export function reconcileCheckpointWithDurableEvidence(
       }
     }
     reconciledActionCount = actions.length;
-    // Step count must be at least actionCount to satisfy the actionCount <= stepCount invariant
-    reconciledStepCount = Math.max(validatedState.stepCount, reconciledActionCount);
+    // Step count must cover the agent actions to satisfy the agent-action <= stepCount invariant
+    reconciledStepCount = Math.max(
+      validatedState.stepCount,
+      reconciledActionCount - (validatedState.verificationActionCount ?? 0)
+    );
   }
 
   // 5. Event Sequence Reconciliation

@@ -339,7 +339,7 @@ describe("Milestone 2.25 Phase 2: Contract-Bound Evaluation Runner", () => {
       taskId: "task-rel-fail-closed",
       version: 1,
       description: "Benchmark task requiring verification",
-      fixture: { initialFiles: { "test.js": "process.exit(0);" } },
+      fixture: { initialFiles: { "test.js": "process.exit(1);" } },
       mission: {
         requiredCapabilities: ["process.execute"],
       },

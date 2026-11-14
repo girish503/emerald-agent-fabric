@@ -5,14 +5,14 @@
 - **Final Outcome**: `VERIFIED_HUMAN_APPROVED_MAINTENANCE_REPAIR`
 - **Task ID**: `sop-maint-1`
 - **Date**: 2026-10-23
-- **Operating Framework**: [docs/production/bounded-pilot-operating-procedure.md](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-pilot-operating-procedure.md)
-- **Architecture Policy**: [docs/adr/ADR-0033-bounded-human-in-the-loop-repair-with-small-local-models.md](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/adr/ADR-0033-bounded-human-in-the-loop-repair-with-small-local-models.md)
+- **Operating Framework**: [docs/production/bounded-pilot-operating-procedure.md](../../docs/production/bounded-pilot-operating-procedure.md)
+- **Architecture Policy**: [docs/adr/ADR-0033-bounded-human-in-the-loop-repair-with-small-local-models.md](../../docs/adr/ADR-0033-bounded-human-in-the-loop-repair-with-small-local-models.md)
 - **Model**: Local Ollama `qwen2.5-coder:3b` (`http://127.0.0.1:11434`)
 - **Cost**: ₹0.00 (100% local CPU inference)
-- **Target File**: [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts)
-- **Execution Script**: [`scripts/run-sop-maintenance-task-1.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/run-sop-maintenance-task-1.ts)
-- **Isolated Regression Probe**: [`scripts/verify-sop-maintenance-task-1.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/verify-sop-maintenance-task-1.ts)
-- **Evidence Artifact**: [`scratch/bounded-real-project-maintenance-task-1-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-maintenance-task-1-results.json)
+- **Target File**: [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts)
+- **Execution Script**: [`scripts/run-sop-maintenance-task-1.ts`](../../scripts/run-sop-maintenance-task-1.ts)
+- **Isolated Regression Probe**: [`scripts/verify-sop-maintenance-task-1.ts`](../../scripts/verify-sop-maintenance-task-1.ts)
+- **Evidence Artifact**: [`scratch/bounded-real-project-maintenance-task-1-results.json`](../../scratch/bounded-real-project-maintenance-task-1-results.json)
 - **Prior Artifacts Preserved**: All 8 Task A–D report and scratch result files preserved byte-for-byte.
 - **Committed Implementation**: Commit `f16e466` (`fix(security): harden workspace path containment and drive-relative traversal in ProductionToolGateway`)
 - **Current Staged Scope**: Documentation-only reconciliation of this report.
@@ -22,7 +22,7 @@
 ## 1. Maintenance Defect Identification & Isolated Reproduction
 
 ### A. The Defect: Prefix-Based Path Traversal Bypass
-In [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts), the method `resolveSafePath` guards tools against escaping the designated workspace:
+In [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts), the method `resolveSafePath` guards tools against escaping the designated workspace:
 ```typescript
 if (normalized.includes("..") || path.isAbsolute(normalized)) {
   const resolved = path.resolve(workspacePath, normalized);
@@ -38,7 +38,7 @@ if (normalized.includes("..") || path.isAbsolute(normalized)) {
 Because `normBase` lacked a trailing boundary delimiter (`/`), any sibling directory sharing the base workspace name prefix (e.g. workspace `/tmp/test-workspace` and sibling `/tmp/test-workspace-sibling/secret.txt`) bypassed the containment check (`normResolved.startsWith(normBase)` evaluated to `true`).
 
 ### B. Architectural Discrepancy
-In contrast, [`LineAnchoredEditor.resolveSafePath`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/repair/line-anchored-editor.ts#L58-L64) already correctly implemented the boundary delimiter check:
+In contrast, [`LineAnchoredEditor.resolveSafePath`](../../src/production/repair/line-anchored-editor.ts#L58-L64) already correctly implemented the boundary delimiter check:
 ```typescript
 const normWorkspaceWithSlash = normWorkspace.endsWith("/") ? normWorkspace : normWorkspace + "/";
 if (normTarget !== normWorkspace && !normTarget.startsWith(normWorkspaceWithSlash)) {
@@ -48,7 +48,7 @@ if (normTarget !== normWorkspace && !normTarget.startsWith(normWorkspaceWithSlas
 `ProductionToolGateway` was thus out of alignment with the existing safe containment contract.
 
 ### C. Isolated Defect Reproduction
-Prior to proposing or executing any repair, an isolated verification probe was implemented in [`scripts/verify-sop-maintenance-task-1.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/verify-sop-maintenance-task-1.ts) and executed against unpatched code:
+Prior to proposing or executing any repair, an isolated verification probe was implemented in [`scripts/verify-sop-maintenance-task-1.ts`](../../scripts/verify-sop-maintenance-task-1.ts) and executed against unpatched code:
 - Temporary workspace: `os.tmpdir()/emerald-sop-verify-*/test-workspace`
 - Sibling directory: `os.tmpdir()/emerald-sop-verify-*/test-workspace-sibling`
 - Test path: `../test-workspace-sibling/secret.txt`
@@ -58,10 +58,10 @@ Prior to proposing or executing any repair, an isolated verification probe was i
 
 ## 2. Governed 10-Step SOP Workflow Execution
 
-The maintenance task was executed strictly according to the 10 stages defined in [`docs/production/bounded-pilot-operating-procedure.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-pilot-operating-procedure.md):
+The maintenance task was executed strictly according to the 10 stages defined in [`docs/production/bounded-pilot-operating-procedure.md`](../../docs/production/bounded-pilot-operating-procedure.md):
 
 ### Step 1: Task Selection & Scope Definition
-- Target selected: Boundary containment fix in [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts).
+- Target selected: Boundary containment fix in [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts).
 - Mutation scope: Confined strictly to `ProductionToolGateway.resolveSafePath`.
 - Invariant: Zero synthetic defect creation; zero modification to frozen research phases (Phases 1–99).
 
@@ -98,7 +98,7 @@ The maintenance task was executed strictly according to the 10 stages defined in
 - Post-edit target file SHA-256 digest: `b6a8f0e6e8cbc0a6da81c94cb7a74ec2d80b2b985218979de8b51962c67e4857`.
 
 ### Step 8: Automated Regression & Verification
-- Isolated regression probe [`scripts/verify-sop-maintenance-task-1.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/verify-sop-maintenance-task-1.ts) executed:
+- Isolated regression probe [`scripts/verify-sop-maintenance-task-1.ts`](../../scripts/verify-sop-maintenance-task-1.ts) executed:
   - Traversal to sibling prefix directory: Cleanly denied (`Path traversal denied outside workspace: ../test-workspace-sibling/secret.txt`).
   - Normal relative path within workspace: Permitted (`normalPermitted: true`).
   - Workspace root path (`.`): Permitted (`rootPermitted: true`).
@@ -214,7 +214,7 @@ All changes outside `resolveSafePath` belong to previously implemented tasks and
 
 ## 6. Procedural Observations & SOP Validation Conclusions
 
-1. **Practicality of the 10-Step SOP**: The operating procedure established in [`docs/production/bounded-pilot-operating-procedure.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-pilot-operating-procedure.md) functioned smoothly without requiring ad-hoc modifications or governance bypasses.
+1. **Practicality of the 10-Step SOP**: The operating procedure established in [`docs/production/bounded-pilot-operating-procedure.md`](../../docs/production/bounded-pilot-operating-procedure.md) functioned smoothly without requiring ad-hoc modifications or governance bypasses.
 2. **Predictable Local Model Behavior**: With explicit schema templates and single-purpose prompting, the local 3B model consistently produced valid `edit_file_anchor` proposals within memory and CPU limits (~81s inference latency).
 3. **Fail-Closed Governance Integrity**: The human approval checkpoint and line-anchor uniqueness check ensured that no unapproved or ambiguous edits could be applied to mutable source code.
 4. **Zero Regressions**: The repair harmonized `ProductionToolGateway` with `LineAnchoredEditor` without breaking existing tools, test suites, or historical audit records.

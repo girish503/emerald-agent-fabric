@@ -1,0 +1,50 @@
+{
+  "uid": "emerald-09-runtime",
+  "title": "09 - Constrained Host & Node.js Runtime Resources",
+  "tags": ["emerald", "phase3", "host", "runtime"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Process Resident Memory (RSS) & V8 Heap Used (Bytes)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "emerald_process_resident_memory_bytes", "legendFormat": "RSS" },
+        { "refId": "B", "expr": "emerald_process_heap_used_bytes", "legendFormat": "Heap Used" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Node.js Event Loop Delay p95 / Max (Seconds)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "emerald_nodejs_eventloop_delay_p95_seconds", "legendFormat": "Event Loop p95" },
+        { "refId": "B", "expr": "emerald_nodejs_eventloop_delay_max_seconds", "legendFormat": "Event Loop max" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Disk Free Ratio & Process CPU Rate",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        { "refId": "A", "expr": "emerald_disk_free_bytes / clamp_min(emerald_disk_total_bytes, 1)", "legendFormat": "Disk Free Ratio" },
+        { "refId": "B", "expr": "sum by (mode) (rate(emerald_process_cpu_seconds_total[5m]))", "legendFormat": "CPU {{mode}}" }
+      ]
+    }
+  ]
+}

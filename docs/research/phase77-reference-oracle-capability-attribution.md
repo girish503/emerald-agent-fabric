@@ -61,7 +61,7 @@ To advance scientifically, Phase 77 does not introduce yet another heuristic syn
 ## 3. Reference Transformation Oracle Definition
 
 The reference oracle is defined as an isolated, typed research instrument:
-[`ReferenceTransformationOracle`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/reference-transformation-oracle.ts#L154-L352).
+[`ReferenceTransformationOracle`](../../src/application/reference-transformation-oracle.ts#L154-L352).
 
 It produces an explicit data structure:
 ```typescript
@@ -110,7 +110,7 @@ evidence
 
 ## 4. Oracle Access Firewall & Anti-Contamination Model
 
-To prevent oracle contamination of autonomous synthesis, an explicit firewall is enforced by [`OracleAccessFirewall`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/reference-transformation-oracle.ts#L112-L150):
+To prevent oracle contamination of autonomous synthesis, an explicit firewall is enforced by [`OracleAccessFirewall`](../../src/application/reference-transformation-oracle.ts#L112-L150):
 ```
 AUTONOMOUS_SYNTHESIS
         X
@@ -139,13 +139,13 @@ The experiment evaluates the frozen 15-task benchmark cohort (5 x L5, 5 x L6, 5 
 1. **Condition A — Frozen Autonomous Control**: Evaluates Phase 76 baseline (`SPEC-C` Condition D). Autonomous synthesis operates without oracle access.
 2. **Condition B — Reference Transformation**: Supplies the known-correct reference transformation directly to Emerald's transformation pipeline without invoking autonomous synthesis.
 3. **Condition C — Reference Transformation + Governed Full Stack**: Runs reference transformations through full governance (mission contracts, policy, typed AST plans, coordination, atomic materialization, execution, dual-gate clean room, fourfold attestation, evidence archiving, offline audit, and terminal authority).
-4. **Condition D — Blind Oracle Handoff**: Passes validated reference transformations through [`GovernedTransformationGate`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/reference-transformation-oracle.ts#L418-L540) ensuring strict encapsulation.
+4. **Condition D — Blind Oracle Handoff**: Passes validated reference transformations through [`GovernedTransformationGate`](../../src/application/reference-transformation-oracle.ts#L418-L540) ensuring strict encapsulation.
 
 ---
 
 ## 6. Pre-Execution Independent Oracle Validation
 
-Before execution, every reference transformation is independently verified by [`ReferenceTransformationOracle.validateReferenceTransformation`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/reference-transformation-oracle.ts#L354-L414):
+Before execution, every reference transformation is independently verified by [`ReferenceTransformationOracle.validateReferenceTransformation`](../../src/application/reference-transformation-oracle.ts#L354-L414):
 - **Task match**: 15/15 valid cohort tasks.
 - **Source-revision binding**: Bound to baseline commit `f779420`.
 - **Payload hash verification**: SHA-256 payload digest matches `oracleArtifactHash`.
@@ -203,11 +203,11 @@ The 12-row capability attribution matrix directly isolates the exact capability 
 ## 9. Downstream Infrastructure Verification
 
 When supplied with known-correct transformations, Emerald's downstream infrastructure performed flawlessly across all 15 tasks:
-1. **AST Atomic Materialization**: [`ASTAtomicMaterializer.materializePlan`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/typed-ast-rewrite-grammar.ts#L373-L498) materialized multi-file coordinated edits (`src/calc.js` and `src/parser.js`) without target resolution, syntax, or type check errors (15/15 = 100%).
+1. **AST Atomic Materialization**: [`ASTAtomicMaterializer.materializePlan`](../../src/application/typed-ast-rewrite-grammar.ts#L373-L498) materialized multi-file coordinated edits (`src/calc.js` and `src/parser.js`) without target resolution, syntax, or type check errors (15/15 = 100%).
 2. **Dual-Gate Clean-Room Verification**: Baseline F2P failed (0/1), baseline P2P passed (10/10); patched F2P passed (1/1), patched P2P passed (10/10); all 11 test assertions executed (anti-zero-test suite_ran = 11); scope respected (15/15 = 100%).
 3. **Fourfold Attestation Gate**: All 4 pillars satisfied: Contract Gate (PASS), Clean-Room Gate (PASS), Evidence Integrity Gate (PASS), Threshold Authority Gate with 2-of-3 Ed25519 signatures (PASS) (15/15 = 100%).
 4. **Evidence Bundle**: Complete evidence bundle generated with canonical content digest and provenance root (15/15 = 100%).
-5. **Standalone Offline Auditor**: [`OfflineAuditor`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/offline-auditor.ts) successfully verified replay, threshold signatures, monotonic sequence, and zero secret leakage (15/15 = 100%).
+5. **Standalone Offline Auditor**: [`OfflineAuditor`](../../src/application/offline-auditor.ts) successfully verified replay, threshold signatures, monotonic sequence, and zero secret leakage (15/15 = 100%).
 6. **Terminal Authority**: Terminal authority tokens granted, transitioning all 15 oracle tasks to `COMPLETED` (15/15 = 100%).
 
 ---

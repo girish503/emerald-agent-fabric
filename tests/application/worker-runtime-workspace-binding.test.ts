@@ -12,6 +12,8 @@ import { createAndActivateContract } from "./test-helpers.js";
 
 class RecordingProvider implements ExecutionProvider {
   readonly name = "in-process";
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly invocations: ExecutionRequest[] = [];
   async execute<TInput = unknown, TOutput = unknown>(request: ExecutionRequest<TInput>): Promise<ExecutionResult<TOutput>> {
     this.invocations.push(request);

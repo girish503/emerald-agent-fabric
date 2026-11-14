@@ -22,6 +22,7 @@ export type ProductionRunStatus =
   | "PLANNING"
   | "EXECUTING"
   | "VERIFYING"
+  | "WAITING_APPROVAL"
   | "COMPLETED"
   | "FAILED"
   | "TIMED_OUT"

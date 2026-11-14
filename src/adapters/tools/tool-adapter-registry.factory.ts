@@ -12,7 +12,9 @@
  * - run_command (SandboxedCommandToolAdapter)
  */
 
-import { ExecutionProvider } from "../../ports/execution-provider.port.js";
+import { ExecutionProvider, resolveProviderRole } from "../../ports/execution-provider.port.js";
+import { InvalidExecutionProviderRoleError } from "../../domain/errors.js";
+import { validateRoleToolAlignment } from "../../domain/super-agent.js";
 import {
   StaticToolAdapterRegistry,
   ToolAdapterRegistryPort,
@@ -59,8 +61,21 @@ export function createWorkspaceToolAdapterRegistry(
   registry.register(new GitDiffToolAdapter(workspacePort));
 
   if (executionProvider) {
+    const role = resolveProviderRole(executionProvider);
+    if (role !== "PHYSICAL") {
+      throw new InvalidExecutionProviderRoleError(
+        executionProvider.name,
+        "PHYSICAL",
+        role,
+        `createWorkspaceToolAdapterRegistry: executionProvider '${executionProvider.name}' has role '${role}'. Only PHYSICAL execution providers can be registered for workspace command execution.`
+      );
+    }
     registry.register(new SandboxedCommandToolAdapter(executionProvider, workspacePort));
   }
 
+  validateRoleToolAlignment(
+    registry.listAdapters().map((a) => a.toolName),
+    executionProvider ? undefined : { allowMissingTools: ["run_command"] }
+  );
   return registry;
 }
