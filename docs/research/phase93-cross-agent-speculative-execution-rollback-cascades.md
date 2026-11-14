@@ -20,8 +20,8 @@ $$\boxed{\text{Speculation may expand the search space. It must never expand aut
 ---
 
 ## 3. Baseline
-- **Authoritative Phase 92 Baseline**: [`a3ea89a080750ef1da8be23d9b06366b51813d2d`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase92-cooperative-memory-working-tree-reconciliation.md).
-- **Historical Phase 91 Baseline**: [`7e7ff6bec71756df2446872fce191f5f553b8999`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase91-multi-agent-resource-negotiation.md).
+- **Authoritative Phase 92 Baseline**: [`a3ea89a080750ef1da8be23d9b06366b51813d2d`](../../docs/research/phase92-cooperative-memory-working-tree-reconciliation.md).
+- **Historical Phase 91 Baseline**: [`7e7ff6bec71756df2446872fce191f5f553b8999`](../../docs/research/phase91-multi-agent-resource-negotiation.md).
 - Phase 92 established: Governed multi-agent cooperative memory, working-tree reconciliation, monotonic record lifecycles, four merge policies, and cumulative controls N1–N510 passing.
 - Phase 93 builds on top of Phase 92 without modifying historical semantics or weakening sovereign clean-room verification.
 
@@ -64,7 +64,7 @@ No speculative branch, regardless of confidence or local test success, can grant
 ---
 
 ## 5. Speculative Branch Schema
-Implemented in [`src/domain/speculative-execution.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/speculative-execution.ts):
+Implemented in [`src/domain/speculative-execution.ts`](../../src/domain/speculative-execution.ts):
 ```typescript
 export interface SpeculativeBranch {
   readonly branchId: string;
@@ -135,7 +135,7 @@ Snapshots provide atomic, tamper-evident records enabling bit-identical replay a
 ---
 
 ## 9. Speculative Branch Store
-Implemented in [`src/application/speculative-branch-store.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/speculative-branch-store.ts):
+Implemented in [`src/application/speculative-branch-store.ts`](../../src/application/speculative-branch-store.ts):
 - Append-oriented in-memory and durable store.
 - Silent deletion or in-place erasure is mathematically prohibited.
 - Tracks fork ancestry (`branchAncestryLookup`) and transitive descendants (`getDescendants`).
@@ -275,7 +275,7 @@ The reconciler strictly enforces seven cryptographic fences:
 ---
 
 ## 25. Rollback Idempotency
-Implemented in [`src/application/speculative-rollback-manager.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/speculative-rollback-manager.ts):
+Implemented in [`src/application/speculative-rollback-manager.ts`](../../src/application/speculative-rollback-manager.ts):
 - Every rollback generates a deterministic `rollbackId` bound to target branch and sequence.
 - Repeating `executeRollback` returns the indexed `RollbackEvent` with `isIdempotentReplay: true`.
 - Zero side-effects or duplicated history records occur across 50/50 repeated invocation trials ($100\%$ idempotent).

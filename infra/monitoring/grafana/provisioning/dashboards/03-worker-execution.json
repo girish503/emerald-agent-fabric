@@ -1,0 +1,41 @@
+{
+  "uid": "emerald-03-execution",
+  "title": "03 - Multi-Agent & Worker Execution",
+  "tags": ["emerald", "phase3", "execution"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Multi-Agent Mission Decompositions",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum by (outcome, execution_mode) (rate(emerald_multi_agent_decompositions_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{outcome}}" }]
+    },
+    {
+      "id": 2,
+      "title": "Fail-Closed Mission Synthesis Verdicts",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum by (verdict, execution_mode) (rate(emerald_multi_agent_synthesis_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{verdict}}" }]
+    },
+    {
+      "id": 3,
+      "title": "Run Completion & Status Transitions",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [{ "refId": "A", "expr": "sum by (status) (emerald_runs_total{execution_mode=~\"$execution_mode\"})", "legendFormat": "{{status}}" }]
+    }
+  ]
+}

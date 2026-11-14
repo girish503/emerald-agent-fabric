@@ -120,6 +120,27 @@ export type RunRecoveredEvent = DomainEvent<RunRecoveredPayload> & {
   readonly eventType: "run.recovered";
 };
 
+export interface VerificationStartedPayload {
+  readonly workerId: string;
+  readonly leaseId: string;
+}
+
+export type VerificationStartedEvent = DomainEvent<VerificationStartedPayload> & {
+  readonly eventType: "verification.started";
+};
+
+export interface RunWaitingApprovalPayload {
+  readonly approvalId: string;
+  readonly operation: string;
+  readonly previousStatus: string;
+  readonly workerId: string | null;
+  readonly leaseId: string | null;
+}
+
+export type RunWaitingApprovalEvent = DomainEvent<RunWaitingApprovalPayload> & {
+  readonly eventType: "run.waiting_approval";
+};
+
 export interface PolicyEvaluatedPayload {
   readonly runId: string;
   readonly taskId: string;
@@ -515,11 +536,149 @@ export type AnyAttemptEvent =
   | AttemptCancelledEvent
   | AttemptUnknownEvent;
 
+
+export type ModelInferenceOutcome =
+  | "SUCCESS"
+  | "TIMEOUT"
+  | "CANCELLED"
+  | "INVALID_RESPONSE"
+  | "PROVIDER_UNAVAILABLE"
+  | "ERROR";
+
+export interface ModelInferenceTelemetryPayload {
+  readonly runId: string;
+  readonly taskId: string;
+  readonly stepNumber: number;
+  readonly workerId: string;
+  readonly leaseId: string;
+  readonly requestId: string;
+  readonly model: string;
+  readonly provider: string;
+  readonly outcome: ModelInferenceOutcome;
+  readonly startedAt: string; // ISO 8601 UTC
+  readonly completedAt: string; // ISO 8601 UTC
+  readonly wallClockDurationMs: number;
+  readonly totalDurationNs?: number | null;
+  readonly loadDurationNs?: number | null;
+  readonly promptEvalDurationNs?: number | null;
+  readonly evalDurationNs?: number | null;
+  readonly promptEvalCount?: number | null;
+  readonly evalCount?: number | null;
+  readonly doneReason?: string | null;
+  readonly finishReason?: string | null;
+  readonly modelParameters?: {
+    readonly temperature?: number;
+    readonly numPredict?: number;
+    readonly numCtx?: number;
+    readonly keepAlive?: string;
+  };
+  readonly error?: {
+    readonly code?: string;
+    readonly message?: string;
+    readonly details?: unknown;
+  } | null;
+}
+
+export type ModelInferenceTelemetryEvent = DomainEvent<ModelInferenceTelemetryPayload> & {
+  readonly eventType: "model.inference.telemetry";
+};
+
+// ============================================================================
+// Multi-Agent & Super Agent Orchestration Events (Phase 2)
+// ============================================================================
+
+export interface SubagentDecomposedPayload {
+  readonly missionTaskId: string;
+  readonly decompositionHash: string;
+  readonly totalSubtasks: number;
+  readonly subtaskIds: readonly string[];
+}
+
+export type SubagentDecomposedEvent = DomainEvent<SubagentDecomposedPayload> & {
+  readonly eventType: "subagent.decomposed";
+};
+
+export interface SubagentSpawnedPayload {
+  readonly missionTaskId: string;
+  readonly subtaskId: string;
+  readonly childTaskId: string;
+  readonly childRunId: string;
+  readonly role: string;
+  readonly allowedCapabilities: readonly string[];
+  readonly dependencies: readonly string[];
+}
+
+export type SubagentSpawnedEvent = DomainEvent<SubagentSpawnedPayload> & {
+  readonly eventType: "subagent.spawned";
+};
+
+export interface SubagentCompletedPayload {
+  readonly missionTaskId: string;
+  readonly subtaskId: string;
+  readonly childTaskId: string;
+  readonly childRunId: string;
+  readonly outcome: string;
+}
+
+export type SubagentCompletedEvent = DomainEvent<SubagentCompletedPayload> & {
+  readonly eventType: "subagent.completed";
+};
+
+export interface SubagentVerifiedPayload {
+  readonly missionTaskId: string;
+  readonly subtaskId: string;
+  readonly childTaskId: string;
+  readonly childRunId: string;
+  readonly verificationStatus: "VERIFIED";
+  readonly evidenceCount: number;
+}
+
+export type SubagentVerifiedEvent = DomainEvent<SubagentVerifiedPayload> & {
+  readonly eventType: "subagent.verified";
+};
+
+export interface SubagentRejectedPayload {
+  readonly missionTaskId: string;
+  readonly subtaskId: string;
+  readonly childTaskId: string;
+  readonly childRunId: string;
+  readonly verificationStatus: "REJECTED" | "BLOCKED" | "UNVERIFIABLE";
+  readonly reason: string;
+}
+
+export type SubagentRejectedEvent = DomainEvent<SubagentRejectedPayload> & {
+  readonly eventType: "subagent.rejected";
+};
+
+export interface MissionSynthesizedPayload {
+  readonly missionTaskId: string;
+  readonly verdict: "SUCCESS" | "FAILED" | "BLOCKED" | "IN_PROGRESS";
+  readonly totalSubtasks: number;
+  readonly verifiedCount: number;
+  readonly rejectedCount: number;
+  readonly blockedCount: number;
+  readonly summary: string;
+}
+
+export type MissionSynthesizedEvent = DomainEvent<MissionSynthesizedPayload> & {
+  readonly eventType: "mission.synthesized";
+};
+
+export type AnyMultiAgentEvent =
+  | SubagentDecomposedEvent
+  | SubagentSpawnedEvent
+  | SubagentCompletedEvent
+  | SubagentVerifiedEvent
+  | SubagentRejectedEvent
+  | MissionSynthesizedEvent;
+
 export type AnyRunEvent =
   | RunCreatedEvent
   | RunQueuedEvent
   | WorkerClaimedEvent
   | RunStartedEvent
+  | VerificationStartedEvent
+  | RunWaitingApprovalEvent
   | RunCompletedEvent
   | RunFailedEvent
   | RunTimedOutEvent

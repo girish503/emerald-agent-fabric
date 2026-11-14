@@ -17,6 +17,22 @@ import { RunCoordinator } from "./run-coordinator.js";
 import { ClockPort } from "../ports/clock.port.js";
 import { StateStorePort, StorageTransaction } from "../ports/state-store.port.js";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
+export interface TaskRouterTelemetrySink {
+  recordRouterSubmission(input: {
+    readonly taskId: string;
+    readonly runId?: string;
+    readonly parentTaskId?: string;
+    readonly outcome: "admitted" | "duplicate" | "rejected";
+    readonly durationMs: number;
+  }): void;
+  recordDispatchTick(input: {
+    readonly admittedCount: number;
+    readonly cancelledCount: number;
+    readonly inFlight: number;
+    readonly capacity: number;
+    readonly durationMs: number;
+  }): void;
+}
 
 export type RouterRunStatus = string;
 
@@ -27,6 +43,7 @@ export interface TaskRouterConfig {
   readonly maxDepth?: number;
   /** Max direct children per parent (default 8). */
   readonly maxChildrenPerParent?: number;
+  readonly telemetry?: TaskRouterTelemetrySink;
 }
 
 export class TaskRouterConfigError extends Error {
@@ -56,6 +73,8 @@ export interface SubmitTaskParams {
   readonly taskId: string;
   /** Parent must already be routed. Omit for a root task. */
   readonly parentTaskId?: string;
+  /** Explicit multi-parent DAG predecessor task IDs (every predecessor must reach COMPLETED before admission). */
+  readonly dependsOnTaskIds?: readonly string[];
   readonly maxAttempts?: number;
   readonly timeoutMs?: number;
   readonly maxOutputBytes?: number;
@@ -81,6 +100,7 @@ export interface TaskTreeNodeStatus {
   readonly taskId: string;
   readonly runId: string | null;
   readonly runStatus: RouterRunStatus | null;
+  readonly dependsOnTaskIds?: readonly string[];
   readonly children: readonly TaskTreeNodeStatus[];
 }
 
@@ -114,6 +134,7 @@ export class TaskRouterService {
   private readonly maxConcurrentRuns: number;
   private readonly maxDepth: number;
   private readonly maxChildrenPerParent: number;
+  private readonly telemetry?: TaskRouterTelemetrySink;
 
   constructor(
     private readonly stateStore: StateStorePort,
@@ -125,6 +146,7 @@ export class TaskRouterService {
       throw new TaskRouterConfigError(`maxConcurrentRuns must be 1 or 2, received ${config.maxConcurrentRuns}`);
     }
     this.maxConcurrentRuns = config.maxConcurrentRuns;
+    this.telemetry = config.telemetry;
     this.maxDepth = config.maxDepth ?? 4;
     this.maxChildrenPerParent = config.maxChildrenPerParent ?? 8;
     if (!Number.isInteger(this.maxDepth) || this.maxDepth < 1) {
@@ -148,12 +170,37 @@ export class TaskRouterService {
    * A crash between 3 and 4 is repaired by retrying: step 3 returns the same run for the same key.
    */
   submitTask(params: SubmitTaskParams): SubmitTaskResult {
+    const startMs = Date.now();
+    try {
+      const res = this.submitTaskCore(params);
+      this.telemetry?.recordRouterSubmission({
+        taskId: res.taskId,
+        runId: res.runId,
+        parentTaskId: params.parentTaskId,
+        outcome: res.duplicate ? "duplicate" : "admitted",
+        durationMs: Date.now() - startMs,
+      });
+      return res;
+    } catch (err) {
+      this.telemetry?.recordRouterSubmission({
+        taskId: params.taskId,
+        parentTaskId: params.parentTaskId,
+        outcome: "rejected",
+        durationMs: Date.now() - startMs,
+      });
+      throw err;
+    }
+  }
+
+  private submitTaskCore(params: SubmitTaskParams): SubmitTaskResult {
     if (!params.submissionKey || params.submissionKey.trim().length === 0) {
       throw new TaskRouterTopologyError("submissionKey must be a non-empty string");
     }
+    const normalizedDeps = this.normalizeDependsOn(params.dependsOnTaskIds);
     const requestHash = computeCanonicalHash({
       taskId: params.taskId,
       parentTaskId: params.parentTaskId ?? null,
+      ...(normalizedDeps.length > 0 ? { dependsOnTaskIds: normalizedDeps } : {}),
       maxAttempts: params.maxAttempts ?? null,
       timeoutMs: params.timeoutMs ?? null,
       maxOutputBytes: params.maxOutputBytes ?? null,
@@ -174,6 +221,7 @@ export class TaskRouterService {
         throw new TaskRouterTopologyError(`task '${params.taskId}' is already routed under a different key`);
       }
       this.validateParent(tx, params.taskId, params.parentTaskId);
+      this.validateDependencies(tx, params.taskId, params.parentTaskId, normalizedDeps);
     });
 
     // 3. Create run (CREATED). The run idempotency key is the submission key.
@@ -210,6 +258,7 @@ export class TaskRouterService {
       const now = this.clock.nowIso();
       if (params.parentTaskId) {
         const depth = this.validateParent(tx, params.taskId, params.parentTaskId);
+        this.validateDependencies(tx, params.taskId, params.parentTaskId, normalizedDeps);
         const ordinal = tx.listChildTaskRelations(params.parentTaskId).length;
         tx.insertTaskRelation({
           childTaskId: params.taskId,
@@ -218,6 +267,20 @@ export class TaskRouterService {
           ordinal,
           createdAt: now,
         });
+      } else if (normalizedDeps.length > 0) {
+        this.validateDependencies(tx, params.taskId, undefined, normalizedDeps);
+      }
+      const effectiveDeps: string[] = [];
+      for (const dep of normalizedDeps) {
+        if (!effectiveDeps.includes(dep)) {
+          effectiveDeps.push(dep);
+        }
+      }
+      if (params.parentTaskId && !effectiveDeps.includes(params.parentTaskId)) {
+        effectiveDeps.push(params.parentTaskId);
+      }
+      if (effectiveDeps.length > 0 && tx.insertTaskDependencies) {
+        tx.insertTaskDependencies(params.taskId, effectiveDeps, now);
       }
       tx.insertRouterSubmission({
         submissionKey: params.submissionKey,
@@ -295,16 +358,158 @@ export class TaskRouterService {
    *  Phase B: in ONE transaction, count global in-flight runs and queue ready runs up to the cap.
    */
   dispatchTick(): DispatchTickResult {
+    const startMs = Date.now();
+    const res = this.dispatchTickCore();
+    this.telemetry?.recordDispatchTick({
+      admittedCount: res.admittedRunIds.length,
+      cancelledCount: res.cancelledRunIds.length,
+      inFlight: res.inFlight,
+      capacity: res.capacity,
+      durationMs: Date.now() - startMs,
+    });
+    return res;
+  }
+
+  private normalizeDependsOn(dependsOn?: readonly string[]): readonly string[] {
+    if (!dependsOn || dependsOn.length === 0) return [];
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const raw of dependsOn) {
+      if (typeof raw !== "string" || raw.trim().length === 0) {
+        throw new TaskRouterTopologyError("dependsOnTaskIds entries must be non-empty strings");
+      }
+      const dep = raw.trim();
+      if (seen.has(dep)) {
+        throw new TaskRouterTopologyError(`duplicate dependency '${dep}' in dependsOnTaskIds`);
+      }
+      seen.add(dep);
+      out.push(dep);
+    }
+    return out;
+  }
+
+  private resolveTaskTenantId(tx: StorageTransaction, taskId: string): string | null {
+    const activeContractTenant = tx.findContractsByTaskId(taskId, "ACTIVE")[0]?.spec.policy.tenantId;
+    if (typeof activeContractTenant === "string" && activeContractTenant.trim().length > 0) {
+      return activeContractTenant.trim();
+    }
+    const contractTenant = tx.findContractsByTaskId(taskId)[0]?.spec.policy.tenantId;
+    if (typeof contractTenant === "string" && contractTenant.trim().length > 0) {
+      return contractTenant.trim();
+    }
+    const payload = tx.getTask(taskId)?.inputPayload as Record<string, unknown> | undefined;
+    const rawPayloadTenant = payload?.tenantId;
+    if (typeof rawPayloadTenant === "string" && rawPayloadTenant.trim().length > 0) {
+      return rawPayloadTenant.trim();
+    }
+    return null;
+  }
+
+  private validateDependencies(
+    tx: StorageTransaction,
+    childTaskId: string,
+    parentTaskId: string | undefined,
+    dependsOnTaskIds: readonly string[]
+  ): void {
+    const existingDeps = tx.listTaskDependencies ? tx.listTaskDependencies(childTaskId) : [];
+    if (existingDeps.length > 0) {
+      throw new TaskRouterTopologyError(`dependencies for task '${childTaskId}' are immutable once recorded`);
+    }
+
+    const preds: string[] = [];
+    if (parentTaskId) preds.push(parentTaskId);
+    for (const dep of dependsOnTaskIds) {
+      if (!preds.includes(dep)) preds.push(dep);
+    }
+    if (preds.length === 0) return;
+
+    const childTenant = this.resolveTaskTenantId(tx, childTaskId);
+    for (const depId of preds) {
+      if (depId === childTaskId) {
+        throw new TaskRouterTopologyError(`task '${childTaskId}' cannot depend on itself`);
+      }
+      if (!tx.getTask(depId) || !tx.getRouterSubmissionByTaskId(depId)) {
+        throw new TaskRouterTopologyError(`dependency task '${depId}' is not routed`);
+      }
+      const depTenant = this.resolveTaskTenantId(tx, depId);
+      if ((childTenant || depTenant) && childTenant !== depTenant) {
+        throw new TaskRouterTopologyError(`cross-tenant dependency '${depId}' -> '${childTaskId}' rejected`);
+      }
+
+      const relChildren = tx.listChildTaskRelations(depId).map((r) => r.childTaskId);
+      const depChildren = tx.listDependentTaskIds ? tx.listDependentTaskIds(depId) : [];
+      const uniqueChildren = new Set<string>([...relChildren, ...depChildren]);
+      if (!uniqueChildren.has(childTaskId) && uniqueChildren.size >= this.maxChildrenPerParent) {
+        throw new TaskRouterTopologyError(
+          `parent '${depId}' already has ${this.maxChildrenPerParent} dependents (maxChildrenPerParent)`
+        );
+      }
+    }
+
+    // Cycle detection AND longest-path DAG depth ceiling across all predecessors
+    const depthMemo = new Map<string, number>();
+    const visiting = new Set<string>();
+    const computeNodeDepth = (nodeId: string): number => {
+      if (nodeId === childTaskId) {
+        throw new TaskRouterTopologyError(`cycle detected involving task '${childTaskId}'`);
+      }
+      const cached = depthMemo.get(nodeId);
+      if (cached !== undefined) return cached;
+      if (visiting.has(nodeId)) {
+        throw new TaskRouterTopologyError(`existing cycle detected at '${nodeId}'`);
+      }
+      visiting.add(nodeId);
+      const rel = tx.getTaskRelation(nodeId);
+      const nodePreds = this.getEffectivePredecessorTaskIds(tx, nodeId, rel?.parentTaskId ?? null);
+      let maxPredDepth = -1;
+      for (const p of nodePreds) {
+        const d = computeNodeDepth(p);
+        if (d > maxPredDepth) maxPredDepth = d;
+      }
+      visiting.delete(nodeId);
+      const depth = nodePreds.length === 0 ? 0 : 1 + maxPredDepth;
+      depthMemo.set(nodeId, depth);
+      return depth;
+    };
+
+    let maxParentDepth = 0;
+    for (const pred of preds) {
+      const d = computeNodeDepth(pred);
+      if (d > maxParentDepth) maxParentDepth = d;
+    }
+    const childDagDepth = 1 + maxParentDepth;
+    if (childDagDepth > this.maxDepth) {
+      throw new TaskRouterTopologyError(
+        `DAG depth ${childDagDepth} exceeds maxDepth ${this.maxDepth}`
+      );
+    }
+  }
+
+  private getEffectivePredecessorTaskIds(
+    tx: StorageTransaction,
+    taskId: string,
+    fallbackParentTaskId: string | null
+  ): readonly string[] {
+    const deps = tx.listTaskDependencies ? tx.listTaskDependencies(taskId) : [];
+    if (deps.length > 0) {
+      return deps.map((d) => d.parentTaskId);
+    }
+    return fallbackParentTaskId ? [fallbackParentTaskId] : [];
+  }
+
+  private dispatchTickCore(): DispatchTickResult {
     const cancelledRunIds: string[] = [];
 
-    // Phase A: cascade cancellation to never-started descendants of failed/cancelled parents.
+    // Phase A: cascade cancellation to never-started descendants when ANY predecessor ended unsuccessfully.
     const candidates = this.stateStore.transaction((tx) => tx.listDispatchCandidates());
     for (const c of candidates) {
-      if (!c.parentTaskId) continue;
-      const verdict = this.stateStore.transaction((tx) => this.parentVerdict(tx, c.parentTaskId!));
-      if (verdict === "DEAD") {
+      const deadPred = this.stateStore.transaction((tx) => {
+        const preds = this.getEffectivePredecessorTaskIds(tx, c.taskId, c.parentTaskId);
+        return preds.find((predId) => this.parentVerdict(tx, predId) === "DEAD") ?? null;
+      });
+      if (deadPred) {
         try {
-          this.coordinator.cancelRun(c.runId, `Parent task '${c.parentTaskId}' did not complete`);
+          this.coordinator.cancelRun(c.runId, `Predecessor task '${deadPred}' did not complete`);
           cancelledRunIds.push(c.runId);
         } catch {
           // Lost a race (already cancelled/queued by another actor); the next tick re-evaluates from SQLite.
@@ -312,7 +517,7 @@ export class TaskRouterService {
       }
     }
 
-    // Phase B: atomic admission.
+    // Phase B: atomic admission only when ALL predecessors are READY.
     const admittedRunIds: string[] = [];
     let inFlight = 0;
     let capacity = 0;
@@ -322,7 +527,9 @@ export class TaskRouterService {
       if (capacity === 0) return;
       for (const c of tx.listDispatchCandidates()) {
         if (admittedRunIds.length >= capacity) break;
-        if (c.parentTaskId && this.parentVerdict(tx, c.parentTaskId) !== "READY") continue;
+        const preds = this.getEffectivePredecessorTaskIds(tx, c.taskId, c.parentTaskId);
+        const allReady = preds.every((predId) => this.parentVerdict(tx, predId) === "READY");
+        if (!allReady) continue;
         this.coordinator.queueRunInTransaction(tx, c.runId);
         admittedRunIds.push(c.runId);
       }
@@ -347,6 +554,17 @@ export class TaskRouterService {
     if (!run) return "DEAD";
     if (run.status === "COMPLETED") return "READY";
     if (TERMINAL_STATUSES.includes(run.status)) return "DEAD";
+    const boundContract = run.contractBinding
+      ? tx.getContract(run.contractBinding.contractId, run.contractBinding.version)
+      : null;
+    if (boundContract && boundContract.lifecycle.status === "REVOKED") return "DEAD";
+    const activeContracts = tx.findContractsByTaskId(parentTaskId, "ACTIVE");
+    const anyRevoked = tx.findContractsByTaskId(parentTaskId).some((c) => c.lifecycle.status === "REVOKED");
+    if (activeContracts.length === 0 && anyRevoked) return "DEAD";
+    const events = tx.getEventsForRun(sub.runId);
+    if (events.some((e) => e.eventType === "subagent.decomposed")) {
+      return "READY";
+    }
     return "WAIT";
   }
 
@@ -369,8 +587,20 @@ export class TaskRouterService {
         const run = sub ? tx.getRun(sub.runId) : null;
         const status = run?.status ?? null;
         if (status) counts[status] = (counts[status] ?? 0) + 1;
-        const children = tx.listChildTaskRelations(taskId).map((r) => build(r.childTaskId, visited));
-        return { taskId, runId: sub?.runId ?? null, runStatus: status, children };
+        const dependsOnTaskIds = this.getEffectivePredecessorTaskIds(
+          tx,
+          taskId,
+          tx.getTaskRelation(taskId)?.parentTaskId ?? null
+        );
+        const branchVisited = new Set(visited);
+        const children = tx.listChildTaskRelations(taskId).map((r) => build(r.childTaskId, branchVisited));
+        return {
+          taskId,
+          runId: sub?.runId ?? null,
+          runStatus: status,
+          ...(dependsOnTaskIds.length > 0 ? { dependsOnTaskIds } : {}),
+          children,
+        };
       };
       return build(rootTaskId, new Set());
     });
@@ -413,6 +643,9 @@ export class TaskRouterService {
         const run = sub ? tx.getRun(sub.runId) : null;
         if (run) out.push({ runId: run.runId, status: run.status });
         for (const rel of tx.listChildTaskRelations(taskId)) queue.push(rel.childTaskId);
+        if (tx.listDependentTaskIds) {
+          for (const depChildId of tx.listDependentTaskIds(taskId)) queue.push(depChildId);
+        }
       }
       return out;
     });

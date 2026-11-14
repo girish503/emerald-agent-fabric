@@ -5,8 +5,8 @@
 Phase 44 investigated whether enforcing grammar-constrained structured output via a multi-branch JSON Schema eliminates parameter-name hallucinations in local open-weight language models (`qwen2.5-coder:1.5b`), and whether resolving this structural failure enables the model to autonomously repair benchmark task `EAF-BM-01` (`src/calc.js` off-by-one arithmetic bug) under strict fail-closed governance.
 
 The experimental campaign spanned four sequential sub-phases:
-1. **Phase 44A (Offline Contract Proof)**: Authored and executed an offline contract test suite ([`tests/contract/action-proposal-schema-parity.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/contract/action-proposal-schema-parity.test.ts)) with 27/27 tests passing, verifying mathematical parity between the candidate 7-branch discriminated-union JSON Schema and authoritative Zod domain schemas, and proving strict rejection of extraneous keys without live model inference.
-2. **Phase 44B (Production Schema Promotion)**: Promoted the 7-branch [`ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts#L90-L250) into production runtime code without modifying authoritative validation or policy evaluation layers.
+1. **Phase 44A (Offline Contract Proof)**: Authored and executed an offline contract test suite ([`tests/contract/action-proposal-schema-parity.test.ts`](../../tests/contract/action-proposal-schema-parity.test.ts)) with 27/27 tests passing, verifying mathematical parity between the candidate 7-branch discriminated-union JSON Schema and authoritative Zod domain schemas, and proving strict rejection of extraneous keys without live model inference.
+2. **Phase 44B (Production Schema Promotion)**: Promoted the 7-branch [`ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA`](../../src/application/live-agent-brain.ts#L90-L250) into production runtime code without modifying authoritative validation or policy evaluation layers.
 3. **Phase 44C (Single-Request Preflight)**: Executed exactly one governed live request against local Ollama (`qwen2.5-coder:1.5b`). The Ollama GBNF grammar compiler successfully compiled the schema with zero errors, and the model emitted valid JSON referencing `"path": "src/calc.js"` instead of `"filePath"` in 63,739 ms. Classification: `PREFLIGHT_PASS`.
 4. **Phase 44D (Governed Multi-Step Repair Trial)**: Executed a single full repair trial (`maxSteps: 5`, `maxProposalRejections: 3`, timeout 120,000 ms/step) on `EAF-BM-01`. The model achieved 100% schema compliance and zero proposal rejections across all 5 steps. However, it proposed `read_file` on `src/calc.js` on every step, never transitioning to `write_file` or goal completion, and exhausted its step budget. Classification: `REPAIR_FAILED`.
 
@@ -14,7 +14,7 @@ The experimental campaign spanned four sequential sub-phases:
 
 ## 1. Background & The Phase 43 Parameter Collapse
 
-In Phase 43 (documented in [`docs/research/phase43-gate-b-empirical-research-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase43-gate-b-empirical-research-report.md) and [`docs/adr/ADR-0034-governed-rejection-feedback-and-local-model-recovery-boundaries.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/adr/ADR-0034-governed-rejection-feedback-and-local-model-recovery-boundaries.md)), autonomous repair trials of `EAF-BM-01` with `qwen2.5-coder:1.5b` encountered a persistent parameter-key divergence:
+In Phase 43 (documented in [`docs/research/phase43-gate-b-empirical-research-report.md`](../../docs/research/phase43-gate-b-empirical-research-report.md) and [`docs/adr/ADR-0034-governed-rejection-feedback-and-local-model-recovery-boundaries.md`](../../docs/adr/ADR-0034-governed-rejection-feedback-and-local-model-recovery-boundaries.md)), autonomous repair trials of `EAF-BM-01` with `qwen2.5-coder:1.5b` encountered a persistent parameter-key divergence:
 - On Step 1 (cold start), the model successfully proposed `read_file` with `{"path": "src/calc.js"}`.
 - On Step 2 and subsequent steps, after observing file contents, the model repeatedly proposed `{"filePath": "src/calc.js"}`.
 - Because the authoritative runtime Zod schema enforces `.strict()`, `ProposalValidator` rejected every proposal containing `"filePath"`.
@@ -29,7 +29,7 @@ Phase 44 was initiated to test an architectural alternative: constraining genera
 
 ### 2.1 Phase 44A — Minimal Offline Proof & Schema Parity
 - **Objective**: Prove offline that a candidate discriminated-union JSON Schema exactly mirrors domain Zod ASTs and strictly excludes extraneous keys without modifying production source code or executing live inference.
-- **Implementation**: Authored [`tests/contract/action-proposal-schema-parity.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/contract/action-proposal-schema-parity.test.ts).
+- **Implementation**: Authored [`tests/contract/action-proposal-schema-parity.test.ts`](../../tests/contract/action-proposal-schema-parity.test.ts).
 - **Results**:
   - 27/27 contract tests passed in 57 ms.
   - Verified 7 distinct branches: 1 goal-completion branch (`isGoalReached: true`) and 6 tool-invocation branches (`read_file`, `write_file`, `search_code`, `git_status`, `git_diff`, `run_command`).
@@ -40,8 +40,8 @@ Phase 44 was initiated to test an architectural alternative: constraining genera
 ### 2.2 Phase 44B — Production Schema Promotion
 - **Objective**: Promote the verified 7-branch schema into production runtime code while keeping authoritative validation and security policy completely unweakened.
 - **Implementation**:
-  - Replaced the generic `{ type: "object" }` `inputPayload` in [`src/application/live-agent-brain.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/live-agent-brain.ts) with the 7-branch discriminated-union schema.
-  - Updated Test 43 in [`tests/application/live-agent-brain.test.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/tests/application/live-agent-brain.test.ts) to assert the 7 branches and tool-specific properties.
+  - Replaced the generic `{ type: "object" }` `inputPayload` in [`src/application/live-agent-brain.ts`](../../src/application/live-agent-brain.ts) with the 7-branch discriminated-union schema.
+  - Updated Test 43 in [`tests/application/live-agent-brain.test.ts`](../../tests/application/live-agent-brain.test.ts) to assert the 7 branches and tool-specific properties.
 - **Verification**:
   - Contract suite: 27/27 passed.
   - Application suite: 76/76 passed.
@@ -51,7 +51,7 @@ Phase 44 was initiated to test an architectural alternative: constraining genera
 ### 2.3 Phase 44C — Single-Request Live Preflight
 - **Objective**: Test whether the local Ollama daemon (0.5.x) compiles the 7-branch JSON Schema via GBNF grammar without error or timeout, and whether `qwen2.5-coder:1.5b` emits `"path"` instead of `"filePath"` on `EAF-BM-01`.
 - **Configuration**: `maxSteps: 1`, timeout: 120,000 ms, local Ollama at `http://127.0.0.1:11434`.
-- **Results** (recorded in [`scratch/phase44c-preflight-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase44c-preflight-results.json)):
+- **Results** (recorded in [`scratch/phase44c-preflight-results.json`](../../scratch/phase44c-preflight-results.json)):
   - **Classification**: `PREFLIGHT_PASS`.
   - Wall-clock time: 64,167 ms (model inference: 63,739 ms).
   - Tokens: 2,064 prompt tokens, 118 completion tokens (total: 2,182).
@@ -77,7 +77,7 @@ Phase 44 was initiated to test an architectural alternative: constraining genera
   - Model: `qwen2.5-coder:1.5b` (digest: `d7372fd8...`).
   - Budget: `maxSteps: 5`, `maxProposalRejections: 3`, timeout: 120,000 ms/step.
   - Local Ollama only, ₹0 budget, isolated ephemeral benchmark workspace.
-- **Results** (recorded in [`scratch/phase44d-repair-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/phase44d-repair-results.json)):
+- **Results** (recorded in [`scratch/phase44d-repair-results.json`](../../scratch/phase44d-repair-results.json)):
   - **Classification**: `REPAIR_FAILED`.
   - Total wall-clock duration: 412,220 ms (~6 min 52 sec).
   - Model calls: 5. Model failures: 0.

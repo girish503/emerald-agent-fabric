@@ -247,6 +247,204 @@ describe("OllamaModelProvider — Phase 6.3 Local Open-Source Adapter", () => {
     });
   });
 
+  // ========================================================================
+  // 1b. Keep-Alive & Context Window Lifecycle (Milestone 2.28 Phase 5 Step 3)
+  // ========================================================================
+  describe("1b. Keep-Alive & Context Window Configuration (Milestone 2.28 Phase 5 Step 3)", () => {
+    const originalEnvKeepAlive = process.env.OLLAMA_KEEP_ALIVE;
+
+    afterEach(() => {
+      if (originalEnvKeepAlive !== undefined) {
+        process.env.OLLAMA_KEEP_ALIVE = originalEnvKeepAlive;
+      } else {
+        delete process.env.OLLAMA_KEEP_ALIVE;
+      }
+    });
+
+    it("defaults keep_alive to '10m' and serializes it in the request body", async () => {
+      delete process.env.OLLAMA_KEEP_ALIVE;
+      const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+      const provider = new OllamaModelProvider({ fetch });
+
+      expect(provider.configuredKeepAlive).toBe("10m");
+
+      await provider.generate({
+        requestId: "req-ka-default",
+        model: "llama3.2",
+        input: [{ role: "user", content: "Test keep-alive default" }],
+        timeoutMs: 5000,
+      });
+
+      expect(state.callCount).toBe(1);
+      expect(state.lastBody?.keep_alive).toBe("10m");
+    });
+
+    it("accepts valid keep_alive string overrides ('30m', '1h', '45s', '0', '-1')", async () => {
+      const validDurations = ["30m", "1h", "45s", "500ms", "0", "-1"];
+      for (const ka of validDurations) {
+        const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+        const provider = new OllamaModelProvider({ fetch, keepAlive: ka });
+        expect(provider.configuredKeepAlive).toBe(ka);
+
+        await provider.generate({
+          requestId: `req-ka-${ka}`,
+          model: "llama3.2",
+          input: [{ role: "user", content: "Test" }],
+          timeoutMs: 5000,
+        });
+
+        expect(state.lastBody?.keep_alive).toBe(ka);
+      }
+    });
+
+    it("accepts valid keep_alive numeric overrides (600, 0, -1)", async () => {
+      const validNumbers = [600, 0, -1];
+      for (const ka of validNumbers) {
+        const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+        const provider = new OllamaModelProvider({ fetch, keepAlive: ka });
+        expect(provider.configuredKeepAlive).toBe(ka);
+
+        await provider.generate({
+          requestId: `req-ka-num-${ka}`,
+          model: "llama3.2",
+          input: [{ role: "user", content: "Test" }],
+          timeoutMs: 5000,
+        });
+
+        expect(state.lastBody?.keep_alive).toBe(ka);
+      }
+    });
+
+    it("respects process.env.OLLAMA_KEEP_ALIVE when keepAlive option is not provided", async () => {
+      process.env.OLLAMA_KEEP_ALIVE = "15m";
+      const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+      const provider = new OllamaModelProvider({ fetch });
+      expect(provider.configuredKeepAlive).toBe("15m");
+
+      await provider.generate({
+        requestId: "req-ka-env",
+        model: "llama3.2",
+        input: [{ role: "user", content: "Test" }],
+        timeoutMs: 5000,
+      });
+
+      expect(state.lastBody?.keep_alive).toBe("15m");
+    });
+
+    it("prefers options.keepAlive over process.env.OLLAMA_KEEP_ALIVE", async () => {
+      process.env.OLLAMA_KEEP_ALIVE = "15m";
+      const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+      const provider = new OllamaModelProvider({ fetch, keepAlive: "25m" });
+      expect(provider.configuredKeepAlive).toBe("25m");
+
+      await provider.generate({
+        requestId: "req-ka-override-env",
+        model: "llama3.2",
+        input: [{ role: "user", content: "Test" }],
+        timeoutMs: 5000,
+      });
+
+      expect(state.lastBody?.keep_alive).toBe("25m");
+    });
+
+    it("rejects invalid keep_alive strings with ModelRequestInvalidError", () => {
+      const invalidStrings = ["", "   ", "forever", "none", "ten minutes", "10x", "abc"];
+      for (const invalid of invalidStrings) {
+        expect(() => new OllamaModelProvider({ keepAlive: invalid })).toThrow(
+          ModelRequestInvalidError
+        );
+      }
+    });
+
+    it("rejects invalid keep_alive numbers with ModelRequestInvalidError", () => {
+      const invalidNumbers = [-2, -100, NaN, Infinity, -Infinity];
+      for (const invalid of invalidNumbers) {
+        expect(() => new OllamaModelProvider({ keepAlive: invalid })).toThrow(
+          ModelRequestInvalidError
+        );
+      }
+    });
+
+    it("rejects invalid keep_alive types with ModelRequestInvalidError", () => {
+      expect(() => new OllamaModelProvider({ keepAlive: true as any })).toThrow(
+        ModelRequestInvalidError
+      );
+      expect(() => new OllamaModelProvider({ keepAlive: {} as any })).toThrow(
+        ModelRequestInvalidError
+      );
+    });
+
+    it("omits num_ctx from request options when numCtx is undefined (preserving model-native default)", async () => {
+      const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+      const provider = new OllamaModelProvider({ fetch });
+      expect(provider.configuredNumCtx).toBeUndefined();
+
+      await provider.generate({
+        requestId: "req-no-num-ctx",
+        model: "llama3.2",
+        input: [{ role: "user", content: "Test" }],
+        timeoutMs: 5000,
+      });
+
+      expect(state.lastBody?.options).toBeUndefined();
+    });
+
+    it("serializes num_ctx into body.options when numCtx is explicitly configured", async () => {
+      const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+      const provider = new OllamaModelProvider({ fetch, numCtx: 4096 });
+      expect(provider.configuredNumCtx).toBe(4096);
+
+      await provider.generate({
+        requestId: "req-with-num-ctx",
+        model: "llama3.2",
+        input: [{ role: "user", content: "Test" }],
+        timeoutMs: 5000,
+      });
+
+      expect(state.lastBody?.options).toBeDefined();
+      const options = state.lastBody?.options as Record<string, unknown>;
+      expect(options.num_ctx).toBe(4096);
+    });
+
+    it("combines num_ctx with request generation options", async () => {
+      const { fetch, state } = createMockFetch(async () => createStandardMockResponse());
+      const provider = new OllamaModelProvider({ fetch, numCtx: 8192 });
+
+      await provider.generate({
+        requestId: "req-combine-num-ctx",
+        model: "llama3.2",
+        input: [{ role: "user", content: "Test" }],
+        generation: {
+          temperature: 0.1,
+          maxOutputTokens: 1024,
+        },
+        timeoutMs: 5000,
+      });
+
+      const options = state.lastBody?.options as Record<string, unknown>;
+      expect(options).toBeDefined();
+      expect(options.num_ctx).toBe(8192);
+      expect(options.temperature).toBe(0.1);
+      expect(options.num_predict).toBe(1024);
+    });
+
+    it("rejects invalid numCtx values with ModelRequestInvalidError", () => {
+      const invalidNumCtx = [0, -1, -500, 3.14, NaN, Infinity, "4096" as any, true as any];
+      for (const invalid of invalidNumCtx) {
+        expect(() => new OllamaModelProvider({ numCtx: invalid })).toThrow(
+          ModelRequestInvalidError
+        );
+      }
+    });
+
+    it("preserves backward compatibility when constructed with empty options", async () => {
+      const provider = new OllamaModelProvider();
+      expect(provider.configuredKeepAlive).toBe("10m");
+      expect(provider.configuredNumCtx).toBeUndefined();
+      expect(provider.endpoint).toBe("http://127.0.0.1:11434/api/chat");
+    });
+  });
+
   // ==========================================================================
   // 2. Single-Attempt Semantics & Zero-Retry Guarantees
   // ==========================================================================

@@ -1,0 +1,1376 @@
+{
+  "diagnosticName": "Phase 10H Multi-Tool Argument Conformance Diagnostic",
+  "timestamp": "2026-10-16T13:54:15.422Z",
+  "model": "llama3.2:3b",
+  "baseUrl": "http://127.0.0.1:11434",
+  "timeoutMs": 120000,
+  "trialsPerCell": 3,
+  "totalModelCalls": 36,
+  "conditionMetrics": {
+    "BASELINE": {
+      "totalTrials": 18,
+      "validToolInputCount": 0,
+      "validToolInputRate": 0,
+      "inventedFieldCount": 18,
+      "inventedFieldRate": 1,
+      "missingFieldCount": 12,
+      "missingFieldRate": 0.6666666666666666,
+      "wrongTypeCount": 0,
+      "wrongTypeRate": 0,
+      "wrongToolCount": 0,
+      "wrongToolRate": 0,
+      "timeoutCount": 0,
+      "timeoutRate": 0,
+      "meanPromptBytes": 1712.8333333333333,
+      "meanLatencyMs": 56712.72222222222,
+      "medianLatencyMs": 60565,
+      "toolBreakdown": {
+        "read_file": {
+          "totalTrials": 3,
+          "validCount": 0,
+          "validRate": 0,
+          "inventedCount": 3,
+          "inventedRate": 1,
+          "meanLatencyMs": 80951.33333333333
+        },
+        "search_code": {
+          "totalTrials": 3,
+          "validCount": 0,
+          "validRate": 0,
+          "inventedCount": 3,
+          "inventedRate": 1,
+          "meanLatencyMs": 61760.666666666664
+        },
+        "git_status": {
+          "totalTrials": 3,
+          "validCount": 0,
+          "validRate": 0,
+          "inventedCount": 3,
+          "inventedRate": 1,
+          "meanLatencyMs": 68274
+        },
+        "git_diff": {
+          "totalTrials": 3,
+          "validCount": 0,
+          "validRate": 0,
+          "inventedCount": 3,
+          "inventedRate": 1,
+          "meanLatencyMs": 44224
+        },
+        "write_file": {
+          "totalTrials": 3,
+          "validCount": 0,
+          "validRate": 0,
+          "inventedCount": 3,
+          "inventedRate": 1,
+          "meanLatencyMs": 49711
+        },
+        "run_command": {
+          "totalTrials": 3,
+          "validCount": 0,
+          "validRate": 0,
+          "inventedCount": 3,
+          "inventedRate": 1,
+          "meanLatencyMs": 35355.333333333336
+        }
+      }
+    },
+    "STANDARDIZED": {
+      "totalTrials": 18,
+      "validToolInputCount": 14,
+      "validToolInputRate": 0.7777777777777778,
+      "inventedFieldCount": 0,
+      "inventedFieldRate": 0,
+      "missingFieldCount": 0,
+      "missingFieldRate": 0,
+      "wrongTypeCount": 0,
+      "wrongTypeRate": 0,
+      "wrongToolCount": 0,
+      "wrongToolRate": 0,
+      "timeoutCount": 4,
+      "timeoutRate": 0.2222222222222222,
+      "meanPromptBytes": 7168.833333333333,
+      "meanLatencyMs": 111724.05555555556,
+      "medianLatencyMs": 112597,
+      "toolBreakdown": {
+        "read_file": {
+          "totalTrials": 3,
+          "validCount": 1,
+          "validRate": 0.3333333333333333,
+          "inventedCount": 0,
+          "inventedRate": 0,
+          "meanLatencyMs": 115228
+        },
+        "search_code": {
+          "totalTrials": 3,
+          "validCount": 2,
+          "validRate": 0.6666666666666666,
+          "inventedCount": 0,
+          "inventedRate": 0,
+          "meanLatencyMs": 116141
+        },
+        "git_status": {
+          "totalTrials": 3,
+          "validCount": 2,
+          "validRate": 0.6666666666666666,
+          "inventedCount": 0,
+          "inventedRate": 0,
+          "meanLatencyMs": 111865.33333333333
+        },
+        "git_diff": {
+          "totalTrials": 3,
+          "validCount": 3,
+          "validRate": 1,
+          "inventedCount": 0,
+          "inventedRate": 0,
+          "meanLatencyMs": 106349.66666666667
+        },
+        "write_file": {
+          "totalTrials": 3,
+          "validCount": 3,
+          "validRate": 1,
+          "inventedCount": 0,
+          "inventedRate": 0,
+          "meanLatencyMs": 114929.33333333333
+        },
+        "run_command": {
+          "totalTrials": 3,
+          "validCount": 3,
+          "validRate": 1,
+          "inventedCount": 0,
+          "inventedRate": 0,
+          "meanLatencyMs": 105831
+        }
+      }
+    }
+  },
+  "overheadAnalysis": {
+    "baselineMeanPromptBytes": 1712.8333333333333,
+    "standardizedMeanPromptBytes": 7168.833333333333,
+    "promptByteOverhead": 5456,
+    "promptByteOverheadRatio": 4.185365379001654,
+    "latencyDeltaMs": 55011.33333333334
+  },
+  "interpretation": {
+    "primaryOutcome": "MODERATE_IMPROVEMENT",
+    "outcomeInterpretation": "Standardized projection improved conformance (77.8% vs 0.0%), but specific tool gaps remain."
+  },
+  "records": [
+    {
+      "trialIndex": 1,
+      "condition": "BASELINE",
+      "targetTool": "read_file",
+      "trialNum": 1,
+      "promptBytes": 1688,
+      "durationMs": 97756,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"read_file-1\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/domain/tool.ts\",\n    \"lineStart\": 1,\n    \"lineEnd\": 50\n  },\n  \"contextSnapshotHash\": \"8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "read_file-1",
+        "toolName": "read_file",
+        "inputPayload": {
+          "filePath": "src/domain/tool.ts",
+          "lineStart": 1,
+          "lineEnd": 50
+        },
+        "contextSnapshotHash": "8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4"
+      },
+      "selectedTool": "read_file",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "filePath",
+        "lineStart",
+        "lineEnd"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "path"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "path: Required",
+        ": Unrecognized key(s) in object: 'filePath', 'lineStart', 'lineEnd'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 2,
+      "condition": "BASELINE",
+      "targetTool": "read_file",
+      "trialNum": 2,
+      "promptBytes": 1688,
+      "durationMs": 77400,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"read_file-1\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/domain/tool.ts\",\n    \"lineStart\": 1,\n    \"lineEnd\": 50\n  },\n  \"contextSnapshotHash\": \"8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "read_file-1",
+        "toolName": "read_file",
+        "inputPayload": {
+          "filePath": "src/domain/tool.ts",
+          "lineStart": 1,
+          "lineEnd": 50
+        },
+        "contextSnapshotHash": "8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4"
+      },
+      "selectedTool": "read_file",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "filePath",
+        "lineStart",
+        "lineEnd"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "path"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "path: Required",
+        ": Unrecognized key(s) in object: 'filePath', 'lineStart', 'lineEnd'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 3,
+      "condition": "BASELINE",
+      "targetTool": "read_file",
+      "trialNum": 3,
+      "promptBytes": 1688,
+      "durationMs": 67698,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"read_file-1\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/domain/tool.ts\",\n    \"lineStart\": 1,\n    \"lineEnd\": 50\n  },\n  \"contextSnapshotHash\": \"8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "read_file-1",
+        "toolName": "read_file",
+        "inputPayload": {
+          "filePath": "src/domain/tool.ts",
+          "lineStart": 1,
+          "lineEnd": 50
+        },
+        "contextSnapshotHash": "8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4"
+      },
+      "selectedTool": "read_file",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "filePath",
+        "lineStart",
+        "lineEnd"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "path"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "path: Required",
+        ": Unrecognized key(s) in object: 'filePath', 'lineStart', 'lineEnd'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 4,
+      "condition": "BASELINE",
+      "targetTool": "search_code",
+      "trialNum": 1,
+      "promptBytes": 1713,
+      "durationMs": 58092,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"search_code\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"calculateTotal\"\n  },\n  \"contextSnapshotHash\": \"d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "search_code",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "calculateTotal"
+        },
+        "contextSnapshotHash": "d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110"
+      },
+      "selectedTool": "search_code",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "pattern"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "query"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "query: Required",
+        ": Unrecognized key(s) in object: 'pattern'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 5,
+      "condition": "BASELINE",
+      "targetTool": "search_code",
+      "trialNum": 2,
+      "promptBytes": 1713,
+      "durationMs": 62171,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"search_code\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"calculateTotal\"\n  },\n  \"contextSnapshotHash\": \"d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "search_code",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "calculateTotal"
+        },
+        "contextSnapshotHash": "d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110"
+      },
+      "selectedTool": "search_code",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "pattern"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "query"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "query: Required",
+        ": Unrecognized key(s) in object: 'pattern'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 6,
+      "condition": "BASELINE",
+      "targetTool": "search_code",
+      "trialNum": 3,
+      "promptBytes": 1713,
+      "durationMs": 65019,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"search_code\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"calculateTotal\"\n  },\n  \"contextSnapshotHash\": \"d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "search_code",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "calculateTotal"
+        },
+        "contextSnapshotHash": "d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110"
+      },
+      "selectedTool": "search_code",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "pattern"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "query"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "query: Required",
+        ": Unrecognized key(s) in object: 'pattern'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 7,
+      "condition": "BASELINE",
+      "targetTool": "git_status",
+      "trialNum": 1,
+      "promptBytes": 1716,
+      "durationMs": 64746,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-1\",\n  \"toolName\": \"git_status\",\n  \"inputPayload\": {\n    \"workspace\": \"/workspace\"\n  },\n  \"contextSnapshotHash\": \"ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "action-proposal-1",
+        "toolName": "git_status",
+        "inputPayload": {
+          "workspace": "/workspace"
+        },
+        "contextSnapshotHash": "ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63"
+      },
+      "selectedTool": "git_status",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "workspace"
+      ],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        ": Unrecognized key(s) in object: 'workspace'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 8,
+      "condition": "BASELINE",
+      "targetTool": "git_status",
+      "trialNum": 2,
+      "promptBytes": 1716,
+      "durationMs": 73058,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-baseline-git_status-3\",\n  \"toolName\": \"git_status\",\n  \"inputPayload\": {\n    \"directive\": \"Inspect the git working tree status to check for modified or untracked files.\"\n  },\n  \"contextSnapshotHash\": \"ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-baseline-git_status-3",
+        "toolName": "git_status",
+        "inputPayload": {
+          "directive": "Inspect the git working tree status to check for modified or untracked files."
+        },
+        "contextSnapshotHash": "ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63"
+      },
+      "selectedTool": "git_status",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "directive"
+      ],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        ": Unrecognized key(s) in object: 'directive'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 9,
+      "condition": "BASELINE",
+      "targetTool": "git_status",
+      "trialNum": 3,
+      "promptBytes": 1716,
+      "durationMs": 67018,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-baseline-git_status-4\",\n  \"toolName\": \"git_status\",\n  \"inputPayload\": {\n    \"directive\": \"Inspect the git working tree status to check for modified or untracked files.\"\n  },\n  \"contextSnapshotHash\": \"ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-baseline-git_status-4",
+        "toolName": "git_status",
+        "inputPayload": {
+          "directive": "Inspect the git working tree status to check for modified or untracked files."
+        },
+        "contextSnapshotHash": "ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63"
+      },
+      "selectedTool": "git_status",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "directive"
+      ],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        ": Unrecognized key(s) in object: 'directive'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 10,
+      "condition": "BASELINE",
+      "targetTool": "git_diff",
+      "trialNum": 1,
+      "promptBytes": 1698,
+      "durationMs": 60565,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-1\",\n  \"toolName\": \"git_diff\",\n  \"inputPayload\": {\n    \"gitDiffCommand\": \"git diff --staged --name-only\"\n  },\n  \"contextSnapshotHash\": \"01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "action-proposal-1",
+        "toolName": "git_diff",
+        "inputPayload": {
+          "gitDiffCommand": "git diff --staged --name-only"
+        },
+        "contextSnapshotHash": "01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945"
+      },
+      "selectedTool": "git_diff",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "gitDiffCommand"
+      ],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        ": Unrecognized key(s) in object: 'gitDiffCommand'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 11,
+      "condition": "BASELINE",
+      "targetTool": "git_diff",
+      "trialNum": 2,
+      "promptBytes": 1698,
+      "durationMs": 36495,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"git_diff\",\n  \"toolName\": \"git_diff\",\n  \"inputPayload\": {\n    \"baselineCommit\": null,\n    \"workingTree\": null\n  },\n  \"contextSnapshotHash\": \"01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "git_diff",
+        "toolName": "git_diff",
+        "inputPayload": {
+          "baselineCommit": null,
+          "workingTree": null
+        },
+        "contextSnapshotHash": "01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945"
+      },
+      "selectedTool": "git_diff",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "baselineCommit",
+        "workingTree"
+      ],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        ": Unrecognized key(s) in object: 'baselineCommit', 'workingTree'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 12,
+      "condition": "BASELINE",
+      "targetTool": "git_diff",
+      "trialNum": 3,
+      "promptBytes": 1698,
+      "durationMs": 35612,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-baseline-git_diff-3\",\n  \"toolName\": \"git_diff\",\n  \"inputPayload\": {\n    \"baselineCommit\": \"HEAD\",\n    \"workingTree\": \"/\"\n  },\n  \"contextSnapshotHash\": \"01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-baseline-git_diff-3",
+        "toolName": "git_diff",
+        "inputPayload": {
+          "baselineCommit": "HEAD",
+          "workingTree": "/"
+        },
+        "contextSnapshotHash": "01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945"
+      },
+      "selectedTool": "git_diff",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "baselineCommit",
+        "workingTree"
+      ],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        ": Unrecognized key(s) in object: 'baselineCommit', 'workingTree'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 13,
+      "condition": "BASELINE",
+      "targetTool": "write_file",
+      "trialNum": 1,
+      "promptBytes": 1764,
+      "durationMs": 56453,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-baseline-write_file-1\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"fileContent\": \"export function square(n: number): number { return n * n; }\",\n    \"filePath\": \"src/domain/math_helper.ts\"\n  },\n  \"contextSnapshotHash\": \"79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-baseline-write_file-1",
+        "toolName": "write_file",
+        "inputPayload": {
+          "fileContent": "export function square(n: number): number { return n * n; }",
+          "filePath": "src/domain/math_helper.ts"
+        },
+        "contextSnapshotHash": "79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621"
+      },
+      "selectedTool": "write_file",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "fileContent",
+        "filePath"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "path",
+        "content"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "path: Required",
+        "content: Required",
+        ": Unrecognized key(s) in object: 'fileContent', 'filePath'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 14,
+      "condition": "BASELINE",
+      "targetTool": "write_file",
+      "trialNum": 2,
+      "promptBytes": 1764,
+      "durationMs": 47585,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-baseline-write_file-3\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"fileContent\": \"export function square(n: number): number { return n * n; }\",\n    \"filePath\": \"src/domain/math_helper.ts\"\n  },\n  \"contextSnapshotHash\": \"79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-baseline-write_file-3",
+        "toolName": "write_file",
+        "inputPayload": {
+          "fileContent": "export function square(n: number): number { return n * n; }",
+          "filePath": "src/domain/math_helper.ts"
+        },
+        "contextSnapshotHash": "79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621"
+      },
+      "selectedTool": "write_file",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "fileContent",
+        "filePath"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "path",
+        "content"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "path: Required",
+        "content: Required",
+        ": Unrecognized key(s) in object: 'fileContent', 'filePath'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 15,
+      "condition": "BASELINE",
+      "targetTool": "write_file",
+      "trialNum": 3,
+      "promptBytes": 1764,
+      "durationMs": 45095,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-baseline-write_file-4\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"fileContent\": \"export function square(n: number): number { return n * n; }\",\n    \"filePath\": \"src/domain/math_helper.ts\"\n  },\n  \"contextSnapshotHash\": \"79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-baseline-write_file-4",
+        "toolName": "write_file",
+        "inputPayload": {
+          "fileContent": "export function square(n: number): number { return n * n; }",
+          "filePath": "src/domain/math_helper.ts"
+        },
+        "contextSnapshotHash": "79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621"
+      },
+      "selectedTool": "write_file",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "fileContent",
+        "filePath"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "path",
+        "content"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "path: Required",
+        "content: Required",
+        ": Unrecognized key(s) in object: 'fileContent', 'filePath'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 16,
+      "condition": "BASELINE",
+      "targetTool": "run_command",
+      "trialNum": 1,
+      "promptBytes": 1698,
+      "durationMs": 35607,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run_command\",\n  \"toolName\": \"run_command\",\n  \"inputPayload\": {\n    \"command\": \"npm test\"\n  },\n  \"contextSnapshotHash\": \"ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run_command",
+        "toolName": "run_command",
+        "inputPayload": {
+          "command": "npm test"
+        },
+        "contextSnapshotHash": "ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843"
+      },
+      "selectedTool": "run_command",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "command"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "argv"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "argv: Required",
+        ": Unrecognized key(s) in object: 'command'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 17,
+      "condition": "BASELINE",
+      "targetTool": "run_command",
+      "trialNum": 2,
+      "promptBytes": 1698,
+      "durationMs": 34030,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run_command-1\",\n  \"toolName\": \"run_command\",\n  \"inputPayload\": {\n    \"command\": \"npm test\"\n  },\n  \"contextSnapshotHash\": \"ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run_command-1",
+        "toolName": "run_command",
+        "inputPayload": {
+          "command": "npm test"
+        },
+        "contextSnapshotHash": "ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843"
+      },
+      "selectedTool": "run_command",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "command"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "argv"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "argv: Required",
+        ": Unrecognized key(s) in object: 'command'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 18,
+      "condition": "BASELINE",
+      "targetTool": "run_command",
+      "trialNum": 3,
+      "promptBytes": 1698,
+      "durationMs": 36429,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run_command-3\",\n  \"toolName\": \"run_command\",\n  \"inputPayload\": {\n    \"command\": \"npm test\"\n  },\n  \"contextSnapshotHash\": \"ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run_command-3",
+        "toolName": "run_command",
+        "inputPayload": {
+          "command": "npm test"
+        },
+        "contextSnapshotHash": "ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843"
+      },
+      "selectedTool": "run_command",
+      "isValidToolInput": false,
+      "isCorrectTool": true,
+      "hasInventedField": true,
+      "inventedFields": [
+        "command"
+      ],
+      "hasMissingRequiredField": true,
+      "missingFields": [
+        "argv"
+      ],
+      "hasWrongType": false,
+      "classification": "INVENTED_FIELD",
+      "validatorIssues": [
+        "argv: Required",
+        ": Unrecognized key(s) in object: 'command'"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 19,
+      "condition": "STANDARDIZED",
+      "targetTool": "read_file",
+      "trialNum": 1,
+      "promptBytes": 7144,
+      "durationMs": 120590,
+      "isTimeout": true,
+      "isValidToolInput": false,
+      "isCorrectTool": false,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "MODEL_TIMEOUT",
+      "validatorIssues": [
+        "Model call exceeded 120s timeout limit"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 20,
+      "condition": "STANDARDIZED",
+      "targetTool": "read_file",
+      "trialNum": 2,
+      "promptBytes": 7144,
+      "durationMs": 120034,
+      "isTimeout": true,
+      "isValidToolInput": false,
+      "isCorrectTool": false,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "MODEL_TIMEOUT",
+      "validatorIssues": [
+        "Model call exceeded 120s timeout limit"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 21,
+      "condition": "STANDARDIZED",
+      "targetTool": "read_file",
+      "trialNum": 3,
+      "promptBytes": 7144,
+      "durationMs": 105060,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-read_file-run-phase10h-standardized-read_file-3\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"path\": \"src/domain/tool.ts\",\n    \"offsetLine\": 1,\n    \"limitLines\": 50\n  },\n  \"contextSnapshotHash\": \"8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-read_file-run-phase10h-standardized-read_file-3",
+        "toolName": "read_file",
+        "inputPayload": {
+          "path": "src/domain/tool.ts",
+          "offsetLine": 1,
+          "limitLines": 50
+        },
+        "contextSnapshotHash": "8e421a78b0f2a40267d4b725b992f70e493407ee3c508e176dc0d334fc259bc4"
+      },
+      "selectedTool": "read_file",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 22,
+      "condition": "STANDARDIZED",
+      "targetTool": "search_code",
+      "trialNum": 1,
+      "promptBytes": 7169,
+      "durationMs": 112597,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-search_code-run-phase10h-standardized-search_code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"calculateTotal\",\n    \"path\": \".\",\n    \"filePattern\": \"*.ts\"\n  },\n  \"contextSnapshotHash\": \"d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-search_code-run-phase10h-standardized-search_code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "calculateTotal",
+          "path": ".",
+          "filePattern": "*.ts"
+        },
+        "contextSnapshotHash": "d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110"
+      },
+      "selectedTool": "search_code",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 23,
+      "condition": "STANDARDIZED",
+      "targetTool": "search_code",
+      "trialNum": 2,
+      "promptBytes": 7169,
+      "durationMs": 120067,
+      "isTimeout": true,
+      "isValidToolInput": false,
+      "isCorrectTool": false,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "MODEL_TIMEOUT",
+      "validatorIssues": [
+        "Model call exceeded 120s timeout limit"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 24,
+      "condition": "STANDARDIZED",
+      "targetTool": "search_code",
+      "trialNum": 3,
+      "promptBytes": 7169,
+      "durationMs": 115759,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-search_code-run-phase10h-standardized-search_code-3\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"calculateTotal\",\n    \"path\": \".\",\n    \"filePattern\": \"*.ts\"\n  },\n  \"contextSnapshotHash\": \"d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-search_code-run-phase10h-standardized-search_code-3",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "calculateTotal",
+          "path": ".",
+          "filePattern": "*.ts"
+        },
+        "contextSnapshotHash": "d27c207d220b4c4108e1fdf81e2b396a96ebb876b9675877d9e518e93989a110"
+      },
+      "selectedTool": "search_code",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 25,
+      "condition": "STANDARDIZED",
+      "targetTool": "git_status",
+      "trialNum": 1,
+      "promptBytes": 7172,
+      "durationMs": 120081,
+      "isTimeout": true,
+      "isValidToolInput": false,
+      "isCorrectTool": false,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "MODEL_TIMEOUT",
+      "validatorIssues": [
+        "Model call exceeded 120s timeout limit"
+      ],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 26,
+      "condition": "STANDARDIZED",
+      "targetTool": "git_status",
+      "trialNum": 2,
+      "promptBytes": 7172,
+      "durationMs": 105839,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-git_status\",\n  \"toolName\": \"git_status\",\n  \"inputPayload\": {\n    \"path\": \".\"\n  },\n  \"contextSnapshotHash\": \"ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-git_status",
+        "toolName": "git_status",
+        "inputPayload": {
+          "path": "."
+        },
+        "contextSnapshotHash": "ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63"
+      },
+      "selectedTool": "git_status",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 27,
+      "condition": "STANDARDIZED",
+      "targetTool": "git_status",
+      "trialNum": 3,
+      "promptBytes": 7172,
+      "durationMs": 109676,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-git_status-run-phase10h-standardized-git_status-3\",\n  \"toolName\": \"git_status\",\n  \"inputPayload\": {\n    \"path\": \".\"\n  },\n  \"contextSnapshotHash\": \"ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-git_status-run-phase10h-standardized-git_status-3",
+        "toolName": "git_status",
+        "inputPayload": {
+          "path": "."
+        },
+        "contextSnapshotHash": "ab41a8da99f59d7c264ece598d0c2495c2f3c08b2e75f8e2d17b6bb7aff5dc63"
+      },
+      "selectedTool": "git_status",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 28,
+      "condition": "STANDARDIZED",
+      "targetTool": "git_diff",
+      "trialNum": 1,
+      "promptBytes": 7154,
+      "durationMs": 110960,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-git_diff-run-phase10h-standardized-git_diff-1\",\n  \"toolName\": \"git_diff\",\n  \"inputPayload\": {\n    \"path\": \"src/calculator.ts\",\n    \"staged\": false\n  },\n  \"contextSnapshotHash\": \"01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-git_diff-run-phase10h-standardized-git_diff-1",
+        "toolName": "git_diff",
+        "inputPayload": {
+          "path": "src/calculator.ts",
+          "staged": false
+        },
+        "contextSnapshotHash": "01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945"
+      },
+      "selectedTool": "git_diff",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 29,
+      "condition": "STANDARDIZED",
+      "targetTool": "git_diff",
+      "trialNum": 2,
+      "promptBytes": 7154,
+      "durationMs": 106485,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-git_diff-run-phase10h-standardized-git_diff-2\",\n  \"toolName\": \"git_diff\",\n  \"inputPayload\": {\n    \"path\": \"src/calculator.ts\",\n    \"staged\": false\n  },\n  \"contextSnapshotHash\": \"01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-git_diff-run-phase10h-standardized-git_diff-2",
+        "toolName": "git_diff",
+        "inputPayload": {
+          "path": "src/calculator.ts",
+          "staged": false
+        },
+        "contextSnapshotHash": "01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945"
+      },
+      "selectedTool": "git_diff",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 30,
+      "condition": "STANDARDIZED",
+      "targetTool": "git_diff",
+      "trialNum": 3,
+      "promptBytes": 7154,
+      "durationMs": 101604,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"task-swe-git_diff-run-phase10h-standardized-git_diff-3\",\n  \"toolName\": \"git_diff\",\n  \"inputPayload\": {\n    \"path\": \"src/calculator.ts\",\n    \"staged\": false\n  },\n  \"contextSnapshotHash\": \"01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "task-swe-git_diff-run-phase10h-standardized-git_diff-3",
+        "toolName": "git_diff",
+        "inputPayload": {
+          "path": "src/calculator.ts",
+          "staged": false
+        },
+        "contextSnapshotHash": "01f5701066c138ff49318eccba06672174eb8be197fcf492660ed416f855a945"
+      },
+      "selectedTool": "git_diff",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 31,
+      "condition": "STANDARDIZED",
+      "targetTool": "write_file",
+      "trialNum": 1,
+      "promptBytes": 7220,
+      "durationMs": 114883,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-standardized-write_file-1\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/domain/math_helper.ts\",\n    \"content\": \"export function square(n: number): number { return n * n; }\",\n    \"overwrite\": true\n  },\n  \"contextSnapshotHash\": \"79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-standardized-write_file-1",
+        "toolName": "write_file",
+        "inputPayload": {
+          "path": "src/domain/math_helper.ts",
+          "content": "export function square(n: number): number { return n * n; }",
+          "overwrite": true
+        },
+        "contextSnapshotHash": "79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621"
+      },
+      "selectedTool": "write_file",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 32,
+      "condition": "STANDARDIZED",
+      "targetTool": "write_file",
+      "trialNum": 2,
+      "promptBytes": 7220,
+      "durationMs": 114253,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-standardized-write_file-3\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/domain/math_helper.ts\",\n    \"content\": \"export function square(n: number): number { return n * n; }\",\n    \"overwrite\": true\n  },\n  \"contextSnapshotHash\": \"79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-standardized-write_file-3",
+        "toolName": "write_file",
+        "inputPayload": {
+          "path": "src/domain/math_helper.ts",
+          "content": "export function square(n: number): number { return n * n; }",
+          "overwrite": true
+        },
+        "contextSnapshotHash": "79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621"
+      },
+      "selectedTool": "write_file",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 33,
+      "condition": "STANDARDIZED",
+      "targetTool": "write_file",
+      "trialNum": 3,
+      "promptBytes": 7220,
+      "durationMs": 115652,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run-phase10h-standardized-write_file-4\",\n  \"toolName\": \"write_file\",\n  \"inputPayload\": {\n    \"path\": \"src/domain/math_helper.ts\",\n    \"content\": \"export function square(n: number): number { return n * n; }\",\n    \"overwrite\": true\n  },\n  \"contextSnapshotHash\": \"79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run-phase10h-standardized-write_file-4",
+        "toolName": "write_file",
+        "inputPayload": {
+          "path": "src/domain/math_helper.ts",
+          "content": "export function square(n: number): number { return n * n; }",
+          "overwrite": true
+        },
+        "contextSnapshotHash": "79268e8f312db5d0d710def88b8e09c45de2cf8c0566c3022d203551522f6621"
+      },
+      "selectedTool": "write_file",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 34,
+      "condition": "STANDARDIZED",
+      "targetTool": "run_command",
+      "trialNum": 1,
+      "promptBytes": 7154,
+      "durationMs": 112161,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run_command\",\n  \"toolName\": \"run_command\",\n  \"inputPayload\": {\n    \"argv\": [\n      \"npm\",\n      \"test\",\n      \"--\",\n      \"-t\",\n      \"calculator\"\n    ],\n    \"cwd\": \".\"\n  },\n  \"contextSnapshotHash\": \"ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run_command",
+        "toolName": "run_command",
+        "inputPayload": {
+          "argv": [
+            "npm",
+            "test",
+            "--",
+            "-t",
+            "calculator"
+          ],
+          "cwd": "."
+        },
+        "contextSnapshotHash": "ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843"
+      },
+      "selectedTool": "run_command",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 35,
+      "condition": "STANDARDIZED",
+      "targetTool": "run_command",
+      "trialNum": 2,
+      "promptBytes": 7154,
+      "durationMs": 103437,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run_command\",\n  \"toolName\": \"run_command\",\n  \"inputPayload\": {\n    \"argv\": [\n      \"npm\",\n      \"test\",\n      \"--\",\n      \"-t\",\n      \"calculator\"\n    ],\n    \"cwd\": \".\"\n  },\n  \"contextSnapshotHash\": \"ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run_command",
+        "toolName": "run_command",
+        "inputPayload": {
+          "argv": [
+            "npm",
+            "test",
+            "--",
+            "-t",
+            "calculator"
+          ],
+          "cwd": "."
+        },
+        "contextSnapshotHash": "ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843"
+      },
+      "selectedTool": "run_command",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    },
+    {
+      "trialIndex": 36,
+      "condition": "STANDARDIZED",
+      "targetTool": "run_command",
+      "trialNum": 3,
+      "promptBytes": 7154,
+      "durationMs": 101895,
+      "isTimeout": false,
+      "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"run_command\",\n  \"toolName\": \"run_command\",\n  \"inputPayload\": {\n    \"argv\": [\n      \"npm\",\n      \"test\",\n      \"--\",\n      \"-t\",\n      \"calculator\"\n    ],\n    \"cwd\": \".\"\n  },\n  \"contextSnapshotHash\": \"ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843\"\n}",
+      "parsedProposal": {
+        "isGoalReached": false,
+        "proposalId": "run_command",
+        "toolName": "run_command",
+        "inputPayload": {
+          "argv": [
+            "npm",
+            "test",
+            "--",
+            "-t",
+            "calculator"
+          ],
+          "cwd": "."
+        },
+        "contextSnapshotHash": "ac41f9e9ce63c1104c5682de038630b6d8fcbf4ca285b55e06dd7088a6d2f843"
+      },
+      "selectedTool": "run_command",
+      "isValidToolInput": true,
+      "isCorrectTool": true,
+      "hasInventedField": false,
+      "inventedFields": [],
+      "hasMissingRequiredField": false,
+      "missingFields": [],
+      "hasWrongType": false,
+      "classification": "VALID_TOOL_INPUT",
+      "validatorIssues": [],
+      "proposalValidatorPassed": false
+    }
+  ]
+}

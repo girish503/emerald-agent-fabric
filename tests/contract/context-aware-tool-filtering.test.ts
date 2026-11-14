@@ -443,7 +443,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
       "src/calc.js",
       coldSnapshot
     );
-    expect(eligibleTools.length).toBe(6);
+    expect(eligibleTools.length).toBe(7);
     expect(eligibleTools.map((t) => t.name)).toEqual([
       "read_file",
       "write_file",
@@ -451,13 +451,14 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
       "git_status",
       "git_diff",
       "run_command",
+      "edit_file",
     ]);
 
     // 3. Outbound schema has exactly 7 branches (isGoalReached + 6 tools)
     const schema = deriveActionProposalSchema(eligibleTools);
     expect(schema.name).toBe("action_proposal");
     expect(schema.strict).toBe(true);
-    expect(getSchemaBranches(schema).length).toBe(7);
+    expect(getSchemaBranches(schema).length).toBe(8);
 
     // 4. Both isGoalReached and read_file match schema branches
     expect(matchesSchema(schema, { isGoalReached: true })).toBe(true);
@@ -508,7 +509,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
       "src/calc.js",
       snapshotWithFile
     );
-    expect(eligibleTools.length).toBe(5);
+    expect(eligibleTools.length).toBe(6);
     expect(eligibleTools.map((t) => t.name)).not.toContain("read_file");
     expect(eligibleTools.map((t) => t.name)).toEqual([
       "write_file",
@@ -516,11 +517,12 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
       "git_status",
       "git_diff",
       "run_command",
+      "edit_file",
     ]);
 
-    // 5. Outbound schema has exactly 6 branches and strictly excludes read_file
+    // 5. Outbound schema has exactly 7 branches and strictly excludes read_file
     const schema = deriveActionProposalSchema(eligibleTools);
-    expect(getSchemaBranches(schema).length).toBe(6);
+    expect(getSchemaBranches(schema).length).toBe(7);
     expect(matchesSchema(schema, { isGoalReached: false, toolName: "read_file" })).toBe(false);
     expect(matchesSchema(schema, { isGoalReached: false, toolName: "write_file" })).toBe(true);
     expect(matchesSchema(schema, { isGoalReached: true })).toBe(true);
@@ -567,7 +569,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
     // 7-branch schema preserved
     const eligibleTools = tracker.filterEligibleTools(INITIAL_TOOL_DEFINITIONS, "src/calc.js", snapshot);
     const schema = deriveActionProposalSchema(eligibleTools);
-    expect(getSchemaBranches(schema).length).toBe(7);
+    expect(getSchemaBranches(schema).length).toBe(8);
     expect(matchesSchema(schema, { isGoalReached: false, toolName: "read_file" })).toBe(true);
   });
 
@@ -602,7 +604,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
     expect(eligibleTools.map((t) => t.name)).toContain("read_file");
 
     const schema = deriveActionProposalSchema(eligibleTools);
-    expect(getSchemaBranches(schema).length).toBe(7);
+    expect(getSchemaBranches(schema).length).toBe(8);
     expect(matchesSchema(schema, { isGoalReached: false, toolName: "read_file" })).toBe(true);
   });
 
@@ -631,7 +633,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
 
     const eligibleTools = tracker.filterEligibleTools(INITIAL_TOOL_DEFINITIONS, "src/calc.js", evictedSnapshot);
     const schema = deriveActionProposalSchema(eligibleTools);
-    expect(getSchemaBranches(schema).length).toBe(7);
+    expect(getSchemaBranches(schema).length).toBe(8);
     expect(matchesSchema(schema, { isGoalReached: false, toolName: "read_file" })).toBe(true);
   });
 
@@ -664,7 +666,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
     expect(eligibleToolsForUnread.map((t) => t.name)).toContain("read_file");
 
     const schema = deriveActionProposalSchema(eligibleToolsForUnread);
-    expect(getSchemaBranches(schema).length).toBe(7);
+    expect(getSchemaBranches(schema).length).toBe(8);
   });
 
   // --------------------------------------------------------------------------
@@ -714,7 +716,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
       expect(schema6.name).toBe("action_proposal");
       expect(schema6.strict).toBe(true);
       expect(schema6.jsonSchema.type).toBe("object");
-      expect(branches6.length).toBe(6);
+      expect(branches6.length).toBe(7);
 
       // Verify each branch has additionalProperties: false and required fields
       for (const branch of branches6) {
@@ -733,6 +735,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
         "git_status",
         "git_diff",
         "run_command",
+        "edit_file",
       ]);
       expect(toolNamesInSchema).not.toContain("read_file");
     });
@@ -746,7 +749,7 @@ describe("Phase 46A: Dynamic Context-Aware Tool Filtering Contract Suite", () =>
       });
 
       expect(rolledBackSchema).toBe(ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA);
-      expect(getSchemaBranches(rolledBackSchema).length).toBe(7);
+      expect(getSchemaBranches(rolledBackSchema).length).toBe(8);
       expect(matchesSchema(rolledBackSchema, { isGoalReached: false, toolName: "read_file" })).toBe(true);
     });
 
@@ -861,7 +864,7 @@ describe("Phase 46B: Production ContextResidencyTracker & Brain Projection Verif
 
     // filterEligibleTools excludes read_file
     const filteredTools = tracker.filterEligibleTools(INITIAL_TOOL_DEFINITIONS, "src/calc.js", snapshotWithFile);
-    expect(filteredTools.length).toBe(5);
+    expect(filteredTools.length).toBe(6);
     expect(filteredTools.map((t) => t.name)).not.toContain("read_file");
 
     // Workspace mutation invalidates residency and restores read_file
@@ -870,7 +873,7 @@ describe("Phase 46B: Production ContextResidencyTracker & Brain Projection Verif
     expect(tracker.getEligibility("read_file", "src/calc.js", snapshotWithFile)).toBe("RESTORED");
 
     const restoredTools = tracker.filterEligibleTools(INITIAL_TOOL_DEFINITIONS, "src/calc.js", snapshotWithFile);
-    expect(restoredTools.length).toBe(6);
+    expect(restoredTools.length).toBe(7);
     expect(restoredTools.map((t) => t.name)).toContain("read_file");
   });
 
@@ -890,7 +893,7 @@ describe("Phase 46B: Production ContextResidencyTracker & Brain Projection Verif
     expect(tracker.getEligibility("read_file", "src/calc.js", snapshot)).toBe("ELIGIBLE");
 
     const tools = tracker.filterEligibleTools(INITIAL_TOOL_DEFINITIONS, "src/calc.js", snapshot);
-    expect(tools.length).toBe(6);
+    expect(tools.length).toBe(7);
     expect(tools.map((t) => t.name)).toContain("read_file");
   });
 
@@ -901,7 +904,7 @@ describe("Phase 46B: Production ContextResidencyTracker & Brain Projection Verif
     const schema = productionDeriveActionProposalSchema(fiveTools, { enableDynamicToolFiltering: true });
     expect(schema.name).toBe("action_proposal");
     expect(schema.strict).toBe(true);
-    expect((schema.jsonSchema as any).anyOf.length).toBe(6);
+    expect((schema.jsonSchema as any).anyOf.length).toBe(7);
 
     const toolNames = (schema.jsonSchema as any).anyOf
       .map((b: any) => b.properties?.toolName?.enum?.[0])
@@ -912,7 +915,7 @@ describe("Phase 46B: Production ContextResidencyTracker & Brain Projection Verif
     // Production deriveActionProposalSchema with disabled filtering: returns static constant unconditionally
     const defaultOffSchema = productionDeriveActionProposalSchema(fiveTools, { enableDynamicToolFiltering: false });
     expect(defaultOffSchema).toBe(ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA);
-    expect((defaultOffSchema.jsonSchema as any).anyOf.length).toBe(7);
+    expect((defaultOffSchema.jsonSchema as any).anyOf.length).toBe(8);
   });
 
   it("exercises production LiveAgentBrain: default-off preserves static schema, enabled projects dynamic schema", () => {
@@ -935,7 +938,7 @@ describe("Phase 46B: Production ContextResidencyTracker & Brain Projection Verif
     // Outbound structuredOutput is the static 7-branch constant regardless of availableTools
     expect(defaultRequest.generation).toBeDefined();
     expect(defaultRequest.generation!.structuredOutput).toBe(ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA);
-    expect((defaultRequest.generation!.structuredOutput?.jsonSchema as any).anyOf.length).toBe(7);
+    expect((defaultRequest.generation!.structuredOutput?.jsonSchema as any).anyOf.length).toBe(8);
 
     // 2. Enabled LiveAgentBrain (enableDynamicToolFiltering: true)
     const enabledBrain = new LiveAgentBrain({
@@ -953,7 +956,7 @@ describe("Phase 46B: Production ContextResidencyTracker & Brain Projection Verif
 
     // Outbound structuredOutput is dynamically reduced to 6 branches
     expect(enabledRequest.generation).toBeDefined();
-    expect((enabledRequest.generation!.structuredOutput?.jsonSchema as any).anyOf.length).toBe(6);
+    expect((enabledRequest.generation!.structuredOutput?.jsonSchema as any).anyOf.length).toBe(7);
     const branchToolNames = (enabledRequest.generation!.structuredOutput?.jsonSchema as any).anyOf
       .map((b: any) => b.properties?.toolName?.enum?.[0])
       .filter(Boolean);

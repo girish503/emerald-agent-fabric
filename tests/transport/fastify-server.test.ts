@@ -1097,4 +1097,257 @@ describe("8. Defect remediation regressions (adversarial review)", () => {
       }
     });
   });
+
+  describe("8. Task Queryability (GET /api/v1/tasks)", () => {
+    it("rejects unauthenticated requests with 401 and standard error envelope", async () => {
+      const server = mk();
+      const res = await server.inject({ method: "GET", url: "/api/v1/tasks" });
+      expect(res.statusCode).toBe(401);
+      const body = res.json();
+      expect(body.success).toBe(false);
+      expect(body.error.code).toBe("UNAUTHORIZED");
+      expect(body.error.timestamp).toBeDefined();
+      expect(body.error.traceId).toBeDefined();
+    });
+
+    it("allows operator, auditor, and admin roles to query tasks for their tenant", async () => {
+      const server = mk();
+      for (const tok of [TOK_A_OP, TOK_A_AUD, TOK_A_ADM]) {
+        const res = await server.inject({
+          method: "GET",
+          url: "/api/v1/tasks",
+          headers: bearer(tok),
+        });
+        expect(res.statusCode).toBe(200);
+        const body = res.json();
+        expect(body.success).toBe(true);
+        expect(Array.isArray(body.data)).toBe(true);
+      }
+    });
+
+    it("enforces strict tenant isolation between tenants", async () => {
+      const server = mk();
+      const now = Date.now();
+      (server as any).inMemoryStore.tasks.set("task-a1", {
+        taskId: "task-a1",
+        tenantId: "tenant-alpha",
+        title: "Alpha Task 1",
+        status: "CREATED",
+        executionMode: "sandboxed",
+        createdAt: new Date(now - 1000).toISOString(),
+        updatedAt: new Date(now - 1000).toISOString(),
+        contractId: "c-a1",
+      });
+      (server as any).inMemoryStore.tasks.set("task-b1", {
+        taskId: "task-b1",
+        tenantId: "tenant-beta",
+        title: "Beta Task 1",
+        status: "RUNNING",
+        executionMode: "sandboxed",
+        createdAt: new Date(now - 500).toISOString(),
+        updatedAt: new Date(now - 500).toISOString(),
+        contractId: "c-b1",
+      });
+
+      // Query as Alpha
+      const resA = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks",
+        headers: bearer(TOK_A_OP),
+      });
+      expect(resA.statusCode).toBe(200);
+      const tasksA = resA.json().data;
+      expect(tasksA.map((t: any) => t.taskId)).toEqual(["task-a1"]);
+
+      // Query as Beta
+      const resB = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks",
+        headers: bearer(TOK_B_OP),
+      });
+      expect(resB.statusCode).toBe(200);
+      const tasksB = resB.json().data;
+      expect(tasksB.map((t: any) => t.taskId)).toEqual(["task-b1"]);
+    });
+
+    it("strictly forbids caller-supplied tenantId parameter with 400 BAD_REQUEST", async () => {
+      const server = mk();
+      const res = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks?tenantId=tenant-beta",
+        headers: bearer(TOK_A_OP),
+      });
+      expect(res.statusCode).toBe(400);
+      const body = res.json();
+      expect(body.success).toBe(false);
+      expect(body.error.code).toBe("BAD_REQUEST");
+      expect(body.error.message).toContain("Explicit tenantId parameter is forbidden");
+    });
+
+    it("rejects unknown query parameters with 400 BAD_REQUEST", async () => {
+      const server = mk();
+      const res = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks?sort=descending",
+        headers: bearer(TOK_A_OP),
+      });
+      expect(res.statusCode).toBe(400);
+      const body = res.json();
+      expect(body.success).toBe(false);
+      expect(body.error.code).toBe("BAD_REQUEST");
+    });
+
+    it("rejects invalid limit values with 400 BAD_REQUEST", async () => {
+      const server = mk();
+      for (const invalidLimit of ["0", "-5", "101", "abc", "12.5"]) {
+        const res = await server.inject({
+          method: "GET",
+          url: `/api/v1/tasks?limit=${invalidLimit}`,
+          headers: bearer(TOK_A_OP),
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.json().error.code).toBe("BAD_REQUEST");
+      }
+    });
+
+    it("paginates stably using keyset (created_at DESC, task_id DESC)", async () => {
+      const server = mk();
+      const baseTime = 1700000000000;
+      // Seed 5 tasks for tenant-alpha
+      for (let i = 1; i <= 5; i++) {
+        const taskId = `task-00${i}`;
+        (server as any).inMemoryStore.tasks.set(taskId, {
+          taskId,
+          tenantId: "tenant-alpha",
+          title: `Task ${i}`,
+          status: "CREATED",
+          executionMode: "sandboxed",
+          createdAt: new Date(baseTime + i * 1000).toISOString(),
+          updatedAt: new Date(baseTime + i * 1000).toISOString(),
+          contractId: `contract-${i}`,
+        });
+      }
+
+      // Page 1: limit=2
+      const page1Res = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks?limit=2",
+        headers: bearer(TOK_A_OP),
+      });
+      expect(page1Res.statusCode).toBe(200);
+      const page1 = page1Res.json();
+      expect(page1.data).toHaveLength(2);
+      expect(page1.data[0].taskId).toBe("task-005");
+      expect(page1.data[1].taskId).toBe("task-004");
+      expect(page1.nextCursor).toBeDefined();
+      expect(typeof page1.nextCursor).toBe("string");
+
+      // Page 2: limit=2 & cursor
+      const page2Res = await server.inject({
+        method: "GET",
+        url: `/api/v1/tasks?limit=2&cursor=${encodeURIComponent(page1.nextCursor)}`,
+        headers: bearer(TOK_A_OP),
+      });
+      expect(page2Res.statusCode).toBe(200);
+      const page2 = page2Res.json();
+      expect(page2.data).toHaveLength(2);
+      expect(page2.data[0].taskId).toBe("task-003");
+      expect(page2.data[1].taskId).toBe("task-002");
+      expect(page2.nextCursor).toBeDefined();
+
+      // Page 3: limit=2 & cursor
+      const page3Res = await server.inject({
+        method: "GET",
+        url: `/api/v1/tasks?limit=2&cursor=${encodeURIComponent(page2.nextCursor)}`,
+        headers: bearer(TOK_A_OP),
+      });
+      expect(page3Res.statusCode).toBe(200);
+      const page3 = page3Res.json();
+      expect(page3.data).toHaveLength(1);
+      expect(page3.data[0].taskId).toBe("task-001");
+      expect(page3.nextCursor).toBeNull();
+    });
+
+    it("rejects tampered or mismatched cursor with 400 BAD_REQUEST", async () => {
+      const server = mk();
+      // Malformed base64
+      const resBadBase64 = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks?cursor=not-a-valid-cursor",
+        headers: bearer(TOK_A_OP),
+      });
+      expect(resBadBase64.statusCode).toBe(400);
+      expect(resBadBase64.json().error.code).toBe("BAD_REQUEST");
+
+      // Create a valid cursor for tenant-beta
+      (server as any).inMemoryStore.tasks.set("task-b1", {
+        taskId: "task-b1",
+        tenantId: "tenant-beta",
+        title: "Beta Task",
+        status: "CREATED",
+        executionMode: "sandboxed",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+      (server as any).inMemoryStore.tasks.set("task-b2", {
+        taskId: "task-b2",
+        tenantId: "tenant-beta",
+        title: "Beta Task 2",
+        status: "CREATED",
+        executionMode: "sandboxed",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+      const betaRes = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks?limit=1",
+        headers: bearer(TOK_B_OP),
+      });
+      const betaCursor = betaRes.json().nextCursor;
+      expect(betaCursor).toBeDefined();
+
+      // Attempt to use tenant-beta cursor as tenant-alpha
+      const crossTenantRes = await server.inject({
+        method: "GET",
+        url: `/api/v1/tasks?cursor=${encodeURIComponent(betaCursor)}`,
+        headers: bearer(TOK_A_OP),
+      });
+      expect(crossTenantRes.statusCode).toBe(400);
+      expect(crossTenantRes.json().error.code).toBe("BAD_REQUEST");
+      expect(crossTenantRes.json().error.message).toContain("tenant mismatch");
+    });
+
+    it("filters tasks by status", async () => {
+      const server = mk();
+      (server as any).inMemoryStore.tasks.set("task-s1", {
+        taskId: "task-s1",
+        tenantId: "tenant-alpha",
+        title: "Task S1",
+        status: "CREATED",
+        executionMode: "sandboxed",
+        createdAt: new Date(1700000001000).toISOString(),
+        updatedAt: new Date(1700000001000).toISOString(),
+      });
+      (server as any).inMemoryStore.tasks.set("task-s2", {
+        taskId: "task-s2",
+        tenantId: "tenant-alpha",
+        title: "Task S2",
+        status: "COMPLETED",
+        executionMode: "sandboxed",
+        createdAt: new Date(1700000002000).toISOString(),
+        updatedAt: new Date(1700000002000).toISOString(),
+      });
+
+      const res = await server.inject({
+        method: "GET",
+        url: "/api/v1/tasks?status=COMPLETED",
+        headers: bearer(TOK_A_OP),
+      });
+      expect(res.statusCode).toBe(200);
+      const data = res.json().data;
+      expect(data).toHaveLength(1);
+      expect(data[0].taskId).toBe("task-s2");
+      expect(data[0].status).toBe("COMPLETED");
+    });
+  });
 });

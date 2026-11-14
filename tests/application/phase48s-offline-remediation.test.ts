@@ -511,7 +511,7 @@ describe("Phase 48S: Offline Remediation — Whole-File Anchor Guard & Task Grou
 
     for (const [filePath, expectedSha256] of Object.entries(expectedHashes)) {
       expect(fs.existsSync(filePath), `Historical artifact must exist: ${filePath}`).toBe(true);
-      const content = fs.readFileSync(filePath);
+      const content = fs.readFileSync(filePath, "utf8").replace(/\r\n/g, "\n");
       const actualHash = crypto.createHash("sha256").update(content).digest("hex").toUpperCase();
       expect(actualHash).toBe(expectedSha256);
     }

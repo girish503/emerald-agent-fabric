@@ -1,0 +1,144 @@
+{
+  "phase": "Phase 11",
+  "model": "llama3.2:3b",
+  "gateStatus": "PASSED",
+  "timestamp": "2026-10-17T05:04:55.862Z",
+  "gateChecks": [
+    {
+      "name": "Model Generated Proposal",
+      "passed": true
+    },
+    {
+      "name": "Expected Tool is git_status",
+      "passed": true
+    },
+    {
+      "name": "ProposalValidator Validated",
+      "passed": true
+    },
+    {
+      "name": "Reflex Allowed",
+      "passed": true
+    },
+    {
+      "name": "Policy Allowed",
+      "passed": true
+    },
+    {
+      "name": "Action Created in SQLite",
+      "passed": true
+    },
+    {
+      "name": "Attempt Created in SQLite",
+      "passed": true
+    },
+    {
+      "name": "Physical Execution Succeeded",
+      "passed": true
+    },
+    {
+      "name": "Commit SHA Matches Initial",
+      "passed": true
+    },
+    {
+      "name": "Persistence Invariant (1 Action -> 1 Attempt)",
+      "passed": true
+    },
+    {
+      "name": "Runtime Received TOOL_RESULT Observation",
+      "passed": true
+    }
+  ],
+  "evidence": {
+    "modelProposal": {
+      "proposalId": "1",
+      "toolName": "git_status",
+      "inputPayload": {
+        "path": "."
+      },
+      "finishReason": "ACTION_PROPOSED"
+    },
+    "proposalValidation": {
+      "valid": true,
+      "rejectionReason": null,
+      "rejectionMessage": null
+    },
+    "reflexResult": {
+      "decision": "ALLOW",
+      "reasonCode": "NO_INTERVENTION",
+      "rationale": "No intervention required",
+      "reflexDurationMs": 1,
+      "evidencePresent": false
+    },
+    "policyDecision": {
+      "checkedCapability": "git.read",
+      "allowed": true,
+      "governanceBoundary": "PRE_EXECUTION_ENFORCED"
+    },
+    "actionCreation": {
+      "actionId": "3c507e98-7cfb-44b7-a815-acd10084e775",
+      "runId": "918b811b-9c2f-412d-8ef3-1ed566f79a7e",
+      "toolName": "git_status",
+      "sequenceNumber": 1,
+      "status": "SUCCEEDED",
+      "totalAttempts": 1,
+      "createdAt": "2026-10-17T05:04:55.822Z"
+    },
+    "attemptCreation": {
+      "attemptId": "6004edbe-3ab7-4096-9a73-363a42c51190",
+      "actionId": "3c507e98-7cfb-44b7-a815-acd10084e775",
+      "attemptNumber": 1,
+      "workerId": "worker-phase11-live",
+      "leaseId": "5ce41ee5-af65-4fbb-8fa6-d0630959d038",
+      "status": "SUCCEEDED",
+      "idempotencyToken": "918b811b-9c2f-412d-8ef3-1ed566f79a7e:3c507e98-7cfb-44b7-a815-acd10084e775:1"
+    },
+    "toolGatewayDispatch": {
+      "dispatchedTool": "git_status",
+      "targetPath": ".",
+      "isolation": "WORKSPACE",
+      "dispatched": true
+    },
+    "actualToolResult": {
+      "clean": true,
+      "currentCommit": "6f199353b5df8157256e4480662f7be988fe55ff",
+      "modified": [],
+      "added": [],
+      "deleted": [],
+      "untracked": []
+    },
+    "persistedState": {
+      "totalActions": 1,
+      "totalAttempts": 1,
+      "actionStatus": "SUCCEEDED",
+      "attemptStatus": "SUCCEEDED",
+      "linkageValid": true
+    },
+    "finalObservation": {
+      "observationId": "obs-result-6004edbe-3ab7-4096-9a73-363a42c51190",
+      "category": "TOOL_RESULT",
+      "priority": 60,
+      "content": {
+        "attemptId": "6004edbe-3ab7-4096-9a73-363a42c51190",
+        "actionId": "3c507e98-7cfb-44b7-a815-acd10084e775",
+        "toolName": "git_status",
+        "output": {
+          "clean": true,
+          "currentCommit": "6f199353b5df8157256e4480662f7be988fe55ff",
+          "modified": [],
+          "added": [],
+          "deleted": [],
+          "untracked": []
+        },
+        "exitCode": 0
+      }
+    },
+    "metrics": {
+      "modelLatencyMs": 94059,
+      "toolExecutionLatencyMs": 21,
+      "totalWallClockMs": 94088,
+      "promptBytes": 2159,
+      "modelCallsCount": 1
+    }
+  }
+}

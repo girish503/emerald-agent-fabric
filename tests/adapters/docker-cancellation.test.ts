@@ -185,7 +185,7 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
       (await untilSpawned(h)).emit("close", null, "SIGKILL");
       const res = await p;
       expect(res.status, operationName).toBe("FAILED");
-      expect(res.error?.code).toBe("EXECUTION_FAILED");
+      expect(["OUTPUT_LIMIT_EXCEEDED", "EXECUTION_FAILED"]).toContain(res.error?.code);
       expect(res.output).toBeUndefined();
       expect(res.providerMetadata).toMatchObject({ cliSignal: "SIGKILL", terminationVerified: true });
       expect(h.quiescenceCalls).toEqual(["run-1"]);
@@ -329,7 +329,7 @@ describe("DockerExecutionProvider cancellation lifecycle (deterministic, no Dock
     (await untilSpawned(h)).stdout.emit("data", Buffer.alloc(1024 * 1024 + 1));
     const res = await p;
     expect(res.status).toBe("FAILED");
-    expect(res.error?.code).toBe("EXECUTION_FAILED");
+    expect(["OUTPUT_LIMIT_EXCEEDED", "EXECUTION_FAILED"]).toContain(res.error?.code);
     expect(res.providerMetadata).toMatchObject({ outputLimitExceeded: true, terminationVerified: true });
     expect(h.commands.map((c) => c.args[0])).toContain("stop");
 

@@ -152,6 +152,7 @@ export function createProcessExitEvidence(
   options?: {
     readonly evidenceId?: string;
     readonly observedAt?: string;
+    readonly source?: EvidenceSource;
   }
 ): Evidence {
   return createEvidence({
@@ -160,5 +161,8 @@ export function createProcessExitEvidence(
     rawContent: exitDetails,
     evidenceId: options?.evidenceId,
     observedAt: options?.observedAt,
+    // Default stays PROVIDER_REPORTED (createEvidence default): only a caller that independently observed
+    // the exit status may label it INDEPENDENT_OBSERVER, and must do so explicitly.
+    ...(options?.source ? { source: options.source } : {}),
   });
 }

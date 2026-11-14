@@ -51,7 +51,6 @@ import { RunSnapshot } from "../domain/invariants.js";
 import {
   defaultGovernedToolRegistry,
   isValidToolName,
-  staticToolRegistry,
   ToolDefinition,
   ToolName,
   ToolRequest,
@@ -66,6 +65,13 @@ import {
 } from "../ports/tool-adapter.port.js";
 import { ToolRegistryPort } from "../ports/tool-registry.port.js";
 import { RunCoordinator } from "./run-coordinator.js";
+import {
+  type GovernedToolConnectorService,
+  type WorkspaceConnectorContext,
+} from "./governed-tool-connector.js";
+import { ApprovalControl } from "../control-plane/approval-control.js";
+import { isHighRiskToolOperation } from "../governance/production-governance-facade.js";
+import type { EmeraldLifecycleTelemetry } from "./observability-instrumentation.js";
 
 /**
  * Trusted ambient runtime context establishing execution authority.
@@ -84,6 +90,7 @@ export interface TrustedToolInvocationContext {
   readonly abortSignal?: AbortSignal;
   readonly tenantId?: string;
   readonly trustClassification?: ExecutionWorkloadTrustClassification;
+  readonly systemVerificationSpecId?: string;
 }
 
 export type ToolAuthorizationStatus = "AUTHORIZED" | "DENIED" | "INVALID";
@@ -109,6 +116,10 @@ export interface ToolExecutionGatewayOptions {
   readonly policyEvaluator?: PolicyEvaluator;
   readonly clock?: ClockPort;
   readonly isIsolationAvailable?: boolean | (() => Promise<boolean>);
+  readonly connectorService?: GovernedToolConnectorService;
+  readonly approvalControl?: ApprovalControl;
+  readonly enableApprovalGate?: boolean;
+  readonly telemetry?: EmeraldLifecycleTelemetry;
 }
 
 export interface ExecuteToolOptions {
@@ -123,6 +134,9 @@ export class ToolExecutionGateway {
   private readonly policyEvaluator: PolicyEvaluator;
   private readonly clock: ClockPort;
   private readonly isIsolationAvailableProbe?: boolean | (() => Promise<boolean>);
+  private readonly connectorService?: GovernedToolConnectorService;
+  private readonly approvalControl?: ApprovalControl;
+  private readonly telemetry?: EmeraldLifecycleTelemetry;
 
   constructor(options: ToolExecutionGatewayOptions = {}) {
     this.toolRegistry = options.toolRegistry ?? defaultGovernedToolRegistry;
@@ -132,6 +146,14 @@ export class ToolExecutionGateway {
     this.policyEvaluator = options.policyEvaluator ?? new PolicyEvaluator();
     this.clock = options.clock ?? new SystemClock();
     this.isIsolationAvailableProbe = options.isIsolationAvailable;
+    this.connectorService = options.connectorService;
+    this.telemetry = options.telemetry;
+    const effectiveStore = options.stateStore ?? options.coordinator?.store;
+    if (options.approvalControl) {
+      this.approvalControl = options.approvalControl;
+    } else if (options.enableApprovalGate && effectiveStore?.insertApprovalRequest) {
+      this.approvalControl = new ApprovalControl(this.clock, effectiveStore, true);
+    }
   }
 
   get adapters(): ToolAdapterRegistryPort | undefined {
@@ -466,25 +488,55 @@ export class ToolExecutionGateway {
     }
 
     // ------------------------------------------------------------------------
-    // Stage 5 & 6: Capability Authorization via PolicyEvaluator
+    // Stage 5 & 6: Capability Authorization via PolicyEvaluator & System Verification
     // ------------------------------------------------------------------------
-    const policyDecision = this.policyEvaluator.evaluateCapability(
-      toolDef.requiredCapability,
-      contract.spec.policy
-    );
+    let capabilityAuthorized = false;
 
-    if (policyDecision.status !== "ALLOWED") {
-      const error = new ToolCapabilityDeniedError(
-        toolDef.name,
-        toolDef.requiredCapability,
-        policyDecision.message
+    // Check if this action is an authorized system-owned verification action
+    if (context.systemVerificationSpecId) {
+      const boundVerificationSpecs = contract.spec.verificationSpecs ?? [];
+      const matchingSpec = boundVerificationSpecs.find(
+        (s) => s.specId === context.systemVerificationSpecId
       );
-      return {
-        status: "DENIED",
-        toolName: toolDef.name,
-        errorPayload: error.toPayload(),
-        domainError: error,
-      };
+      if (matchingSpec && matchingSpec.ruleKind === "EXIT_CODE_ZERO") {
+        const expected = matchingSpec.expectedValue as Record<string, unknown> | undefined;
+        const expectedTool = (expected?.toolName as string) ?? "run_command";
+        const expectedArgv = Array.isArray(expected?.argv) ? expected!.argv : undefined;
+
+        // Verify that the requested tool and argv strictly match the authoritative bound spec
+        const inputArgv = (request.input as any)?.argv;
+        const toolMatches = request.toolName === expectedTool;
+        const argvMatches =
+          !expectedArgv ||
+          (Array.isArray(inputArgv) &&
+            inputArgv.length === expectedArgv.length &&
+            inputArgv.every((v, i) => v === expectedArgv[i]));
+
+        if (toolMatches && argvMatches) {
+          capabilityAuthorized = true;
+        }
+      }
+    }
+
+    if (!capabilityAuthorized) {
+      const policyDecision = this.policyEvaluator.evaluateCapability(
+        toolDef.requiredCapability,
+        contract.spec.policy
+      );
+
+      if (policyDecision.status !== "ALLOWED") {
+        const error = new ToolCapabilityDeniedError(
+          toolDef.name,
+          toolDef.requiredCapability,
+          policyDecision.message
+        );
+        return {
+          status: "DENIED",
+          toolName: toolDef.name,
+          errorPayload: error.toPayload(),
+          domainError: error,
+        };
+      }
     }
 
     // ------------------------------------------------------------------------
@@ -745,9 +797,10 @@ export class ToolExecutionGateway {
       };
     }
 
-    // Seam: Check if an adapter is registered in the adapter registry
+    // Seam: Check if an adapter or connector is registered
     const adapter = this.adapterRegistry?.getAdapter(decision.toolName!);
-    if (!adapter) {
+    const hasConnector = Boolean(this.connectorService?.hasConnector(decision.toolName!));
+    if (!adapter && !hasConnector) {
       const error = new ToolProviderUnavailableError(
         decision.toolName!,
         `No adapter registered for tool '${decision.toolName}'`
@@ -764,12 +817,139 @@ export class ToolExecutionGateway {
       };
     }
 
-    // Authorized adapter execution
+    // Resolve bound contract and run metadata for approval gate and connector dispatch
+    const resolvedRun = this.getRun(context.runId);
+    const resolvedContract = resolvedRun?.contractBinding
+      ? this.getContract(resolvedRun.contractBinding.contractId, resolvedRun.contractBinding.version)
+      : null;
+    const effectiveStore = this.stateStore ?? this.coordinator?.store;
+    const resolvedTask = effectiveStore ? effectiveStore.getTask(context.taskId) : null;
+    const inputRecord =
+      decision.validatedInput &&
+      typeof decision.validatedInput === "object" &&
+      !Array.isArray(decision.validatedInput)
+        ? (decision.validatedInput as Record<string, unknown>)
+        : {};
+
+    // Human-in-the-loop Approval Gate (fail closed for high-risk ops or explicit requireApproval tasks)
+    const taskRequiresApproval =
+      Boolean((resolvedTask?.inputPayload as Record<string, unknown> | null | undefined)?.requireApproval === true);
+    if (
+      this.approvalControl &&
+      (taskRequiresApproval || isHighRiskToolOperation(decision.toolName!, inputRecord))
+    ) {
+      const parametersHash = computeCanonicalHash(inputRecord).contentHash;
+      const tenantId =
+        decision.executionContext!.tenantId ??
+        resolvedContract?.spec.policy.tenantId ??
+        "tenant-default";
+      const contractHash =
+        resolvedRun?.contractBinding?.contentHash ??
+        resolvedContract?.contentHash ??
+        "";
+      const auth = this.approvalControl.authorizeAndConsume({
+        runId: context.runId,
+        taskId: context.taskId,
+        tenantId,
+        contractHash,
+        operation: decision.toolName!,
+        parametersHash,
+        consume: true,
+      });
+
+      if (!auth.authorized) {
+        let approvalId = auth.approvalId;
+        if (auth.status === "MISSING") {
+          const created = this.approvalControl.requestApproval({
+            runId: context.runId,
+            taskId: context.taskId,
+            tenantId,
+            contractHash,
+            operation: decision.toolName!,
+            parameters: inputRecord,
+            riskLevel: "HIGH",
+            justification: `Governed tool invocation '${decision.toolName}' requires operator approval`,
+            singleUse: true,
+          });
+          approvalId = created.approvalId;
+        }
+        const approvalErrorCode =
+          auth.status === "REJECTED"
+            ? "APPROVAL_REJECTED"
+            : auth.status === "EXPIRED"
+              ? "APPROVAL_EXPIRED"
+              : auth.status === "CONSUMED" || auth.status === "MISMATCH"
+                ? "APPROVAL_INVALID"
+                : "WAITING_APPROVAL";
+        this.telemetry?.recordApprovalDecision({
+          action: approvalErrorCode === "WAITING_APPROVAL" ? "requested" : auth.status.toLowerCase(),
+          riskLevel: "HIGH",
+        });
+        return {
+          requestId: request.requestId,
+          toolName: request.toolName,
+          status: "FAILED",
+          error: {
+            code: approvalErrorCode,
+            category: "authorization",
+            message: auth.reason,
+            details: {
+              approvalId,
+              approvalStatus: auth.status,
+              operation: decision.toolName!,
+              parametersHash,
+            },
+          },
+          durationMs: Math.max(0, this.clock.now().getTime() - startTime),
+        };
+      }
+      this.telemetry?.recordApprovalDecision({
+        action: "consumed",
+        riskLevel: "HIGH",
+      });
+    }
+
+    // Authorized connector or adapter execution
     try {
-      const rawOutput = await adapter.execute(
-        decision.executionContext!,
-        decision.validatedInput as any
-      );
+      let rawOutput: unknown;
+      if (hasConnector && this.connectorService) {
+        const allowedCapabilities = resolvedContract?.spec.policy.allowedCapabilities ?? [
+          decision.executionContext!.requiredCapability,
+        ];
+        const connectorResult = await this.connectorService.executeConnector(
+          decision.toolName!,
+          decision.validatedInput,
+          {
+            tenantId:
+              decision.executionContext!.tenantId ??
+              resolvedContract?.spec.policy.tenantId ??
+              "tenant-default",
+            taskId: context.taskId,
+            runId: context.runId,
+            contractId: resolvedContract?.spec.contractId ?? "unknown",
+            authorizedCapabilities: allowedCapabilities,
+            maxOutputBytes: decision.executionContext!.resourceLimits.maxOutputBytes,
+            timeoutMs: decision.executionContext!.resourceLimits.timeoutMs,
+            abortSignal: decision.executionContext!.abortSignal,
+            ...(decision.toolDefinition!.idempotency === "IDEMPOTENT"
+              ? { idempotencyKey: request.requestId }
+              : {}),
+            adapterContext: decision.executionContext!,
+          } as WorkspaceConnectorContext
+        );
+        if (connectorResult.truncated) {
+          throw new ToolExecutionFailedError(
+            decision.toolName!,
+            `Connector output exceeded ceiling of ${decision.executionContext!.resourceLimits.maxOutputBytes} bytes`
+          );
+        }
+        rawOutput = connectorResult.output;
+      } else {
+        rawOutput = await adapter!.execute(
+          decision.executionContext!,
+          decision.validatedInput as any
+        );
+      }
 
       // Validate output schema
       const outputParsed = decision.toolDefinition!.outputSchema.safeParse(rawOutput);

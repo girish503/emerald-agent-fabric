@@ -30,6 +30,9 @@ const execFileAsync = promisify(execFile);
 
 export interface ToolExecutionContext {
   readonly runId: string;
+  readonly taskId?: string;
+  readonly tenantId?: string;
+  readonly approvalId?: string;
   readonly subjectId: string;
   readonly fenceId: string;
   readonly harnessType: HarnessType;
@@ -45,6 +48,10 @@ export interface ToolExecutionResponse {
   readonly success: boolean;
   readonly output: unknown;
   readonly error?: string;
+  readonly requiresHumanApproval?: boolean;
+  readonly approvalId?: string;
+  readonly approvalStatus?: string;
+  readonly runStatusHint?: "WAITING_APPROVAL";
   readonly durationMs: number;
   readonly bytesOutput: number;
 }
@@ -72,6 +79,9 @@ export class ProductionToolGateway {
     // 1. Mandatory Governance Gate
     const decision = this.governance.evaluateProposal({
       runId: context.runId,
+      taskId: context.taskId,
+      tenantId: context.tenantId,
+      approvalId: context.approvalId,
       subjectId: context.subjectId,
       fenceId: context.fenceId,
       harnessType: context.harnessType,
@@ -87,6 +97,10 @@ export class ProductionToolGateway {
         success: false,
         output: null,
         error: `Governance denial [${decision.controlId ?? "GOVERNANCE_BLOCKED"}]: ${decision.reason}`,
+        ...(decision.requiresHumanApproval !== undefined ? { requiresHumanApproval: decision.requiresHumanApproval } : {}),
+        ...(decision.approvalId ? { approvalId: decision.approvalId } : {}),
+        ...(decision.approvalStatus ? { approvalStatus: decision.approvalStatus } : {}),
+        ...(decision.runStatusHint ? { runStatusHint: decision.runStatusHint } : {}),
         durationMs: Date.now() - startTime,
         bytesOutput: 0,
       };
@@ -492,9 +506,13 @@ export class ProductionToolGateway {
     context: ToolExecutionContext,
   ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
     const cmd = String(input["command"] || "");
-    const args = Array.isArray(input["args"]) ? (input["args"] as string[]) : [];
+    const rawArgs = Array.isArray(input["args"]) ? input["args"] : Array.isArray(input["argv"]) ? input["argv"] : [];
+    const args = rawArgs.map((a) => String(a));
 
-    // Security: sanitize against command injection
+    // Security: sanitize against null bytes and command injection
+    if (cmd.includes("\0") || args.some((a) => a.includes("\0"))) {
+      throw new Error("Null bytes denied in run_command");
+    }
     if (cmd.includes(";") || cmd.includes("&") || cmd.includes("|") || cmd.includes("`") || cmd.includes("$")) {
       throw new Error(`Shell metacharacters denied in run_command: ${cmd}`);
     }

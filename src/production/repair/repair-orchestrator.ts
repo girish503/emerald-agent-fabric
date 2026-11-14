@@ -17,6 +17,7 @@ import { CapabilityFence, computeCapabilityFenceHash } from "../../domain/capabi
 import { CapabilityFenceEnforcer } from "../../application/capability-fence-enforcer.js";
 import { CrossHarnessGateway } from "../../application/cross-harness-gateway.js";
 import { ProductionGovernanceFacade } from "../../governance/production-governance-facade.js";
+import { ApprovalControl } from "../../control-plane/approval-control.js";
 import { ProductionToolGateway, ToolExecutionContext } from "../../tools/production-tools.js";
 import { ProductionVerifier } from "../../verification/production-verifier.js";
 import { EvidenceControl } from "../../control-plane/evidence-control.js";
@@ -76,6 +77,7 @@ export class ProductionRepairOrchestrator {
     private readonly clock: ClockPort = new SystemClock(),
     mutationStore?: MutationIntentStorePort,
     snapshotBasePath?: string,
+    approvalControl?: ApprovalControl,
   ) {
     const resolvedStore: MutationIntentStorePort | undefined =
       mutationStore ??
@@ -86,7 +88,13 @@ export class ProductionRepairOrchestrator {
           : undefined);
 
     this.mutationStore = resolvedStore;
-    this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway);
+    const approvalStore = this.runControl.getStateStore() ?? (this.runControl.getCoordinator()?.store as any);
+    const resolvedApprovalControl =
+      approvalControl ??
+      (approvalStore && typeof (approvalStore as any).insertApprovalRequest === "function"
+        ? new ApprovalControl(this.clock, approvalStore, true)
+        : undefined);
+    this.governanceFacade = new ProductionGovernanceFacade(this.fenceEnforcer, this.crossHarnessGateway, resolvedApprovalControl, this.clock);
     this.toolGateway = new ProductionToolGateway(this.governanceFacade, resolvedStore, snapshotBasePath);
     this.verifier = verifier ?? new ProductionVerifier(this.clock);
     this.evidenceControl = evidenceControl ?? new EvidenceControl();
@@ -316,6 +324,8 @@ export class ProductionRepairOrchestrator {
 
     const toolCtx: ToolExecutionContext = {
       runId: run.runId,
+      taskId: mission.taskId,
+      tenantId: mission.contract.spec.policy.tenantId,
       subjectId: actorId,
       fenceId,
       harnessType: "IMPLEMENTATION_HARNESS",
@@ -325,6 +335,7 @@ export class ProductionRepairOrchestrator {
       timeoutMs: this.prodConfig.timeouts.actionTimeoutMs,
       governedBenchmarkRepairMode: mission.contract.spec.policy.governedBenchmarkRepairMode,
     };
+    let waitingApprovalReason: string | null = null;
 
     let pendingDiagnosticFeedback: string | null = null;
     let pendingTestFeedback: string | null = null;
@@ -503,6 +514,8 @@ export class ProductionRepairOrchestrator {
       const capability = this.toolGateway["mapToolToCapability"](proposal.toolName);
       const governanceDecision = this.governanceFacade.evaluateProposal({
         runId: run.runId,
+        taskId: mission.taskId,
+        tenantId: mission.contract.spec.policy.tenantId,
         subjectId: actorId,
         fenceId,
         harnessType: "IMPLEMENTATION_HARNESS",
@@ -511,10 +524,24 @@ export class ProductionRepairOrchestrator {
         input: proposal.toolInput,
         workspacePath: mission.workspacePath,
         missionContractHash: mission.contract.contentHash,
+        consumeApproval: false,
       });
 
       if (!governanceDecision.authorized) {
         sessionState.classification = "GOVERNANCE_REJECTION";
+        if (governanceDecision.requiresHumanApproval) {
+          waitingApprovalReason = `Waiting for operator approval [${governanceDecision.approvalStatus ?? "PENDING"}]: ${governanceDecision.reason}`;
+          sessionState.stoppedReason = waitingApprovalReason;
+          this.runControl.transitionStatus(run.runId, "WAITING_APPROVAL", waitingApprovalReason);
+          this.evidenceControl.recordTimelineEntry(
+            run.runId,
+            "run.waiting_approval",
+            waitingApprovalReason,
+            "GovernanceFacade",
+            { decision: governanceDecision },
+          );
+          break;
+        }
         sessionState.stoppedReason = `Governance denied action [${governanceDecision.controlId ?? "POLICY"}]: ${governanceDecision.reason}`;
         this.evidenceControl.recordTimelineEntry(
           run.runId,
@@ -536,6 +563,20 @@ export class ProductionRepairOrchestrator {
       this.runControl.incrementActionAttempt(run.runId, false);
 
       const toolRes = await this.toolGateway.executeTool(proposal.toolName, proposal.toolInput, toolCtx);
+      if (!toolRes.success && (toolRes.requiresHumanApproval || toolRes.runStatusHint === "WAITING_APPROVAL")) {
+        waitingApprovalReason = toolRes.error ?? `Tool '${proposal.toolName}' requires human approval`;
+        sessionState.classification = "GOVERNANCE_REJECTION";
+        sessionState.stoppedReason = waitingApprovalReason;
+        this.runControl.transitionStatus(run.runId, "WAITING_APPROVAL", waitingApprovalReason);
+        this.evidenceControl.recordTimelineEntry(
+          run.runId,
+          "run.waiting_approval",
+          waitingApprovalReason,
+          actorId,
+          { toolName: proposal.toolName, approvalId: toolRes.approvalId },
+        );
+        break;
+      }
       this.evidenceControl.recordTimelineEntry(
         run.runId,
         toolRes.success ? "tool.executed" : "tool.denied_or_failed",
@@ -887,59 +928,80 @@ export class ProductionRepairOrchestrator {
     // =========================================================================
     // SOVEREIGN VERIFICATION GATE
     // =========================================================================
-    this.runControl.transitionStatus(run.runId, "VERIFYING");
-    this.evidenceControl.recordTimelineEntry(
-      run.runId,
-      "verification.started",
-      "Sovereign multi-stage clean-room verification gate engaged",
-      "SovereignVerifier",
-    );
+    const isWaitingApproval =
+      waitingApprovalReason !== null || this.runControl.getRun(run.runId)?.status === "WAITING_APPROVAL";
 
-    const verificationResult = await this.verifier.verify({
-      workspacePath: mission.workspacePath,
-      buildCommand: options?.buildCommand,
-      testCommand: options?.testCommand,
-    });
+    if (!isWaitingApproval) {
+      this.runControl.transitionStatus(run.runId, "VERIFYING");
+      this.evidenceControl.recordTimelineEntry(
+        run.runId,
+        "verification.started",
+        "Sovereign multi-stage clean-room verification gate engaged",
+        "SovereignVerifier",
+      );
+    }
+
+    const verificationResult = isWaitingApproval
+      ? {
+          verified: false,
+          stages: [],
+          proofHash: "",
+          durationMs: 0,
+          failureReason: waitingApprovalReason ?? sessionState.stoppedReason ?? "Waiting for human approval",
+          verifiedAt: this.clock.now().toISOString(),
+        }
+      : await this.verifier.verify({
+          workspacePath: mission.workspacePath,
+          buildCommand: options?.buildCommand,
+          testCommand: options?.testCommand,
+        });
 
     sessionState.sovereignVerified = verificationResult.verified;
 
-    this.evidenceControl.recordTimelineEntry(
-      run.runId,
-      "verification.completed",
-      `Sovereign verification ${verificationResult.verified ? "PASSED" : "FAILED"}. Proof: ${verificationResult.proofHash}`,
-      "SovereignVerifier",
-      { verified: verificationResult.verified, proofHash: verificationResult.proofHash },
-    );
+    if (!isWaitingApproval) {
+      this.evidenceControl.recordTimelineEntry(
+        run.runId,
+        "verification.completed",
+        `Sovereign verification ${verificationResult.verified ? "PASSED" : "FAILED"}. Proof: ${verificationResult.proofHash}`,
+        "SovereignVerifier",
+        { verified: verificationResult.verified, proofHash: verificationResult.proofHash },
+      );
 
-    // Enforce No Commit / No Push Invariant
-    await this.verifyNoGitCommitOrPush(mission.workspacePath, initialGitHash);
+      // Enforce No Commit / No Push Invariant
+      await this.verifyNoGitCommitOrPush(mission.workspacePath, initialGitHash);
 
-    // Terminal Classification Attribution
-    if (verificationResult.verified) {
-      if (sessionState.scopeViolations.length > 0 || unexpectedChanges.length > 0) {
-        sessionState.classification = "VERIFICATION_FAILURE";
-        sessionState.stoppedReason = "Verification rejected due to scope boundary violation";
-      } else if (
-        sessionState.classification === "GOVERNANCE_REJECTION" ||
-        sessionState.classification === "TIMEOUT" ||
-        sessionState.classification === "MODEL_PROPOSAL_FAILURE"
-      ) {
-        // Retain pre-terminal failure classification if loop exited prematurely
-      } else {
-        sessionState.classification = "SOVEREIGN_VERIFIED_SUCCESS";
-        sessionState.stoppedReason = "Goal achieved and sovereign verification certified success";
+      // Terminal Classification Attribution
+      if (verificationResult.verified) {
+        if (sessionState.scopeViolations.length > 0 || unexpectedChanges.length > 0) {
+          sessionState.classification = "VERIFICATION_FAILURE";
+          sessionState.stoppedReason = "Verification rejected due to scope boundary violation";
+        } else if (
+          sessionState.classification === "GOVERNANCE_REJECTION" ||
+          sessionState.classification === "TIMEOUT" ||
+          sessionState.classification === "MODEL_PROPOSAL_FAILURE"
+        ) {
+          // Retain pre-terminal failure classification if loop exited prematurely
+        } else {
+          sessionState.classification = "SOVEREIGN_VERIFIED_SUCCESS";
+          sessionState.stoppedReason = "Goal achieved and sovereign verification certified success";
+        }
+      } else if (!sessionState.stoppedReason) {
+        if (verificationResult.failureReason?.includes("Build failed")) {
+          sessionState.classification = "PATCH_FAILURE";
+        } else {
+          sessionState.classification = "VERIFICATION_FAILURE";
+        }
+        sessionState.stoppedReason = verificationResult.failureReason ?? "Sovereign verification tests failed";
       }
-    } else if (!sessionState.stoppedReason) {
-      if (verificationResult.failureReason?.includes("Build failed")) {
-        sessionState.classification = "PATCH_FAILURE";
-      } else {
-        sessionState.classification = "VERIFICATION_FAILURE";
-      }
-      sessionState.stoppedReason = verificationResult.failureReason ?? "Sovereign verification tests failed";
     }
 
-    const finalStatus = sessionState.classification === "SOVEREIGN_VERIFIED_SUCCESS" ? "COMPLETED" : "FAILED";
-    const completedRun = this.runControl.transitionStatus(run.runId, finalStatus, sessionState.stoppedReason);
+    const completedRun = isWaitingApproval
+      ? this.runControl.getRun(run.runId)!
+      : this.runControl.transitionStatus(
+          run.runId,
+          sessionState.classification === "SOVEREIGN_VERIFIED_SUCCESS" ? "COMPLETED" : "FAILED",
+          sessionState.stoppedReason,
+        );
 
     // Sovereign verification authority: disposition and sovereignVerified state must reflect authoritative classification
     const isAuthoritativelyAccepted =

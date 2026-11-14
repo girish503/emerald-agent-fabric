@@ -13,14 +13,14 @@
 
 ## 1. Executive Summary
 
-During the Bounded Real-Project Usability Trial ([`docs/production/bounded-real-project-usability-trial.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-usability-trial.md)), the local `qwen2.5-coder:3b` model executed a read-only code understanding task (`real-task-a`) targeting [`src/production/diagnostics/source-diagnostic-engine.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/diagnostics/source-diagnostic-engine.ts). 
+During the Bounded Real-Project Usability Trial ([`docs/production/bounded-real-project-usability-trial.md`](../../docs/production/bounded-real-project-usability-trial.md)), the local `qwen2.5-coder:3b` model executed a read-only code understanding task (`real-task-a`) targeting [`src/production/diagnostics/source-diagnostic-engine.ts`](../../src/production/diagnostics/source-diagnostic-engine.ts). 
 
 In Turn 1, the model emitted an extraneous `content: ""` field inside `toolInput` for `read_file`. In Turn 2 (reprompt), it emitted both `content: ""` and `expectedDigest: ""`. Both proposals were intercepted and rejected fail-closed by the Zod schema validator, preventing any unauthorized tool execution or workspace modification.
 
 This read-only investigation traced the failure path from prompt construction through Ollama grammar constrained generation, JSON deserialization, and Zod schema validation.
 
 ### Key Conclusions:
-1. **Exact Rejection Point**: Intercepted in [`src/production/adapter/structured-proposal-schema.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/adapter/structured-proposal-schema.ts#L297-L299) by `ReadFileInputSchema.safeParse(toolInput)` at line 298.
+1. **Exact Rejection Point**: Intercepted in [`src/production/adapter/structured-proposal-schema.ts`](../../src/production/adapter/structured-proposal-schema.ts#L297-L299) by `ReadFileInputSchema.safeParse(toolInput)` at line 298.
 2. **Root Cause**: A three-part architectural and prompt mismatch:
    - **Grammar/Validator Asymmetry**: The grammar schema passed to Ollama (`getStructuredProposalJsonSchema()`) defines `toolInput` as a flat object containing all properties across all 7 tools (including `content` and `expectedDigest`). Ollama's grammar engine therefore considers those tokens syntactically valid children of `toolInput` regardless of `toolName`.
    - **Adapter Contract Lockdown**: While `src/domain/tool-schemas.ts` and `src/tools/production-tools.ts` accept `offsetLine` and `limitLines`, the V1.8 adapter schema (`ReadFileInputSchema`) strictly permits ONLY `{ path: string }`.
@@ -48,7 +48,7 @@ flowchart TD
 
 ### Trace Step Details:
 
-1. **Prompt Construction** ([`scripts/run-task-a-real-project.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/run-task-a-real-project.ts)):
+1. **Prompt Construction** ([`scripts/run-task-a-real-project.ts`](../../scripts/run-task-a-real-project.ts)):
    - Prompt included instructions to inspect `src/production/diagnostics/source-diagnostic-engine.ts`.
    - The embedded one-shot JSON example contained:
      ```json
@@ -64,7 +64,7 @@ flowchart TD
        "isGoalReached": false
      }
      ```
-2. **Ollama Format Schema Injection** ([`src/production/benchmark/ollama-model-adapter.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/benchmark/ollama-model-adapter.ts#L68-L80)):
+2. **Ollama Format Schema Injection** ([`src/production/benchmark/ollama-model-adapter.ts`](../../src/production/benchmark/ollama-model-adapter.ts#L68-L80)):
    - When `constrainedOutputEnabled: true`, the adapter invokes `getStructuredProposalJsonSchema()` and passes it to Ollama's HTTP `/api/generate` endpoint under the `format` key.
    - In `getStructuredProposalJsonSchema()`, `toolInput` is defined as:
      ```json
@@ -88,13 +88,13 @@ flowchart TD
 3. **Model Token Sampling**:
    - Ollama applies llama.cpp grammar-constrained sampling. Because `offsetLine` is not in the grammar's allowed keys for `toolInput`, the sampler prevents the model from generating `"offsetLine"`.
    - The model, having been instructed to provide a tool input for file inspection, selects from the grammar's allowed properties. It generates `"path"` and `"content"` (Turn 1), and `"path"`, `"content"`, and `"expectedDigest"` (Turn 2).
-4. **Top-Level Proposal Ingestion** ([`src/production/adapter/structured-proposal-schema.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/adapter/structured-proposal-schema.ts#L173-L289)):
+4. **Top-Level Proposal Ingestion** ([`src/production/adapter/structured-proposal-schema.ts`](../../src/production/adapter/structured-proposal-schema.ts#L173-L289)):
    - Payload passes payload size check (<64 KB).
    - `JSON.parse` succeeds.
    - Top-level keys (`version`, `thought`, `toolName`, `toolInput`, `isGoalReached`) are all in `ALLOWED_TOP_LEVEL_KEYS`.
    - `version === "v1.8.0"` passes.
    - `toolName === "read_file"` is recognized in `AUTHORIZED_ACTION_NAMES`.
-5. **Tool-Specific Zod Validation** ([`src/production/adapter/structured-proposal-schema.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/adapter/structured-proposal-schema.ts#L296-L338)):
+5. **Tool-Specific Zod Validation** ([`src/production/adapter/structured-proposal-schema.ts`](../../src/production/adapter/structured-proposal-schema.ts#L296-L338)):
    - Dispatches to `ReadFileInputSchema.safeParse(toolInput)`.
    - `ReadFileInputSchema` is defined with `.strict()` and contains ONLY `path`:
      ```typescript
@@ -145,7 +145,7 @@ The investigation uncovered a significant architectural discrepancy across three
 
 ## 4. Exact Rejection Point
 
-- **Source File**: [`src/production/adapter/structured-proposal-schema.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/adapter/structured-proposal-schema.ts)
+- **Source File**: [`src/production/adapter/structured-proposal-schema.ts`](../../src/production/adapter/structured-proposal-schema.ts)
 - **Line Numbers**: Lines 297–299 & 328–338:
   ```typescript
   case "read_file":

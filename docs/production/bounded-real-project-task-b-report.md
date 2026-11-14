@@ -6,9 +6,9 @@
 - **Date**: 2026-10-23
 - **Model**: Local Ollama `qwen2.5-coder:3b` (HTTP `http://127.0.0.1:11434`)
 - **Cost**: ₹0.00 (100% local CPU inference)
-- **Target File**: [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts)
-- **Primary Script**: [`scripts/run-task-b-real-project.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/run-task-b-real-project.ts)
-- **Evidence Artifact**: [`scratch/bounded-real-project-task-b-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-task-b-results.json)
+- **Target File**: [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts)
+- **Primary Script**: [`scripts/run-task-b-real-project.ts`](../../scripts/run-task-b-real-project.ts)
+- **Evidence Artifact**: [`scratch/bounded-real-project-task-b-results.json`](../../scratch/bounded-real-project-task-b-results.json)
 - **Prior Artifacts Preserved**: Task A baseline, post-fix, and aligned reports remain byte-for-byte intact.
 
 ---

@@ -544,6 +544,8 @@ describe("Phase 47A: Governed Localized Editing & Test-Guided Repair", () => {
   // --------------------------------------------------------------------------
   it("Criterion 8: test timeout is represented explicitly", async () => {
     class SimulatingTimedOutExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
       readonly name = "simulated-timeout-provider";
       async execute<TInput = unknown, TOutput = unknown>(
         _request: ExecutionRequest<TInput>

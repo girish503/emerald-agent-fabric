@@ -343,8 +343,8 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
     ]);
     const { runId } = JSON.parse(s.output);
 
-    // Specify ollama with unreachable port
-    await cli.run([
+    // Governed model gate: without a registry-approved model the worker refuses to start.
+    const unapproved = await cli.run([
       "worker",
       "--db",
       dbPath,
@@ -354,12 +354,28 @@ describe("Milestone B: Durable CLI Agent Wiring", () => {
       "--ollama-base-url",
       "http://127.0.0.1:59999", // dead local port
     ]);
+    expect(unapproved.exitCode).not.toBe(0);
+    expect(unapproved.output).toMatch(/(?:approved open-weight model registry|requires an explicit approved options\.model)/);
 
-    // Worker run should fail closed without silent fallback to fixture or in-process
+    // With an approved model but an unreachable provider, installation cannot be confirmed: refuse to start.
+    const unreachable = await cli.run([
+      "worker",
+      "--db",
+      dbPath,
+      "--once",
+      "--model-provider",
+      "ollama",
+      "--model",
+      "qwen2.5-coder:1.5b",
+      "--ollama-base-url",
+      "http://127.0.0.1:59999", // dead local port
+    ]);
+    expect(unreachable.exitCode).not.toBe(0);
+    expect(unreachable.output).toMatch(/Cannot confirm that model/);
+
+    // Fail closed without silent fallback to fixture or in-process: the run is never claimed or executed.
     const i = await cli.run(["inspect", "--db", dbPath, "--run-id", runId]);
     const view = JSON.parse(i.output);
-    expect(view.status).toBe("FAILED");
-    expect(view.error?.code).toBe("EXECUTION_FAILED");
-    expect(view.error?.message).toMatch(/Ollama|connect|failed|unavailable/i);
+    expect(view.status).toBe("QUEUED");
   });
 });

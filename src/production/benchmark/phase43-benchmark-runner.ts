@@ -585,6 +585,8 @@ export interface Phase43TrialResult {
 
 export class LocalProcessExecutionProvider implements ExecutionProvider {
   readonly name = "local-process";
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
 
   async execute<TInput = unknown, TOutput = unknown>(
     request: ExecutionRequest<TInput>

@@ -39,7 +39,7 @@ In accordance with Section 2 of the trial instructions ("Do not assume a particu
 1. **Repository Selection**:
    - The trial operated directly against `emerald-agent-fabric`, a genuine, non-critical production codebase comprising over 20,000 lines of TypeScript, distributed agent coordination logic, and diagnostic infrastructure.
 2. **Task Suitability Evaluation**:
-   - **Task A (Read-Only Code Understanding)**: **SUITABLE**. A genuine, read-only inspection task was identified against [`src/production/diagnostics/source-diagnostic-engine.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/diagnostics/source-diagnostic-engine.ts) (477 lines) to explain syntax error detection, execution budget bounds, and non-authoritative invariant stripping.
+   - **Task A (Read-Only Code Understanding)**: **SUITABLE**. A genuine, read-only inspection task was identified against [`src/production/diagnostics/source-diagnostic-engine.ts`](../../src/production/diagnostics/source-diagnostic-engine.ts) (477 lines) to explain syntax error detection, execution budget bounds, and non-authoritative invariant stripping.
    - **Task B (Defect Localization)**: **SKIPPED (NO GENUINE OPEN DEFECT)**.
      - A full audit of all test suites confirmed 0 failing tests and 0 open bugs in the production runtime.
      - While `tsc --noEmit` reports strictness errors in legacy research files (Phases 91–99), those files belong to frozen research phases that cannot be touched under project invariants.
@@ -53,7 +53,7 @@ In accordance with Section 2 of the trial instructions ("Do not assume a particu
 
 ### 3.1 Task Specification
 - **Task ID**: `real-task-a`
-- **Target File**: [`src/production/diagnostics/source-diagnostic-engine.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/diagnostics/source-diagnostic-engine.ts)
+- **Target File**: [`src/production/diagnostics/source-diagnostic-engine.ts`](../../src/production/diagnostics/source-diagnostic-engine.ts)
 - **Initial SHA-256 Digest**: `376834853423c8f3084fc96590634d2a45949a619ee99db4f17041ecdb71d81d`
 - **Assigned Capability**: `READ_WORKSPACE` (Read-only; forbidden: `WRITE_WORKSPACE`, `WRITE_TEMPORARY_OUTPUT`, `NETWORK_ACCESS`)
 - **Allowed Tools**: `read_file`

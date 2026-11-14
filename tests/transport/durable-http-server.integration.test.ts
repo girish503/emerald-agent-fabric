@@ -32,6 +32,7 @@ import { buildFastifyServer, type PrincipalRecord } from "../../src/transport/ht
 import { SqliteStateStore } from "../../src/adapters/persistence/sqlite-state-store.js";
 import { RunCoordinator } from "../../src/application/run-coordinator.js";
 import { WorkerRuntime } from "../../src/application/worker-runtime.js";
+import { scopeIdempotencyKeyForTenant } from "../../src/application/durable-submission.js";
 import { EchoOperation, SlowOperation } from "../../src/domain/operation.js";
 import { SystemClock } from "../../src/ports/clock.port.js";
 import { EmeraldCli } from "../../src/cli/emerald-cli.js";
@@ -258,7 +259,9 @@ describe("Milestone 2.26 — Durable REST/SSE Transport & Runtime Event Integrat
     expect(data2.taskId).toBe(data1.taskId);
 
     // Verify only 1 run row exists in the store for this key
-    const runByKey = h.coordinator.getRunByIdempotencyKey(key);
+    const runByKey = h.coordinator.getRunByIdempotencyKey(
+      scopeIdempotencyKeyForTenant(key, "tenant-alpha")
+    );
     expect(runByKey).not.toBeNull();
     expect(runByKey!.runId).toBe(data1.runId);
   });
@@ -972,5 +975,131 @@ describe("Adversarial Security: Client-Controlled Trust Promotion Prevention", (
         authorizedForConstrainedHost: false, // unauthorized!
       });
     }).toThrow(/caller is not authorized for constrained host execution/);
+  });
+
+  it("Scenario 15: GET /api/v1/tasks queries durable SQLite tasks with tenant isolation and keyset pagination", async () => {
+    // 1. Submit 3 tasks for tenant-alpha
+    const alphaTaskIds: string[] = [];
+    for (let i = 1; i <= 3; i++) {
+      const res = await h.server.inject({
+        method: "POST",
+        url: "/api/v1/tasks",
+        headers: { ...bearer(TOK_A_OP), "content-type": "application/json" },
+        payload: {
+          title: `Alpha Durable Task ${i}`,
+          prompt: `Run durable task ${i}`,
+          modelConfig: { modelName: "qwen2.5-coder:3b" },
+        },
+      });
+      expect(res.statusCode).toBe(201);
+      alphaTaskIds.push(JSON.parse(res.body).data.taskId);
+    }
+
+    // 2. Submit 1 task for tenant-beta
+    const betaRes = await h.server.inject({
+      method: "POST",
+      url: "/api/v1/tasks",
+      headers: { ...bearer(TOK_B_OP), "content-type": "application/json" },
+      payload: {
+        title: "Beta Durable Task",
+        prompt: "Run beta durable task",
+        modelConfig: { modelName: "qwen2.5-coder:3b" },
+      },
+    });
+    expect(betaRes.statusCode).toBe(201);
+    const betaTaskId = JSON.parse(betaRes.body).data.taskId;
+
+    // 3. Query all tasks as tenant-alpha
+    const listResAlpha = await h.server.inject({
+      method: "GET",
+      url: "/api/v1/tasks",
+      headers: bearer(TOK_A_OP),
+    });
+    expect(listResAlpha.statusCode).toBe(200);
+    expect(listResAlpha.headers["x-emerald-durability"]).toBe("durable-coordinator");
+    const alphaBody = JSON.parse(listResAlpha.body);
+    expect(alphaBody.success).toBe(true);
+    expect(alphaBody.data).toHaveLength(3);
+    const returnedAlphaIds = alphaBody.data.map((t: any) => t.taskId);
+    expect(returnedAlphaIds).not.toContain(betaTaskId);
+    for (const id of alphaTaskIds) {
+      expect(returnedAlphaIds).toContain(id);
+    }
+    for (const t of alphaBody.data) {
+      expect(t.tenantId).toBe("tenant-alpha");
+      expect(t.contractId).toBeDefined();
+      expect(t.executionMode).toBe("sandboxed");
+    }
+
+    // 4. Keyset pagination on SQLite store
+    const page1Res = await h.server.inject({
+      method: "GET",
+      url: "/api/v1/tasks?limit=2",
+      headers: bearer(TOK_A_OP),
+    });
+    expect(page1Res.statusCode).toBe(200);
+    const page1 = JSON.parse(page1Res.body);
+    expect(page1.data).toHaveLength(2);
+    expect(page1.nextCursor).toBeDefined();
+    expect(typeof page1.nextCursor).toBe("string");
+
+    const page2Res = await h.server.inject({
+      method: "GET",
+      url: `/api/v1/tasks?limit=2&cursor=${encodeURIComponent(page1.nextCursor)}`,
+      headers: bearer(TOK_A_OP),
+    });
+    expect(page2Res.statusCode).toBe(200);
+    const page2 = JSON.parse(page2Res.body);
+    expect(page2.data).toHaveLength(1);
+    expect(page2.nextCursor).toBeNull();
+
+    // Verify union of pages has 0 duplicates and exactly covers alpha tasks
+    const paginatedIds = [...page1.data.map((t: any) => t.taskId), ...page2.data.map((t: any) => t.taskId)];
+    expect(paginatedIds).toHaveLength(3);
+    expect(new Set(paginatedIds).size).toBe(3);
+
+    // 5. Query as tenant-beta
+    const listResBeta = await h.server.inject({
+      method: "GET",
+      url: "/api/v1/tasks",
+      headers: bearer(TOK_B_OP),
+    });
+    expect(listResBeta.statusCode).toBe(200);
+    const betaBody = JSON.parse(listResBeta.body);
+    expect(betaBody.data).toHaveLength(1);
+    expect(betaBody.data[0].taskId).toBe(betaTaskId);
+    expect(betaBody.data[0].tenantId).toBe("tenant-beta");
+
+    // 6. Security tests on durable store
+    const forbiddenParamRes = await h.server.inject({
+      method: "GET",
+      url: "/api/v1/tasks?tenantId=tenant-beta",
+      headers: bearer(TOK_A_OP),
+    });
+    expect(forbiddenParamRes.statusCode).toBe(400);
+
+    const badCursorRes = await h.server.inject({
+      method: "GET",
+      url: "/api/v1/tasks?cursor=forged_cursor_value",
+      headers: bearer(TOK_A_OP),
+    });
+    expect(badCursorRes.statusCode).toBe(400);
+
+    // 7. Status filtering on durable store
+    const statusFilteredRes = await h.server.inject({
+      method: "GET",
+      url: "/api/v1/tasks?status=QUEUED",
+      headers: bearer(TOK_A_OP),
+    });
+    expect(statusFilteredRes.statusCode).toBe(200);
+    expect(JSON.parse(statusFilteredRes.body).data).toHaveLength(3);
+
+    const emptyStatusRes = await h.server.inject({
+      method: "GET",
+      url: "/api/v1/tasks?status=COMPLETED",
+      headers: bearer(TOK_A_OP),
+    });
+    expect(emptyStatusRes.statusCode).toBe(200);
+    expect(JSON.parse(emptyStatusRes.body).data).toHaveLength(0);
   });
 });

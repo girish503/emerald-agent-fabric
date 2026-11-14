@@ -1,0 +1,47 @@
+{
+  "uid": "emerald-06-memory",
+  "title": "06 - Scoped Durable Memory & SQLite Persistence",
+  "tags": ["emerald", "phase3", "memory", "sqlite"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Scoped Memory Operations by Scope & Outcome",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum by (operation, scope, outcome) (rate(emerald_memory_operations_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{operation}} {{scope}} ({{outcome}})" }]
+    },
+    {
+      "id": 2,
+      "title": "Truth Firewall Blocks & Expired Entries Purged",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "sum(emerald_memory_truth_firewall_rejections_total{execution_mode=~\"$execution_mode\"})", "legendFormat": "Firewall Rejections" },
+        { "refId": "B", "expr": "sum(emerald_memory_expired_purged_total{execution_mode=~\"$execution_mode\"})", "legendFormat": "Expired Purged" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "SQLite Transaction Latency p95 & BUSY Contentions",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        { "refId": "A", "expr": "histogram_quantile(0.95, sum(rate(emerald_sqlite_operation_duration_seconds_bucket[5m])) by (le, operation))", "legendFormat": "{{operation}} p95" },
+        { "refId": "B", "expr": "sum(rate(emerald_sqlite_busy_errors_total[5m]))", "legendFormat": "SQLITE_BUSY/s" }
+      ]
+    }
+  ]
+}

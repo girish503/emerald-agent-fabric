@@ -1,0 +1,205 @@
+{
+  "experimentName": "Phase 10B: Structured Output Boundary Diagnostic",
+  "timestamp": "2026-10-15T15:22:29.929Z",
+  "model": "llama3.2:3b",
+  "totalTrials": 6,
+  "conditions": {
+    "A": {
+      "label": "CURRENT_PRODUCTION",
+      "trials": 2,
+      "validOutputs": 0,
+      "invalidJson": 0,
+      "missingFields": 2,
+      "wrongFields": 0,
+      "reasoningContamination": 0,
+      "truncation": 0,
+      "timeouts": 0,
+      "otherErrors": 0,
+      "meanLatencyMs": 33099,
+      "medianLatencyMs": 48908,
+      "totalPromptTokens": 1060,
+      "totalOutputTokens": 176,
+      "schemaValidationRate": 0
+    },
+    "B": {
+      "label": "JSON_SCHEMA_ENFORCED",
+      "trials": 2,
+      "validOutputs": 2,
+      "invalidJson": 0,
+      "missingFields": 0,
+      "wrongFields": 0,
+      "reasoningContamination": 0,
+      "truncation": 0,
+      "timeouts": 0,
+      "otherErrors": 0,
+      "meanLatencyMs": 20077,
+      "medianLatencyMs": 20102,
+      "totalPromptTokens": 1060,
+      "totalOutputTokens": 202,
+      "schemaValidationRate": 1
+    },
+    "C": {
+      "label": "MINIMAL_SCHEMA_DIAGNOSTIC",
+      "trials": 2,
+      "validOutputs": 2,
+      "invalidJson": 0,
+      "missingFields": 0,
+      "wrongFields": 0,
+      "reasoningContamination": 0,
+      "truncation": 0,
+      "timeouts": 0,
+      "otherErrors": 0,
+      "meanLatencyMs": 4460,
+      "medianLatencyMs": 4472,
+      "totalPromptTokens": 1060,
+      "totalOutputTokens": 54,
+      "schemaValidationRate": 1
+    }
+  },
+  "diagnosticInterpretation": {
+    "matchedCase": "CASE_B",
+    "conclusion": "Current production failed, but full JSON-schema enforcement succeeded. The primary limitation was structured-output schema required-field enforcement, not model capability.",
+    "primaryBottleneck": "STRUCTURED_OUTPUT_ENFORCEMENT",
+    "recommendedNextStep": "Update production structured output schema descriptor to mark action-proposal required fields in the JSON schema."
+  },
+  "records": [
+    {
+      "condition": "A",
+      "conditionLabel": "CURRENT_PRODUCTION",
+      "trialOrdinal": 1,
+      "model": "llama3.2:3b",
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-diagnostic-1\",\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\",\n  \"sequenceHint\": 0\n  }",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-diagnostic-1",
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6",
+        "sequenceHint": 0
+      },
+      "parseError": null,
+      "schemaValidationResult": false,
+      "failureClassification": "SCHEMA_MISSING_REQUIRED_FIELD",
+      "classificationDetail": "Missing required property 'toolName' (omitted by model)",
+      "modelLatencyMs": 48908,
+      "promptTokens": 530,
+      "outputTokens": 88,
+      "schemaHash": "f6c4e5700dd562f9840504fb566af186826b8938e12003db4c6136123a943b0a",
+      "timestamp": "2026-10-15T15:21:23.553Z"
+    },
+    {
+      "condition": "A",
+      "conditionLabel": "CURRENT_PRODUCTION",
+      "trialOrdinal": 2,
+      "model": "llama3.2:3b",
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-diagnostic-1\",\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\",\n  \"sequenceHint\": 0\n  }",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-diagnostic-1",
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6",
+        "sequenceHint": 0
+      },
+      "parseError": null,
+      "schemaValidationResult": false,
+      "failureClassification": "SCHEMA_MISSING_REQUIRED_FIELD",
+      "classificationDetail": "Missing required property 'toolName' (omitted by model)",
+      "modelLatencyMs": 17289,
+      "promptTokens": 530,
+      "outputTokens": 88,
+      "schemaHash": "f6c4e5700dd562f9840504fb566af186826b8938e12003db4c6136123a943b0a",
+      "timestamp": "2026-10-15T15:21:40.843Z"
+    },
+    {
+      "condition": "B",
+      "conditionLabel": "JSON_SCHEMA_ENFORCED",
+      "trialOrdinal": 1,
+      "model": "llama3.2:3b",
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-diagnostic-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-diagnostic-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "parseError": null,
+      "schemaValidationResult": true,
+      "failureClassification": "VALID_ACTION_PROPOSAL",
+      "classificationDetail": "Conforms fully to ActionProposal contract",
+      "modelLatencyMs": 20102,
+      "promptTokens": 530,
+      "outputTokens": 101,
+      "schemaHash": "c4188123cc9c69e296f389a8d250f37e56560efaf0d3e96f5102f44f54207ed6",
+      "timestamp": "2026-10-15T15:22:00.950Z"
+    },
+    {
+      "condition": "B",
+      "conditionLabel": "JSON_SCHEMA_ENFORCED",
+      "trialOrdinal": 2,
+      "model": "llama3.2:3b",
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"prop-diagnostic-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6\"\n}",
+      "parsedResponse": {
+        "isGoalReached": false,
+        "proposalId": "prop-diagnostic-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6"
+      },
+      "parseError": null,
+      "schemaValidationResult": true,
+      "failureClassification": "VALID_ACTION_PROPOSAL",
+      "classificationDetail": "Conforms fully to ActionProposal contract",
+      "modelLatencyMs": 20051,
+      "promptTokens": 530,
+      "outputTokens": 101,
+      "schemaHash": "c4188123cc9c69e296f389a8d250f37e56560efaf0d3e96f5102f44f54207ed6",
+      "timestamp": "2026-10-15T15:22:21.003Z"
+    },
+    {
+      "condition": "C",
+      "conditionLabel": "MINIMAL_SCHEMA_DIAGNOSTIC",
+      "trialOrdinal": 1,
+      "model": "llama3.2:3b",
+      "rawModelResponse": "{\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  }\n}",
+      "parsedResponse": {
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        }
+      },
+      "parseError": null,
+      "schemaValidationResult": true,
+      "failureClassification": "VALID_ACTION_PROPOSAL",
+      "classificationDetail": "Valid minimal proposal shape with toolName and inputPayload",
+      "modelLatencyMs": 4448,
+      "promptTokens": 530,
+      "outputTokens": 27,
+      "schemaHash": "2dfd5bcd87bb6fc9e6dc1537a3963d42415f1d979013075ccd6a52ad168a9ed0",
+      "timestamp": "2026-10-15T15:22:25.453Z"
+    },
+    {
+      "condition": "C",
+      "conditionLabel": "MINIMAL_SCHEMA_DIAGNOSTIC",
+      "trialOrdinal": 2,
+      "model": "llama3.2:3b",
+      "rawModelResponse": "{\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  }\n}",
+      "parsedResponse": {
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        }
+      },
+      "parseError": null,
+      "schemaValidationResult": true,
+      "failureClassification": "VALID_ACTION_PROPOSAL",
+      "classificationDetail": "Valid minimal proposal shape with toolName and inputPayload",
+      "modelLatencyMs": 4472,
+      "promptTokens": 530,
+      "outputTokens": 27,
+      "schemaHash": "2dfd5bcd87bb6fc9e6dc1537a3963d42415f1d979013075ccd6a52ad168a9ed0",
+      "timestamp": "2026-10-15T15:22:29.926Z"
+    }
+  ]
+}

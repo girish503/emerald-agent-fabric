@@ -7,10 +7,10 @@
 - **Decision Type**: Architectural operating boundary and human-in-the-loop governance
 - **Governing Constitution**: [GEMINI.md](../../GEMINI.md) (Master Engineering Constitution Version 1.0)
 - **Related Evidence**:
-  - Task A Results & Report: [`scratch/bounded-real-project-task-a-aligned-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-task-a-aligned-results.json), [`docs/production/bounded-real-project-task-a-aligned-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-a-aligned-report.md)
-  - Task B Results & Report: [`scratch/bounded-real-project-task-b-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-task-b-results.json), [`docs/production/bounded-real-project-task-b-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-b-report.md)
-  - Task C Results & Report: [`scratch/bounded-real-project-task-c-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-task-c-results.json), [`docs/production/bounded-real-project-task-c-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-c-report.md)
-  - Task D Results & Report: [`scratch/bounded-real-project-task-d-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-task-d-results.json), [`docs/production/bounded-real-project-task-d-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-d-report.md)
+  - Task A Results & Report: [`scratch/bounded-real-project-task-a-aligned-results.json`](../../scratch/bounded-real-project-task-a-aligned-results.json), [`docs/production/bounded-real-project-task-a-aligned-report.md`](../../docs/production/bounded-real-project-task-a-aligned-report.md)
+  - Task B Results & Report: [`scratch/bounded-real-project-task-b-results.json`](../../scratch/bounded-real-project-task-b-results.json), [`docs/production/bounded-real-project-task-b-report.md`](../../docs/production/bounded-real-project-task-b-report.md)
+  - Task C Results & Report: [`scratch/bounded-real-project-task-c-results.json`](../../scratch/bounded-real-project-task-c-results.json), [`docs/production/bounded-real-project-task-c-report.md`](../../docs/production/bounded-real-project-task-c-report.md)
+  - Task D Results & Report: [`scratch/bounded-real-project-task-d-results.json`](../../scratch/bounded-real-project-task-d-results.json), [`docs/production/bounded-real-project-task-d-report.md`](../../docs/production/bounded-real-project-task-d-report.md)
 - **Related ADRs**: ADR-0001 (Engineering Constitution), ADR-0003 (Workspace & Typed Tools), ADR-0004 (Tool Execution Gateway), ADR-0029 (Standardized Model Contracts), ADR-0032 (Local Model Prerequisites)
 
 ---
@@ -32,8 +32,8 @@ To establish whether small local models possess genuine practical utility in rea
 
 The four operational trials were executed against genuine production modules under frozen resource constraints (local `qwen2.5-coder:3b` via Ollama HTTP `http://127.0.0.1:11434`, CPU-only, ₹0 operating cost, zero external data transmission, zero automatic Git commits):
 
-- **Task A — Real-Project Read**: Evaluated whether the local model could adhere strictly to the canonical `read_file` contract (`{"path": string}`) and safely inspect genuine production code ([`src/production/diagnostics/source-diagnostic-engine.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/production/diagnostics/source-diagnostic-engine.ts)).
-- **Task B — Human-Approved Edit**: Evaluated whether the agent could identify a boundary check omission in [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts) (`toolReadFile`), propose an exact line-anchored edit, submit to human review and explicit approval, and apply the modification under capability fence `WRITE_TEMPORARY_OUTPUT`.
+- **Task A — Real-Project Read**: Evaluated whether the local model could adhere strictly to the canonical `read_file` contract (`{"path": string}`) and safely inspect genuine production code ([`src/production/diagnostics/source-diagnostic-engine.ts`](../../src/production/diagnostics/source-diagnostic-engine.ts)).
+- **Task B — Human-Approved Edit**: Evaluated whether the agent could identify a boundary check omission in [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts) (`toolReadFile`), propose an exact line-anchored edit, submit to human review and explicit approval, and apply the modification under capability fence `WRITE_TEMPORARY_OUTPUT`.
 - **Task C — Defect Localization**: Evaluated whether the model could inspect genuine code, identify a candidate runtime failure mode in `toolWriteFile` (unhandled Node.js `EISDIR` crash on existing directory paths), and confirm the defect empirically in an isolated test harness without modifying project source code.
 - **Task D — Human-Approved Repair**: Evaluated whether the confirmed `toolWriteFile` directory-path defect could be safely reproduced in an isolated temporary directory, repaired via a local model proposal, reviewed and approved by a human operator, applied via `LineAnchoredEditor`, and verified against automated regression and invariant checks.
 
@@ -102,13 +102,13 @@ During closeout inspection of the Task D implementation and evidence, two techni
 ### 6.1 Error Semantics Classification
 
 - **Reported Claim**: The Task D report characterized the directory-path rejection in `toolWriteFile` as a "controlled domain error" or "typed domain error".
-- **Source Inspection**: Inspection of [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts) (line 275) reveals:
+- **Source Inspection**: Inspection of [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts) (line 275) reveals:
   ```typescript
   if (fs.existsSync(safePath) && !fs.statSync(safePath).isFile()) {
     throw new Error(`Target path is not a regular file: ${rawPath}`);
   }
   ```
-- **Discrepancy Finding**: The error thrown is a generic JavaScript `Error`, not a subclass of `DomainError` from [`src/domain/errors.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/errors.ts) (such as `ToolExecutionError` or `SecurityConstraintError`). While it successfully prevents an unhandled raw Node.js OS exception (`EISDIR`) and returns a controlled failure payload (`{ success: false, error: "Target path is not a regular file: ..." }`), it lacks a typed domain `.code` property.
+- **Discrepancy Finding**: The error thrown is a generic JavaScript `Error`, not a subclass of `DomainError` from [`src/domain/errors.ts`](../../src/domain/errors.ts) (such as `ToolExecutionError` or `SecurityConstraintError`). While it successfully prevents an unhandled raw Node.js OS exception (`EISDIR`) and returns a controlled failure payload (`{ success: false, error: "Target path is not a regular file: ..." }`), it lacks a typed domain `.code` property.
 - **Architectural Resolution**: Future tool framework refactoring should standardize all tool-level rejections onto formal `DomainError` subclasses. Code modification is deferred to avoid unverified changes during closeout.
 
 ### 6.2 Filesystem Concurrency and TOCTOU
@@ -192,13 +192,13 @@ This architecture decision must be formally revisited if any of the following co
 
 ## 12. References
 
-- **Master Engineering Constitution**: [`GEMINI.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/GEMINI.md)
+- **Master Engineering Constitution**: [`GEMINI.md`](../../GEMINI.md)
 - **ADR-0001**: Master Engineering Constitution Version 1.0
 - **ADR-0003**: Workspace and Typed Tools
 - **ADR-0004**: Tool Execution Gateway and Adapter Boundary
 - **ADR-0029**: RFC Standardized Model-Facing Tool Contracts
 - **ADR-0032**: Local Model Scaling and Repair Benchmark Prerequisites
-- **Task A Report**: [`docs/production/bounded-real-project-task-a-aligned-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-a-aligned-report.md)
-- **Task B Report**: [`docs/production/bounded-real-project-task-b-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-b-report.md)
-- **Task C Report**: [`docs/production/bounded-real-project-task-c-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-c-report.md)
-- **Task D Report**: [`docs/production/bounded-real-project-task-d-report.md`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/production/bounded-real-project-task-d-report.md)
+- **Task A Report**: [`docs/production/bounded-real-project-task-a-aligned-report.md`](../../docs/production/bounded-real-project-task-a-aligned-report.md)
+- **Task B Report**: [`docs/production/bounded-real-project-task-b-report.md`](../../docs/production/bounded-real-project-task-b-report.md)
+- **Task C Report**: [`docs/production/bounded-real-project-task-c-report.md`](../../docs/production/bounded-real-project-task-c-report.md)
+- **Task D Report**: [`docs/production/bounded-real-project-task-d-report.md`](../../docs/production/bounded-real-project-task-d-report.md)

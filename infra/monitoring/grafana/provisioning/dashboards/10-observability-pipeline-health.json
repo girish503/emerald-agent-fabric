@@ -1,0 +1,49 @@
+{
+  "uid": "emerald-10-telemetry",
+  "title": "10 - Observability Pipeline Self-Health & Drops",
+  "tags": ["emerald", "phase3", "observability"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Dropped Spans, Dropped Logs & Cardinality Overflow",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "emerald_telemetry_spans_dropped_total", "legendFormat": "Spans Dropped" },
+        { "refId": "B", "expr": "emerald_telemetry_logs_dropped_total", "legendFormat": "Logs Dropped" },
+        { "refId": "C", "expr": "emerald_telemetry_metric_overflow_total", "legendFormat": "Cardinality Overflow" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Exporter Queue Depth & Export Failures (OTLP + Langfuse)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "emerald_telemetry_queue_depth", "legendFormat": "Queue Depth" },
+        { "refId": "B", "expr": "emerald_telemetry_export_failures_total", "legendFormat": "OTLP Export Failures" },
+        { "refId": "C", "expr": "emerald_langfuse_export_failures_total", "legendFormat": "Langfuse Export Failures" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Forbidden High-Cardinality Label Rejections",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 8 },
+      "targets": [{ "refId": "A", "expr": "emerald_telemetry_cardinality_rejections_total", "legendFormat": "Cardinality Rejections" }]
+    }
+  ]
+}

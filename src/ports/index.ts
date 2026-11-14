@@ -11,3 +11,5 @@ export * from "./model-provider.port.js";
 export * from "./reflex.port.js";
 export * from "./evidence-archive.port.js";
 export * from "./mutation-intent-store.port.js";
+export * from "./scoped-memory-store.port.js";
+export * from "./observability.port.js";

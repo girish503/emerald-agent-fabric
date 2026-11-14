@@ -46,7 +46,7 @@
     "candidateFunction": "toolWriteFile",
     "targetFile": "src/tools/production-tools.ts",
     "lines": "263-279",
-    "observedException": "EISDIR: EISDIR: illegal operation on a directory, open 'C:\\Users\\Adusumalli Girish\\.gemini\\antigravity\\scratch\\emerald-agent-fabric\\src'",
+    "observedException": "EISDIR: EISDIR: illegal operation on a directory, open 'src'",
     "reproducible": true,
     "modelDiagnosis": "Diagnose toolWriteFile directory handling defect: passing an existing directory causes unhandled EISDIR exception when calling fs.writeFileSync",
     "independentAssessment": "Confirmed by actual execution: calling write_file on existing directory triggers unhandled EISDIR rather than domain validation."

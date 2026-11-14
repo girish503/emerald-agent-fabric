@@ -19,6 +19,8 @@ import {
  * Critical test fixture asserting zero executions occur on governance failures.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name: string;
   readonly invocations: ExecutionRequest[] = [];
   private readonly mockOutput: unknown;

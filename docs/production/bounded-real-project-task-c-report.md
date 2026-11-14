@@ -6,9 +6,9 @@
 - **Date**: 2026-10-23
 - **Model**: Local Ollama `qwen2.5-coder:3b` (HTTP `http://127.0.0.1:11434`)
 - **Cost**: ₹0.00 (100% local CPU inference)
-- **Target File**: [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts)
-- **Primary Script**: [`scripts/run-task-c-real-project.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scripts/run-task-c-real-project.ts)
-- **Evidence Artifact**: [`scratch/bounded-real-project-task-c-results.json`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/scratch/bounded-real-project-task-c-results.json)
+- **Target File**: [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts)
+- **Primary Script**: [`scripts/run-task-c-real-project.ts`](../../scripts/run-task-c-real-project.ts)
+- **Evidence Artifact**: [`scratch/bounded-real-project-task-c-results.json`](../../scratch/bounded-real-project-task-c-results.json)
 - **Prior Artifacts Preserved**: Task A baseline/aligned and Task B reports preserved byte-for-byte.
 
 ---
@@ -25,7 +25,7 @@ Task C executed bounded, read-only defect localization on genuine production cod
 ## 2. Defect Identification & Architectural Trace
 
 ### A. Candidate Defect Details
-- **Module**: [`src/tools/production-tools.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/tools/production-tools.ts)
+- **Module**: [`src/tools/production-tools.ts`](../../src/tools/production-tools.ts)
 - **Function**: `private async toolWriteFile(input: Record<string, unknown>, context: ToolExecutionContext): Promise<{ path: string; bytesWritten: number }>` (lines 263–279)
 - **Defect Description**: `toolWriteFile` ensures that the parent directory exists (`fs.mkdirSync(dir, { recursive: true })`), but fails to verify whether `safePath` itself points to an existing directory. When `write_file` is invoked with a directory path (e.g. `path: "src"`), Node.js calls `fs.writeFileSync` on a directory, throwing an unhandled raw OS exception:
   `EISDIR: illegal operation on a directory, open`
@@ -67,7 +67,7 @@ Task C executed bounded, read-only defect localization on genuine production cod
 
 The model's diagnosis was independently evaluated and confirmed through live execution:
 - **Reproducible Test Execution**: Calling `write_file` with `{ path: "src", content: "test" }` produced the unhandled exception:
-  `EISDIR: illegal operation on a directory, open 'C:\Users\Adusumalli Girish\.gemini\antigravity\scratch\emerald-agent-fabric\src'`
+  `EISDIR: illegal operation on a directory, open 'src'`
 - **Confirmation Status**: **CONFIRMED DEFECT**. The diagnosis is supported by actual source code, comparative architectural contracts, and empirical reproduction.
 - **Stop Rule Adherence**: The defect remains **UNREPAIRED**, in strict compliance with the requirement to stop after recording evidence without mutating source code.
 

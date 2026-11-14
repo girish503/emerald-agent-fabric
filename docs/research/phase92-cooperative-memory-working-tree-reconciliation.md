@@ -19,7 +19,7 @@ $$\boxed{\text{Agents may share knowledge. They must never share authority impli
 ---
 
 ## 3. Baseline
-- Authoritative baseline commit: [`7e7ff6bec71756df2446872fce191f5f553b8999`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/docs/research/phase91-multi-agent-resource-negotiation.md).
+- Authoritative baseline commit: [`7e7ff6bec71756df2446872fce191f5f553b8999`](../../docs/research/phase91-multi-agent-resource-negotiation.md).
 - Phase 91 established: Governed multi-agent resource negotiation, immutable mission-contract identity, mutable resource allocation boundaries, allocation version fencing, atomic transfers, Jain fairness index of 0.884, starvation reduction from 35.0% to 5.0%, and cumulative controls N1–N480 passing.
 - Frozen runtime boundaries: Clean-room Docker isolation, fourfold verification gatekeeper authority, and zero terminal authority for advisory agents remain immutable.
 
@@ -35,7 +35,7 @@ Every cooperative memory record is strictly classified as `UNTRUSTED_OBSERVATION
 ---
 
 ## 5. Memory Model
-Defined in [`src/domain/cooperative-memory.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/cooperative-memory.ts):
+Defined in [`src/domain/cooperative-memory.ts`](../../src/domain/cooperative-memory.ts):
 - `MemoryRecord` encapsulates: `memoryId`, `agentId`, `goalId`, `repositoryId`, `workspaceId`, `memoryType`, `content`, `contentDigest`, `contentSize`, `sourceEvidenceDigest`, `parentMemoryId`, `version`, `freshness`, `confidence`, `provenanceRoot`, `authorityClassification`, `createdAt`, `expiresAt`, `status`.
 - Non-authority markers: `authoritative: false`, `terminalAuthority: false`, `verificationAuthority: false`, `policyAuthority: false`.
 - Monotonic lifecycle: `PROPOSED` $\to$ `VALIDATING` $\to$ `ACTIVE` $\to$ `SUPERSEDED` $\to$ `EXPIRED` | `REJECTED`, `QUARANTINED`, `REVOKED`.
@@ -82,7 +82,7 @@ Crucially, **no `AUTHORIZED_MEMORY` trust class exists**. Even sovereign-verifie
 ---
 
 ## 11. Memory Sharing Policy
-Implemented in [`src/application/memory-sharing-policy.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/memory-sharing-policy.ts):
+Implemented in [`src/application/memory-sharing-policy.ts`](../../src/application/memory-sharing-policy.ts):
 - Gated by: declared workflow agents, permitted goal boundaries, declared repositories, and declared workspaces.
 - Prohibits sharing `EXPIRED` or `REVOKED` records as active evidence.
 - Performs mandatory authority stripping on every shared record.
@@ -90,7 +90,7 @@ Implemented in [`src/application/memory-sharing-policy.ts`](file:///c:/Users/Adu
 ---
 
 ## 12. Memory Querying
-Implemented in [`src/application/cooperative-memory-query.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/cooperative-memory-query.ts):
+Implemented in [`src/application/cooperative-memory-query.ts`](../../src/application/cooperative-memory-query.ts):
 - Enforces strict resource ceilings:
   - Max records per query: 64
   - Max query payload: 64KB (65,536 bytes)
@@ -102,7 +102,7 @@ Implemented in [`src/application/cooperative-memory-query.ts`](file:///c:/Users/
 ---
 
 ## 13. Memory Reconciliation
-Implemented in [`src/application/memory-reconciler.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/memory-reconciler.ts):
+Implemented in [`src/application/memory-reconciler.ts`](../../src/application/memory-reconciler.ts):
 Evaluates 5 distinct policies:
 - **Policy A (LATEST_VALID)**: Picks newest valid observation.
 - **Policy B (PROVENANCE_PRIORITY)**: Ranks by trust classification and confidence.
@@ -113,7 +113,7 @@ Evaluates 5 distinct policies:
 ---
 
 ## 14. Working-Tree Model
-Defined in [`src/domain/working-tree-state.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/working-tree-state.ts):
+Defined in [`src/domain/working-tree-state.ts`](../../src/domain/working-tree-state.ts):
 - `WorkingTreeState`: Immutable snapshot holding `baseRevision`, `treeDigest`, `fileDigests`, `changedFiles`, `changedSymbols`, `actionSequence`, and `stateVersion`.
 - `MutationProposal`: Explicit patch proposal with `affectedFileDigests`, `affectedSymbolDigests`, diff payload, and expected `baseRevision` and `treeDigest`.
 
@@ -138,7 +138,7 @@ Defined in [`src/domain/working-tree-state.ts`](file:///c:/Users/Adusumalli%20Gi
 ---
 
 ## 18. Merge Policies
-Implemented in [`src/application/working-tree-reconciler.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/working-tree-reconciler.ts):
+Implemented in [`src/application/working-tree-reconciler.ts`](../../src/application/working-tree-reconciler.ts):
 - **Policy A (FAIL_FAST)**: Any overlap or base revision mismatch rejects immediately.
 - **Policy B (NON_OVERLAPPING_AUTO_MERGE)**: Disjoint file modifications automatically merged.
 - **Policy C (DEPENDENCY_AWARE_MERGE)**: Inter-file dependency edges checked before auto-merge.

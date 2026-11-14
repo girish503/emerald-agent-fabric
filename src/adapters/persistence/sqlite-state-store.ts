@@ -1,4 +1,21 @@
 import type { DatabaseSync } from "node:sqlite";
+import { SqliteScopedMemoryStore } from "./sqlite-scoped-memory-store.js";
+import type {
+  CreateMemoryEntryRecord,
+  DeleteMemoryEntryRequest,
+  MemoryPersistResult,
+  MemoryQueryFilter,
+  MemoryScopeIdentity,
+  PurgeExpiredMemoriesRequest,
+  ScopedMemoryStorePort,
+  UpdateMemoryEntryRecord,
+} from "../../ports/scoped-memory-store.port.js";
+import type { MemoryEntry } from "../../domain/scoped-memory.js";
+import {
+  SqliteTaskStore,
+  type ListTasksOptions,
+  type ListTasksResult,
+} from "../../infrastructure/sqlite/sqlite-task-store.js";
 import {
   activateMissionContract,
   canonicalJsonStringify,
@@ -57,7 +74,8 @@ import {
   TenantLaunchGateConflictError,
 } from "../../domain/errors.js";
 import type { TenantLaunchGate } from "../../ports/tenant-launch-coordinator.port.js";
-import { AnyActionEvent, AnyAttemptEvent, DomainEvent } from "../../domain/events.js";
+import type { EmeraldLifecycleTelemetry } from "../../application/observability-instrumentation.js";
+import { AnyActionEvent, AnyAttemptEvent, DomainEvent, ModelInferenceTelemetryPayload } from "../../domain/events.js";
 import {
   MutationIntent,
   MutationLifecycleStatus,
@@ -81,6 +99,8 @@ import {
   validateRunInvariants,
 } from "../../domain/invariants.js";
 import {
+  DurableApprovalRecord,
+  DurableApprovalStatus,
   LeaseFencingCheck,
   LeaseRecord,
   LeaseState,
@@ -98,6 +118,7 @@ import { createSqliteClient, SqliteClientConfig } from "./sqlite-client.js";
 import type {
   DispatchCandidateRecord,
   RouterSubmissionRecord,
+  TaskDependencyRecord,
   TaskRelationRecord,
 } from "../../ports/task-router-store.port.js";
 
@@ -708,6 +729,14 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
     };
   }
 
+  listTasks(options: ListTasksOptions): ListTasksResult {
+    return new SqliteTaskStore(this.db).listTasks(options);
+  }
+
+  getTaskById(taskId: string, tenantId: string): import("../../transport/http/api-contracts.js").TaskSummary | null {
+    return new SqliteTaskStore(this.db).getTaskById(taskId, tenantId);
+  }
+
   // ---------------------------------------------------------------------------
   // Task Router Operations (Milestone 2.17)
   // ---------------------------------------------------------------------------
@@ -733,6 +762,74 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
       .prepare(`SELECT * FROM task_relations WHERE parent_task_id = ? ORDER BY ordinal ASC, child_task_id ASC`)
       .all(parentTaskId) as unknown as DbTaskRelationRow[];
     return rows.map(mapTaskRelationRow);
+  }
+
+  insertTaskDependencies(childTaskId: string, parentTaskIds: readonly string[], createdAt: string): void {
+    const seen = new Set<string>();
+    for (const parentId of parentTaskIds) {
+      if (parentId === childTaskId) {
+        throw new Error(`Self-dependency rejected for task '${childTaskId}'`);
+      }
+      if (seen.has(parentId)) {
+        throw new Error(`Duplicate dependency '${parentId}' rejected for task '${childTaskId}'`);
+      }
+      seen.add(parentId);
+    }
+    const existingDep = this.db
+      .prepare(`SELECT 1 FROM task_dependencies WHERE child_task_id = ? LIMIT 1`)
+      .get(childTaskId);
+    if (existingDep) {
+      throw new Error(`Dependencies for task '${childTaskId}' are immutable once recorded`);
+    }
+    const nonCreatedRun = this.db
+      .prepare(`SELECT status FROM runs WHERE task_id = ? AND status <> 'CREATED' LIMIT 1`)
+      .get(childTaskId) as { status: string } | undefined;
+    if (nonCreatedRun) {
+      throw new Error(
+        `Cannot mutate dependencies for task '${childTaskId}' while run is in status '${nonCreatedRun.status}'`
+      );
+    }
+    const stmt = this.db.prepare(
+      `INSERT INTO task_dependencies (child_task_id, parent_task_id, ordinal, created_at)
+       VALUES (?, ?, ?, ?)`
+    );
+    for (let i = 0; i < parentTaskIds.length; i++) {
+      stmt.run(childTaskId, parentTaskIds[i]!, i, createdAt);
+    }
+  }
+
+  listTaskDependencies(childTaskId: string): readonly TaskDependencyRecord[] {
+    const rows = this.db
+      .prepare(
+        `SELECT child_task_id, parent_task_id, ordinal, created_at
+           FROM task_dependencies
+          WHERE child_task_id = ?
+          ORDER BY ordinal ASC, parent_task_id ASC`
+      )
+      .all(childTaskId) as unknown as Array<{
+      child_task_id: string;
+      parent_task_id: string;
+      ordinal: number;
+      created_at: string;
+    }>;
+    return rows.map((r) => ({
+      childTaskId: r.child_task_id,
+      parentTaskId: r.parent_task_id,
+      ordinal: Number(r.ordinal),
+      createdAt: r.created_at,
+    }));
+  }
+
+  listDependentTaskIds(parentTaskId: string): readonly string[] {
+    const rows = this.db
+      .prepare(
+        `SELECT child_task_id
+           FROM task_dependencies
+          WHERE parent_task_id = ?
+          ORDER BY ordinal ASC, child_task_id ASC`
+      )
+      .all(parentTaskId) as unknown as Array<{ child_task_id: string }>;
+    return rows.map((r) => r.child_task_id);
   }
 
   insertRouterSubmission(submission: RouterSubmissionRecord): void {
@@ -999,7 +1096,7 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
 
   findExpiredRuns(nowIso: string): readonly RunSnapshot[] {
     const stmt = this.db.prepare(
-      `SELECT * FROM runs WHERE (status = 'RUNNING' OR status = 'LEASED') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ? ORDER BY lease_expires_at ASC`
+      `SELECT * FROM runs WHERE status IN ('LEASED', 'RUNNING', 'VERIFYING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ? ORDER BY lease_expires_at ASC`
     );
     const rows = stmt.all(nowIso) as unknown as DbRunRow[];
     const result: RunSnapshot[] = [];
@@ -1038,6 +1135,14 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
   }
 
   appendEvent(event: DomainEvent, dedupToken?: string | null): PersistedEvent {
+    if (dedupToken) {
+      const existingStmt = this.db.prepare(`SELECT * FROM run_events WHERE dedup_token = ?`);
+      const existingRow = existingStmt.get(dedupToken) as DbEventRow | undefined;
+      if (existingRow) {
+        return mapEventRowToPersistedEvent(existingRow);
+      }
+    }
+
     // Calculate gapless sequence inside BEGIN IMMEDIATE transaction
     const seqStmt = this.db.prepare(
       `SELECT COALESCE(MAX(sequence), 0) + 1 AS next_seq FROM run_events WHERE run_id = ?`
@@ -1079,6 +1184,36 @@ export class SqliteStorageTransaction implements StorageTransaction, MutationInt
     const stmt = this.db.prepare(`SELECT * FROM run_events WHERE run_id = ? ORDER BY sequence ASC`);
     const rows = stmt.all(runId) as unknown as DbEventRow[];
     return rows.map(mapEventRowToPersistedEvent);
+  }
+
+  getInferenceTelemetryForRun(
+    runId: string,
+    options?: { tenantId?: string; limit?: number }
+  ): readonly PersistedEvent<ModelInferenceTelemetryPayload>[] {
+    if (options?.tenantId) {
+      const run = this.getRun(runId);
+      if (!run) {
+        return [];
+      }
+      let runTenantId: string | undefined;
+      if (run.contractBinding?.contractId) {
+        const contract = this.getContract(run.contractBinding.contractId, run.contractBinding.version);
+        runTenantId = contract?.spec?.policy?.tenantId;
+      }
+      if (runTenantId !== options.tenantId) {
+        return [];
+      }
+    }
+
+    const limit = options?.limit && options.limit > 0 ? options.limit : 1000;
+    const stmt = this.db.prepare(`
+      SELECT * FROM run_events
+      WHERE run_id = ? AND event_type = 'model.inference.telemetry'
+      ORDER BY sequence ASC
+      LIMIT ?
+    `);
+    const rows = stmt.all(runId, limit) as unknown as DbEventRow[];
+    return rows.map((r) => mapEventRowToPersistedEvent(r) as PersistedEvent<ModelInferenceTelemetryPayload>);
   }
 
   insertWorker(worker: WorkerRecord): void {
@@ -3110,7 +3245,13 @@ export interface SqliteStateStoreOptions {
   readonly isProcessAlive?: (pid: number) => boolean;
 }
 
-export class SqliteStateStore implements StateStorePort, MutationIntentStorePort {
+export class SqliteStateStore implements StateStorePort, MutationIntentStorePort, ScopedMemoryStorePort {
+  private scopedMemoryStore?: SqliteScopedMemoryStore;
+  private telemetry?: EmeraldLifecycleTelemetry;
+
+  public setTelemetry(telemetry?: EmeraldLifecycleTelemetry): void {
+    this.telemetry = telemetry;
+  }
   private readonly db: DatabaseSync;
   private readonly isProcessAlive: (pid: number) => boolean;
 
@@ -3129,11 +3270,28 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
   }
 
   transaction<T>(operation: (tx: StorageTransaction) => T): T {
-    this.db.exec("BEGIN IMMEDIATE;");
+    const startMs = Date.now();
+    try {
+      this.db.exec("BEGIN IMMEDIATE;");
+    } catch (beginErr: unknown) {
+      const msg = beginErr instanceof Error ? beginErr.message : String(beginErr);
+      const isBusy = msg.includes("SQLITE_BUSY") || msg.toLowerCase().includes("database is locked");
+      this.telemetry?.recordSqliteOperation({
+        operation: "transaction.begin",
+        status: isBusy ? "busy" : "error",
+        durationMs: Date.now() - startMs,
+      });
+      throw beginErr;
+    }
     try {
       const tx = new SqliteStorageTransaction(this.db, this.isProcessAlive);
       const result = operation(tx);
       this.db.exec("COMMIT;");
+      this.telemetry?.recordSqliteOperation({
+        operation: "transaction",
+        status: "ok",
+        durationMs: Date.now() - startMs,
+      });
       return result;
     } catch (error) {
       try {
@@ -3141,6 +3299,13 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
       } catch {
         // Rollback might fail if transaction already aborted by SQLite constraint
       }
+      const msg = error instanceof Error ? error.message : String(error);
+      const isBusy = msg.includes("SQLITE_BUSY") || msg.toLowerCase().includes("database is locked");
+      this.telemetry?.recordSqliteOperation({
+        operation: "transaction",
+        status: isBusy ? "busy" : "error",
+        durationMs: Date.now() - startMs,
+      });
       throw error;
     }
   }
@@ -3180,14 +3345,34 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     return tx.findRunIdForWorkspace(workspaceId);
   }
 
+  appendEvent(event: DomainEvent, dedupToken?: string | null): PersistedEvent {
+    return this.transaction((tx) => tx.appendEvent(event, dedupToken));
+  }
+
   getEventsForRun(runId: string): readonly PersistedEvent[] {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.getEventsForRun(runId);
   }
 
+  getInferenceTelemetryForRun(
+    runId: string,
+    options?: { tenantId?: string; limit?: number }
+  ): readonly PersistedEvent<ModelInferenceTelemetryPayload>[] {
+    const tx = new SqliteStorageTransaction(this.db);
+    return tx.getInferenceTelemetryForRun(runId, options);
+  }
+
   getTask(taskId: string): TaskRecord | null {
     const tx = new SqliteStorageTransaction(this.db);
     return tx.getTask(taskId);
+  }
+
+  listTasks(options: ListTasksOptions): ListTasksResult {
+    return new SqliteTaskStore(this.db).listTasks(options);
+  }
+
+  getTaskById(taskId: string, tenantId: string): import("../../transport/http/api-contracts.js").TaskSummary | null {
+    return new SqliteTaskStore(this.db).getTaskById(taskId, tenantId);
   }
 
   getWorker(workerId: string): WorkerRecord | null {
@@ -3511,7 +3696,194 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     return tx.listTenantLaunchGates();
   }
 
+  getScopedMemoryStore(): SqliteScopedMemoryStore {
+    if (!this.scopedMemoryStore) {
+      this.scopedMemoryStore = new SqliteScopedMemoryStore(this.db);
+    }
+    return this.scopedMemoryStore;
+  }
+
+  insertMemoryEntry(record: CreateMemoryEntryRecord): MemoryPersistResult {
+    return this.getScopedMemoryStore().insertMemoryEntry(record);
+  }
+
+  getMemoryEntry(
+    id: string,
+    identity: MemoryScopeIdentity,
+    options?: { readonly nowIso?: string; readonly allowExpired?: boolean }
+  ): MemoryEntry | null {
+    return this.getScopedMemoryStore().getMemoryEntry(id, identity, options);
+  }
+
+  queryMemoryEntries(filter: MemoryQueryFilter): readonly MemoryEntry[] {
+    return this.getScopedMemoryStore().queryMemoryEntries(filter);
+  }
+
+  updateMemoryEntry(update: UpdateMemoryEntryRecord): MemoryEntry {
+    return this.getScopedMemoryStore().updateMemoryEntry(update);
+  }
+
+  deleteMemoryEntry(request: DeleteMemoryEntryRequest): boolean {
+    return this.getScopedMemoryStore().deleteMemoryEntry(request);
+  }
+
+  purgeExpiredMemoryEntries(request: PurgeExpiredMemoriesRequest): number {
+    return this.getScopedMemoryStore().purgeExpiredMemoryEntries(request);
+  }
+
+  insertApprovalRequest(record: DurableApprovalRecord): void {
+    this.db
+      .prepare(
+        `INSERT INTO approval_requests (
+          approval_id, run_id, task_id, tenant_id, contract_hash, action_id,
+          operation, parameters_json, parameters_hash, risk_level, justification,
+          status, single_use, requested_at, expires_at, decided_at,
+          consumed_at, consumed_by_run_id, approver, decision_reason
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .run(
+        record.approvalId,
+        record.runId,
+        record.taskId,
+        record.tenantId,
+        record.contractHash,
+        record.actionId ?? null,
+        record.operation,
+        JSON.stringify(record.parameters),
+        record.parametersHash,
+        record.riskLevel,
+        record.justification,
+        record.status,
+        record.singleUse ? 1 : 0,
+        record.requestedAt,
+        record.expiresAt ?? null,
+        record.decidedAt ?? null,
+        record.consumedAt ?? null,
+        record.consumedByRunId ?? null,
+        record.approver ?? null,
+        record.decisionReason ?? null
+      );
+  }
+
+  getApprovalRequest(approvalId: string): DurableApprovalRecord | null {
+    const row = this.db
+      .prepare(`SELECT * FROM approval_requests WHERE approval_id = ?`)
+      .get(approvalId) as Record<string, unknown> | undefined;
+    return row ? this.mapApprovalRow(row) : null;
+  }
+
+  listApprovalRequests(filter?: {
+    runId?: string;
+    taskId?: string;
+    tenantId?: string;
+    status?: DurableApprovalStatus;
+  }): readonly DurableApprovalRecord[] {
+    const clauses: string[] = [];
+    const args: unknown[] = [];
+    if (filter?.runId) {
+      clauses.push("run_id = ?");
+      args.push(filter.runId);
+    }
+    if (filter?.taskId) {
+      clauses.push("task_id = ?");
+      args.push(filter.taskId);
+    }
+    if (filter?.tenantId) {
+      clauses.push("tenant_id = ?");
+      args.push(filter.tenantId);
+    }
+    if (filter?.status) {
+      clauses.push("status = ?");
+      args.push(filter.status);
+    }
+    const where = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
+    const rows = this.db
+      .prepare(`SELECT * FROM approval_requests ${where} ORDER BY requested_at ASC, approval_id ASC`)
+      .all(...(args as any[])) as Array<Record<string, unknown>>;
+    return rows.map((r) => this.mapApprovalRow(r));
+  }
+
+  updateApprovalDecision(params: {
+    approvalId: string;
+    expectedStatus: DurableApprovalStatus;
+    nextStatus: DurableApprovalStatus;
+    approver?: string;
+    decisionReason?: string;
+    decidedAt?: string;
+  }): DurableApprovalRecord | null {
+    const res = this.db
+      .prepare(
+        `UPDATE approval_requests
+           SET status = ?, approver = COALESCE(?, approver), decision_reason = COALESCE(?, decision_reason), decided_at = COALESCE(?, decided_at)
+         WHERE approval_id = ? AND status = ?`
+      )
+      .run(
+        params.nextStatus,
+        params.approver ?? null,
+        params.decisionReason ?? null,
+        params.decidedAt ?? null,
+        params.approvalId,
+        params.expectedStatus
+      ) as { changes: number };
+    if (res.changes === 0) return null;
+    return this.getApprovalRequest(params.approvalId);
+  }
+
+  consumeApprovalRequest(params: {
+    approvalId: string;
+    consumedAt: string;
+    consumedByRunId: string;
+  }): DurableApprovalRecord | null {
+    const res = this.db
+      .prepare(
+        `UPDATE approval_requests
+           SET status = 'CONSUMED', consumed_at = ?, consumed_by_run_id = ?
+         WHERE approval_id = ? AND status = 'APPROVED' AND single_use = 1`
+      )
+      .run(params.consumedAt, params.consumedByRunId, params.approvalId) as { changes: number };
+    if (res.changes === 0) return null;
+    return this.getApprovalRequest(params.approvalId);
+  }
+
+  private mapApprovalRow(row: Record<string, unknown>): DurableApprovalRecord {
+    return {
+      approvalId: String(row.approval_id),
+      runId: String(row.run_id),
+      taskId: String(row.task_id ?? ""),
+      tenantId: String(row.tenant_id ?? "default-tenant"),
+      contractHash: String(row.contract_hash ?? ""),
+      ...(row.action_id ? { actionId: String(row.action_id) } : {}),
+      operation: String(row.operation),
+      parameters: JSON.parse(String(row.parameters_json ?? "{}")) as Record<string, unknown>,
+      parametersHash: String(row.parameters_hash),
+      riskLevel: String(row.risk_level) as DurableApprovalRecord["riskLevel"],
+      justification: String(row.justification),
+      status: String(row.status) as DurableApprovalStatus,
+      singleUse: Number(row.single_use) === 1,
+      requestedAt: String(row.requested_at),
+      ...(row.expires_at ? { expiresAt: String(row.expires_at) } : {}),
+      ...(row.decided_at ? { decidedAt: String(row.decided_at) } : {}),
+      ...(row.consumed_at ? { consumedAt: String(row.consumed_at) } : {}),
+      ...(row.consumed_by_run_id ? { consumedByRunId: String(row.consumed_by_run_id) } : {}),
+      ...(row.approver ? { approver: String(row.approver) } : {}),
+      ...(row.decision_reason ? { decisionReason: String(row.decision_reason) } : {}),
+    };
+  }
+
+  getObservabilityCounts(): { readonly tasksTotal: number; readonly runsByStatus: Readonly<Record<string, number>> } {
+    const taskRow = this.db.prepare(`SELECT COUNT(*) AS cnt FROM tasks`).get() as { cnt?: number } | undefined;
+    const runRows = this.db.prepare(`SELECT status, COUNT(*) AS cnt FROM runs GROUP BY status`).all() as Array<{ status?: string; cnt?: number }>;
+    const runsByStatus: Record<string, number> = {};
+    for (const row of runRows) {
+      if (typeof row.status === "string" && row.status.length > 0) {
+        runsByStatus[row.status] = Number(row.cnt ?? 0);
+      }
+    }
+    return { tasksTotal: Number(taskRow?.cnt ?? 0), runsByStatus };
+  }
+
   close(): void {
+    this.scopedMemoryStore?.close();
     this.db.close();
   }
 }

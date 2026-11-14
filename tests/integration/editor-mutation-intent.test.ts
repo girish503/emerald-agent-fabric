@@ -915,9 +915,11 @@ describe("Phase 48AF: Editor Integration & Pre-Mutation Intent", () => {
     fs.writeFileSync(filePath, content, "utf8");
 
     const mockWorkspacePort: WorkspacePort = {
-      createWorkspace: async () => ({ workspaceId: "ws-reg", hostPath: workspaceRoot }),
-      destroyWorkspace: async () => {},
-      isContained: () => true,
+      provisionWorkspace: async () => ({ workspaceId: "ws-reg", hostPath: workspaceRoot, runId: TEST_RUN_ID, containerMountPath: "/workspace", createdAt: "2026-11-12T10:00:00.000Z", maxWorkspaceBytes: 10485760 }),
+      resumeWorkspace: async () => ({ workspaceId: "ws-reg", hostPath: workspaceRoot, runId: TEST_RUN_ID, containerMountPath: "/workspace", createdAt: "2026-11-12T10:00:00.000Z", maxWorkspaceBytes: 10485760 }),
+      resolvePath: async (_wsId, relPath) => path.join(workspaceRoot, relPath),
+      disposeWorkspace: async () => {},
+      cleanupOrphanedWorkspaces: async () => [],
     };
 
     const registry = createWorkspaceToolAdapterRegistry(mockWorkspacePort, undefined, {
@@ -953,9 +955,11 @@ describe("Phase 48AF: Editor Integration & Pre-Mutation Intent", () => {
 
     const coordinator = new RunCoordinator(store);
     const mockWorkspacePort: WorkspacePort = {
-      createWorkspace: async () => ({ workspaceId: "ws-work", hostPath: workspaceRoot }),
-      destroyWorkspace: async () => {},
-      isContained: () => true,
+      provisionWorkspace: async () => ({ workspaceId: "ws-work", hostPath: workspaceRoot, runId: "run-worker-wire", containerMountPath: "/workspace", createdAt: "2026-11-12T10:00:00.000Z", maxWorkspaceBytes: 10485760 }),
+      resumeWorkspace: async () => ({ workspaceId: "ws-work", hostPath: workspaceRoot, runId: "run-worker-wire", containerMountPath: "/workspace", createdAt: "2026-11-12T10:00:00.000Z", maxWorkspaceBytes: 10485760 }),
+      resolvePath: async (_wsId, relPath) => path.join(workspaceRoot, relPath),
+      disposeWorkspace: async () => {},
+      cleanupOrphanedWorkspaces: async () => [],
     };
 
     const worker = new WorkerRuntime({

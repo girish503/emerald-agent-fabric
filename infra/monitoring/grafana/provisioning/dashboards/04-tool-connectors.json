@@ -1,0 +1,44 @@
+{
+  "uid": "emerald-04-connectors",
+  "title": "04 - Governed Tool Connectors & Security Denials",
+  "tags": ["emerald", "phase3", "connectors"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Connector Execution Rate by Connector & Status",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum by (connector_id, status) (rate(emerald_connector_executions_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{connector_id}}: {{status}}" }]
+    },
+    {
+      "id": 2,
+      "title": "Connector Capability Denials & Timeouts",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "sum(emerald_connector_executions_total{status=\"denied\",execution_mode=~\"$execution_mode\"})", "legendFormat": "Denied" },
+        { "refId": "B", "expr": "sum(emerald_connector_executions_total{status=\"timeout\",execution_mode=~\"$execution_mode\"})", "legendFormat": "Timeouts" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Connector Duration p95 (Seconds)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [{ "refId": "A", "expr": "histogram_quantile(0.95, sum(rate(emerald_connector_duration_seconds_bucket{execution_mode=~\"$execution_mode\"}[5m])) by (le, connector_id))", "legendFormat": "{{connector_id}}" }]
+    }
+  ]
+}

@@ -17,6 +17,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { computeCanonicalHash } from "../domain/canonical-hash.js";
 import { ClockPort, SystemClock } from "../ports/clock.port.js";
+import type { EmeraldLifecycleTelemetry } from "../application/observability-instrumentation.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -45,12 +46,27 @@ export interface VerificationPipelineOptions {
 }
 
 export class ProductionVerifier {
-  constructor(private readonly clock: ClockPort = new SystemClock()) {}
+  constructor(
+    private readonly clock: ClockPort = new SystemClock(),
+    private readonly telemetry?: EmeraldLifecycleTelemetry
+  ) {}
 
   /**
    * Run the complete multi-stage sovereign verification pipeline.
    */
   public async verify(options: VerificationPipelineOptions): Promise<ProductionVerificationResult> {
+    const res = await this.verifyCore(options);
+    this.telemetry?.recordVerificationResult({
+      verified: res.verified,
+      durationMs: res.durationMs,
+      proofHash: res.proofHash,
+      stages: res.stages,
+      failureReason: res.failureReason,
+    });
+    return res;
+  }
+
+  private async verifyCore(options: VerificationPipelineOptions): Promise<ProductionVerificationResult> {
     const startTime = Date.now();
     const stages: VerificationStageResult[] = [];
     let failureReason: string | undefined;

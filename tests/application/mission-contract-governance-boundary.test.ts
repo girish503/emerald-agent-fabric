@@ -37,6 +37,8 @@ import { createAndActivateContract } from "./test-helpers.js";
  * the zero-provider-invocation invariant on pre-dispatch governance failures.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name: string;
   readonly invocations: ExecutionRequest[] = [];
   private readonly mockOutput: unknown;
@@ -651,7 +653,26 @@ describe("MissionContract Governance Boundary — Final Invariant Verification (
       (store as any).db.prepare("UPDATE mission_contracts SET canonical_spec = '{\"tampered\": true}' WHERE contract_id = ? AND version = 1")
         .run(contractV1.spec.contractId);
 
-      coordinator.recoverExpiredRuns();
+      const supervisorId = "sup-rec-tamper";
+      const gate = store.acquireTenantLaunchGate({
+        runId: run.runId,
+        holderType: "RECOVERY",
+        holderId: supervisorId,
+        leaseId: "lease-gov",
+        nowIso: clock.nowIso(),
+        ttlMs: 30_000,
+        ownerPid: process.pid,
+      });
+      store.markQuiescentTenantLaunchGate({
+        runId: run.runId,
+        token: gate.token,
+        nowIso: clock.nowIso(),
+      });
+
+      coordinator.recoverExpiredRuns({
+        supervisorId,
+        quiescedGateTokens: new Map([[run.runId, gate.token]]),
+      });
 
       const failedRun = coordinator.getRunRaw(run.runId);
       expect(failedRun!.status).toBe("FAILED");

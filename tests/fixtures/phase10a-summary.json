@@ -1,0 +1,2442 @@
+{
+  "experimentName": "Phase 10A: Calibrated 24-Trial Execution-Reach Gate",
+  "timestamp": "2026-10-15T15:03:31.551Z",
+  "model": "llama3.2:3b",
+  "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+  "totalCompletedTrials": 24,
+  "totalPlannedTrials": 24,
+  "executedInCurrentRun": 24,
+  "metricsSummary": {
+    "passedTrials": 0,
+    "passRate": 0,
+    "trialsWithActions": 0,
+    "trialsWithToolCalls": 0,
+    "executionReachRate": 0,
+    "totalReflexTrials": 12,
+    "totalBaselineTrials": 12,
+    "totalReflexEvals": 0,
+    "totalReflexAllows": 0,
+    "totalReflexRejects": 0
+  },
+  "gateClassification": {
+    "assignedGate": "GATE_C",
+    "gateReason": "Model still blocked upstream at schema/capability boundary (0% execution reach across 24 trials). Model capability bottleneck confirmed."
+  },
+  "records": [
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:BASELINE:1",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9cbd2c5b4b7a",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 121463,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9cbd2c5b4b7a",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "9cbd2c5b4b7a4b479de0d384e938bebec38230833235ab041ab399379d96537d",
+          "runtimeRunId": "0807f8f8-7e90-4c07-856a-3561ef7f8c17"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+          "name": "Baseline: task-swe-bug-fix-calc"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-b2bc38c27c8befa9",
+            "contextHash": "68a9fe7b9404a41bcf1388d7a2e59d8f91c68a14b0e3cdb1c3c4f2bc02b086c6",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-11T21:03:56.103Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120707,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-11T21:05:57.578Z",
+        "artifactHash": "097e62545b2254132580c094a8cc1c1cf2af01afec202f69d3b7344d924ec4ec"
+      },
+      "artifactHash": "097e62545b2254132580c094a8cc1c1cf2af01afec202f69d3b7344d924ec4ec",
+      "completedAt": "2026-10-11T21:05:57.597Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:BASELINE:2",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-a3743a99940f",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 144020,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-a3743a99940f",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "a3743a99940f1e937d2f35e15fa3766c39c7a8be111263912a5ed2484b3abbfd",
+          "runtimeRunId": "8547fa0c-b323-437b-a5e1-8a02ffbae9ba"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+          "name": "Baseline: task-swe-bug-fix-calc"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-2911b2bb52e478f2",
+            "contextHash": "940894517ae3b239d256a70d8a47d1ea6769f80384d899dede479024624cd1cc",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-11T21:05:57.611Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120492,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-11T21:08:21.628Z",
+        "artifactHash": "6be3994bac5c016036144d09cd063c14f48a277464b2549db6db592ef28f9602"
+      },
+      "artifactHash": "6be3994bac5c016036144d09cd063c14f48a277464b2549db6db592ef28f9602",
+      "completedAt": "2026-10-11T21:08:21.650Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:REFLEX:1",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9838b5e60e69",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 106371,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1549,
+        "outputTokens": 61,
+        "totalTokens": 1610,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9838b5e60e69",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "9838b5e60e69ab90ae5948f6e9238f6f080b2459576fb90c605c5d99d331edc4",
+          "runtimeRunId": "787c504b-e37e-4aab-9bf9-18d3283b382f"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+          "name": "Reflex: task-swe-bug-fix-calc"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-0a03347cae60a3ec",
+            "contextHash": "cc6ed69f1622ac634f938374f459e7449821848bd9450e1ab45a0596ac0d600c",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-11T21:08:21.685Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 105583,
+          "toolLatencyMs": 0,
+          "inputTokens": 1549,
+          "outputTokens": 61,
+          "totalTokens": 1610,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-11T21:10:08.040Z",
+        "artifactHash": "c8893fc91e1992d9bc78fb31975545ab156c08efeecee994b39f440c9a722c41"
+      },
+      "artifactHash": "c8893fc91e1992d9bc78fb31975545ab156c08efeecee994b39f440c9a722c41",
+      "completedAt": "2026-10-11T21:10:08.048Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:REFLEX:2",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-6225ac7a8936",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 321823985,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-6225ac7a8936",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "6225ac7a89360a60e9042be61155f8b57d2e0b1dc98dab21510deb09829ebd8a",
+          "runtimeRunId": "b97e150a-4d01-41b9-855d-8df275805b13"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+          "name": "Reflex: task-swe-bug-fix-calc"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-4580f4b10b0e7042",
+            "contextHash": "ae127bb614aa8fc1024d5a7980c3ed6832fd9e672d17b198e2321e681dd10f3c",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-11T21:10:08.073Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 321823042,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-15T14:33:52.037Z",
+        "artifactHash": "217eb8e3fbe4af4b5b691499360c7381604208147849c9e151843f7f237cb6e4"
+      },
+      "artifactHash": "217eb8e3fbe4af4b5b691499360c7381604208147849c9e151843f7f237cb6e4",
+      "completedAt": "2026-10-15T14:33:52.045Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:BASELINE:1",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-ae49f20b3211",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 118138,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1565,
+        "outputTokens": 59,
+        "totalTokens": 1624
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-ae49f20b3211",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "ae49f20b3211477b69e122a63976967f3951b5493d8aa78cd83bd0ae6576a611",
+          "runtimeRunId": "8b3c1a89-e1af-4ffc-8ffe-a16a2d92737d"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+          "name": "Baseline: task-swe-bug-fix-parser"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-930e621354422ec1",
+            "contextHash": "372ed3c398dcb435aca9ac27a3719aaac07725634d754434f538d87e0efcffcd",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:33:52.062Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 117607,
+          "toolLatencyMs": 0,
+          "inputTokens": 1565,
+          "outputTokens": 59,
+          "totalTokens": 1624
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:35:50.195Z",
+        "artifactHash": "9e838e9ae71dae1f4c15fac4a8e0466d205e365d1d53b5acf95ee3b7a265288b"
+      },
+      "artifactHash": "9e838e9ae71dae1f4c15fac4a8e0466d205e365d1d53b5acf95ee3b7a265288b",
+      "completedAt": "2026-10-15T14:35:50.198Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:BASELINE:2",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-17520719306a",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 119738,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1573,
+        "outputTokens": 65,
+        "totalTokens": 1638
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-17520719306a",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "17520719306a9303c8cf081a6d7aab987a0374d712bf251f5ff288860c4fcf6c",
+          "runtimeRunId": "1bfd7271-322e-4304-95f1-c096d9681433"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+          "name": "Baseline: task-swe-bug-fix-parser"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-db4c43d5913905cc",
+            "contextHash": "137c18760b56dc1efab1d6073f91eb8a57b0819fc0e6510d12e59191c85bb55a",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:35:50.202Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 119050,
+          "toolLatencyMs": 0,
+          "inputTokens": 1573,
+          "outputTokens": 65,
+          "totalTokens": 1638
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:37:49.940Z",
+        "artifactHash": "ce2a43cf540af52b7f3a0b95d5e1fc2b2e5f36fbcb0e96c615df64c1ec732d95"
+      },
+      "artifactHash": "ce2a43cf540af52b7f3a0b95d5e1fc2b2e5f36fbcb0e96c615df64c1ec732d95",
+      "completedAt": "2026-10-15T14:37:49.975Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:REFLEX:1",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-4a670989359d",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 104401,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1550,
+        "outputTokens": 61,
+        "totalTokens": 1611,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-4a670989359d",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "4a670989359dc7cb9ac4a93c1a889f3423c2543c8187fc266b0d99a2b256e96a",
+          "runtimeRunId": "ce40c430-5a4b-4ffb-b181-4107039f2bd3"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+          "name": "Reflex: task-swe-bug-fix-parser"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-3b931db195e7ac03",
+            "contextHash": "a1433ea854d914e373272d992ec30500d71d15a377fa38a5a65cb3337cdc4cd1",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:37:49.991Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 104003,
+          "toolLatencyMs": 0,
+          "inputTokens": 1550,
+          "outputTokens": 61,
+          "totalTokens": 1611,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:39:34.381Z",
+        "artifactHash": "b2f7f4ccd80b5c08b1f2b6cc7148a97e29b1ad865153663b7425109c7b082cbb"
+      },
+      "artifactHash": "b2f7f4ccd80b5c08b1f2b6cc7148a97e29b1ad865153663b7425109c7b082cbb",
+      "completedAt": "2026-10-15T14:39:34.385Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:REFLEX:2",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-6ceede518760",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 107128,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1579,
+        "outputTokens": 61,
+        "totalTokens": 1640,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-6ceede518760",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "6ceede518760e0874a3e9c6da42b03a23694661451e0f78812bd5fc12b9e6566",
+          "runtimeRunId": "305db3c0-a991-4263-9f32-ab03d5a875fb"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+          "name": "Reflex: task-swe-bug-fix-parser"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-469dc37e8301babb",
+            "contextHash": "1695b0141db6895ea9e2c4028c48c4707f856223ae569098ab606cb75f62ac37",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:39:34.388Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 106439,
+          "toolLatencyMs": 0,
+          "inputTokens": 1579,
+          "outputTokens": 61,
+          "totalTokens": 1640,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:41:21.515Z",
+        "artifactHash": "51992a51772c2418b77fe6cff512ca583bdc39adae8a7515e421a7a122a7a219"
+      },
+      "artifactHash": "51992a51772c2418b77fe6cff512ca583bdc39adae8a7515e421a7a122a7a219",
+      "completedAt": "2026-10-15T14:41:21.517Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:BASELINE:1",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-7bdfe70719c2",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-baseline-task-swe-feature-string-utils",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 94157,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1615,
+        "outputTokens": 63,
+        "totalTokens": 1678
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-7bdfe70719c2",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "7bdfe70719c27855722cfbfad3361e272dad710abe46d9d1a0a6dcaa4e84d91a",
+          "runtimeRunId": "cb5891fc-8d0d-48e4-96f6-7d36d436ac10"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-string-utils",
+          "name": "Baseline: task-swe-feature-string-utils"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-8ffc7dde19030c7f",
+            "contextHash": "69dcd1ad05a3b09acac1c5518882d74b96184c39579e712a0428fa70880c2795",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:41:21.528Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 93752,
+          "toolLatencyMs": 0,
+          "inputTokens": 1615,
+          "outputTokens": 63,
+          "totalTokens": 1678
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:42:55.676Z",
+        "artifactHash": "76cbbc588d6535bfa3645986c0711be6e01f8e5bab55dc03eef89fcc088a24e5"
+      },
+      "artifactHash": "76cbbc588d6535bfa3645986c0711be6e01f8e5bab55dc03eef89fcc088a24e5",
+      "completedAt": "2026-10-15T14:42:55.681Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:BASELINE:2",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-e023eb145e99",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-baseline-task-swe-feature-string-utils",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 88854,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1601,
+        "outputTokens": 61,
+        "totalTokens": 1662
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-e023eb145e99",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "e023eb145e99786e369524fde6813d5dc987bc7832883ccc8c72e680bc0f9fe7",
+          "runtimeRunId": "cbe80675-2a93-4f51-8e81-a93dae5ca583"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-string-utils",
+          "name": "Baseline: task-swe-feature-string-utils"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-9eb9bcaf909a5e2c",
+            "contextHash": "a47331652b353fa392dac7436658b8e74f2c5ff35b6144d199ef8f906ccbc015",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:42:55.702Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 88464,
+          "toolLatencyMs": 0,
+          "inputTokens": 1601,
+          "outputTokens": 61,
+          "totalTokens": 1662
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:44:24.554Z",
+        "artifactHash": "8cb3c81dbc3b2373d84f4dfb11f2acc33dfc56e676c56dcb8545e3cb6d0e22cc"
+      },
+      "artifactHash": "8cb3c81dbc3b2373d84f4dfb11f2acc33dfc56e676c56dcb8545e3cb6d0e22cc",
+      "completedAt": "2026-10-15T14:44:24.556Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:REFLEX:1",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-fef45fd1417d",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-reflex-task-swe-feature-string-utils",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 91973,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1599,
+        "outputTokens": 64,
+        "totalTokens": 1663,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-fef45fd1417d",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "fef45fd1417daefbfa497aa7b2ed4546e4146bc63fdb19c48b67aff4536e8d1e",
+          "runtimeRunId": "ca8e97e6-ac0b-45b1-ba41-ddc6b4246c26"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-string-utils",
+          "name": "Reflex: task-swe-feature-string-utils"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-1b845745be45ab67",
+            "contextHash": "1e975f2ad1f83d46aec06252f50db4bf3ec11b4e79ff3d9ffadf487e73212789",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:44:24.579Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 91643,
+          "toolLatencyMs": 0,
+          "inputTokens": 1599,
+          "outputTokens": 64,
+          "totalTokens": 1663,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:45:56.550Z",
+        "artifactHash": "574448eb158e1defcfcb2f88a4cfd60d099359fb3e42231e3c98a9403cd47895"
+      },
+      "artifactHash": "574448eb158e1defcfcb2f88a4cfd60d099359fb3e42231e3c98a9403cd47895",
+      "completedAt": "2026-10-15T14:45:56.567Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:REFLEX:2",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-1aa8df8d1fb1",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-reflex-task-swe-feature-string-utils",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 87478,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1604,
+        "outputTokens": 63,
+        "totalTokens": 1667,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-1aa8df8d1fb1",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "1aa8df8d1fb142b3d301bf3c7491c0efe0403ad946b9f9c9a90281c1c7d2f85d",
+          "runtimeRunId": "138ae344-6da6-40c3-9e7b-97f3882f6ab6"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-string-utils",
+          "name": "Reflex: task-swe-feature-string-utils"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-2490c0ed868dd53e",
+            "contextHash": "b79cf435190c6adfcd19c6cddfc74734f16b3b8ee91660c9340ef0198201be6e",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:45:56.570Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 87009,
+          "toolLatencyMs": 0,
+          "inputTokens": 1604,
+          "outputTokens": 63,
+          "totalTokens": 1667,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:47:24.048Z",
+        "artifactHash": "e69632cd31e697380d2271bcbf64ef9aa4b5e07314c3ce1183f51c637dbbfaef"
+      },
+      "artifactHash": "e69632cd31e697380d2271bcbf64ef9aa4b5e07314c3ce1183f51c637dbbfaef",
+      "completedAt": "2026-10-15T14:47:24.055Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:BASELINE:1",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-0a93f15ba41b",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-baseline-task-swe-feature-multi-file",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 83514,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1558,
+        "outputTokens": 62,
+        "totalTokens": 1620
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-0a93f15ba41b",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "0a93f15ba41b10131c29ab8744eed80930c8e5e96651e2501eaebb57005b4d7c",
+          "runtimeRunId": "7dfcb3a8-cfcd-4b10-b328-4fb674ea5a5b"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-multi-file",
+          "name": "Baseline: task-swe-feature-multi-file"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-80aecf620a9022e9",
+            "contextHash": "4bfcd2ef61867c236ecc495a9cc5ef79542f6ba120ddf2e496bc6e83b9a14fad",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:47:24.064Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 83177,
+          "toolLatencyMs": 0,
+          "inputTokens": 1558,
+          "outputTokens": 62,
+          "totalTokens": 1620
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:48:47.577Z",
+        "artifactHash": "ddfdcd5c5e2f15ce0d78fb91c0666bcfbb7a13d993ada22b793b152d5a698f6a"
+      },
+      "artifactHash": "ddfdcd5c5e2f15ce0d78fb91c0666bcfbb7a13d993ada22b793b152d5a698f6a",
+      "completedAt": "2026-10-15T14:48:47.580Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:BASELINE:2",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-95cac06d48a6",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-baseline-task-swe-feature-multi-file",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 74156,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1528,
+        "outputTokens": 60,
+        "totalTokens": 1588
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-95cac06d48a6",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "95cac06d48a6e5eae451e7e179c126cf32c4f24b49279ea11d78c3725544a893",
+          "runtimeRunId": "2edab347-b388-4525-b831-2451a8564945"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-multi-file",
+          "name": "Baseline: task-swe-feature-multi-file"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-ba51bcee0ea386da",
+            "contextHash": "d488994d6c5372d0d79fa4591c725df55215df25df17d236fd981445ec10b080",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:48:47.583Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 73818,
+          "toolLatencyMs": 0,
+          "inputTokens": 1528,
+          "outputTokens": 60,
+          "totalTokens": 1588
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:50:01.737Z",
+        "artifactHash": "22729935dcc7e8c0ccd10fb1ebef8079ed3fb56c50dd86dccd3d3608b8e33c35"
+      },
+      "artifactHash": "22729935dcc7e8c0ccd10fb1ebef8079ed3fb56c50dd86dccd3d3608b8e33c35",
+      "completedAt": "2026-10-15T14:50:01.743Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:REFLEX:1",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-907c96556150",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-reflex-task-swe-feature-multi-file",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 83811,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1559,
+        "outputTokens": 64,
+        "totalTokens": 1623,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-907c96556150",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "907c9655615059f6e86e88230c647693bd38205b86b446bd9af2dd6430c26234",
+          "runtimeRunId": "de7171c5-5862-424f-869d-5ded95e96581"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-multi-file",
+          "name": "Reflex: task-swe-feature-multi-file"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-e55ae9c9e2475f2e",
+            "contextHash": "47ef0fa623e20d50afa23a9e0faf4ebc76c7b02db581cf6ba70977a87a5512ed",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:50:01.756Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 83482,
+          "toolLatencyMs": 0,
+          "inputTokens": 1559,
+          "outputTokens": 64,
+          "totalTokens": 1623,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:51:25.563Z",
+        "artifactHash": "8d39d7a57f6da60ea3b43fce46e93410275ab2b4b95861e8b5e5826798864198"
+      },
+      "artifactHash": "8d39d7a57f6da60ea3b43fce46e93410275ab2b4b95861e8b5e5826798864198",
+      "completedAt": "2026-10-15T14:51:25.571Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:REFLEX:2",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-5a4416087a7e",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-reflex-task-swe-feature-multi-file",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 79330,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1588,
+        "outputTokens": 63,
+        "totalTokens": 1651,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-5a4416087a7e",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "5a4416087a7e9dd400e16d2989451f751f9949424febe3d31ee735ee0645466f",
+          "runtimeRunId": "0e3c3d87-f797-4649-a247-3e913f06ee91"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-multi-file",
+          "name": "Reflex: task-swe-feature-multi-file"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-63f69302f1de6a91",
+            "contextHash": "e575668f093e0412b28b0926241c22bc232032c5c783a8a6fbad7767d42a1654",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:51:25.573Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 79012,
+          "toolLatencyMs": 0,
+          "inputTokens": 1588,
+          "outputTokens": 63,
+          "totalTokens": 1651,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:52:44.903Z",
+        "artifactHash": "e9dcab6b8d967f3877b32688d9673012c8d4ec86989849a396765fac360f5ca1"
+      },
+      "artifactHash": "e9dcab6b8d967f3877b32688d9673012c8d4ec86989849a396765fac360f5ca1",
+      "completedAt": "2026-10-15T14:52:44.906Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:BASELINE:1",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-277afefaf88a",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-baseline-task-swe-recoverable-failure",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 85618,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1579,
+        "outputTokens": 69,
+        "totalTokens": 1648
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-277afefaf88a",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "277afefaf88abaac538d158ea274a604b171ef73fed6042877ed779e203fc793",
+          "runtimeRunId": "9a75191c-8f5c-49e8-97f7-25164f4bbe6c"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-recoverable-failure",
+          "name": "Baseline: task-swe-recoverable-failure"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-2a8006ca33027bdf",
+            "contextHash": "95699b0ff838c6225db63c991ade5c2d8a24b7fe62165c471f6e8a0d0de1a5f6",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:52:44.916Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 85308,
+          "toolLatencyMs": 0,
+          "inputTokens": 1579,
+          "outputTokens": 69,
+          "totalTokens": 1648
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:54:10.530Z",
+        "artifactHash": "6c13e32e4a9fae313109bacc7e24310c48c1fff0f0a4bd40a1bba4d82d96dd79"
+      },
+      "artifactHash": "6c13e32e4a9fae313109bacc7e24310c48c1fff0f0a4bd40a1bba4d82d96dd79",
+      "completedAt": "2026-10-15T14:54:10.532Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:BASELINE:2",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-549522c54eac",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-baseline-task-swe-recoverable-failure",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 79131,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1598,
+        "outputTokens": 66,
+        "totalTokens": 1664
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-549522c54eac",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "549522c54eacff5ed0489d1ae17dc4cf2a11c2ac7b556ec6c48bec17f0c22510",
+          "runtimeRunId": "b03ee07f-a5a0-4a7e-a3a6-10f0702a8f84"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-recoverable-failure",
+          "name": "Baseline: task-swe-recoverable-failure"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-e2b2b75a3ecefb16",
+            "contextHash": "a003e8b8140e9d141dc30655408c9adc6e30dd1ef91cd8dd81702c8c6062f7c7",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:54:10.535Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 78835,
+          "toolLatencyMs": 0,
+          "inputTokens": 1598,
+          "outputTokens": 66,
+          "totalTokens": 1664
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:55:29.665Z",
+        "artifactHash": "74f16acd5bdb9c4c57b6a5b19dcf4e4776e632c56546f0f1ad7afcb633bd3048"
+      },
+      "artifactHash": "74f16acd5bdb9c4c57b6a5b19dcf4e4776e632c56546f0f1ad7afcb633bd3048",
+      "completedAt": "2026-10-15T14:55:29.668Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:REFLEX:1",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-f40762f1aba5",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-reflex-task-swe-recoverable-failure",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 87483,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1558,
+        "outputTokens": 66,
+        "totalTokens": 1624,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-f40762f1aba5",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "f40762f1aba50fc170bcae08858c6cdee64a3149f653d7a29acea57d8e22b9f3",
+          "runtimeRunId": "a649a0a6-7214-43a4-b804-854d06e809ce"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-recoverable-failure",
+          "name": "Reflex: task-swe-recoverable-failure"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-0d2023938b5517b5",
+            "contextHash": "0fae5d4d9a63e78b95b1aba9eab16fec27f92043e5a608bb8ea846a04a359491",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:55:29.683Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 87113,
+          "toolLatencyMs": 0,
+          "inputTokens": 1558,
+          "outputTokens": 66,
+          "totalTokens": 1624,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:56:57.160Z",
+        "artifactHash": "d83aa5daae76a620c40b1952eb0f5181c1f3ed18e1a8c82cabbaa5e62af1b8c4"
+      },
+      "artifactHash": "d83aa5daae76a620c40b1952eb0f5181c1f3ed18e1a8c82cabbaa5e62af1b8c4",
+      "completedAt": "2026-10-15T14:56:57.183Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:REFLEX:2",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-2df780b716b2",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-reflex-task-swe-recoverable-failure",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 76283,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1558,
+        "outputTokens": 61,
+        "totalTokens": 1619,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-2df780b716b2",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "2df780b716b2d2444145715e20b448e30b564517063dba1321e13f05c471ff98",
+          "runtimeRunId": "0224e2dc-37f9-4317-9428-37bd1821dc15"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-recoverable-failure",
+          "name": "Reflex: task-swe-recoverable-failure"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-2d43fb118ce954bc",
+            "contextHash": "98a9889a075d5330588544c8cad99c92fada1430dab47d576dd9fef81d01283a",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:56:57.188Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 76016,
+          "toolLatencyMs": 0,
+          "inputTokens": 1558,
+          "outputTokens": 61,
+          "totalTokens": 1619,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:58:13.467Z",
+        "artifactHash": "6ec7581acfe7e2587e3c4fa736469c88d5daa4e739c54f1b3bd3fa6d488b33df"
+      },
+      "artifactHash": "6ec7581acfe7e2587e3c4fa736469c88d5daa4e739c54f1b3bd3fa6d488b33df",
+      "completedAt": "2026-10-15T14:58:13.470Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:BASELINE:1",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t1-9f9cb52a543b",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-baseline-task-swe-futile-loop",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 77096,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1575,
+        "outputTokens": 62,
+        "totalTokens": 1637
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t1-9f9cb52a543b",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "9f9cb52a543b15c6fb04192d59376fcc044fce6db35d416835cb8e21b847b15d",
+          "runtimeRunId": "82d59322-d880-43e9-af6a-4ce00c5cab31"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-futile-loop",
+          "name": "Baseline: task-swe-futile-loop"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-0886c9ec63c011e8",
+            "contextHash": "a1abf0b8d1635ca152ca77cf08050ced17ee2158983c8908f6faaeb32352dcc7",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:58:13.475Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 77027,
+          "toolLatencyMs": 0,
+          "inputTokens": 1575,
+          "outputTokens": 62,
+          "totalTokens": 1637
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T14:59:30.569Z",
+        "artifactHash": "76693bf3547e92919ee1cf54c1a94a9954075cd77f2f3fbce06a776f79c0e255"
+      },
+      "artifactHash": "76693bf3547e92919ee1cf54c1a94a9954075cd77f2f3fbce06a776f79c0e255",
+      "completedAt": "2026-10-15T14:59:30.572Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:BASELINE:2",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t2-c78b776d5a8f",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-baseline-task-swe-futile-loop",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 79257,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1576,
+        "outputTokens": 69,
+        "totalTokens": 1645
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t2-c78b776d5a8f",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "c78b776d5a8f13dd91822094baffd9f33bf4802f31df86c478c4e9b1eb398c46",
+          "runtimeRunId": "4de2606f-1ab7-4cc6-b514-35931ffaed4e"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-futile-loop",
+          "name": "Baseline: task-swe-futile-loop"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-501d7f779f8a08af",
+            "contextHash": "8f29fd5d8a545b84429e5e93b44c3f11dab31a71427a5af1d6d51c575aba3cf0",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T14:59:30.576Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 79138,
+          "toolLatencyMs": 0,
+          "inputTokens": 1576,
+          "outputTokens": 69,
+          "totalTokens": 1645
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T15:00:49.833Z",
+        "artifactHash": "af5079df7af47e52412f9462aede42aa3f65154161d58991ef3318c4258870cd"
+      },
+      "artifactHash": "af5079df7af47e52412f9462aede42aa3f65154161d58991ef3318c4258870cd",
+      "completedAt": "2026-10-15T15:00:49.837Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:REFLEX:1",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t1-ed36a8e6b1bd",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-reflex-task-swe-futile-loop",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 77114,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1554,
+        "outputTokens": 64,
+        "totalTokens": 1618,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t1-ed36a8e6b1bd",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "ed36a8e6b1bd7d8ddcf1c180e82cc699ff6cf4d0e31c6422885cffca83d6707d",
+          "runtimeRunId": "284140e5-43c3-4110-ade0-dcc8ca2cb78a"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-futile-loop",
+          "name": "Reflex: task-swe-futile-loop"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-dac30cf303a574df",
+            "contextHash": "beb94432a5e9177def34ce64aa7cd7bc0e5cc0ce201d3be7b7437d0272aecdf3",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T15:00:49.843Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 77013,
+          "toolLatencyMs": 0,
+          "inputTokens": 1554,
+          "outputTokens": 64,
+          "totalTokens": 1618,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T15:02:06.954Z",
+        "artifactHash": "37bdf412bcae9829a9d0a5bf715c78e631648ecfe935553fead5094da58054e5"
+      },
+      "artifactHash": "37bdf412bcae9829a9d0a5bf715c78e631648ecfe935553fead5094da58054e5",
+      "completedAt": "2026-10-15T15:02:06.956Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:REFLEX:2",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t2-82c102fed1f6",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-reflex-task-swe-futile-loop",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "verificationPassed": false,
+      "durationMs": 84561,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "promptTokens": 1610,
+        "outputTokens": 66,
+        "totalTokens": 1676,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t2-82c102fed1f6",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "82c102fed1f6d401735820805dbc3bc25b246ec3fd05e16ff1ddd9945ecf0b32",
+          "runtimeRunId": "9f9a1754-0bb0-49c2-8190-4934f39f978c"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-futile-loop",
+          "name": "Reflex: task-swe-futile-loop"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-b79e03c3e86082e6",
+            "contextHash": "5db1a59cdd74214fe4c1a43204206c40e7ec7cc1d37bd0569d0850c28121c24a",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "finishReason": "ERROR",
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-15T15:02:06.960Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 84483,
+          "toolLatencyMs": 0,
+          "inputTokens": 1610,
+          "outputTokens": 66,
+          "totalTokens": 1676,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain reported error: Tool 'undefined' is missing or not a registered tool name"
+        },
+        "persistedAt": "2026-10-15T15:03:31.520Z",
+        "artifactHash": "089ece29d1cf148388a221027d1850f6a8157ea5c1fd460f51caf6f44cd2441c"
+      },
+      "artifactHash": "089ece29d1cf148388a221027d1850f6a8157ea5c1fd460f51caf6f44cd2441c",
+      "completedAt": "2026-10-15T15:03:31.522Z"
+    }
+  ]
+}

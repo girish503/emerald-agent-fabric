@@ -300,7 +300,7 @@ During Step 4 and Step 5, the model executed destructive `write_file` actions th
   ```text
   C:\Users\ADUSUM~1\AppData\Local\Temp\emerald-p43-EAF-BM-01-1793016872852-ArZL3O
   ```
-- **Repository Source Tree Integrity**: The repository source tree at `c:\Users\Adusumalli Girish\.gemini\antigravity\scratch\emerald-agent-fabric` was **not mutated**. Git tracked files remained completely unaffected by the trial's write actions.
+- **Repository Source Tree Integrity**: The repository source tree was **not mutated**. Git tracked files remained completely unaffected by the trial's write actions.
 
 ### 7.2 Pre-Trial Workspace Baseline Verification Requirement
 Before authorizing any future benchmark trial:

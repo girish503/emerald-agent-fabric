@@ -333,7 +333,7 @@ export async function executeLocalEvaluationRun(
         modelProvider: options.modelProvider.providerName,
         model: options.model,
         actionId: entry.actionId,
-        toolName: entry.toolName,
+        toolName: entry.toolName as ToolName | undefined,
         durationMs: entry.durationMs,
         result: resultType,
         error: entry.actionError ? String(entry.actionError) : entry.proposalRejectionMessage,

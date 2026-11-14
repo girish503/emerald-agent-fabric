@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 /**
  * Phase 14 — Independent Verification and Clean-Room Proof Integration Tests.
  *
@@ -63,9 +64,8 @@ import { createAndActivateContract } from "../application/test-helpers.js";
 // Historical Artifact Protection Hashes
 // ============================================================================
 
-const SCRATCH_DIR = path.resolve(
-  "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch"
-);
+const __fixturesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../fixtures");
+const SCRATCH_DIR = __fixturesDir;
 
 const HISTORICAL_HASHES: Readonly<Record<string, string>> = Object.freeze({
   "phase9-4b-summary.json": "FC81ED4C9E0FA60D2232104DC0CCFA57C4FB26BCDAB79E6D17D52F3FE575D92E",
@@ -212,6 +212,8 @@ class ScriptableAgentBrain implements AgentBrainPort {
 // ============================================================================
 
 class FastCleanRoomExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "fast-clean-room-provider";
   public invocationCount = 0;
   public simulateZeroTestOutput = false;

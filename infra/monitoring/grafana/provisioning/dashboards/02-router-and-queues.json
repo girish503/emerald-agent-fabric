@@ -1,0 +1,41 @@
+{
+  "uid": "emerald-02-router",
+  "title": "02 - Task Router & Queue Depth",
+  "tags": ["emerald", "phase3", "router"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Router Submissions by Outcome",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum by (outcome, execution_mode) (rate(emerald_router_submissions_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{outcome}}" }]
+    },
+    {
+      "id": 2,
+      "title": "Remaining Global Admission Capacity",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "emerald_router_capacity_remaining{execution_mode=~\"$execution_mode\"}", "legendFormat": "capacity" }]
+    },
+    {
+      "id": 3,
+      "title": "Dispatch Tick Duration p95 (Seconds)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [{ "refId": "A", "expr": "histogram_quantile(0.95, sum(rate(emerald_router_dispatch_duration_seconds_bucket{execution_mode=~\"$execution_mode\"}[5m])) by (le))", "legendFormat": "p95" }]
+    }
+  ]
+}

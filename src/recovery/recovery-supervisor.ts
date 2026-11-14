@@ -41,6 +41,7 @@ import {
   RollbackExecutionResult,
 } from "./durable-rollback-engine.js";
 import { RunRollbackStatus } from "../domain/mutation-intent.js";
+import type { EmeraldLifecycleTelemetry } from "../application/observability-instrumentation.js";
 
 export interface RecoverySupervisorConfig {
   readonly stateStore: StateStorePort;
@@ -50,6 +51,7 @@ export interface RecoverySupervisorConfig {
   readonly supervisorPid?: number;
   readonly leaseTtlMs?: number;
   readonly workspaceResolver?: (runId: string) => string | undefined | Promise<string | undefined>;
+  readonly telemetry?: EmeraldLifecycleTelemetry;
 }
 
 export type RecoveryRunOutcomeStatus =
@@ -98,6 +100,7 @@ export class RecoverySupervisor {
   private readonly supervisorPid: number;
   private readonly leaseTtlMs: number;
   private readonly workspaceResolver?: (runId: string) => string | undefined | Promise<string | undefined>;
+  private readonly telemetry?: EmeraldLifecycleTelemetry;
 
   constructor(config: RecoverySupervisorConfig) {
     if (!config.stateStore) {
@@ -116,6 +119,7 @@ export class RecoverySupervisor {
     this.supervisorPid = config.supervisorPid ?? (typeof process !== "undefined" && process.pid ? process.pid : 1);
     this.leaseTtlMs = config.leaseTtlMs && config.leaseTtlMs > 0 ? config.leaseTtlMs : 30000;
     this.workspaceResolver = config.workspaceResolver;
+    this.telemetry = config.telemetry;
   }
 
   /**
@@ -253,6 +257,29 @@ export class RecoverySupervisor {
        * Gate generation (token) from the acquisition that established quiescence. Required for isolated runs: recovery
        * is authorized only while the durable gate still carries exactly this token.
        */
+      gateToken?: string;
+    }
+  ): Promise<RecoveryRunOutcome> {
+    const recoveryStartMs = Date.now();
+    const res = await this.recoverRunCore(runId, options);
+    this.telemetry?.recordRecoveryOutcome({
+      runId: res.runId,
+      outcome: res.status,
+      leasesFenced: res.status === "RECOVERED" || res.status === "RECOVERED_UNVERIFIED" ? 1 : 0,
+      workerLeaseExpiredObserved:
+        (res.status === "RECOVERED" || res.status === "RECOVERED_UNVERIFIED") &&
+        (res.statusBefore === "RUNNING" || res.statusBefore === "LEASED"),
+      durationMs: Date.now() - recoveryStartMs,
+    });
+    return res;
+  }
+
+  private async recoverRunCore(
+    runId: string,
+    options?: {
+      workspaceRoot?: string;
+      nowIso?: string;
+      quiescedRunIds?: ReadonlySet<string>;
       gateToken?: string;
     }
   ): Promise<RecoveryRunOutcome> {

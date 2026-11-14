@@ -14,6 +14,8 @@ import * as os from "node:os";
 import * as path from "node:path";
 import { SqliteStateStore } from "../adapters/persistence/sqlite-state-store.js";
 import { InProcessExecutionProvider } from "../adapters/execution/in-process-execution-provider.js";
+import { ExecutionProvider } from "../ports/execution-provider.port.js";
+import { DockerExecutionProvider } from "../adapters/execution/docker-execution-provider.js";
 import { GovernedAgentExecutionProvider } from "../adapters/execution/governed-agent-execution-provider.js";
 import { OllamaModelProvider } from "../adapters/models/ollama-model-provider.js";
 import { NodeFsWorkspaceAdapter } from "../adapters/workspace/node-fs-workspace-adapter.js";
@@ -21,6 +23,10 @@ import { NodeFsRepositoryImporter } from "../adapters/workspace/node-fs-reposito
 import { GitArtifactExporter, assertGitAvailable } from "../adapters/workspace/git-artifact-exporter.js";
 import { SlowOperation, DeterministicOperation, EchoOperation, SumOperation } from "../domain/operation.js";
 import { ModelRequestCancelledError, ModelRequestTimeoutError } from "../domain/errors.js";
+import { EXTENDED_TOOL_DEFINITIONS, RUN_COMMAND_TOOL, StaticToolRegistry } from "../domain/tool.js";
+import { GovernedModelRouterService } from "./governed-model-router.js";
+import { ModelAssignmentEnforcingBrain } from "./model-assignment-guard.js";
+import { fetchOllamaModelInventory } from "./model-router-factory.js";
 import {
   ModelProviderPort,
   ModelProviderRequest,
@@ -32,6 +38,8 @@ import { AgentStepController } from "./agent-step-controller.js";
 import { LiveAgentBrain } from "./live-agent-brain.js";
 import { RunCoordinator } from "./run-coordinator.js";
 import { WorkerRuntime } from "./worker-runtime.js";
+import type { EmeraldLifecycleTelemetry } from "./observability-instrumentation.js";
+import type { GovernedToolConnectorService } from "./governed-tool-connector.js";
 
 export class WorkerHostConfigError extends Error {}
 
@@ -73,6 +81,10 @@ export interface WorkerHostOptions {
   readonly ollamaBaseUrl?: string;
   /** Inference timeout limit in ms for the model provider (defaults to 120000 ms for ollama). */
   readonly modelTimeoutMs?: number;
+  /** Optional Ollama keep_alive duration (defaults to "10m"). */
+  readonly ollamaKeepAlive?: string | number;
+  /** Optional Ollama num_ctx context window size in tokens (defaults to undefined, using model default). */
+  readonly ollamaNumCtx?: number;
   /** Optional custom AgentBrainPort for testing or direct dependency injection. */
   readonly agentBrain?: AgentBrainPort;
   /**
@@ -81,7 +93,37 @@ export interface WorkerHostOptions {
    * Each use is recorded durably as "verification.unverified_completion_authorized".
    */
   readonly allowUnverifiedCompletion?: boolean;
+  /**
+   * Optional physical execution provider for tools when modelProvider is "fixture" or "ollama".
+   * If omitted, physical command execution (run_command) is not registered, preventing recursive re-entry.
+   */
+  readonly physicalExecutionProvider?: ExecutionProvider;
+  /**
+   * Selection for physical execution provider when modelProvider is "fixture" or "ollama":
+   * - "docker": isolated OCI container execution via DockerExecutionProvider.
+   * - "none": no physical execution provider (run_command will fail closed).
+   * Defaults to "docker" when modelProvider is "ollama", and "none" when modelProvider is "fixture".
+   */
+  readonly physicalProvider?: "docker" | "none";
+  /**
+   * Operator override for the default `run_command` timeout (ms) applied by the ToolExecutionGateway when a
+   * proposal does not request one. Only used when modelProvider is "fixture" or "ollama". Must be a positive
+   * integer no greater than the tool's declared maxTimeoutMs; the Mission Contract timeout still caps it.
+   * The model-facing tool catalog and schema are unchanged. Defaults to the tool definition's own default.
+   */
+  readonly runCommandTimeoutMs?: number;
+  /**
+   * Source of the local provider's installed-model inventory (name + digest), used by the governed model
+   * gate when modelProvider is "ollama" and no agentBrain is injected. Defaults to the Ollama model list
+   * endpoint (metadata only; no inference). Injectable for deterministic tests.
+   */
+  readonly modelInventoryProvider?: () => Promise<readonly { readonly name: string; readonly digest: string }[]>;
+  /** Optional lifecycle telemetry facade for metrics/traces/logs (observability only, zero execution authority). */
+  readonly telemetry?: EmeraldLifecycleTelemetry;
+  /** Optional pre-configured governed connector service passed into WorkerRuntime. */
+  readonly connectorService?: GovernedToolConnectorService;
 }
+
 
 export interface WorkerHostResult {
   readonly workerId: string;
@@ -281,12 +323,95 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
       `Unsupported model provider: '${options.modelProvider}'. Supported: in-process, fixture, ollama`
     );
   }
+  if (
+    options.physicalProvider !== undefined &&
+    !["docker", "none"].includes(options.physicalProvider)
+  ) {
+    throw new WorkerHostConfigError(
+      `Unsupported physical provider: '${options.physicalProvider}'. Supported: docker, none`
+    );
+  }
+
+  const runCommandMaxTimeoutMs = RUN_COMMAND_TOOL.resourceDescriptor.maxTimeoutMs ?? 60000;
+  if (
+    options.runCommandTimeoutMs !== undefined &&
+    (!Number.isInteger(options.runCommandTimeoutMs) ||
+      options.runCommandTimeoutMs < 1 ||
+      options.runCommandTimeoutMs > runCommandMaxTimeoutMs)
+  ) {
+    throw new WorkerHostConfigError(
+      `runCommandTimeoutMs must be an integer between 1 and ${runCommandMaxTimeoutMs}`
+    );
+  }
+  // Gateway-only registry: identical tool set, with only run_command's default timeout overridden.
+  const gatewayToolRegistry =
+    options.runCommandTimeoutMs === undefined
+      ? undefined
+      : new StaticToolRegistry(
+          EXTENDED_TOOL_DEFINITIONS.map((tool) =>
+            tool.name === "run_command"
+              ? Object.freeze({
+                  ...tool,
+                  resourceDescriptor: Object.freeze({
+                    ...tool.resourceDescriptor,
+                    defaultTimeoutMs: options.runCommandTimeoutMs,
+                  }),
+                })
+              : tool
+          )
+        );
 
   const log = options.log ?? defaultLog;
   const stamp = (event: string, extra: Record<string, unknown> = {}): WorkerLogRecord => ({ ts: new Date().toISOString(), event, ...extra });
   const workerId = options.workerId ?? `worker-${process.pid}-${crypto.randomUUID().slice(0, 8)}`;
 
   const clock = new SystemClock();
+  // Governed model gate (fail closed): a live local model is used only if it is registered in the approved
+  // open-weight registry, installed in the local provider, and its installed digest matches the registry.
+  // Skipped when an agentBrain is injected, because no model is selected by this host in that case.
+  let approvedModelDigest: string | null = null;
+  if (options.modelProvider === "ollama" && !options.agentBrain) {
+    if (!options.model || options.model.trim().length === 0) {
+      throw new WorkerHostConfigError(
+        "WorkerHost requires an explicit approved options.model for ollama provider; refusing unregistered default fallback"
+      );
+    }
+    const requestedModel = options.model;
+    const router = new GovernedModelRouterService();
+    if (!router.getModelProfile(requestedModel)) {
+      throw new WorkerHostConfigError(
+        `Model '${requestedModel}' is not in the approved open-weight model registry; refusing to start`
+      );
+    }
+    let inventory: readonly { readonly name: string; readonly digest: string }[];
+    try {
+      inventory = await (options.modelInventoryProvider
+        ? options.modelInventoryProvider()
+        : fetchOllamaModelInventory(options.ollamaBaseUrl ?? process.env.OLLAMA_BASE_URL ?? "http://127.0.0.1:11434"));
+    } catch (err: unknown) {
+      throw new WorkerHostConfigError(
+        `Cannot confirm that model '${requestedModel}' is installed: ${err instanceof Error ? err.message : String(err)}`
+      );
+    }
+    const readiness = router.applyInstalledInventory(inventory).find((r) => r.modelId === requestedModel);
+    if (!readiness?.installed) {
+      throw new WorkerHostConfigError(
+        `Model '${requestedModel}' is registered but not installed in the local provider; refusing to start`
+      );
+    }
+    if (!readiness.digestMatches) {
+      throw new WorkerHostConfigError(
+        `Installed digest of model '${requestedModel}' does not match the approved registry digest; refusing to start`
+      );
+    }
+    approvedModelDigest = router.getModelProfile(requestedModel)!.modelDigest;
+    log(stamp("worker.model.approved", { model: requestedModel, modelDigest: approvedModelDigest }));
+  } else if (options.modelProvider === "ollama" && options.agentBrain) {
+    // Auditable: an injected brain has no verifiable model identity. Role-bearing and model-assigned
+    // tasks are refused by the assignment guard below.
+    log(stamp("worker.model.gate_skipped", { reason: "agentBrain injected; no model identity verified" }));
+  }
+
   const store = new SqliteStateStore({ location: options.dbPath });
   try {
     let workspace: NodeFsWorkspaceAdapter | undefined;
@@ -309,10 +434,12 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           const ollama = new OllamaModelProvider({
             baseURL: options.ollamaBaseUrl,
             defaultModel: options.model,
+            keepAlive: options.ollamaKeepAlive,
+            numCtx: options.ollamaNumCtx,
           });
           brain = new LiveAgentBrain({
             modelProvider: ollama,
-            model: options.model ?? "llama3.2",
+            model: options.model ?? "deterministic",
             timeoutMs: options.modelTimeoutMs ?? 120000,
             enableDynamicToolFiltering: true,
             clock,
@@ -326,9 +453,31 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           });
         }
 
+        if (options.modelProvider === "ollama") {
+          // Live-model mode: a role-bearing task may reach the brain only with a matching governed assignment.
+          brain = new ModelAssignmentEnforcingBrain({
+            inner: brain,
+            stateStore: store,
+            verifiedModel:
+              approvedModelDigest !== null && !options.agentBrain
+                ? { modelId: options.model!, modelDigest: approvedModelDigest }
+                : null,
+            onDecision: (record) =>
+              log(stamp(record.allowed ? "worker.model.assignment_accepted" : "worker.model.assignment_refused", { ...record })),
+          });
+        }
+
         const governedProvider = new GovernedAgentExecutionProvider({
           clock,
         });
+
+        const physicalExecutionProvider =
+          options.physicalExecutionProvider ??
+          (options.physicalProvider === "none"
+            ? undefined
+            : options.physicalProvider === "docker" || options.modelProvider === "ollama"
+              ? new DockerExecutionProvider()
+              : undefined);
 
         runtime = new WorkerRuntime({
           workerId,
@@ -339,8 +488,12 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           leaseTtlMs: options.leaseTtlMs,
           workspacePort: workspace,
           executionProvider: governedProvider,
+          physicalExecutionProvider,
+          ...(gatewayToolRegistry ? { toolRegistry: gatewayToolRegistry } : {}),
           repositoryImporter: new NodeFsRepositoryImporter(),
           ...(options.artifactRoot ? { artifactExporter: new GitArtifactExporter({ artifactRoot: options.artifactRoot }) } : {}),
+          ...(options.telemetry ? { telemetry: options.telemetry } : {}),
+          ...(options.connectorService ? { connectorService: options.connectorService } : {}),
         });
 
         const stepController = new AgentStepController({
@@ -349,8 +502,11 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           workerRuntime: runtime,
           agentBrain: brain,
           clock,
+          enableGovernedVerificationStage: true,
           enableDynamicToolFiltering: options.modelProvider === "ollama",
           allowUnverifiedCompletion: options.allowUnverifiedCompletion === true,
+          ...(runtime.memoryService ? { scopedMemory: runtime.memoryService } : {}),
+          ...(options.telemetry ? { telemetry: options.telemetry } : {}),
         });
 
         governedProvider.setStepController(stepController);
@@ -367,6 +523,8 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           executionProvider,
           repositoryImporter: new NodeFsRepositoryImporter(),
           ...(options.artifactRoot ? { artifactExporter: new GitArtifactExporter({ artifactRoot: options.artifactRoot }) } : {}),
+          ...(options.telemetry ? { telemetry: options.telemetry } : {}),
+          ...(options.connectorService ? { connectorService: options.connectorService } : {}),
         });
       }
     } catch (err: unknown) {
@@ -382,6 +540,7 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
         modelProvider: options.modelProvider ?? "in-process",
         allowUnverifiedCompletion: options.allowUnverifiedCompletion === true,
         model: options.model ?? null,
+        executionMode: options.modelProvider === "ollama" ? "live" : "fixture",
       })
     );
     let runsProcessed = 0;
@@ -406,7 +565,12 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           continue;
         }
         runsProcessed++;
-        log(stamp("worker.run.finished", { workerId, runId: result.runId, status: result.status }));
+        log(stamp("worker.run.finished", {
+          workerId,
+          runId: result.runId,
+          status: result.status,
+          executionMode: options.modelProvider === "ollama" ? "live" : "fixture",
+        }));
         if (options.maxRuns !== undefined && runsProcessed >= options.maxRuns) break;
       }
     } finally {

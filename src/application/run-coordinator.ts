@@ -682,6 +682,118 @@ export class RunCoordinator {
   }
 
   /**
+   * Transitions a RUNNING run to VERIFYING while holding an active worker lease.
+   */
+  startVerification(runId: string, workerId: string, leaseId: string): TransitionResult {
+    return this.stateStore.transaction((tx) => {
+      const snapshot = tx.getRun(runId);
+      if (!snapshot) {
+        throw new Error(`Run '${runId}' not found`);
+      }
+      if (snapshot.leaseId !== leaseId || snapshot.currentWorkerId !== workerId) {
+        throw new LeaseLostError(runId, leaseId, snapshot.leaseId ?? null);
+      }
+      const now = this.clock.nowIso();
+      const run = Run.reconstitute(snapshot);
+      const event = run.startVerification(workerId, leaseId, now);
+      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event, {
+        workerId,
+        leaseId,
+      });
+      return { run: run.snapshot, event: persistedEvent };
+    });
+  }
+
+  /**
+   * Suspends a RUNNING or VERIFYING run into WAITING_APPROVAL pending human operator approval.
+   * Releases the worker lease so the recovery sweeper does not spuriously expire an awaiting run.
+   */
+  requestApprovalTransition(
+    runId: string,
+    approvalId: string,
+    operation: string,
+    fencing?: LeaseFencingCheck
+  ): TransitionResult {
+    return this.stateStore.transaction((tx) => {
+      const snapshot = tx.getRun(runId);
+      if (!snapshot) {
+        throw new Error(`Run '${runId}' not found`);
+      }
+      if ((snapshot.leaseId || snapshot.currentWorkerId || fencing) && (!fencing || snapshot.leaseId !== fencing.leaseId || snapshot.currentWorkerId !== fencing.workerId)) {
+        throw new LeaseLostError(runId, fencing?.leaseId ?? "", snapshot.leaseId ?? null);
+      }
+      const now = this.clock.nowIso();
+      const run = Run.reconstitute(snapshot);
+      const event = run.requestApproval(approvalId, operation, fencing?.workerId, fencing?.leaseId, now);
+      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event, fencing);
+      if (snapshot.leaseId) {
+        this.leaseManager.release(tx, snapshot.leaseId, now);
+      }
+      return { run: run.snapshot, event: persistedEvent };
+    });
+  }
+
+  /**
+   * Resumes a WAITING_APPROVAL run back to QUEUED after operator approval is recorded.
+   */
+  resumeFromApproval(runId: string, approvalId: string, approver: string): TransitionResult {
+    const cleanApprover = (approver ?? "").trim();
+    if (!cleanApprover || /^(model|agent|llm|ai|autonomous|autonomous-agent|self)$/i.test(cleanApprover)) {
+      throw new Error(`Invalid human approver '${approver}': model or agent self-approval is forbidden`);
+    }
+
+    return this.stateStore.transaction((tx) => {
+      const snapshot = tx.getRun(runId);
+      if (!snapshot) {
+        throw new Error(`Run '${runId}' not found`);
+      }
+
+      // Verify approval record in durable store if accessible
+      if (typeof (tx as any).getApprovalRequest === "function") {
+        const approval = (tx as any).getApprovalRequest(approvalId);
+        if (approval) {
+          if (approval.runId !== runId) {
+            throw new Error(`Approval '${approvalId}' belongs to run '${approval.runId}', not '${runId}'`);
+          }
+          if (approval.status !== "APPROVED") {
+            throw new Error(`Cannot resume run '${runId}': approval '${approvalId}' status is '${approval.status}', expected 'APPROVED'`);
+          }
+        }
+      }
+
+      const now = this.clock.nowIso();
+      const run = Run.reconstitute(snapshot);
+      const event = run.approveResume(approvalId, cleanApprover, now);
+      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+      return { run: run.snapshot, event: persistedEvent };
+    });
+  }
+
+  /**
+   * Terminates a WAITING_APPROVAL run into FAILED when an operator rejects the approval request.
+   */
+  rejectApprovalTransition(runId: string, approvalId: string, approver: string, reason: string): TransitionResult {
+    const cleanApprover = (approver ?? "").trim();
+    if (!cleanApprover || /^(model|agent|llm|ai|autonomous|autonomous-agent|self)$/i.test(cleanApprover)) {
+      throw new Error(`Invalid human approver '${approver}': model or agent self-rejection is forbidden`);
+    }
+
+    return this.stateStore.transaction((tx) => {
+      const snapshot = tx.getRun(runId);
+      if (!snapshot) {
+        throw new Error(`Run '${runId}' not found`);
+      }
+      const now = this.clock.nowIso();
+      const run = Run.reconstitute(snapshot);
+      const event = run.rejectApproval(approvalId, cleanApprover, reason, now);
+      const persistedEvent = tx.updateRun(runId, snapshot.version, run.snapshot, event);
+      if (snapshot.leaseId) {
+        this.leaseManager.release(tx, snapshot.leaseId, now);
+      }
+      return { run: run.snapshot, event: persistedEvent };
+    });
+  }
+  /**
    * Records an auditable policy evaluation decision into the run event stream.
    */
   recordPolicyDecision(runId: string, params: RecordPolicyDecisionParams): PersistedEvent {
@@ -710,15 +822,41 @@ export class RunCoordinator {
     });
   }
 
+  private assertActiveLeaseInTx(
+    tx: StorageTransaction,
+    runId: string,
+    fencing: LeaseFencingCheck,
+    nowIso: string
+  ): void {
+    const run = tx.getRun(runId);
+    if (!run) {
+      throw new Error(`Run '${runId}' not found`);
+    }
+    if (run.leaseId !== fencing.leaseId || run.currentWorkerId !== fencing.workerId) {
+      throw new LeaseLostError(runId, fencing.leaseId, run.leaseId ?? null);
+    }
+    const lease = tx.getLease(fencing.leaseId);
+    if (!lease || lease.state !== "ACTIVE") {
+      throw new LeaseLostError(runId, fencing.leaseId, run.leaseId ?? null);
+    }
+    if (lease.expiresAt <= nowIso) {
+      throw new LeaseExpiredError(fencing.leaseId, lease.expiresAt, nowIso);
+    }
+  }
+
   /**
    * Records an immutable evidence artifact into the run event stream.
    */
-  recordEvidence(runId: string, evidence: Evidence): PersistedEvent {
+  recordEvidence(runId: string, evidence: Evidence, fencing?: LeaseFencingCheck): PersistedEvent {
     return this.stateStore.transaction((tx) => {
+      const nowIso = this.clock.nowIso();
+      if (fencing) {
+        this.assertActiveLeaseInTx(tx, runId, fencing, nowIso);
+      }
       const event: DomainEvent<EvidenceRecordedPayload> = {
         eventId: crypto.randomUUID(),
         runId,
-        timestamp: this.clock.nowIso(),
+        timestamp: nowIso,
         eventType: "evidence.recorded",
         schemaVersion: 1,
         producer: "application.evidence_collector",
@@ -740,12 +878,21 @@ export class RunCoordinator {
   /**
    * Records a deterministic verification result into the run event stream.
    */
-  recordVerificationResult(runId: string, result: VerificationResult): PersistedEvent {
+  recordVerificationResult(
+    runId: string,
+    result: VerificationResult,
+    dedupToken?: string | null,
+    fencing?: LeaseFencingCheck
+  ): PersistedEvent {
     return this.stateStore.transaction((tx) => {
+      const nowIso = this.clock.nowIso();
+      if (fencing) {
+        this.assertActiveLeaseInTx(tx, runId, fencing, nowIso);
+      }
       const event: DomainEvent<VerificationCompletedPayload> = {
         eventId: crypto.randomUUID(),
         runId,
-        timestamp: this.clock.nowIso(),
+        timestamp: nowIso,
         eventType: "verification.completed",
         schemaVersion: 1,
         producer: "application.verifier",
@@ -762,7 +909,7 @@ export class RunCoordinator {
         },
       };
 
-      return tx.appendEvent(event);
+      return tx.appendEvent(event, dedupToken);
     });
   }
 

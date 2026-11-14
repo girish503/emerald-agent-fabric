@@ -473,6 +473,10 @@ export const TOOL_ERROR_CODES = [
   "TOOL_EXECUTION_FAILED",
   "TOOL_CANCELLED",
   "TOOL_PROVIDER_UNAVAILABLE",
+  "WAITING_APPROVAL",
+  "APPROVAL_REJECTED",
+  "APPROVAL_EXPIRED",
+  "APPROVAL_INVALID",
 ] as const;
 
 export type ToolErrorCode = (typeof TOOL_ERROR_CODES)[number];
@@ -496,6 +500,10 @@ export const TOOL_ERROR_CATEGORY_MAP: Readonly<Record<ToolErrorCode, ToolErrorCa
   TOOL_EXECUTION_FAILED: "execution",
   TOOL_CANCELLED: "cancellation",
   TOOL_PROVIDER_UNAVAILABLE: "provider",
+  WAITING_APPROVAL: "authorization",
+  APPROVAL_REJECTED: "authorization",
+  APPROVAL_EXPIRED: "authorization",
+  APPROVAL_INVALID: "authorization",
 };
 
 export interface ToolErrorPayload {
@@ -1278,5 +1286,22 @@ export class WorkspaceOwnershipMismatchError extends DomainError {
     super(
       `Run '${runId}' recorded mutation of '${relativePath}' at '${recordedPath}', which is not inside the supplied workspace (resolves to '${resolvedPath}'); refusing to act on a workspace the mutation did not occur in`
     );
+  }
+}
+
+export class InvalidExecutionProviderRoleError extends DomainError {
+  readonly code = "INVALID_EXECUTION_PROVIDER_ROLE";
+
+  constructor(
+    readonly providerName: string,
+    readonly expectedRole: string,
+    readonly actualRole: string,
+    message?: string
+  ) {
+    super(
+      message ??
+        `Execution provider '${providerName}' has role '${actualRole}', but role '${expectedRole}' is required.`
+    );
+    this.name = "InvalidExecutionProviderRoleError";
   }
 }

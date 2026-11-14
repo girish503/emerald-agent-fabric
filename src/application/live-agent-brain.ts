@@ -44,8 +44,8 @@ import {
   ModelStructuredOutputSchema,
   validateModelProviderResponse,
 } from "../domain/model-provider.js";
-import { TOOL_NAMES, ToolDefinition, ToolName } from "../domain/tool.js";
-import { formatModelFacingToolCatalog, ToolProjectionOptions } from "../domain/tool-projection.js";
+import { ToolDefinition, ToolName } from "../domain/tool.js";
+import { formatModelFacingToolCatalog } from "../domain/tool-projection.js";
 import { ObservationCategory } from "../domain/context.js";
 import {
   AgentBrainPort,
@@ -80,6 +80,84 @@ Operational Rules:
 // ============================================================================
 // 2. Structured Output Schema Descriptor
 // ============================================================================
+
+// ============================================================================
+
+export const EDIT_FILE_SCHEMA_BRANCH = Object.freeze({
+  type: "object",
+  description: "edit_file action proposal for line-anchored search-and-replace",
+  properties: {
+    isGoalReached: {
+      type: "boolean",
+      enum: [false],
+      description: "Must be false when proposing a tool action",
+    },
+    proposalId: {
+      type: "string",
+      description: "Unique client-generated proposal identifier",
+    },
+    toolName: {
+      type: "string",
+      enum: ["edit_file"],
+      description: "Name of the registered tool to invoke",
+    },
+    contextSnapshotHash: {
+      type: "string",
+      description:
+        "The exact 64-character hexadecimal SHA-256 contextHash from snapshot",
+    },
+    rationale: {
+      type: "string",
+      description: "Brief rationale explaining why this edit is proposed",
+    },
+    sequenceHint: {
+      type: "integer",
+      description: "Optional sequence hint",
+    },
+    inputPayload: {
+      type: "object",
+      description: "Input parameters for edit_file",
+      properties: {
+        path: {
+          type: "string",
+          description: "Relative path to file within workspace sandbox",
+        },
+        searchAnchor: {
+          type: "string",
+          description: "Exact text segment to locate and replace",
+        },
+        replacementText: {
+          type: "string",
+          description: "Exact replacement text to substitute for searchAnchor",
+        },
+        allowMultipleMatches: {
+          type: "boolean",
+          default: false,
+          description: "Whether to allow replacing multiple matches (default false)",
+        },
+        maxBytes: {
+          type: "integer",
+          minimum: 1,
+          description: "Requested maximum bytes to write",
+        },
+      },
+      required: ["path", "searchAnchor", "replacementText"],
+      additionalProperties: false,
+    },
+  },
+  required: [
+    "isGoalReached",
+    "proposalId",
+    "toolName",
+    "inputPayload",
+    "contextSnapshotHash",
+  ],
+  additionalProperties: false,
+});
+
+/**
+ * Options for deriving action proposal structured output schemas.
+ */
 
 export const ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA: ModelStructuredOutputSchema =
   Object.freeze({
@@ -541,89 +619,14 @@ export const ACTION_PROPOSAL_STRUCTURED_OUTPUT_SCHEMA: ModelStructuredOutputSche
           ],
           additionalProperties: false,
         },
+        // Branch 8: edit_file action proposal
+        EDIT_FILE_SCHEMA_BRANCH,
       ],
     }),
   });
 
 // ============================================================================
 // 2.5 Dynamic Schema Derivation
-// ============================================================================
-
-export const EDIT_FILE_SCHEMA_BRANCH = Object.freeze({
-  type: "object",
-  description: "edit_file action proposal for line-anchored search-and-replace",
-  properties: {
-    isGoalReached: {
-      type: "boolean",
-      enum: [false],
-      description: "Must be false when proposing a tool action",
-    },
-    proposalId: {
-      type: "string",
-      description: "Unique client-generated proposal identifier",
-    },
-    toolName: {
-      type: "string",
-      enum: ["edit_file"],
-      description: "Name of the registered tool to invoke",
-    },
-    contextSnapshotHash: {
-      type: "string",
-      description:
-        "The exact 64-character hexadecimal SHA-256 contextHash from snapshot",
-    },
-    rationale: {
-      type: "string",
-      description: "Brief rationale explaining why this edit is proposed",
-    },
-    sequenceHint: {
-      type: "integer",
-      description: "Optional sequence hint",
-    },
-    inputPayload: {
-      type: "object",
-      description: "Input parameters for edit_file",
-      properties: {
-        path: {
-          type: "string",
-          description: "Relative path to file within workspace sandbox",
-        },
-        searchAnchor: {
-          type: "string",
-          description: "Exact text segment to locate and replace",
-        },
-        replacementText: {
-          type: "string",
-          description: "Exact replacement text to substitute for searchAnchor",
-        },
-        allowMultipleMatches: {
-          type: "boolean",
-          default: false,
-          description: "Whether to allow replacing multiple matches (default false)",
-        },
-        maxBytes: {
-          type: "integer",
-          minimum: 1,
-          description: "Requested maximum bytes to write",
-        },
-      },
-      required: ["path", "searchAnchor", "replacementText"],
-      additionalProperties: false,
-    },
-  },
-  required: [
-    "isGoalReached",
-    "proposalId",
-    "toolName",
-    "inputPayload",
-    "contextSnapshotHash",
-  ],
-  additionalProperties: false,
-});
-
-/**
- * Options for deriving action proposal structured output schemas.
- */
 export interface ActionProposalSchemaOptions {
   readonly enableDynamicToolFiltering?: boolean;
   readonly governedBenchmarkRepairMode?: boolean;

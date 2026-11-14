@@ -65,6 +65,8 @@ import { createAndActivateContract } from "./test-helpers.js";
  * CountingExecutionProvider tracks provider calls and returns configurable responses.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "counting-provider";
   readonly invocations: ExecutionRequest[] = [];
   nextResult?: ExecutionResult;

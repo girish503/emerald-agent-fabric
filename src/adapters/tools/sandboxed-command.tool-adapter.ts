@@ -18,6 +18,7 @@
 import * as crypto from "node:crypto";
 import * as path from "node:path";
 import {
+  InvalidExecutionProviderRoleError,
   InvalidWorkspacePathError,
   ToolCancelledError,
   ToolExecutionFailedError,
@@ -32,6 +33,7 @@ import {
   ExecutionProvider,
   ExecutionRequest,
   ExecutionResult,
+  resolveProviderRole,
 } from "../../ports/execution-provider.port.js";
 import {
   ToolAdapter,
@@ -46,7 +48,17 @@ export class SandboxedCommandToolAdapter implements ToolAdapter<"run_command"> {
   constructor(
     private readonly executionProvider: ExecutionProvider,
     private readonly workspacePort?: WorkspacePort
-  ) {}
+  ) {
+    const role = resolveProviderRole(executionProvider);
+    if (role !== "PHYSICAL") {
+      throw new InvalidExecutionProviderRoleError(
+        executionProvider.name,
+        "PHYSICAL",
+        role,
+        `SandboxedCommandToolAdapter: executionProvider '${executionProvider.name}' has role '${role}'. Only PHYSICAL execution providers are permitted for sandboxed command execution.`
+      );
+    }
+  }
 
   async execute(
     context: ToolExecutionContext,

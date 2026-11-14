@@ -59,6 +59,8 @@ import { createAndActivateContract } from "./test-helpers.js";
  * CountingExecutionProvider to strictly track provider invocations.
  */
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "counting-provider";
   readonly invocations: ExecutionRequest[] = [];
 
@@ -259,6 +261,7 @@ describe("Phase 4 / Task 4.3 — Capability Policy Mapping & Mission Contract Re
           git_status: {},
           git_diff: {},
           run_command: { argv: ["echo", "test"] },
+          edit_file: { path: "file.txt", searchAnchor: "a", replacementText: "b" },
         };
 
         const request: ToolRequest = {

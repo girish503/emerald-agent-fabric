@@ -4,24 +4,24 @@
   "model": "qwen2.5-coder:1.5b",
   "modelDigest": "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
   "timestamps": {
-    "startedAt": "2026-10-26T05:07:54.908Z",
-    "completedAt": "2026-10-26T05:12:24.038Z",
-    "wallClockDurationMs": 269127
+    "startedAt": "2026-11-13T18:57:23.639Z",
+    "completedAt": "2026-11-13T18:59:35.297Z",
+    "wallClockDurationMs": 131658
   },
   "telemetry": {
-    "modelCalls": 4,
-    "modelFailures": 0,
-    "promptTokens": 8218,
-    "evalTokens": 537,
-    "totalTokens": 8755
+    "modelCalls": 1,
+    "modelFailures": 1,
+    "promptTokens": null,
+    "evalTokens": null,
+    "totalTokens": null
   },
   "execution": {
     "verified": false,
     "terminalStatus": "FAILED",
-    "terminalReason": "MAX_PROPOSAL_REJECTIONS",
-    "totalSteps": 4,
-    "totalActions": 1,
-    "totalProposalRejections": 3
+    "terminalReason": "BRAIN_FAILURE",
+    "totalSteps": 1,
+    "totalActions": 0,
+    "totalProposalRejections": 0
   },
   "patch": {
     "candidatePatchBytes": 0,
@@ -30,10 +30,10 @@
   },
   "cleanRoomVerification": null,
   "evidenceBundle": {
-    "bundleId": "e26184656325165cb76d6bd2ebafa61746a0a5d4286c525f22f4e8460cd8dff8",
-    "provenanceRoot": "e219f0ea03b66262b92a8c41f06ca11a58898d3893a9fae15495b9ea091c4448",
+    "bundleId": "5ea740afb35101e7bf707ccbb5e0d32217c19eb2f2c5c30d0b5dae23b7fd4885",
+    "provenanceRoot": "43a874dcdaaf25602bf067b9d296685168d2b2b12cc3d609778f75b83263950e",
     "signaturesCount": 2,
-    "eventsCount": 16
+    "eventsCount": 6
   },
   "offlineAudit": {
     "status": "VERIFIED",
@@ -41,141 +41,28 @@
     "fourfoldSatisfied": false,
     "failures": []
   },
-  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1792991274938-NM8MHr",
+  "workspaceHostPath": "C:\\Users\\ADUSUM~1\\AppData\\Local\\Temp\\emerald-p43-EAF-BM-01-1794596243676-2I4YaB",
   "diagnostics": {
     "stepDiagnostics": [
       {
         "stepNumber": 1,
-        "timestamp": "2026-10-26T05:07:55.209Z",
-        "durationMs": 77298,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": true,
-        "proposalId": "action-1",
-        "toolName": "read_file",
-        "inputPayload": {
-          "path": "src/calc.js",
-          "offsetLine": 1,
-          "limitLines": 500
-        },
-        "actionId": "5a2ff5c3-cfd0-41c3-9fef-4749f03300d5",
-        "actionStatus": "SUCCEEDED",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"2d8690817e3115a640e5df6ab9043d487216a7b5e7ec5eb6a82446e14f429057\"\n}"
-      },
-      {
-        "stepNumber": 2,
-        "timestamp": "2026-10-26T05:09:12.508Z",
-        "durationMs": 67871,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": false,
-        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
-        "toolName": "read_file",
-        "inputPayload": {
-          "filePath": "src/calc.js"
-        },
-        "rejectionReason": "INVALID_TOOL_INPUT",
-        "rejectionMessage": "Input payload for tool 'read_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"3253f817fb05698a0dc797abc86321de696f6e7539ac35176fd2046fc275fca6\"\n}"
-      },
-      {
-        "stepNumber": 3,
-        "timestamp": "2026-10-26T05:10:20.380Z",
-        "durationMs": 61942,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": false,
-        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
-        "toolName": "read_file",
-        "inputPayload": {
-          "filePath": "src/calc.js"
-        },
-        "rejectionReason": "INVALID_TOOL_INPUT",
-        "rejectionMessage": "Input payload for tool 'read_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"9b1b634a31838da30f035f6d28759b77a0905d3a4f232bb92c82cc0122f89799\"\n}"
-      },
-      {
-        "stepNumber": 4,
-        "timestamp": "2026-10-26T05:11:22.327Z",
-        "durationMs": 61662,
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": false,
-        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
-        "toolName": "read_file",
-        "inputPayload": {
-          "filePath": "path/to/your/file.txt"
-        },
-        "rejectionReason": "INVALID_TOOL_INPUT",
-        "rejectionMessage": "Input payload for tool 'read_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"path/to/your/file.txt\"\n  },\n  \"contextSnapshotHash\": \"6ddc43eb8c15099b7920e8443355c58fbcf882778ecdc197b7791441d76c43c4\"\n}"
+        "timestamp": "2026-11-13T18:57:24.314Z",
+        "durationMs": 124626,
+        "proposalValid": false
       }
     ],
     "proposalRejections": [
       {
-        "stepNumber": 2,
-        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
-        "toolName": "read_file",
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": false,
-        "rejectionReason": "INVALID_TOOL_INPUT",
-        "rejectionMessage": "Input payload for tool 'read_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"3253f817fb05698a0dc797abc86321de696f6e7539ac35176fd2046fc275fca6\"\n}"
-      },
-      {
-        "stepNumber": 3,
-        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
-        "toolName": "read_file",
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": false,
-        "rejectionReason": "INVALID_TOOL_INPUT",
-        "rejectionMessage": "Input payload for tool 'read_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"9b1b634a31838da30f035f6d28759b77a0905d3a4f232bb92c82cc0122f89799\"\n}"
-      },
-      {
-        "stepNumber": 4,
-        "proposalId": "12345678-90ab-cdef-1234-567890abcdef",
-        "toolName": "read_file",
-        "finishReason": "ACTION_PROPOSED",
-        "proposalValid": false,
-        "rejectionReason": "INVALID_TOOL_INPUT",
-        "rejectionMessage": "Input payload for tool 'read_file' failed schema validation: path: Required, : Unrecognized key(s) in object: 'filePath'",
-        "rawCompletion": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"path/to/your/file.txt\"\n  },\n  \"contextSnapshotHash\": \"6ddc43eb8c15099b7920e8443355c58fbcf882778ecdc197b7791441d76c43c4\"\n}"
+        "stepNumber": 1,
+        "proposalValid": false
       }
     ],
-    "rawCompletions": [
-      {
-        "callIndex": 1,
-        "durationMs": 77231,
-        "promptTokens": 2068,
-        "evalTokens": 118,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-1\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"path\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"2d8690817e3115a640e5df6ab9043d487216a7b5e7ec5eb6a82446e14f429057\"\n}",
-        "truncated": false,
-        "originalLength": 227
-      },
-      {
-        "callIndex": 2,
-        "durationMs": 67858,
-        "promptTokens": 2050,
-        "evalTokens": 137,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"3253f817fb05698a0dc797abc86321de696f6e7539ac35176fd2046fc275fca6\"\n}",
-        "truncated": false,
-        "originalLength": 259
-      },
-      {
-        "callIndex": 3,
-        "durationMs": 61931,
-        "promptTokens": 2050,
-        "evalTokens": 141,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"src/calc.js\"\n  },\n  \"contextSnapshotHash\": \"9b1b634a31838da30f035f6d28759b77a0905d3a4f232bb92c82cc0122f89799\"\n}",
-        "truncated": false,
-        "originalLength": 259
-      },
-      {
-        "callIndex": 4,
-        "durationMs": 61638,
-        "promptTokens": 2050,
-        "evalTokens": 141,
-        "rawOutput": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"12345678-90ab-cdef-1234-567890abcdef\",\n  \"toolName\": \"read_file\",\n  \"inputPayload\": {\n    \"filePath\": \"path/to/your/file.txt\"\n  },\n  \"contextSnapshotHash\": \"6ddc43eb8c15099b7920e8443355c58fbcf882778ecdc197b7791441d76c43c4\"\n}",
-        "truncated": false,
-        "originalLength": 269
-      }
-    ]
+    "rawCompletions": [],
+    "postPassLatchSnapshot": {
+      "schemaVersion": 1,
+      "isLatched": false,
+      "protectedPaths": [],
+      "cleanRoomVerified": false
+    }
   }
 }

@@ -1,0 +1,629 @@
+{
+  "experimentName": "Phase 10F: Tool-Input Schema Capability Diagnostic",
+  "timestamp": "2026-10-16T10:37:40.413Z",
+  "model": "llama3.2:3b",
+  "trialsPerCondition": 5,
+  "totalModelCalls": 15,
+  "step1CurrentDescriptionAudit": {
+    "toolName": "search_code",
+    "currentDescription": "Performs regex or literal text pattern matching across workspace files.",
+    "inputSchemaExposedToModel": false,
+    "requiredFieldsExposedToModel": [],
+    "examplesExposedToModel": [],
+    "serializedModelPromptSnippet": "- search_code (capability: workspace.code.search, idempotency: IDEMPOTENT): Performs regex or literal text pattern matching across workspace files."
+  },
+  "conditionMetrics": {
+    "CURRENT": {
+      "totalTrials": 5,
+      "validToolInputCount": 0,
+      "validToolInputRate": 0,
+      "invalidToolInputRate": 1,
+      "patternFieldRate": 1,
+      "filePathFieldRate": 0,
+      "filePathsFieldRate": 0,
+      "unknownFieldRate": 1,
+      "timeoutRate": 0,
+      "meanLatencyMs": 47407,
+      "medianLatencyMs": 39495,
+      "classificationBreakdown": {
+        "INVENTED_PATTERN_FIELD": 5
+      }
+    },
+    "EXPLICIT_SCHEMA": {
+      "totalTrials": 5,
+      "validToolInputCount": 5,
+      "validToolInputRate": 1,
+      "invalidToolInputRate": 0,
+      "patternFieldRate": 0,
+      "filePathFieldRate": 0,
+      "filePathsFieldRate": 0,
+      "unknownFieldRate": 0,
+      "timeoutRate": 0,
+      "meanLatencyMs": 43808,
+      "medianLatencyMs": 41955,
+      "classificationBreakdown": {
+        "VALID_TOOL_INPUT": 5
+      }
+    },
+    "EXAMPLE_GUIDED": {
+      "totalTrials": 5,
+      "validToolInputCount": 5,
+      "validToolInputRate": 1,
+      "invalidToolInputRate": 0,
+      "patternFieldRate": 0,
+      "filePathFieldRate": 0,
+      "filePathsFieldRate": 0,
+      "unknownFieldRate": 0,
+      "timeoutRate": 0,
+      "meanLatencyMs": 41520,
+      "medianLatencyMs": 39200,
+      "classificationBreakdown": {
+        "VALID_TOOL_INPUT": 5
+      }
+    }
+  },
+  "latencyAnalysis": {
+    "overallMeanLatencyMs": 44245,
+    "totalTimeouts": 0,
+    "timeoutRate": 0,
+    "observation": "Minimal diagnostic context eliminated CPU inference timeouts entirely (0/15 timeouts, mean latency 44.2s vs 20/36 timeouts in Phase 10E)."
+  },
+  "interpretation": {
+    "primaryCase": "CASE_B",
+    "caseInterpretation": "Explicit schema description materially improved tool-input conformance over current description (EXPLICIT >> CURRENT). Tool-schema communication is a significant model-facing bottleneck."
+  },
+  "records": [
+    {
+      "conditionId": "CURRENT",
+      "trialOrdinal": 1,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "pattern": "add"
+      },
+      "inputHash": "85c3f580597aa5c9145dd9ecfd1355c038df9e50622c9f4e18a96dcecddc5e0a",
+      "schemaValidation": {
+        "valid": false,
+        "errorMessages": [
+          "query: Required",
+          ": Unrecognized key(s) in object: 'pattern'"
+        ]
+      },
+      "classification": "INVENTED_PATTERN_FIELD",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": true,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": true,
+        "hasMissingQuery": true,
+        "isValidToolInput": false
+      },
+      "latencyMs": 81988,
+      "promptTokens": 570,
+      "outputTokens": 79,
+      "totalTokens": 649
+    },
+    {
+      "conditionId": "CURRENT",
+      "trialOrdinal": 2,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "pattern": "add"
+      },
+      "inputHash": "85c3f580597aa5c9145dd9ecfd1355c038df9e50622c9f4e18a96dcecddc5e0a",
+      "schemaValidation": {
+        "valid": false,
+        "errorMessages": [
+          "query: Required",
+          ": Unrecognized key(s) in object: 'pattern'"
+        ]
+      },
+      "classification": "INVENTED_PATTERN_FIELD",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": true,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": true,
+        "hasMissingQuery": true,
+        "isValidToolInput": false
+      },
+      "latencyMs": 39495,
+      "promptTokens": 570,
+      "outputTokens": 79,
+      "totalTokens": 649
+    },
+    {
+      "conditionId": "CURRENT",
+      "trialOrdinal": 3,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"add\",\n    \"fileTypes\": [\"*\"]\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "add",
+          "fileTypes": [
+            "*"
+          ]
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "pattern": "add",
+        "fileTypes": [
+          "*"
+        ]
+      },
+      "inputHash": "fc166e142cd6e11404226319784f03cd53ea14d479b4b802a527a0cdb794d48c",
+      "schemaValidation": {
+        "valid": false,
+        "errorMessages": [
+          "query: Required",
+          ": Unrecognized key(s) in object: 'pattern', 'fileTypes'"
+        ]
+      },
+      "classification": "INVENTED_PATTERN_FIELD",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": true,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": true,
+        "hasMissingQuery": true,
+        "isValidToolInput": false
+      },
+      "latencyMs": 45017,
+      "promptTokens": 570,
+      "outputTokens": 87,
+      "totalTokens": 657
+    },
+    {
+      "conditionId": "CURRENT",
+      "trialOrdinal": 4,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "pattern": "add"
+      },
+      "inputHash": "85c3f580597aa5c9145dd9ecfd1355c038df9e50622c9f4e18a96dcecddc5e0a",
+      "schemaValidation": {
+        "valid": false,
+        "errorMessages": [
+          "query: Required",
+          ": Unrecognized key(s) in object: 'pattern'"
+        ]
+      },
+      "classification": "INVENTED_PATTERN_FIELD",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": true,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": true,
+        "hasMissingQuery": true,
+        "isValidToolInput": false
+      },
+      "latencyMs": 35943,
+      "promptTokens": 570,
+      "outputTokens": 79,
+      "totalTokens": 649
+    },
+    {
+      "conditionId": "CURRENT",
+      "trialOrdinal": 5,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"pattern\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "pattern": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "pattern": "add"
+      },
+      "inputHash": "85c3f580597aa5c9145dd9ecfd1355c038df9e50622c9f4e18a96dcecddc5e0a",
+      "schemaValidation": {
+        "valid": false,
+        "errorMessages": [
+          "query: Required",
+          ": Unrecognized key(s) in object: 'pattern'"
+        ]
+      },
+      "classification": "INVENTED_PATTERN_FIELD",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": true,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": true,
+        "hasMissingQuery": true,
+        "isValidToolInput": false
+      },
+      "latencyMs": 34594,
+      "promptTokens": 570,
+      "outputTokens": 79,
+      "totalTokens": 649
+    },
+    {
+      "conditionId": "EXPLICIT_SCHEMA",
+      "trialOrdinal": 1,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"search_code\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "search_code",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 39421,
+      "promptTokens": 609,
+      "outputTokens": 74,
+      "totalTokens": 683
+    },
+    {
+      "conditionId": "EXPLICIT_SCHEMA",
+      "trialOrdinal": 2,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-proposal-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 44112,
+      "promptTokens": 609,
+      "outputTokens": 81,
+      "totalTokens": 690
+    },
+    {
+      "conditionId": "EXPLICIT_SCHEMA",
+      "trialOrdinal": 3,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"search_code\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "search_code",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 36521,
+      "promptTokens": 609,
+      "outputTokens": 74,
+      "totalTokens": 683
+    },
+    {
+      "conditionId": "EXPLICIT_SCHEMA",
+      "trialOrdinal": 4,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\",\n  \"rationale\": \"The current mission context requires searching the repository for occurrences of the string 'add'. The search_code tool is chosen for its capability to perform regex or literal text pattern matching across workspace files.\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-proposal-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001",
+        "rationale": "The current mission context requires searching the repository for occurrences of the string 'add'. The search_code tool is chosen for its capability to perform regex or literal text pattern matching across workspace files."
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 57030,
+      "promptTokens": 609,
+      "outputTokens": 124,
+      "totalTokens": 733
+    },
+    {
+      "conditionId": "EXPLICIT_SCHEMA",
+      "trialOrdinal": 5,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-proposal-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 41955,
+      "promptTokens": 609,
+      "outputTokens": 81,
+      "totalTokens": 690
+    },
+    {
+      "conditionId": "EXAMPLE_GUIDED",
+      "trialOrdinal": 1,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-proposal-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 48284,
+      "promptTokens": 610,
+      "outputTokens": 81,
+      "totalTokens": 691
+    },
+    {
+      "conditionId": "EXAMPLE_GUIDED",
+      "trialOrdinal": 2,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-proposal-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 48182,
+      "promptTokens": 610,
+      "outputTokens": 77,
+      "totalTokens": 687
+    },
+    {
+      "conditionId": "EXAMPLE_GUIDED",
+      "trialOrdinal": 3,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 34976,
+      "promptTokens": 610,
+      "outputTokens": 78,
+      "totalTokens": 688
+    },
+    {
+      "conditionId": "EXAMPLE_GUIDED",
+      "trialOrdinal": 4,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 39200,
+      "promptTokens": 610,
+      "outputTokens": 79,
+      "totalTokens": 689
+    },
+    {
+      "conditionId": "EXAMPLE_GUIDED",
+      "trialOrdinal": 5,
+      "rawModelResponse": "{\n  \"isGoalReached\": false,\n  \"proposalId\": \"action-proposal-diagnostic-search-code-1\",\n  \"toolName\": \"search_code\",\n  \"inputPayload\": {\n    \"query\": \"add\"\n  },\n  \"contextSnapshotHash\": \"0000000000000000000000000000000000000000000000000000000000000001\"\n}",
+      "parsedProposal": {
+        "proposalId": "action-proposal-diagnostic-search-code-1",
+        "toolName": "search_code",
+        "inputPayload": {
+          "query": "add"
+        },
+        "contextSnapshotHash": "0000000000000000000000000000000000000000000000000000000000000001"
+      },
+      "toolName": "search_code",
+      "inputPayload": {
+        "query": "add"
+      },
+      "inputHash": "8390e047f17324d881474074cc33a5222354d5242dc79a0c2f74fc2f0d757978",
+      "schemaValidation": {
+        "valid": true
+      },
+      "classification": "VALID_TOOL_INPUT",
+      "flags": {
+        "isTimeout": false,
+        "hasPatternField": false,
+        "hasFilePathField": false,
+        "hasFilePathsField": false,
+        "hasUnknownField": false,
+        "hasMissingQuery": false,
+        "isValidToolInput": true
+      },
+      "latencyMs": 36959,
+      "promptTokens": 610,
+      "outputTokens": 81,
+      "totalTokens": 691
+    }
+  ]
+}

@@ -26,6 +26,8 @@
  *    deterministic unit and integration testing with zero external network access.
  */
 
+
+
 import {
   ModelFinishReason,
   ModelMessage,
@@ -35,6 +37,9 @@ import {
   ModelUsageMetadata,
   validateModelProviderRequest,
 } from "../../ports/model-provider.port.js";
+import * as crypto from "node:crypto";
+
+
 import {
   ModelProviderError,
   ModelProviderUnavailableError,
@@ -44,8 +49,14 @@ import {
   ModelResponseInvalidError,
 } from "../../domain/errors.js";
 
+
+
 // ============================================================================
+import type { EmeraldLifecycleTelemetry } from "../../application/observability-instrumentation.js";
+
 // 1. Transport Abstraction for Dependency Injection / Hermetic Testing
+
+
 // ============================================================================
 
 /**
@@ -56,8 +67,12 @@ export interface OllamaFetchLike {
   (input: string | URL, init?: RequestInit): Promise<Response>;
 }
 
+
+
 // ============================================================================
 // 2. Configuration Options
+
+
 // ============================================================================
 
 export interface OllamaModelProviderOptions {
@@ -80,13 +95,39 @@ export interface OllamaModelProviderOptions {
   readonly timeoutMs?: number;
 
   /**
+   * Keep-alive duration controlling how long Ollama retains the model in memory
+   * between requests. Accepts duration strings (e.g., "10m", "1h", "30s", "0", "-1")
+   * or numeric seconds (e.g., 600, 0, -1).
+   * Defaults to process.env.OLLAMA_KEEP_ALIVE or "10m".
+   */
+  readonly keepAlive?: string | number;
+
+  /**
+   * Optional context window size in tokens (sets options.num_ctx).
+   * Must be a positive integer when specified.
+   * When undefined, Ollama uses the model's native default context window.
+   */
+  readonly numCtx?: number;
+
+  /**
    * Optional injected fetch implementation (for hermetic unit testing).
    */
   readonly fetch?: OllamaFetchLike;
+  /** Optional fail-safe observability instrumentation facade. */
+  readonly telemetry?: EmeraldLifecycleTelemetry;
+  /**
+   * Privacy-by-default: raw prompt/output previews are omitted and replaced with SHA-256 metadata
+   * digests unless explicitly opted in. Never set true in production unless required for audited replay.
+   */
+  readonly includeRawPromptTelemetry?: boolean;
 }
+
+
 
 // ============================================================================
 // 3. Helper Functions
+
+
 // ============================================================================
 
 /**
@@ -99,8 +140,12 @@ function mapFinishReason(done: unknown, doneReason: unknown): ModelFinishReason 
   return "OTHER";
 }
 
+
+
 // ============================================================================
 // 4. OllamaModelProvider Implementation
+
+
 // ============================================================================
 
 export class OllamaModelProvider implements ModelProviderPort {
@@ -109,7 +154,66 @@ export class OllamaModelProvider implements ModelProviderPort {
   private readonly baseURL: string;
   private readonly defaultModel: string;
   private readonly defaultTimeoutMs: number;
+  private readonly keepAlive: string | number;
+  private readonly numCtx?: number;
   private readonly fetchImpl: OllamaFetchLike;
+  private readonly telemetry?: EmeraldLifecycleTelemetry;
+  private readonly includeRawPromptTelemetry: boolean;
+
+  /**
+   * Validates keepAlive parameter for Ollama compatibility.
+   * Accepts duration strings (e.g., "10m", "1h", "30s", "500ms", "0", "-1")
+   * or numeric values >= -1 (where -1 keeps in memory indefinitely, 0 unloads immediately).
+   * Rejects empty strings, invalid duration formats, and negative numbers < -1.
+   */
+  static validateKeepAlive(keepAlive: unknown): string | number {
+    if (typeof keepAlive === "number") {
+      if (!Number.isFinite(keepAlive) || keepAlive < -1) {
+        throw new ModelRequestInvalidError(
+          `Invalid keepAlive: numeric value must be >= -1 (got ${keepAlive})`,
+          { providerName: "ollama", requestId: "config" }
+        );
+      }
+      return keepAlive;
+    }
+    if (typeof keepAlive === "string") {
+      const trimmed = keepAlive.trim();
+      if (trimmed.length === 0) {
+        throw new ModelRequestInvalidError(
+          "Invalid keepAlive: duration string must not be empty",
+          { providerName: "ollama", requestId: "config" }
+        );
+      }
+      // Matches Ollama duration formats: e.g. "10m", "5m", "1h", "30s", "500ms", "0", "-1", "-1m"
+      const validPattern = /^-?\d+(?:\.\d+)?(?:ms|s|m|h|d)?$/;
+      if (!validPattern.test(trimmed)) {
+        throw new ModelRequestInvalidError(
+          `Invalid keepAlive: '${keepAlive}' is not a valid Ollama duration string (expected format like '10m', '1h', '30s', '0', '-1')`,
+          { providerName: "ollama", requestId: "config" }
+        );
+      }
+      return trimmed;
+    }
+    throw new ModelRequestInvalidError(
+      `Invalid keepAlive: expected string or number (got ${typeof keepAlive})`,
+      { providerName: "ollama", requestId: "config" }
+    );
+  }
+
+  /**
+   * Validates numCtx parameter when provided.
+   * Must be a positive integer.
+   */
+  static validateNumCtx(numCtx: unknown): number | undefined {
+    if (numCtx === undefined) return undefined;
+    if (typeof numCtx !== "number" || !Number.isInteger(numCtx) || numCtx <= 0) {
+      throw new ModelRequestInvalidError(
+        `Invalid numCtx: must be a positive integer (got ${String(numCtx)})`,
+        { providerName: "ollama", requestId: "config" }
+      );
+    }
+    return numCtx;
+  }
 
   constructor(options: OllamaModelProviderOptions = {}) {
     const rawBaseUrl =
@@ -118,7 +222,27 @@ export class OllamaModelProvider implements ModelProviderPort {
     this.defaultModel =
       options.defaultModel ?? process.env.OLLAMA_MODEL ?? "llama3.2";
     this.defaultTimeoutMs = options.timeoutMs ?? 60000;
+    const rawKeepAlive =
+      options.keepAlive ?? process.env.OLLAMA_KEEP_ALIVE ?? "10m";
+    this.keepAlive = OllamaModelProvider.validateKeepAlive(rawKeepAlive);
+    this.numCtx = OllamaModelProvider.validateNumCtx(options.numCtx);
     this.fetchImpl = options.fetch ?? (globalThis.fetch as unknown as OllamaFetchLike);
+    this.telemetry = options.telemetry;
+    this.includeRawPromptTelemetry = options.includeRawPromptTelemetry ?? false;
+  }
+
+  /**
+   * Returns the configured keep_alive duration sent in request bodies.
+   */
+  get configuredKeepAlive(): string | number {
+    return this.keepAlive;
+  }
+
+  /**
+   * Returns the configured num_ctx context window size, or undefined if using Ollama default.
+   */
+  get configuredNumCtx(): number | undefined {
+    return this.numCtx;
   }
 
   /**
@@ -139,6 +263,66 @@ export class OllamaModelProvider implements ModelProviderPort {
    * 5. Fail-closed: Translates all failures into strongly-typed Phase 6.1 domain errors.
    */
   async generate(request: ModelProviderRequest): Promise<ModelProviderResponse> {
+    const startMs = Date.now();
+    const startTimeIso = new Date(startMs).toISOString();
+    try {
+      const response = await this.generateCore(request);
+      const promptTelemetry = this.includeRawPromptTelemetry
+        ? request.input.map((m) => ({ role: m.role, content: m.content }))
+        : {
+            redactedMode: "sha256_metadata_only",
+            messageCount: request.input.length,
+            totalChars: request.input.reduce((acc, m) => acc + m.content.length, 0),
+            sha256: crypto
+              .createHash("sha256")
+              .update(JSON.stringify(request.input), "utf8")
+              .digest("hex"),
+          };
+      const outputTelemetry = this.includeRawPromptTelemetry
+        ? response.outputText
+        : {
+            redactedMode: "sha256_metadata_only",
+            charLength: response.outputText.length,
+            sha256: crypto.createHash("sha256").update(response.outputText, "utf8").digest("hex"),
+          };
+      this.telemetry?.recordModelInvocation({
+        provider: this.providerName,
+        model: response.model,
+        status: "ok",
+        durationMs: response.durationMs,
+        startTimeIso,
+        endTimeIso: new Date().toISOString(),
+        requestId: request.requestId,
+        promptTokens: response.usage?.inputTokens,
+        completionTokens: response.usage?.outputTokens,
+        promptPreview: promptTelemetry,
+        outputPreview: outputTelemetry,
+      });
+      return response;
+    } catch (err: unknown) {
+      const status =
+        err instanceof ModelRequestTimeoutError
+          ? "timeout"
+          : err instanceof ModelRequestCancelledError
+            ? "cancelled"
+            : err instanceof ModelProviderUnavailableError
+              ? "unavailable"
+              : "error";
+      this.telemetry?.recordModelInvocation({
+        provider: this.providerName,
+        model: request.model || this.defaultModel,
+        status,
+        durationMs: Date.now() - startMs,
+        startTimeIso,
+        endTimeIso: new Date().toISOString(),
+        requestId: request.requestId,
+        errorMessage: err instanceof Error ? err.message : String(err),
+      });
+      throw err;
+    }
+  }
+
+  private async generateCore(request: ModelProviderRequest): Promise<ModelProviderResponse> {
     // 1. Validate request invariants
     validateModelProviderRequest(request);
 
@@ -162,12 +346,18 @@ export class OllamaModelProvider implements ModelProviderPort {
       content: msg.content,
     }));
 
-    // 5. Build Ollama request body
+    // 5. Build Ollama request body with explicit keep_alive and options
     const body: Record<string, unknown> = {
       model,
       messages,
       stream: false,
+      keep_alive: this.keepAlive,
     };
+
+    const options: Record<string, unknown> = {};
+    if (this.numCtx !== undefined) {
+      options.num_ctx = this.numCtx;
+    }
 
     const gen = request.generation;
     if (gen) {
@@ -178,7 +368,6 @@ export class OllamaModelProvider implements ModelProviderPort {
       }
 
       // Generation Options mapping
-      const options: Record<string, unknown> = {};
       if (gen.temperature !== undefined) {
         options.temperature = gen.temperature;
       }
@@ -191,10 +380,10 @@ export class OllamaModelProvider implements ModelProviderPort {
       if (gen.stopSequences && gen.stopSequences.length > 0) {
         options.stop = [...gen.stopSequences];
       }
+    }
 
-      if (Object.keys(options).length > 0) {
-        body.options = options;
-      }
+    if (Object.keys(options).length > 0) {
+      body.options = options;
     }
 
     // 6. Setup timeout and cooperative cancellation
@@ -455,6 +644,20 @@ export class OllamaModelProvider implements ModelProviderPort {
     }
 
     // 12. Non-Authoritative Diagnostic Metadata
+    const startedAt = new Date(startMs).toISOString();
+    const completedAt = new Date(startMs + durationMs).toISOString();
+    const doneReason =
+      typeof responseJson.done_reason === "string"
+        ? responseJson.done_reason
+        : (responseJson.done ? "stop" : null);
+
+    const modelParameters: Record<string, unknown> = {
+      ...(gen?.temperature !== undefined ? { temperature: gen.temperature } : {}),
+      ...(gen?.maxOutputTokens !== undefined ? { numPredict: gen.maxOutputTokens } : {}),
+      ...(this.numCtx !== undefined ? { numCtx: this.numCtx } : {}),
+      keepAlive: String(this.keepAlive),
+    };
+
     const providerMetadata: Record<string, unknown> = {
       provider: this.providerName,
       ...(typeof responseJson.model === "string" ? { providerModel: responseJson.model } : {}),
@@ -470,6 +673,13 @@ export class OllamaModelProvider implements ModelProviderPort {
       ...(typeof responseJson.eval_duration === "number"
         ? { evalDurationNs: responseJson.eval_duration }
         : {}),
+      ...(promptEvalCount !== undefined ? { promptEvalCount } : {}),
+      ...(evalCount !== undefined ? { evalCount } : {}),
+      ...(doneReason !== null ? { doneReason } : {}),
+      startedAt,
+      completedAt,
+      durationMs,
+      modelParameters,
     };
 
     return Object.freeze({

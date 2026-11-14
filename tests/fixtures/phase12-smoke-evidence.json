@@ -1,0 +1,168 @@
+{
+  "phase": "Phase 12",
+  "model": "llama3.2:3b",
+  "gateStatus": "PASSED",
+  "timestamp": "2026-10-17T05:25:15.841Z",
+  "gateChecks": [
+    {
+      "name": "Step 1 Generated Proposal",
+      "passed": true
+    },
+    {
+      "name": "Step 1 Expected Tool is git_status",
+      "passed": true
+    },
+    {
+      "name": "Step 1 Proposal Validated",
+      "passed": true
+    },
+    {
+      "name": "Step 1 Action & Attempt Persisted in SQLite",
+      "passed": true
+    },
+    {
+      "name": "Step 1 Physical Execution Succeeded (clean=true)",
+      "passed": true
+    },
+    {
+      "name": "Step 1 Observation Generated (TOOL_RESULT)",
+      "passed": true
+    },
+    {
+      "name": "Step 2 Executed (at least 2 model decisions occur)",
+      "passed": true
+    },
+    {
+      "name": "Step 2 Decision Is Valid Proposal or Goal Reached",
+      "passed": true
+    },
+    {
+      "name": "Context Snapshot Expanded with Tool Output",
+      "passed": true
+    },
+    {
+      "name": "Relational Trajectory Integrity Preserved",
+      "passed": true
+    },
+    {
+      "name": "Step Loop Concluded Within Budget (<= 2 steps)",
+      "passed": true
+    }
+  ],
+  "evidence": {
+    "runId": "14af2b68-4bb4-4677-b3b5-a0d968796c70",
+    "taskId": "240d23d9-3087-46e5-9fea-c3b8f5db2be8",
+    "model": "llama3.2:3b",
+    "totalSteps": 2,
+    "totalActions": 2,
+    "terminalReason": "MAX_STEPS",
+    "terminalMessage": "Maximum reasoning steps ceiling reached (2 >= 2)",
+    "step1": {
+      "stepNumber": 1,
+      "proposal": {
+        "proposalId": " proposal-1",
+        "toolName": "git_status",
+        "inputPayload": {
+          "path": "."
+        },
+        "finishReason": "ACTION_PROPOSED"
+      },
+      "proposalValidation": {
+        "valid": true,
+        "rejectionReason": null
+      },
+      "reflexResult": {
+        "decision": "ALLOW",
+        "reasonCode": "NO_INTERVENTION"
+      },
+      "actionId": "f8a40c6d-6a24-4dd3-b2b3-a4568bef720f",
+      "attemptId": "8ec6dd9c-94c4-45b9-b623-16addef783fd",
+      "actionStatus": "SUCCEEDED",
+      "attemptStatus": "SUCCEEDED",
+      "physicalResult": {
+        "clean": true,
+        "currentCommit": "81180997e297f65955681277b38080d4d492f5ae",
+        "modified": [],
+        "added": [],
+        "deleted": [],
+        "untracked": []
+      },
+      "toolExecutionLatencyMs": 36,
+      "stepDurationMs": 93101,
+      "contextBytes": 2294
+    },
+    "step2": {
+      "stepNumber": 2,
+      "proposal": {
+        "proposalId": "f8a40c6d-6a24-4dd3-b2b3-a4568bef720f",
+        "toolName": "git_diff",
+        "inputPayload": {
+          "path": ".",
+          "staged": false,
+          "maxBytes": 1048576
+        },
+        "finishReason": "ACTION_PROPOSED"
+      },
+      "proposalValidation": {
+        "valid": true,
+        "rejectionReason": null
+      },
+      "reflexResult": {
+        "decision": "ALLOW",
+        "reasonCode": "NO_INTERVENTION"
+      },
+      "actionId": "9c26c2db-5d02-45b0-a0e7-46e9fc1377c0",
+      "attemptId": "fe9dcf10-c696-4cd8-8e9b-441bb1d26785",
+      "actionStatus": "SUCCEEDED",
+      "attemptStatus": "SUCCEEDED",
+      "physicalResult": {
+        "diff": "",
+        "filesChanged": 0,
+        "insertions": 0,
+        "deletions": 0,
+        "diffHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "isTruncated": false
+      },
+      "toolExecutionLatencyMs": 22,
+      "stepDurationMs": 181236,
+      "contextBytes": 6221
+    },
+    "observationPropagation": {
+      "step1ObservationId": "obs-result-8ec6dd9c-94c4-45b9-b623-16addef783fd",
+      "step1ObservationCategory": "TOOL_RESULT",
+      "step1ObservationContent": {
+        "attemptId": "8ec6dd9c-94c4-45b9-b623-16addef783fd",
+        "actionId": "f8a40c6d-6a24-4dd3-b2b3-a4568bef720f",
+        "toolName": "git_status",
+        "output": {
+          "clean": true,
+          "currentCommit": "81180997e297f65955681277b38080d4d492f5ae",
+          "modified": [],
+          "added": [],
+          "deleted": [],
+          "untracked": []
+        },
+        "exitCode": 0
+      },
+      "presentInFinalContextSnapshot": true
+    },
+    "trajectory": {
+      "totalActionsPersisted": 2,
+      "action1Status": "SUCCEEDED",
+      "action2Status": "SUCCEEDED",
+      "attemptsCountAction1": 1,
+      "attemptsCountAction2": 1,
+      "relationalIntegrity": true
+    },
+    "metrics": {
+      "step1ModelLatencyMs": 93065,
+      "step1ToolLatencyMs": 36,
+      "step2ModelLatencyMs": 181214,
+      "step2ToolLatencyMs": 22,
+      "totalWallClockMs": 274342,
+      "step1ContextBytes": 2294,
+      "step2ContextBytes": 6221,
+      "modelCallsCount": 2
+    }
+  }
+}

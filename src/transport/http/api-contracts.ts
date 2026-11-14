@@ -78,6 +78,22 @@ export const AuthPrincipalSchema = z.object({
 
 export type AuthPrincipal = z.infer<typeof AuthPrincipalSchema>;
 
+export const WhoamiIdentitySchema = z.object({
+  principalId: z.string().min(1),
+  tenantId: z.string().min(1),
+  role: z.enum(USER_ROLES),
+  allowConstrainedHost: z.boolean().optional(),
+});
+
+export type WhoamiIdentity = z.infer<typeof WhoamiIdentitySchema>;
+
+export const WhoamiResponseSchema = z.object({
+  success: z.literal(true),
+  data: WhoamiIdentitySchema,
+});
+
+export type WhoamiResponse = z.infer<typeof WhoamiResponseSchema>;
+
 export const AuthorizationHeaderSchema = z
   .string()
   .regex(/^Bearer\s+([A-Za-z0-9._~+/-]+=*)$/, "Must be valid Bearer token");
@@ -89,12 +105,141 @@ export const AuthorizationHeaderSchema = z
 export const ExecutionModeSchema = z.enum(["sandboxed", "constrained_host"]);
 export type ExecutionMode = z.infer<typeof ExecutionModeSchema>;
 
-export const VerificationSpecInputSchema = z.object({
-  name: z.string().min(1).max(128),
-  command: z.string().min(1).max(1024),
-  timeoutMs: z.number().int().positive().max(300_000).default(30_000),
-  expectedExitCode: z.number().int().default(0),
-});
+import {
+  ALLOWED_VERIFICATION_EXECUTABLES,
+  FORBIDDEN_CODE_EXECUTION_FLAGS,
+  SHELL_METACHARACTER_REGEX,
+  validateVerificationOperation,
+  type AllowedVerificationExecutable,
+  type ServerVerificationOperationId,
+} from "../../application/verification-operation-registry.js";
+
+export {
+  ALLOWED_VERIFICATION_EXECUTABLES,
+  FORBIDDEN_CODE_EXECUTION_FLAGS,
+  SHELL_METACHARACTER_REGEX,
+  validateVerificationOperation,
+  type AllowedVerificationExecutable,
+  type ServerVerificationOperationId,
+};
+
+export function tokenizeCommandLine(command: string): string[] {
+  const tokens: string[] = [];
+  const regex = /"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|(\S+)/g;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(command)) !== null) {
+    if (match[1] !== undefined) {
+      tokens.push(match[1].replace(/\\"/g, '"'));
+    } else if (match[2] !== undefined) {
+      tokens.push(match[2].replace(/\\'/g, "'"));
+    } else if (match[3] !== undefined) {
+      tokens.push(match[3]);
+    }
+  }
+  return tokens;
+}
+
+export const VerificationRuleKindSchema = z.enum([
+  "EXIT_CODE_ZERO",
+  "EXACT_OUTPUT_MATCH",
+  "OUTPUT_HASH_MATCH",
+]);
+export type VerificationRuleKindInput = z.infer<typeof VerificationRuleKindSchema>;
+
+export const VerificationSpecInputSchema = z
+  .object({
+    specId: z
+      .string()
+      .min(1)
+      .max(64)
+      .regex(
+        /^[a-zA-Z0-9_-]+$/,
+        "specId must contain only alphanumeric characters, dashes, and underscores"
+      )
+      .optional(),
+    name: z.string().min(1).max(128).optional(),
+    operationId: z.string().min(1).max(64).optional(),
+    ruleKind: VerificationRuleKindSchema.optional(),
+    argv: z
+      .array(
+        z
+          .string()
+          .min(1)
+          .max(1024)
+          .refine(
+            (arg) => !SHELL_METACHARACTER_REGEX.test(arg),
+            "Argument must not contain shell metacharacters (; & | ` $ > < \\n \\r)"
+          )
+      )
+      .min(1)
+      .max(64)
+      .optional(),
+    command: z
+      .string()
+      .min(1)
+      .max(1024)
+      .refine(
+        (cmd) => !SHELL_METACHARACTER_REGEX.test(cmd),
+        "Command must not contain shell metacharacters (; & | ` $ > < \\n \\r)"
+      )
+      .optional(),
+    timeoutMs: z.number().int().positive().max(300_000).default(30_000),
+    expectedExitCode: z.number().int().default(0),
+    expectedHash: z
+      .string()
+      .regex(/^[a-fA-F0-9]{64}$/, "expectedHash must be a 64-character SHA-256 hex string")
+      .optional(),
+    expectedOutput: z.unknown().optional(),
+    requireMutation: z.boolean().optional(),
+    requireDiff: z.boolean().optional(),
+  })
+  .strict()
+  .refine(
+    (spec) => {
+      const kind = spec.ruleKind ?? "EXIT_CODE_ZERO";
+      if (kind === "EXIT_CODE_ZERO") {
+        return (
+          (spec.argv !== undefined && spec.argv.length > 0) ||
+          (spec.command !== undefined && spec.command.trim().length > 0)
+        );
+      }
+      return true;
+    },
+    { message: "EXIT_CODE_ZERO verification requires either non-empty 'argv' or 'command'" }
+  )
+  .refine(
+    (spec) => {
+      const kind = spec.ruleKind ?? "EXIT_CODE_ZERO";
+      if (kind === "EXIT_CODE_ZERO") {
+        let argv = spec.argv;
+        if (!argv && spec.command) {
+          argv = tokenizeCommandLine(spec.command);
+        }
+        if (!argv || argv.length === 0) return false;
+        const res = validateVerificationOperation(argv);
+        return res.valid;
+      }
+      return true;
+    },
+    (spec) => {
+      let argv = spec.argv;
+      if (!argv && spec.command) {
+        argv = tokenizeCommandLine(spec.command);
+      }
+      const res =
+        argv && argv.length > 0
+          ? validateVerificationOperation(argv)
+          : { valid: false, reason: "No valid command or argv provided" };
+      return {
+        message:
+          res.reason ??
+          `Verification command failed server-defined verification operation validation (${ALLOWED_VERIFICATION_EXECUTABLES.join(", ")})`,
+      };
+    }
+  );
+
+export type VerificationSpecInput = z.input<typeof VerificationSpecInputSchema>;
+export type VerificationSpecOutput = z.infer<typeof VerificationSpecInputSchema>;
 
 export const ModelConfigInputSchema = z.object({
   provider: z.string().min(1).max(64).default("ollama"),
@@ -147,23 +292,137 @@ export const TaskStatusSchema = z.enum([
 
 export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
+export const TaskSummarySchema = z.object({
+  taskId: z.string().min(1),
+  tenantId: z.string().optional(),
+  title: z.string(),
+  status: TaskStatusSchema,
+  executionMode: ExecutionModeSchema,
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+  /** null when no Mission Contract exists for the task (transport-local records have none). */
+  contractId: z.string().min(1).nullable(),
+  runId: z.string().min(1).optional(),
+  parentTaskId: z.string().min(1).optional(),
+  childTaskCount: z.number().int().nonnegative().optional(),
+  dependsOnTaskIds: z.array(z.string().min(1)).optional(),
+});
+
+export type TaskSummary = z.infer<typeof TaskSummarySchema>;
+
 export const TaskResponseSchema = z.object({
   success: z.literal(true),
-  data: z.object({
-    taskId: z.string().min(1),
-    tenantId: z.string().optional(),
-    title: z.string(),
-    status: TaskStatusSchema,
-    executionMode: ExecutionModeSchema,
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime(),
-    /** null when no Mission Contract exists for the task (transport-local records have none). */
-    contractId: z.string().min(1).nullable(),
-    runId: z.string().min(1).optional(),
-  }),
+  data: TaskSummarySchema,
 });
 
 export type TaskResponse = z.infer<typeof TaskResponseSchema>;
+
+export const ListTasksQuerySchema = z
+  .object({
+    limit: z.preprocess((val) => {
+      if (val === undefined || val === null || val === "") return 20;
+      if (typeof val === "string") {
+        const num = Number(val);
+        if (Number.isInteger(num)) return num;
+      }
+      return val;
+    }, z.number().int().positive().max(100).default(20)),
+    cursor: z.string().min(1).optional(),
+    status: TaskStatusSchema.optional(),
+  })
+  .strict();
+
+export type ListTasksQuery = z.infer<typeof ListTasksQuerySchema>;
+
+export const ListTasksResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.array(TaskSummarySchema),
+  nextCursor: z.string().nullable(),
+});
+
+export type ListTasksResponse = z.infer<typeof ListTasksResponseSchema>;
+
+export const TaskDagNodeSchema = z.object({
+  taskId: z.string(),
+  title: z.string(),
+  status: z.string(),
+  parentTaskIds: z.array(z.string()),
+  childTaskIds: z.array(z.string()),
+});
+export type TaskDagNode = z.infer<typeof TaskDagNodeSchema>;
+
+export const TaskDagResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({
+    rootTaskId: z.string(),
+    nodes: z.array(TaskDagNodeSchema),
+  }),
+});
+export type TaskDagResponse = z.infer<typeof TaskDagResponseSchema>;
+
+// ============================================================================
+// 3b. Approval Lifecycle Contracts (M4.2)
+// ============================================================================
+
+export const ApprovalStatusSchema = z.enum(["PENDING", "APPROVED", "REJECTED", "EXPIRED", "CONSUMED"]);
+export type ApprovalStatusDto = z.infer<typeof ApprovalStatusSchema>;
+
+export const ApprovalSummarySchema = z.object({
+  approvalId: z.string().min(1),
+  runId: z.string().min(1),
+  taskId: z.string().min(1).nullable(),
+  tenantId: z.string().min(1).nullable(),
+  operation: z.string().min(1),
+  riskLevel: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
+  justification: z.string(),
+  status: ApprovalStatusSchema,
+  singleUse: z.boolean(),
+  requestedAt: z.string().datetime(),
+  expiresAt: z.string().datetime().nullable(),
+  decidedBy: z.string().nullable(),
+  decidedAt: z.string().datetime().nullable(),
+  decisionReason: z.string().nullable(),
+  consumedAt: z.string().datetime().nullable(),
+});
+export type ApprovalSummary = z.infer<typeof ApprovalSummarySchema>;
+
+export const ListApprovalsQuerySchema = z
+  .object({
+    runId: z.string().min(1).optional(),
+    taskId: z.string().min(1).optional(),
+    status: ApprovalStatusSchema.optional(),
+  })
+  .strict();
+
+export const ListApprovalsResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.array(ApprovalSummarySchema),
+});
+export type ListApprovalsResponse = z.infer<typeof ListApprovalsResponseSchema>;
+
+export const ApprovalResponseSchema = z.object({
+  success: z.literal(true),
+  data: ApprovalSummarySchema,
+});
+export type ApprovalResponse = z.infer<typeof ApprovalResponseSchema>;
+
+export const ApprovalDecisionRequestSchema = z
+  .object({
+    decision: z.enum(["APPROVE", "REJECT"]).optional(),
+    reason: z.string().min(1).max(512).optional(),
+  })
+  .strict();
+export type ApprovalDecisionRequest = z.infer<typeof ApprovalDecisionRequestSchema>;
+
+export const ApprovalDecisionResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({
+    approval: ApprovalSummarySchema,
+    runStatus: TaskStatusSchema.optional(),
+    resumed: z.boolean(),
+  }),
+});
+export type ApprovalDecisionResponse = z.infer<typeof ApprovalDecisionResponseSchema>;
 
 // ============================================================================
 // 4. Run Lifecycle & Inspection Contracts
@@ -187,6 +446,35 @@ export const RunResponseSchema = z.object({
     }),
     createdAt: z.string().datetime(),
     completedAt: z.string().datetime().nullable(),
+    executionMode: z.enum(["fixture", "live"]).optional(),
+    currentWorkerId: z.string().min(1).nullable().optional(),
+    leaseId: z.string().min(1).nullable().optional(),
+    pendingApprovals: z.array(ApprovalSummarySchema).optional(),
+    repairSummary: z
+      .object({
+        cycleCount: z.number().int().nonnegative(),
+        stagnationDetected: z.boolean(),
+        exhausted: z.boolean(),
+        lastDiagnosis: z.string().optional(),
+      })
+      .optional(),
+    memorySummary: z
+      .object({
+        entryCount: z.number().int().nonnegative(),
+        verifiedCount: z.number().int().nonnegative(),
+        scopes: z.record(z.string(), z.number().int().nonnegative()),
+      })
+      .optional(),
+    verificationSummary: z
+      .object({
+        verified: z.boolean(),
+        reason: z.string().optional(),
+        specCount: z.number().int().nonnegative(),
+        proofHash: z.string().optional(),
+        verifierId: z.string().optional(),
+        specId: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
@@ -249,6 +537,8 @@ export const SSE_EVENT_TYPES = [
   "run.queued",
   "worker.claimed",
   "run.started",
+  "verification.started",
+  "run.waiting_approval",
   "run.completed",
   "run.failed",
   "run.timed_out",
@@ -340,7 +630,96 @@ export interface FastifyRouteDeclaration {
   };
 }
 
+// ============================================================================
+// Multi-Agent & Super Agent Orchestration Contracts (Phase 2)
+// ============================================================================
+
+export const SuperAgentRoleSchema = z.enum(["RESEARCHER", "CODER", "TESTER", "REVIEWER"]);
+export type SuperAgentRole = z.infer<typeof SuperAgentRoleSchema>;
+
+export const SubtaskSpecInputSchema = z.object({
+  subtaskId: z.string().min(1).max(64),
+  role: SuperAgentRoleSchema,
+  objective: z.string().min(1).max(2048),
+  constraints: z.array(z.string().min(1)).optional(),
+  acceptanceCriteria: z.array(z.string().min(1)).optional(),
+  dependencies: z.array(z.string().min(1)).optional(),
+  verificationSpecs: z.array(VerificationSpecInputSchema).optional(),
+  resourceLimits: z
+    .object({
+      timeoutMs: z.number().int().positive().optional(),
+      maxAttempts: z.number().int().positive().optional(),
+      maxOutputBytes: z.number().int().positive().optional(),
+    })
+    .optional(),
+  customCapabilities: z.array(z.string().min(1)).optional(),
+  inputPayload: z.record(z.unknown()).optional(),
+});
+
+export const DecomposeMissionRequestSchema = z
+  .object({
+    subtasks: z.array(SubtaskSpecInputSchema).min(1).max(16),
+    maxDepth: z.number().int().positive().max(16).optional(),
+    maxChildrenPerParent: z.number().int().positive().max(32).optional(),
+  })
+  .strict();
+
+export type DecomposeMissionRequest = z.infer<typeof DecomposeMissionRequestSchema>;
+
+export interface DecomposeMissionResponse {
+  readonly success: true;
+  readonly data: {
+    readonly missionTaskId: string;
+    readonly decompositionHash: string;
+    readonly subtaskTaskIds: readonly string[];
+    readonly totalSubtasks: number;
+    readonly isDuplicate: boolean;
+  };
+}
+
+export interface MissionHierarchyResponse {
+  readonly success: true;
+  readonly data: {
+    readonly missionTaskId: string;
+    readonly missionTitle: string | null;
+    readonly decompositionHash: string | null;
+    readonly root: unknown;
+    readonly totalSubtasks: number;
+  };
+}
+
+export interface SynthesizeMissionResponse {
+  readonly success: true;
+  readonly data: {
+    readonly missionTaskId: string;
+    readonly verdict: string;
+    readonly totalSubtasks: number;
+    readonly verifiedCount: number;
+    readonly rejectedCount: number;
+    readonly blockedCount: number;
+    readonly unverifiableCount: number;
+    readonly summary: string;
+    readonly canCompleteMission: boolean;
+    readonly subtaskReports: readonly unknown[];
+  };
+}
+
 export const FROZEN_API_ROUTES: readonly FastifyRouteDeclaration[] = [
+  {
+    method: "GET",
+    url: "/api/v1/tasks",
+    schema: {
+      description: "List tasks for the authenticated tenant with cursor pagination and status filtering",
+      tags: ["Tasks"],
+      querystring: ListTasksQuerySchema,
+      response: {
+        200: ListTasksResponseSchema,
+        400: ApiErrorResponseSchema,
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+      },
+    },
+  },
   {
     method: "POST",
     url: "/api/v1/tasks",
@@ -430,6 +809,18 @@ export const FROZEN_API_ROUTES: readonly FastifyRouteDeclaration[] = [
   },
   {
     method: "GET",
+    url: "/api/v1/auth/whoami",
+    schema: {
+      description: "Inspect the authenticated principal, tenant, and role without returning secret tokens",
+      tags: ["Auth"],
+      response: {
+        200: WhoamiResponseSchema,
+        401: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "GET",
     url: "/api/v1/runs/:runId/artifacts",
     schema: {
       description: "List artifacts and cryptographic hashes produced by a run",
@@ -440,6 +831,158 @@ export const FROZEN_API_ROUTES: readonly FastifyRouteDeclaration[] = [
         401: ApiErrorResponseSchema,
         403: ApiErrorResponseSchema,
         404: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "GET",
+    url: "/api/v1/runs/:runId/artifacts/:artifactId/content",
+    schema: {
+      description: "Retrieve verified raw artifact content bytes for a run",
+      tags: ["Artifacts"],
+      params: z.object({
+        runId: z.string().min(1),
+        artifactId: z.string().min(1),
+      }),
+      response: {
+        200: z.string(),
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+        404: ApiErrorResponseSchema,
+        409: ApiErrorResponseSchema,
+        413: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "POST",
+    url: "/api/v1/tasks/:taskId/decompose",
+    schema: {
+      description: "Decompose a mission into bounded, dependency-aware subtasks governed by narrow contracts",
+      tags: ["Multi-Agent"],
+      params: z.object({ taskId: z.string().min(1) }),
+      body: DecomposeMissionRequestSchema,
+      response: {
+        200: z.any(),
+        201: z.any(),
+        400: ApiErrorResponseSchema,
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+        404: ApiErrorResponseSchema,
+        503: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "GET",
+    url: "/api/v1/tasks/:taskId/hierarchy",
+    schema: {
+      description: "Retrieve complete multi-agent subtask hierarchy and verification statuses",
+      tags: ["Multi-Agent"],
+      params: z.object({ taskId: z.string().min(1) }),
+      response: {
+        200: z.any(),
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+        404: ApiErrorResponseSchema,
+        503: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "POST",
+    url: "/api/v1/tasks/:taskId/synthesize",
+    schema: {
+      description: "Synthesize mission outcome from subtask verifications enforcing fail-closed zero self-approval",
+      tags: ["Multi-Agent"],
+      params: z.object({ taskId: z.string().min(1) }),
+      response: {
+        200: z.any(),
+        400: ApiErrorResponseSchema,
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+        404: ApiErrorResponseSchema,
+        503: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "GET",
+    url: "/api/v1/approvals",
+    schema: {
+      description: "List governed human-in-the-loop approval requests scoped strictly to the caller tenant",
+      tags: ["Approvals"],
+      querystring: ListApprovalsQuerySchema,
+      response: {
+        200: ListApprovalsResponseSchema,
+        400: ApiErrorResponseSchema,
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+        503: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "POST",
+    url: "/api/v1/approvals/:approvalId/approve",
+    schema: {
+      description: "Approve a pending human-in-the-loop request and requeue any WAITING_APPROVAL run",
+      tags: ["Approvals"],
+      params: z.object({ approvalId: z.string().min(1) }),
+      body: ApprovalDecisionRequestSchema,
+      response: {
+        200: ApprovalDecisionResponseSchema,
+        400: ApiErrorResponseSchema,
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+        404: ApiErrorResponseSchema,
+        409: ApiErrorResponseSchema,
+        413: ApiErrorResponseSchema,
+        415: ApiErrorResponseSchema,
+        503: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "POST",
+    url: "/api/v1/approvals/:approvalId/reject",
+    schema: {
+      description: "Reject a pending human-in-the-loop request and fail any WAITING_APPROVAL run",
+      tags: ["Approvals"],
+      params: z.object({ approvalId: z.string().min(1) }),
+      body: ApprovalDecisionRequestSchema,
+      response: {
+        200: ApprovalDecisionResponseSchema,
+        400: ApiErrorResponseSchema,
+        401: ApiErrorResponseSchema,
+        403: ApiErrorResponseSchema,
+        404: ApiErrorResponseSchema,
+        409: ApiErrorResponseSchema,
+        413: ApiErrorResponseSchema,
+        415: ApiErrorResponseSchema,
+        503: ApiErrorResponseSchema,
+      },
+    },
+  },
+  {
+    method: "GET",
+    url: "/metrics",
+    schema: {
+      description: "Expose system, agent step, inference, tool, and verification metrics in Prometheus exposition format",
+      tags: ["Monitoring"],
+      response: {
+        200: z.string(),
+      },
+    },
+  },
+  {
+    method: "GET",
+    url: "/health",
+    schema: {
+      description: "Read-only runtime, SQLite store, and observability pipeline health status (zero authority)",
+      tags: ["Monitoring"],
+      response: {
+        200: z.any(),
       },
     },
   },

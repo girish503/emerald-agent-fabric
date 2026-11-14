@@ -72,6 +72,8 @@ import { createAndActivateContract } from "../../application/test-helpers.js";
 // ----------------------------------------------------------------------------
 
 class CountingExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "counting-provider";
   readonly invocations: ExecutionRequest[] = [];
 

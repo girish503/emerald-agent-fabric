@@ -1,0 +1,37 @@
+{
+  "uid": "emerald-07-verify",
+  "title": "07 - Sovereign Verification & Capability Gates",
+  "tags": ["emerald", "phase3", "verification"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Verification Pass vs Rejection Count",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        { "refId": "A", "expr": "sum(emerald_verifications_total{verified=\"true\",execution_mode=~\"$execution_mode\"})", "legendFormat": "Verified" },
+        { "refId": "B", "expr": "sum(emerald_verifications_total{verified=\"false\",execution_mode=~\"$execution_mode\"})", "legendFormat": "Rejected" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Verification Stage Duration p95 by Stage",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [{ "refId": "A", "expr": "histogram_quantile(0.95, sum(rate(emerald_verification_stage_duration_seconds_bucket{execution_mode=~\"$execution_mode\"}[5m])) by (le, stage))", "legendFormat": "{{stage}}" }]
+    }
+  ]
+}

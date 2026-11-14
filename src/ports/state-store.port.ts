@@ -16,6 +16,34 @@ export interface TaskRecord {
   readonly updatedAt: string;
 }
 
+export type TaskExecutionMode = "sandboxed" | "constrained_host";
+
+export interface TaskSummaryProjection {
+  readonly taskId: string;
+  readonly tenantId?: string;
+  readonly title: string;
+  readonly status: RunSnapshot["status"];
+  readonly executionMode: TaskExecutionMode;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly contractId: string | null;
+  readonly runId?: string;
+  readonly parentTaskId?: string;
+  readonly childTaskCount?: number;
+}
+
+export interface TaskListQueryOptions {
+  readonly tenantId: string;
+  readonly limit?: number;
+  readonly cursor?: string;
+  readonly status?: RunSnapshot["status"];
+}
+
+export interface TaskListProjection {
+  readonly tasks: readonly TaskSummaryProjection[];
+  readonly nextCursor: string | null;
+}
+
 export type WorkerStatus = "ACTIVE" | "DRAINING" | "STOPPED";
 
 export interface WorkerRecord {
@@ -78,6 +106,31 @@ export interface PersistedEvent<T = unknown> {
   readonly schemaVersion: number;
   readonly producer: string;
   readonly payload: T;
+}
+
+export type DurableApprovalStatus = "PENDING" | "APPROVED" | "REJECTED" | "CONSUMED" | "EXPIRED";
+
+export interface DurableApprovalRecord {
+  readonly approvalId: string;
+  readonly runId: string;
+  readonly taskId: string;
+  readonly tenantId: string;
+  readonly contractHash: string;
+  readonly actionId?: string;
+  readonly operation: string;
+  readonly parameters: Record<string, unknown>;
+  readonly parametersHash: string;
+  readonly riskLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+  readonly justification: string;
+  readonly status: DurableApprovalStatus;
+  readonly singleUse: boolean;
+  readonly requestedAt: string;
+  readonly expiresAt?: string;
+  readonly decidedAt?: string;
+  readonly consumedAt?: string;
+  readonly consumedByRunId?: string;
+  readonly approver?: string;
+  readonly decisionReason?: string;
 }
 
 export interface LeaseFencingCheck {
@@ -154,8 +207,12 @@ export interface StorageTransaction
     fencing?: LeaseFencingCheck
   ): { snapshot: AttemptSnapshot; event: PersistedEvent };
 
-  appendEvent(event: DomainEvent): PersistedEvent;
+  appendEvent(event: DomainEvent, dedupToken?: string | null): PersistedEvent;
   getEventsForRun(runId: string): readonly PersistedEvent[];
+  getInferenceTelemetryForRun(
+    runId: string,
+    options?: { tenantId?: string; limit?: number }
+  ): readonly PersistedEvent<import("../domain/events.js").ModelInferenceTelemetryPayload>[];
 
   insertWorker(worker: WorkerRecord): void;
   getWorker(workerId: string): WorkerRecord | null;
@@ -256,6 +313,9 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
 
   getEventsForRun(runId: string): readonly PersistedEvent[];
   getTask(taskId: string): TaskRecord | null;
+  listTasks?(options: TaskListQueryOptions): TaskListProjection;
+  getTaskById?(taskId: string, tenantId: string): TaskSummaryProjection | null;
+  getObservabilityCounts?(): { readonly tasksTotal: number; readonly runsByStatus: Readonly<Record<string, number>> };
   getWorker(workerId: string): WorkerRecord | null;
   getLease(leaseId: string): LeaseRecord | null;
 
@@ -318,6 +378,29 @@ export interface StateStorePort extends MissionContractStorePort, MutationIntent
    */
   bindRunWorkspace(runId: string, workspaceRoot: string, nowIso: string): string;
   getRunWorkspaceBinding(runId: string): string | null;
+
+  // Durable Approval Persistence (Phase 4 M4.1)
+  insertApprovalRequest?(record: DurableApprovalRecord): void;
+  getApprovalRequest?(approvalId: string): DurableApprovalRecord | null;
+  listApprovalRequests?(filter?: {
+    runId?: string;
+    taskId?: string;
+    tenantId?: string;
+    status?: DurableApprovalStatus;
+  }): readonly DurableApprovalRecord[];
+  updateApprovalDecision?(params: {
+    approvalId: string;
+    expectedStatus: DurableApprovalStatus;
+    nextStatus: DurableApprovalStatus;
+    approver?: string;
+    decisionReason?: string;
+    decidedAt?: string;
+  }): DurableApprovalRecord | null;
+  consumeApprovalRequest?(params: {
+    approvalId: string;
+    consumedAt: string;
+    consumedByRunId: string;
+  }): DurableApprovalRecord | null;
 
   close(): void;
 }

@@ -32,7 +32,7 @@ This document specifies the complete architectural design, threat model, candida
 ### 2.1 What Phase 13D Proves
 1. **Model Independence of Verification**: An untrusted model (`llama3.2:3b`) does not need to voluntarily propose verification tools. The active `MissionContract` declares verification requirements (`requireMutation: true`, `requireDiff: true`, `EXIT_CODE_ZERO`).
 2. **Governed Interception**: When the model proposes `finishReason: "GOAL_REACHED"`, Emerald intercepts the completion claim and verifies whether contract requirements have been physically satisfied.
-3. **Physical Tool Execution**: Outstanding verification requirements execute physically through [`WorkerRuntime.executeAction`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/worker-runtime.ts#L980-L1050), producing visible `Action` and `Attempt` records.
+3. **Physical Tool Execution**: Outstanding verification requirements execute physically through [`WorkerRuntime.executeAction`](../../src/application/worker-runtime.ts#L980-L1050), producing visible `Action` and `Attempt` records.
 4. **Completion Authority**: `MODEL_GOAL_REACHED ≠ RUN_COMPLETED` is strictly preserved. Failed physical tests (`exitCode !== 0` or timeout) reject completion and return the agent to the step loop.
 
 ### 2.2 What Phase 13D Does NOT Prove
@@ -87,14 +87,14 @@ Emerald Agent Fabric already possesses the architectural primitives required to 
 
 | Primitive | Existing Location | Current Role | Phase 14 Clean-Room Role |
 | :--- | :--- | :--- | :--- |
-| **`RunStatus`** | [`src/domain/invariants.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/invariants.ts#L3-L15) | Lifecycle enum includes `"VERIFYING"` | Formal transition from `RUNNING → VERIFYING` before `COMPLETED` |
-| **`EvidenceSource`** | [`src/domain/evidence.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/evidence.ts#L18) | Already defines `"INDEPENDENT_OBSERVER"` | Tags clean-room evidence distinctly from provider outputs |
-| **`DeterministicVerifier`** | [`src/domain/verification.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/verification.ts#L74-L120) | Pure deterministic spec-matching engine | Evaluates clean-room F2P/P2P test assertions |
-| **`RepositorySource`** | [`src/domain/workspace.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/domain/workspace.ts#L49-L53) | Defines `type`, `location`, immutable `revision` SHA | Guarantees pristine checkout of baseline commit |
-| **`WorkspacePort`** | [`src/ports/workspace.port.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/ports/workspace.port.ts#L26-L61) | Provisions & disposes isolated host directories | Provisions ephemeral `ws-verify-${runId}` clean-room sandbox |
-| **`DockerExecutionProvider`** | [`src/adapters/execution/docker-execution-provider.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/adapters/execution/docker-execution-provider.ts) | Hardened container runner with resource limits | Executes baseline and patched tests in pristine containers |
-| **`GitDiffToolAdapter`** | [`src/adapters/tools/git-diff.tool-adapter.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/adapters/tools/git-diff.tool-adapter.ts) | Pure in-memory Git diff generator | Extracts canonical unified candidate patch & SHA-256 hash |
-| **`SqliteStateStore`** | [`src/adapters/persistence/sqlite-state-store.ts`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/adapters/persistence/sqlite-state-store.ts) | ACID event store with lease fencing | Persists independent evidence, events, and verification logs |
+| **`RunStatus`** | [`src/domain/invariants.ts`](../../src/domain/invariants.ts#L3-L15) | Lifecycle enum includes `"VERIFYING"` | Formal transition from `RUNNING → VERIFYING` before `COMPLETED` |
+| **`EvidenceSource`** | [`src/domain/evidence.ts`](../../src/domain/evidence.ts#L18) | Already defines `"INDEPENDENT_OBSERVER"` | Tags clean-room evidence distinctly from provider outputs |
+| **`DeterministicVerifier`** | [`src/domain/verification.ts`](../../src/domain/verification.ts#L74-L120) | Pure deterministic spec-matching engine | Evaluates clean-room F2P/P2P test assertions |
+| **`RepositorySource`** | [`src/domain/workspace.ts`](../../src/domain/workspace.ts#L49-L53) | Defines `type`, `location`, immutable `revision` SHA | Guarantees pristine checkout of baseline commit |
+| **`WorkspacePort`** | [`src/ports/workspace.port.ts`](../../src/ports/workspace.port.ts#L26-L61) | Provisions & disposes isolated host directories | Provisions ephemeral `ws-verify-${runId}` clean-room sandbox |
+| **`DockerExecutionProvider`** | [`src/adapters/execution/docker-execution-provider.ts`](../../src/adapters/execution/docker-execution-provider.ts) | Hardened container runner with resource limits | Executes baseline and patched tests in pristine containers |
+| **`GitDiffToolAdapter`** | [`src/adapters/tools/git-diff.tool-adapter.ts`](../../src/adapters/tools/git-diff.tool-adapter.ts) | Pure in-memory Git diff generator | Extracts canonical unified candidate patch & SHA-256 hash |
+| **`SqliteStateStore`** | [`src/adapters/persistence/sqlite-state-store.ts`](../../src/adapters/persistence/sqlite-state-store.ts) | ACID event store with lease fencing | Persists independent evidence, events, and verification logs |
 
 ---
 
@@ -503,9 +503,9 @@ $$\text{TaskCompleted} \iff \text{TaskSatisfied} \land \text{VerificationPassed}
 The clean-room verifier is an **observer and evidence generator**, not an execution authority:
 
 1. **No Direct State Mutation**:
-   The verifier cannot directly set `Run.status = "COMPLETED"`. It generates an immutable `Evidence` domain entity with `source: "INDEPENDENT_OBSERVER"`. The existing [`RunCoordinator`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/application/run-coordinator.ts) and completion gate evaluate this evidence transactionally.
+   The verifier cannot directly set `Run.status = "COMPLETED"`. It generates an immutable `Evidence` domain entity with `source: "INDEPENDENT_OBSERVER"`. The existing [`RunCoordinator`](../../src/application/run-coordinator.ts) and completion gate evaluate this evidence transactionally.
 2. **Strict Workspace Boundaries**:
-   The clean-room workspace is provisioned through [`WorkspacePort`](file:///c:/Users/Adusumalli%20Girish/.gemini/antigravity/scratch/emerald-agent-fabric/src/ports/workspace.port.ts). Symlink path resolution and boundary traversal checks prevent any patch from writing outside the assigned directory.
+   The clean-room workspace is provisioned through [`WorkspacePort`](../../src/ports/workspace.port.ts). Symlink path resolution and boundary traversal checks prevent any patch from writing outside the assigned directory.
 3. **Container Confinement**:
    Independent tests execute inside `DockerExecutionProvider` with `--cap-drop=ALL`, `--security-opt=no-new-privileges`, read-only root filesystems, `--net=none`, and explicit memory (256m) and CPU (0.5) limits.
 4. **Zero Shell Injection**:

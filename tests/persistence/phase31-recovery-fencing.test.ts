@@ -24,6 +24,8 @@ import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../../src/ports/execution-provider.port.js";
 
 class MockCountingProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
   readonly name = "mock-counting-provider";
   readonly invocations: ExecutionRequest[] = [];
   nextResult?: ExecutionResult;

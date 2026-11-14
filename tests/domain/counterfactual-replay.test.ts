@@ -52,9 +52,12 @@ import {
 import { computeCanonicalHash, sha256Hex } from "../../src/domain/canonical-hash.js";
 import { ActionProposal } from "../../src/domain/action-proposal.js";
 
-const SUMMARY_PATH = path.resolve(
-  "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4b-summary.json"
-);
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const SUMMARY_PATH = path.resolve(__dirname, "../fixtures/phase9-4b-summary.json");
 
 function loadHistoricalSummary(): { summaryData: any; rawSummary: string } {
   if (!fs.existsSync(SUMMARY_PATH)) {

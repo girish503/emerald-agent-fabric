@@ -115,7 +115,9 @@ export class ContextEngine {
     const survivingCandidates: Observation[] = [];
 
     // Category: SYSTEM_EVENT
-    const eventCandidates = candidatesByCategory.get("SYSTEM_EVENT") ?? [];
+    const rawEventCandidates = candidatesByCategory.get("SYSTEM_EVENT") ?? [];
+    const mandatoryEvents = rawEventCandidates.filter((e) => e.isMandatory);
+    const eventCandidates = rawEventCandidates.filter((e) => !e.isMandatory);
     eventCandidates.sort((a, b) => (a.provenance.sequenceNumber ?? 0) - (b.provenance.sequenceNumber ?? 0));
     if (eventCandidates.length > budget.maxHistoryEvents) {
       const excess = eventCandidates.length - budget.maxHistoryEvents;
@@ -127,6 +129,10 @@ export class ContextEngine {
       survivingCandidates.push(...kept);
     } else {
       survivingCandidates.push(...eventCandidates);
+    }
+
+    if (mandatoryEvents.length > 0) {
+      survivingCandidates.push(...mandatoryEvents);
     }
 
     // Category: ACTION_HISTORY

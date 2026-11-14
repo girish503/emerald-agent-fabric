@@ -1,0 +1,3149 @@
+{
+  "experimentName": "Phase 10E: Calibrated 24-Trial Live SWE Execution-Reach Gate",
+  "timestamp": "2026-10-16T10:11:32.826Z",
+  "model": "llama3.2:3b",
+  "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+  "totalCompletedTrials": 24,
+  "totalPlannedTrials": 24,
+  "executedInCurrentRun": 24,
+  "primaryMetrics": {
+    "executionReachRate": 0,
+    "trialLevelExecutionRate": 0,
+    "trialsWithToolExecution": 0,
+    "totalCompletedTrials": 24
+  },
+  "proposalBoundaryMetrics": {
+    "totalModelCalls": 36,
+    "totalProposals": 16,
+    "totalValidProposals": 0,
+    "totalInvalidProposals": 16,
+    "validProposalRate": 0,
+    "proposalFailureTaxonomy": {
+      "INVALID_TOOL_INPUT": 16,
+      "UNAUTHORIZED_CAPABILITY": 0,
+      "MODEL_MALFORMED_OUTPUT": 0,
+      "MODEL_TIMEOUT": 0,
+      "MISSING_REQUIRED_FIELD": 0,
+      "WRONG_VARIANT": 0,
+      "FORBIDDEN_AUTHORITY": 0,
+      "OTHER_VALIDATION_FAILURE": 0
+    }
+  },
+  "executionMetrics": {
+    "totalPhysicalToolDispatches": 0,
+    "totalSuccessfulToolDispatches": 0,
+    "totalFailedToolDispatches": 0,
+    "trialsWithActions": 0,
+    "trialsWithToolCalls": 0
+  },
+  "reflexMetrics": {
+    "totalReflexTrials": 12,
+    "totalBaselineTrials": 12,
+    "totalReflexEvals": 0,
+    "totalReflexAllows": 0,
+    "totalReflexRejects": 0,
+    "totalReflexDefers": 0,
+    "totalFailureLoopTriggers": 0,
+    "totalRedundantActionTriggers": 0,
+    "totalBudgetPressureTriggers": 0
+  },
+  "objectiveMetrics": {
+    "passedTrials": 0,
+    "passRate": 0,
+    "statusBreakdown": {
+      "ERROR": 20,
+      "BLOCKED": 4
+    }
+  },
+  "highValueTrajectories": {
+    "trialsWithFirstExecution": [],
+    "trialsWithExecutionFailure": [],
+    "trialsWithRepeatedExecutionFailure": [],
+    "trialsWithReflexIntervention": [],
+    "trialsWithRecovery": []
+  },
+  "comparisonWithPhase10A": {
+    "phase10aTotalCompleted": 24,
+    "phase10aPassRate": 0,
+    "phase10aTrialsWithToolCalls": 0,
+    "phase10aExecutionReachRate": 0,
+    "phase10aGate": "GATE_C",
+    "deltaTrialsWithToolExecution": 0,
+    "deltaExecutionReachRate": 0
+  },
+  "gateClassification": {
+    "assignedGate": "GATE_C",
+    "gateReason": "Model still blocked upstream at schema/validation boundary: 0 physical tool executions across 24 trials."
+  },
+  "records": [
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:BASELINE:1",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9cbd2c5b4b7a",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 122451,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9cbd2c5b4b7a",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "9cbd2c5b4b7a4b479de0d384e938bebec38230833235ab041ab399379d96537d",
+          "runtimeRunId": "6846726f-ea8e-4e40-af41-d1e0b35c28c0"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+          "name": "Baseline: task-swe-bug-fix-calc"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-2a1c703bcde51c54",
+            "contextHash": "e1df270000dda7f0c0b3f6a44e2970b0f376586af134fae86f41f56d4a3f90c6",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:03:03.797Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 121002,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:05:06.260Z",
+        "artifactHash": "659646f3e7eb44784a7af2bb7c5f881071b1e8fd8578f50c970ac750168e9b73"
+      },
+      "artifactHash": "659646f3e7eb44784a7af2bb7c5f881071b1e8fd8578f50c970ac750168e9b73",
+      "completedAt": "2026-10-16T09:05:06.275Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:BASELINE:2",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-a3743a99940f",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 121667,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-a3743a99940f",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "a3743a99940f1e937d2f35e15fa3766c39c7a8be111263912a5ed2484b3abbfd",
+          "runtimeRunId": "04e19f07-6c44-4e54-8560-bb0e3c1d624b"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-calc",
+          "name": "Baseline: task-swe-bug-fix-calc"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-5384a6fc8f50b718",
+            "contextHash": "1310a6eebda260cfcf2ec64cefd4086e2cd53597396baf1e6fed5cf1713215e5",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:05:06.291Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120217,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:07:07.949Z",
+        "artifactHash": "fea7968763748919c4f87a2634b769f5f8c06381cd23ede8573e00ae455f1beb"
+      },
+      "artifactHash": "fea7968763748919c4f87a2634b769f5f8c06381cd23ede8573e00ae455f1beb",
+      "completedAt": "2026-10-16T09:07:07.954Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:REFLEX:1",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9838b5e60e69",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 122286,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t1-9838b5e60e69",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "9838b5e60e69ab90ae5948f6e9238f6f080b2459576fb90c605c5d99d331edc4",
+          "runtimeRunId": "f7085c50-0135-4ef7-8efa-9937263c1a76"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+          "name": "Reflex: task-swe-bug-fix-calc"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-5b9380d5b1990d64",
+            "contextHash": "1511699122610805ec7867bd6669c868c1b60aa55bf25f63dbad2a2722d7130b",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:07:07.991Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120718,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:09:10.264Z",
+        "artifactHash": "7e90a8709560253cfc6f9402125d09bf25aaa86cb5d327ceb2e04ab58ad25eb7"
+      },
+      "artifactHash": "7e90a8709560253cfc6f9402125d09bf25aaa86cb5d327ceb2e04ab58ad25eb7",
+      "completedAt": "2026-10-16T09:09:10.302Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-calc:REFLEX:2",
+      "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-6225ac7a8936",
+      "taskId": "task-swe-bug-fix-calc",
+      "taskVersion": 1,
+      "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555",
+      "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 122537,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-calc-v1-t2-6225ac7a8936",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "6225ac7a89360a60e9042be61155f8b57d2e0b1dc98dab21510deb09829ebd8a",
+          "runtimeRunId": "03a4cb06-c60f-4ee3-a683-7cb6b9c1f880"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-calc",
+          "taskVersion": 1,
+          "taskContentHash": "caf1be3b496883c1e99f99d56114d50bfb314e5c109eee362851357b0a5b2555"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-calc",
+          "name": "Reflex: task-swe-bug-fix-calc"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-441339f745452b89",
+            "contextHash": "1f4acf3b678795e3b7d5093151e9724481e3b27166fcca53568b0271fc461138",
+            "contextEstimatedTokens": 617,
+            "contextBytes": 2459,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:09:10.312Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120702,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:11:12.846Z",
+        "artifactHash": "4dd1ef6d2291f5180f465c1fddfd990d8bccf04432781f8a5ec6d2c75aa7b41a"
+      },
+      "artifactHash": "4dd1ef6d2291f5180f465c1fddfd990d8bccf04432781f8a5ec6d2c75aa7b41a",
+      "completedAt": "2026-10-16T09:11:12.850Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:BASELINE:1",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-ae49f20b3211",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 238854,
+      "metrics": {
+        "totalSteps": 2,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 2,
+        "wallClockMs": 0,
+        "promptTokens": 1563,
+        "outputTokens": 138,
+        "totalTokens": 1701
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 1,
+        "validProposals": 0,
+        "invalidProposals": 1,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [
+          "INVALID_TOOL_INPUT"
+        ],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-ae49f20b3211",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "ae49f20b3211477b69e122a63976967f3951b5493d8aa78cd83bd0ae6576a611",
+          "runtimeRunId": "dca379c5-8e1d-4f9c-b716-61f5db67bdfd"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+          "name": "Baseline: task-swe-bug-fix-parser"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-fd899c9b90aa3e70",
+            "contextHash": "5f60e875e02dba57c842b96b80ea87fc066260eb68695f4eda5d144a68e4bfd5",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "proposalId": "e1150c72-08ca-4ca3-9ee3-1116ac84b8de",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "Fix multiplication evaluation bug in expression parser.*",
+              "filePaths": [
+                "src/lexer.js",
+                "src/parser.js",
+                "test/parser.test.js"
+              ]
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern', 'filePaths'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:11:12.864Z"
+          },
+          {
+            "stepNumber": 2,
+            "contextSnapshotId": "ctx-fd899c9b90aa3e70",
+            "contextHash": "5f60e875e02dba57c842b96b80ea87fc066260eb68695f4eda5d144a68e4bfd5",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:11:12.864Z"
+          }
+        ],
+        "metrics": {
+          "steps": 2,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 2,
+          "toolCalls": 0,
+          "proposalRejections": 1,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 237990,
+          "toolLatencyMs": 0,
+          "inputTokens": 1563,
+          "outputTokens": 138,
+          "totalTokens": 1701
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:15:11.715Z",
+        "artifactHash": "7975052acaf38a621761f7dd00a3c053e28d8a7e12a6c9ed1ad3f6ad35ecfa00"
+      },
+      "artifactHash": "7975052acaf38a621761f7dd00a3c053e28d8a7e12a6c9ed1ad3f6ad35ecfa00",
+      "completedAt": "2026-10-16T09:15:11.720Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:BASELINE:2",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-17520719306a",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 120863,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-17520719306a",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "17520719306a9303c8cf081a6d7aab987a0374d712bf251f5ff288860c4fcf6c",
+          "runtimeRunId": "8a4fb157-03dd-4f63-a1f0-08aa7b62cdb7"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-bug-fix-parser",
+          "name": "Baseline: task-swe-bug-fix-parser"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-3d2daf8ae59323c8",
+            "contextHash": "eae3bcaf3ce4c2a19ea0be0d82c37158fb56bcc639040d2e2bb267f3f6378785",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:15:11.727Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120193,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:17:12.587Z",
+        "artifactHash": "a261d28f27eca60232fd87e54e5148a152ccfc9a3c6cf32c5b150f6a0b7c7b52"
+      },
+      "artifactHash": "a261d28f27eca60232fd87e54e5148a152ccfc9a3c6cf32c5b150f6a0b7c7b52",
+      "completedAt": "2026-10-16T09:17:12.592Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:REFLEX:1",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-4a670989359d",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 120823,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t1-4a670989359d",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "4a670989359dc7cb9ac4a93c1a889f3423c2543c8187fc266b0d99a2b256e96a",
+          "runtimeRunId": "e1d2e104-da75-4e35-9bcb-a8d3fa500ca3"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+          "name": "Reflex: task-swe-bug-fix-parser"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-0e062bc144dbaa3a",
+            "contextHash": "9df814e86a39a6b2c029a2bea16488632af775894a365fdac9f613c63b80b18a",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:17:12.601Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120189,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:19:13.418Z",
+        "artifactHash": "75469e0b89fd2ebb037fb256d9339a4a9c5a0cfb376f6fb5eae43801cd72c0fb"
+      },
+      "artifactHash": "75469e0b89fd2ebb037fb256d9339a4a9c5a0cfb376f6fb5eae43801cd72c0fb",
+      "completedAt": "2026-10-16T09:19:13.430Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-bug-fix-parser:REFLEX:2",
+      "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-6ceede518760",
+      "taskId": "task-swe-bug-fix-parser",
+      "taskVersion": 1,
+      "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26",
+      "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "BLOCKED",
+      "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 312653,
+      "metrics": {
+        "totalSteps": 3,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 3,
+        "wallClockMs": 0,
+        "promptTokens": 4680,
+        "outputTokens": 381,
+        "totalTokens": 5061,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 3,
+        "validProposals": 0,
+        "invalidProposals": 3,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT"
+        ],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-bug-fix-parser-v1-t2-6ceede518760",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "6ceede518760e0874a3e9c6da42b03a23694661451e0f78812bd5fc12b9e6566",
+          "runtimeRunId": "8d5a1dd8-6031-4730-8f25-7a66d729250c"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-bug-fix-parser",
+          "taskVersion": 1,
+          "taskContentHash": "4523f40d223d3b4c03cf334fe07a362124df860edee5d15e637c59a9fc867c26"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-bug-fix-parser",
+          "name": "Reflex: task-swe-bug-fix-parser"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-b094cbbb86ab41b0",
+            "contextHash": "6abcda2011fe0514aec1a3594707480838e6a4143b94c75fab32994bf45a235d",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "proposalId": "4f25d333-c0e8-4494-a652-5516162d125c",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "bugfix",
+              "filePaths": [
+                "src/lexer.js",
+                "src/parser.js",
+                "test/parser.test.js"
+              ]
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern', 'filePaths'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:19:13.435Z"
+          },
+          {
+            "stepNumber": 2,
+            "contextSnapshotId": "ctx-b094cbbb86ab41b0",
+            "contextHash": "6abcda2011fe0514aec1a3594707480838e6a4143b94c75fab32994bf45a235d",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "proposalId": "4f25d333-c0e8-4494-a652-5516162d125c",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "bugfix",
+              "filePaths": [
+                "src/lexer.js",
+                "src/parser.js",
+                "test/parser.test.js"
+              ]
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern', 'filePaths'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:19:13.435Z"
+          },
+          {
+            "stepNumber": 3,
+            "contextSnapshotId": "ctx-b094cbbb86ab41b0",
+            "contextHash": "6abcda2011fe0514aec1a3594707480838e6a4143b94c75fab32994bf45a235d",
+            "contextEstimatedTokens": 626,
+            "contextBytes": 2495,
+            "contextObservationsCount": 6,
+            "proposalId": "4f25d333-c0e8-4494-a652-5516162d125c",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "bugfix",
+              "filePaths": [
+                "src/lexer.js",
+                "src/parser.js",
+                "test/parser.test.js"
+              ]
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern', 'filePaths'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:19:13.435Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 3,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 3,
+          "toolCalls": 0,
+          "proposalRejections": 3,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 311958,
+          "toolLatencyMs": 0,
+          "inputTokens": 4680,
+          "outputTokens": 381,
+          "totalTokens": 5061,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "BLOCKED",
+          "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))"
+        },
+        "persistedAt": "2026-10-16T09:24:26.086Z",
+        "artifactHash": "9dad2f3b1b4f4830ab8539893d3e95a0b7e52e47f4eb557ad38e5288b1bff5df"
+      },
+      "artifactHash": "9dad2f3b1b4f4830ab8539893d3e95a0b7e52e47f4eb557ad38e5288b1bff5df",
+      "completedAt": "2026-10-16T09:24:26.098Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:BASELINE:1",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-7bdfe70719c2",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-baseline-task-swe-feature-string-utils",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 120968,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-7bdfe70719c2",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "7bdfe70719c27855722cfbfad3361e272dad710abe46d9d1a0a6dcaa4e84d91a",
+          "runtimeRunId": "69fe28b6-3aa6-4153-93ad-bf260b2b3da2"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-string-utils",
+          "name": "Baseline: task-swe-feature-string-utils"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-1344a97d16fa65ab",
+            "contextHash": "a495590c85de9339397cae2aecb50d4a75e7473126b11ca6f4087e1d65b982af",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:24:26.105Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120336,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:26:27.074Z",
+        "artifactHash": "626f4a1f6b74a04fd6106581db40adfc4104f7413745f727bc58c08d465e71fa"
+      },
+      "artifactHash": "626f4a1f6b74a04fd6106581db40adfc4104f7413745f727bc58c08d465e71fa",
+      "completedAt": "2026-10-16T09:26:27.077Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:BASELINE:2",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-e023eb145e99",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-baseline-task-swe-feature-string-utils",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 328607,
+      "metrics": {
+        "totalSteps": 3,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 3,
+        "wallClockMs": 0,
+        "promptTokens": 3132,
+        "outputTokens": 224,
+        "totalTokens": 3356
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 2,
+        "validProposals": 0,
+        "invalidProposals": 2,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT"
+        ],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-e023eb145e99",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "e023eb145e99786e369524fde6813d5dc987bc7832883ccc8c72e680bc0f9fe7",
+          "runtimeRunId": "3c020c7b-47f5-4e36-8b53-fe303402082b"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-string-utils",
+          "name": "Baseline: task-swe-feature-string-utils"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-069e5ad320d3de3b",
+            "contextHash": "a2651bf62d3b0a6ce174f77bf95470e9a1395fea131bb7a952dcecd623aa7691",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "8a517103-391c-4807-80d2-0805eb9cb395",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:26:27.088Z"
+          },
+          {
+            "stepNumber": 2,
+            "contextSnapshotId": "ctx-069e5ad320d3de3b",
+            "contextHash": "a2651bf62d3b0a6ce174f77bf95470e9a1395fea131bb7a952dcecd623aa7691",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "8a517103-391c-4807-80d2-0805eb9cb395",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:26:27.088Z"
+          },
+          {
+            "stepNumber": 3,
+            "contextSnapshotId": "ctx-069e5ad320d3de3b",
+            "contextHash": "a2651bf62d3b0a6ce174f77bf95470e9a1395fea131bb7a952dcecd623aa7691",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:26:27.088Z"
+          }
+        ],
+        "metrics": {
+          "steps": 3,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 3,
+          "toolCalls": 0,
+          "proposalRejections": 2,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 327772,
+          "toolLatencyMs": 0,
+          "inputTokens": 3132,
+          "outputTokens": 224,
+          "totalTokens": 3356
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:31:55.692Z",
+        "artifactHash": "55c718041f8dbc76ba7dc6a6e44cfd4beba705185ed3cb3841e706b81679d2ed"
+      },
+      "artifactHash": "55c718041f8dbc76ba7dc6a6e44cfd4beba705185ed3cb3841e706b81679d2ed",
+      "completedAt": "2026-10-16T09:31:55.707Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:REFLEX:1",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-fef45fd1417d",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-reflex-task-swe-feature-string-utils",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "BLOCKED",
+      "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 326584,
+      "metrics": {
+        "totalSteps": 3,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 3,
+        "wallClockMs": 0,
+        "promptTokens": 4746,
+        "outputTokens": 355,
+        "totalTokens": 5101,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 3,
+        "validProposals": 0,
+        "invalidProposals": 3,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT"
+        ],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t1-fef45fd1417d",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "fef45fd1417daefbfa497aa7b2ed4546e4146bc63fdb19c48b67aff4536e8d1e",
+          "runtimeRunId": "e0cae2b0-f63b-4ddb-90d7-2d9ae887aed6"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-string-utils",
+          "name": "Reflex: task-swe-feature-string-utils"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-c17d0fce4f12adc5",
+            "contextHash": "e42971714ac3905deecab7e6649a84caee652b0a306ef8abc7b4615d4523b503",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "c7e2cc8e-0edb-4d5b-aed9-53feb7bfd84c",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:31:55.721Z"
+          },
+          {
+            "stepNumber": 2,
+            "contextSnapshotId": "ctx-c17d0fce4f12adc5",
+            "contextHash": "e42971714ac3905deecab7e6649a84caee652b0a306ef8abc7b4615d4523b503",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "c7e2cc8e-0edb-4d5b-aed9-53feb7bfd84c",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:31:55.721Z"
+          },
+          {
+            "stepNumber": 3,
+            "contextSnapshotId": "ctx-c17d0fce4f12adc5",
+            "contextHash": "e42971714ac3905deecab7e6649a84caee652b0a306ef8abc7b4615d4523b503",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "e42971714ac3905deecab7e6649a84caee652b0a306ef8abc7b4615d4523b503",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:31:55.721Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 3,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 3,
+          "toolCalls": 0,
+          "proposalRejections": 3,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 326067,
+          "toolLatencyMs": 0,
+          "inputTokens": 4746,
+          "outputTokens": 355,
+          "totalTokens": 5101,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "BLOCKED",
+          "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))"
+        },
+        "persistedAt": "2026-10-16T09:37:22.304Z",
+        "artifactHash": "3149d5213ada0bca8362ae5437d5e8c53ab59f5236604f10259d6d9e286746bc"
+      },
+      "artifactHash": "3149d5213ada0bca8362ae5437d5e8c53ab59f5236604f10259d6d9e286746bc",
+      "completedAt": "2026-10-16T09:37:22.310Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-string-utils:REFLEX:2",
+      "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-1aa8df8d1fb1",
+      "taskId": "task-swe-feature-string-utils",
+      "taskVersion": 1,
+      "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89",
+      "conditionId": "condition-reflex-task-swe-feature-string-utils",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "BLOCKED",
+      "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 328933,
+      "metrics": {
+        "totalSteps": 3,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 3,
+        "wallClockMs": 0,
+        "promptTokens": 4764,
+        "outputTokens": 354,
+        "totalTokens": 5118,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 3,
+        "validProposals": 0,
+        "invalidProposals": 3,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT"
+        ],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-string-utils-v1-t2-1aa8df8d1fb1",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "1aa8df8d1fb142b3d301bf3c7491c0efe0403ad946b9f9c9a90281c1c7d2f85d",
+          "runtimeRunId": "f5f7b055-9319-45db-92c5-68ddf7e292b6"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-string-utils",
+          "taskVersion": 1,
+          "taskContentHash": "3d510675667ca45b23719afc0ed2a8d37c71baafefa7bbbff4903d5e2dfc3d89"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-string-utils",
+          "name": "Reflex: task-swe-feature-string-utils"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-0fdbe5fa2f5ab6a9",
+            "contextHash": "d42d623e4d51cde1e384f68d9f9252990cc5fb3cdb9ca42a253c04426d9599ed",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "9e5e2591-399c-4db7-9a70-f9b96ac56f49",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:37:22.321Z"
+          },
+          {
+            "stepNumber": 2,
+            "contextSnapshotId": "ctx-0fdbe5fa2f5ab6a9",
+            "contextHash": "d42d623e4d51cde1e384f68d9f9252990cc5fb3cdb9ca42a253c04426d9599ed",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "9e5e2591-399c-4db7-9a70-f9b96ac56f49",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:37:22.321Z"
+          },
+          {
+            "stepNumber": 3,
+            "contextSnapshotId": "ctx-0fdbe5fa2f5ab6a9",
+            "contextHash": "d42d623e4d51cde1e384f68d9f9252990cc5fb3cdb9ca42a253c04426d9599ed",
+            "contextEstimatedTokens": 638,
+            "contextBytes": 2544,
+            "contextObservationsCount": 6,
+            "proposalId": "9e5e2591-399c-4db7-9a70-f9b96ac56f49",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "slugify\\(str\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:37:22.321Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 3,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 3,
+          "toolCalls": 0,
+          "proposalRejections": 3,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 328415,
+          "toolLatencyMs": 0,
+          "inputTokens": 4764,
+          "outputTokens": 354,
+          "totalTokens": 5118,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "BLOCKED",
+          "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))"
+        },
+        "persistedAt": "2026-10-16T09:42:51.247Z",
+        "artifactHash": "1281e7ec3829a4630d40c420b97d7c56018eab12d4453e8ae99da2966deb9267"
+      },
+      "artifactHash": "1281e7ec3829a4630d40c420b97d7c56018eab12d4453e8ae99da2966deb9267",
+      "completedAt": "2026-10-16T09:42:51.252Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:BASELINE:1",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-0a93f15ba41b",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-baseline-task-swe-feature-multi-file",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "BLOCKED",
+      "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 281040,
+      "metrics": {
+        "totalSteps": 3,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 3,
+        "wallClockMs": 0,
+        "promptTokens": 4680,
+        "outputTokens": 288,
+        "totalTokens": 4968
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 3,
+        "validProposals": 0,
+        "invalidProposals": 3,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT",
+          "INVALID_TOOL_INPUT"
+        ],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-0a93f15ba41b",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "0a93f15ba41b10131c29ab8744eed80930c8e5e96651e2501eaebb57005b4d7c",
+          "runtimeRunId": "9969015c-6113-4e3b-9891-3ab4a1fecdc5"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-multi-file",
+          "name": "Baseline: task-swe-feature-multi-file"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-5ae68ff97340d3eb",
+            "contextHash": "b6392b06084156392c45b0345651c4e1a4bd2d65a2c35ffb125cf20b4c7fdabb",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "proposalId": "run-1",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "hasRole\\(role\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:42:51.262Z"
+          },
+          {
+            "stepNumber": 2,
+            "contextSnapshotId": "ctx-5ae68ff97340d3eb",
+            "contextHash": "b6392b06084156392c45b0345651c4e1a4bd2d65a2c35ffb125cf20b4c7fdabb",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "proposalId": "run-2",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "hasRole\\(role\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:42:51.262Z"
+          },
+          {
+            "stepNumber": 3,
+            "contextSnapshotId": "ctx-5ae68ff97340d3eb",
+            "contextHash": "b6392b06084156392c45b0345651c4e1a4bd2d65a2c35ffb125cf20b4c7fdabb",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "proposalId": "run-3",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "hasRole\\(role\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:42:51.262Z"
+          }
+        ],
+        "metrics": {
+          "steps": 3,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 3,
+          "toolCalls": 0,
+          "proposalRejections": 3,
+          "executionFailures": 0,
+          "modelFailures": 0,
+          "wallClockMs": 0,
+          "modelLatencyMs": 280327,
+          "toolLatencyMs": 0,
+          "inputTokens": 4680,
+          "outputTokens": 288,
+          "totalTokens": 4968
+        },
+        "outcome": {
+          "status": "BLOCKED",
+          "statusMessage": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation blocked by governance fencing: MAX_PROPOSAL_REJECTIONS (Maximum proposal rejections ceiling reached (3 >= 3))"
+        },
+        "persistedAt": "2026-10-16T09:47:32.301Z",
+        "artifactHash": "7478bc042af4d9fd41a2620ea5bec5059ebdd46eb3be301e6b2b98351bc14801"
+      },
+      "artifactHash": "7478bc042af4d9fd41a2620ea5bec5059ebdd46eb3be301e6b2b98351bc14801",
+      "completedAt": "2026-10-16T09:47:32.311Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:BASELINE:2",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-95cac06d48a6",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-baseline-task-swe-feature-multi-file",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 120670,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-95cac06d48a6",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "95cac06d48a6e5eae451e7e179c126cf32c4f24b49279ea11d78c3725544a893",
+          "runtimeRunId": "40fe74b0-249b-47d9-af2c-0d49a0b1b3d4"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-feature-multi-file",
+          "name": "Baseline: task-swe-feature-multi-file"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-2d5e919fd3f65c9d",
+            "contextHash": "66c1f2ad4b77b5cd381f906593ab31b8889d0fe05429805072d2a9c4c7accb36",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:47:32.320Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120177,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:49:32.986Z",
+        "artifactHash": "d329b0da781ec94f7c606018ec94589a37835f20dc6b1f880255d409b93ad38b"
+      },
+      "artifactHash": "d329b0da781ec94f7c606018ec94589a37835f20dc6b1f880255d409b93ad38b",
+      "completedAt": "2026-10-16T09:49:32.990Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:REFLEX:1",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-907c96556150",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-reflex-task-swe-feature-multi-file",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 120629,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t1-907c96556150",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "907c9655615059f6e86e88230c647693bd38205b86b446bd9af2dd6430c26234",
+          "runtimeRunId": "a30ab4bc-1f60-4ddf-a711-1154a00efab8"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-multi-file",
+          "name": "Reflex: task-swe-feature-multi-file"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-f45ec155900d5010",
+            "contextHash": "8c690c3307b06012559df6a1efb60ec2e3cdf430ceee02dff742ca1cb3427b16",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:49:32.997Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120144,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:51:33.624Z",
+        "artifactHash": "70c3547424a63bdf4b5f7922d149331aec26e0177c0e09882b859cc26eb4def1"
+      },
+      "artifactHash": "70c3547424a63bdf4b5f7922d149331aec26e0177c0e09882b859cc26eb4def1",
+      "completedAt": "2026-10-16T09:51:33.626Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-feature-multi-file:REFLEX:2",
+      "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-5a4416087a7e",
+      "taskId": "task-swe-feature-multi-file",
+      "taskVersion": 1,
+      "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4",
+      "conditionId": "condition-reflex-task-swe-feature-multi-file",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 219002,
+      "metrics": {
+        "totalSteps": 2,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 2,
+        "wallClockMs": 0,
+        "promptTokens": 1524,
+        "outputTokens": 137,
+        "totalTokens": 1661,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 1,
+        "validProposals": 0,
+        "invalidProposals": 1,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [
+          "INVALID_TOOL_INPUT"
+        ],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-feature-multi-file-v1-t2-5a4416087a7e",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "5a4416087a7e9dd400e16d2989451f751f9949424febe3d31ee735ee0645466f",
+          "runtimeRunId": "08264cba-b7e5-4f21-9770-3a32fc1f4a92"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-feature-multi-file",
+          "taskVersion": 1,
+          "taskContentHash": "96a0a2eed1b0ee8e742d8abe9a110c8fd80d617dddab515843e7070c9c764db4"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-feature-multi-file",
+          "name": "Reflex: task-swe-feature-multi-file"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-f9535773eebc8439",
+            "contextHash": "186f8a203b3f4dd6441404d3159a55776bb0aa0b33d7e604adb929f67ecc671f",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "proposalId": "run-38ca835f-a4fd-4900-a1ce-54acbd830561-08264cba-b7e5-4f21-9770-3a32fc1f4a92",
+            "toolName": "search_code",
+            "inputPayload": {
+              "pattern": "hasRole\\(role\\)"
+            },
+            "finishReason": "ACTION_PROPOSED",
+            "proposalValid": false,
+            "proposalRejectionReason": "INVALID_TOOL_INPUT",
+            "proposalRejectionMessage": "Input payload for tool 'search_code' failed schema validation: query: Required, : Unrecognized key(s) in object: 'pattern'",
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:51:33.631Z"
+          },
+          {
+            "stepNumber": 2,
+            "contextSnapshotId": "ctx-f9535773eebc8439",
+            "contextHash": "186f8a203b3f4dd6441404d3159a55776bb0aa0b33d7e604adb929f67ecc671f",
+            "contextEstimatedTokens": 625,
+            "contextBytes": 2493,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:51:33.631Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 2,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 2,
+          "toolCalls": 0,
+          "proposalRejections": 1,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 217428,
+          "toolLatencyMs": 0,
+          "inputTokens": 1524,
+          "outputTokens": 137,
+          "totalTokens": 1661,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:55:12.634Z",
+        "artifactHash": "3d88c918593c5e2978d63b16835d5b93b1fc5b7ef0ba0bca20ce39ec2b363d17"
+      },
+      "artifactHash": "3d88c918593c5e2978d63b16835d5b93b1fc5b7ef0ba0bca20ce39ec2b363d17",
+      "completedAt": "2026-10-16T09:55:12.642Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:BASELINE:1",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-277afefaf88a",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-baseline-task-swe-recoverable-failure",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 121421,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-277afefaf88a",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "277afefaf88abaac538d158ea274a604b171ef73fed6042877ed779e203fc793",
+          "runtimeRunId": "444d9c55-b74c-4f84-913c-9f332d35e507"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-recoverable-failure",
+          "name": "Baseline: task-swe-recoverable-failure"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-3b89f01c76590c39",
+            "contextHash": "b969e3ddfae117e4cac8ec6e64bf4ce50376fcc9a654de48fb56c0fc0c626e18",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:55:12.658Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120385,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:57:14.076Z",
+        "artifactHash": "7cf6a515a03250b3bea9117f9b86f1ad650acabbd832cf999390efc2b187f6f4"
+      },
+      "artifactHash": "7cf6a515a03250b3bea9117f9b86f1ad650acabbd832cf999390efc2b187f6f4",
+      "completedAt": "2026-10-16T09:57:14.082Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:BASELINE:2",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-549522c54eac",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-baseline-task-swe-recoverable-failure",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 122741,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-549522c54eac",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "549522c54eacff5ed0489d1ae17dc4cf2a11c2ac7b556ec6c48bec17f0c22510",
+          "runtimeRunId": "3f417878-107f-435c-bb54-f9a854a8c000"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-recoverable-failure",
+          "name": "Baseline: task-swe-recoverable-failure"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-d789d1b8c217f747",
+            "contextHash": "03c56eb9b7fe7f9b8becd1abfd9c72733ac9fc95d7c046d2dfde9c2fd56253cb",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:57:14.092Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120985,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T09:59:16.828Z",
+        "artifactHash": "1132b62b995f6f65e4d27ce58feb2c3b83a210bee386a3beca858bafb44a9e9a"
+      },
+      "artifactHash": "1132b62b995f6f65e4d27ce58feb2c3b83a210bee386a3beca858bafb44a9e9a",
+      "completedAt": "2026-10-16T09:59:16.836Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:REFLEX:1",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-f40762f1aba5",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-reflex-task-swe-recoverable-failure",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 124122,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t1-f40762f1aba5",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "f40762f1aba50fc170bcae08858c6cdee64a3149f653d7a29acea57d8e22b9f3",
+          "runtimeRunId": "ffc9b119-c1b1-4067-8bee-ecdcf382e18d"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-recoverable-failure",
+          "name": "Reflex: task-swe-recoverable-failure"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-4cc0b122753d6020",
+            "contextHash": "6930fb910a53cbf1395c91c2457a857956332aa8bdd178c5d785c7f81abd9e53",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T09:59:16.902Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 122911,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T10:01:21.021Z",
+        "artifactHash": "9e08f96c0d6efb8a4fcdffbd173355d1c4f386b9850aaeb86f45f6064765c1bc"
+      },
+      "artifactHash": "9e08f96c0d6efb8a4fcdffbd173355d1c4f386b9850aaeb86f45f6064765c1bc",
+      "completedAt": "2026-10-16T10:01:21.038Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-recoverable-failure:REFLEX:2",
+      "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-2df780b716b2",
+      "taskId": "task-swe-recoverable-failure",
+      "taskVersion": 1,
+      "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35",
+      "conditionId": "condition-reflex-task-swe-recoverable-failure",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 122393,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-recoverable-failure-v1-t2-2df780b716b2",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "2df780b716b2d2444145715e20b448e30b564517063dba1321e13f05c471ff98",
+          "runtimeRunId": "f7e6bd6e-26ee-4bbf-a9cf-045043e3581d"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-recoverable-failure",
+          "taskVersion": 1,
+          "taskContentHash": "c603f137ce8cf3168dfd02a657bbba7e77b130e255fddcb2098faecc709b5d35"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-recoverable-failure",
+          "name": "Reflex: task-swe-recoverable-failure"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-c21534f20ffa06e3",
+            "contextHash": "9294f509c91bbdd3d058db34d0ff25dee92d90a08615e7329fa20838d0468fc6",
+            "contextEstimatedTokens": 631,
+            "contextBytes": 2517,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T10:01:21.049Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 121078,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T10:03:23.435Z",
+        "artifactHash": "0e8542b234a3e9d5887fee2d531de2a624bbe711586ab83c1c10d8ab3fae7da1"
+      },
+      "artifactHash": "0e8542b234a3e9d5887fee2d531de2a624bbe711586ab83c1c10d8ab3fae7da1",
+      "completedAt": "2026-10-16T10:03:23.442Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:BASELINE:1",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t1-9f9cb52a543b",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-baseline-task-swe-futile-loop",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 123658,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t1-9f9cb52a543b",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "9f9cb52a543b15c6fb04192d59376fcc044fce6db35d416835cb8e21b847b15d",
+          "runtimeRunId": "2a87b44a-04e4-495b-b7f8-29a395d9312f"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-futile-loop",
+          "name": "Baseline: task-swe-futile-loop"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-7648566a7a31d164",
+            "contextHash": "99d2ff5e31933f5996b467416ed7b0bdf18cc2d1ebb610fd241f67be6029c3f9",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T10:03:23.463Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 121314,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T10:05:27.262Z",
+        "artifactHash": "60c9687fb11bda93d2dab1a3b183612b197e521325b0ff4132bd00fa747680c0"
+      },
+      "artifactHash": "60c9687fb11bda93d2dab1a3b183612b197e521325b0ff4132bd00fa747680c0",
+      "completedAt": "2026-10-16T10:05:27.429Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:BASELINE:2",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t2-c78b776d5a8f",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-baseline-task-swe-futile-loop",
+      "executionMode": "BASELINE",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 122686,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t2-c78b776d5a8f",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "c78b776d5a8f13dd91822094baffd9f33bf4802f31df86c478c4e9b1eb398c46",
+          "runtimeRunId": "fc1310f3-da68-4de0-a8a0-be0d37af26b4"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-baseline-task-swe-futile-loop",
+          "name": "Baseline: task-swe-futile-loop"
+        },
+        "executionMode": "BASELINE",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-a053580c236bff48",
+            "contextHash": "0c8a03f624d40e14b6531e07f0d524e0ea9205aa0fbee4d7b0d50eeecdc57040",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T10:05:27.494Z"
+          }
+        ],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 121666,
+          "toolLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T10:07:30.151Z",
+        "artifactHash": "bf7c25108e0f1b4db56c164fd535ad76607ba0d3221383762ad16765e71cbd28"
+      },
+      "artifactHash": "bf7c25108e0f1b4db56c164fd535ad76607ba0d3221383762ad16765e71cbd28",
+      "completedAt": "2026-10-16T10:07:30.227Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:REFLEX:1",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t1-ed36a8e6b1bd",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-reflex-task-swe-futile-loop",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 1,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 121408,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t1-ed36a8e6b1bd",
+          "trialOrdinal": 1,
+          "trialIdentityHash": "ed36a8e6b1bd7d8ddcf1c180e82cc699ff6cf4d0e31c6422885cffca83d6707d",
+          "runtimeRunId": "8af644cb-a303-4cc3-9a9a-b35600af4b0c"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-futile-loop",
+          "name": "Reflex: task-swe-futile-loop"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-6c60fa91f04c3619",
+            "contextHash": "c1dedf25851f8e00848671570b7889d71eff14adc5513c962efd02a1e42ef847",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T10:07:30.269Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120622,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T10:09:31.698Z",
+        "artifactHash": "34e16c5e6afdd90eb8c65a04a2a39b5029709f2760d384a04820c99e9ff51518"
+      },
+      "artifactHash": "34e16c5e6afdd90eb8c65a04a2a39b5029709f2760d384a04820c99e9ff51518",
+      "completedAt": "2026-10-16T10:09:31.713Z"
+    },
+    {
+      "recordType": "TRIAL_COMPLETE",
+      "trialKey": "task-swe-futile-loop:REFLEX:2",
+      "trialId": "eval-trial-task-swe-futile-loop-v1-t2-82c102fed1f6",
+      "taskId": "task-swe-futile-loop",
+      "taskVersion": 1,
+      "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f",
+      "conditionId": "condition-reflex-task-swe-futile-loop",
+      "executionMode": "REFLEX",
+      "trialOrdinal": 2,
+      "status": "ERROR",
+      "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "verificationPassed": false,
+      "agentClaimedGoal": false,
+      "durationMs": 120891,
+      "metrics": {
+        "totalSteps": 1,
+        "totalActions": 0,
+        "totalToolCalls": 0,
+        "totalModelCalls": 1,
+        "wallClockMs": 0,
+        "reflexEvaluations": 0,
+        "reflexAllows": 0,
+        "reflexRejects": 0,
+        "reflexDefers": 0,
+        "failureLoopTriggers": 0,
+        "redundantActionTriggers": 0,
+        "budgetPressureTriggers": 0
+      },
+      "stepAnalysis": {
+        "totalProposalsAttempted": 0,
+        "validProposals": 0,
+        "invalidProposals": 0,
+        "physicalToolDispatches": 0,
+        "successfulToolDispatches": 0,
+        "failedToolDispatches": 0,
+        "proposalRejectionReasons": [],
+        "brainErrors": []
+      },
+      "highValueEvents": {
+        "firstExecutionReached": false,
+        "executionFailureObserved": false,
+        "repeatedExecutionFailureObserved": false,
+        "reflexInterventionObserved": false,
+        "recoveryObserved": false
+      },
+      "evidence": {
+        "schemaVersion": 1,
+        "trialIdentity": {
+          "trialId": "eval-trial-task-swe-futile-loop-v1-t2-82c102fed1f6",
+          "trialOrdinal": 2,
+          "trialIdentityHash": "82c102fed1f6d401735820805dbc3bc25b246ec3fd05e16ff1ddd9945ecf0b32",
+          "runtimeRunId": "f1158c67-5174-474c-8288-999913fc1b5d"
+        },
+        "taskIdentity": {
+          "taskId": "task-swe-futile-loop",
+          "taskVersion": 1,
+          "taskContentHash": "6bfbaf0f08b37ce31075daa2688324bb9812daa9b5a34db7f38e7d674384135f"
+        },
+        "condition": {
+          "conditionId": "condition-reflex-task-swe-futile-loop",
+          "name": "Reflex: task-swe-futile-loop"
+        },
+        "executionMode": "REFLEX",
+        "model": "llama3.2:3b",
+        "configFingerprint": {
+          "modelProvider": "ollama",
+          "model": "llama3.2:3b",
+          "harnessVersion": "harness-0.1",
+          "taskVersion": 1,
+          "generationConfig": {},
+          "fingerprintHash": "9f0852725d932c5fbdfb50b3324fd09df4a11b58714a92af2e7210ab498d26ad"
+        },
+        "ruleConfigurationHash": "5e71ea253972678379f2e16c145d4b314e8de1b70c9eb0ac69d7a51540376252",
+        "transcript": [
+          {
+            "stepNumber": 1,
+            "contextSnapshotId": "ctx-2cb79074a5b21e5d",
+            "contextHash": "99e2100598c63fea5cd4f2bade0a3bf9dbe825a9b627aa7320be20064111b0f9",
+            "contextEstimatedTokens": 632,
+            "contextBytes": 2522,
+            "contextObservationsCount": 6,
+            "proposalValid": false,
+            "durationMs": 0,
+            "timestamp": "2026-10-16T10:09:31.745Z"
+          }
+        ],
+        "reflexEvidence": [],
+        "metrics": {
+          "steps": 1,
+          "actions": 0,
+          "attempts": 0,
+          "modelCalls": 1,
+          "toolCalls": 0,
+          "proposalRejections": 0,
+          "executionFailures": 0,
+          "modelFailures": 1,
+          "wallClockMs": 0,
+          "modelLatencyMs": 120388,
+          "toolLatencyMs": 0,
+          "reflexEvaluations": 0,
+          "reflexAllows": 0,
+          "reflexRejects": 0,
+          "reflexDefers": 0,
+          "failureLoopTriggers": 0,
+          "redundantActionTriggers": 0,
+          "budgetPressureTriggers": 0,
+          "reflexLatencyMs": 0
+        },
+        "outcome": {
+          "status": "ERROR",
+          "statusMessage": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+          "verificationPassed": false,
+          "agentClaimedGoal": false,
+          "errorDetails": "Evaluation halted due to model/brain failure: Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms"
+        },
+        "persistedAt": "2026-10-16T10:11:32.617Z",
+        "artifactHash": "60662bbbb39549740f3313f9cc77b8a46d4b11bc8cc00f2b44ab7ad2654af9fd"
+      },
+      "artifactHash": "60662bbbb39549740f3313f9cc77b8a46d4b11bc8cc00f2b44ab7ad2654af9fd",
+      "completedAt": "2026-10-16T10:11:32.633Z"
+    }
+  ]
+}

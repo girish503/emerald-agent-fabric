@@ -265,6 +265,8 @@ describe("Phase 48V: Verification-Informed Recovery Feedback", () => {
   // ==========================================================================
   describe("End-to-End Intermediate Verification Loop Feedback", () => {
     class ScriptedExecutionProvider implements ExecutionProvider {
+  readonly tenantModel = "NONE" as const;
+  readonly quiescence = { async quiesceRun(_runId: string) { return { status: "QUIESCENT" as const, stopped: 0 }; } };
       public readonly name = "scripted-provider";
       public execCount = 0;
 

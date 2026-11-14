@@ -16,8 +16,80 @@ import {
 } from "../domain/index.js";
 import { createExecutionPolicy, type WorkloadTrustClassification } from "../domain/policy.js";
 import { operationNameToCapabilityName } from "../domain/capability.js";
+import { createVerificationSpec, type VerificationSpec } from "../domain/verification.js";
+import {
+  tokenizeCommandLine,
+  validateVerificationOperation,
+} from "./verification-operation-registry.js";
+import type { VerificationSpecInput } from "../transport/http/api-contracts.js";
 import type { StateStorePort } from "../ports/state-store.port.js";
 import type { RunCoordinator } from "./run-coordinator.js";
+
+/**
+ * Transforms a REST or API verification specification into a validated domain VerificationSpec.
+ */
+export function transformVerificationSpecInput(
+  input: VerificationSpecInput | VerificationSpec,
+  index: number
+): VerificationSpec {
+  // If it's already a domain VerificationSpec, enforce domain invariants
+  if (
+    "ruleKind" in input &&
+    "specId" in input &&
+    !("command" in input) &&
+    !("argv" in input) &&
+    !("expectedOutput" in input) &&
+    !("name" in input) &&
+    !("expectedExitCode" in input) &&
+    !("requireMutation" in input) &&
+    !("requireDiff" in input)
+  ) {
+    return createVerificationSpec(input as VerificationSpec);
+  }
+
+  const specInput = input as VerificationSpecInput;
+  const specId =
+    specInput.specId ??
+    (specInput.name
+      ? `vspec-${specInput.name.toLowerCase().replace(/[^a-z0-9_-]/g, "_")}-${index + 1}`
+      : `vspec-${index + 1}`);
+  const ruleKind = specInput.ruleKind ?? "EXIT_CODE_ZERO";
+
+  let expectedValue: Record<string, unknown> | undefined;
+  if (ruleKind === "EXIT_CODE_ZERO") {
+    let argv: readonly string[] = [];
+    if (specInput.argv && specInput.argv.length > 0) {
+      argv = [...specInput.argv];
+    } else if (specInput.command) {
+      argv = tokenizeCommandLine(specInput.command);
+    }
+
+    const valResult = validateVerificationOperation(argv);
+    if (!valResult.valid) {
+      throw new Error(
+        `transformVerificationSpecInput: spec '${specId}' rejected: ${valResult.reason ?? "invalid verification operation"}`
+      );
+    }
+
+    expectedValue = {
+      toolName: "run_command",
+      argv,
+      timeoutMs: specInput.timeoutMs ?? 30_000,
+      expectedExitCode: specInput.expectedExitCode ?? 0,
+      requireMutation: specInput.requireMutation ?? false,
+      requireDiff: specInput.requireDiff ?? false,
+    };
+  } else if (ruleKind === "EXACT_OUTPUT_MATCH") {
+    expectedValue = (specInput.expectedOutput as Record<string, unknown>) ?? {};
+  }
+
+  return createVerificationSpec({
+    specId,
+    ruleKind,
+    expectedValue,
+    expectedHash: specInput.expectedHash,
+  });
+}
 
 export interface SubmitDurableTaskParams {
   /** Name of the deterministic operation the execution provider routes to (the task title is the operation name). */
@@ -42,6 +114,11 @@ export interface SubmitDurableTaskParams {
    */
   readonly deferQueue?: boolean;
   /**
+   * When true the task and active contract are created without creating a run yet so TaskRouterService
+   * can create and route the run atomically under idempotencyKey = submissionKey.
+   */
+  readonly deferRunCreation?: boolean;
+  /**
    * Tenant identifier for multi-tenant isolation and policy binding.
    */
   readonly tenantId?: string;
@@ -54,6 +131,10 @@ export interface SubmitDurableTaskParams {
    * Authoritative server-side authorization check. Must be true for constrained_host execution.
    */
   readonly authorizedForConstrainedHost?: boolean;
+  /**
+   * Verified specifications defining acceptance criteria for task completion.
+   */
+  readonly verificationSpecs?: readonly (VerificationSpecInput | VerificationSpec)[];
 }
 
 export interface SubmittedTask {
@@ -62,6 +143,11 @@ export interface SubmittedTask {
   readonly status: string;
   /** True when an existing run was returned for the idempotency key. */
   readonly deduplicated: boolean;
+}
+
+export function scopeIdempotencyKeyForTenant(idempotencyKey: string, tenantId?: string): string {
+  if (!tenantId) return idempotencyKey;
+  return `tenant:${encodeURIComponent(tenantId)}:${idempotencyKey}`;
 }
 
 export function submitDurableTask(
@@ -79,8 +165,12 @@ export function submitDurableTask(
     throw new Error("submitDurableTask: task must be a non-empty string");
   }
 
-  if (params.idempotencyKey) {
-    const existing = coordinator.getRunByIdempotencyKey(params.idempotencyKey);
+  const effectiveIdempotencyKey = params.idempotencyKey
+    ? scopeIdempotencyKeyForTenant(params.idempotencyKey, params.tenantId)
+    : undefined;
+
+  if (effectiveIdempotencyKey) {
+    const existing = coordinator.getRunByIdempotencyKey(effectiveIdempotencyKey);
     if (existing) {
       return { taskId: existing.taskId, runId: existing.runId, status: existing.status, deduplicated: true };
     }
@@ -180,13 +270,20 @@ export function submitDurableTask(
     policy = createDefaultInProcessPolicy(`policy-${task.taskId}`);
   }
 
+  const verificationSpecs: VerificationSpec[] = [];
+  if (params.verificationSpecs && params.verificationSpecs.length > 0) {
+    for (let i = 0; i < params.verificationSpecs.length; i++) {
+      verificationSpecs.push(transformVerificationSpecInput(params.verificationSpecs[i]!, i));
+    }
+  }
+
   const timeoutMs = params.timeoutMs ?? (params.task ? 60_000 : 30_000);
   const contract = createMissionContract({
     contractId,
     version,
     taskId: task.taskId,
     policy,
-    verificationSpecs: [],
+    verificationSpecs,
     resourceLimits: createResourceLimits({
       timeoutMs,
       maxAttempts,
@@ -198,11 +295,15 @@ export function submitDurableTask(
   store.insertContract(contract);
   store.activateContract(contractId, version);
 
+  if (params.deferRunCreation === true) {
+    return { taskId: task.taskId, runId: "", status: "CREATED", deduplicated: false };
+  }
+
   const { run } = coordinator.createRun({
     taskId: task.taskId,
     maxAttempts,
     timeoutMs,
-    idempotencyKey: params.idempotencyKey ?? null,
+    idempotencyKey: effectiveIdempotencyKey ?? null,
   });
   if (params.deferQueue === true) {
     return { taskId: task.taskId, runId: run.runId, status: run.status, deduplicated: false };

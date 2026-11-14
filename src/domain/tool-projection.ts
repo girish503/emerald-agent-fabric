@@ -18,7 +18,7 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { canonicalJsonStringify } from "./canonical-hash.js";
-import { ExtendedToolName, ToolDefinition, ToolName } from "./tool.js";
+import { ExtendedToolName, ToolDefinition } from "./tool.js";
 
 // ============================================================================
 // 1. Semantic Metadata Contract & Declarations

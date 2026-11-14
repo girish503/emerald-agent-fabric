@@ -8,6 +8,8 @@ import {
   RunRecoveredEvent,
   RunStartedEvent,
   RunTimedOutEvent,
+  RunWaitingApprovalEvent,
+  VerificationStartedEvent,
   WorkerClaimedEvent,
 } from "./events.js";
 import {
@@ -281,6 +283,51 @@ export class Run {
     return this.executeCommand<RunFailedEvent>({
       type: "FAIL_EXHAUSTED",
       error,
+      now: now ?? new Date().toISOString(),
+    });
+  }
+
+  startVerification(workerId: string, leaseId: string, now?: string): VerificationStartedEvent {
+    return this.executeCommand<VerificationStartedEvent>({
+      type: "START_VERIFICATION",
+      workerId,
+      leaseId,
+      now: now ?? new Date().toISOString(),
+    });
+  }
+
+  requestApproval(
+    approvalId: string,
+    operation: string,
+    workerId?: string,
+    leaseId?: string,
+    now?: string
+  ): RunWaitingApprovalEvent {
+    return this.executeCommand<RunWaitingApprovalEvent>({
+      type: "REQUEST_APPROVAL",
+      approvalId,
+      operation,
+      workerId,
+      leaseId,
+      now: now ?? new Date().toISOString(),
+    });
+  }
+
+  approveResume(approvalId: string, approver: string, now?: string): RunQueuedEvent {
+    return this.executeCommand<RunQueuedEvent>({
+      type: "APPROVE_RESUME",
+      approvalId,
+      approver,
+      now: now ?? new Date().toISOString(),
+    });
+  }
+
+  rejectApproval(approvalId: string, approver: string, reason: string, now?: string): RunFailedEvent {
+    return this.executeCommand<RunFailedEvent>({
+      type: "REJECT_APPROVAL",
+      approvalId,
+      approver,
+      reason,
       now: now ?? new Date().toISOString(),
     });
   }

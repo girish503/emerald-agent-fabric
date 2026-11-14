@@ -1,0 +1,51 @@
+{
+  "uid": "emerald-05-models",
+  "title": "05 - Model Routing, Inference & Langfuse Correlation",
+  "tags": ["emerald", "phase3", "models", "langfuse"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "15s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Model Routing Decisions by Role & Outcome",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "sum by (role, outcome) (rate(emerald_model_routing_decisions_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{role}}: {{outcome}}" }]
+    },
+    {
+      "id": 2,
+      "title": "Model Request Latency p90 vs Step Budget (Seconds)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [{ "refId": "A", "expr": "histogram_quantile(0.90, sum(rate(emerald_model_request_duration_seconds_bucket{execution_mode=~\"$execution_mode\"}[10m])) by (le, model))", "legendFormat": "{{model}} p90" }]
+    },
+    {
+      "id": 3,
+      "title": "Observed Model Tokens (Unfabricated Usage Only)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [{ "refId": "A", "expr": "sum by (model, token_type) (rate(emerald_model_tokens_total{execution_mode=~\"$execution_mode\"}[5m]))", "legendFormat": "{{model}} {{token_type}}" }]
+    },
+    {
+      "id": 4,
+      "title": "Self-Hosted Langfuse Exported vs Dropped Events",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        { "refId": "A", "expr": "emerald_langfuse_exported_events_total", "legendFormat": "Exported" },
+        { "refId": "B", "expr": "emerald_langfuse_dropped_events_total", "legendFormat": "Dropped" }
+      ]
+    }
+  ]
+}
