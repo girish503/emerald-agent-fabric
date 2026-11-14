@@ -103,6 +103,7 @@ describe("Task 3.3 — Workspace Runtime Integration & Docker Mount Confinement"
       });
       createAndActivateContract(store, task.taskId, {
         policy: createDefaultInProcessPolicy("test-policy"),
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-done", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { done: true } })],
       });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
@@ -191,6 +192,7 @@ describe("Task 3.3 — Workspace Runtime Integration & Docker Mount Confinement"
       });
       createAndActivateContract(store, task.taskId, {
         policy: createDefaultDockerPolicy("docker-ws-policy"),
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-docker-msg", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { message: "emerald in container" } })],
       });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
@@ -443,7 +445,9 @@ describe("Task 3.3 — Workspace Runtime Integration & Docker Mount Confinement"
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: {} });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-ok", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { ok: true } })],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -626,7 +630,15 @@ describe("Task 3.3 — Workspace Runtime Integration & Docker Mount Confinement"
       });
 
       const task = coordinator.createTask({ title: "echo", inputPayload: {} });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "vspec-cleanup-ok",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);
@@ -710,7 +722,15 @@ describe("Task 3.3 — Workspace Runtime Integration & Docker Mount Confinement"
       const coordinator = new RunCoordinator(store, clock, undefined, workspaceAdapter);
 
       const task = coordinator.createTask({ title: "echo", inputPayload: {} });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [
+          createVerificationSpec({
+            specId: "vspec-ok",
+            ruleKind: "EXACT_OUTPUT_MATCH",
+            expectedValue: { ok: true },
+          }),
+        ],
+      });
 
       const { run } = coordinator.createRun({ taskId: task.taskId });
       coordinator.queueRun(run.runId);

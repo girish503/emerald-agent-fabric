@@ -7,6 +7,7 @@ import { RunCoordinator } from "../../src/application/run-coordinator.js";
 import { submitDurableTask } from "../../src/application/durable-submission.js";
 import { WorkerHostConfigError, WorkerLogRecord, runWorkerHost } from "../../src/application/worker-host.js";
 import { SystemClock } from "../../src/ports/clock.port.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 /**
  * Worker-host lifecycle contracts, in-process against a temporary FILE database. The host (`runWorkerHost`) is the same
@@ -30,7 +31,12 @@ describe("worker host lifecycle", { timeout: 60_000 }, () => {
     fs.rmSync(dir, { recursive: true, force: true });
   });
 
-  const submit = (operation: string, input: unknown) => submitDurableTask(observer, coordinator, { operation, input, maxAttempts: 3 });
+  const submit = (operation: string, input: unknown) => submitDurableTask(observer, coordinator, {
+    operation,
+    input,
+    maxAttempts: 3,
+    verificationSpecs: [createVerificationSpec({ specId: `vspec-${operation}`, ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: (input as { value?: unknown })?.value ?? input })],
+  });
 
   async function until(what: string, pred: () => boolean, ms = 20_000): Promise<void> {
     const deadline = Date.now() + ms;

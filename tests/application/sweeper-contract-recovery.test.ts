@@ -9,6 +9,7 @@ import {
   ExecutionResult,
 } from "../../src/ports/execution-provider.port.js";
 import { createAndActivateContract } from "./test-helpers.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 /**
  * Invocation-counting test provider.
@@ -80,7 +81,9 @@ describe("RunCoordinator — MissionContract-Aware Sweeper & Recovery (Task 1.8C
       registerWorker(coordinator, "worker-1", clock);
 
       const task = coordinator.createTask({ title: "echo", inputPayload: { val: 1 } });
-      createAndActivateContract(store, task.taskId);
+      createAndActivateContract(store, task.taskId, {
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-sum", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { sum: 42 } })],
+      });
 
       const { run } = coordinator.createRun({
         taskId: task.taskId,

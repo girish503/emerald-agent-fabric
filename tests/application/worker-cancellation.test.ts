@@ -23,6 +23,7 @@ import {
   TenantLaunchGate,
 } from "../../src/ports/tenant-launch-coordinator.port.js";
 import { createAndActivateContract } from "./test-helpers.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 function manualScheduler() {
   let pending: (() => void) | null = null;
@@ -69,7 +70,9 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
     });
 
     const task = coordinator.createTask({ title: "echo", inputPayload: null });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-fast", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: "fast-ok" })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
 
@@ -167,7 +170,9 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
     });
 
     const task = coordinator.createTask({ title: "echo", inputPayload: null });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-legacy", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { receivedOperation: "echo" } })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
 
@@ -234,7 +239,9 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
     });
 
     const task = coordinator.createTask({ title: "echo", inputPayload: null });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-fast", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: "fast-ok" })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
 
@@ -287,7 +294,9 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
     });
 
     const task = coordinator.createTask({ title: "echo", inputPayload: null });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-fast", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: "fast-ok" })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
 
@@ -460,7 +469,9 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
     });
 
     const task = coordinator.createTask({ title: "echo", inputPayload: null });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-fast", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: "fast-ok" })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
 
@@ -540,6 +551,7 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
     const task = coordinator.createTask({ title: "echo", inputPayload: null });
     createAndActivateContract(store, task.taskId, {
       policy: createDefaultDockerPolicy("test-docker-policy-9"),
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-ok", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { ok: true } })],
     });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
@@ -589,7 +601,9 @@ describe("Milestone 2.3: In-Process Execution Cancellation and Lifecycle Safety"
     });
 
     const task = coordinator.createTask({ title: "echo", inputPayload: null });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-legacy", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { receivedOperation: "echo" } })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
 

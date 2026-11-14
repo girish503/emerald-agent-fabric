@@ -27,6 +27,7 @@ import {
   ExecutionResult,
 } from "../../src/ports/execution-provider.port.js";
 import { createAndActivateContract } from "./test-helpers.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 
 describe("Track E — Authoritative Workload Trust Routing & Runtime Enforcement", () => {
   describe("Policy Derivation & Invariant Enforcement", () => {
@@ -194,7 +195,10 @@ describe("Track E — Authoritative Workload Trust Routing & Runtime Enforcement
         tenantId: "tenant-gateway-123",
       });
 
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-orch", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { terminalReason: "COMPLETED" } })],
+      });
       const { run } = coordinator.createRun({
         taskId: task.taskId,
       });
@@ -264,7 +268,10 @@ describe("Track E — Authoritative Workload Trust Routing & Runtime Enforcement
         trustClassification: "TRUSTED_INTERNAL", // Base policy valid
       });
 
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-untrusted", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { terminalReason: "COMPLETED" } })],
+      });
       const { run } = coordinator.createRun({
         taskId: task.taskId,
       });
@@ -380,7 +387,10 @@ describe("Track E — Authoritative Workload Trust Routing & Runtime Enforcement
         trustClassification: "UNTRUSTED_WORKLOAD",
       });
 
-      createAndActivateContract(store, task.taskId, { policy });
+      createAndActivateContract(store, task.taskId, {
+        policy,
+        verificationSpecs: [createVerificationSpec({ specId: "vspec-untrusted", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { terminalReason: "COMPLETED" } })],
+      });
       const { run } = coordinator.createRun({
         taskId: task.taskId,
       });
@@ -458,6 +468,7 @@ describe("Track E — Authoritative Workload Trust Routing & Runtime Enforcement
         clock,
         executionProvider: orchestratorProvider,
         workerId: "worker-orchestrator",
+        allowUnverifiedCompletion: true,
       });
 
       const result = await runtime.runOnce();

@@ -207,7 +207,7 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
     expect(tick1.admittedRunIds).toEqual([parent.runId]);
 
     // Worker executes parent
-    const worker1 = await cli.run(["worker", "--db", dbPath, "--once"]);
+    const worker1 = await cli.run(["worker", "--db", dbPath, "--once", "--allow-unverified-completion"]);
     expect(worker1.exitCode).toBe(0);
 
     // Parent is COMPLETED
@@ -219,9 +219,9 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
     expect(tick2.admittedRunIds.sort()).toEqual([child1.runId, child2.runId].sort());
 
     // Worker executes child 1 and child 2
-    const worker2 = await cli.run(["worker", "--db", dbPath, "--once"]);
+    const worker2 = await cli.run(["worker", "--db", dbPath, "--once", "--allow-unverified-completion"]);
     expect(worker2.exitCode).toBe(0);
-    const worker3 = await cli.run(["worker", "--db", dbPath, "--once"]);
+    const worker3 = await cli.run(["worker", "--db", dbPath, "--once", "--allow-unverified-completion"]);
     expect(worker3.exitCode).toBe(0);
 
     // Final Tree status: COMPLETED with 3 completed tasks
@@ -320,14 +320,14 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
 
     // Admit & execute parent
     await json(["router", "tick", "--db", dbPath, "--max-concurrent", "1"]);
-    await cli.run(["worker", "--db", dbPath, "--once"]);
+    await cli.run(["worker", "--db", dbPath, "--once", "--allow-unverified-completion"]);
 
     // Admit child
     const tickChild = await json(["router", "tick", "--db", dbPath, "--max-concurrent", "1"]);
     expect(tickChild.admittedRunIds).toEqual([child.runId]);
 
     // Execute child -> records failure
-    await cli.run(["worker", "--db", dbPath, "--once"]);
+    await cli.run(["worker", "--db", dbPath, "--once", "--allow-unverified-completion"]);
 
     // Tree status query
     const tree = await json(["router", "status", "--db", dbPath, "--root", parent.taskId]);
@@ -572,12 +572,14 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
       task: "Inspect config and update repository",
       repositoryPath: repoFixtureDir,
       capabilities: ["workspace.file.read", "workspace.file.write", "git.read"],
+      executionMode: "constrained_host",
+      authorizedForConstrainedHost: true,
     });
     store.close();
 
     // Custom execution provider that simulates a file modification in the run workspace
     const customExecProvider = {
-      name: "file-modifying-provider",
+      name: "in-process",
       tenantModel: "NONE" as const,
       cancellationModel: "COOPERATIVE" as const,
       async execute(request: any) {
@@ -612,6 +614,7 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
       }),
       repositoryImporter: new (await import("../../src/adapters/workspace/node-fs-repository-importer.js")).NodeFsRepositoryImporter(),
       executionProvider: customExecProvider as any,
+      allowUnverifiedCompletion: true,
     });
 
     const runResult = await workerRuntime.runOnce();
@@ -659,7 +662,7 @@ describe("Milestone 2.20 — End-to-End Durable Agent Workflow", () => {
     // 1. Submit and execute a complete run
     const sub = await json(["router", "submit", "--db", dbPath, "--key", "k-restart-test", "--operation", "sum", "--input", "[10,20]"]);
     await json(["router", "tick", "--db", dbPath, "--max-concurrent", "1"]);
-    await cli.run(["worker", "--db", dbPath, "--once"]);
+    await cli.run(["worker", "--db", dbPath, "--once", "--allow-unverified-completion"]);
 
     // 2. Simulate complete restart by creating fresh CLI and store instances
     const freshCli = new EmeraldCli();

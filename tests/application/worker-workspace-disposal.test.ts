@@ -9,6 +9,7 @@ import { issueOwnership } from "../../src/adapters/workspace/owner-marker.js";
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
 import { LeaseLostError } from "../../src/domain/errors.js";
 import { createDefaultInProcessPolicy, createDefaultDockerPolicy } from "../../src/domain/policy.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionProvider } from "../../src/ports/execution-provider.port.js";
 import { TenantQuiescencePort } from "../../src/ports/tenant-quiescence.port.js";
@@ -99,7 +100,10 @@ describe("Workspace disposal fails closed and never deletes a workspace this wor
     const store = new SqliteStateStore();
     const coordinator = new RunCoordinator(store, clock);
     const task = coordinator.createTask({ title: "echo", inputPayload: { foo: "bar" } });
-    createAndActivateContract(store, task.taskId, { policy: createDefaultInProcessPolicy("test-policy") });
+    createAndActivateContract(store, task.taskId, {
+      policy: createDefaultInProcessPolicy("test-policy"),
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-ok", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { ok: true } })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
     let armed = false;
@@ -182,7 +186,10 @@ describe("Workspace disposal fails closed and never deletes a workspace this wor
     const store = new SqliteStateStore();
     const coordinator = new RunCoordinator(store, clock);
     const task = coordinator.createTask({ title: "echo", inputPayload: { foo: "bar" } });
-    createAndActivateContract(store, task.taskId, { policy: createDefaultInProcessPolicy("test-policy") });
+    createAndActivateContract(store, task.taskId, {
+      policy: createDefaultInProcessPolicy("test-policy"),
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-ok", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { ok: true } })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId });
     coordinator.queueRun(run.runId);
     const provider: ExecutionProvider = {
@@ -341,7 +348,10 @@ describe("ADR-0037 Step 4 — worker disposal is gated on tenant quiescence for 
     const coordinator = new RunCoordinator(store, clock);
     // "echo" maps to "execution.echo" which createDefaultDockerPolicy allows.
     const task = coordinator.createTask({ title: "echo", inputPayload: {} });
-    createAndActivateContract(store, task.taskId, { policy: createDefaultDockerPolicy("iso-success-policy") });
+    createAndActivateContract(store, task.taskId, {
+      policy: createDefaultDockerPolicy("iso-success-policy"),
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-ok", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: { ok: true } })],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3 });
     coordinator.queueRun(run.runId);
 

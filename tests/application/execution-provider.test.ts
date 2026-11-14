@@ -11,6 +11,7 @@ import {
   SumOperation,
 } from "../../src/domain/operation.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 import {
   ExecutionProvider,
   ExecutionRequest,
@@ -131,7 +132,9 @@ describe("Execution Provider Boundary", () => {
       title: "echo",
       inputPayload: { payload: 999 },
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-mock", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: "decoupled-output-payload" })],
+    });
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,
@@ -278,7 +281,9 @@ describe("Execution Provider Boundary", () => {
       title: "echo",
       inputPayload: { attemptData: true },
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-retry", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: "result-ok" })],
+    });
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,
@@ -358,7 +363,9 @@ describe("Execution Provider Boundary", () => {
       title: "sum",
       inputPayload: [5, 15, 25],
     });
-    createAndActivateContract(store, task.taskId);
+    createAndActivateContract(store, task.taskId, {
+      verificationSpecs: [createVerificationSpec({ specId: "vspec-sum", ruleKind: "EXACT_OUTPUT_MATCH", expectedValue: 45 })],
+    });
 
     const { run } = coordinator.createRun({
       taskId: task.taskId,

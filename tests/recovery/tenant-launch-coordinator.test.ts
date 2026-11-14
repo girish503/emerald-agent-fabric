@@ -25,6 +25,7 @@ import { NodeFsWorkspaceAdapter } from "../../src/adapters/workspace/node-fs-wor
 import { RunCoordinator, WorkerRuntime } from "../../src/application/index.js";
 import { TenantLaunchGateTimeoutError, TenantLaunchGateConflictError } from "../../src/domain/errors.js";
 import { createDefaultInProcessPolicy, createDefaultDockerPolicy } from "../../src/domain/policy.js";
+import { createVerificationSpec } from "../../src/domain/verification.js";
 import { SettableClock } from "../../src/ports/clock.port.js";
 import { ExecutionProvider, ExecutionRequest, ExecutionResult } from "../../src/ports/execution-provider.port.js";
 import { TenantQuiescencePort } from "../../src/ports/tenant-quiescence.port.js";
@@ -78,7 +79,16 @@ describe("ADR-0038: Tenant Launch Coordination Gate", () => {
       ? createDefaultDockerPolicy("test-docker-policy")
       : createDefaultInProcessPolicy("test-inprocess-policy");
 
-    createAndActivateContract(store, task.taskId, { policy });
+    createAndActivateContract(store, task.taskId, {
+      policy,
+      verificationSpecs: [
+        createVerificationSpec({
+          specId: "vspec-ok",
+          ruleKind: "EXACT_OUTPUT_MATCH",
+          expectedValue: { ok: true },
+        }),
+      ],
+    });
     const { run } = coordinator.createRun({ taskId: task.taskId, maxAttempts: 3 });
     coordinator.queueRun(run.runId);
 

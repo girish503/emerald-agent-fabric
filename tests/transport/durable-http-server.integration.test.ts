@@ -276,6 +276,7 @@ describe("Milestone 2.26 — Durable REST/SSE Transport & Runtime Event Integrat
         prompt: "Worker execution test",
         executionMode: "constrained_host",
         modelConfig: { modelName: "qwen2.5-coder:3b" },
+        verificationSpecs: [{ specId: "vspec-echo", ruleKind: "EXACT_OUTPUT_MATCH", expectedOutput: { instruction: "Worker execution test" } }],
       },
     });
     const { runId } = JSON.parse(createRes.body).data;
@@ -317,6 +318,7 @@ describe("Milestone 2.26 — Durable REST/SSE Transport & Runtime Event Integrat
         prompt: "SSE streaming test",
         executionMode: "constrained_host",
         modelConfig: { modelName: "qwen2.5-coder:3b" },
+        verificationSpecs: [{ specId: "vspec-echo", ruleKind: "EXACT_OUTPUT_MATCH", expectedOutput: { instruction: "SSE streaming test" } }],
       },
     });
     const { runId } = JSON.parse(createRes.body).data;
@@ -383,6 +385,7 @@ describe("Milestone 2.26 — Durable REST/SSE Transport & Runtime Event Integrat
         prompt: "Replay test",
         executionMode: "constrained_host",
         modelConfig: { modelName: "qwen2.5-coder:3b" },
+        verificationSpecs: [{ specId: "vspec-echo", ruleKind: "EXACT_OUTPUT_MATCH", expectedOutput: { instruction: "Replay test" } }],
       },
     });
     const { runId } = JSON.parse(createRes.body).data;
@@ -440,6 +443,7 @@ describe("Milestone 2.26 — Durable REST/SSE Transport & Runtime Event Integrat
         prompt: "Resume test",
         executionMode: "constrained_host",
         modelConfig: { modelName: "qwen2.5-coder:3b" },
+        verificationSpecs: [{ specId: "vspec-echo", ruleKind: "EXACT_OUTPUT_MATCH", expectedOutput: { instruction: "Resume test" } }],
       },
     });
     const { runId } = JSON.parse(createRes.body).data;

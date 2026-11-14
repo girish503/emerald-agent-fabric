@@ -124,7 +124,14 @@ describe("production `emerald worker` end to end (CLI processes only)", { timeou
   }
 
   const submit = async (operation: string, input: unknown, extra: string[] = []) => {
-    const r = await cli("submit", "--db", dbPath, "--operation", operation, "--input", JSON.stringify(input), "--max-attempts", "3", ...extra);
+    let expectedValue: unknown = input;
+    if (operation === "slow" && input && typeof input === "object" && "value" in input) {
+      expectedValue = (input as { value: unknown }).value;
+    } else if (operation === "sum" && Array.isArray(input)) {
+      expectedValue = (input as number[]).reduce((a, b) => a + b, 0);
+    }
+    const spec = [{ specId: `vspec-${operation}`, ruleKind: "EXACT_OUTPUT_MATCH", expectedValue }];
+    const r = await cli("submit", "--db", dbPath, "--operation", operation, "--input", JSON.stringify(input), "--max-attempts", "3", "--verification-spec", JSON.stringify(spec), ...extra);
     expect(r.code, r.out).toBe(0);
     return JSON.parse(r.out) as { runId: string; taskId: string };
   };
