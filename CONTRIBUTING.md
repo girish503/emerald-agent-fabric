@@ -40,8 +40,8 @@ Emerald adheres to a clean Hexagonal (Ports & Adapters) architecture:
 ### Setup
 ```bash
 # Clone repository
-git clone https://github.com/emerald-agent-fabric/emerald.git
-cd emerald
+git clone https://github.com/girish503/emerald-agent-fabric.git
+cd emerald-agent-fabric
 
 # Install dependencies
 npm install

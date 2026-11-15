@@ -24,6 +24,38 @@ Emerald Agent Fabric is an experimental research-grade infrastructure system for
 
 ---
 
+## Operator Governance Dashboard
+
+The Emerald Web Dashboard (`apps/web`) provides real-time observability, task submission, SSE stream inspection, and cryptographic verification evidence:
+
+![Emerald Operator Governance Dashboard](docs/images/dashboard.png)
+
+---
+
+## 2-Minute Quickstart
+
+Get Emerald running locally with the operator dashboard in 2 minutes:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/girish503/emerald-agent-fabric.git
+cd emerald-agent-fabric
+
+# 2. Install dependencies
+npm install
+
+# 3. Compile TypeScript build
+npm run build
+
+# 4. Start the server with the Web UI dashboard
+node bin/emerald.js server --db ./emerald.sqlite --port 3000 --web-ui-root apps/web
+
+# 5. Open the dashboard in your browser
+# Navigate to: http://127.0.0.1:3000/
+```
+
+---
+
 ## Empirical Benchmark Status
 
 > [!IMPORTANT]
@@ -43,6 +75,8 @@ Emerald Agent Fabric is an experimental research-grade infrastructure system for
 >    - **50.0% pass rate overall (5/10)**, with real multi-turn tool interaction (`read_file`, `edit_file`, `run_command`), producing 256 B – 664 B patches passing sovereign physical verification.
 >    - Total benchmark spend was **$0.0408 USD** ($0.04 / $2.00 spend cap).
 >    *Analysis*: The loop-vs-model question is resolved: the runtime governance and verification loop is sound; model capability was the ceiling.
+>
+> Detailed methodology, full empirical logs, and durable traces are documented in [BENCHMARK.md](./BENCHMARK.md) and [PILOT-REPORT.md](./docs/reports/PILOT-REPORT.md).
 >
 > Emerald is **NOT**:
 > - A commercial coding assistant (Devin, Cursor, Copilot, OpenHands)
@@ -102,8 +136,8 @@ Emerald is built using Hexagonal (Ports & Adapters) architecture:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/emerald-agent-fabric/emerald.git
-cd emerald
+git clone https://github.com/girish503/emerald-agent-fabric.git
+cd emerald-agent-fabric
 
 # 2. Install dependencies
 npm install
@@ -180,6 +214,18 @@ node bin/emerald.js worker --db ./emerald.sqlite --once --model-provider ollama 
 
 > [!NOTE]
 > If a requested model has not been pulled locally, Emerald fails closed immediately with an HTTP 404 error. The runtime will **never** automatically download models or fall back to commercial cloud APIs.
+
+---
+
+## Research & Engineering Reports
+
+All milestone architecture reports, empirical evaluations, and security audits are archived in [docs/reports/](./docs/reports/):
+
+- [PILOT-REPORT.md](./docs/reports/PILOT-REPORT.md): Governed external model pilot on HumanEval (`openai/gpt-oss-120b`, 5/5 verified patches on solvable tasks, $0.0408 total spend).
+- [PHASE-7B-REPORT.md](./docs/reports/PHASE-7B-REPORT.md): Bounded repair loop controller and fail-closed verification gate audit.
+- [PHASE-7-REPORT.md](./docs/reports/PHASE-7-REPORT.md): Local open-weight baseline evaluation (`qwen2.5-coder:1.5b`) across SWE-bench Lite and HumanEval.
+- [UI-WIRE-REPORT.md](./docs/reports/UI-WIRE-REPORT.md): Fastify HTTP, SSE streaming, and operator dashboard integration.
+- [VERIFY-BYPASS-FIX.md](./docs/reports/VERIFY-BYPASS-FIX.md): Fail-closed dual-gate sovereign verification enforcement.
 
 ---
 

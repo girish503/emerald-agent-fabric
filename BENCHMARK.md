@@ -145,7 +145,7 @@ To test whether the runtime loop succeeds when paired with a capable reasoning m
 
 - **Summary**: 5 Passed / 5 Failed / 0 Timed Out; Pass Rate: **50.0% overall, 100.0% (5/5) on solvable tasks before provider quota exhaustion**.
 - **Total Spend**: **$0.0408 USD** ($0.0408 / $2.00 cap).
-- **Evidence**: `PILOT-REPORT.md`, `scratch/humaneval-pilot/transcript-*.json`, `benchmarks/humaneval/benchmark-results.json`.
+- **Evidence**: [PILOT-REPORT.md](./docs/reports/PILOT-REPORT.md), `scratch/humaneval-pilot/transcript-*.json`, `benchmarks/humaneval/benchmark-results.json`.
 
 ---
 
