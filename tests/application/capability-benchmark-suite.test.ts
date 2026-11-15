@@ -1,5 +1,6 @@
 import * as crypto from "node:crypto";
 import * as fs from "node:fs";
+import * as os from "node:os";
 import * as path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -440,7 +441,7 @@ describe("Application: Capability Benchmark Suite", () => {
 
   it("10. Historical G3 evaluation raw evidence file remains unchanged and byte-exact", () => {
     const evidencePath = path.resolve(
-      process.env.APP_DATA_DIR ?? "C:\\Users\\Adusumalli Girish\\.gemini\\antigravity",
+      process.env.APP_DATA_DIR ?? path.join(os.homedir(), ".gemini", "antigravity"),
       "brain/22cc3ec1-2247-4c9d-855b-ba8bc4b1274d/g3-live-evaluation-raw-evidence.json"
     );
     if (fs.existsSync(evidencePath)) {

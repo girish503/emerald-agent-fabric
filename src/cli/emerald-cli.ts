@@ -1346,7 +1346,14 @@ export class EmeraldCli {
       });
     } catch (err: unknown) {
       store.close();
-      return { exitCode: 1, output: `Error: ${err instanceof Error ? err.message : String(err)}` };
+      const message = err instanceof Error ? err.message : String(err);
+      if (message.includes("no principals configured")) {
+        return {
+          exitCode: 1,
+          output: `Error: Authentication configuration invalid: no principals configured.\nSupply --principals or set the EMERALD_API_PRINCIPALS environment variable.\n\nQuickstart for local development:\n  export EMERALD_API_PRINCIPALS='[{"token":"emerald-dev-operator-token-alpha1","principalId":"dev-operator","tenantId":"tenant-default","role":"operator"}]'`
+        };
+      }
+      return { exitCode: 1, output: `Error: ${message}` };
     }
 
     const controller = new AbortController();

@@ -5,25 +5,25 @@
 ## 1. Changed
 
 - **Historical Evaluation Fixtures Relocated to Repository**:
-  - Migrated 9 historical evaluation summary and evidence artifacts into [tests/fixtures/](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures) with byte-exact SHA-256 integrity preserved:
-    - [tests/fixtures/phase9-4b-summary.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase9-4b-summary.json)
-    - [tests/fixtures/phase10a-summary.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase10a-summary.json)
-    - [tests/fixtures/phase10b-structured-output-diagnostic.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase10b-structured-output-diagnostic.json)
-    - [tests/fixtures/phase10c-schema-union-diagnostic.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase10c-schema-union-diagnostic.json)
-    - [tests/fixtures/phase10e-summary.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase10e-summary.json)
-    - [tests/fixtures/phase10f-tool-input-diagnostic.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase10f-tool-input-diagnostic.json)
-    - [tests/fixtures/phase10h-tool-contract-diagnostic.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase10h-tool-contract-diagnostic.json)
-    - [tests/fixtures/phase11-smoke-evidence.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase11-smoke-evidence.json)
-    - [tests/fixtures/phase12-smoke-evidence.json](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/phase12-smoke-evidence.json)
+  - Migrated 9 historical evaluation summary and evidence artifacts into [tests/fixtures/](../../tests/fixtures) with byte-exact SHA-256 integrity preserved:
+    - [tests/fixtures/phase9-4b-summary.json](../../tests/fixtures/phase9-4b-summary.json)
+    - [tests/fixtures/phase10a-summary.json](../../tests/fixtures/phase10a-summary.json)
+    - [tests/fixtures/phase10b-structured-output-diagnostic.json](../../tests/fixtures/phase10b-structured-output-diagnostic.json)
+    - [tests/fixtures/phase10c-schema-union-diagnostic.json](../../tests/fixtures/phase10c-schema-union-diagnostic.json)
+    - [tests/fixtures/phase10e-summary.json](../../tests/fixtures/phase10e-summary.json)
+    - [tests/fixtures/phase10f-tool-input-diagnostic.json](../../tests/fixtures/phase10f-tool-input-diagnostic.json)
+    - [tests/fixtures/phase10h-tool-contract-diagnostic.json](../../tests/fixtures/phase10h-tool-contract-diagnostic.json)
+    - [tests/fixtures/phase11-smoke-evidence.json](../../tests/fixtures/phase11-smoke-evidence.json)
+    - [tests/fixtures/phase12-smoke-evidence.json](../../tests/fixtures/phase12-smoke-evidence.json)
 
 - **Test Suite Repo-Relative Path Refactoring**:
-  - Replaced hardcoded machine paths (`C:/Users/Adusumalli Girish/...`) with portable repo-relative resolution:
-    - [tests/domain/counterfactual-replay.test.ts](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/domain/counterfactual-replay.test.ts)
-    - [tests/integration/phase13-governed-coding-loop.test.ts](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/integration/phase13-governed-coding-loop.test.ts)
-    - [tests/integration/phase13b-completion-gate.test.ts](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/integration/phase13b-completion-gate.test.ts)
-    - [tests/integration/phase13c-governed-recovery.test.ts](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/integration/phase13c-governed-recovery.test.ts)
-    - [tests/integration/phase13d-verification-stage.test.ts](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/integration/phase13d-verification-stage.test.ts)
-    - [tests/integration/phase14-independent-verification.test.ts](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/integration/phase14-independent-verification.test.ts)
+  - Replaced hardcoded machine paths (machine-specific paths) with portable repo-relative resolution:
+    - [tests/domain/counterfactual-replay.test.ts](../../tests/domain/counterfactual-replay.test.ts)
+    - [tests/integration/phase13-governed-coding-loop.test.ts](../../tests/integration/phase13-governed-coding-loop.test.ts)
+    - [tests/integration/phase13b-completion-gate.test.ts](../../tests/integration/phase13b-completion-gate.test.ts)
+    - [tests/integration/phase13c-governed-recovery.test.ts](../../tests/integration/phase13c-governed-recovery.test.ts)
+    - [tests/integration/phase13d-verification-stage.test.ts](../../tests/integration/phase13d-verification-stage.test.ts)
+    - [tests/integration/phase14-independent-verification.test.ts](../../tests/integration/phase14-independent-verification.test.ts)
 
 - **Automated Scripts Repo-Relative Path Refactoring**:
   - Refactored all 33 experiment and verification scripts under `scripts/` to resolve paths relative to `__dirname`:
@@ -49,7 +49,7 @@
 
 ## 2. Why
 
-1. **Path Decoupling**: Hardcoded developer paths (`C:/Users/Adusumalli Girish/...`) broke execution on any other developer machine, CI runner, or clean clone. Refactoring to repo-relative paths (`tests/fixtures/`) guarantees open-source portability and reproducibility.
+1. **Path Decoupling**: Hardcoded developer paths (machine-specific paths) broke execution on any other developer machine, CI runner, or clean clone. Refactoring to repo-relative paths (`tests/fixtures/`) guarantees open-source portability and reproducibility.
 2. **Model Diagnostic**: Previous phases produced 0/23 successful patches on local `qwen2.5-coder:1.5b`. It was unknown whether the failure was caused by the model attempting fine-grained edits via `edit_file` that failed schema validation/rejection, or whether the model's policy completely failed to select `edit_file`.
 
 ---
@@ -84,7 +84,8 @@
 ### A. Repository Path Decoupling Verification
 1. **User Identity Scan**:
    ```powershell
-   git grep -n "Adusumalli"
+   # Verify zero residual developer-specific paths:
+   git grep -n "<developer-path>"
    # Result: Return code 1 (ZERO hits across entire repository)
    ```
 2. **Absolute User Directory Scan**:
@@ -122,7 +123,7 @@
 
 ## 6. Acceptance Status
 
-- [x] **Repo-relative paths**: All hardcoded `C:/Users/Adusumalli Girish/...` paths eliminated; 0 occurrences remain.
+- [x] **Repo-relative paths**: All hardcoded developer machine paths eliminated; 0 occurrences remain.
 - [x] **Historical fixtures**: 9 evaluation summaries relocated to `tests/fixtures/` and verified.
 - [x] **Model diagnostic**: Complete transcript captured in `scratch/model-diagnostic-he0.json`.
 - [x] **Plain-words answer**: Conclusively established that `edit_file` was never attempted by the model.

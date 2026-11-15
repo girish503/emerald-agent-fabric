@@ -339,7 +339,11 @@ describe("Phase 1: Deterministic Tool-Schema Discoverability & Gateway Contract 
 
   // 11. Historical v3.0 and G3/G4 v1.1.0 evidence remains byte-identical
   it("Scenario 11: historical v3.0 and G3/G4 v1.1.0 evidence remains byte-identical", () => {
-    const brainDir = "C:/Users/Adusumalli Girish/.gemini/antigravity/brain/22cc3ec1-2247-4c9d-855b-ba8bc4b1274d";
+    const brainDir =
+      process.env.EMERALD_BRAIN_DIR ??
+      (process.env.APP_DATA_DIR
+        ? path.join(process.env.APP_DATA_DIR, "brain", "22cc3ec1-2247-4c9d-855b-ba8bc4b1274d")
+        : path.join(os.homedir(), ".gemini", "antigravity", "brain", "22cc3ec1-2247-4c9d-855b-ba8bc4b1274d"));
 
     const expectedHashes: Record<string, string> = {
       "g3-v1.0.0-raw-evidence.json": "fa9e421d1656023d815b185c9aff70223f33323b78e99e22b92a33b0b4e88dab",

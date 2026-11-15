@@ -47,11 +47,19 @@ npm install
 # 3. Compile TypeScript build
 npm run build
 
-# 4. Start the server with the Web UI dashboard
-node bin/emerald.js server --db ./emerald.sqlite --port 3000 --web-ui-root apps/web
+# 4. Set local development operator credential
+# Bash / macOS / Linux:
+export EMERALD_API_PRINCIPALS='[{"token":"emerald-dev-operator-token-alpha1","principalId":"dev-operator","tenantId":"tenant-default","role":"operator"}]'
 
-# 5. Open the dashboard in your browser
+# Windows PowerShell:
+# $env:EMERALD_API_PRINCIPALS = '[{"token":"emerald-dev-operator-token-alpha1","principalId":"dev-operator","tenantId":"tenant-default","role":"operator"}]'
+
+# 5. Start the server with the Web UI dashboard
+node bin/emerald.js server --db ./emerald.db --host 127.0.0.1 --port 3000 --web-ui-root apps/web
+
+# 6. Open the dashboard in your browser
 # Navigate to: http://127.0.0.1:3000/
+# In the Auth Gate banner, enter the bearer token: emerald-dev-operator-token-alpha1
 ```
 
 ---
@@ -206,10 +214,10 @@ node bin/run-benchmark.js --model deepseek-r1:8b --limit 5 --timeout 300
 ### Step 3: Use with the Developer CLI
 ```bash
 # Submit a governed task
-node bin/emerald.js submit --db ./emerald.sqlite --task "Fix typo in parser tests"
+node bin/emerald.js submit --db ./emerald.db --task "Fix typo in parser tests"
 
 # Execute with specified Ollama model
-node bin/emerald.js worker --db ./emerald.sqlite --once --model-provider ollama --model qwen2.5-coder:7b
+node bin/emerald.js worker --db ./emerald.db --once --model-provider ollama --model qwen2.5-coder:7b
 ```
 
 > [!NOTE]

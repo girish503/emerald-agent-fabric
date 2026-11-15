@@ -22,7 +22,7 @@ The 3-task model proof demonstrated that the agent loop and governance fences ex
 
 ### Fixes Implemented
 1. **Tenant Quiescence Guard Test Doubles (49 Failures Fixed)**:
-   - Provided `defaultMockTenantQuiescencePort` in [`tests/fixtures/mock-tenant-quiescence.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/mock-tenant-quiescence.ts).
+   - Provided `defaultMockTenantQuiescencePort` in [`tests/fixtures/mock-tenant-quiescence.ts`](../../tests/fixtures/mock-tenant-quiescence.ts).
    - Patched 35 test provider doubles across `tests/` with `readonly tenantModel = "NONE" as const` and `readonly quiescence = defaultMockTenantQuiescencePort`.
    - Preserved strict fail-closed production enforcement in `WorkerRuntime` without modification.
 2. **`edit_file` Parity and Contract Alignment**:
@@ -70,7 +70,7 @@ The 3-task model proof demonstrated that the agent loop and governance fences ex
 - **Failed**: 3 (100.0%)
 - **Timed Out**: 0 (0.0%)
 - **Total Wall Clock**: 523.2 seconds (8.7 minutes)
-- **Raw Evidence Artifact**: [`scratch/phase6-humaneval-results.json`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/scratch/phase6-humaneval-results.json)
+- **Raw Evidence Artifact**: [`scratch/phase6-humaneval-results.json`](../../scratch/phase6-humaneval-results.json)
 
 ### Empirical Conclusion
 1. **Latency Is Not the Blocker**:
@@ -84,20 +84,20 @@ The 3-task model proof demonstrated that the agent loop and governance fences ex
 ---
 
 ## Changed Files
-- [`tests/fixtures/mock-tenant-quiescence.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/fixtures/mock-tenant-quiescence.ts): Default mock tenant quiescence port.
-- [`src/application/evaluation/humaneval-runner.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/src/application/evaluation/humaneval-runner.ts): Turn latency tracking and budget hardening.
-- [`src/application/live-agent-brain.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/src/application/live-agent-brain.ts): Added `edit_file` proposal schema.
-- [`tests/domain/tool.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/domain/tool.test.ts): 7 tools and 13 error codes.
-- [`tests/domain/tool-projection.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/domain/tool-projection.test.ts): 7 tool projections.
-- [`tests/contract/action-proposal-schema-parity.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/contract/action-proposal-schema-parity.test.ts): 8 action proposal branches.
-- [`tests/contract/context-aware-tool-filtering.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/contract/context-aware-tool-filtering.test.ts): 8 tool branches.
-- [`tests/application/live-agent-brain.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/application/live-agent-brain.test.ts): Live brain tool schema parity.
-- [`tests/application/contract-bound-evaluation-runner.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/application/contract-bound-evaluation-runner.test.ts): Requirement 6 fail-closed verification.
-- [`tests/application/durable-cli-agent-wiring.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/application/durable-cli-agent-wiring.test.ts): Model validation error regex.
-- [`tests/application/mission-contract-governance-boundary.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/application/mission-contract-governance-boundary.test.ts): Quiesced recovery gate token.
-- [`tests/application/controlled-baseline-reflex.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/application/controlled-baseline-reflex.test.ts): Stagnation baseline outcome.
-- [`tests/application/tool-execution-gateway.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/application/tool-execution-gateway.test.ts): CAPABILITY_DENIED error mapping.
-- [`tests/application/phase48s-offline-remediation.test.ts`](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/tests/application/phase48s-offline-remediation.test.ts): CRLF normalization.
+- [`tests/fixtures/mock-tenant-quiescence.ts`](../../tests/fixtures/mock-tenant-quiescence.ts): Default mock tenant quiescence port.
+- [`src/application/evaluation/humaneval-runner.ts`](../../src/application/evaluation/humaneval-runner.ts): Turn latency tracking and budget hardening.
+- [`src/application/live-agent-brain.ts`](../../src/application/live-agent-brain.ts): Added `edit_file` proposal schema.
+- [`tests/domain/tool.test.ts`](../../tests/domain/tool.test.ts): 7 tools and 13 error codes.
+- [`tests/domain/tool-projection.test.ts`](../../tests/domain/tool-projection.test.ts): 7 tool projections.
+- [`tests/contract/action-proposal-schema-parity.test.ts`](../../tests/contract/action-proposal-schema-parity.test.ts): 8 action proposal branches.
+- [`tests/contract/context-aware-tool-filtering.test.ts`](../../tests/contract/context-aware-tool-filtering.test.ts): 8 tool branches.
+- [`tests/application/live-agent-brain.test.ts`](../../tests/application/live-agent-brain.test.ts): Live brain tool schema parity.
+- [`tests/application/contract-bound-evaluation-runner.test.ts`](../../tests/application/contract-bound-evaluation-runner.test.ts): Requirement 6 fail-closed verification.
+- [`tests/application/durable-cli-agent-wiring.test.ts`](../../tests/application/durable-cli-agent-wiring.test.ts): Model validation error regex.
+- [`tests/application/mission-contract-governance-boundary.test.ts`](../../tests/application/mission-contract-governance-boundary.test.ts): Quiesced recovery gate token.
+- [`tests/application/controlled-baseline-reflex.test.ts`](../../tests/application/controlled-baseline-reflex.test.ts): Stagnation baseline outcome.
+- [`tests/application/tool-execution-gateway.test.ts`](../../tests/application/tool-execution-gateway.test.ts): CAPABILITY_DENIED error mapping.
+- [`tests/application/phase48s-offline-remediation.test.ts`](../../tests/application/phase48s-offline-remediation.test.ts): CRLF normalization.
 
 ---
 

@@ -136,8 +136,8 @@ The following directories and files constitute the public repository surface:
 Before an actual public release to GitHub, the following items must be resolved:
 
 1. **Hardcoded Machine Paths in Historical Test & Benchmark Fixtures**:
-   - `tests/domain/counterfactual-replay.test.ts` references an absolute host path (`C:/Users/Adusumalli Girish/.gemini/antigravity/brain/543bddec-0a19-44a7-9818-72be776b138b/scratch/phase9-4b-summary.json`).
-   - `tests/integration/phase13*.test.ts`, `tests/integration/phase14*.test.ts`, `scripts/run-phase*.ts`, and `docs/adr/ADR-0033-...` contain machine-specific `C:/Users/Adusumalli Girish/...` paths.
+   - `tests/domain/counterfactual-replay.test.ts` references an absolute host path (`<brain>/scratch/phase9-4b-summary.json`).
+   - `tests/integration/phase13*.test.ts`, `tests/integration/phase14*.test.ts`, `scripts/run-phase*.ts`, and `docs/adr/ADR-0033-...` contain machine-specific `<machine-specific-path>/...` paths.
    - *Impact*: Leaks local username and fails on external developer machines or CI runners (Linux/macOS).
 2. **86 Full-Suite Test Failures in Containerized Scenarios**:
    - 86 test assertions fail in environments lacking a running Docker daemon (timeouts during `sandboxed-command.tool-adapter.ts`, `DockerExecutionProvider`, and Docker cancellation races).

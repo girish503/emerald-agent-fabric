@@ -75,7 +75,7 @@ node bin/emerald.js server --db ./emerald.db --port 3000 --host 127.0.0.1 --web-
 
 ## 3. Browser & Dashboard Audit
 - **Subagent**: Browser inspection on `http://127.0.0.1:3000/`
-- **Screenshot Path**: `C:/Users/Adusumalli Girish/.gemini/antigravity/brain/22cc3ec1-2247-4c9d-855b-ba8bc4b1274d/browser_evidence/999070d3-2a21-4b6a-b30c-402beb4f9244/final_step_4.png`
+- **Screenshot Path**: `docs/images/dashboard.png`
 - **Network Audit**:
   - All browser API requests target `http://127.0.0.1:3000/api/v1/...` (same origin).
   - Zero 404s for API requests or static assets.
