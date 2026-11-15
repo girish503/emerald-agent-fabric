@@ -90,8 +90,8 @@
    ```
 2. **Absolute User Directory Scan**:
    ```powershell
-   git grep -in "C:/Users"
-   # Result: 0 hits in tracked files (only 1 hit in scratch/test-hardened.ts, a mock path 'C:/Users/Test/workspace/sub/file.txt')
+   git grep -in "<user-dir>"
+   # Result: 0 hits in tracked files
    ```
 3. **Affected Tests Execution**:
    - `tests/domain/counterfactual-replay.test.ts`: **14 / 14 passed (100% PASS)**.
