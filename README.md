@@ -39,9 +39,9 @@ Emerald Agent Fabric is an experimental research-grade infrastructure system for
 >
 > 2. **Governed External Model Pilot (`openai/gpt-oss-120b` via Groq)**:
 >    Under identical runtime governance (`GovernedModelRouterService`, clean-room dual-gate verification, `BoundedRepairLoopController`), `openai/gpt-oss-120b` achieved:
->    - **4 / 4 (100.0%) verified patches on solvable tasks** (`HumanEval/0`, `1`, `2`, `3`) before reaching upstream daily token quotas (Tasks 4–9 halted by upstream 200k TPD ceiling).
->    - Real multi-turn tool interaction (`read_file`, `edit_file`, `run_command`), producing 256 B – 664 B patches passing sovereign physical verification.
->    - Total benchmark spend was **$0.0260 USD** ($0.026 / $2.00 spend cap).
+>    - **5 / 5 (100.0%) verified patches on solvable tasks** (`HumanEval/0`, `1`, `2`, `3`, `4`) before reaching upstream daily token quotas (Tasks 5–9 halted by upstream provider tier limits).
+>    - **50.0% pass rate overall (5/10)**, with real multi-turn tool interaction (`read_file`, `edit_file`, `run_command`), producing 256 B – 664 B patches passing sovereign physical verification.
+>    - Total benchmark spend was **$0.0408 USD** ($0.04 / $2.00 spend cap).
 >    *Analysis*: The loop-vs-model question is resolved: the runtime governance and verification loop is sound; model capability was the ceiling.
 >
 > Emerald is **NOT**:
