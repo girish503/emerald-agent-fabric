@@ -3,7 +3,7 @@
 **Date**: November 16, 2026  
 **Status**: 6 / 6 PASSED LIVE (Strictly Uncommitted per Instruction)
 
-See the full report at [docs/reports/E2E-LIVE-REPORT.md](file:///C:/Users/Adusumalli%20Girish/.gemini/antigravity/worktrees/emerald-agent-fabric/stagnation_aware_verification_gate/docs/reports/E2E-LIVE-REPORT.md).
+See the full report at [docs/reports/E2E-LIVE-REPORT.md](docs/reports/E2E-LIVE-REPORT.md).
 
 ## Quick Summary
 
