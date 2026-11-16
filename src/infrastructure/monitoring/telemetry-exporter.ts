@@ -13,6 +13,7 @@
  * 4. Data Scoping & Redaction: Secrets, private tokens, and sensitive credentials are redacted before export.
  */
 
+import { execFileSync } from "node:child_process";
 import type {
   ObservabilityConfig,
   ObservabilityPipelineHealth,
@@ -202,15 +203,55 @@ export function createTelemetryExporterFromEnv(
 ): TelemetryExporter {
   const otlpEndpoint = env.EMERALD_OTLP_ENDPOINT?.trim() || undefined;
   const environment = env.EMERALD_ENV?.trim() || "local";
-  const langfuseBaseUrl = env.EMERALD_LANGFUSE_BASE_URL?.trim() || undefined;
+  let publicKey = env.EMERALD_LANGFUSE_PUBLIC_KEY?.trim() || undefined;
+  let secretKey = env.EMERALD_LANGFUSE_SECRET_KEY?.trim() || undefined;
+  let rawBaseUrl = env.EMERALD_LANGFUSE_BASE_URL?.trim() || undefined;
+
+  // On Windows, if user-scope keys exist in HKCU\Environment but the passed environment
+  // is missing them, read them fail-safe (unless in isolated test fixtures with empty env).
+  const isIsolatedTest =
+    Object.keys(env).length <= 2 && !env.EMERALD_API_KEY && !env.PATH && !env.Path;
+  if (process.platform === "win32" && !isIsolatedTest && (!publicKey || !secretKey)) {
+    try {
+      const regOutput = execFileSync("reg", ["query", "HKCU\\Environment"], {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      });
+      if (!publicKey) {
+        const m = regOutput.match(/EMERALD_LANGFUSE_PUBLIC_KEY\s+REG_\w+\s+([^\r\n]+)/);
+        if (m && m[1]) {
+          publicKey = m[1].trim();
+          process.env.EMERALD_LANGFUSE_PUBLIC_KEY = publicKey;
+        }
+      }
+      if (!secretKey) {
+        const m = regOutput.match(/EMERALD_LANGFUSE_SECRET_KEY\s+REG_\w+\s+([^\r\n]+)/);
+        if (m && m[1]) {
+          secretKey = m[1].trim();
+          process.env.EMERALD_LANGFUSE_SECRET_KEY = secretKey;
+        }
+      }
+      if (!rawBaseUrl) {
+        const m = regOutput.match(/EMERALD_LANGFUSE_BASE_URL\s+REG_\w+\s+([^\r\n]+)/);
+        if (m && m[1]) {
+          rawBaseUrl = m[1].trim();
+          process.env.EMERALD_LANGFUSE_BASE_URL = rawBaseUrl;
+        }
+      }
+    } catch {
+      // Fail-safe: ignore registry query errors
+    }
+  }
+
+  const langfuseBaseUrl = rawBaseUrl || (publicKey ? "http://127.0.0.1:3002" : undefined);
 
   return new TelemetryExporter({
     observability: otlpEndpoint ? { otlpEndpoint, environment } : { environment },
     langfuse: langfuseBaseUrl
       ? {
           baseUrl: langfuseBaseUrl,
-          publicKey: env.EMERALD_LANGFUSE_PUBLIC_KEY?.trim() || undefined,
-          secretKey: env.EMERALD_LANGFUSE_SECRET_KEY?.trim() || undefined,
+          publicKey,
+          secretKey,
           enabled: true,
         }
       : undefined,

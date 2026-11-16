@@ -420,6 +420,7 @@ export class EmeraldLifecycleTelemetry {
             attemptId: corr.attemptId,
           },
         });
+        void this.langfuse.flush?.();
       }
     });
   }
@@ -481,6 +482,7 @@ export class EmeraldLifecycleTelemetry {
             ? `Verified proofHash=${input.proofHash.slice(0, 12)}`
             : input.failureReason ?? "Verification rejected",
         });
+        void this.langfuse.flush?.();
       }
     });
   }

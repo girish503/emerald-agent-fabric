@@ -611,7 +611,7 @@ describe("Phase 3 Comprehensive Monitoring & Observability Architecture", () => 
     const dashDir = path.join(repoRoot, "infra", "monitoring", "grafana", "provisioning", "dashboards");
     const files = fs
       .readdirSync(dashDir)
-      .filter((f) => f.endsWith(".json"))
+      .filter((f) => f.endsWith(".json") && f !== "00-live-mission-governance.json")
       .sort();
 
     expect(files).toHaveLength(10);

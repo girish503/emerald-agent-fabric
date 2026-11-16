@@ -38,6 +38,8 @@ import { createMissionContract, createResourceLimits } from "../../domain/missio
 import { createEvidence } from "../../domain/evidence.js";
 import { ModelProviderPort } from "../../ports/model-provider.port.js";
 import { ApprovalControl } from "../../control-plane/approval-control.js";
+import { createTelemetryExporterFromEnv } from "../../infrastructure/monitoring/telemetry-exporter.js";
+import { EmeraldLifecycleTelemetry } from "../observability-instrumentation.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -94,9 +96,14 @@ export function validateEnvironment(): {
     "EMERALD_API_KEY",
     "EMERALD_SPEND_CAP_USD",
   ];
+  const optional = [
+    "EMERALD_LANGFUSE_PUBLIC_KEY",
+    "EMERALD_LANGFUSE_SECRET_KEY",
+    "EMERALD_LANGFUSE_BASE_URL",
+  ];
 
   if (process.platform === "win32") {
-    for (const k of required) {
+    for (const k of [...required, ...optional]) {
       if (!process.env[k]) {
         try {
           const val = execFileSync(
@@ -177,12 +184,19 @@ export async function runLiveMissionDemo(
   fs.mkdirSync(workspaceRoot, { recursive: true });
 
   const clock = new SystemClock();
+  const telemetryExporter = createTelemetryExporterFromEnv(process.env);
+  const lifecycleTelemetry = new EmeraldLifecycleTelemetry(
+    telemetryExporter.observability,
+    telemetryExporter.langfuse,
+    { defaultExecutionMode: "live" }
+  );
   const store = new SqliteStateStore({ location: dbPath });
   const workspaceAdapter = new NodeFsWorkspaceAdapter({ workspaceRoot });
   const coordinator = new RunCoordinator(store, clock, undefined, workspaceAdapter);
   const executionProvider = new GovernedAgentExecutionProvider({ clock });
   const taskRouter = new TaskRouterService(store, coordinator, clock, {
     maxConcurrentRuns: 2,
+    telemetry: lifecycleTelemetry,
   });
 
   // 1. Initialize Model Provider and Model Router
@@ -191,6 +205,7 @@ export async function runLiveMissionDemo(
     defaultModel: modelName,
     timeoutMs: 120_000,
     spendCapUsd,
+    telemetry: lifecycleTelemetry,
   });
 
   const modelDigest = crypto
@@ -313,6 +328,24 @@ export async function runLiveMissionDemo(
     options.missionText ??
     "Build a small note-taking REST API (create, list, delete notes), with tests, and a review.";
   const missionTaskId = `mission-note-taking-${Date.now()}`;
+  if (telemetryExporter.langfuse) {
+    telemetryExporter.langfuse.enqueueTrace({
+      id: missionTaskId,
+      name: `mission-demo: ${missionText.slice(0, 48)}`,
+      tags: ["live", "mission-demo", providerName, modelName],
+      metadata: {
+        missionTaskId,
+        provider: providerName,
+        model: modelName,
+        spendCapUsd,
+      },
+    });
+    void telemetryExporter.flush();
+  }
+
+  return await lifecycleTelemetry.withCorrelation(
+    { traceId: missionTaskId, taskId: missionTaskId },
+    async () => {
   const parentCapabilities = [
     "workspace.file.read",
     "workspace.file.write",
@@ -1699,5 +1732,18 @@ export async function runLiveMissionDemo(
   );
 
   console.log(`\n[6/6] Live mission demo completed. Summary written to ${path.join(outputDir, "mission-summary.json")}`);
-  return result;
+
+      if (telemetryExporter.langfuse) {
+        telemetryExporter.langfuse.enqueueScore({
+          traceId: missionTaskId,
+          name: "mission_synthesis_verdict",
+          value: synth.verdict === "SUCCESS" ? 1 : 0,
+          comment: `Synthesis verdict ${synth.verdict} across ${subtaskSummaries.length} subtasks`,
+        });
+      }
+
+      await telemetryExporter.flush(5000);
+      return result;
+    }
+  );
 }

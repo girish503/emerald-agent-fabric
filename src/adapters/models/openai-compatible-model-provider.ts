@@ -342,6 +342,8 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
       startTimeIso: new Date(startMs).toISOString(),
       endTimeIso: new Date().toISOString(),
       requestId: request.requestId,
+      promptPreview: JSON.stringify(body.messages),
+      outputPreview: outputText,
       promptTokens,
       completionTokens,
     });

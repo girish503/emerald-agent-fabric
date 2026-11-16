@@ -206,6 +206,7 @@ export interface LangfuseTelemetryPort {
     readonly value: number | string;
     readonly comment?: string;
   }): void;
+  flush?(timeoutMs?: number): Promise<void>;
   getHealth(): {
     readonly exportedEvents: number;
     readonly droppedEvents: number;

@@ -168,7 +168,7 @@ export class SelfHostedLangfuseClient implements LangfuseTelemetryPort {
     this.exportTimeoutMs =
       config.exportTimeoutMs !== undefined && Number.isFinite(config.exportTimeoutMs)
         ? Math.max(100, Math.floor(config.exportTimeoutMs))
-        : 2000;
+        : 5000;
     this.retentionDays =
       config.retentionDays !== undefined && Number.isFinite(config.retentionDays)
         ? Math.max(1, Math.floor(config.retentionDays))
