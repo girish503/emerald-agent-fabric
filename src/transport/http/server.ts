@@ -637,8 +637,17 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
     if (request.principal) return; // already authenticated in onRequest hook
 
     const header = request.headers.authorization;
-    const wellFormed = typeof header === "string" && AuthorizationHeaderSchema.safeParse(header).success;
-    const presented = sha256(wellFormed ? (header as string).replace(/^Bearer\s+/, "") : "");
+    let rawToken = "";
+    if (typeof header === "string" && AuthorizationHeaderSchema.safeParse(header).success) {
+      rawToken = (header as string).replace(/^Bearer\s+/, "");
+    } else {
+      const q = request.query as Record<string, unknown> | undefined;
+      if (typeof q?.token === "string" && q.token.trim().length > 0) {
+        rawToken = q.token.trim();
+      }
+    }
+    const wellFormed = rawToken.length > 0;
+    const presented = sha256(rawToken);
 
     let matched: PreparedPrincipal | undefined;
     for (const candidate of prepared) {
@@ -1636,6 +1645,408 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
     return reply.status(200).send(body);
   });
 
+  // --------------------------------------------------------------------------
+  // Live DAG Streaming & Approval Routes
+  // --------------------------------------------------------------------------
+  const buildRunDagSnapshot = (runOrTaskId: string, tenantId?: string) => {
+    if (!effectiveStore) return null;
+    const db = (effectiveStore as any).db;
+    if (!db || typeof db.prepare !== "function") return null;
+
+    let rootTaskId: string | null = null;
+    let targetRun: any = null;
+    try {
+      targetRun = db.prepare("SELECT * FROM runs WHERE run_id = ?").get(runOrTaskId);
+    } catch {}
+    let targetTask: any = null;
+    try {
+      targetTask = db.prepare("SELECT * FROM tasks WHERE task_id = ?").get(runOrTaskId);
+    } catch {}
+
+    if (targetRun) {
+      let curr = targetRun.task_id;
+      let rel = db.prepare("SELECT * FROM task_relations WHERE child_task_id = ?").get(curr) as any;
+      while (rel?.parent_task_id) {
+        curr = rel.parent_task_id;
+        rel = db.prepare("SELECT * FROM task_relations WHERE child_task_id = ?").get(curr) as any;
+      }
+      rootTaskId = curr;
+    } else if (targetTask) {
+      let curr = targetTask.task_id;
+      let rel = db.prepare("SELECT * FROM task_relations WHERE child_task_id = ?").get(curr) as any;
+      while (rel?.parent_task_id) {
+        curr = rel.parent_task_id;
+        rel = db.prepare("SELECT * FROM task_relations WHERE child_task_id = ?").get(curr) as any;
+      }
+      rootTaskId = curr;
+    }
+
+    if (!rootTaskId) {
+      if (runOrTaskId === "latest" || !runOrTaskId) {
+        const latestRoot = db.prepare("SELECT task_id FROM tasks WHERE task_id NOT LIKE '%__sub__%' ORDER BY created_at DESC LIMIT 1").get() as any;
+        if (latestRoot) {
+          rootTaskId = latestRoot.task_id;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    }
+
+    const rootTask = db.prepare("SELECT * FROM tasks WHERE task_id = ?").get(rootTaskId) as any;
+    if (!rootTask) return null;
+
+    if (tenantId) {
+      let rootPayload: any = {};
+      try {
+        rootPayload = JSON.parse(rootTask.input_payload || "{}");
+      } catch {}
+      if (rootPayload.tenantId && rootPayload.tenantId !== tenantId) {
+        return null;
+      }
+    }
+    const rootRun = db.prepare("SELECT * FROM runs WHERE task_id = ? ORDER BY created_at DESC LIMIT 1").get(rootTaskId) as any;
+
+    const childTasks = db.prepare("SELECT * FROM tasks WHERE task_id LIKE ? ORDER BY created_at ASC").all(`${rootTaskId}__sub__%`) as any[];
+
+    const nodes = childTasks.map((t: any) => {
+      let payload: any = {};
+      try {
+        payload = JSON.parse(t.input_payload || "{}");
+      } catch {}
+
+      const subtaskId = payload.subtaskId || t.task_id.replace(`${rootTaskId}__sub__`, "");
+      const role = payload.role || (t.title.match(/\[([A-Z]+)\]/) || [])[1] || "AGENT";
+      const objective = payload.objective || t.description;
+
+      const depRows = db.prepare("SELECT parent_task_id FROM task_dependencies WHERE child_task_id = ? ORDER BY ordinal ASC").all(t.task_id) as any[];
+      const dependencies = depRows
+        .map((d: any) => d.parent_task_id.replace(`${rootTaskId}__sub__`, ""))
+        .filter((d: string) => d !== rootTaskId);
+
+      const subRun = db.prepare("SELECT * FROM runs WHERE task_id = ? ORDER BY created_at DESC LIMIT 1").get(t.task_id) as any;
+
+      let approval: any = null;
+      if (subRun) {
+        const apprRow = db.prepare("SELECT * FROM approval_requests WHERE run_id = ? OR task_id = ? ORDER BY requested_at DESC LIMIT 1").get(subRun.run_id, t.task_id) as any;
+        if (apprRow) {
+          approval = {
+            approvalId: apprRow.approval_id,
+            operation: apprRow.operation,
+            status: apprRow.status,
+            approver: apprRow.approver,
+            justification: apprRow.justification,
+            requestedAt: apprRow.requested_at,
+            decidedAt: apprRow.decided_at,
+          };
+        }
+      }
+
+      let verification: any = null;
+      const toolCalls: any[] = [];
+      const repairs: any[] = [];
+      const timeline: any[] = [];
+
+      if (subRun) {
+        const evts = db.prepare("SELECT * FROM run_events WHERE run_id = ? ORDER BY sequence ASC").all(subRun.run_id) as any[];
+        for (const e of evts) {
+          let p: any = {};
+          try { p = JSON.parse(e.payload || "{}"); } catch {}
+
+          if (e.event_type === "verification.completed") {
+            const evPaths = p.evidencePaths || p.evidenceFiles || (p.evidencePath ? [p.evidencePath] : []);
+            verification = {
+              verifierId: p.verifierId || "DeterministicVerifier",
+              specId: p.specId,
+              status: p.status,
+              exitCode: p.exitCode,
+              timestamp: e.timestamp,
+              summary: p.summary,
+              evidencePaths: evPaths,
+            };
+            timeline.push({
+              type: "verification",
+              timestamp: e.timestamp,
+              title: `Verification: ${p.status || "PASSED"} (${p.verifierId || "DeterministicVerifier"})`,
+              description: p.summary || `Spec ${p.specId || ""} verified with exit code ${p.exitCode ?? 0}`,
+              status: p.status || "PASSED",
+              details: { verifierId: p.verifierId, specId: p.specId, exitCode: p.exitCode, evidencePaths: evPaths },
+            });
+          } else if (e.event_type === "verification.unverified_completion_authorized") {
+            verification = {
+              unverifiedOverride: true,
+              operator: p.operator || e.producer,
+              timestamp: e.timestamp,
+              note: p.operatorNote,
+            };
+            timeline.push({
+              type: "verification",
+              timestamp: e.timestamp,
+              title: `Unverified Completion Authorized by ${p.operator || e.producer}`,
+              description: p.operatorNote || "Operator authorization override",
+              status: "OVERRIDE",
+              details: { operator: p.operator || e.producer, timestamp: e.timestamp, note: p.operatorNote },
+            });
+          } else if (e.event_type === "action.created" || e.event_type === "tool.requested") {
+            const toolName = p.toolName || p.action?.toolName || e.producer;
+            const args = p.args || p.action?.args || {};
+            toolCalls.push({
+              toolName,
+              args,
+              timestamp: e.timestamp,
+              status: "requested",
+            });
+            timeline.push({
+              type: "tool",
+              timestamp: e.timestamp,
+              title: `Tool Requested: ${toolName}`,
+              description: typeof args === "object" ? JSON.stringify(args) : String(args),
+              status: "requested",
+              details: args,
+            });
+          } else if (e.event_type === "action.completed" || e.event_type === "tool.completed") {
+            const toolName = p.toolName || e.producer;
+            if (toolCalls.length > 0) {
+              const last = toolCalls[toolCalls.length - 1];
+              last.status = "completed";
+              last.exitCode = p.exitCode ?? 0;
+              last.durationMs = p.durationMs;
+              last.output = p.output;
+            } else {
+              toolCalls.push({
+                toolName,
+                args: p.args || {},
+                timestamp: e.timestamp,
+                status: "completed",
+                exitCode: p.exitCode ?? 0,
+                durationMs: p.durationMs,
+                output: p.output,
+              });
+            }
+            timeline.push({
+              type: "tool",
+              timestamp: e.timestamp,
+              title: `Tool Completed: ${toolName}`,
+              description: `Exit code: ${p.exitCode ?? 0} (${p.durationMs ?? 0}ms)${p.output ? " - " + p.output : ""}`,
+              status: p.exitCode === 0 ? "completed" : "failed",
+              details: p,
+            });
+          } else if (e.event_type.includes("repair")) {
+            const iteration = p.iteration ?? 1;
+            const ceiling = p.maxIterations ?? p.ceiling ?? 3;
+            const feedbackCategory = p.feedbackCategory ?? p.category ?? "FAILURE";
+            const canContinue = p.canContinue ?? true;
+            repairs.push({
+              eventType: e.event_type,
+              timestamp: e.timestamp,
+              iteration,
+              ceiling,
+              feedbackCategory,
+              canContinue,
+            });
+            timeline.push({
+              type: "repair",
+              timestamp: e.timestamp,
+              title: `Repair Attempt #${iteration} (Ceiling: ${ceiling})`,
+              description: `Diagnostic: ${feedbackCategory} — Can continue: ${canContinue}`,
+              status: "repair",
+              details: p,
+            });
+          }
+        }
+      }
+
+      if (approval) {
+        if (approval.requestedAt) {
+          timeline.push({
+            type: "approval",
+            timestamp: approval.requestedAt,
+            title: `Approval Requested: ${approval.operation}`,
+            description: approval.justification || "Human operator authorization required",
+            status: "PENDING",
+            details: approval,
+          });
+        }
+        if (approval.decidedAt) {
+          timeline.push({
+            type: "approval",
+            timestamp: approval.decidedAt,
+            title: `Approval ${approval.status}: by ${approval.approver || "Operator"}`,
+            description: approval.justification || "",
+            status: approval.status,
+            details: approval,
+          });
+        }
+      }
+
+      timeline.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
+      let state = "pending";
+      if (subRun) {
+        if (subRun.status === "WAITING_APPROVAL") {
+          state = "waiting-approval";
+        } else if (subRun.status === "RUNNING") {
+          state = "running";
+        } else if (subRun.status === "QUEUED") {
+          state = "pending";
+        } else if (subRun.status === "COMPLETED") {
+          state = verification?.status === "PASSED" || verification?.status === "VERIFIED" ? "verified" : "completed";
+        } else if (subRun.status === "FAILED") {
+          state = "failed";
+        }
+      }
+
+      return {
+        id: subtaskId,
+        taskId: t.task_id,
+        title: t.title,
+        role,
+        objective,
+        dependencies,
+        state,
+        rawStatus: subRun ? subRun.status : "PENDING",
+        runId: subRun ? subRun.run_id : null,
+        workerId: subRun ? subRun.current_worker_id : null,
+        durationMs: subRun ? Math.max(0, new Date(subRun.updated_at).getTime() - new Date(subRun.created_at).getTime()) : 0,
+        toolCalls,
+        verification,
+        approval,
+        repairs,
+        timeline,
+      };
+    });
+
+    const activeNode = nodes.find((n: any) => n.state === "waiting-approval" || n.state === "running") || nodes[nodes.length - 1];
+
+    let synthesis: any = null;
+    if (rootRun) {
+      const synthEvt = db.prepare("SELECT * FROM run_events WHERE run_id = ? AND event_type = 'mission.synthesized' LIMIT 1").get(rootRun.run_id) as any;
+      if (synthEvt) {
+        try {
+          synthesis = JSON.parse(synthEvt.payload || "{}");
+        } catch {}
+      }
+    }
+
+    return {
+      rootTaskId,
+      missionTitle: rootTask ? rootTask.title : rootTaskId,
+      missionDescription: rootTask ? rootTask.description : "",
+      rootRunId: rootRun ? rootRun.run_id : null,
+      rootStatus: rootRun ? rootRun.status : (rootTask ? "PENDING" : "UNKNOWN"),
+      activeNodeId: activeNode ? activeNode.id : null,
+      nodes,
+      synthesis,
+    };
+  };
+
+  const handleDagStreamOrJson = async (request: FastifyRequest, reply: FastifyReply) => {
+    const targetRunId = (request.params as any)?.runId || (request.query as any)?.runId || "latest";
+    const principal = request.principal!;
+    const isSse = Boolean((request.headers.accept && request.headers.accept.includes("text/event-stream")) || (request.query as any)?.stream === "true" || (request.query as any)?.stream === "1");
+
+    const initialSnapshot = buildRunDagSnapshot(targetRunId, principal.tenantId);
+    if (!initialSnapshot) {
+      return notFound(request, reply, "Run");
+    }
+
+    if (!isSse) {
+      return reply.status(200).send({
+        success: true,
+        data: initialSnapshot,
+      });
+    }
+
+    reply.hijack();
+    for (const [name, value] of Object.entries(reply.getHeaders())) {
+      if (value !== undefined) reply.raw.setHeader(name, value as string | number | string[]);
+    }
+    reply.raw.setHeader("Content-Type", "text/event-stream");
+    reply.raw.setHeader("Cache-Control", "no-cache");
+    reply.raw.setHeader("Connection", "keep-alive");
+    reply.raw.setHeader("X-Accel-Buffering", "no");
+    reply.raw.flushHeaders?.();
+
+    let lastSerialized = JSON.stringify(initialSnapshot);
+    reply.raw.write(`event: dag_state\ndata: ${lastSerialized}\n\n`);
+
+    let pingTimer: NodeJS.Timeout | undefined;
+    let pollTimer: NodeJS.Timeout | undefined;
+
+    const cleanup = () => {
+      if (pingTimer) clearInterval(pingTimer);
+      if (pollTimer) clearInterval(pollTimer);
+    };
+
+    request.raw.on("close", cleanup);
+    request.raw.on("error", cleanup);
+
+    pingTimer = setInterval(() => {
+      if (reply.raw.writable && !reply.raw.writableEnded) {
+        reply.raw.write(`: ping\n\n`);
+      }
+    }, 15000);
+    pingTimer.unref?.();
+
+    pollTimer = setInterval(() => {
+      if (!reply.raw.writable || reply.raw.writableEnded) {
+        cleanup();
+        return;
+      }
+      try {
+        const currentSnapshot = buildRunDagSnapshot(targetRunId, principal.tenantId);
+        if (currentSnapshot) {
+          const currentSerialized = JSON.stringify(currentSnapshot);
+          if (currentSerialized !== lastSerialized) {
+            lastSerialized = currentSerialized;
+            reply.raw.write(`event: dag_update\ndata: ${currentSerialized}\n\n`);
+          }
+        }
+      } catch {
+        // non-fatal
+      }
+    }, 500);
+    pollTimer.unref?.();
+  };
+
+  server.get("/api/dag", readRoute, handleDagStreamOrJson);
+  server.get("/api/v1/dag", readRoute, handleDagStreamOrJson);
+  server.get("/api/runs/:runId/dag", readRoute, handleDagStreamOrJson);
+  server.get("/api/v1/runs/:runId/dag", readRoute, handleDagStreamOrJson);
+  server.post("/api/approvals/:approvalId/approve", writeRoute, async (request, reply) => {
+    const rawPayload = (request.body as Record<string, unknown>) ?? {};
+    const payload = {
+      ...rawPayload,
+      reason: (rawPayload.reason as string) ?? (rawPayload.justification as string) ?? undefined,
+    };
+    delete (payload as any).justification;
+    return server.inject({
+      method: "POST",
+      url: `/api/v1/approvals/${encodeURIComponent((request.params as any).approvalId)}/approve`,
+      headers: request.headers as any,
+      payload,
+    }).then((res) => {
+      reply.status(res.statusCode).headers(res.headers).send(res.payload);
+    });
+  });
+  server.post("/api/approvals/:approvalId/reject", writeRoute, async (request, reply) => {
+    const rawPayload = (request.body as Record<string, unknown>) ?? {};
+    const payload = {
+      ...rawPayload,
+      reason: (rawPayload.reason as string) ?? (rawPayload.justification as string) ?? undefined,
+    };
+    delete (payload as any).justification;
+    return server.inject({
+      method: "POST",
+      url: `/api/v1/approvals/${encodeURIComponent((request.params as any).approvalId)}/reject`,
+      headers: request.headers as any,
+      payload,
+    }).then((res) => {
+      reply.status(res.statusCode).headers(res.headers).send(res.payload);
+    });
+  });
+
   // POST /api/v1/tasks/:taskId/decompose — Super Agent task decomposition
   server.post("/api/v1/tasks/:taskId/decompose", writeRoute, async (request, reply) => {
     const { taskId } = request.params as { taskId: string };
@@ -2317,7 +2728,7 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
     }
 
     const existing = effectiveApprovalControl.getApproval(approvalId);
-    if (!existing || existing.tenantId !== principal.tenantId) {
+    if (!existing || (existing.tenantId && existing.tenantId !== principal.tenantId)) {
       return notFound(request, reply, "Approval");
     }
     if (existing.status !== "PENDING") {
@@ -2392,7 +2803,7 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
     }
 
     const existing = effectiveApprovalControl.getApproval(approvalId);
-    if (!existing || existing.tenantId !== principal.tenantId) {
+    if (!existing || (existing.tenantId && existing.tenantId !== principal.tenantId)) {
       return notFound(request, reply, "Approval");
     }
     if (existing.status !== "PENDING") {
@@ -2461,7 +2872,7 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
     }
 
     const existing = effectiveApprovalControl.getApproval(approvalId);
-    if (!existing || existing.tenantId !== principal.tenantId) {
+    if (!existing || (existing.tenantId && existing.tenantId !== principal.tenantId)) {
       return notFound(request, reply, "Approval");
     }
 
@@ -2491,7 +2902,7 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
     const reason = parsed.data.reason;
 
     const existing = effectiveApprovalControl.getApproval(approvalId);
-    if (!existing || existing.tenantId !== principal.tenantId) {
+    if (!existing || (existing.tenantId && existing.tenantId !== principal.tenantId)) {
       return notFound(request, reply, "Approval");
     }
     if (existing.status !== "PENDING") {
@@ -2601,6 +3012,12 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
           const counts = (effectiveStore as any).getObservabilityCounts() as {
             readonly tasksTotal: number;
             readonly runsByStatus: Readonly<Record<string, number>>;
+            readonly roleDurations?: Readonly<Record<string, number>>;
+            readonly verificationsByStatus?: Readonly<Record<string, number>>;
+            readonly repairAttemptsCount?: number;
+            readonly repairsByCategory?: Readonly<Record<string, number>>;
+            readonly approvalsByStatus?: Readonly<Record<string, number>>;
+            readonly modelSpendUsd?: number;
           };
           telemetry.recordMetric({
             name: "emerald_tasks_total",
@@ -2616,6 +3033,64 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
               help: "Total runs in state store by status",
               value: count,
               labels: { status, execution_mode: modeTag },
+            });
+          }
+          if (counts.roleDurations) {
+            for (const [role, durationSec] of Object.entries(counts.roleDurations)) {
+              telemetry.recordMetric({
+                name: "emerald_role_duration_seconds",
+                type: "GAUGE",
+                help: "Execution duration per role in seconds",
+                value: durationSec,
+                labels: { role, execution_mode: modeTag },
+              });
+            }
+          }
+          if (counts.verificationsByStatus) {
+            for (const [status, count] of Object.entries(counts.verificationsByStatus)) {
+              telemetry.recordMetric({
+                name: "emerald_verifications_total",
+                type: "COUNTER",
+                help: "Total verifications by outcome status",
+                value: count,
+                labels: { status, execution_mode: modeTag },
+              });
+            }
+          }
+          if (counts.repairAttemptsCount !== undefined) {
+            telemetry.recordMetric({
+              name: "emerald_repair_attempts_total",
+              type: "COUNTER",
+              help: "Total bounded repair loop attempts",
+              value: counts.repairAttemptsCount,
+              labels: { execution_mode: modeTag },
+            });
+            telemetry.recordMetric({
+              name: "emerald_repair_cycles_total",
+              type: "COUNTER",
+              help: "Total bounded repair loop cycles",
+              value: counts.repairAttemptsCount > 0 ? 1 : 0,
+              labels: { execution_mode: modeTag },
+            });
+          }
+          if (counts.approvalsByStatus) {
+            for (const [status, count] of Object.entries(counts.approvalsByStatus)) {
+              telemetry.recordMetric({
+                name: "emerald_approvals_total",
+                type: "COUNTER",
+                help: "Total approval requests by status",
+                value: count,
+                labels: { status, execution_mode: modeTag },
+              });
+            }
+          }
+          if (counts.modelSpendUsd !== undefined) {
+            telemetry.recordMetric({
+              name: "emerald_model_spend_usd",
+              type: "GAUGE",
+              help: "Total model spend in USD",
+              value: counts.modelSpendUsd,
+              labels: { model: "openai/gpt-oss-120b", execution_mode: modeTag },
             });
           }
         } else if (typeof (effectiveStore as any).listTasks === "function") {

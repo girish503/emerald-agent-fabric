@@ -8,7 +8,9 @@
   "include": [
     "src/cli/**/*",
     "src/application/evaluation/swe-bench-lite-runner.ts",
-    "src/application/evaluation/humaneval-runner.ts"
+    "src/application/evaluation/humaneval-runner.ts",
+    "src/application/evaluation/mission-demo-runner.ts",
+    "src/application/evaluation/live-e2e-scenarios-runner.ts"
   ],
   "exclude": [
     "tests/**/*",

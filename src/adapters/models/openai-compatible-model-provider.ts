@@ -41,8 +41,8 @@ export interface OpenAICompatibleModelProviderOptions {
   readonly telemetry?: EmeraldLifecycleTelemetry;
 }
 
-function parseResetDurationMs(val: string | null): number {
-  if (!val) return 5000;
+function parseResetDurationMs(val: string | null): number | undefined {
+  if (!val) return undefined;
   const rawNum = Number(val);
   if (!Number.isNaN(rawNum) && rawNum > 0) return Math.ceil(rawNum * 1000);
   let ms = 0;
@@ -52,7 +52,7 @@ function parseResetDurationMs(val: string | null): number {
   if (sMatch && sMatch[1]) ms += parseFloat(sMatch[1]) * 1000;
   const mMatch = val.match(/(\d+(?:\.\d+)?)\s*m(?![\w])/i);
   if (mMatch && mMatch[1]) ms += parseFloat(mMatch[1]) * 60_000;
-  return ms > 0 ? Math.ceil(ms) : 5000;
+  return ms > 0 ? Math.ceil(ms) : undefined;
 }
 
 export class OpenAICompatibleModelProvider implements ModelProviderPort {
@@ -263,11 +263,23 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
       if (isRateLimit && attempt <= maxRetries) {
         const resetHeader =
           rawResponse.headers.get("x-ratelimit-reset-tokens") ||
+          rawResponse.headers.get("x-ratelimit-reset-requests") ||
           rawResponse.headers.get("retry-after");
-        const waitMs = Math.min(35_000, parseResetDurationMs(resetHeader) + 500);
+        const headerResetMs = parseResetDurationMs(resetHeader);
+        const expBackoffMs = Math.min(30_000, Math.pow(2, attempt) * 1000 + Math.floor(Math.random() * 500));
+        const waitMs = Math.min(45_000, headerResetMs !== undefined ? Math.max(headerResetMs + 500, expBackoffMs) : expBackoffMs);
 
         if (Date.now() - startMs + waitMs < effectiveTimeoutMs && !request.abortSignal?.aborted) {
-          await new Promise((resolve) => setTimeout(resolve, waitMs));
+          await new Promise((resolve) => {
+            const timeoutId = setTimeout(resolve, waitMs);
+            if (request.abortSignal) {
+              const onAbort = () => {
+                clearTimeout(timeoutId);
+                resolve(null);
+              };
+              request.abortSignal.addEventListener("abort", onAbort, { once: true });
+            }
+          });
           continue;
         }
       }
