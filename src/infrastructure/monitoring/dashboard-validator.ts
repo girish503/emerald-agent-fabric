@@ -126,6 +126,11 @@ export const EMERALD_KNOWN_METRICS: ReadonlySet<string> = new Set([
   "emerald_langfuse_exported_events_total",
   "emerald_langfuse_dropped_events_total",
   "emerald_langfuse_export_failures_total",
+  "emerald_role_duration_seconds",
+  "emerald_repair_attempts_total",
+  "emerald_repair_cycles_total",
+  "emerald_approvals_total",
+  "emerald_model_spend_usd",
 ]);
 
 const FORBIDDEN_PROMQL_LABELS =
@@ -180,6 +185,11 @@ export const EXECUTION_SCOPED_METRICS: ReadonlySet<string> = new Set([
   "emerald_recovery_duration_seconds_bucket",
   "emerald_recovery_duration_seconds_sum",
   "emerald_recovery_duration_seconds_count",
+  "emerald_role_duration_seconds",
+  "emerald_repair_attempts_total",
+  "emerald_repair_cycles_total",
+  "emerald_approvals_total",
+  "emerald_model_spend_usd",
 ]);
 
 export function hasBalancedPromqlDelimiters(expr: string): boolean {

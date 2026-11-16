@@ -5,6 +5,16 @@
   "timezone": "utc",
   "schemaVersion": 38,
   "refresh": "5s",
+  "templating": {
+    "list": [
+      {
+        "name": "execution_mode",
+        "type": "custom",
+        "query": "live,fixture",
+        "current": { "text": "live", "value": "live" }
+      }
+    ]
+  },
   "panels": [
     {
       "id": 1,
@@ -21,12 +31,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (status) (emerald_runs_total)",
+          "expr": "sum by (status) (emerald_runs_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Runs ({{status}})"
         },
         {
           "refId": "B",
-          "expr": "emerald_tasks_total",
+          "expr": "sum(emerald_tasks_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Total Tasks"
         }
       ]
@@ -52,7 +62,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "emerald_role_duration_seconds",
+          "expr": "sum by (role) (emerald_role_duration_seconds{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "{{role}}"
         }
       ]
@@ -84,7 +94,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "emerald_verifications_total",
+          "expr": "sum by (status) (emerald_verifications_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Verification {{status}}"
         }
       ]
@@ -104,12 +114,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "emerald_repair_attempts_total",
+          "expr": "sum(emerald_repair_attempts_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Repair Attempts"
         },
         {
           "refId": "B",
-          "expr": "emerald_repair_cycles_total",
+          "expr": "sum(emerald_repair_cycles_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Repair Cycles"
         }
       ]
@@ -129,7 +139,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "emerald_approvals_total",
+          "expr": "sum by (status) (emerald_approvals_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Approvals ({{status}})"
         }
       ]
@@ -155,7 +165,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "emerald_model_spend_usd",
+          "expr": "sum by (model) (emerald_model_spend_usd{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Spend (USD) [{{model}}]"
         }
       ]
@@ -168,12 +178,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "emerald_role_duration_seconds",
+          "expr": "sum by (role) (emerald_role_duration_seconds{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Role Duration: {{role}}"
         },
         {
           "refId": "B",
-          "expr": "emerald_verifications_total",
+          "expr": "sum by (status) (emerald_verifications_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Verifications: {{status}}"
         }
       ]
@@ -186,17 +196,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "emerald_model_spend_usd",
+          "expr": "sum(emerald_model_spend_usd{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Model Spend ($)"
         },
         {
           "refId": "B",
-          "expr": "emerald_repair_attempts_total",
+          "expr": "sum(emerald_repair_attempts_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Repair Attempts"
         },
         {
           "refId": "C",
-          "expr": "emerald_approvals_total",
+          "expr": "sum by (status) (emerald_approvals_total{execution_mode=~\"$execution_mode\"})",
           "legendFormat": "Approvals: {{status}}"
         }
       ]

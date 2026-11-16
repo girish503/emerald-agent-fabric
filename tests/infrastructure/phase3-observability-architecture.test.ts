@@ -606,15 +606,15 @@ describe("Phase 3 Comprehensive Monitoring & Observability Architecture", () => 
     expect(flakyObs.getPipelineHealth().healthy).toBe(true);
   });
 
-  it("validates all 10 Grafana dashboard JSON specs and all Prometheus alert rules", () => {
+  it("validates all 11 Grafana dashboard JSON specs and all Prometheus alert rules", () => {
     const repoRoot = process.cwd();
     const dashDir = path.join(repoRoot, "infra", "monitoring", "grafana", "provisioning", "dashboards");
     const files = fs
       .readdirSync(dashDir)
-      .filter((f) => f.endsWith(".json") && f !== "00-live-mission-governance.json")
+      .filter((f) => f.endsWith(".json"))
       .sort();
 
-    expect(files).toHaveLength(10);
+    expect(files).toHaveLength(11);
     for (const file of files) {
       const parsed = JSON.parse(fs.readFileSync(path.join(dashDir, file), "utf8"));
       const report = validateGrafanaDashboard(parsed);
