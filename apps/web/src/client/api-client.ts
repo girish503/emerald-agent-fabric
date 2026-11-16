@@ -33,6 +33,7 @@ import {
   type ListTasksOptions,
   type WhoamiResponse,
   type ArtifactContentResponse,
+  type RunDagSnapshot,
   type ApiErrorCode,
   type ApiErrorResponse,
 } from "../types/api.js";
@@ -407,6 +408,54 @@ export class EmeraldApiClient {
       byteLength,
       truncated,
     };
+  }
+
+  /**
+   * Fetches the multi-agent mission DAG snapshot for a specific run or latest active run.
+   */
+  async getRunDag(runId?: string, options: RequestOptions = {}): Promise<RunDagSnapshot> {
+    const endpoint = runId ? `/api/runs/${encodeURIComponent(runId)}/dag` : `/api/dag`;
+    const response = await this.executeHttpRequest(endpoint, {
+      method: "GET",
+      options,
+    });
+    const json = (await response.json()) as any;
+    if (json.data) return json.data as RunDagSnapshot;
+    return json as RunDagSnapshot;
+  }
+
+  /**
+   * Submits a human approval decision for a paused node in WAITING_APPROVAL.
+   */
+  async approveApproval(
+    approvalId: string,
+    justification = "Human operator approved via web workspace",
+    options: RequestOptions = {}
+  ): Promise<{ success: boolean; status: string; runId?: string }> {
+    const endpoint = `/api/approvals/${encodeURIComponent(approvalId)}/approve`;
+    const response = await this.executeHttpRequest(endpoint, {
+      method: "POST",
+      body: JSON.stringify({ reason: justification }),
+      options,
+    });
+    return (await response.json()) as any;
+  }
+
+  /**
+   * Rejects an approval request, failing the run closed.
+   */
+  async rejectApproval(
+    approvalId: string,
+    justification = "Human operator rejected via web workspace",
+    options: RequestOptions = {}
+  ): Promise<{ success: boolean; status: string; runId?: string }> {
+    const endpoint = `/api/approvals/${encodeURIComponent(approvalId)}/reject`;
+    const response = await this.executeHttpRequest(endpoint, {
+      method: "POST",
+      body: JSON.stringify({ reason: justification }),
+      options,
+    });
+    return (await response.json()) as any;
   }
 
   /**

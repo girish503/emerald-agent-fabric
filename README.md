@@ -77,14 +77,29 @@ node bin/emerald.js server --db ./emerald.db --host 127.0.0.1 --port 3000 --web-
 >    - **HumanEval (600s budget)**: 0/3 (3 `EMPTY_PATCH` failures; average 174s/task with 0 timeouts)
 >    *Analysis*: Lightweight 1.5B models on CPU execute reads (`read_file`) but lack parameter capacity to plan structured multi-turn edits (`edit_file`).
 >
-> 2. **Governed External Model Pilot (`openai/gpt-oss-120b` via Groq)**:
+> 2. **Local 7B Model Evaluation (`qwen2.5-coder:7b`)**:
+>    Under 600s task timeouts on an 8 GB host, `qwen2.5-coder:7b` achieved **0 / 10 (0.0%)**:
+>    - Severe RAM pressure (available system RAM dropped to 6 MB, 99.9% committed) forced weights into virtual memory paging, resulting in >120s step latency and inference timeouts.
+>    *Analysis*: 7B models on 8GB CPU-only hosts hit physical memory and latency ceilings; production inference requires hosted open-weights.
+>
+> 3. **Governed External Model Pilot (`openai/gpt-oss-120b` via Groq)**:
 >    Under identical runtime governance (`GovernedModelRouterService`, clean-room dual-gate verification, `BoundedRepairLoopController`), `openai/gpt-oss-120b` achieved:
 >    - **5 / 5 (100.0%) verified patches on solvable tasks** (`HumanEval/0`, `1`, `2`, `3`, `4`) before reaching upstream daily token quotas (Tasks 5–9 halted by upstream provider tier limits).
 >    - **50.0% pass rate overall (5/10)**, with real multi-turn tool interaction (`read_file`, `edit_file`, `run_command`), producing 256 B – 664 B patches passing sovereign physical verification.
 >    - Total benchmark spend was **$0.0408 USD** ($0.04 / $2.00 spend cap).
 >    *Analysis*: The loop-vs-model question is resolved: the runtime governance and verification loop is sound; model capability was the ceiling.
 >
-> Detailed methodology, full empirical logs, and durable traces are documented in [BENCHMARK.md](./BENCHMARK.md) and [PILOT-REPORT.md](./docs/reports/PILOT-REPORT.md).
+> 4. **Live End-to-End Operational Acceptance (Step 5 Suite)**:
+>    The complete six-scenario live operational loop achieved **6 / 6 (100.0%)**:
+>    - **Success Path**: Clean-room verified Python generator in 4 steps ($0.0028).
+>    - **Approval-Required**: Zero self-approval enforced fail-closed; operator approved via REST API ($0.0000).
+>    - **Verification Failure + Repair**: Self-healed diagnosed failure in 1 iteration ($0.0001).
+>    - **Multi-Agent DAG**: 4-stage pipeline (Researcher $\to$ Coder $\to$ Tester $\to$ Reviewer) with dependency gating ($0.0002).
+>    - **Restart + Recovery**: Expired lease fenced, crashed run resumed from SQLite to completion ($0.0000).
+>    - **Tenant Isolation**: Cross-tenant queries/actions return 404; DAG route rejected fail-closed ($0.0000).
+>    - Total suite execution time: **123.1s**, total spend: **$0.0031 USD**.
+>
+> Detailed methodology, full empirical logs, and durable traces are documented in [BENCHMARK.md](./BENCHMARK.md), [PILOT-REPORT.md](./docs/reports/PILOT-REPORT.md), and [E2E-LIVE-REPORT.md](./docs/reports/E2E-LIVE-REPORT.md).
 >
 > Emerald is **NOT**:
 > - A commercial coding assistant (Devin, Cursor, Copilot, OpenHands)

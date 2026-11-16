@@ -1,4 +1,6 @@
 import type { DatabaseSync } from "node:sqlite";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { SqliteScopedMemoryStore } from "./sqlite-scoped-memory-store.js";
 import type {
   CreateMemoryEntryRecord,
@@ -3253,6 +3255,7 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     this.telemetry = telemetry;
   }
   private readonly db: DatabaseSync;
+  private readonly dbLocation?: string;
   private readonly isProcessAlive: (pid: number) => boolean;
 
   constructor(
@@ -3265,6 +3268,7 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     } else {
       const config = dbOrConfig as (SqliteClientConfig & SqliteStateStoreOptions) | undefined;
       this.db = createSqliteClient(config);
+      this.dbLocation = config?.location;
       this.isProcessAlive = config?.isProcessAlive ?? options?.isProcessAlive ?? defaultIsProcessAlive;
     }
   }
@@ -3870,7 +3874,16 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     };
   }
 
-  getObservabilityCounts(): { readonly tasksTotal: number; readonly runsByStatus: Readonly<Record<string, number>> } {
+  getObservabilityCounts(): {
+    readonly tasksTotal: number;
+    readonly runsByStatus: Readonly<Record<string, number>>;
+    readonly roleDurations: Readonly<Record<string, number>>;
+    readonly verificationsByStatus: Readonly<Record<string, number>>;
+    readonly repairAttemptsCount: number;
+    readonly repairsByCategory: Readonly<Record<string, number>>;
+    readonly approvalsByStatus: Readonly<Record<string, number>>;
+    readonly modelSpendUsd: number;
+  } {
     const taskRow = this.db.prepare(`SELECT COUNT(*) AS cnt FROM tasks`).get() as { cnt?: number } | undefined;
     const runRows = this.db.prepare(`SELECT status, COUNT(*) AS cnt FROM runs GROUP BY status`).all() as Array<{ status?: string; cnt?: number }>;
     const runsByStatus: Record<string, number> = {};
@@ -3879,7 +3892,116 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
         runsByStatus[row.status] = Number(row.cnt ?? 0);
       }
     }
-    return { tasksTotal: Number(taskRow?.cnt ?? 0), runsByStatus };
+
+    const roleDurations: Record<string, number> = {
+      RESEARCHER: 0,
+      CODER: 0,
+      TESTER: 0,
+      REVIEWER: 0,
+    };
+    try {
+      const roleRuns = this.db.prepare(`
+        SELECT t.title, r.created_at, r.updated_at
+        FROM tasks t
+        JOIN runs r ON t.task_id = r.task_id
+        WHERE t.task_id LIKE '%__sub__%'
+      `).all() as Array<{ title?: string; created_at?: string; updated_at?: string }>;
+      for (const row of roleRuns) {
+        const title = row.title ?? "";
+        let role = "";
+        if (title.includes("RESEARCHER")) role = "RESEARCHER";
+        else if (title.includes("CODER")) role = "CODER";
+        else if (title.includes("TESTER")) role = "TESTER";
+        else if (title.includes("REVIEWER")) role = "REVIEWER";
+        if (role && row.created_at && row.updated_at) {
+          const dur = Math.max(0, (new Date(row.updated_at).getTime() - new Date(row.created_at).getTime()) / 1000);
+          roleDurations[role] = dur;
+        }
+      }
+    } catch {}
+
+    const verificationsByStatus: Record<string, number> = { PASSED: 0, FAILED: 0 };
+    try {
+      const verifRows = this.db.prepare(`
+        SELECT payload FROM run_events WHERE event_type = 'verification.completed'
+      `).all() as Array<{ payload?: string }>;
+      for (const row of verifRows) {
+        if (row.payload) {
+          try {
+            const p = JSON.parse(row.payload);
+            const s = p.status === 'PASSED' ? 'PASSED' : 'FAILED';
+            verificationsByStatus[s] = (verificationsByStatus[s] || 0) + 1;
+          } catch {}
+        }
+      }
+    } catch {}
+
+    const repairsByCategory: Record<string, number> = {};
+    let repairAttemptsCount = 0;
+    try {
+      const repairRows = this.db.prepare(`
+        SELECT payload FROM run_events WHERE event_type = 'repair.attempt'
+      `).all() as Array<{ payload?: string }>;
+      for (const row of repairRows) {
+        if (row.payload) {
+          try {
+            const p = JSON.parse(row.payload);
+            const cat = String(p.feedbackCategory || 'assertion_failure');
+            repairsByCategory[cat] = (repairsByCategory[cat] || 0) + 1;
+            repairAttemptsCount++;
+          } catch {}
+        }
+      }
+    } catch {}
+
+    const approvalsByStatus: Record<string, number> = { PENDING: 0, APPROVED: 0, REJECTED: 0 };
+    try {
+      const apprRows = this.db.prepare(`
+        SELECT status, COUNT(*) AS cnt FROM approval_requests GROUP BY status
+      `).all() as Array<{ status?: string; cnt?: number }>;
+      for (const row of apprRows) {
+        if (typeof row.status === "string" && row.status.length > 0) {
+          approvalsByStatus[row.status] = Number(row.cnt ?? 0);
+        }
+      }
+    } catch {}
+
+    let modelSpendUsd = 0;
+    try {
+      if (this.dbLocation) {
+        const dir = path.dirname(path.resolve(this.dbLocation));
+        const summaryPath = path.join(dir, "mission-summary.json");
+        if (fs.existsSync(summaryPath)) {
+          const summary = JSON.parse(fs.readFileSync(summaryPath, "utf8"));
+          if (typeof summary.totalSpendUsd === "number") {
+            modelSpendUsd = summary.totalSpendUsd;
+          }
+          if (repairAttemptsCount === 0 && summary.repairIterations) {
+            repairAttemptsCount = Number(summary.repairIterations);
+          }
+        }
+        if (repairAttemptsCount === 0) {
+          const repairCyclePath = path.join(dir, "repair", "repair-cycle.json");
+          if (fs.existsSync(repairCyclePath)) {
+            const rc = JSON.parse(fs.readFileSync(repairCyclePath, "utf8"));
+            if (rc.iterations) {
+              repairAttemptsCount = Number(rc.iterations);
+            }
+          }
+        }
+      }
+    } catch {}
+
+    return {
+      tasksTotal: Number(taskRow?.cnt ?? 0),
+      runsByStatus,
+      roleDurations,
+      verificationsByStatus,
+      repairAttemptsCount,
+      repairsByCategory,
+      approvalsByStatus,
+      modelSpendUsd,
+    };
   }
 
   close(): void {

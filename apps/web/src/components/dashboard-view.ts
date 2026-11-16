@@ -805,11 +805,247 @@ export function renderAuthGatePanel(state: DashboardState): string {
 }
 
 /**
+ * Renders the live Multi-Agent DAG Execution Workspace card:
+ * 1. Visual pipeline graph with live status colors and role badges
+ * 2. Real Human-in-the-Loop Approve / Reject controls for WAITING_APPROVAL nodes
+ * 3. Sovereign Verification Proof Card with verifier name, status, and evidence file links
+ * 4. Tool-Activity + Bounded Repair History chronological timeline
+ */
+export function renderDagWorkspaceCard(state: DashboardState): string {
+  const dag = state.dagSnapshot;
+  if (!dag || !dag.nodes || dag.nodes.length === 0) {
+    return "";
+  }
+
+  const selectedNodeId = state.selectedDagNodeId || dag.activeNodeId || dag.nodes[0]?.id;
+  const selectedNode = dag.nodes.find((n) => n.id === selectedNodeId) || dag.nodes[0];
+
+  const pipelineNodesHtml = dag.nodes
+    .map((node, idx) => {
+      const isSelected = node.id === selectedNodeId;
+      const isLast = idx === dag.nodes.length - 1;
+
+      let stateClass = "node-pending";
+      let statusBadgeColor = "gray";
+      let statusLabel = node.state.toUpperCase();
+
+      if (node.state === "verified" || node.rawStatus === "COMPLETED") {
+        stateClass = "node-verified";
+        statusBadgeColor = "green";
+        statusLabel = "VERIFIED";
+      } else if (node.state === "waiting-approval" || node.rawStatus === "WAITING_APPROVAL") {
+        stateClass = "node-waiting-approval";
+        statusBadgeColor = "yellow";
+        statusLabel = "WAITING APPROVAL";
+      } else if (node.state === "running" || node.rawStatus === "RUNNING") {
+        stateClass = "node-running";
+        statusBadgeColor = "blue";
+        statusLabel = "RUNNING";
+      } else if (node.state === "failed" || node.rawStatus === "FAILED") {
+        stateClass = "node-failed";
+        statusBadgeColor = "red";
+        statusLabel = "FAILED";
+      }
+
+      const connectorHtml = !isLast ? `<div class="dag-connector" aria-hidden="true">&rarr;</div>` : "";
+
+      return `
+        <button
+          type="button"
+          class="dag-node-btn ${stateClass} ${isSelected ? "node-selected" : ""}"
+          data-action="select-dag-node"
+          data-node-id="${escapeHtml(node.id)}"
+          title="Click to inspect [${escapeHtml(node.role)}] details"
+        >
+          <div class="node-role-tag">${escapeHtml(node.role)}</div>
+          <div class="node-title-label">${escapeHtml(node.id)}</div>
+          <div class="node-footer">
+            <span class="badge badge-${statusBadgeColor}">${escapeHtml(statusLabel)}</span>
+            <span class="node-duration font-mono">${node.durationMs > 0 ? (node.durationMs / 1000).toFixed(1) + "s" : ""}</span>
+          </div>
+        </button>
+        ${connectorHtml}
+      `;
+    })
+    .join("");
+
+  let approvalSectionHtml = "";
+  if (selectedNode?.approval) {
+    const appr = selectedNode.approval;
+    const isPending = appr.status === "PENDING" || selectedNode.state === "waiting-approval";
+
+    if (isPending) {
+      approvalSectionHtml = `
+        <div class="approval-gate-card" id="approval-gate-card">
+          <h4>
+            <span class="status-dot"></span>
+            HUMAN OPERATOR AUTHORIZATION REQUIRED
+          </h4>
+          <p style="margin: 6px 0; font-size: 13px;">
+            <strong>Operation:</strong> <code>${escapeHtml(appr.operation)}</code><br/>
+            <strong>Justification:</strong> ${escapeHtml(appr.justification || "Human approval required")}<br/>
+            <strong>Approval ID:</strong> <span class="font-mono">${escapeHtml(appr.approvalId)}</span>
+          </p>
+          <div class="approval-actions">
+            <button
+              type="button"
+              class="btn btn-approve"
+              data-action="approve-node"
+              data-approval-id="${escapeHtml(appr.approvalId)}"
+              ${state.approvalBusy ? "disabled" : ""}
+            >
+              ${state.approvalBusy ? "Approving..." : "Approve Execution"}
+            </button>
+            <button
+              type="button"
+              class="btn btn-reject"
+              data-action="reject-node"
+              data-approval-id="${escapeHtml(appr.approvalId)}"
+              ${state.approvalBusy ? "disabled" : ""}
+            >
+              ${state.approvalBusy ? "Rejecting..." : "Reject & Fail Closed"}
+            </button>
+          </div>
+          ${state.approvalError ? `<div class="error-banner" style="margin-top:8px;">${escapeHtml(state.approvalError)}</div>` : ""}
+        </div>
+      `;
+    } else {
+      const badgeColor = appr.status === "APPROVED" ? "green" : "red";
+      approvalSectionHtml = `
+        <div class="approval-gate-card" style="border-color: var(--${badgeColor}); background: rgba(74, 222, 128, 0.05);">
+          <h4>APPROVAL RECORD: <span class="badge badge-${badgeColor}">${escapeHtml(appr.status)}</span></h4>
+          <p style="margin: 4px 0; font-size: 12px;">
+            <strong>Decided By:</strong> <span class="font-mono">${escapeHtml(appr.approver || "Operator")}</span> at ${escapeHtml(appr.decidedAt || "N/A")}<br/>
+            <strong>Operation:</strong> <code>${escapeHtml(appr.operation)}</code>
+          </p>
+        </div>
+      `;
+    }
+  }
+
+  let proofSectionHtml = "";
+  if (selectedNode?.verification) {
+    const v = selectedNode.verification;
+    if (v.unverifiedOverride) {
+      proofSectionHtml = `
+        <div class="proof-card" style="border-color: var(--yellow); background: rgba(250, 204, 21, 0.08);">
+          <h4 style="color: var(--yellow);">OPERATOR OVERRIDE RECORD (UNVERIFIED COMPLETION)</h4>
+          <div class="proof-grid">
+            <div><strong>Authorized By:</strong> <span class="font-mono">${escapeHtml(v.operator || "Operator")}</span></div>
+            <div><strong>Timestamp:</strong> <span>${escapeHtml(v.timestamp || "N/A")}</span></div>
+            <div style="grid-column: 1 / -1;"><strong>Audit Note:</strong> <span>${escapeHtml(v.note || "Explicit override")}</span></div>
+          </div>
+        </div>
+      `;
+    } else {
+      const isPassed = v.status === "PASSED" || v.status === "VERIFIED";
+      const badgeColor = isPassed ? "green" : "red";
+      const evidenceTags = (v.evidencePaths && v.evidencePaths.length > 0)
+        ? v.evidencePaths.map((p) => `<span class="evidence-tag">${escapeHtml(p)}</span>`).join(" ")
+        : `<span class="evidence-tag">output payload validated</span>`;
+
+      proofSectionHtml = `
+        <div class="proof-card" id="verification-proof-card">
+          <h4>SOVEREIGN VERIFICATION PROOF</h4>
+          <div class="proof-grid">
+            <div><strong>Verifier:</strong> <span class="font-mono">${escapeHtml(v.verifierId || "DeterministicVerifier")}</span></div>
+            <div><strong>Verdict:</strong> <span class="badge badge-${badgeColor}">${escapeHtml(v.status || "PASSED")}</span> (Exit code: ${v.exitCode ?? 0})</div>
+            <div><strong>Spec ID:</strong> <span class="font-mono">${escapeHtml(v.specId || "N/A")}</span></div>
+            <div><strong>Timestamp:</strong> <span>${escapeHtml(v.timestamp || "N/A")}</span></div>
+            <div style="grid-column: 1 / -1;"><strong>Summary:</strong> <span>${escapeHtml(v.summary || "Specification validated")}</span></div>
+            <div style="grid-column: 1 / -1;"><strong>Evidence Files:</strong> ${evidenceTags}</div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  let timelineItemsHtml = "";
+  if (selectedNode?.timeline && selectedNode.timeline.length > 0) {
+    timelineItemsHtml = selectedNode.timeline
+      .map((item) => {
+        let itemClass = "item-tool";
+        if (item.type === "repair") itemClass = "item-repair";
+        else if (item.type === "approval") itemClass = "item-approval";
+        else if (item.type === "verification") itemClass = "item-verification";
+
+        const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleTimeString() : "";
+
+        return `
+          <div class="timeline-stream-item ${itemClass}">
+            <div class="timeline-stream-time">${escapeHtml(timeStr)}</div>
+            <div class="timeline-stream-content">
+              <div class="timeline-stream-title">${escapeHtml(item.title)}</div>
+              <div class="timeline-stream-desc">${escapeHtml(item.description)}</div>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+  } else {
+    timelineItemsHtml = `<p class="empty-hint" style="color:var(--text-muted); font-size:12px; margin: 4px 0;">No activity events recorded yet for this node.</p>`;
+  }
+
+  const sseStatusLabel = state.dagStreamStatus === "connected"
+    ? `<span class="badge badge-green">DAG Stream Live</span>`
+    : `<span class="badge badge-gray">DAG Stream ${state.dagStreamStatus ?? "Connecting"}</span>`;
+
+  return `
+    <section class="dag-workspace-card" id="dag-workspace-card" aria-label="Multi-Agent Execution Pipeline">
+      <div class="dag-header">
+        <div class="dag-title-area">
+          <h2>Mission Execution Workspace: ${escapeHtml(dag.missionTitle)}</h2>
+          <p class="dag-description">${escapeHtml(dag.missionDescription)}</p>
+        </div>
+        <div class="dag-header-badges" style="display:flex; gap:8px; align-items:center;">
+          <span class="badge badge-blue">Mission Task: ${escapeHtml(dag.rootTaskId)}</span>
+          <span class="badge badge-yellow">Status: ${escapeHtml(dag.rootStatus)}</span>
+          ${sseStatusLabel}
+        </div>
+      </div>
+
+      <div class="dag-pipeline-flow" id="dag-pipeline-flow">
+        ${pipelineNodesHtml}
+      </div>
+
+      ${selectedNode ? `
+        <div class="dag-node-detail-panel" id="dag-node-detail-panel">
+          <div class="dag-node-detail-header">
+            <div>
+              <h3 style="margin:0; font-size:15px; color:var(--text-main);">
+                [${escapeHtml(selectedNode.role)}] ${escapeHtml(selectedNode.title)}
+              </h3>
+              <span style="font-size:12px; color:var(--text-muted);">
+                Objective: ${escapeHtml(selectedNode.objective)}
+              </span>
+            </div>
+            <div style="font-size:12px; color:var(--text-subtle);">
+              Dependencies: ${selectedNode.dependencies.length > 0 ? selectedNode.dependencies.map((d) => `<code>${escapeHtml(d)}</code>`).join(", ") : "None (Root)"}
+            </div>
+          </div>
+
+          ${approvalSectionHtml}
+          ${proofSectionHtml}
+
+          <div class="timeline-stream" id="dag-timeline-stream">
+            <h4>Tool Activity &amp; Repair History Timeline (${selectedNode.timeline?.length ?? 0} events)</h4>
+            <div class="timeline-stream-list">
+              ${timelineItemsHtml}
+            </div>
+          </div>
+        </div>
+      ` : ""}
+    </section>
+  `.trim();
+}
+
+/**
  * Main Pure View Renderer: Generates complete dashboard HTML from current state.
  */
 export function renderDashboardHtml(state: DashboardState): string {
   const connectionBadge = renderConnectionStatusBadge(state.connectionStatus, state.connectionError);
   const authGate = renderAuthGatePanel(state);
+  const dagWorkspace = renderDagWorkspaceCard(state);
   const summaryCards = renderSummaryCards(state);
   const submissionForm = renderTaskSubmissionForm(state);
   const taskList = renderTaskList(state);
@@ -840,6 +1076,8 @@ export function renderDashboardHtml(state: DashboardState): string {
       </div>
 
       <main class="dashboard-main-content" id="main-content">
+        ${dagWorkspace}
+
         ${summaryCards}
 
         <div class="dashboard-layout-columns">

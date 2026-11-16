@@ -24,8 +24,12 @@ Across the empirical evaluations, benchmark runs distinguish between lightweight
 | **3** | HumanEval (Phase 5b) | `qwen2.5-coder:1.5b` | 10 | 180s | 0 | 6 | 4 | **0.0%** | `EMPTY_PATCH` (6) / `TIMED_OUT` on Turn 2 (4) |
 | **4** | HumanEval (Phase 6) | `qwen2.5-coder:1.5b` | 3 | 600s | 0 | 3 | 0 | **0.0%** | `EMPTY_PATCH`: Finished in 156–203s with 0 edits |
 | **5** | HumanEval (Pilot) | `openai/gpt-oss-120b` | 10 | 600s | 5 | 5 | 0 | **50.0%** | **5/5 (100%) verified patches on solvable tasks**; tasks 5–9 halted by upstream quota/TPM limits |
+| **6** | HumanEval (Step 4 Local 7B) | `qwen2.5-coder:7b` | 10 | 600s | 0 | 0 | 10 | **0.0%** | `TIMED_OUT`: Inference exceeded 120s model timeout under severe host RAM pressure (6 MB free) |
+| **7** | Live E2E Acceptance (Step 5) | `openai/gpt-oss-120b` | 6 | 180s | 6 | 0 | 0 | **100.0%** | **6/6 live operational scenarios passed** (Success, Approval, Repair, DAG, Recovery, Isolation) |
 | **TOTAL** | **All Local 1.5B Runs** | `qwen2.5-coder:1.5b` | **33 trials (23 unique)** | **40s–600s** | **0** | **19** | **14** | **0.0%** | 1.5B parameter capability ceiling |
+| **EVAL** | **Local 7B Run** | `qwen2.5-coder:7b` | **10 tasks** | **600s** | **0** | **0** | **10** | **0.0%** | 7B hardware memory & CPU latency ceiling on 8GB host |
 | **PILOT** | **Governed 120B Run** | `openai/gpt-oss-120b` | **10 tasks** | **600s** | **5** | **5 (quota)** | **0** | **100% pre-quota** | **Loop verified working: 5/5 clean-room verified patches (50% overall)** |
+| **LIVE E2E** | **Operational Suite** | `openai/gpt-oss-120b` | **6 scenarios** | **180s** | **6** | **0** | **0** | **100.0%** | **Full system verified live: 6/6 passed, $0.0031 spend, 123.1s** |
 
 ---
 
@@ -149,7 +153,61 @@ To test whether the runtime loop succeeds when paired with a capable reasoning m
 
 ---
 
-## 8. Capability Analysis & Takeaways
+## 8. Run 6: Governed Local 7B Evaluation (`qwen2.5-coder:7b` via Ollama)
+
+To empirically evaluate whether scaling local parameters on the host CPU resolves the coding capability ceiling observed with the 1.5B model, all 10 canonical HumanEval tasks were evaluated using `qwen2.5-coder:7b` (4.7 GB Q4_K_M) via Ollama under identical governance (`DeterministicVerifier`, `CleanRoomVerifier`, `BoundedRepairLoopController`, 600s wall-clock timeout):
+
+| # | Task ID | Entry Point | Status | Duration | Turns | Tools Called | Patch Size | Test Outcome | Termination Reason | Cost (USD) |
+| :-: | :--- | :--- | :---: | :-: | :-: | :--- | :-: | :-: | :--- | :-: |
+| 1 | `HumanEval/0` | `has_close_elements` | **TIMED_OUT** | 122.1s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 2 | `HumanEval/1` | `separate_paren_groups` | **TIMED_OUT** | 132.9s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 3 | `HumanEval/2` | `truncate_number` | **TIMED_OUT** | 148.2s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 4 | `HumanEval/3` | `below_zero` | **TIMED_OUT** | 132.3s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 5 | `HumanEval/4` | `mean_absolute_deviation` | **TIMED_OUT** | 124.5s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 6 | `HumanEval/5` | `intersperse` | **TIMED_OUT** | 128.8s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 7 | `HumanEval/6` | `parse_nested_parens` | **TIMED_OUT** | 133.2s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 8 | `HumanEval/7` | `filter_by_substring` | **TIMED_OUT** | 126.1s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 9 | `HumanEval/8` | `sum_product` | **TIMED_OUT** | 138.2s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+| 10 | `HumanEval/9` | `rolling_max` | **TIMED_OUT** | 127.6s | 0 | None | 0 B | FAIL | `[MODEL_REQUEST_TIMEOUT]` Ollama inference timed out after 120,000ms | $0.0000 |
+
+- **Summary**: 0 Passed / 0 Failed / 10 Timed Out; Pass Rate: **0.0%**; Total Wall-Clock Time: 1352.1s (~22.5 minutes).
+- **Physical Hardware Telemetry**:
+  - Total Visible System Memory: 7,813 MB (~8 GB).
+  - Minimum Available System Memory during inference: **6 MB** (99.9% RAM committed).
+  - Peak Resident Ollama Process Memory: 32 MB working set (Windows paging forced the 4.7 GB weights onto virtual disk swap).
+  - Step Latency: >120,000ms per step. Severe page thrashing prevented the model from completing a single step within the 120s model timeout threshold.
+  - Tool Invocation: 0 tool calls, 0 edits produced (`edit_file` never invoked).
+- **Evidence**: `benchmarks/humaneval/benchmark-results.json`, `scratch/peak-ram.json`.
+
+---
+
+## 9. Comparative Model Analysis & The Production Inference Decision
+
+Comparing empirical performance across all three tested tiers:
+
+| Dimension | Tier 1: Local 1.5B (`qwen2.5-coder:1.5b`) | Tier 2: Local 7B (`qwen2.5-coder:7b`) | Tier 3: External 120B (`openai/gpt-oss-120b` via Groq) |
+| :--- | :--- | :--- | :--- |
+| **Pass Rate** | **0 / 23 (0.0%)** | **0 / 10 (0.0%)** | **5 / 5 solvable (100.0%)** (5/10 overall before rate limit) |
+| **Average Latency / Step** | ~67s – 88s | >120s (Timed out) | ~1.2s – 3.5s |
+| **Total Task Duration** | 126s – 272s | 122s – 148s | 150s – 380s (multi-turn with verification) |
+| **Tool Usage (`edit_file`)** | **Never** (0 edits; repeated `read_file` or empty stubs) | **Never** (0 turns executed due to inference timeout) | **Frequent & Accurate** (Generated line-anchored searchAnchor + replacements) |
+| **Patch Verification** | 0 verified patches (0 B diffs) | 0 verified patches (0 B diffs) | 5 / 5 verified clean-room patches (256 B – 664 B) |
+| **Hardware Footprint** | ~1.2 GB RAM, 0 swap thrashing | 4.7 GB weights, squeezed host to **6 MB free RAM** (thrashing) | Zero local memory footprint |
+| **Cost per Task** | $0.0000 | $0.0000 | ~$0.008 per task ($0.0408 total) |
+| **Viability Assessment** | Fast enough to run, but below capability ceiling for patch synthesis | **Non-viable on 8GB CPU host**: RAM exhaustion & latency ceiling | **Production-viable**: immediate clean-room verified software repairs |
+
+### The Production Model Verdict (Decision Rule Application)
+Per constitutional decision criteria:
+- *If 7B passes >= 3 / 10*: Recommend local-first with 7B.
+- *If 7B passes 0–2 / 10*: Recommend accepting Groq as the production inference layer and retaining local 1.5B strictly for offline / fixture / CI work.
+
+**Empirical Decision**:
+`qwen2.5-coder:7b` scored **0/10**. The 7B model is physically non-viable on an 8GB CPU-first developer host due to memory exhaustion (dropping host free RAM to 6 MB) and latency (>120s/step).
+Emerald Agent Fabric formally accepts **Groq (`openai/gpt-oss-120b`)** as the primary governed production inference layer, while retaining **`qwen2.5-coder:1.5b`** strictly for zero-cost hermetic unit tests, DAG orchestration fixtures, and offline development.
+
+---
+
+## 10. Capability Analysis & Takeaways
 
 1. **The Loop-vs-Model Question is Decisively Answered**:
    The agent execution and verification loop is proven sound. The 0/23 baseline on local CPU was strictly a model parameter ceiling of the 1.5B model, which lacked capacity to formulate line-anchored replacements. When paired with `openai/gpt-oss-120b`, the exact same loop immediately generated clean-room verified patches on 5 out of 5 solvable tasks without human intervention.
@@ -160,7 +218,7 @@ To test whether the runtime loop succeeds when paired with a capable reasoning m
 
 ---
 
-## 9. How to Reproduce
+## 11. How to Reproduce
 
 All benchmarks are fully reproducible:
 
