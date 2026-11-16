@@ -20,6 +20,7 @@ import type {
   SseEventEnvelope,
   ArtifactRecord,
   ArtifactContentResponse,
+  RunDagSnapshot,
 } from "../types/api.js";
 import {
   EmeraldApiClient,
@@ -30,6 +31,7 @@ import {
   EmeraldSseClient,
   type SseConnectionStatus,
 } from "../client/sse-client.js";
+import { DagSseClient } from "../client/dag-sse-client.js";
 import {
   validateTaskSubmissionInput,
   summarizeDashboardState,
@@ -159,6 +161,11 @@ export interface DashboardState {
   readonly nextCursor?: string | null;
   readonly statusFilter?: TaskStatus | "ALL";
   readonly hasMoreTasks?: boolean;
+  readonly dagSnapshot?: RunDagSnapshot;
+  readonly selectedDagNodeId?: string;
+  readonly dagStreamStatus?: "connecting" | "connected" | "reconnecting" | "closed";
+  readonly approvalBusy?: boolean;
+  readonly approvalError?: string;
 }
 
 export type DashboardListener = (state: DashboardState) => void;
@@ -168,6 +175,7 @@ export class DashboardController {
   private state: DashboardState;
   private readonly listeners = new Set<DashboardListener>();
   private activeSseClient?: EmeraldSseClient;
+  private dagSseClient?: DagSseClient;
   private activeRunId?: string;
   private activeArtifactsAbortController?: AbortController;
   private activeArtifactsRunId?: string;
@@ -256,6 +264,7 @@ export class DashboardController {
         },
       });
       await this.loadTaskHistory({ reset: true }).catch(() => {});
+      this.startDagStream();
       return true;
     } catch (err) {
       this.client.clearAuthToken();
@@ -303,6 +312,7 @@ export class DashboardController {
           hasToken: true,
         },
       });
+      this.startDagStream();
       return true;
     } catch (err) {
       if (err instanceof ApiClientError && (err.statusCode === 401 || err.statusCode === 403)) {
@@ -342,6 +352,7 @@ export class DashboardController {
     this.activeArtifactsRunId = undefined;
     this.activeArtifactPreviewId = undefined;
     this.disconnectSse();
+    this.stopDagStream();
     this.updateState({
       connectionStatus: "idle",
       connectionError: undefined,
@@ -1510,9 +1521,96 @@ export class DashboardController {
   }
 
   /**
+   * Starts live streaming the multi-agent mission DAG from /api/runs/:runId/dag or /api/dag.
+   */
+  startDagStream(runId?: string): void {
+    if (this.dagSseClient) {
+      this.dagSseClient.close();
+      this.dagSseClient = undefined;
+    }
+
+    this.dagSseClient = new DagSseClient({
+      baseUrl: (this.client as any).baseUrl,
+      runId,
+      getToken: () => this.client.getToken(),
+      onSnapshot: (snapshot) => {
+        const currentSelected = this.state.selectedDagNodeId;
+        const exists = snapshot.nodes.some((n) => n.id === currentSelected);
+        const selectedId = exists && currentSelected ? currentSelected : (snapshot.activeNodeId || snapshot.nodes[0]?.id);
+        this.updateState({
+          dagSnapshot: snapshot,
+          selectedDagNodeId: selectedId,
+          dagStreamStatus: "connected",
+        });
+      },
+      onError: () => {
+        // non-fatal
+      },
+      onStatusChange: (status) => {
+        this.updateState({ dagStreamStatus: status });
+      },
+    });
+
+    this.dagSseClient.start();
+  }
+
+  /**
+   * Closes the active DAG stream.
+   */
+  stopDagStream(): void {
+    if (this.dagSseClient) {
+      this.dagSseClient.close();
+      this.dagSseClient = undefined;
+      this.updateState({ dagStreamStatus: "closed" });
+    }
+  }
+
+  /**
+   * Selects a DAG node to inspect its verification proof, approval state, and tool activity.
+   */
+  selectDagNode(nodeId: string): void {
+    this.updateState({ selectedDagNodeId: nodeId });
+  }
+
+  /**
+   * Approves a paused node in WAITING_APPROVAL using the authenticated operator identity.
+   */
+  async approveDagNode(approvalId: string, justification = "Human operator approved via web workspace"): Promise<void> {
+    this.updateState({ approvalBusy: true, approvalError: undefined });
+    try {
+      await this.client.approveApproval(approvalId, justification);
+      this.updateState({ approvalBusy: false });
+    } catch (err: any) {
+      this.updateState({
+        approvalBusy: false,
+        approvalError: err?.message || "Failed to approve node",
+      });
+      throw err;
+    }
+  }
+
+  /**
+   * Rejects an approval request, permanently failing the run closed.
+   */
+  async rejectDagNode(approvalId: string, justification = "Human operator rejected via web workspace"): Promise<void> {
+    this.updateState({ approvalBusy: true, approvalError: undefined });
+    try {
+      await this.client.rejectApproval(approvalId, justification);
+      this.updateState({ approvalBusy: false });
+    } catch (err: any) {
+      this.updateState({
+        approvalBusy: false,
+        approvalError: err?.message || "Failed to reject node",
+      });
+      throw err;
+    }
+  }
+
+  /**
    * Disposes the controller, aborting any active SSE stream and clearing all listeners.
    */
   dispose(): void {
+    this.stopDagStream();
     if (this.activeHistoryAbortController) {
       this.activeHistoryAbortController.abort();
       this.activeHistoryAbortController = undefined;

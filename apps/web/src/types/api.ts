@@ -165,3 +165,93 @@ export interface ArtifactContentResponse {
   byteLength: number;
   truncated: boolean;
 }
+
+// 3. Track C Multi-Agent Mission DAG Types
+export type RunDagNodeState =
+  | "pending"
+  | "running"
+  | "waiting-approval"
+  | "verified"
+  | "completed"
+  | "failed";
+
+export interface RunDagToolCall {
+  readonly toolName: string;
+  readonly args: Record<string, unknown>;
+  readonly timestamp: string;
+  readonly status: "requested" | "completed" | "failed";
+  readonly exitCode?: number;
+  readonly durationMs?: number;
+  readonly output?: string;
+}
+
+export interface RunDagVerification {
+  readonly verifierId?: string;
+  readonly specId?: string;
+  readonly status?: string;
+  readonly exitCode?: number;
+  readonly timestamp?: string;
+  readonly summary?: string;
+  readonly evidencePaths?: readonly string[];
+  readonly unverifiedOverride?: boolean;
+  readonly operator?: string;
+  readonly note?: string;
+}
+
+export interface RunDagApproval {
+  readonly approvalId: string;
+  readonly operation: string;
+  readonly status: "PENDING" | "APPROVED" | "REJECTED";
+  readonly approver?: string;
+  readonly justification?: string;
+  readonly requestedAt: string;
+  readonly decidedAt?: string;
+}
+
+export interface RunDagRepair {
+  readonly eventType: string;
+  readonly timestamp: string;
+  readonly iteration: number;
+  readonly ceiling: number;
+  readonly feedbackCategory: string;
+  readonly canContinue: boolean;
+}
+
+export interface RunDagTimelineEvent {
+  readonly type: "tool" | "approval" | "repair" | "verification" | "lifecycle";
+  readonly timestamp: string;
+  readonly title: string;
+  readonly description: string;
+  readonly status?: string;
+  readonly details?: unknown;
+}
+
+export interface RunDagNode {
+  readonly id: string;
+  readonly taskId: string;
+  readonly title: string;
+  readonly role: string;
+  readonly objective: string;
+  readonly dependencies: readonly string[];
+  readonly state: RunDagNodeState;
+  readonly rawStatus: string;
+  readonly runId: string | null;
+  readonly workerId: string | null;
+  readonly durationMs: number;
+  readonly toolCalls: readonly RunDagToolCall[];
+  readonly verification: RunDagVerification | null;
+  readonly approval: RunDagApproval | null;
+  readonly repairs: readonly RunDagRepair[];
+  readonly timeline: readonly RunDagTimelineEvent[];
+}
+
+export interface RunDagSnapshot {
+  readonly rootTaskId: string;
+  readonly missionTitle: string;
+  readonly missionDescription: string;
+  readonly rootRunId: string | null;
+  readonly rootStatus: string;
+  readonly activeNodeId: string | null;
+  readonly nodes: readonly RunDagNode[];
+  readonly synthesis?: unknown;
+}

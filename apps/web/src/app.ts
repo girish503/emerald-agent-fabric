@@ -256,6 +256,58 @@ export function mountDashboardApp(options: AppMountOptions): MountedApp {
         controller.signOut();
       });
     }
+
+    // 12. DAG Node Selection Buttons
+    const dagNodeButtons = container.querySelectorAll('[data-action="select-dag-node"]');
+    if (dagNodeButtons) {
+      for (const btn of dagNodeButtons) {
+        btn.addEventListener("click", (e: any) => {
+          if (e && typeof e.preventDefault === "function") {
+            e.preventDefault();
+          }
+          const nodeId = btn.getAttribute("data-node-id");
+          if (nodeId) {
+            controller.selectDagNode(nodeId);
+          }
+        });
+      }
+    }
+
+    // 13. DAG Node Approve Button
+    const approveBtn = container.querySelector('[data-action="approve-node"]');
+    if (approveBtn) {
+      approveBtn.addEventListener("click", async (e: any) => {
+        if (e && typeof e.preventDefault === "function") {
+          e.preventDefault();
+        }
+        const approvalId = approveBtn.getAttribute("data-approval-id");
+        if (approvalId) {
+          try {
+            await controller.approveDagNode(approvalId);
+          } catch {
+            // Handled in controller state
+          }
+        }
+      });
+    }
+
+    // 14. DAG Node Reject Button
+    const rejectBtn = container.querySelector('[data-action="reject-node"]');
+    if (rejectBtn) {
+      rejectBtn.addEventListener("click", async (e: any) => {
+        if (e && typeof e.preventDefault === "function") {
+          e.preventDefault();
+        }
+        const approvalId = rejectBtn.getAttribute("data-approval-id");
+        if (approvalId) {
+          try {
+            await controller.rejectDagNode(approvalId, "Operator rejected execution in workspace UI");
+          } catch {
+            // Handled in controller state
+          }
+        }
+      });
+    }
   }
 
   function render(state: DashboardState) {
