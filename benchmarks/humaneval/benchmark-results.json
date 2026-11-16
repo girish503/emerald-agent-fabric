@@ -1,199 +1,199 @@
 {
-  "dataset": "HumanEval",
-  "provider": "groq",
-  "model": "openai/gpt-oss-120b",
-  "evaluatedAt": "2026-11-15T00:16:34.219Z",
   "totalTasks": 10,
-  "passedCount": 5,
-  "failedCount": 5,
-  "timedOutCount": 0,
-  "passRatePercent": 50,
-  "totalDurationMs": 1806210,
-  "totalCostUsd": 0.0408444,
+  "passedCount": 0,
+  "failedCount": 0,
+  "timedOutCount": 10,
+  "passRate": 0,
+  "totalDurationMs": 1352066,
+  "totalCostUsd": 0,
   "results": [
     {
       "taskId": "HumanEval/0",
       "entryPoint": "has_close_elements",
-      "status": "PASSED",
-      "durationMs": 203955,
-      "turnsTaken": 4,
-      "toolsCalled": [
-        "read_file",
-        "read_file",
-        "edit_file",
-        "run_command"
+      "status": "TIMED_OUT",
+      "durationMs": 122147,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        120794
       ],
-      "patchSizeBytes": 465,
-      "patchDiff": "diff --git a/solution.py b/solution.py\nindex d5780c5..b38ff70 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -9,4 +9,8 @@ def has_close_elements(numbers: List[float], threshold: float) -> bool:\n     >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n     True\n     \"\"\"\n-    pass\n+    sorted_nums = sorted(numbers)\n+    for i in range(1, len(sorted_nums)):\n+        if sorted_nums[i] - sorted_nums[i-1] < threshold:\n+            return True\n+    return False",
-      "testPassed": true,
-      "testOutput": "PASS: all test assertions passed",
-      "costUsd": 0.00471045,
-      "verifiedPatch": true
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-has_close_elements-v8bMAi\\workspaces\\ws-humaneval-1\\test_solution.py\", line 23, in <module>\r\n    check(has_close_elements)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-has_close_elements-v8bMAi\\workspaces\\ws-humaneval-1\\test_solution.py\", line 12, in check\r\n    assert candidate([1.0, 2.0, 3.9, 4.0, 5.0, 2.2], 0.3) == True\r\n        ",
+      "failureReason": "Timeout exhausted (122147ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
+      "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/1",
       "entryPoint": "separate_paren_groups",
-      "status": "PASSED",
-      "durationMs": 149626,
-      "turnsTaken": 3,
-      "toolsCalled": [
-        "read_file",
-        "read_file",
-        "edit_file"
+      "status": "TIMED_OUT",
+      "durationMs": 132851,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        126695
       ],
-      "patchSizeBytes": 664,
-      "patchDiff": "diff --git a/solution.py b/solution.py\nindex c2fa9f0..79ab44e 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -9,4 +9,18 @@ def separate_paren_groups(paren_string: str) -> List[str]:\n     >>> separate_paren_groups('( ) (( )) (( )( ))')\n     ['()', '(())', '(()())']\n     \"\"\"\n-    pass\n+    # Remove spaces\n+    s = paren_string.replace(\" \", \"\")\n+    groups = []\n+    depth = 0\n+    start = 0\n+    for i, ch in enumerate(s):\n+        if ch == '(':\n+            if depth == 0:\n+                start = i\n+            depth += 1\n+        elif ch == ')':\n+            depth -= 1\n+            if depth == 0:\n+                groups.append(s[start:i+1])\n+    return groups",
-      "testPassed": true,
-      "testOutput": "PASS: all test assertions passed",
-      "costUsd": 0.003549749999999999,
-      "verifiedPatch": true
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-separate_paren_groups-vSj4Mg\\workspaces\\ws-humaneval-2\\test_solution.py\", line 25, in <module>\r\n    check(separate_paren_groups)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-separate_paren_groups-vSj4Mg\\workspaces\\ws-humaneval-2\\test_solution.py\", line 12, in check\r\n    assert candidate('(()()) ((())) () ((())()())') == [\r\n     ",
+      "failureReason": "Timeout exhausted (132851ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
+      "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/2",
       "entryPoint": "truncate_number",
-      "status": "PASSED",
-      "durationMs": 363024,
-      "turnsTaken": 8,
-      "toolsCalled": [
-        "read_file",
-        "read_file",
-        "edit_file",
-        "run_command",
-        "run_command",
-        "run_command",
-        "run_command",
-        "run_command"
+      "status": "TIMED_OUT",
+      "durationMs": 148164,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        123867
       ],
-      "patchSizeBytes": 256,
-      "patchDiff": "diff --git a/solution.py b/solution.py\nindex 98f7c64..6f6fe2b 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -9,4 +9,4 @@ def truncate_number(number: float) -> float:\n     >>> truncate_number(3.5)\n     0.5\n     \"\"\"\n-    pass\n+    return number - int(number)",
-      "testPassed": true,
-      "testOutput": "PASS: all test assertions passed",
-      "costUsd": 0.008559749999999998,
-      "verifiedPatch": true
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-truncate_number-fMXaUu\\workspaces\\ws-humaneval-3\\test_solution.py\", line 18, in <module>\r\n    check(truncate_number)\r\n    ~~~~~^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-truncate_number-fMXaUu\\workspaces\\ws-humaneval-3\\test_solution.py\", line 12, in check\r\n    assert candidate(3.5) == 0.5\r\n           ^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "Timeout exhausted (148164ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
+      "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/3",
       "entryPoint": "below_zero",
-      "status": "PASSED",
-      "durationMs": 379925,
-      "turnsTaken": 10,
-      "toolsCalled": [
-        "read_file",
-        "read_file",
-        "edit_file",
-        "run_command",
-        "run_command",
-        "run_command",
-        "run_command",
-        "run_command",
-        "run_command",
-        "run_command"
+      "status": "TIMED_OUT",
+      "durationMs": 132288,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        120394
       ],
-      "patchSizeBytes": 368,
-      "patchDiff": "diff --git a/solution.py b/solution.py\nindex fa592df..0ece949 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -10,4 +10,9 @@ def below_zero(operations: List[int]) -> bool:\n     >>> below_zero([1, 2, -4, 5])\n     True\n     \"\"\"\n-    pass\n+    balance = 0\n+    for op in operations:\n+        balance += op\n+        if balance < 0:\n+            return True\n+    return False",
-      "testPassed": true,
-      "testOutput": "PASS: all test assertions passed",
-      "costUsd": 0.009214050000000001,
-      "verifiedPatch": true
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-below_zero-hdsV4L\\workspaces\\ws-humaneval-4\\test_solution.py\", line 21, in <module>\r\n    check(below_zero)\r\n    ~~~~~^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-below_zero-hdsV4L\\workspaces\\ws-humaneval-4\\test_solution.py\", line 12, in check\r\n    assert candidate([]) == False\r\n           ^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "Timeout exhausted (132288ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
+      "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/4",
       "entryPoint": "mean_absolute_deviation",
-      "status": "PASSED",
-      "durationMs": 324053,
-      "turnsTaken": 7,
-      "toolsCalled": [
-        "read_file",
-        "read_file",
-        "edit_file",
-        "read_file",
-        "run_command",
-        "run_command",
-        "run_command"
+      "status": "TIMED_OUT",
+      "durationMs": 124503,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        120805
       ],
-      "patchSizeBytes": 409,
-      "patchDiff": "diff --git a/solution.py b/solution.py\nindex b90b54e..be4ba0d 100644\n--- a/solution.py\n+++ b/solution.py\n@@ -10,4 +10,7 @@ def mean_absolute_deviation(numbers: List[float]) -> float:\n     >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n     1.0\n     \"\"\"\n-    pass\n+    if not numbers:\n+        return 0.0\n+    mean = sum(numbers) / len(numbers)\n+    return sum(abs(x - mean) for x in numbers) / len(numbers)",
-      "testPassed": true,
-      "testOutput": "PASS: all test assertions passed",
-      "costUsd": 0.008824499999999999,
-      "verifiedPatch": true
+      "toolsCalled": [],
+      "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "testPassed": false,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-mean_absolute_deviation-fdYP7H\\workspaces\\ws-humaneval-5\\test_solution.py\", line 19, in <module>\r\n    check(mean_absolute_deviation)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-mean_absolute_deviation-fdYP7H\\workspaces\\ws-humaneval-5\\test_solution.py\", line 12, in check\r\n    assert abs(candidate([1.0, 2.0, 3.0]) - 2.0/3.0) < ",
+      "failureReason": "Timeout exhausted (124503ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
+      "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/5",
       "entryPoint": "intersperse",
-      "status": "FAILED",
-      "durationMs": 144869,
-      "turnsTaken": 2,
-      "toolsCalled": [
-        "read_file",
-        "read_file"
+      "status": "TIMED_OUT",
+      "durationMs": 128792,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        120863
       ],
+      "toolsCalled": [],
       "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
       "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-intersperse-zIJMg8\\workspaces\\ws-humaneval-2\\test_solution.py\", line 18, in <module>\r\n    check(intersperse)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-intersperse-zIJMg8\\workspaces\\ws-humaneval-2\\test_solution.py\", line 12, in check\r\n    assert candidate([], 7) == []\r\n           ^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 2)",
-      "costUsd": 0.002012100000000001,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-intersperse-RPtr33\\workspaces\\ws-humaneval-6\\test_solution.py\", line 18, in <module>\r\n    check(intersperse)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-intersperse-RPtr33\\workspaces\\ws-humaneval-6\\test_solution.py\", line 12, in check\r\n    assert candidate([], 7) == []\r\n           ^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "Timeout exhausted (128792ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
       "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/6",
       "entryPoint": "parse_nested_parens",
-      "status": "FAILED",
-      "durationMs": 93200,
-      "turnsTaken": 2,
-      "toolsCalled": [
-        "read_file",
-        "read_file"
+      "status": "TIMED_OUT",
+      "durationMs": 133166,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        120591
       ],
+      "toolsCalled": [],
       "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
       "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-parse_nested_parens-kUXdLv\\workspaces\\ws-humaneval-3\\test_solution.py\", line 18, in <module>\r\n    check(parse_nested_parens)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-parse_nested_parens-kUXdLv\\workspaces\\ws-humaneval-3\\test_solution.py\", line 12, in check\r\n    assert candidate('(()()) ((())) () ((())()())') == [2, 3, 1, 3]\r\n  ",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 2)",
-      "costUsd": 0.001970399999999999,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-parse_nested_parens-diaLz2\\workspaces\\ws-humaneval-7\\test_solution.py\", line 18, in <module>\r\n    check(parse_nested_parens)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-parse_nested_parens-diaLz2\\workspaces\\ws-humaneval-7\\test_solution.py\", line 12, in check\r\n    assert candidate('(()()) ((())) () ((())()())') == [2, 3, 1, 3]\r\n  ",
+      "failureReason": "Timeout exhausted (133166ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
       "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/7",
       "entryPoint": "filter_by_substring",
-      "status": "FAILED",
-      "durationMs": 141204,
-      "turnsTaken": 2,
-      "toolsCalled": [
-        "read_file",
-        "read_file"
+      "status": "TIMED_OUT",
+      "durationMs": 126095,
+      "turnsTaken": 0,
+      "turnDurationsMs": [
+        120716
       ],
+      "toolsCalled": [],
       "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
       "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-filter_by_substring-8B2P0q\\workspaces\\ws-humaneval-4\\test_solution.py\", line 19, in <module>\r\n    check(filter_by_substring)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-filter_by_substring-8B2P0q\\workspaces\\ws-humaneval-4\\test_solution.py\", line 12, in check\r\n    assert candidate([], 'john') == []\r\n           ^^^^^^^^^^^^^^^^^^^^",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 2)",
-      "costUsd": 0.0020034000000000007,
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-filter_by_substring-0TjteY\\workspaces\\ws-humaneval-8\\test_solution.py\", line 19, in <module>\r\n    check(filter_by_substring)\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-filter_by_substring-0TjteY\\workspaces\\ws-humaneval-8\\test_solution.py\", line 12, in check\r\n    assert candidate([], 'john') == []\r\n           ^^^^^^^^^^^^^^^^^^^^",
+      "failureReason": "Timeout exhausted (126095ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
+      "costUsd": 0,
       "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/8",
       "entryPoint": "sum_product",
-      "status": "FAILED",
-      "durationMs": 3230,
+      "status": "TIMED_OUT",
+      "durationMs": 138159,
       "turnsTaken": 0,
+      "turnDurationsMs": [
+        120763
+      ],
       "toolsCalled": [],
       "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
       "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-sum_product-ExKaGS\\workspaces\\ws-humaneval-5\\test_solution.py\", line 20, in <module>\r\n    check(sum_product)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-sum_product-ExKaGS\\workspaces\\ws-humaneval-5\\test_solution.py\", line 12, in check\r\n    assert candidate([]) == (0, 1)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-sum_product-3xUYjR\\workspaces\\ws-humaneval-9\\test_solution.py\", line 20, in <module>\r\n    check(sum_product)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-sum_product-3xUYjR\\workspaces\\ws-humaneval-9\\test_solution.py\", line 12, in check\r\n    assert candidate([]) == (0, 1)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "Timeout exhausted (138159ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
       "costUsd": 0,
       "verifiedPatch": false
     },
     {
       "taskId": "HumanEval/9",
       "entryPoint": "rolling_max",
-      "status": "FAILED",
-      "durationMs": 3124,
+      "status": "TIMED_OUT",
+      "durationMs": 127596,
       "turnsTaken": 0,
+      "turnDurationsMs": [
+        121336
+      ],
       "toolsCalled": [],
       "patchSizeBytes": 0,
+      "terminalReason": "BRAIN_FAILURE",
+      "terminalMessage": "Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
       "testPassed": false,
-      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-rolling_max-nWWIG0\\workspaces\\ws-humaneval-6\\test_solution.py\", line 19, in <module>\r\n    check(rolling_max)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Users\\<dev>\\AppData\\Local\\Temp\\emerald-humaneval-rolling_max-nWWIG0\\workspaces\\ws-humaneval-6\\test_solution.py\", line 12, in check\r\n    assert candidate([]) == []\r\n           ^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
-      "failureReason": "EMPTY_PATCH: Model did not produce code modifications (actions: 0)",
+      "testOutput": "Traceback (most recent call last):\r\n  File \"C:\\Temp\\emerald-humaneval-rolling_max-mkL0PH\\workspaces\\ws-humaneval-10\\test_solution.py\", line 19, in <module>\r\n    check(rolling_max)\r\n    ~~~~~^^^^^^^^^^^^^\r\n  File \"C:\\Temp\\emerald-humaneval-rolling_max-mkL0PH\\workspaces\\ws-humaneval-10\\test_solution.py\", line 12, in check\r\n    assert candidate([]) == []\r\n           ^^^^^^^^^^^^^^^^^^^\r\nAssertionError",
+      "failureReason": "Timeout exhausted (127596ms): Agent Brain invocation failed: [MODEL_REQUEST_TIMEOUT] Ollama model inference timed out after 120000ms",
       "costUsd": 0,
       "verifiedPatch": false
     }
