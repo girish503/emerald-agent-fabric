@@ -16,6 +16,8 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
       - "--web.enable-lifecycle"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./infra/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./infra/monitoring/prometheus-alerts.yml:/etc/prometheus/prometheus-alerts.yml:ro
@@ -26,10 +28,10 @@ services:
     container_name: emerald-grafana
     restart: unless-stopped
     ports:
-      - "3001:3000"
+      - "${EMERALD_GRAFANA_PORT:-3005}:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=${EMERALD_GRAFANA_ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${EMERALD_GRAFANA_ADMIN_PASSWORD:?Set EMERALD_GRAFANA_ADMIN_PASSWORD in .env}
+      - GF_SECURITY_ADMIN_PASSWORD=${EMERALD_GRAFANA_ADMIN_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
     volumes:
       - ./infra/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
@@ -46,9 +48,9 @@ services:
       - "3002:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://${EMERALD_LANGFUSE_DB_USER:-langfuse}:${EMERALD_LANGFUSE_DB_PASSWORD:?Set EMERALD_LANGFUSE_DB_PASSWORD in .env}@langfuse-db:5432/${EMERALD_LANGFUSE_DB_NAME:-langfuse}
-      - NEXTAUTH_SECRET=${EMERALD_LANGFUSE_NEXTAUTH_SECRET:?Set EMERALD_LANGFUSE_NEXTAUTH_SECRET in .env}
-      - SALT=${EMERALD_LANGFUSE_SALT:?Set EMERALD_LANGFUSE_SALT in .env}
+      - DATABASE_URL=postgresql://${EMERALD_LANGFUSE_DB_USER:-langfuse}:${EMERALD_LANGFUSE_DB_PASSWORD:-langfuse_secret_password}@langfuse-db:5432/${EMERALD_LANGFUSE_DB_NAME:-langfuse}
+      - NEXTAUTH_SECRET=${EMERALD_LANGFUSE_NEXTAUTH_SECRET:-langfuse_secret_salt_32char_key}
+      - SALT=${EMERALD_LANGFUSE_SALT:-langfuse_secret_salt_32char_key}
       - NEXTAUTH_URL=http://localhost:3002
       - TELEMETRY_ENABLED=false
     depends_on:
@@ -60,7 +62,7 @@ services:
     restart: unless-stopped
     environment:
       - POSTGRES_USER=${EMERALD_LANGFUSE_DB_USER:-langfuse}
-      - POSTGRES_PASSWORD=${EMERALD_LANGFUSE_DB_PASSWORD:?Set EMERALD_LANGFUSE_DB_PASSWORD in .env}
+      - POSTGRES_PASSWORD=${EMERALD_LANGFUSE_DB_PASSWORD:-langfuse_secret_password}
       - POSTGRES_DB=${EMERALD_LANGFUSE_DB_NAME:-langfuse}
     volumes:
       - langfuse_db_data:/var/lib/postgresql/data

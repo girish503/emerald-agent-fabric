@@ -1,0 +1,205 @@
+{
+  "uid": "emerald-00-mission",
+  "title": "00 - Live Multi-Agent Mission Governance",
+  "tags": ["emerald", "mission", "governance", "live"],
+  "timezone": "utc",
+  "schemaVersion": 38,
+  "refresh": "5s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Missions & Runs (Started / Completed / In-Flight)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 0 },
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"], "fields": "" },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status) (emerald_runs_total)",
+          "legendFormat": "Runs ({{status}})"
+        },
+        {
+          "refId": "B",
+          "expr": "emerald_tasks_total",
+          "legendFormat": "Total Tasks"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Per-Role Execution Duration (Seconds)",
+      "type": "bargauge",
+      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 0 },
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"], "fields": "" },
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "showUnfilled": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "decimals": 2,
+          "min": 0
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "emerald_role_duration_seconds",
+          "legendFormat": "{{role}}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Verification Gate Outcomes (Passed vs Failed)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 0 },
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"], "fields": "" },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "emerald_verifications_total",
+          "legendFormat": "Verification {{status}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Bounded Repair Attempts & Cycles",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 6 },
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"], "fields": "" },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "emerald_repair_attempts_total",
+          "legendFormat": "Repair Attempts"
+        },
+        {
+          "refId": "B",
+          "expr": "emerald_repair_cycles_total",
+          "legendFormat": "Repair Cycles"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Human-in-the-Loop Approval Gates",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 6 },
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"], "fields": "" },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "emerald_approvals_total",
+          "legendFormat": "Approvals ({{status}})"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Governed Model Spend (USD)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 6 },
+      "options": {
+        "reduceOptions": { "values": false, "calcs": ["lastNotNull"], "fields": "" },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 4
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "emerald_model_spend_usd",
+          "legendFormat": "Spend (USD) [{{model}}]"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Role Durations & Verification Live Timeseries",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "emerald_role_duration_seconds",
+          "legendFormat": "Role Duration: {{role}}"
+        },
+        {
+          "refId": "B",
+          "expr": "emerald_verifications_total",
+          "legendFormat": "Verifications: {{status}}"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Cumulative Spend, Repairs & Approvals Live Timeseries",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "emerald_model_spend_usd",
+          "legendFormat": "Model Spend ($)"
+        },
+        {
+          "refId": "B",
+          "expr": "emerald_repair_attempts_total",
+          "legendFormat": "Repair Attempts"
+        },
+        {
+          "refId": "C",
+          "expr": "emerald_approvals_total",
+          "legendFormat": "Approvals: {{status}}"
+        }
+      ]
+    }
+  ]
+}
