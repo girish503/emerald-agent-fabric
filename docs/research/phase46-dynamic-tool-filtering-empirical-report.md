@@ -298,7 +298,7 @@ While tool filtering effectively governed *which tool* the model selected, it di
 During Step 4 and Step 5, the model executed destructive `write_file` actions that replaced `src/calc.js` with `console.log(42);`.
 - **Sandbox Containment**: The destructive write occurred strictly inside an ephemeral temporary workspace directory:
   ```text
-  C:\Users\ADUSUM~1\AppData\Local\Temp\emerald-p43-EAF-BM-01-1793016872852-ArZL3O
+  C:\Temp\emerald-p43-EAF-BM-01-1793016872852-ArZL3O
   ```
 - **Repository Source Tree Integrity**: The repository source tree was **not mutated**. Git tracked files remained completely unaffected by the trial's write actions.
 

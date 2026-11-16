@@ -139,12 +139,12 @@ We executed a live multi-agent mission (`node bin/run-mission-demo.js --output-d
 
 1. **Mid-Run DAG State (Waiting Approval)**:  
    Artifact: `frontend_workspace_mid_run.png`  
-   Path: `C:\Users\Adusumalli Girish\.gemini\antigravity\brain\22cc3ec1-2247-4c9d-855b-ba8bc4b1274d\frontend_workspace_mid_run.png`  
+   Path: `frontend_workspace_mid_run.png`  
    Shows the DAG graph mid-mission with `CODER` highlighted in amber `WAITING APPROVAL` and the human operator authorization card with `Approve Execution` and `Reject & Fail Closed` buttons.
 
 2. **Completed Mission Proof & Repair Timeline**:  
    Artifact: `frontend_workspace_completed_proof.png`  
-   Path: `C:\Users\Adusumalli Girish\.gemini\antigravity\brain\22cc3ec1-2247-4c9d-855b-ba8bc4b1274d\frontend_workspace_completed_proof.png`  
+   Path: `frontend_workspace_completed_proof.png`  
    Shows the completed DAG (all 4 nodes green `VERIFIED`), the Sovereign Verification Proof card for `sub-3-tester` with evidence file paths and verdict `PASSED`, and the 10-event Tool Activity & Repair History timeline.
 
 ---

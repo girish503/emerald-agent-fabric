@@ -200,7 +200,7 @@ npm run benchmark
 node bin/run-benchmark.js --limit 10 --timeout 180
 ```
 
-Detailed methodology, recorded results, and full empirical logs across all 23 trials are documented in [BENCHMARK.md](./BENCHMARK.md).
+Detailed methodology, recorded results (including 6/6 live E2E operational scenarios and 5/5 solvable HumanEval tasks), and full empirical logs across all benchmark runs are documented in [BENCHMARK.md](./BENCHMARK.md).
 
 ---
 
