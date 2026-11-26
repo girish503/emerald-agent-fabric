@@ -2,6 +2,7 @@ import type { DatabaseSync } from "node:sqlite";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { SqliteScopedMemoryStore } from "./sqlite-scoped-memory-store.js";
+import { SqliteTraceStore } from "./sqlite-trace-store.js";
 import type {
   CreateMemoryEntryRecord,
   DeleteMemoryEntryRequest,
@@ -3249,6 +3250,7 @@ export interface SqliteStateStoreOptions {
 
 export class SqliteStateStore implements StateStorePort, MutationIntentStorePort, ScopedMemoryStorePort {
   private scopedMemoryStore?: SqliteScopedMemoryStore;
+  private traceStore?: SqliteTraceStore;
   private telemetry?: EmeraldLifecycleTelemetry;
 
   public setTelemetry(telemetry?: EmeraldLifecycleTelemetry): void {
@@ -3707,6 +3709,13 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
     return this.scopedMemoryStore;
   }
 
+  getTraceStore(): SqliteTraceStore {
+    if (!this.traceStore) {
+      this.traceStore = new SqliteTraceStore(this.db);
+    }
+    return this.traceStore;
+  }
+
   insertMemoryEntry(record: CreateMemoryEntryRecord): MemoryPersistResult {
     return this.getScopedMemoryStore().insertMemoryEntry(record);
   }
@@ -4005,6 +4014,7 @@ export class SqliteStateStore implements StateStorePort, MutationIntentStorePort
   }
 
   close(): void {
+    this.traceStore?.close();
     this.scopedMemoryStore?.close();
     this.db.close();
   }

@@ -270,6 +270,45 @@ CREATE TABLE IF NOT EXISTS tenant_launch_gates (
 );
 
 CREATE INDEX IF NOT EXISTS idx_launch_gates_run_state ON tenant_launch_gates(run_id, state);
+
+CREATE TABLE IF NOT EXISTS run_traces (
+    trace_id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL UNIQUE,
+    mission_id TEXT NOT NULL,
+    format_version TEXT NOT NULL,
+    tenant_id TEXT NOT NULL DEFAULT 'default-tenant',
+    status TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    recorded_at TEXT NOT NULL,
+    span_count INTEGER NOT NULL DEFAULT 0,
+    trace_json TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_run_traces_mission ON run_traces(mission_id);
+CREATE INDEX IF NOT EXISTS idx_run_traces_tenant ON run_traces(tenant_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_run_traces_format_ver ON run_traces(format_version);
+CREATE INDEX IF NOT EXISTS idx_run_traces_created ON run_traces(created_at);
+
+CREATE TABLE IF NOT EXISTS trace_spans (
+    trace_id TEXT NOT NULL REFERENCES run_traces(trace_id) ON DELETE CASCADE,
+    span_index INTEGER NOT NULL,
+    span_id TEXT NOT NULL,
+    parent_span_id TEXT,
+    kind TEXT NOT NULL,
+    name TEXT NOT NULL,
+    status TEXT NOT NULL,
+    provenance TEXT,
+    started_at TEXT NOT NULL,
+    ended_at TEXT,
+    latency_ms REAL NOT NULL,
+    tokens_in INTEGER,
+    tokens_out INTEGER,
+    cost_usd REAL,
+    span_json TEXT NOT NULL,
+    PRIMARY KEY (trace_id, span_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_trace_spans_kind ON trace_spans(trace_id, kind, span_index);
 `;
 
 /**
@@ -671,4 +710,46 @@ export function migrateDatabase(db: DatabaseSync): void {
   if (!supCols.includes("owner_pid")) {
     db.exec("ALTER TABLE supervisor_leases ADD COLUMN owner_pid INTEGER;");
   }
+
+  // Step 13: Versioned Run Traces & Spans (Idea 3, Phase 1). Additive only.
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS run_traces (
+        trace_id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL UNIQUE,
+        mission_id TEXT NOT NULL,
+        format_version TEXT NOT NULL,
+        tenant_id TEXT NOT NULL DEFAULT 'default-tenant',
+        status TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        recorded_at TEXT NOT NULL,
+        span_count INTEGER NOT NULL DEFAULT 0,
+        trace_json TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_run_traces_mission ON run_traces(mission_id);
+    CREATE INDEX IF NOT EXISTS idx_run_traces_tenant ON run_traces(tenant_id, created_at);
+    CREATE INDEX IF NOT EXISTS idx_run_traces_format_ver ON run_traces(format_version);
+    CREATE INDEX IF NOT EXISTS idx_run_traces_created ON run_traces(created_at);
+
+    CREATE TABLE IF NOT EXISTS trace_spans (
+        trace_id TEXT NOT NULL REFERENCES run_traces(trace_id) ON DELETE CASCADE,
+        span_index INTEGER NOT NULL,
+        span_id TEXT NOT NULL,
+        parent_span_id TEXT,
+        kind TEXT NOT NULL,
+        name TEXT NOT NULL,
+        status TEXT NOT NULL,
+        provenance TEXT,
+        started_at TEXT NOT NULL,
+        ended_at TEXT,
+        latency_ms REAL NOT NULL,
+        tokens_in INTEGER,
+        tokens_out INTEGER,
+        cost_usd REAL,
+        span_json TEXT NOT NULL,
+        PRIMARY KEY (trace_id, span_id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_trace_spans_kind ON trace_spans(trace_id, kind, span_index);
+  `);
 }

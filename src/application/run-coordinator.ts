@@ -57,6 +57,8 @@ import {
 } from "../ports/state-store.port.js";
 import { OrphanSweepOptions, WorkspaceHandle, WorkspacePort } from "../ports/workspace.port.js";
 import { isRollbackPendingStatus } from "../domain/mutation-intent.js";
+import type { SqliteTraceStore } from "../adapters/persistence/sqlite-trace-store.js";
+import { recordTraceForRun } from "../evidence/trace-recorder.js";
 import { LeaseManager } from "./lease-manager.js";
 import {
   SUPERVISOR_EVIDENCE,
@@ -574,7 +576,7 @@ export class RunCoordinator {
    * Enforces lease fencing and releases the lease.
    */
   completeRun(runId: string, workerId: string, leaseId: string, result: unknown): TransitionResult {
-    return this.stateStore.transaction((tx) => {
+    const resultOut = this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
@@ -591,6 +593,8 @@ export class RunCoordinator {
       this.leaseManager.release(tx, leaseId, now);
       return { run: run.snapshot, event: persistedEvent };
     });
+    this.tryRecordTrace(runId);
+    return resultOut;
   }
 
   /**
@@ -598,7 +602,7 @@ export class RunCoordinator {
    * Releases lease if active.
    */
   failRun(runId: string, error: unknown, workerId?: string, leaseId?: string): TransitionResult {
-    return this.stateStore.transaction((tx) => {
+    const resultOut = this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
@@ -616,6 +620,8 @@ export class RunCoordinator {
 
       return { run: run.snapshot, event: persistedEvent };
     });
+    this.tryRecordTrace(runId);
+    return resultOut;
   }
 
   /**
@@ -625,7 +631,7 @@ export class RunCoordinator {
    * stale worker can never cancel a newer attempt or release its lease.
    */
   cancelRun(runId: string, reason?: string, fencing?: LeaseFencingCheck): TransitionResult {
-    return this.stateStore.transaction((tx) => {
+    const resultOut = this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
@@ -645,6 +651,8 @@ export class RunCoordinator {
 
       return { run: run.snapshot, event: persistedEvent };
     });
+    this.tryRecordTrace(runId);
+    return resultOut;
   }
 
   /**
@@ -654,7 +662,7 @@ export class RunCoordinator {
    * transition is authorised by the run's current holder (operator/sweeper use).
    */
   timeoutRun(runId: string, reason?: string, fencing?: LeaseFencingCheck): TransitionResult {
-    return this.stateStore.transaction((tx) => {
+    const resultOut = this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
@@ -679,6 +687,8 @@ export class RunCoordinator {
 
       return { run: run.snapshot, event: persistedEvent };
     });
+    this.tryRecordTrace(runId);
+    return resultOut;
   }
 
   /**
@@ -714,7 +724,7 @@ export class RunCoordinator {
     operation: string,
     fencing?: LeaseFencingCheck
   ): TransitionResult {
-    return this.stateStore.transaction((tx) => {
+    const resultOut = this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
@@ -731,6 +741,8 @@ export class RunCoordinator {
       }
       return { run: run.snapshot, event: persistedEvent };
     });
+    this.tryRecordTrace(runId);
+    return resultOut;
   }
 
   /**
@@ -778,7 +790,7 @@ export class RunCoordinator {
       throw new Error(`Invalid human approver '${approver}': model or agent self-rejection is forbidden`);
     }
 
-    return this.stateStore.transaction((tx) => {
+    const resultOut = this.stateStore.transaction((tx) => {
       const snapshot = tx.getRun(runId);
       if (!snapshot) {
         throw new Error(`Run '${runId}' not found`);
@@ -792,6 +804,24 @@ export class RunCoordinator {
       }
       return { run: run.snapshot, event: persistedEvent };
     });
+    this.tryRecordTrace(runId);
+    return resultOut;
+  }
+
+  private tryRecordTrace(runId: string): void {
+    try {
+      const storeWithTraces = this.stateStore as StateStorePort & {
+        getTraceStore?: () => SqliteTraceStore;
+      };
+      if (typeof storeWithTraces.getTraceStore === "function") {
+        const traceStore = storeWithTraces.getTraceStore();
+        recordTraceForRun(this.stateStore, traceStore, runId, {
+          recordedAt: this.clock.nowIso(),
+        });
+      }
+    } catch {
+      // Zero-authority invariant: trace recording must never alter or fail run lifecycle transitions.
+    }
   }
   /**
    * Records an auditable policy evaluation decision into the run event stream.

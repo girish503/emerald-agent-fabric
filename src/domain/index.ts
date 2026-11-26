@@ -39,3 +39,4 @@ export * from "./cross-harness-request.js";
 export * from "./mutation-intent.js";
 export * from "./evaluation-metrics.js";
 export * from "./scoped-memory.js";
+export * from "./trace.js";
