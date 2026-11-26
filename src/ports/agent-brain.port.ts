@@ -34,6 +34,7 @@ export interface BrainModelMetadata {
   readonly completionTokens?: number;
   readonly totalTokens?: number;
   readonly durationMs?: number;
+  readonly costUsd?: number;
   readonly requestId?: string;
   readonly providerName?: string;
   readonly totalDurationNs?: number | null;

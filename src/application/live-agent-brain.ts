@@ -1031,12 +1031,25 @@ export class LiveAgentBrain implements AgentBrainPort {
       throw err;
     }
 
+    const providerMeta = response.providerMetadata as Record<string, unknown> | undefined;
+    const explicitCostUsd =
+      typeof response.costUsd === "number" &&
+      Number.isFinite(response.costUsd) &&
+      response.costUsd >= 0
+        ? response.costUsd
+        : typeof providerMeta?.costUsd === "number" &&
+            Number.isFinite(providerMeta.costUsd) &&
+            providerMeta.costUsd >= 0
+          ? providerMeta.costUsd
+          : undefined;
+
     const modelMetadata: BrainModelMetadata = Object.freeze({
       modelName: response.model,
       promptTokens: response.usage?.inputTokens,
       completionTokens: response.usage?.outputTokens,
       totalTokens: response.usage?.totalTokens,
       durationMs: response.durationMs,
+      ...(explicitCostUsd !== undefined ? { costUsd: explicitCostUsd } : {}),
     });
 
     // Check provider-reported finish reasons

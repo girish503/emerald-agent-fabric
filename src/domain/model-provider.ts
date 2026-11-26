@@ -222,6 +222,12 @@ export interface ModelProviderResponse {
    * Elapsed time in milliseconds for the inference call.
    */
   readonly durationMs: number;
+
+  /**
+   * Reported inference cost in USD when known by the provider (e.g., 0 for local inference).
+   * Omitted when unknown; never invented for uninstrumented providers.
+   */
+  readonly costUsd?: number;
 }
 
 // ============================================================================
@@ -482,5 +488,16 @@ export function validateModelProviderResponse(response: ModelProviderResponse): 
         requestId: response.requestId,
       });
     }
+  }
+
+  if (
+    response.costUsd !== undefined &&
+    (typeof response.costUsd !== "number" ||
+      !Number.isFinite(response.costUsd) ||
+      response.costUsd < 0)
+  ) {
+    throw new ModelResponseInvalidError("costUsd must be a non-negative finite number if provided", {
+      requestId: response.requestId,
+    });
   }
 }

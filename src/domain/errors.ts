@@ -877,6 +877,7 @@ export class ModelProviderError extends DomainError {
   readonly providerName?: string;
   readonly requestId?: string;
   readonly cause?: unknown;
+  readonly costUsd?: number;
 
   constructor(
     code: ModelProviderErrorCode,
@@ -886,6 +887,7 @@ export class ModelProviderError extends DomainError {
       providerName?: string;
       requestId?: string;
       cause?: unknown;
+      costUsd?: number;
     }
   ) {
     super(`[${code}] ${message}`);
@@ -894,6 +896,7 @@ export class ModelProviderError extends DomainError {
     this.providerName = options?.providerName;
     this.requestId = options?.requestId;
     this.cause = options?.cause;
+    this.costUsd = options?.costUsd;
   }
 }
 
@@ -907,6 +910,7 @@ export class ModelProviderUnavailableError extends ModelProviderError {
       requestId?: string;
       cause?: unknown;
       confirmedNonProcessing?: boolean;
+      costUsd?: number;
     }
   ) {
     super("MODEL_PROVIDER_UNAVAILABLE", message, { ...options, isRetryable: true });
@@ -917,7 +921,7 @@ export class ModelProviderUnavailableError extends ModelProviderError {
 export class ModelRequestInvalidError extends ModelProviderError {
   constructor(
     message: string,
-    options?: { providerName?: string; requestId?: string; cause?: unknown }
+    options?: { providerName?: string; requestId?: string; cause?: unknown; costUsd?: number }
   ) {
     super("MODEL_REQUEST_INVALID", message, { ...options, isRetryable: false });
   }
@@ -928,7 +932,13 @@ export class ModelRequestTimeoutError extends ModelProviderError {
 
   constructor(
     message: string,
-    options?: { timeoutMs?: number; providerName?: string; requestId?: string; cause?: unknown }
+    options?: {
+      timeoutMs?: number;
+      providerName?: string;
+      requestId?: string;
+      cause?: unknown;
+      costUsd?: number;
+    }
   ) {
     super("MODEL_REQUEST_TIMEOUT", message, { ...options, isRetryable: true });
     this.timeoutMs = options?.timeoutMs;
@@ -938,7 +948,7 @@ export class ModelRequestTimeoutError extends ModelProviderError {
 export class ModelRequestCancelledError extends ModelProviderError {
   constructor(
     message: string,
-    options?: { providerName?: string; requestId?: string; cause?: unknown }
+    options?: { providerName?: string; requestId?: string; cause?: unknown; costUsd?: number }
   ) {
     super("MODEL_REQUEST_CANCELLED", message, { ...options, isRetryable: false });
   }
@@ -949,7 +959,13 @@ export class ModelRateLimitedError extends ModelProviderError {
 
   constructor(
     message: string,
-    options?: { retryAfterMs?: number; providerName?: string; requestId?: string; cause?: unknown }
+    options?: {
+      retryAfterMs?: number;
+      providerName?: string;
+      requestId?: string;
+      cause?: unknown;
+      costUsd?: number;
+    }
   ) {
     super("MODEL_RATE_LIMITED", message, { ...options, isRetryable: true });
     this.retryAfterMs = options?.retryAfterMs;
@@ -959,7 +975,7 @@ export class ModelRateLimitedError extends ModelProviderError {
 export class ModelResponseInvalidError extends ModelProviderError {
   constructor(
     message: string,
-    options?: { providerName?: string; requestId?: string; cause?: unknown }
+    options?: { providerName?: string; requestId?: string; cause?: unknown; costUsd?: number }
   ) {
     super("MODEL_RESPONSE_INVALID", message, { ...options, isRetryable: false });
   }
@@ -970,7 +986,13 @@ export class ModelOutputLimitExceededError extends ModelProviderError {
 
   constructor(
     message: string,
-    options?: { maxOutputTokens?: number; providerName?: string; requestId?: string; cause?: unknown }
+    options?: {
+      maxOutputTokens?: number;
+      providerName?: string;
+      requestId?: string;
+      cause?: unknown;
+      costUsd?: number;
+    }
   ) {
     super("MODEL_OUTPUT_LIMIT_EXCEEDED", message, { ...options, isRetryable: false });
     this.maxOutputTokens = options?.maxOutputTokens;

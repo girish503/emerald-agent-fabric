@@ -358,6 +358,7 @@ export class OllamaModelProvider implements ModelProviderPort {
         {
           providerName: this.providerName,
           requestId: request.requestId,
+          costUsd: 0,
         }
       );
     }
@@ -377,6 +378,7 @@ export class OllamaModelProvider implements ModelProviderPort {
         {
           providerName: this.providerName,
           requestId: request.requestId,
+          costUsd: 0,
         }
       );
     }
@@ -481,6 +483,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           providerName: this.providerName,
           requestId: request.requestId,
           cause: err,
+          costUsd: 0,
         });
       }
 
@@ -492,6 +495,7 @@ export class OllamaModelProvider implements ModelProviderPort {
             providerName: this.providerName,
             requestId: request.requestId,
             cause: err,
+            costUsd: 0,
           }
         );
       }
@@ -504,6 +508,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           providerName: this.providerName,
           requestId: request.requestId,
           cause: err,
+          costUsd: 0,
         }
       );
     } finally {
@@ -519,6 +524,7 @@ export class OllamaModelProvider implements ModelProviderPort {
       throw new ModelRequestCancelledError("Model request was cancelled", {
         providerName: this.providerName,
         requestId: request.requestId,
+        costUsd: 0,
       });
     }
 
@@ -529,6 +535,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           timeoutMs: effectiveTimeoutMs,
           providerName: this.providerName,
           requestId: request.requestId,
+          costUsd: 0,
         }
       );
     }
@@ -561,6 +568,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           {
             providerName: this.providerName,
             requestId: request.requestId,
+            costUsd: 0,
           }
         );
       }
@@ -572,6 +580,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           {
             providerName: this.providerName,
             requestId: request.requestId,
+            costUsd: 0,
           }
         );
       }
@@ -583,6 +592,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           {
             providerName: this.providerName,
             requestId: request.requestId,
+            costUsd: 0,
           }
         );
       }
@@ -594,6 +604,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           isRetryable: false,
           providerName: this.providerName,
           requestId: request.requestId,
+          costUsd: 0,
         }
       );
     }
@@ -615,6 +626,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           providerName: this.providerName,
           requestId: request.requestId,
           cause: parseErr,
+          costUsd: 0,
         }
       );
     }
@@ -627,6 +639,7 @@ export class OllamaModelProvider implements ModelProviderPort {
         {
           providerName: this.providerName,
           requestId: request.requestId,
+          costUsd: 0,
         }
       );
     }
@@ -643,6 +656,7 @@ export class OllamaModelProvider implements ModelProviderPort {
           {
             providerName: this.providerName,
             requestId: request.requestId,
+            costUsd: 0,
           }
         );
       }
@@ -658,6 +672,7 @@ export class OllamaModelProvider implements ModelProviderPort {
             providerName: this.providerName,
             requestId: request.requestId,
             cause: parseErr,
+            costUsd: 0,
           }
         );
       }
@@ -709,6 +724,7 @@ export class OllamaModelProvider implements ModelProviderPort {
 
     const providerMetadata: Record<string, unknown> = {
       provider: this.providerName,
+      costUsd: 0,
       ...(typeof responseJson.model === "string" ? { providerModel: responseJson.model } : {}),
       ...(typeof responseJson.total_duration === "number"
         ? { totalDurationNs: responseJson.total_duration }
@@ -739,6 +755,7 @@ export class OllamaModelProvider implements ModelProviderPort {
       ...(usage ? { usage } : {}),
       providerMetadata: Object.freeze(providerMetadata),
       durationMs,
+      costUsd: 0,
     });
   }
 }

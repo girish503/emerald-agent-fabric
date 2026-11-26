@@ -342,6 +342,141 @@ describe("Idea 3 Phase 3 — Offline Trace Replay Runner, Stub Provider, and Gua
         )
       ).toBe(true);
     });
+
+    it("(h) live-shaped Ollama trace passes llm_telemetry with costUsd 0 on every LLM span and fails when costUsd is null", async () => {
+      const { OllamaModelProvider } = await import(
+        "../../src/adapters/models/ollama-model-provider.js"
+      );
+      const { buildTraceFromRunData } = await import("../../src/evidence/trace-recorder.js");
+
+      // 1. OllamaModelProvider emits explicit costUsd 0 on mocked offline response
+      const fakeFetch = vi.fn().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            model: "qwen2.5-coder:1.5b",
+            message: { role: "assistant", content: "{\"ok\":true}" },
+            done: true,
+            done_reason: "stop",
+            prompt_eval_count: 100,
+            eval_count: 20,
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        )
+      );
+      const provider = new OllamaModelProvider({
+        baseURL: "http://127.0.0.1:11434",
+        defaultModel: "qwen2.5-coder:1.5b",
+        allowedModels: ["qwen2.5-coder:1.5b"],
+        spendCapUsd: 0,
+        fetch: fakeFetch,
+      });
+      const providerResponse = await provider.generate({
+        requestId: "req-live-zero-1",
+        model: "qwen2.5-coder:1.5b",
+        input: [{ role: "user", content: "solve" }],
+        timeoutMs: 5000,
+      });
+      expect(providerResponse.costUsd).toBe(0);
+      expect(providerResponse.providerMetadata?.costUsd).toBe(0);
+
+      // 2. Recorder preserves explicit costUsd 0 on both SUCCESS and CANCELLED telemetry events
+      const runId = "run-live-shaped-zero-cost";
+      const builtTrace = buildTraceFromRunData({
+        run: {
+          runId,
+          taskId: "task-humaneval-0",
+          status: "TIMED_OUT",
+          currentAttempt: 1,
+          maxAttempts: 1,
+          createdAt: "2026-11-26T11:50:00.000Z",
+          updatedAt: "2026-11-26T11:55:00.000Z",
+          resultPayload: null,
+          errorPayload: { code: "TIMED_OUT" },
+          contractBinding: null,
+        } as any,
+        contract: null,
+        actions: [],
+        attemptsByActionId: new Map(),
+        approvals: [],
+        events: [
+          {
+            eventId: "ev-1",
+            runId,
+            sequence: 1,
+            timestamp: "2026-11-26T11:51:00.000Z",
+            eventType: "model.inference.telemetry",
+            schemaVersion: 1,
+            producer: "application.agent_step_controller",
+            payload: {
+              runId,
+              taskId: "task-humaneval-0",
+              stepNumber: 1,
+              workerId: "worker-1",
+              leaseId: "lease-1",
+              requestId: "llm-req-1",
+              model: "qwen2.5-coder:1.5b",
+              provider: "ollama",
+              outcome: "SUCCESS",
+              startedAt: "2026-11-26T11:50:10.000Z",
+              completedAt: "2026-11-26T11:51:17.000Z",
+              wallClockDurationMs: 67000,
+              costUsd: 0,
+            },
+          },
+          {
+            eventId: "ev-2",
+            runId,
+            sequence: 2,
+            timestamp: "2026-11-26T11:55:00.000Z",
+            eventType: "model.inference.telemetry",
+            schemaVersion: 1,
+            producer: "application.agent_step_controller",
+            payload: {
+              runId,
+              taskId: "task-humaneval-0",
+              stepNumber: 2,
+              workerId: "worker-1",
+              leaseId: "lease-1",
+              requestId: "llm-req-2",
+              model: "qwen2.5-coder:1.5b",
+              provider: "ollama",
+              outcome: "CANCELLED",
+              startedAt: "2026-11-26T11:54:00.000Z",
+              completedAt: "2026-11-26T11:55:00.000Z",
+              wallClockDurationMs: 60000,
+              costUsd: 0,
+            },
+          },
+        ] as any,
+      });
+
+      const llmSpans = builtTrace.spans.filter((s) => s.kind === "llm");
+      expect(llmSpans).toHaveLength(2);
+      expect(llmSpans.every((s) => s.costUsd === 0)).toBe(true);
+      expect(builtTrace.spans[0]?.costUsd).toBe(0);
+
+      // 3. Replay passes all 7 rules (including llm_telemetry) when costUsd is 0
+      const runner = new TraceReplayRunner();
+      const passReport = await runner.replay(builtTrace);
+      expect(passReport.checks.find((c) => c.rule === "llm_telemetry")?.passed).toBe(true);
+      expect(passReport.checksFailed).toBe(0);
+      expect(passReport.passed).toBe(true);
+
+      // 4. Same live-shaped trace with null costUsd still fails llm_telemetry
+      const nullCostTrace: RunTrace = {
+        ...builtTrace,
+        spans: builtTrace.spans.map((s) =>
+          s.kind === "llm" ? { ...s, costUsd: null } : s
+        ),
+      };
+      const failReport = await runner.replay(nullCostTrace);
+      const telemetryCheck = failReport.checks.find((c) => c.rule === "llm_telemetry");
+      expect(telemetryCheck?.passed).toBe(false);
+      expect(telemetryCheck?.violationCount).toBe(2);
+      expect(
+        failReport.violations.filter((v) => v.rule === "llm_telemetry").map((v) => v.spanId)
+      ).toEqual(["span-llm-llm-req-1", "span-llm-llm-req-2"]);
+    });
   });
 
   describe("4. Determinism guarantee", () => {

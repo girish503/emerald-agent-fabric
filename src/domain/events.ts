@@ -558,6 +558,7 @@ export interface ModelInferenceTelemetryPayload {
   readonly startedAt: string; // ISO 8601 UTC
   readonly completedAt: string; // ISO 8601 UTC
   readonly wallClockDurationMs: number;
+  readonly costUsd?: number | null;
   readonly totalDurationNs?: number | null;
   readonly loadDurationNs?: number | null;
   readonly promptEvalDurationNs?: number | null;

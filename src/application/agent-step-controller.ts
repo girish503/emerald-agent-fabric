@@ -1952,6 +1952,13 @@ export class AgentStepController {
                   : "ERROR")
               : "SUCCESS";
 
+          const telemetryCostUsd =
+            typeof meta?.costUsd === "number" &&
+            Number.isFinite(meta.costUsd) &&
+            meta.costUsd >= 0
+              ? meta.costUsd
+              : null;
+
           const telemetryPayload: ModelInferenceTelemetryPayload = {
             runId,
             taskId,
@@ -1965,6 +1972,7 @@ export class AgentStepController {
             startedAt: inferenceStartedAt,
             completedAt: inferenceCompletedAt,
             wallClockDurationMs: inferenceWallClockMs,
+            costUsd: telemetryCostUsd,
             totalDurationNs: meta?.totalDurationNs ?? null,
             loadDurationNs: meta?.loadDurationNs ?? null,
             promptEvalDurationNs: meta?.promptEvalDurationNs ?? null,
@@ -2027,6 +2035,14 @@ export class AgentStepController {
             if (err.requestId) reqId = err.requestId;
           }
 
+          const failureCostUsd =
+            err instanceof ModelProviderError &&
+            typeof err.costUsd === "number" &&
+            Number.isFinite(err.costUsd) &&
+            err.costUsd >= 0
+              ? err.costUsd
+              : null;
+
           const failurePayload: ModelInferenceTelemetryPayload = {
             runId,
             taskId,
@@ -2040,6 +2056,7 @@ export class AgentStepController {
             startedAt: inferenceStartedAt,
             completedAt: inferenceCompletedAt,
             wallClockDurationMs: inferenceWallClockMs,
+            costUsd: failureCostUsd,
             totalDurationNs: null,
             loadDurationNs: null,
             promptEvalDurationNs: null,
