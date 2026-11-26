@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-26
+
+Emerald adds a deterministic offline trace replay harness, hardened model gateway governance, trace diffing and scorecard evaluation, and a read-only trace workbench in `apps/web`.
+
+### Verification & Live Proofs
+- **Offline trace replay**: 20 synthetic fixtures replayed deterministically with zero live model calls across 7 guardrail checks
+- **Live Ollama 1.5B proof**: `qwen2.5-coder:1.5b` on `HumanEval/0`, **7 of 7 guardrails passed**, `$0` total spend (`costUsd: 0` recorded on live spans)
+- **TypeScript quality gate**: `npm run build` exited `0` (0 diagnostics); `check-tsc-baseline.js` 287 baseline, 255 current, 0 new, 32 resolved
+
+### Added
+- **Trace replay harness**: Versioned `emerald-trace-v1` trace format, SQLite WAL trace store, non-invasive trace recorder, 20 synthetic fixtures, and deterministic `TraceReplayRunner` with stub provider.
+- **Model gateway hardening**: Explicit model allowlist enforcement, spend cap checks, fail-closed missing-provider errors, and bounded router-level HTTP 429 retry handling.
+- **Trace differ & scorecard**: Span-level `diffTraces` / `diffReplayReports`, `scoreTraceSet` / `compareScorecards` with deterministic canonical hashes and persisted reports.
+- **Read-only trace workbench (`apps/web`)**: Read-only trace list, span timeline with 7 guardrail outcomes, diff viewer, and scorecard views backed by read-only `GET /api/v1/traces*` routes.
+
+### Fixed
+- Recorded explicit `costUsd: 0` for local Ollama inference responses and errors so live Ollama LLM spans pass the `llm_telemetry` guardrail without inventing costs for other providers.
+
+---
+
 ## [0.2.0] - 2026-11-16
 
 Emerald is now a working governed agent loop end to end: a live multi-agent mission runs Researcher → Coder → Tester → Reviewer with real human approval, fail-closed verification, bounded repair, and honest benchmarks.
