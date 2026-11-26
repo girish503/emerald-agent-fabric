@@ -70,6 +70,14 @@ export {
 } from "./components/evidence-viewer.js";
 
 export {
+  renderTraceReplayPanel,
+  buildTraceReplayState,
+  type TraceReplayPanelState,
+  type TraceLatencyScope,
+  type BuildTraceReplayStateOptions,
+} from "./components/trace-replay-viewer.js";
+
+export {
   EmeraldApiClient,
   ApiClientError,
   type ApiClientConfig,

@@ -308,6 +308,72 @@ export function mountDashboardApp(options: AppMountOptions): MountedApp {
         }
       });
     }
+
+    // 15. Trace Replay Workbench: Select Trace
+    const traceSelectBtns = container.querySelectorAll('[data-action="select-trace"]');
+    if (traceSelectBtns) {
+      for (const btn of traceSelectBtns) {
+        btn.addEventListener("click", (e: any) => {
+          if (e && typeof e.preventDefault === "function") {
+            e.preventDefault();
+          }
+          const traceId = btn.getAttribute("data-trace-id");
+          if (traceId) {
+            controller.selectTrace(traceId);
+          }
+        });
+      }
+    }
+
+    // 16. Trace Replay Workbench: Refresh Store Traces
+    const refreshTracesBtn = container.querySelector('[data-action="refresh-traces"]');
+    if (refreshTracesBtn) {
+      refreshTracesBtn.addEventListener("click", (e: any) => {
+        if (e && typeof e.preventDefault === "function") {
+          e.preventDefault();
+        }
+        void controller.refreshTracesFromStore().catch(() => {});
+      });
+    }
+
+    // 17. Trace Replay Workbench: Diff Trace Selectors
+    const diffOldSelect = container.querySelector("#diff-old-select");
+    const diffNewSelect = container.querySelector("#diff-new-select");
+    if (diffOldSelect) {
+      diffOldSelect.addEventListener("change", (e: any) => {
+        const oldId = e?.target?.value || diffOldSelect.value;
+        const newId =
+          diffNewSelect?.value ||
+          controller.getState().traceReplay?.diffNewTraceId ||
+          oldId;
+        if (oldId && newId) {
+          controller.setDiffTraces(oldId, newId);
+        }
+      });
+    }
+    if (diffNewSelect) {
+      diffNewSelect.addEventListener("change", (e: any) => {
+        const newId = e?.target?.value || diffNewSelect.value;
+        const oldId =
+          diffOldSelect?.value ||
+          controller.getState().traceReplay?.diffOldTraceId ||
+          newId;
+        if (oldId && newId) {
+          controller.setDiffTraces(oldId, newId);
+        }
+      });
+    }
+
+    // 18. Trace Replay Workbench: Scorecard Latency Scope Selector
+    const scopeSelect = container.querySelector("#scorecard-latency-scope-select");
+    if (scopeSelect) {
+      scopeSelect.addEventListener("change", (e: any) => {
+        const val = e?.target?.value || scopeSelect.value;
+        if (val === "all-span-total" || val === "llm-only") {
+          controller.setScorecardLatencyScope(val);
+        }
+      });
+    }
   }
 
   function render(state: DashboardState) {

@@ -38,6 +38,17 @@ import {
   type ApiErrorResponse,
 } from "../types/api.js";
 import { EmeraldSseClient, type SseClientConfig } from "./sse-client.js";
+import { z } from "zod";
+import { RunTraceSchema, type RunTrace } from "../../../../src/domain/trace.js";
+import { TraceReplayReportSchema, type TraceReplayReport } from "../../../../src/domain/trace-replay.js";
+import {
+  TraceDiffSchema,
+  ReplayReportDiffSchema,
+  TraceSetScorecardSchema,
+  type ReplayReportDiff,
+  type TraceDiff,
+  type TraceSetScorecard,
+} from "../../../../src/domain/trace-diff.js";
 
 export interface ApiClientConfig {
   /**
@@ -456,6 +467,103 @@ export class EmeraldApiClient {
       options,
     });
     return (await response.json()) as any;
+  }
+
+  /**
+   * Read-only: Lists recorded traces for the authenticated tenant.
+   */
+  async listTraces(
+    limit: number = 200,
+    options: RequestOptions = {}
+  ): Promise<{ readonly success: true; readonly data: readonly RunTrace[] }> {
+    const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.min(500, Math.floor(limit)) : 200;
+    const schema = z.object({
+      success: z.literal(true),
+      data: z.array(RunTraceSchema),
+    });
+    return this.request(`/api/v1/traces?limit=${safeLimit}`, {
+      method: "GET",
+      options,
+      schema,
+    });
+  }
+
+  /**
+   * Read-only: Loads one recorded trace and its offline replay report.
+   */
+  async getTraceDetail(
+    traceId: string,
+    options: RequestOptions = {}
+  ): Promise<{
+    readonly success: true;
+    readonly data: { readonly trace: RunTrace; readonly replayReport: TraceReplayReport };
+  }> {
+    const schema = z.object({
+      success: z.literal(true),
+      data: z.object({
+        trace: RunTraceSchema,
+        replayReport: TraceReplayReportSchema,
+      }),
+    });
+    return this.request(`/api/v1/traces/${encodeURIComponent(traceId)}`, {
+      method: "GET",
+      options,
+      schema,
+    });
+  }
+
+  /**
+   * Read-only: Compares two stored traces on the backend.
+   */
+  async getTraceDiff(
+    oldId: string,
+    newId: string,
+    options: RequestOptions = {}
+  ): Promise<{
+    readonly success: true;
+    readonly data: { readonly traceDiff: TraceDiff; readonly reportDiff: ReplayReportDiff };
+  }> {
+    const schema = z.object({
+      success: z.literal(true),
+      data: z.object({
+        traceDiff: TraceDiffSchema,
+        reportDiff: ReplayReportDiffSchema,
+      }),
+    });
+    return this.request(
+      `/api/v1/traces/diff?oldId=${encodeURIComponent(oldId)}&newId=${encodeURIComponent(newId)}`,
+      {
+        method: "GET",
+        options,
+        schema,
+      }
+    );
+  }
+
+  /**
+   * Read-only: Computes or retrieves tenant-scoped scorecard from stored traces.
+   */
+  async getTraceScorecard(
+    options: RequestOptions = {}
+  ): Promise<{
+    readonly success: true;
+    readonly data: {
+      readonly scorecard: TraceSetScorecard;
+      readonly latencyScope: "all-span-total" | "llm-only";
+    };
+  }> {
+    const schema = z.object({
+      success: z.literal(true),
+      data: z.object({
+        scorecard: TraceSetScorecardSchema,
+        latencyScope: z.enum(["all-span-total", "llm-only"]),
+      }),
+    });
+    return this.request("/api/v1/traces/scorecard", {
+      method: "GET",
+      options,
+      schema,
+    });
   }
 
   /**

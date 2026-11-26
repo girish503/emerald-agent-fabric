@@ -44,6 +44,12 @@ import type {
   UnverifiedCompletionAuthorizedView,
   RecordedEvidenceView,
 } from "./evidence-viewer.js";
+import {
+  buildTraceReplayState,
+  type TraceLatencyScope,
+  type TraceReplayPanelState,
+} from "./trace-replay-viewer.js";
+import type { RunTrace } from "../../../../src/domain/trace.js";
 
 export type ConnectionStatus = "idle" | "connected" | "error" | "unavailable";
 
@@ -166,6 +172,7 @@ export interface DashboardState {
   readonly dagStreamStatus?: "connecting" | "connected" | "reconnecting" | "closed";
   readonly approvalBusy?: boolean;
   readonly approvalError?: string;
+  readonly traceReplay?: TraceReplayPanelState;
 }
 
 export type DashboardListener = (state: DashboardState) => void;
@@ -216,6 +223,7 @@ export class DashboardController {
       nextCursor: null,
       statusFilter: "ALL",
       hasMoreTasks: false,
+      traceReplay: initialState?.traceReplay ?? buildTraceReplayState(),
       ...initialState,
     };
   }
@@ -1570,6 +1578,85 @@ export class DashboardController {
    */
   selectDagNode(nodeId: string): void {
     this.updateState({ selectedDagNodeId: nodeId });
+  }
+
+  /**
+   * Read-only: Selects a trace in the Trace Replay workbench for timeline & guardrail inspection.
+   */
+  selectTrace(traceId: string): void {
+    const current = this.state.traceReplay ?? buildTraceReplayState();
+    const storeTraces = current.traces.filter((t) => current.traceSources[t.traceId] === "store");
+    this.updateState({
+      traceReplay: buildTraceReplayState({
+        storeTraces,
+        selectedTraceId: traceId,
+        diffOldTraceId: current.diffOldTraceId,
+        diffNewTraceId: current.diffNewTraceId,
+        latencyScope: current.scorecardLatencyScope,
+      }),
+    });
+  }
+
+  /**
+   * Read-only: Selects two traces to compare in the Trace Diff view.
+   */
+  setDiffTraces(oldTraceId: string, newTraceId: string): void {
+    const current = this.state.traceReplay ?? buildTraceReplayState();
+    const storeTraces = current.traces.filter((t) => current.traceSources[t.traceId] === "store");
+    this.updateState({
+      traceReplay: buildTraceReplayState({
+        storeTraces,
+        selectedTraceId: current.selectedTraceId,
+        diffOldTraceId: oldTraceId,
+        diffNewTraceId: newTraceId,
+        latencyScope: current.scorecardLatencyScope,
+      }),
+    });
+  }
+
+  /**
+   * Read-only: Switches explicit latency aggregation scope for the Scorecard view.
+   */
+  setScorecardLatencyScope(scope: TraceLatencyScope): void {
+    const current = this.state.traceReplay ?? buildTraceReplayState();
+    const storeTraces = current.traces.filter((t) => current.traceSources[t.traceId] === "store");
+    this.updateState({
+      traceReplay: buildTraceReplayState({
+        storeTraces,
+        selectedTraceId: current.selectedTraceId,
+        diffOldTraceId: current.diffOldTraceId,
+        diffNewTraceId: current.diffNewTraceId,
+        latencyScope: scope,
+      }),
+    });
+  }
+
+  /**
+   * Read-only: Fetches stored traces from GET /api/v1/traces and merges with the 20 synthetic fixtures.
+   */
+  async refreshTracesFromStore(options: RequestOptions = {}): Promise<void> {
+    const current = this.state.traceReplay ?? buildTraceReplayState();
+    this.updateState({
+      traceReplay: { ...current, loading: true, error: undefined },
+    });
+    try {
+      const response = await this.client.listTraces(200, options);
+      const storeTraces: readonly RunTrace[] = response.data;
+      this.updateState({
+        traceReplay: buildTraceReplayState({
+          storeTraces,
+          selectedTraceId: current.selectedTraceId,
+          diffOldTraceId: current.diffOldTraceId,
+          diffNewTraceId: current.diffNewTraceId,
+          latencyScope: current.scorecardLatencyScope,
+        }),
+      });
+    } catch (err) {
+      const msg = (err as Error)?.message ?? "Failed to fetch stored traces";
+      this.updateState({
+        traceReplay: { ...current, loading: false, error: msg },
+      });
+    }
   }
 
   /**

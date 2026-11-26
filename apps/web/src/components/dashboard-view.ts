@@ -29,6 +29,10 @@ import {
 } from "./workspace-views.js";
 import { renderArtifactViewer } from "./artifact-viewer.js";
 import { renderEvidenceViewer } from "./evidence-viewer.js";
+import {
+  buildTraceReplayState,
+  renderTraceReplayPanel,
+} from "./trace-replay-viewer.js";
 import type { SseConnectionStatus } from "../client/sse-client.js";
 
 /**
@@ -1050,6 +1054,9 @@ export function renderDashboardHtml(state: DashboardState): string {
   const submissionForm = renderTaskSubmissionForm(state);
   const taskList = renderTaskList(state);
   const selectedDetails = renderSelectedTaskDetails(state);
+  const traceReplayPanel = renderTraceReplayPanel(
+    state.traceReplay ?? buildTraceReplayState()
+  );
 
   return `
     <div class="emerald-dashboard-app">
@@ -1098,6 +1105,8 @@ export function renderDashboardHtml(state: DashboardState): string {
             </section>
           </div>
         </div>
+
+        ${traceReplayPanel}
       </main>
     </div>
   `.trim();

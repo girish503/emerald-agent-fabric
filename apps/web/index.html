@@ -730,6 +730,97 @@
       font-size: 11px;
       word-break: break-all;
     }
+
+    /* Phase 5: Trace Replay, Diff & Scorecard Workbench */
+    .trace-replay-workbench {
+      margin-top: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 100%;
+    }
+    .trace-subpanel {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px;
+      max-width: 100%;
+    }
+    .trace-table-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .trace-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .trace-data-table th,
+    .trace-data-table td {
+      text-align: left;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+    .trace-data-table tr.selected {
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .trace-checks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 8px;
+      margin: 8px 0 12px 0;
+    }
+    .trace-check-pill {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 12px;
+      background: var(--card-bg);
+    }
+    .trace-meta-row,
+    .trace-diff-controls,
+    .trace-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin: 8px 0;
+      font-size: 12px;
+      align-items: center;
+    }
+    .trace-stat-chip {
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      font-size: 12px;
+    }
+    .trace-muted {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .scope-tag {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+    .trace-summary-cell {
+      max-width: 280px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .trace-violations-list {
+      margin: 6px 0 12px 0;
+      padding-left: 18px;
+      font-size: 12px;
+      color: var(--red);
+    }
   </style>
 </head>
 <body>

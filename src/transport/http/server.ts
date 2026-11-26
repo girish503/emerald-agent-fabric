@@ -43,6 +43,13 @@ import { EventEmitter } from "events";
 import { isTerminalState, type RunStatus } from "../../domain/invariants.js";
 import { InvalidStateTransitionError, TerminalStateError, VersionConflictError } from "../../domain/errors.js";
 import { RunCoordinator } from "../../application/run-coordinator.js";
+import type { SqliteTraceStore } from "../../adapters/persistence/sqlite-trace-store.js";
+import {
+  TraceReplayRunner,
+  diffReplayReports,
+  diffTraces,
+  scoreTraceSet,
+} from "../../evidence/index.js";
 import type { StateStorePort } from "../../ports/state-store.port.js";
 import {
   AuthorizationHeaderSchema,
@@ -2999,6 +3006,130 @@ export function buildFastifyServer(options: ServerOptions = {}): FastifyInstance
       }
       throw err;
     }
+  });
+
+  // ==========================================================================
+  // Read-Only Trace, Replay, Diff & Scorecard Routes (Idea 3, Phase 5)
+  // ==========================================================================
+
+  const resolveTraceStore = (): SqliteTraceStore | null => {
+    if (rawStore && typeof (rawStore as { getTraceStore?: unknown }).getTraceStore === "function") {
+      return (rawStore as { getTraceStore: () => SqliteTraceStore }).getTraceStore();
+    }
+    return null;
+  };
+
+  server.get("/api/v1/traces", readRoute, async (request, reply) => {
+    const rawQuery = (request.query as Record<string, unknown>) ?? {};
+    if (rawQuery.tenantId !== undefined) {
+      return sendError(
+        request,
+        reply,
+        400,
+        "BAD_REQUEST",
+        "Explicit tenantId parameter is forbidden; tenant is derived from authentication"
+      );
+    }
+    const rawLimit = typeof rawQuery.limit === "string" ? Number(rawQuery.limit) : undefined;
+    const limit =
+      rawLimit !== undefined && Number.isFinite(rawLimit) && rawLimit > 0
+        ? Math.min(500, Math.floor(rawLimit))
+        : 200;
+    const principal = request.principal!;
+    const traceStore = resolveTraceStore();
+    const traces = traceStore ? traceStore.listTraces({ tenantId: principal.tenantId, limit }) : [];
+    reply.header("Cache-Control", "no-store");
+    return reply.status(200).send({ success: true, data: traces });
+  });
+
+  server.get("/api/v1/traces/scorecard", readRoute, async (request, reply) => {
+    const rawQuery = (request.query as Record<string, unknown>) ?? {};
+    if (rawQuery.tenantId !== undefined) {
+      return sendError(
+        request,
+        reply,
+        400,
+        "BAD_REQUEST",
+        "Explicit tenantId parameter is forbidden; tenant is derived from authentication"
+      );
+    }
+    const principal = request.principal!;
+    const traceStore = resolveTraceStore();
+    const traces = traceStore ? traceStore.listTraces({ tenantId: principal.tenantId, limit: 500 }) : [];
+    const scorecard = scoreTraceSet(traces, { scorecardId: `store-${principal.tenantId}` });
+    reply.header("Cache-Control", "no-store");
+    return reply.status(200).send({
+      success: true,
+      data: {
+        scorecard,
+        latencyScope: "all-span-total",
+      },
+    });
+  });
+
+  server.get("/api/v1/traces/diff", readRoute, async (request, reply) => {
+    const rawQuery = (request.query as Record<string, unknown>) ?? {};
+    const oldId = typeof rawQuery.oldId === "string" ? rawQuery.oldId.trim() : "";
+    const newId = typeof rawQuery.newId === "string" ? rawQuery.newId.trim() : "";
+    if (!oldId || !newId) {
+      return sendError(
+        request,
+        reply,
+        400,
+        "BAD_REQUEST",
+        "Both 'oldId' and 'newId' query parameters are required"
+      );
+    }
+    const principal = request.principal!;
+    const traceStore = resolveTraceStore();
+    if (!traceStore) {
+      return sendError(request, reply, 404, "NOT_FOUND", "Trace store unavailable");
+    }
+    const oldTrace = traceStore.readTraceById(oldId);
+    const newTrace = traceStore.readTraceById(newId);
+    if (
+      !oldTrace ||
+      !newTrace ||
+      oldTrace.tenantId !== principal.tenantId ||
+      newTrace.tenantId !== principal.tenantId
+    ) {
+      return sendError(request, reply, 404, "NOT_FOUND", "Trace pair not found");
+    }
+    const runner = new TraceReplayRunner({ traceStore });
+    const oldReport = traceStore.readReplayReportByTraceId(oldId) ?? (await runner.replay(oldTrace, { persist: false }));
+    const newReport = traceStore.readReplayReportByTraceId(newId) ?? (await runner.replay(newTrace, { persist: false }));
+    const traceDiff = diffTraces(oldTrace, newTrace);
+    const reportDiff = diffReplayReports(oldReport, newReport);
+    reply.header("Cache-Control", "no-store");
+    return reply.status(200).send({
+      success: true,
+      data: { traceDiff, reportDiff },
+    });
+  });
+
+  server.get("/api/v1/traces/:traceId", readRoute, async (request, reply) => {
+    const { traceId } = (request.params as { traceId?: string }) ?? {};
+    if (!traceId || traceId.trim().length === 0) {
+      return sendError(request, reply, 400, "BAD_REQUEST", "traceId parameter is required");
+    }
+    const principal = request.principal!;
+    const traceStore = resolveTraceStore();
+    if (!traceStore) {
+      return sendError(request, reply, 404, "NOT_FOUND", `Trace '${traceId}' not found`);
+    }
+    const trace = traceStore.readTraceById(traceId);
+    if (!trace || trace.tenantId !== principal.tenantId) {
+      return sendError(request, reply, 404, "NOT_FOUND", `Trace '${traceId}' not found`);
+    }
+    const runner = new TraceReplayRunner({ traceStore });
+    const replayReport =
+      traceStore.readReplayReportByTraceId(traceId) ??
+      (await runner.replay(trace, { persist: false }));
+    reply.header("Cache-Control", "no-store");
+    return reply.status(200).send({
+      success: true,
+      data: { trace, replayReport },
+    });
   });
 
   // GET /metrics — Prometheus metrics exposition endpoint
