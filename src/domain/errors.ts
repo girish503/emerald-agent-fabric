@@ -898,11 +898,19 @@ export class ModelProviderError extends DomainError {
 }
 
 export class ModelProviderUnavailableError extends ModelProviderError {
+  readonly confirmedNonProcessing?: boolean;
+
   constructor(
     message: string,
-    options?: { providerName?: string; requestId?: string; cause?: unknown }
+    options?: {
+      providerName?: string;
+      requestId?: string;
+      cause?: unknown;
+      confirmedNonProcessing?: boolean;
+    }
   ) {
     super("MODEL_PROVIDER_UNAVAILABLE", message, { ...options, isRetryable: true });
+    this.confirmedNonProcessing = options?.confirmedNonProcessing;
   }
 }
 

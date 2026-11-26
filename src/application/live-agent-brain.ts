@@ -983,6 +983,7 @@ export class LiveAgentBrain implements AgentBrainPort {
 
     return Object.freeze({
       requestId,
+      traceId: `trace-${request.runId}`,
       model: this.model,
       input: inputMessages,
       generation,

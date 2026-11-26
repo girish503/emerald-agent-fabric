@@ -10,6 +10,8 @@
  */
 
 import { AgentProposal, ModelAdapter } from "../../runtime/production-runtime-engine.js";
+import { OllamaModelProvider, type OllamaFetchLike } from "../../adapters/models/ollama-model-provider.js";
+import { ModelRequestTimeoutError } from "../../domain/errors.js";
 import {
   getStructuredProposalJsonSchema,
   validateStructuredProposal,
@@ -42,14 +44,23 @@ export class OllamaModelAdapter implements ModelAdapter {
   private lastMetrics?: OllamaInferenceMetrics;
   private lastAuditRecord?: OllamaResponseAuditRecord;
   private readonly endpoint: string;
+  private readonly provider: OllamaModelProvider;
 
   constructor(
     public readonly modelName: string,
-    endpoint: string = "http://localhost:11434",
+    endpoint: string = process.env.OLLAMA_BASE_URL ?? "http://localhost:11434",
     private readonly timeoutMs: number = 30000,
     public readonly constrainedOutputEnabled: boolean = false,
+    fetchImpl?: OllamaFetchLike,
   ) {
     this.endpoint = endpoint.replace(/\/$/, "");
+    this.provider = new OllamaModelProvider({
+      baseURL: this.endpoint,
+      defaultModel: this.modelName,
+      allowedModels: [this.modelName],
+      timeoutMs: this.timeoutMs,
+      ...(fetchImpl ? { fetch: fetchImpl } : {}),
+    });
   }
 
   public getLastMetrics(): OllamaInferenceMetrics | undefined {
@@ -62,71 +73,65 @@ export class OllamaModelAdapter implements ModelAdapter {
 
   public async proposeAction(contextText: string): Promise<AgentProposal> {
     const startTime = Date.now();
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), this.timeoutMs);
-
-    const formatPayload = this.constrainedOutputEnabled
-      ? getStructuredProposalJsonSchema()
-      : "json";
+    const structuredOutput = this.constrainedOutputEnabled
+      ? {
+          name: "agent_proposal",
+          jsonSchema: getStructuredProposalJsonSchema() as Record<string, unknown>,
+          strict: true,
+        }
+      : undefined;
 
     try {
-      const res = await fetch(`${this.endpoint}/api/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: this.modelName,
-          prompt: contextText,
-          stream: false,
-          format: formatPayload,
-          options: {
-            temperature: 0.1,
-            top_p: 0.9,
-            num_predict: 512,
-          },
-        }),
-        signal: controller.signal,
+      const response = await this.provider.generate({
+        requestId: `bench-${Date.now()}`,
+        model: this.modelName,
+        input: [{ role: "user", content: contextText }],
+        generation: {
+          temperature: 0.1,
+          topP: 0.9,
+          maxOutputTokens: 512,
+          ...(structuredOutput ? { structuredOutput } : {}),
+        },
+        timeoutMs: this.timeoutMs,
       });
 
-      if (!res.ok) {
-        throw new Error(`Ollama HTTP error ${res.status}: ${res.statusText}`);
-      }
-
-      const data = (await res.json()) as {
-        response: string;
-        total_duration?: number;
-        load_duration?: number;
-        prompt_eval_duration?: number;
-        eval_duration?: number;
-        prompt_eval_count?: number;
-        eval_count?: number;
-      };
-
-      const evalCount = data.eval_count ?? 0;
-      const evalDurationMs = (data.eval_duration ?? 0) / 1_000_000;
+      const meta = (response.providerMetadata ?? {}) as Record<string, unknown>;
+      const evalCount =
+        typeof meta.evalCount === "number" ? meta.evalCount : response.usage?.outputTokens ?? 0;
+      const evalDurationMs =
+        typeof meta.evalDurationNs === "number" ? meta.evalDurationNs / 1_000_000 : 0;
       const tokensPerSecond = evalDurationMs > 0 ? evalCount / (evalDurationMs / 1000) : 0;
 
       this.lastMetrics = {
-        totalDurationMs: (data.total_duration ?? 0) / 1_000_000 || Date.now() - startTime,
-        loadDurationMs: (data.load_duration ?? 0) / 1_000_000,
-        promptEvalDurationMs: (data.prompt_eval_duration ?? 0) / 1_000_000,
+        totalDurationMs:
+          typeof meta.totalDurationNs === "number"
+            ? meta.totalDurationNs / 1_000_000
+            : Date.now() - startTime,
+        loadDurationMs:
+          typeof meta.loadDurationNs === "number" ? meta.loadDurationNs / 1_000_000 : 0,
+        promptEvalDurationMs:
+          typeof meta.promptEvalDurationNs === "number"
+            ? meta.promptEvalDurationNs / 1_000_000
+            : 0,
         evalDurationMs,
-        promptEvalCount: data.prompt_eval_count ?? 0,
+        promptEvalCount:
+          typeof meta.promptEvalCount === "number"
+            ? meta.promptEvalCount
+            : response.usage?.inputTokens ?? 0,
         evalCount,
         tokensPerSecond: Math.round(tokensPerSecond * 10) / 10,
       };
 
       if (this.constrainedOutputEnabled) {
-        return this.parseConstrainedProposal(data.response);
+        return this.parseConstrainedProposal(response.outputText);
       } else {
-        return this.parseUnconstrainedProposal(data.response);
+        return this.parseUnconstrainedProposal(response.outputText);
       }
     } catch (err) {
-      if ((err as Error).name === "AbortError") {
+      if (err instanceof ModelRequestTimeoutError || (err as Error).name === "AbortError") {
         throw new Error(`Ollama inference timed out after ${this.timeoutMs}ms`);
       }
       throw err;
-    } finally {
-      clearTimeout(timer);
     }
   }
 

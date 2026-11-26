@@ -12,3 +12,11 @@ export {
   OpenAICompatibleModelProvider,
   type OpenAICompatibleModelProviderOptions,
 } from "./openai-compatible-model-provider.js";
+
+export {
+  resolveModelAllowlist,
+  assertModelAllowed,
+  parseSpendCapUsd,
+  assertWithinSpendCap,
+  retryIdempotentRead,
+} from "./gateway-policy.js";

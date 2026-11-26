@@ -318,6 +318,8 @@ export class EmeraldLifecycleTelemetry {
     readonly startTimeIso: string;
     readonly endTimeIso: string;
     readonly requestId: string;
+    readonly traceId?: string;
+    readonly costUsd?: number;
     readonly promptName?: string;
     readonly promptVersion?: number;
     readonly harnessVersion?: string;
@@ -330,6 +332,10 @@ export class EmeraldLifecycleTelemetry {
   }): void {
     const mode = input.executionMode ?? this.defaultMode;
     this.safe(() => {
+      const corr = this.observability.currentCorrelation();
+      const traceId = input.traceId ?? corr.traceId ?? input.requestId;
+      const costUsd = input.costUsd ?? 0;
+
       this.observability.incrementCounter(
         "emerald_model_requests_total",
         "Total model inference requests by provider, model, and status",
@@ -383,14 +389,32 @@ export class EmeraldLifecycleTelemetry {
           "gen_ai.request.model": input.model,
           "gen_ai.usage.input_tokens": input.promptTokens ?? 0,
           "gen_ai.usage.output_tokens": input.completionTokens ?? 0,
+          "gen_ai.usage.cost_usd": costUsd,
+          "emerald.trace_id": traceId,
           "emerald.execution_mode": mode,
         },
         input.errorMessage
       );
 
+      this.observability.emitLog(
+        input.status === "ok" ? "INFO" : "WARN",
+        "model.invocation",
+        `Model invocation ${input.status} (${input.provider}/${input.model})`,
+        {
+          traceId,
+          requestId: input.requestId,
+          provider: input.provider,
+          model: input.model,
+          status: input.status,
+          durationMs: input.durationMs,
+          promptTokens: input.promptTokens ?? 0,
+          completionTokens: input.completionTokens ?? 0,
+          costUsd,
+          ...(input.errorMessage ? { errorMessage: input.errorMessage } : {}),
+        }
+      );
+
       if (this.langfuse) {
-        const corr = this.observability.currentCorrelation();
-        const traceId = corr.traceId ?? input.requestId;
         this.langfuse.enqueueGeneration({
           id: input.requestId,
           traceId,
@@ -414,6 +438,7 @@ export class EmeraldLifecycleTelemetry {
           metadata: {
             executionMode: mode,
             harnessVersion: input.harnessVersion,
+            costUsd,
             tenantId: corr.tenantId,
             taskId: corr.taskId,
             runId: corr.runId,

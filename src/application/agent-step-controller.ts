@@ -47,6 +47,7 @@ import {
   ModelProviderUnavailableError,
   ModelResponseInvalidError,
 } from "../domain/errors.js";
+import { dispatchWithRateLimitRetry } from "./governed-model-router.js";
 import {
   type ModelInferenceOutcome,
   type ModelInferenceTelemetryEvent,
@@ -1925,7 +1926,14 @@ export class AgentStepController {
           sequenceNumber: stepCount,
           abortSignal: params.abortSignal,
         };
-        brainResult = await this.agentBrain.proposeAction(brainRequest);
+        const brainTimeoutMs = (this.agentBrain as unknown as { timeoutMs?: unknown })?.timeoutMs;
+        brainResult = await dispatchWithRateLimitRetry(
+          () => this.agentBrain.proposeAction(brainRequest),
+          {
+            timeoutMs: typeof brainTimeoutMs === "number" ? brainTimeoutMs : undefined,
+            abortSignal: params.abortSignal,
+          }
+        );
 
         // Enforce active-lease fencing before committing telemetry, proposals, checkpoints, or completion
         const postBrainLeaseError = hasActiveLeaseAuthority();

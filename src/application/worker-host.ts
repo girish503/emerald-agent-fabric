@@ -444,8 +444,10 @@ export async function runWorkerHost(options: WorkerHostOptions): Promise<WorkerH
           const ollama = new OllamaModelProvider({
             baseURL: options.ollamaBaseUrl,
             defaultModel: options.model,
+            allowedModels: options.model ? [options.model] : undefined,
             keepAlive: options.ollamaKeepAlive,
             numCtx: options.ollamaNumCtx,
+            ...(options.telemetry ? { telemetry: options.telemetry } : {}),
           });
           brain = new LiveAgentBrain({
             modelProvider: ollama,

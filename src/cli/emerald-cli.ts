@@ -2457,7 +2457,8 @@ export class EmeraldCli {
       };
     }
 
-    const modelId = "qwen2.5-coder:1.5b";
+    const ollamaBaseUrl = (process.env.OLLAMA_BASE_URL ?? "http://127.0.0.1:11434").replace(/\/+$/, "");
+    const modelId = process.env.OLLAMA_MODEL ?? "qwen2.5-coder:1.5b";
     const expectedDigest = "sha256:d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668";
     const preflightChecks: { name: string; passed: boolean; details: string }[] = [];
 
@@ -2465,7 +2466,7 @@ export class EmeraldCli {
     let installedModelFound = false;
     let actualInstalledDigest = "";
     try {
-      const res = await fetch("http://127.0.0.1:11434/api/tags");
+      const res = await fetch(`${ollamaBaseUrl}/api/tags`);
       if (!res.ok) {
         throw new Error(`HTTP ${res.status} from Ollama /api/tags`);
       }
@@ -2586,8 +2587,9 @@ export class EmeraldCli {
 
     // Execute the live Ollama trials
     const provider = new OllamaModelProvider({
-      baseURL: "http://127.0.0.1:11434",
+      baseURL: ollamaBaseUrl,
       defaultModel: modelId,
+      allowedModels: [modelId],
       timeoutMs: 120000,
     });
     const harness = new DualGateEvaluationHarness();

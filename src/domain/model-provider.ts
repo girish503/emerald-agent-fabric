@@ -131,6 +131,11 @@ export interface ModelProviderRequest {
    * Optional cooperative cancellation signal.
    */
   readonly abortSignal?: AbortSignal;
+
+  /**
+   * Optional correlation trace ID for observability and cost logging.
+   */
+  readonly traceId?: string;
 }
 
 // ============================================================================
@@ -234,6 +239,15 @@ export function validateModelProviderRequest(request: ModelProviderRequest): voi
 
   if (typeof request.requestId !== "string" || request.requestId.trim().length === 0) {
     throw new ModelRequestInvalidError("requestId must be a non-empty string");
+  }
+
+  if (
+    request.traceId !== undefined &&
+    (typeof request.traceId !== "string" || request.traceId.trim().length === 0)
+  ) {
+    throw new ModelRequestInvalidError("traceId must be a non-empty string if provided", {
+      requestId: request.requestId,
+    });
   }
 
   if (typeof request.model !== "string" || request.model.trim().length === 0) {

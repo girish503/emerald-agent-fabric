@@ -37,6 +37,159 @@ import {
   getVerifiedGates,
 } from "../domain/model-routing.js";
 import { canonicalJsonStringify, sha256Hex } from "../domain/canonical-hash.js";
+import {
+  ModelProviderUnavailableError,
+  ModelRateLimitedError,
+  ModelRequestCancelledError,
+} from "../domain/errors.js";
+
+/**
+ * Step 5 bounded rate-limit retry policy constants enforced at the router/caller layer
+ * (never inside ModelProviderPort.generate(), which remains strictly single-attempt).
+ */
+export const DEFAULT_RATE_LIMIT_MAX_RETRIES = 3;
+export const MAX_RATE_LIMIT_RETRIES_CAP = 3;
+export const DEFAULT_RATE_LIMIT_BASE_BACKOFF_MS = 1000;
+export const DEFAULT_RATE_LIMIT_MAX_BACKOFF_MS = 30_000;
+export const DEFAULT_RATE_LIMIT_MAX_WAIT_MS = 45_000;
+export const DEFAULT_RATE_LIMIT_TIMEOUT_MS = 120_000;
+
+export interface RateLimitRetryOptions {
+  /** Maximum retry attempts on 429 / non-processing 5xx (capped at MAX_RATE_LIMIT_RETRIES_CAP = 3). */
+  readonly maxRetries?: number;
+  /** Overall request wall-clock budget (ms); total attempt + backoff time stays inside this limit. */
+  readonly timeoutMs?: number;
+  /** Optional cancellation signal. */
+  readonly abortSignal?: AbortSignal;
+  /** Exponential backoff base (ms). Defaults to Step 5 value (1000ms). */
+  readonly baseBackoffMs?: number;
+  /** Exponential backoff ceiling (ms). Defaults to Step 5 value (30000ms). */
+  readonly maxBackoffMs?: number;
+  /** Single wait ceiling including Retry-After (ms). Defaults to Step 5 value (45000ms). */
+  readonly maxWaitMs?: number;
+  /** Safety padding added to provider Retry-After / reset headers (ms). Defaults to Step 5 value (500ms). */
+  readonly retryAfterPaddingMs?: number;
+  /** Random jitter window (ms). Defaults to Step 5 value (500ms). */
+  readonly jitterWindowMs?: number;
+  /** Test seam for jitter source [0, 1). */
+  readonly randomFn?: () => number;
+  /** Test seam for clock source (epoch ms). */
+  readonly nowFn?: () => number;
+  /** Test seam for wait mechanism. */
+  readonly sleepFn?: (ms: number, abortSignal?: AbortSignal) => Promise<void>;
+}
+
+/**
+ * Only HTTP 429 (`ModelRateLimitedError`) and 5xx where the upstream provider explicitly confirmed
+ * non-processing (`ModelProviderUnavailableError` with `confirmedNonProcessing === true`) are eligible.
+ */
+export function isRateLimitOrConfirmedNonProcessedError(err: unknown): boolean {
+  if (err instanceof ModelRateLimitedError) {
+    return true;
+  }
+  if (err instanceof ModelProviderUnavailableError && err.confirmedNonProcessing === true) {
+    return true;
+  }
+  return false;
+}
+
+function defaultAbortableSleep(ms: number, abortSignal?: AbortSignal): Promise<void> {
+  if (ms <= 0 || abortSignal?.aborted) {
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => {
+    const onAbort = () => {
+      clearTimeout(timeoutId);
+      resolve();
+    };
+    const timeoutId = setTimeout(() => {
+      if (abortSignal) {
+        abortSignal.removeEventListener("abort", onAbort);
+      }
+      resolve();
+    }, ms);
+    if (abortSignal) {
+      abortSignal.addEventListener("abort", onAbort, { once: true });
+    }
+  });
+}
+
+/**
+ * Bounded router/caller-level retry handler for single-attempt `ModelProviderPort.generate()` calls.
+ * Preserves Step 5 Retry-After + jittered exponential backoff inside total `timeoutMs`.
+ * Bounded at `MAX_RATE_LIMIT_RETRIES_CAP` (3 retries = 4 total attempts maximum).
+ */
+export async function dispatchWithRateLimitRetry<T>(
+  operation: () => Promise<T>,
+  options: RateLimitRetryOptions = {}
+): Promise<T> {
+  const nowFn = options.nowFn ?? Date.now;
+  const randomFn = options.randomFn ?? Math.random;
+  const sleepFn = options.sleepFn ?? defaultAbortableSleep;
+  const startMs = nowFn();
+
+  const maxRetries = Math.max(
+    0,
+    Math.min(
+      MAX_RATE_LIMIT_RETRIES_CAP,
+      Math.floor(options.maxRetries ?? DEFAULT_RATE_LIMIT_MAX_RETRIES)
+    )
+  );
+  const timeoutMs =
+    typeof options.timeoutMs === "number" && Number.isFinite(options.timeoutMs) && options.timeoutMs > 0
+      ? options.timeoutMs
+      : DEFAULT_RATE_LIMIT_TIMEOUT_MS;
+  const baseBackoffMs = Math.max(0, options.baseBackoffMs ?? DEFAULT_RATE_LIMIT_BASE_BACKOFF_MS);
+  const maxBackoffMs = Math.max(baseBackoffMs, options.maxBackoffMs ?? DEFAULT_RATE_LIMIT_MAX_BACKOFF_MS);
+  const maxWaitMs = Math.max(0, options.maxWaitMs ?? DEFAULT_RATE_LIMIT_MAX_WAIT_MS);
+  const retryAfterPaddingMs = Math.max(0, options.retryAfterPaddingMs ?? 500);
+  const jitterWindowMs = Math.max(0, options.jitterWindowMs ?? 500);
+
+  let retryCount = 0;
+  while (true) {
+    if (options.abortSignal?.aborted) {
+      throw new ModelRequestCancelledError("Model dispatch aborted prior to attempt");
+    }
+
+    try {
+      return await operation();
+    } catch (err: unknown) {
+      if (!isRateLimitOrConfirmedNonProcessedError(err)) {
+        throw err;
+      }
+
+      retryCount++;
+      if (retryCount > maxRetries || options.abortSignal?.aborted) {
+        throw err;
+      }
+
+      const jitterMs = jitterWindowMs > 0 ? Math.floor(randomFn() * jitterWindowMs) : 0;
+      const expBackoffMs = Math.min(maxBackoffMs, Math.pow(2, retryCount) * baseBackoffMs + jitterMs);
+      const headerResetMs =
+        err instanceof ModelRateLimitedError &&
+        typeof err.retryAfterMs === "number" &&
+        Number.isFinite(err.retryAfterMs) &&
+        err.retryAfterMs > 0
+          ? err.retryAfterMs
+          : undefined;
+      const waitMs = Math.min(
+        maxWaitMs,
+        headerResetMs !== undefined ? Math.max(headerResetMs + retryAfterPaddingMs, expBackoffMs) : expBackoffMs
+      );
+
+      const elapsedMs = Math.max(0, nowFn() - startMs);
+      const remainingMs = timeoutMs - elapsedMs;
+      if (remainingMs <= 0 || waitMs >= remainingMs) {
+        throw err;
+      }
+
+      await sleepFn(waitMs, options.abortSignal);
+      if (options.abortSignal?.aborted) {
+        throw err;
+      }
+    }
+  }
+}
 
 /** Evidence-based readiness of one registered model against the local provider inventory. */
 export interface ModelInventoryReadiness {
@@ -264,6 +417,18 @@ export class GovernedModelRouterService {
     return () => {
       this.slotHolders.delete(holderId);
     };
+  }
+
+  /**
+   * Executes a single-attempt model dispatch with bounded caller/router-level retry on HTTP 429
+   * (honoring Retry-After + jittered exponential backoff) or provider-confirmed non-processing 5xx.
+   * Bounded at `MAX_RATE_LIMIT_RETRIES_CAP` (3 retries / 4 total attempts) inside `timeoutMs`.
+   */
+  public async executeWithRateLimitRetry<T>(
+    operation: () => Promise<T>,
+    options: RateLimitRetryOptions = {}
+  ): Promise<T> {
+    return dispatchWithRateLimitRetry(operation, options);
   }
 
   private decide(

@@ -37,8 +37,6 @@ import {
   ModelUsageMetadata,
   validateModelProviderRequest,
 } from "../../ports/model-provider.port.js";
-import * as crypto from "node:crypto";
-
 
 import {
   ModelProviderError,
@@ -48,6 +46,14 @@ import {
   ModelRequestTimeoutError,
   ModelResponseInvalidError,
 } from "../../domain/errors.js";
+import { redactTraceString } from "../../domain/trace.js";
+import {
+  assertModelAllowed,
+  assertWithinSpendCap,
+  buildTelemetryPreviews,
+  parseSpendCapUsd,
+  resolveModelAllowlist,
+} from "./gateway-policy.js";
 
 
 
@@ -120,6 +126,16 @@ export interface OllamaModelProviderOptions {
    * digests unless explicitly opted in. Never set true in production unless required for audited replay.
    */
   readonly includeRawPromptTelemetry?: boolean;
+
+  /**
+   * Optional explicit model allowlist. Defaults to OLLAMA_ALLOWED_MODELS or EMERALD_ALLOWED_MODELS when set.
+   */
+  readonly allowedModels?: readonly string[];
+
+  /**
+   * Optional spend cap in USD (defaults to EMERALD_SPEND_CAP_USD or 0 for ₹0 local Ollama).
+   */
+  readonly spendCapUsd?: number;
 }
 
 
@@ -159,6 +175,8 @@ export class OllamaModelProvider implements ModelProviderPort {
   private readonly fetchImpl: OllamaFetchLike;
   private readonly telemetry?: EmeraldLifecycleTelemetry;
   private readonly includeRawPromptTelemetry: boolean;
+  private readonly allowedModels?: readonly string[];
+  private readonly spendCapUsd: number;
 
   /**
    * Validates keepAlive parameter for Ollama compatibility.
@@ -216,11 +234,16 @@ export class OllamaModelProvider implements ModelProviderPort {
   }
 
   constructor(options: OllamaModelProviderOptions = {}) {
+    const strictEnv = process.env.EMERALD_STRICT_ENV_CONFIG === "true";
     const rawBaseUrl =
-      options.baseURL ?? process.env.OLLAMA_BASE_URL ?? "http://127.0.0.1:11434";
+      options.baseURL ??
+      process.env.OLLAMA_BASE_URL ??
+      (strictEnv ? "" : "http://127.0.0.1:11434");
     this.baseURL = rawBaseUrl.replace(/\/+$/, "");
     this.defaultModel =
-      options.defaultModel ?? process.env.OLLAMA_MODEL ?? "llama3.2";
+      options.defaultModel ??
+      process.env.OLLAMA_MODEL ??
+      (strictEnv ? "" : "llama3.2");
     this.defaultTimeoutMs = options.timeoutMs ?? 60000;
     const rawKeepAlive =
       options.keepAlive ?? process.env.OLLAMA_KEEP_ALIVE ?? "10m";
@@ -229,6 +252,16 @@ export class OllamaModelProvider implements ModelProviderPort {
     this.fetchImpl = options.fetch ?? (globalThis.fetch as unknown as OllamaFetchLike);
     this.telemetry = options.telemetry;
     this.includeRawPromptTelemetry = options.includeRawPromptTelemetry ?? false;
+    this.allowedModels = resolveModelAllowlist(
+      options.allowedModels,
+      process.env.OLLAMA_ALLOWED_MODELS ?? process.env.EMERALD_ALLOWED_MODELS
+    );
+    this.spendCapUsd = parseSpendCapUsd(
+      options.spendCapUsd,
+      process.env.EMERALD_SPEND_CAP_USD,
+      0,
+      this.providerName
+    );
   }
 
   /**
@@ -265,26 +298,14 @@ export class OllamaModelProvider implements ModelProviderPort {
   async generate(request: ModelProviderRequest): Promise<ModelProviderResponse> {
     const startMs = Date.now();
     const startTimeIso = new Date(startMs).toISOString();
+    const traceId = request?.traceId ?? request?.requestId;
     try {
       const response = await this.generateCore(request);
-      const promptTelemetry = this.includeRawPromptTelemetry
-        ? request.input.map((m) => ({ role: m.role, content: m.content }))
-        : {
-            redactedMode: "sha256_metadata_only",
-            messageCount: request.input.length,
-            totalChars: request.input.reduce((acc, m) => acc + m.content.length, 0),
-            sha256: crypto
-              .createHash("sha256")
-              .update(JSON.stringify(request.input), "utf8")
-              .digest("hex"),
-          };
-      const outputTelemetry = this.includeRawPromptTelemetry
-        ? response.outputText
-        : {
-            redactedMode: "sha256_metadata_only",
-            charLength: response.outputText.length,
-            sha256: crypto.createHash("sha256").update(response.outputText, "utf8").digest("hex"),
-          };
+      const { promptPreview, outputPreview } = buildTelemetryPreviews(
+        request.input,
+        response.outputText,
+        this.includeRawPromptTelemetry
+      );
       this.telemetry?.recordModelInvocation({
         provider: this.providerName,
         model: response.model,
@@ -293,10 +314,12 @@ export class OllamaModelProvider implements ModelProviderPort {
         startTimeIso,
         endTimeIso: new Date().toISOString(),
         requestId: request.requestId,
+        traceId,
+        costUsd: 0,
         promptTokens: response.usage?.inputTokens,
         completionTokens: response.usage?.outputTokens,
-        promptPreview: promptTelemetry,
-        outputPreview: outputTelemetry,
+        promptPreview,
+        outputPreview,
       });
       return response;
     } catch (err: unknown) {
@@ -308,15 +331,18 @@ export class OllamaModelProvider implements ModelProviderPort {
             : err instanceof ModelProviderUnavailableError
               ? "unavailable"
               : "error";
+      const rawErrMsg = err instanceof Error ? err.message : String(err);
       this.telemetry?.recordModelInvocation({
         provider: this.providerName,
-        model: request.model || this.defaultModel,
+        model: request?.model || this.defaultModel || "unconfigured",
         status,
         durationMs: Date.now() - startMs,
         startTimeIso,
         endTimeIso: new Date().toISOString(),
-        requestId: request.requestId,
-        errorMessage: err instanceof Error ? err.message : String(err),
+        requestId: request?.requestId ?? "invalid-request",
+        traceId,
+        costUsd: 0,
+        errorMessage: redactTraceString(rawErrMsg, 256),
       });
       throw err;
     }
@@ -325,6 +351,24 @@ export class OllamaModelProvider implements ModelProviderPort {
   private async generateCore(request: ModelProviderRequest): Promise<ModelProviderResponse> {
     // 1. Validate request invariants
     validateModelProviderRequest(request);
+
+    if (!this.baseURL) {
+      throw new ModelProviderUnavailableError(
+        "Ollama baseURL is not configured; set options.baseURL or OLLAMA_BASE_URL",
+        {
+          providerName: this.providerName,
+          requestId: request.requestId,
+        }
+      );
+    }
+
+    assertWithinSpendCap({
+      providerName: this.providerName,
+      requestId: request.requestId,
+      cumulativeCostUsd: 0,
+      spendCapUsd: this.spendCapUsd,
+      rejectZeroCap: false,
+    });
 
     // 2. Check early cancellation
     if (request.abortSignal?.aborted) {
@@ -337,8 +381,13 @@ export class OllamaModelProvider implements ModelProviderPort {
       );
     }
 
-    // 3. Resolve target model
+    // 3. Resolve target model and enforce allowlist
     const model = request.model || this.defaultModel;
+    assertModelAllowed(model, this.allowedModels, {
+      providerName: this.providerName,
+      requestId: request.requestId,
+      requireAllowlist: false,
+    });
 
     // 4. Translate conversation messages
     const messages = request.input.map((msg: ModelMessage) => ({

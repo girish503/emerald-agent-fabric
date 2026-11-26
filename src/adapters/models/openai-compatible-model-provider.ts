@@ -2,14 +2,15 @@
  * OpenAI-Compatible Model Provider Adapter for Emerald Agent Fabric.
  *
  * Implements ModelProviderPort to support external providers offering
- * standard OpenAI-compatible HTTP endpoints (e.g., Groq, OpenAI, self-hosted vLLM).
+ * standard OpenAI-compatible HTTP endpoints (e.g., self-hosted vLLM or explicitly configured endpoints).
  *
  * Invariants:
  * 1. Zero Authority: Model output is untrusted. No capability or state authority.
  * 2. Provider Independence: Domain and application layers remain free of external SDK dependencies.
- * 3. Security: API keys are sourced from process.env or runtime options only; never logged or serialized.
- * 4. Cost Governance: Tracks cumulative prompt/completion token spend and enforces spendCapUsd fail-closed.
- * 5. Single-Attempt Semantics: Performs a single HTTP request per generate() call. No internal retries.
+ * 3. Env-Only Configuration: No hardcoded cloud endpoints, keys, or model defaults; explicit config required.
+ * 4. Allowlist & Cost Governance: Rejects unallowlisted models and enforces spendCapUsd fail-closed.
+ * 5. Single-Attempt Semantics: Performs a single HTTP POST request per generate() call. No internal retries.
+ * 6. Privacy-Preserving Telemetry: Logs tokens, cost, latency, and traceId on every call without secrets.
  */
 
 import {
@@ -19,70 +20,116 @@ import {
   ModelProviderResponse,
   validateModelProviderRequest,
 } from "../../domain/model-provider.js";
+import { redactTraceString } from "../../domain/trace.js";
 import {
-  ModelProviderError,
   ModelProviderUnavailableError,
   ModelRateLimitedError,
   ModelRequestCancelledError,
+  ModelRequestInvalidError,
   ModelRequestTimeoutError,
   ModelResponseInvalidError,
 } from "../../domain/errors.js";
 import { ModelProviderPort } from "../../ports/model-provider.port.js";
 import type { EmeraldLifecycleTelemetry } from "../../application/observability-instrumentation.js";
+import {
+  assertModelAllowed,
+  assertWithinSpendCap,
+  buildTelemetryPreviews,
+  parseSpendCapUsd,
+  resolveModelAllowlist,
+} from "./gateway-policy.js";
 
 export interface OpenAICompatibleModelProviderOptions {
   readonly providerName?: string;
   readonly baseURL?: string;
   readonly apiKey?: string;
   readonly defaultModel?: string;
+  readonly allowedModels?: readonly string[];
   readonly timeoutMs?: number;
   readonly spendCapUsd?: number;
   readonly fetch?: typeof globalThis.fetch;
   readonly telemetry?: EmeraldLifecycleTelemetry;
+  readonly includeRawPromptTelemetry?: boolean;
 }
 
+/**
+ * Parses Retry-After or Groq rate-limit reset headers (seconds, ms/s/m durations, or HTTP-date)
+ * into milliseconds for upstream caller/router retry scheduling.
+ */
 function parseResetDurationMs(val: string | null): number | undefined {
   if (!val) return undefined;
-  const rawNum = Number(val);
-  if (!Number.isNaN(rawNum) && rawNum > 0) return Math.ceil(rawNum * 1000);
+  const trimmed = val.trim();
+  if (trimmed.length === 0) return undefined;
+  const rawNum = Number(trimmed);
+  if (Number.isFinite(rawNum) && rawNum > 0) return Math.ceil(rawNum * 1000);
   let ms = 0;
-  const msMatch = val.match(/(\d+(?:\.\d+)?)\s*ms/i);
+  const msMatch = trimmed.match(/(\d+(?:\.\d+)?)\s*ms/i);
   if (msMatch && msMatch[1]) ms += parseFloat(msMatch[1]);
-  const sMatch = val.match(/(\d+(?:\.\d+)?)\s*s(?![\w])/i);
+  const sMatch = trimmed.match(/(\d+(?:\.\d+)?)\s*s(?![\w])/i);
   if (sMatch && sMatch[1]) ms += parseFloat(sMatch[1]) * 1000;
-  const mMatch = val.match(/(\d+(?:\.\d+)?)\s*m(?![\w])/i);
+  const mMatch = trimmed.match(/(\d+(?:\.\d+)?)\s*m(?![\w])/i);
   if (mMatch && mMatch[1]) ms += parseFloat(mMatch[1]) * 60_000;
-  return ms > 0 ? Math.ceil(ms) : undefined;
+  if (ms > 0) return Math.ceil(ms);
+  const parsedDateMs = Date.parse(trimmed);
+  if (Number.isFinite(parsedDateMs)) {
+    const delta = parsedDateMs - Date.now();
+    if (delta > 0) return Math.ceil(delta);
+  }
+  return undefined;
 }
 
 export class OpenAICompatibleModelProvider implements ModelProviderPort {
   readonly providerName: string;
   private readonly baseURL: string;
   private readonly apiKey?: string;
-  private readonly defaultModel: string;
+  private readonly defaultModel?: string;
+  private readonly allowedModels?: readonly string[];
   private readonly defaultTimeoutMs: number;
   private readonly spendCapUsd: number;
   private readonly fetchImpl: typeof globalThis.fetch;
   private readonly telemetry?: EmeraldLifecycleTelemetry;
+  private readonly includeRawPromptTelemetry: boolean;
 
   private cumulativePromptTokens = 0;
   private cumulativeCompletionTokens = 0;
   private cumulativeEstimatedCostUsd = 0;
 
   constructor(options: OpenAICompatibleModelProviderOptions = {}) {
-    this.providerName = options.providerName ?? process.env.EMERALD_MODEL_PROVIDER ?? "groq";
+    this.providerName =
+      options.providerName ??
+      process.env.EMERALD_MODEL_PROVIDER?.trim() ??
+      "openai-compatible";
     const rawBaseUrl =
       options.baseURL ??
-      (this.providerName === "groq"
-        ? "https://api.groq.com/openai/v1"
-        : "https://api.openai.com/v1");
-    this.baseURL = rawBaseUrl.replace(/\/+$/, "");
-    this.apiKey = options.apiKey ?? process.env.EMERALD_API_KEY ?? process.env.OPENAI_API_KEY;
-    this.defaultModel = options.defaultModel ?? process.env.EMERALD_MODEL_NAME ?? "openai/gpt-oss-120b";
+      process.env.EMERALD_MODEL_BASE_URL ??
+      process.env.OPENAI_BASE_URL ??
+      "";
+    this.baseURL = rawBaseUrl.trim().replace(/\/+$/, "");
+    this.apiKey =
+      options.apiKey ?? process.env.EMERALD_API_KEY ?? process.env.OPENAI_API_KEY;
+    const rawDefaultModel =
+      options.defaultModel ?? process.env.EMERALD_MODEL_NAME;
+    this.defaultModel =
+      rawDefaultModel && rawDefaultModel.trim().length > 0
+        ? rawDefaultModel.trim()
+        : undefined;
+    const explicitOrEnvAllowlist = resolveModelAllowlist(
+      options.allowedModels,
+      process.env.EMERALD_ALLOWED_MODELS
+    );
+    this.allowedModels =
+      explicitOrEnvAllowlist ??
+      (this.defaultModel ? Object.freeze([this.defaultModel]) : undefined);
     this.defaultTimeoutMs = options.timeoutMs ?? 120_000;
-    this.spendCapUsd = options.spendCapUsd ?? parseFloat(process.env.EMERALD_SPEND_CAP_USD ?? "2.0");
+    this.spendCapUsd = parseSpendCapUsd(
+      options.spendCapUsd,
+      process.env.EMERALD_SPEND_CAP_USD,
+      0,
+      this.providerName
+    );
     this.fetchImpl = options.fetch ?? globalThis.fetch;
     this.telemetry = options.telemetry;
+    this.includeRawPromptTelemetry = options.includeRawPromptTelemetry ?? false;
   }
 
   get cumulativeSpend(): { promptTokens: number; completionTokens: number; costUsd: number } {
@@ -94,20 +141,88 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
   }
 
   private calculateCostUsd(_model: string, promptTokens: number, completionTokens: number): number {
-    // Conservative rates for hosted frontier / 120B models ($0.15/M input, $0.60/M output)
+    // Conservative rates for hosted models ($0.15/M input, $0.60/M output)
     const inputRatePerMillion = 0.15;
     const outputRatePerMillion = 0.60;
-    return (promptTokens / 1_000_000) * inputRatePerMillion + (completionTokens / 1_000_000) * outputRatePerMillion;
+    return (
+      (promptTokens / 1_000_000) * inputRatePerMillion +
+      (completionTokens / 1_000_000) * outputRatePerMillion
+    );
   }
 
   async generate(request: ModelProviderRequest): Promise<ModelProviderResponse> {
+    const startMs = Date.now();
+    const startTimeIso = new Date(startMs).toISOString();
+    const traceId = request?.traceId ?? request?.requestId;
+
+    try {
+      const { response, callCost } = await this.generateCore(request, startMs);
+      const { promptPreview, outputPreview } = buildTelemetryPreviews(
+        request.input,
+        response.outputText,
+        this.includeRawPromptTelemetry
+      );
+      this.telemetry?.recordModelInvocation({
+        provider: this.providerName,
+        model: response.model,
+        status: "ok",
+        durationMs: response.durationMs,
+        startTimeIso,
+        endTimeIso: new Date().toISOString(),
+        requestId: request.requestId,
+        traceId,
+        costUsd: callCost,
+        promptPreview,
+        outputPreview,
+        promptTokens: response.usage?.inputTokens,
+        completionTokens: response.usage?.outputTokens,
+      });
+      return response;
+    } catch (err: unknown) {
+      const status =
+        err instanceof ModelRequestTimeoutError
+          ? "timeout"
+          : err instanceof ModelRequestCancelledError
+            ? "cancelled"
+            : err instanceof ModelProviderUnavailableError
+              ? "unavailable"
+              : "error";
+      const rawErrMsg = err instanceof Error ? err.message : String(err);
+      this.telemetry?.recordModelInvocation({
+        provider: this.providerName,
+        model: request?.model || this.defaultModel || "unconfigured",
+        status,
+        durationMs: Math.max(0, Date.now() - startMs),
+        startTimeIso,
+        endTimeIso: new Date().toISOString(),
+        requestId: request?.requestId ?? "invalid-request",
+        traceId,
+        costUsd: 0,
+        errorMessage: redactTraceString(rawErrMsg, 256),
+      });
+      throw err;
+    }
+  }
+
+  private async generateCore(
+    request: ModelProviderRequest,
+    startMs: number
+  ): Promise<{ readonly response: ModelProviderResponse; readonly callCost: number }> {
     validateModelProviderRequest(request);
 
-    // Fail closed if spend cap reached
-    if (this.cumulativeEstimatedCostUsd >= this.spendCapUsd) {
-      throw new ModelProviderError(
-        "MODEL_PROVIDER_ERROR",
-        `Spend cap of $${this.spendCapUsd.toFixed(2)} exceeded (accumulated: $${this.cumulativeEstimatedCostUsd.toFixed(4)}). Halting inference fail-closed.`,
+    // 1. Fail closed if spend cap reached or zero cap prohibits paid inference
+    assertWithinSpendCap({
+      providerName: this.providerName,
+      requestId: request.requestId,
+      cumulativeCostUsd: this.cumulativeEstimatedCostUsd,
+      spendCapUsd: this.spendCapUsd,
+      rejectZeroCap: true,
+    });
+
+    // 2. Require explicit endpoint & API key (no silent cloud defaults)
+    if (!this.baseURL) {
+      throw new ModelProviderUnavailableError(
+        `Base URL for provider '${this.providerName}' is not configured. Set options.baseURL, EMERALD_MODEL_BASE_URL, or OPENAI_BASE_URL.`,
         { providerName: this.providerName, requestId: request.requestId }
       );
     }
@@ -126,7 +241,14 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
       });
     }
 
-    const model = request.model || this.defaultModel;
+    // 3. Resolve model & enforce allowlist fail-closed
+    const model = request.model || this.defaultModel || "";
+    assertModelAllowed(model, this.allowedModels, {
+      providerName: this.providerName,
+      requestId: request.requestId,
+      requireAllowlist: true,
+    });
+
     const messages = request.input.map((msg: ModelMessage) => ({
       role: msg.role,
       content: msg.content,
@@ -165,90 +287,101 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
       }
     }
 
+    // 4. Single-attempt dispatch with strict per-request timeout (never retry POST inference calls)
     const effectiveTimeoutMs = request.timeoutMs ?? this.defaultTimeoutMs;
-    const startMs = Date.now();
-    let rawResponse: Response | undefined;
-    let attempt = 0;
-    const maxRetries = 3;
+    if (!Number.isFinite(effectiveTimeoutMs) || effectiveTimeoutMs <= 0) {
+      throw new ModelRequestInvalidError("timeoutMs must be a positive finite number", {
+        providerName: this.providerName,
+        requestId: request.requestId,
+      });
+    }
 
-    while (attempt <= maxRetries) {
-      attempt++;
-      const remainingMs = effectiveTimeoutMs - (Date.now() - startMs);
-      if (remainingMs <= 0 || request.abortSignal?.aborted) {
-        break;
-      }
+    const controller = new AbortController();
+    let didTimeout = false;
+    let didAbort = false;
 
-      const controller = new AbortController();
-      let didTimeout = false;
-      let didAbort = false;
+    const onCallerAbort = () => {
+      didAbort = true;
+      controller.abort(request.abortSignal?.reason);
+    };
 
-      const onCallerAbort = () => {
-        didAbort = true;
-        controller.abort(request.abortSignal?.reason);
-      };
+    if (request.abortSignal) {
+      request.abortSignal.addEventListener("abort", onCallerAbort, { once: true });
+    }
 
+    const timer = setTimeout(() => {
+      didTimeout = true;
+      controller.abort(new Error(`Timeout of ${effectiveTimeoutMs}ms exceeded`));
+    }, effectiveTimeoutMs);
+
+    let rawResponse: Response;
+    try {
+      rawResponse = await this.fetchImpl(`${this.baseURL}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.apiKey}`,
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+    } catch (err: unknown) {
+      clearTimeout(timer);
       if (request.abortSignal) {
-        request.abortSignal.addEventListener("abort", onCallerAbort, { once: true });
+        request.abortSignal.removeEventListener("abort", onCallerAbort);
       }
 
-      const stepTimeoutMs = Math.min(remainingMs, 60_000);
-      const timer = setTimeout(() => {
-        didTimeout = true;
-        controller.abort(new Error(`Timeout of ${stepTimeoutMs}ms exceeded`));
-      }, stepTimeoutMs);
-
-      try {
-        rawResponse = await this.fetchImpl(`${this.baseURL}/chat/completions`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.apiKey}`,
-          },
-          body: JSON.stringify(body),
-          signal: controller.signal,
+      if (didAbort || request.abortSignal?.aborted) {
+        throw new ModelRequestCancelledError("Inference request was cancelled during execution", {
+          providerName: this.providerName,
+          requestId: request.requestId,
         });
-      } catch (err: unknown) {
-        clearTimeout(timer);
-        if (request.abortSignal) {
-          request.abortSignal.removeEventListener("abort", onCallerAbort);
-        }
+      }
 
-        if (didAbort || request.abortSignal?.aborted) {
-          throw new ModelRequestCancelledError("Inference request was cancelled during execution", {
-            providerName: this.providerName,
-            requestId: request.requestId,
-          });
-        }
-
-        if (didTimeout) {
-          throw new ModelRequestTimeoutError(
-            `Inference request timed out after ${stepTimeoutMs}ms`,
-            {
-              providerName: this.providerName,
-              requestId: request.requestId,
-              timeoutMs: stepTimeoutMs,
-            }
-          );
-        }
-
-        throw new ModelProviderUnavailableError(
-          `Failed to reach model provider endpoint '${this.baseURL}': ${err instanceof Error ? err.message : String(err)}`,
+      if (didTimeout) {
+        throw new ModelRequestTimeoutError(
+          `Inference request timed out after ${effectiveTimeoutMs}ms`,
           {
             providerName: this.providerName,
             requestId: request.requestId,
+            timeoutMs: effectiveTimeoutMs,
           }
         );
-      } finally {
-        clearTimeout(timer);
-        if (request.abortSignal) {
-          request.abortSignal.removeEventListener("abort", onCallerAbort);
+      }
+
+      throw new ModelProviderUnavailableError(
+        `Failed to reach model provider endpoint '${this.baseURL}': ${err instanceof Error ? err.message : String(err)}`,
+        {
+          providerName: this.providerName,
+          requestId: request.requestId,
         }
+      );
+    } finally {
+      clearTimeout(timer);
+      if (request.abortSignal) {
+        request.abortSignal.removeEventListener("abort", onCallerAbort);
       }
+    }
 
-      if (rawResponse.ok) {
-        break;
-      }
+    if (didAbort || request.abortSignal?.aborted) {
+      throw new ModelRequestCancelledError("Inference request was cancelled during execution", {
+        providerName: this.providerName,
+        requestId: request.requestId,
+      });
+    }
 
+    if (didTimeout) {
+      throw new ModelRequestTimeoutError(
+        `Inference request timed out after ${effectiveTimeoutMs}ms`,
+        {
+          providerName: this.providerName,
+          requestId: request.requestId,
+          timeoutMs: effectiveTimeoutMs,
+        }
+      );
+    }
+
+    if (!rawResponse.ok) {
       let errorBody = "";
       try {
         errorBody = await rawResponse.text();
@@ -256,55 +389,43 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
         /* best-effort */
       }
 
-      const isRateLimit =
-        rawResponse.status === 429 ||
-        (rawResponse.status === 413 && /TPM|rate limit|tokens per minute/i.test(errorBody));
-
-      if (isRateLimit && attempt <= maxRetries) {
-        const resetHeader =
-          rawResponse.headers.get("x-ratelimit-reset-tokens") ||
-          rawResponse.headers.get("x-ratelimit-reset-requests") ||
-          rawResponse.headers.get("retry-after");
-        const headerResetMs = parseResetDurationMs(resetHeader);
-        const expBackoffMs = Math.min(30_000, Math.pow(2, attempt) * 1000 + Math.floor(Math.random() * 500));
-        const waitMs = Math.min(45_000, headerResetMs !== undefined ? Math.max(headerResetMs + 500, expBackoffMs) : expBackoffMs);
-
-        if (Date.now() - startMs + waitMs < effectiveTimeoutMs && !request.abortSignal?.aborted) {
-          await new Promise((resolve) => {
-            const timeoutId = setTimeout(resolve, waitMs);
-            if (request.abortSignal) {
-              const onAbort = () => {
-                clearTimeout(timeoutId);
-                resolve(null);
-              };
-              request.abortSignal.addEventListener("abort", onAbort, { once: true });
-            }
-          });
-          continue;
-        }
-      }
-
+      const safeErrBody = redactTraceString(errorBody, 200);
       if (rawResponse.status === 429) {
+        const resetHeader =
+          rawResponse.headers.get("retry-after") ||
+          rawResponse.headers.get("x-ratelimit-reset-tokens") ||
+          rawResponse.headers.get("x-ratelimit-reset-requests");
+        const retryAfterMs = parseResetDurationMs(resetHeader);
         throw new ModelRateLimitedError(
-          `Provider rate limit exceeded (HTTP 429): ${errorBody.slice(0, 200)}`,
+          `Provider rate limit exceeded (HTTP 429): ${safeErrBody}`,
+          {
+            providerName: this.providerName,
+            requestId: request.requestId,
+            ...(retryAfterMs !== undefined ? { retryAfterMs } : {}),
+          }
+        );
+      }
+      if (rawResponse.status === 400 || rawResponse.status === 404) {
+        throw new ModelRequestInvalidError(
+          `Provider rejected request (HTTP ${rawResponse.status}): ${safeErrBody}`,
           { providerName: this.providerName, requestId: request.requestId }
         );
       }
-
+      const confirmedNonProcessing =
+        rawResponse.status >= 500 &&
+        (rawResponse.headers.get("x-request-not-processed") === "true" ||
+          rawResponse.headers.get("x-emerald-non-processing") === "true");
       throw new ModelProviderUnavailableError(
-        `Provider returned HTTP error ${rawResponse.status}: ${errorBody.slice(0, 200)}`,
-        { providerName: this.providerName, requestId: request.requestId }
+        `Provider returned HTTP error ${rawResponse.status}: ${safeErrBody}`,
+        {
+          providerName: this.providerName,
+          requestId: request.requestId,
+          ...(confirmedNonProcessing ? { confirmedNonProcessing: true } : {}),
+        }
       );
     }
 
-    if (!rawResponse || !rawResponse.ok) {
-      throw new ModelProviderUnavailableError(
-        `Inference request failed after ${attempt} attempts`,
-        { providerName: this.providerName, requestId: request.requestId }
-      );
-    }
-
-    const durationMs = Date.now() - startMs;
+    const durationMs = Math.max(0, Date.now() - startMs);
 
     let payload: any;
     try {
@@ -317,7 +438,13 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
     }
 
     const choice = payload.choices?.[0];
-    const outputText = choice?.message?.content ?? "";
+    if (!choice || typeof choice !== "object") {
+      throw new ModelResponseInvalidError(
+        "Provider response missing valid 'choices[0]' entry",
+        { providerName: this.providerName, requestId: request.requestId }
+      );
+    }
+    const outputText = typeof choice?.message?.content === "string" ? choice.message.content : "";
     const rawFinishReason = choice?.finish_reason;
 
     let finishReason: ModelFinishReason = "OTHER";
@@ -325,30 +452,21 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
     else if (rawFinishReason === "length") finishReason = "LENGTH";
     else if (rawFinishReason === "content_filter") finishReason = "CONTENT_FILTER";
 
-    const promptTokens = payload.usage?.prompt_tokens ?? 0;
-    const completionTokens = payload.usage?.completion_tokens ?? 0;
-    const totalTokens = payload.usage?.total_tokens ?? (promptTokens + completionTokens);
+    const promptTokens =
+      typeof payload.usage?.prompt_tokens === "number" ? payload.usage.prompt_tokens : 0;
+    const completionTokens =
+      typeof payload.usage?.completion_tokens === "number" ? payload.usage.completion_tokens : 0;
+    const totalTokens =
+      typeof payload.usage?.total_tokens === "number"
+        ? payload.usage.total_tokens
+        : promptTokens + completionTokens;
 
     this.cumulativePromptTokens += promptTokens;
     this.cumulativeCompletionTokens += completionTokens;
     const callCost = this.calculateCostUsd(model, promptTokens, completionTokens);
     this.cumulativeEstimatedCostUsd += callCost;
 
-    this.telemetry?.recordModelInvocation({
-      provider: this.providerName,
-      model,
-      status: "ok",
-      durationMs,
-      startTimeIso: new Date(startMs).toISOString(),
-      endTimeIso: new Date().toISOString(),
-      requestId: request.requestId,
-      promptPreview: JSON.stringify(body.messages),
-      outputPreview: outputText,
-      promptTokens,
-      completionTokens,
-    });
-
-    return {
+    const response: ModelProviderResponse = {
       requestId: request.requestId,
       model,
       outputText,
@@ -365,5 +483,7 @@ export class OpenAICompatibleModelProvider implements ModelProviderPort {
         cumulativeCostUsd: this.cumulativeEstimatedCostUsd,
       },
     };
+
+    return { response, callCost };
   }
 }

@@ -27,6 +27,7 @@ import {
   LeaseExpiredError,
   LeaseLostError,
   MissingBoundContractError,
+  ModelProviderUnavailableError,
   ResourceLimitExceededError,
   TerminalStateError,
   WorkspaceOwnershipError,
@@ -1866,12 +1867,24 @@ export class WorkerRuntime {
                       this.repairController.concludeVerification(repairCycle, 1);
                       haltReason = boundsCheck.reason;
                     } else if (this.repairOrchestrator && missionId) {
+                      const modelAdapter = (this.executionProvider as any)?.modelAdapter;
+                      if (!modelAdapter) {
+                        const missingAdapterErr = new ModelProviderUnavailableError(
+                          `Cannot run repair session for mission '${missionId}': executionProvider has no modelAdapter`,
+                          { providerName: this.executionProvider.name, requestId: run.runId }
+                        );
+                        this.repairController.concludeVerification(repairCycle, 1);
+                        await disposeWorkspaceSafely("Repair model adapter unavailable").catch(() => {});
+                        return failRunSafely({
+                          code: missingAdapterErr.code,
+                          message: missingAdapterErr.message,
+                          details: { errorName: missingAdapterErr.name, missionId, specId: spec.specId },
+                        });
+                      }
                       try {
                         const repairResult = await this.repairOrchestrator.executeRepairSession(
                           missionId,
-                          (this.executionProvider as any)?.modelAdapter ?? {
-                            generate: async () => ({ action: "NOOP", confidence: 0, reasoning: "Fallback" }),
-                          }
+                          modelAdapter
                         );
                         if (repairResult.verification?.verified) {
                           this.repairController.concludeVerification(repairCycle, 0);
@@ -2000,12 +2013,24 @@ export class WorkerRuntime {
                         repairCycle.cumulativeActions++;
 
                         if (this.repairOrchestrator && missionId) {
+                          const modelAdapter = (this.executionProvider as any)?.modelAdapter;
+                          if (!modelAdapter) {
+                            const missingAdapterErr = new ModelProviderUnavailableError(
+                              `Cannot run repair session for mission '${missionId}': executionProvider has no modelAdapter`,
+                              { providerName: this.executionProvider.name, requestId: run.runId }
+                            );
+                            this.repairController.concludeVerification(repairCycle, 1);
+                            await disposeWorkspaceSafely("Repair model adapter unavailable").catch(() => {});
+                            return failRunSafely({
+                              code: missingAdapterErr.code,
+                              message: missingAdapterErr.message,
+                              details: { errorName: missingAdapterErr.name, missionId, specId: spec.specId },
+                            });
+                          }
                           try {
                             const repairResult = await this.repairOrchestrator.executeRepairSession(
                               missionId,
-                              (this.executionProvider as any)?.modelAdapter ?? {
-                                generate: async () => ({ action: "NOOP", confidence: 0, reasoning: "Fallback" }),
-                              }
+                              modelAdapter
                             );
                             if (repairResult.verification?.verified) {
                               this.repairController.concludeVerification(repairCycle, 0);
