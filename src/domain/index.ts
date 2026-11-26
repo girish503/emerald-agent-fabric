@@ -41,3 +41,4 @@ export * from "./evaluation-metrics.js";
 export * from "./scoped-memory.js";
 export * from "./trace.js";
 export * from "./trace-replay.js";
+export * from "./trace-diff.js";

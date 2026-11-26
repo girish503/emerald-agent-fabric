@@ -574,6 +574,107 @@ function evaluateLlmTelemetryCheck(spans: readonly TraceSpan[]): readonly Guardr
   return violations;
 }
 
+export interface GuardrailEvaluationResult {
+  readonly traceId: string;
+  readonly runId: string;
+  readonly missionId: string;
+  readonly formatVersion: string;
+  readonly traceStatus: string;
+  readonly spans: readonly TraceSpan[];
+  readonly approvalEvents: readonly TraceApprovalEvent[];
+  readonly verificationVerdicts: readonly TraceVerificationVerdict[];
+  readonly defaultModelName: string;
+  readonly approvalSummary: TraceReplayApprovalSummary;
+  readonly redactionObservations: readonly string[];
+  readonly checks: readonly GuardrailCheckOutcome[];
+  readonly checksPassed: number;
+  readonly checksFailed: number;
+  readonly passed: boolean;
+  readonly violations: readonly GuardrailViolation[];
+}
+
+/**
+ * Evaluates all 7 replay guardrails deterministically and synchronously on any trace input.
+ */
+export function evaluateTraceGuardrails(
+  rawInput: unknown,
+  allowedCapabilities?: readonly string[]
+): GuardrailEvaluationResult {
+  const rawObj = asRecord(rawInput);
+  const traceId = typeof rawObj.traceId === "string" && rawObj.traceId.length > 0 ? rawObj.traceId : "unknown-trace";
+  const runId = typeof rawObj.runId === "string" && rawObj.runId.length > 0 ? rawObj.runId : "unknown-run";
+  const missionId = typeof rawObj.missionId === "string" && rawObj.missionId.length > 0 ? rawObj.missionId : "unknown-mission";
+  const formatVersion = typeof rawObj.formatVersion === "string" && rawObj.formatVersion.length > 0 ? rawObj.formatVersion : "unknown";
+  const traceStatus = typeof rawObj.status === "string" && rawObj.status.length > 0 ? rawObj.status : "UNKNOWN";
+
+  const spans = asArray(rawObj.spans).filter(
+    (s): s is TraceSpan => Boolean(s && typeof s === "object" && !Array.isArray(s))
+  );
+  const approvalEvents = asArray(rawObj.approvalEvents) as readonly TraceApprovalEvent[];
+  const verificationVerdicts = asArray(rawObj.verificationVerdicts) as readonly TraceVerificationVerdict[];
+  const modelObj = asRecord(rawObj.model);
+  const defaultModelName = typeof modelObj.model === "string" && modelObj.model.length > 0 ? modelObj.model : "stub-model";
+
+  const schemaViolations = evaluateSchemaCheck(rawInput, rawObj, spans, traceId);
+  const provenanceViolations = evaluateProvenanceCheck(spans);
+  const redactionCheck = evaluateRedactionCheck(rawObj, spans, traceId);
+  const capabilityViolations = evaluateCapabilityCheck(rawObj, spans, allowedCapabilities);
+  const approvalCheck = evaluateApprovalCheck(spans, approvalEvents);
+  const verificationViolations = evaluateVerificationCheck(
+    traceId,
+    traceStatus,
+    spans,
+    verificationVerdicts
+  );
+  const llmTelemetryViolations = evaluateLlmTelemetryCheck(spans);
+
+  const byRule = new Map<TraceGuardrailRuleName, readonly GuardrailViolation[]>([
+    ["schema_valid", schemaViolations],
+    ["provenance", provenanceViolations],
+    ["redaction", redactionCheck.violations],
+    ["capability", capabilityViolations],
+    ["approval", approvalCheck.violations],
+    ["verification", verificationViolations],
+    ["llm_telemetry", llmTelemetryViolations],
+  ]);
+
+  const checks: GuardrailCheckOutcome[] = TRACE_GUARDRAIL_RULES.map((rule) => {
+    const ruleViolations = byRule.get(rule) ?? [];
+    return {
+      rule,
+      passed: ruleViolations.length === 0,
+      violationCount: ruleViolations.length,
+    };
+  });
+
+  const violations: GuardrailViolation[] = [];
+  for (const rule of TRACE_GUARDRAIL_RULES) {
+    violations.push(...(byRule.get(rule) ?? []));
+  }
+
+  const checksPassed = checks.filter((c) => c.passed).length;
+  const checksFailed = checks.length - checksPassed;
+
+  return {
+    traceId,
+    runId,
+    missionId,
+    formatVersion,
+    traceStatus,
+    spans,
+    approvalEvents,
+    verificationVerdicts,
+    defaultModelName,
+    approvalSummary: approvalCheck.summary,
+    redactionObservations: [...redactionCheck.observations],
+    checks,
+    checksPassed,
+    checksFailed,
+    passed: checksFailed === 0,
+    violations,
+  };
+}
+
 /**
  * Deterministic stub-backed trace replay runner with 7 guardrail checks.
  */
@@ -606,29 +707,16 @@ export class TraceReplayRunner {
       rawInput = loaded;
     }
 
-    const rawObj = asRecord(rawInput);
-    const traceId = typeof rawObj.traceId === "string" && rawObj.traceId.length > 0 ? rawObj.traceId : "unknown-trace";
-    const runId = typeof rawObj.runId === "string" && rawObj.runId.length > 0 ? rawObj.runId : "unknown-run";
-    const missionId = typeof rawObj.missionId === "string" && rawObj.missionId.length > 0 ? rawObj.missionId : "unknown-mission";
-    const formatVersion = typeof rawObj.formatVersion === "string" && rawObj.formatVersion.length > 0 ? rawObj.formatVersion : "unknown";
-    const traceStatus = typeof rawObj.status === "string" && rawObj.status.length > 0 ? rawObj.status : "UNKNOWN";
-
-    const spans = asArray(rawObj.spans).filter(
-      (s): s is TraceSpan => Boolean(s && typeof s === "object" && !Array.isArray(s))
-    );
-    const approvalEvents = asArray(rawObj.approvalEvents) as readonly TraceApprovalEvent[];
-    const verificationVerdicts = asArray(rawObj.verificationVerdicts) as readonly TraceVerificationVerdict[];
-    const modelObj = asRecord(rawObj.model);
-    const defaultModelName = typeof modelObj.model === "string" && modelObj.model.length > 0 ? modelObj.model : "stub-model";
+    const evaluation = evaluateTraceGuardrails(rawInput, options.allowedCapabilities);
 
     // Walk spans in recorded order; invoke offline stub provider for every LLM span.
-    const stubProvider = new TraceStubModelProvider(spans);
+    const stubProvider = new TraceStubModelProvider(evaluation.spans);
     const llmOutputs: StubLlmReplayOutput[] = [];
-    for (const span of spans) {
+    for (const span of evaluation.spans) {
       if (span.kind !== "llm") continue;
       const stubResponse = await stubProvider.generate({
         requestId: span.spanId,
-        model: extractModelFromSpan(span, defaultModelName),
+        model: extractModelFromSpan(span, evaluation.defaultModelName),
         input: [
           {
             role: "user",
@@ -647,63 +735,23 @@ export class TraceReplayRunner {
       });
     }
 
-    const schemaViolations = evaluateSchemaCheck(rawInput, rawObj, spans, traceId);
-    const provenanceViolations = evaluateProvenanceCheck(spans);
-    const redactionCheck = evaluateRedactionCheck(rawObj, spans, traceId);
-    const capabilityViolations = evaluateCapabilityCheck(rawObj, spans, options.allowedCapabilities);
-    const approvalCheck = evaluateApprovalCheck(spans, approvalEvents);
-    const verificationViolations = evaluateVerificationCheck(
-      traceId,
-      traceStatus,
-      spans,
-      verificationVerdicts
-    );
-    const llmTelemetryViolations = evaluateLlmTelemetryCheck(spans);
-
-    const byRule = new Map<TraceGuardrailRuleName, readonly GuardrailViolation[]>([
-      ["schema_valid", schemaViolations],
-      ["provenance", provenanceViolations],
-      ["redaction", redactionCheck.violations],
-      ["capability", capabilityViolations],
-      ["approval", approvalCheck.violations],
-      ["verification", verificationViolations],
-      ["llm_telemetry", llmTelemetryViolations],
-    ]);
-
-    const checks: GuardrailCheckOutcome[] = TRACE_GUARDRAIL_RULES.map((rule) => {
-      const ruleViolations = byRule.get(rule) ?? [];
-      return {
-        rule,
-        passed: ruleViolations.length === 0,
-        violationCount: ruleViolations.length,
-      };
-    });
-
-    const violations: GuardrailViolation[] = [];
-    for (const rule of TRACE_GUARDRAIL_RULES) {
-      violations.push(...(byRule.get(rule) ?? []));
-    }
-
-    const checksPassed = checks.filter((c) => c.passed).length;
-    const checksFailed = checks.length - checksPassed;
-
     const body: TraceReplayReportBody = {
-      traceId,
-      runId,
-      missionId,
-      formatVersion,
-      traceStatus,
+      traceId: evaluation.traceId,
+      runId: evaluation.runId,
+      missionId: evaluation.missionId,
+      formatVersion: evaluation.formatVersion,
+      traceStatus: evaluation.traceStatus,
       mode: "stub-replay",
-      spansWalked: spans.length,
+      spansWalked: evaluation.spans.length,
       llmOutputs,
-      verdictsIntact: [...verificationVerdicts],
-      approvalSummary: approvalCheck.summary,
-      redactionObservations: [...redactionCheck.observations],
-      checks,
-      checksPassed,
-      checksFailed,
-      passed: checksFailed === 0,
-      violations,
+      verdictsIntact: [...evaluation.verificationVerdicts],
+      approvalSummary: evaluation.approvalSummary,
+      redactionObservations: [...evaluation.redactionObservations],
+      checks: [...evaluation.checks],
+      checksPassed: evaluation.checksPassed,
+      checksFailed: evaluation.checksFailed,
+      passed: evaluation.passed,
+      violations: [...evaluation.violations],
     };
 
     const report: TraceReplayReport = {

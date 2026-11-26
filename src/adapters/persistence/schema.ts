@@ -767,5 +767,27 @@ export function migrateDatabase(db: DatabaseSync): void {
 
     CREATE INDEX IF NOT EXISTS idx_trace_replay_reports_run ON trace_replay_reports(run_id);
     CREATE INDEX IF NOT EXISTS idx_trace_replay_reports_hash ON trace_replay_reports(report_hash);
+
+    -- Step 15: Trace Diffs & Set Scorecards (Idea 3, Phase 4). Additive only.
+    CREATE TABLE IF NOT EXISTS trace_diffs (
+        diff_hash TEXT PRIMARY KEY,
+        old_trace_id TEXT NOT NULL,
+        new_trace_id TEXT NOT NULL,
+        is_empty INTEGER NOT NULL CHECK (is_empty IN (0, 1)),
+        recorded_at TEXT NOT NULL,
+        diff_json TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_trace_diffs_pair ON trace_diffs(old_trace_id, new_trace_id);
+
+    CREATE TABLE IF NOT EXISTS trace_scorecards (
+        scorecard_id TEXT PRIMARY KEY,
+        scorecard_hash TEXT NOT NULL,
+        total_traces INTEGER NOT NULL,
+        recorded_at TEXT NOT NULL,
+        scorecard_json TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_trace_scorecards_hash ON trace_scorecards(scorecard_hash);
   `);
 }

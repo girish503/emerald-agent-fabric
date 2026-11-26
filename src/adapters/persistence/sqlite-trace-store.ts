@@ -18,6 +18,14 @@ import {
   TraceReplayReport,
   validateTraceReplayReport,
 } from "../../domain/trace-replay.js";
+import {
+  TraceDiff,
+  TraceDiffSchema,
+  TraceSetScorecard,
+  TraceSetScorecardSchema,
+  computeScorecardHash,
+  computeTraceDiffHash,
+} from "../../domain/trace-diff.js";
 import { migrateDatabase } from "./schema.js";
 import { createSqliteClient, type SqliteClientConfig } from "./sqlite-client.js";
 
@@ -56,7 +64,7 @@ export class SqliteTraceStore {
       this.db = dbOrConfig as DatabaseSync;
       this.ownsConnection = false;
       const hasTable = this.db
-        .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'trace_replay_reports'`)
+        .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'trace_scorecards'`)
         .get();
       if (!hasTable) {
         migrateDatabase(this.db);
@@ -309,6 +317,123 @@ export class SqliteTraceStore {
       .prepare(`SELECT report_json FROM trace_replay_reports ORDER BY trace_id ASC LIMIT ?`)
       .all(safeLimit) as Array<{ report_json: string }>;
     return rows.map((row) => validateTraceReplayReport(JSON.parse(row.report_json)));
+  }
+
+  /**
+   * Validates and durably persists a deterministic `TraceDiff` beside traces/reports.
+   */
+  writeTraceDiff(
+    diff: TraceDiff,
+    recordedAt: string = new Date().toISOString()
+  ): TraceDiff {
+    this.assertOpen();
+    const parsed = TraceDiffSchema.parse(diff);
+    const { diffHash, ...body } = parsed;
+    const expected = computeTraceDiffHash(body);
+    if (diffHash !== expected) {
+      throw new Error(`TraceDiff hash mismatch: expected '${expected}', got '${diffHash}'.`);
+    }
+
+    this.db.exec("BEGIN IMMEDIATE;");
+    try {
+      this.db
+        .prepare(
+          `INSERT INTO trace_diffs (diff_hash, old_trace_id, new_trace_id, is_empty, recorded_at, diff_json)
+           VALUES (?, ?, ?, ?, ?, ?)
+           ON CONFLICT(diff_hash) DO UPDATE SET
+             recorded_at = excluded.recorded_at,
+             diff_json = excluded.diff_json`
+        )
+        .run(
+          parsed.diffHash,
+          parsed.oldTraceId,
+          parsed.newTraceId,
+          parsed.isEmpty ? 1 : 0,
+          recordedAt,
+          JSON.stringify(parsed)
+        );
+      this.db.exec("COMMIT;");
+      return parsed;
+    } catch (err) {
+      try {
+        this.db.exec("ROLLBACK;");
+      } catch {
+        // ignore rollback error
+      }
+      throw err;
+    }
+  }
+
+  /**
+   * Reads a stored `TraceDiff` by its canonical `diffHash`, or returns `null`.
+   */
+  readTraceDiffByHash(diffHash: string): TraceDiff | null {
+    this.assertOpen();
+    const row = this.db
+      .prepare(`SELECT diff_json FROM trace_diffs WHERE diff_hash = ?`)
+      .get(diffHash) as { diff_json: string } | undefined;
+    if (!row) return null;
+    return TraceDiffSchema.parse(JSON.parse(row.diff_json));
+  }
+
+  /**
+   * Validates and durably persists a deterministic `TraceSetScorecard` beside traces/reports.
+   */
+  writeScorecard(
+    scorecard: TraceSetScorecard,
+    recordedAt: string = new Date().toISOString()
+  ): TraceSetScorecard {
+    this.assertOpen();
+    const parsed = TraceSetScorecardSchema.parse(scorecard);
+    const { scorecardHash, ...body } = parsed;
+    const expected = computeScorecardHash(body);
+    if (scorecardHash !== expected) {
+      throw new Error(
+        `TraceSetScorecard hash mismatch: expected '${expected}', got '${scorecardHash}'.`
+      );
+    }
+
+    this.db.exec("BEGIN IMMEDIATE;");
+    try {
+      this.db
+        .prepare(
+          `INSERT INTO trace_scorecards (scorecard_id, scorecard_hash, total_traces, recorded_at, scorecard_json)
+           VALUES (?, ?, ?, ?, ?)
+           ON CONFLICT(scorecard_id) DO UPDATE SET
+             scorecard_hash = excluded.scorecard_hash,
+             total_traces = excluded.total_traces,
+             recorded_at = excluded.recorded_at,
+             scorecard_json = excluded.scorecard_json`
+        )
+        .run(
+          parsed.scorecardId,
+          parsed.scorecardHash,
+          parsed.totalTraces,
+          recordedAt,
+          JSON.stringify(parsed)
+        );
+      this.db.exec("COMMIT;");
+      return parsed;
+    } catch (err) {
+      try {
+        this.db.exec("ROLLBACK;");
+      } catch {
+        // ignore rollback error
+      }
+      throw err;
+    }
+  }
+
+  /**
+   * Reads a stored `TraceSetScorecard` by `scorecardId`, or returns `null`.
+   */
+  readScorecardById(scorecardId: string): TraceSetScorecard | null {
+    this.assertOpen();
+    const row = this.db
+      .prepare(`SELECT scorecard_json FROM trace_scorecards WHERE scorecard_id = ?`)
+      .get(scorecardId) as { scorecard_json: string } | undefined;
+    if (!row) return null;
+    return TraceSetScorecardSchema.parse(JSON.parse(row.scorecard_json));
   }
 
   close(): void {
