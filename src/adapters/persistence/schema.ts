@@ -751,5 +751,21 @@ export function migrateDatabase(db: DatabaseSync): void {
     );
 
     CREATE INDEX IF NOT EXISTS idx_trace_spans_kind ON trace_spans(trace_id, kind, span_index);
+
+    -- Step 14: Deterministic Trace Replay Reports (Idea 3, Phase 3). Additive only.
+    CREATE TABLE IF NOT EXISTS trace_replay_reports (
+        trace_id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL,
+        format_version TEXT NOT NULL,
+        report_hash TEXT NOT NULL,
+        passed INTEGER NOT NULL CHECK (passed IN (0, 1)),
+        checks_passed INTEGER NOT NULL,
+        checks_failed INTEGER NOT NULL,
+        recorded_at TEXT NOT NULL,
+        report_json TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_trace_replay_reports_run ON trace_replay_reports(run_id);
+    CREATE INDEX IF NOT EXISTS idx_trace_replay_reports_hash ON trace_replay_reports(report_hash);
   `);
 }

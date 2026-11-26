@@ -14,6 +14,10 @@ import {
   TraceSpanSchema,
   validateRunTrace,
 } from "../../domain/trace.js";
+import {
+  TraceReplayReport,
+  validateTraceReplayReport,
+} from "../../domain/trace-replay.js";
 import { migrateDatabase } from "./schema.js";
 import { createSqliteClient, type SqliteClientConfig } from "./sqlite-client.js";
 
@@ -52,7 +56,7 @@ export class SqliteTraceStore {
       this.db = dbOrConfig as DatabaseSync;
       this.ownsConnection = false;
       const hasTable = this.db
-        .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'run_traces'`)
+        .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'trace_replay_reports'`)
         .get();
       if (!hasTable) {
         migrateDatabase(this.db);
@@ -228,6 +232,83 @@ export class SqliteTraceStore {
       .all(traceId) as unknown as DbTraceSpanRow[];
 
     return rows.map((row) => TraceSpanSchema.parse(JSON.parse(row.span_json)));
+  }
+
+  /**
+   * Validates and durably persists a deterministic `TraceReplayReport` alongside traces.
+   */
+  writeReplayReport(
+    report: TraceReplayReport,
+    recordedAt: string = new Date().toISOString()
+  ): TraceReplayReport {
+    this.assertOpen();
+    const validated = validateTraceReplayReport(report);
+    const reportJson = JSON.stringify(validated);
+
+    this.db.exec("BEGIN IMMEDIATE;");
+    try {
+      this.db
+        .prepare(
+          `INSERT INTO trace_replay_reports (
+             trace_id, run_id, format_version, report_hash,
+             passed, checks_passed, checks_failed, recorded_at, report_json
+           )
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+           ON CONFLICT(trace_id) DO UPDATE SET
+             run_id = excluded.run_id,
+             format_version = excluded.format_version,
+             report_hash = excluded.report_hash,
+             passed = excluded.passed,
+             checks_passed = excluded.checks_passed,
+             checks_failed = excluded.checks_failed,
+             recorded_at = excluded.recorded_at,
+             report_json = excluded.report_json`
+        )
+        .run(
+          validated.traceId,
+          validated.runId,
+          validated.formatVersion,
+          validated.reportHash,
+          validated.passed ? 1 : 0,
+          validated.checksPassed,
+          validated.checksFailed,
+          recordedAt,
+          reportJson
+        );
+      this.db.exec("COMMIT;");
+      return validated;
+    } catch (err) {
+      try {
+        this.db.exec("ROLLBACK;");
+      } catch {
+        // ignore rollback error
+      }
+      throw err;
+    }
+  }
+
+  /**
+   * Reads and hash-verifies a stored `TraceReplayReport` for a `traceId`, or returns `null`.
+   */
+  readReplayReportByTraceId(traceId: string): TraceReplayReport | null {
+    this.assertOpen();
+    const row = this.db
+      .prepare(`SELECT report_json FROM trace_replay_reports WHERE trace_id = ?`)
+      .get(traceId) as { report_json: string } | undefined;
+    if (!row) return null;
+    return validateTraceReplayReport(JSON.parse(row.report_json));
+  }
+
+  /**
+   * Lists stored `TraceReplayReport` entries ordered deterministically by `trace_id`.
+   */
+  listReplayReports(limit: number = 200): readonly TraceReplayReport[] {
+    this.assertOpen();
+    const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : 200;
+    const rows = this.db
+      .prepare(`SELECT report_json FROM trace_replay_reports ORDER BY trace_id ASC LIMIT ?`)
+      .all(safeLimit) as Array<{ report_json: string }>;
+    return rows.map((row) => validateTraceReplayReport(JSON.parse(row.report_json)));
   }
 
   close(): void {
